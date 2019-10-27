@@ -1,33 +1,31 @@
 <template>
-  <v-app>
-    <v-app-bar app>
-      <v-toolbar-title class="headline">
-        <span>Unpaywall Journals</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Support</span>
-      </v-btn>
-    </v-app-bar>
+    <v-app>
+        <v-app-bar elevate-on-scroll app>
+            <v-toolbar-title class="headline">
+                <router-link to="/">
+                    <span>Unpaywall Journals</span>
 
-    <v-content>
-      <router-view></router-view>
-    </v-content>
-  </v-app>
+                </router-link>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn text to="support">Support</v-btn>
+            <v-btn text to="purchase">Purchase</v-btn>
+            <v-btn text to="login">Log in</v-btn>
+        </v-app-bar>
+
+        <v-content>
+            <router-view></router-view>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
 
-export default {
-  name: 'App',
-  components: {
-  },
-  data: () => ({
-    //
-  }),
-};
+    export default {
+        name: 'App',
+        components: {},
+        data: () => ({
+            //
+        }),
+    };
 </script>
