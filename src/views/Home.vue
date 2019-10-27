@@ -1,18 +1,39 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <v-container class="home">
+        <v-row>
+            <v-col>
+                <h1 class="display-2 mb-6">
+                    Get more value from your serials budget.
+                </h1>
+                <div class="headline">
+                    Unpaywall Journals helps librarians confidently manage their serials collections using journal-level citations, downloads, Open Access statistics, and more.
+                </div>
+                <div class="my-3">
+                    <v-btn class="mr-3" depressed large color="primary">Purchase</v-btn>
+                    <v-btn outlined large color="primary">View Demo</v-btn>
+                </div>
+            </v-col>
+            <v-col>
+                <vue-vimeo-player ref="player" :video-id="367935705"></vue-vimeo-player>
+
+            </v-col>
+
+
+        </v-row>
+
+
+
+    </v-container>
+
+
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+    // https://www.npmjs.com/package/vue-vimeo-player
+    import { vueVimeoPlayer } from 'vue-vimeo-player'
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'home',
+        components: {vueVimeoPlayer}
+    }
 </script>
