@@ -21,6 +21,8 @@ const demoUser = {
                     id: 1,
                     urlName: "my-first-scenario",
                     name: "My First Scenario",
+                    cost: 142936,
+                    percentInstantAccess: 71,
                     subrs: [],
                     configs: {}
                 }

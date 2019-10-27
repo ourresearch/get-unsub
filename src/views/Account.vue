@@ -35,7 +35,9 @@
                 </v-simple-table>
             </v-card-text>
             <v-card-actions>
-                <v-btn @click="$store.commit('openNotSupportedMsg')" depressed color="primary">Add new package</v-btn>
+                <div class="wrap" @click="$store.commit('openNotSupportedMsg')">
+                    <v-btn disabled depressed color="primary">Add new package</v-btn>
+                </div>
             </v-card-actions>
         </v-card>
 

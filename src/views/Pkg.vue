@@ -11,36 +11,38 @@
                 <span class="word">{{ pkg.name }}</span>
             </span>
         </div>
-        <h1 class="display-3">Your Package</h1>
+        <h1 class="display-3">{{ pkg.name }}</h1>
         <div>
             count: {{count}}
             <v-btn depressed small @click="increment">Increment</v-btn>
         </div>
         <v-card outlined>
-            <v-card-title>Your Packages</v-card-title>
+            <v-card-title>Your Scenarios</v-card-title>
             <v-card-text>
                 <v-simple-table>
                     <thead>
                     <tr>
                         <th class="text-left">Name</th>
-                        <th class="text-left">Journals</th>
-                        <th class="text-left">COUNTER uploaded</th>
+                        <th class="text-left">Subscribed journals</th>
+                        <th class="text-left">Cost</th>
+                        <th class="text-left">Instant access</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="pkg in account.packages"
-                        :key="pkg.id"
-                        @click="$router.push(`/a/${account.urlName}/${pkg.urlName}`)"
+                    <tr v-for="scenario in pkg.scenarios"
+                        :key="scenario.id"
+                        @click="$router.push(`/a/${account.urlName}/${pkg.urlName}/${scenario.urlName}`)"
                         style="cursor:pointer;">
-                        <td>{{ pkg.name }}</td>
-                        <td>{{ pkg.numJournals }}</td>
-                        <td>{{ pkg.hasCounterData }}</td>
+                        <td>{{ scenario.name }}</td>
+                        <td>{{ scenario.subrs.length }}</td>
+                        <td>{{ scenario.cost }}</td>
+                        <td>{{ scenario.percentInstantAccess }}%</td>
                     </tr>
                     </tbody>
                 </v-simple-table>
             </v-card-text>
             <v-card-actions>
-                <v-btn @click="$store.commit('openNotSupportedMsg')" depressed color="primary">Add new package</v-btn>
+                <v-btn @click="$store.commit('openNotSupportedMsg')" color="primary">Add new Scenario</v-btn>
             </v-card-actions>
         </v-card>
 
