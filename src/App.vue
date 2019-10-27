@@ -16,6 +16,14 @@
         <v-content>
             <router-view></router-view>
         </v-content>
+
+        <v-snackbar
+                top
+                v-model="$store.state.notSupportedMsgOpen">
+            Sorry, that's not supported on the demo account.
+            <v-btn text @click="$store.commit('closeNotSupportedMsg')">close</v-btn>
+        </v-snackbar>
+
     </v-app>
 </template>
 
@@ -25,7 +33,8 @@
         name: 'App',
         components: {},
         data: () => ({
-            //
         }),
+        computed: {
+        }
     };
 </script>

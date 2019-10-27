@@ -1,12 +1,17 @@
 <template>
-    <v-container class="account">
-        <div>
+    <v-container class="pkg">
+        <div class="breadcrumbs">
             <span class="account">
                 <v-icon>mdi-account</v-icon>
                 <span class="word">{{ account.name }}</span>
             </span>
+            >
+            <span class="pkg">
+                <v-icon>mdi-package-variant</v-icon>
+                <span class="word">{{ pkg.name }}</span>
+            </span>
         </div>
-        <h1 class="display-3">Your Account</h1>
+        <h1 class="display-3">Your Package</h1>
         <div>
             count: {{count}}
             <v-btn depressed small @click="increment">Increment</v-btn>
@@ -44,22 +49,23 @@
 
 <script>
     export default {
-        name: "Account",
+        name: "Pkg",
         data() {
             return {
             }
         },
         methods: {
             increment() {
-                this.$store.commit("increment")
             }
         },
         computed: {
             count() {
-                return this.$store.getters.count
             },
             account() {
                 return this.$store.state.account
+            },
+            pkg(){
+                return this.$store.getters.selectedPkg
             }
         },
         mounted() {

@@ -4,9 +4,10 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const demoUser = {
-    name: "Demo 1",
     id: "demo1",
-    selectedPackageId: 1,
+    urlName: "demo1",
+    name: "Demo 1",
+    selectedPkgId: 1,
     packages: [
         {
             id: 1,
@@ -36,6 +37,7 @@ export default new Vuex.Store({
         count: 0,
         account: null,
         authState: "ready",
+        notSupportedMsgOpen: false,
     },
     mutations: {
         authLoading(state){
@@ -47,6 +49,15 @@ export default new Vuex.Store({
         },
         increment(state) {
             state.count += 1
+        },
+        closeNotSupportedMsg(state){
+            state.notSupportedMsgOpen = false
+        },
+        openNotSupportedMsg(state){
+            state.notSupportedMsgOpen = true
+        },
+        selectPkg(state, urlName){
+
         },
     },
     actions: {
@@ -61,6 +72,9 @@ export default new Vuex.Store({
     modules: {},
     getters: {
         count: state => state.count,
-        isLoggedIn: state => !!state.account
+        isLoggedIn: state => !!state.account,
+        selectedPkg: state => {
+            return state.account.packages.find(p=>p.id===state.account.selectedPkgId)
+        }
     }
 })

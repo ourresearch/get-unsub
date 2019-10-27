@@ -5,6 +5,7 @@ import Purchase from '../views/Purchase'
 import Login from '../views/Login'
 import Support from '../views/Support'
 import Account from '../views/Account'
+import Pkg from '../views/Pkg'
 
 import store from '../store/index.js'
 
@@ -19,6 +20,12 @@ const routes = [
     {
         path: "/a/:accountName",
         component: Account,
+        meta: {requiresAuth: true},
+
+    },
+    {
+        path: "/a/:accountName/:pkgName",
+        component: Pkg,
         meta: {requiresAuth: true},
 
     },
