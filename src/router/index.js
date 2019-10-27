@@ -6,6 +6,8 @@ import Login from '../views/Login'
 import Support from '../views/Support'
 import Account from '../views/Account'
 
+import store from '../store/index.js'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,7 +18,8 @@ const routes = [
 
     {
         path: "/a/:accountName",
-        component: Account
+        component: Account,
+        meta: {requiresAuth: true},
 
     },
 ]
@@ -25,6 +28,20 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes
+})
+
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+    }
+    else {
+        next('/')
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

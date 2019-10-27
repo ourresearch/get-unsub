@@ -10,7 +10,7 @@
                 </div>
                 <div class="my-3">
                     <v-btn class="mr-3" depressed large color="primary">Purchase</v-btn>
-                    <v-btn outlined large color="primary">View Demo</v-btn>
+                    <v-btn @click="loginDemo" outlined large color="primary">View Demo</v-btn>
                 </div>
             </v-col>
             <v-col>
@@ -34,6 +34,25 @@
 
     export default {
         name: 'home',
-        components: {vueVimeoPlayer}
+        components: {vueVimeoPlayer},
+        methods: {
+            loginDemo(){
+                const loginParams = {
+                    username: "demo1",
+                    password: "password"
+                }
+                this.$store.dispatch("login", loginParams)
+                    .then(()=>this.$router.push("/a/"+loginParams.username))
+                    .catch(err => console.log("error", err))
+            }
+        },
+        computed: {
+            count() {
+                return this.$store.getters.count
+            }
+        },
+        mounted(){
+            console.log("mount up")
+        },
     }
 </script>
