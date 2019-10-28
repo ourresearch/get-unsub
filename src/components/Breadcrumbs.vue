@@ -27,7 +27,7 @@
         name: "Breadcrumbs",
         computed: {
             account(){
-                return this.$store.state.account
+                return this.$store.state.user
             },
             selectedPkg(){
                 return this.$store.getters.selectedPkg

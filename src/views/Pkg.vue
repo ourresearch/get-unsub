@@ -55,7 +55,7 @@
             count() {
             },
             account() {
-                return this.$store.state.account
+                return this.$store.state.user
             },
             pkg(){
                 return this.$store.getters.selectedPkg

@@ -2,10 +2,6 @@
     <v-container class="account">
         <breadcrumbs></breadcrumbs>
         <h1 class="display-3">Your Account</h1>
-        <div>
-            count: {{count}}
-            <v-btn depressed small @click="increment">Increment</v-btn>
-        </div>
         <v-card outlined>
             <v-card-title>Your Packages</v-card-title>
             <v-card-text>
@@ -18,7 +14,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="pkg in account.pkgs"
+                    <tr v-for="pkg in $store.state.pkgs"
                         :key="pkg.id"
                         @click="$router.push(`/a/${account.id}/${pkg.id}`)"
                         style="cursor:pointer;">
@@ -58,8 +54,9 @@
                 return this.$store.getters.count
             },
             account() {
-                return this.$store.state.account
-            }
+                return this.$store.state.user
+            },
+
         },
         mounted() {
             console.log("mount up")

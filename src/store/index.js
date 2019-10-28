@@ -46,8 +46,8 @@ const demoUser = {
 
 export default new Vuex.Store({
     state: {
-        count: 0,
-        account: null,
+        user: null,
+
         authState: "ready",
         notSupportedMsgOpen: false,
 
@@ -64,11 +64,14 @@ export default new Vuex.Store({
         },
         authSuccess(state, account) {
             state.authState = "success"
-            state.account = account
-            state.account.pkgs = demoPkgs
-
-            state.scenarios = demoScenarios
-            state.pkgs = demoPkgs
+            // state.account = account
+            // state.account.pkgs = demoPkgs
+            //
+            // state.scenarios = demoScenarios
+            // state.pkgs = demoPkgs
+        },
+        setUser(state, user){
+            state.user = user
         },
 
 
@@ -87,6 +90,9 @@ export default new Vuex.Store({
                 return p.id === id
             })
         },
+        setPkgs(state, pkgs){
+            state.pkgs = pkgs
+        },
         clearPkg(state) {
             state.selectedPkg = null
         },
@@ -98,6 +104,9 @@ export default new Vuex.Store({
                 return s.id === id
             })
         },
+        setScenarios(state, scenarios){
+            state.scenarios = scenarios
+        },
         clearScenario(state) {
             state.selectedScenario = null
         },
@@ -107,9 +116,25 @@ export default new Vuex.Store({
             // implement later
         },
         loginDemo({commit}) {
+            const dummyPkgs = demoPkgs.map(p=>{
+                return {...p}
+            })
+            const dummyScenarios = demoScenarios.map(s=>{
+                return {...s}
+            })
+            const dummyUser = {...demoUser}
+
             return new Promise((resolve, reject) => {
                 commit('authLoading')
                 commit('authSuccess', demoUser)
+
+                commit('setUser', dummyUser)
+                commit('setPkgs', dummyPkgs)
+                commit('setScenarios', dummyScenarios)
+
+
+
+
                 resolve()
             })
         }
