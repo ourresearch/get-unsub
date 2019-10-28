@@ -3,16 +3,38 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const demoScenario = {
-    id: 1,
-    urlName: "my-first-scenario",
-    name: "My First Scenario",
-    pkg: 1,
-    cost: 142936,
-    percentInstantAccess: 71,
-    subrs: [],
-    configs: {}
-}
+const demoScenarios = [{
+        id: 1,
+        urlName: "my-first-scenario",
+        name: "My First Scenario",
+        pkg: 1,
+        cost: 142936,
+        percentInstantAccess: 71,
+        subrs: [],
+        configs: {}
+    },
+    {
+        id: 2,
+        urlName: "my-second-scenario",
+        name: "My Second Scenario",
+        pkg: 1,
+        cost: 142936,
+        percentInstantAccess: 71,
+        subrs: [],
+        configs: {}
+    },
+]
+
+const demoPkgs = [
+    {
+        id: 1,
+        urlName: "els-fre",
+        name: "my Elsevier Freedom Package",
+        hasCounterData: true,
+        numJournals: 1800,
+        numPerpAccessJournals: 1800,
+    }
+]
 
 const demoUser = {
     id: "demo1",
@@ -50,50 +72,52 @@ export default new Vuex.Store({
     },
     mutations: {
         // auth stuff
-        authLoading(state){
+        authLoading(state) {
             state.authState = "loading"
         },
-        authSuccess(state, account){
+        authSuccess(state, account) {
             state.authState = "success"
             state.account = account
+            state.scenarios = demoScenarios
+            state.pkgs = demoPkgs
         },
 
 
         // UI stuff
-        closeNotSupportedMsg(state){
+        closeNotSupportedMsg(state) {
             state.notSupportedMsgOpen = false
         },
-        openNotSupportedMsg(state){
+        openNotSupportedMsg(state) {
             state.notSupportedMsgOpen = true
         },
 
 
         // pkg stuff
-        selectPkg(state, urlName){
-            state.selectedPkg = state.pkgs.find(p=>{
+        selectPkg(state, urlName) {
+            state.selectedPkg = state.pkgs.find(p => {
                 return p.urlName === urlName
             })
         },
-        clearPkg(state){
+        clearPkg(state) {
             state.selectedPkg = null
         },
 
 
         // scenario stuff
-        selectScenario(state, urlName){
-            state.selectedScenario = state.scenarios.find(s=>{
+        selectScenario(state, urlName) {
+            state.selectedScenario = state.scenarios.find(s => {
                 return s.urlName === urlName
             })
         },
-        clearScenario(state){
+        clearScenario(state) {
             state.selectedScenario = null
         },
     },
     actions: {
-        login({commit}, userCreds){
+        login({commit}, userCreds) {
             // implement later
         },
-        loginDemo({commit}){
+        loginDemo({commit}) {
             return new Promise((resolve, reject) => {
                 commit('authLoading')
                 commit('authSuccess', demoUser)
@@ -106,15 +130,19 @@ export default new Vuex.Store({
         count: state => state.count,
         isLoggedIn: state => !!state.account,
         selectedPkg: state => {
-            if (!state.account) return null
-            const myPkg = state.account.packages.find(p=>p.id===state.account.selectedPkgId)
-            myPkg.scenarios = state.scenarios.filter(s=>{
+            // if (!state.account) return null
+            // const myPkg = state.account.packages.find(p => p.id === state.account.selectedPkgId)
+
+            const myPkg = state.selectedPkg
+            if (!myPkg) return null
+            myPkg.scenarios = state.scenarios.filter(s => {
                 return s.pkg === myPkg.id
             })
+            return myPkg
 
         },
-        selectedScenario(state){
-            return state.scenarios.selectedScenario
+        selectedScenario(state) {
+            return state.selectedScenario
         }
 
     }

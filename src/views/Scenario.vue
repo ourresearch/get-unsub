@@ -1,5 +1,9 @@
 <template>
     <v-container class="pkg" v-if="$store.getters.selectedScenario">
+
+
+        print you
+
         <breadcrumbs></breadcrumbs>
 
 
@@ -70,7 +74,7 @@
             this.$store.commit("selectPkg", this.$route.params.pkgName)
             this.$store.commit("selectScenario", this.$route.params.scenarioName)
 
-            console.log("mount up")
+            console.log("scenario: mount up")
         },
     }
 </script>
