@@ -1,21 +1,9 @@
 <template>
-    <v-container class="pkg">
-        <div class="breadcrumbs">
-            <span class="account">
-                <v-icon>mdi-account</v-icon>
-                <span class="word">{{ account.name }}</span>
-            </span>
-            >
-            <span class="pkg">
-                <v-icon>mdi-package-variant</v-icon>
-                <span class="word">{{ pkg.name }}</span>
-            </span>
-        </div>
+    <v-container class="pkg" v-if="$store.getters.selectedPkg">
+        <breadcrumbs></breadcrumbs>
+
+
         <h1 class="display-3">{{ pkg.name }}</h1>
-        <div>
-            count: {{count}}
-            <v-btn depressed small @click="increment">Increment</v-btn>
-        </div>
         <v-card outlined>
             <v-card-title>Your Scenarios</v-card-title>
             <v-card-text>
@@ -50,8 +38,11 @@
 </template>
 
 <script>
+    import Breadcrumbs from "../components/Breadcrumbs"
+
     export default {
         name: "Pkg",
+        components: {Breadcrumbs},
         data() {
             return {
             }
@@ -70,7 +61,12 @@
                 return this.$store.getters.selectedPkg
             }
         },
+        created(){
+        },
         mounted() {
+            this.$store.commit("selectPkg", this.$route.params.pkgName)
+            this.$store.commit("clearScenario")
+
             console.log("mount up")
         },
     }

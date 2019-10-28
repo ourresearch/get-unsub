@@ -6,6 +6,7 @@ import Login from '../views/Login'
 import Support from '../views/Support'
 import Account from '../views/Account'
 import Pkg from '../views/Pkg'
+import Scenario from '../views/Scenario'
 
 import store from '../store/index.js'
 
@@ -29,6 +30,12 @@ const routes = [
         meta: {requiresAuth: true},
 
     },
+    {
+        path: "/a/:accountName/:pkgName/:scenarioName",
+        component: Scenario,
+        meta: {requiresAuth: true},
+
+    },
 ]
 
 const router = new VueRouter({
@@ -39,16 +46,27 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next()
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        store.dispatch("loginDemo")
+            .then(resp => {
+                next()
+            })
     }
     else {
-        next('/')
+        next()
     }
-  } else {
-    next()
-  }
 })
+
+
+//   if (store.getters.isLoggedIn) {
+//     next()
+//   }
+//   else {
+//       next('/')
+//   }
+// } else {
+//   next()
+// }
+// })
 
 export default router

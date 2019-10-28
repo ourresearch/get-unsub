@@ -37,12 +37,8 @@
         components: {vueVimeoPlayer},
         methods: {
             loginDemo(){
-                const loginParams = {
-                    username: "demo1",
-                    password: "password"
-                }
-                this.$store.dispatch("login", loginParams)
-                    .then(()=>this.$router.push("/a/"+loginParams.username))
+                this.$store.dispatch("loginDemo")
+                    .then(()=>this.$router.push("/a/"+this.$store.state.account.urlName))
                     .catch(err => console.log("error", err))
             }
         },

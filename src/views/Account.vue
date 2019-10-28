@@ -1,11 +1,6 @@
 <template>
     <v-container class="account">
-        <div>
-            <span class="account">
-                <v-icon>mdi-account</v-icon>
-                <span class="word">{{ account.name }}</span>
-            </span>
-        </div>
+        <breadcrumbs></breadcrumbs>
         <h1 class="display-3">Your Account</h1>
         <div>
             count: {{count}}
@@ -45,8 +40,10 @@
 </template>
 
 <script>
+    import Breadcrumbs from "../components/Breadcrumbs"
     export default {
         name: "Account",
+        components: {Breadcrumbs},
         data() {
             return {
             }
@@ -66,6 +63,8 @@
         },
         mounted() {
             console.log("mount up")
+            this.$store.commit("clearPkg")
+
         },
     }
 </script>

@@ -7,7 +7,8 @@ const demoUser = {
     id: "demo1",
     urlName: "demo1",
     name: "Demo 1",
-    selectedPkgId: 1,
+    selectedPkgId: null,
+    selectedScenarioId: null,
     packages: [
         {
             id: 1,
@@ -59,24 +60,49 @@ export default new Vuex.Store({
             state.notSupportedMsgOpen = true
         },
         selectPkg(state, urlName){
-
+            // fake this for now
+            state.account.selectedPkgId = 1
+        },
+        clearPkg(state){
+            state.account.selectedPkgId = null
+        },
+        selectScenario(state, urlName){
+            // fake this for now
+            state.account.selectedScenarioId = 1
+        },
+        clearScenario(state){
+            state.account.selectedScenarioId = null
         },
     },
     actions: {
         login({commit}, userCreds){
+            // implement later
+        },
+        loginDemo({commit}){
             return new Promise((resolve, reject) => {
                 commit('authLoading')
                 commit('authSuccess', demoUser)
                 resolve()
             })
-        },
+        }
     },
     modules: {},
     getters: {
         count: state => state.count,
         isLoggedIn: state => !!state.account,
         selectedPkg: state => {
+            if (!state.account) return null
             return state.account.packages.find(p=>p.id===state.account.selectedPkgId)
+        },
+        selectedScenario(state){
+            if (!state.account) return null
+            const pkg = state.account.packages.find(p=>p.id===state.account.selectedPkgId)
+
+            if (!pkg) return null
+            return pkg.scenarios.find(s => {
+                return s.id === state.account.selectedScenarioId
+            })
         }
+
     }
 })
