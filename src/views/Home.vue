@@ -38,7 +38,7 @@
         methods: {
             loginDemo(){
                 this.$store.dispatch("loginDemo")
-                    .then(()=>this.$router.push("/a/"+this.$store.state.account.urlName))
+                    .then(()=>this.$router.push("/a/"+this.$store.state.account.id))
                     .catch(err => console.log("error", err))
             }
         },

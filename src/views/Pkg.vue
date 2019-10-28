@@ -19,7 +19,7 @@
                     <tbody>
                     <tr v-for="scenario in pkg.scenarios"
                         :key="scenario.id"
-                        @click="$router.push(`/a/${account.urlName}/${pkg.urlName}/${scenario.urlName}`)"
+                        @click="$router.push(`/a/${account.id}/${pkg.id}/${scenario.id}`)"
                         style="cursor:pointer;">
                         <td>{{ scenario.name }}</td>
                         <td>{{ scenario.subrs.length }}</td>
@@ -64,10 +64,10 @@
         created(){
         },
         mounted() {
-            this.$store.commit("selectPkg", this.$route.params.pkgName)
+            this.$store.commit("selectPkg", this.$route.params.pkgId)
             this.$store.commit("clearScenario")
 
-            console.log("mount up")
+            console.log("pkg: mount up", this.$route.params)
         },
     }
 </script>

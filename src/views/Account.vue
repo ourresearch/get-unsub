@@ -18,9 +18,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="pkg in account.packages"
+                    <tr v-for="pkg in account.pkgs"
                         :key="pkg.id"
-                        @click="$router.push(`/a/${account.urlName}/${pkg.urlName}`)"
+                        @click="$router.push(`/a/${account.id}/${pkg.id}`)"
                         style="cursor:pointer;">
                         <td>{{ pkg.name }}</td>
                         <td>{{ pkg.numJournals }}</td>
@@ -64,6 +64,7 @@
         mounted() {
             console.log("mount up")
             this.$store.commit("clearPkg")
+            this.$store.commit("clearScenario")
 
         },
     }

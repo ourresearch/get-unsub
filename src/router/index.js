@@ -25,13 +25,13 @@ const routes = [
 
     },
     {
-        path: "/a/:accountName/:pkgName",
+        path: "/a/:accountName/:pkgId",
         component: Pkg,
         meta: {requiresAuth: true},
 
     },
     {
-        path: "/a/:accountName/:pkgName/:scenarioName",
+        path: "/a/:accountName/:pkgId/:scenarioId",
         component: Scenario,
         meta: {requiresAuth: true},
 

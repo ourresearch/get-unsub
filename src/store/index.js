@@ -3,21 +3,20 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+
 const demoScenarios = [{
-        id: 1,
-        urlName: "my-first-scenario",
+        id: "1",
         name: "My First Scenario",
-        pkg: 1,
+        pkg: "1",
         cost: 142936,
         percentInstantAccess: 71,
         subrs: [],
         configs: {}
     },
     {
-        id: 2,
-        urlName: "my-second-scenario",
+        id: "2",
         name: "My Second Scenario",
-        pkg: 1,
+        pkg: "1",
         cost: 142936,
         percentInstantAccess: 71,
         subrs: [],
@@ -27,8 +26,7 @@ const demoScenarios = [{
 
 const demoPkgs = [
     {
-        id: 1,
-        urlName: "els-fre",
+        id: "1",
         name: "my Elsevier Freedom Package",
         hasCounterData: true,
         numJournals: 1800,
@@ -38,20 +36,9 @@ const demoPkgs = [
 
 const demoUser = {
     id: "demo1",
-    urlName: "demo1",
     name: "Demo 1",
     selectedPkgId: null,
     selectedScenarioId: null,
-    packages: [
-        {
-            id: 1,
-            urlName: "els-fre",
-            name: "my Elsevier Freedom Package",
-            hasCounterData: true,
-            numJournals: 1800,
-            numPerpAccessJournals: 1800,
-        }
-    ]
 }
 
 
@@ -78,6 +65,8 @@ export default new Vuex.Store({
         authSuccess(state, account) {
             state.authState = "success"
             state.account = account
+            state.account.pkgs = demoPkgs
+
             state.scenarios = demoScenarios
             state.pkgs = demoPkgs
         },
@@ -93,9 +82,9 @@ export default new Vuex.Store({
 
 
         // pkg stuff
-        selectPkg(state, urlName) {
+        selectPkg(state, id) {
             state.selectedPkg = state.pkgs.find(p => {
-                return p.urlName === urlName
+                return p.id === id
             })
         },
         clearPkg(state) {
@@ -104,9 +93,9 @@ export default new Vuex.Store({
 
 
         // scenario stuff
-        selectScenario(state, urlName) {
+        selectScenario(state, id) {
             state.selectedScenario = state.scenarios.find(s => {
-                return s.urlName === urlName
+                return s.id === id
             })
         },
         clearScenario(state) {
@@ -130,11 +119,10 @@ export default new Vuex.Store({
         count: state => state.count,
         isLoggedIn: state => !!state.account,
         selectedPkg: state => {
-            // if (!state.account) return null
-            // const myPkg = state.account.packages.find(p => p.id === state.account.selectedPkgId)
-
             const myPkg = state.selectedPkg
+            console.log("selecting pkg", myPkg)
             if (!myPkg) return null
+
             myPkg.scenarios = state.scenarios.filter(s => {
                 return s.pkg === myPkg.id
             })
