@@ -59,18 +59,19 @@
 <!--                </div>-->
             </v-col>
 
-            <v-col>
+            <v-col cols="10">
                 <breadcrumbs></breadcrumbs>
 
-                <slider-tab :data="tabData" v-if="selectedTabIndex===0"></slider-tab>
-                <single-journal-tab :data="tabData" v-if="selectedTabIndex===1"></single-journal-tab>
-                <configs-tab :data="scenario.configs" v-if="selectedTabIndex===2"></configs-tab>
-                <costs-tab :data="tabData" v-if="selectedTabIndex===3"></costs-tab>
-                <apcs-tab :data="tabData" v-if="selectedTabIndex===4"></apcs-tab>
-                <fulfillment-tab :data="tabData" v-if="selectedTabIndex===5"></fulfillment-tab>
-                <timeline-tab :data="tabData" v-if="selectedTabIndex===6"></timeline-tab>
-                <journals-tab :data="tabData" v-if="selectedTabIndex===7"></journals-tab>
-                <sharing-tab :data="tabData" v-if="selectedTabIndex===8"></sharing-tab>
+                <slider-tab :data="tabData" v-if="activeTabName==='slider'"></slider-tab>
+                <single-journal-tab :data="tabData"  v-if="activeTabName==='single-journal'"></single-journal-tab>
+                <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>
+                <costs-tab :data="tabData" v-if="activeTabName==='costs'"></costs-tab>
+                <apcs-tab :data="tabData" v-if="activeTabName==='apcs'"></apcs-tab>
+                <fulfillment-tab :data="tabData" v-if="activeTabName==='fulfillment'"></fulfillment-tab>
+                <timeline-tab :data="tabData"  v-if="activeTabName==='timeline'"></timeline-tab>
+                <journals-tab :data="tabData"  v-if="activeTabName==='journals'"></journals-tab>
+                <sharing-tab :data="tabData"  v-if="activeTabName==='sharing'"></sharing-tab>
+                <impact-tab :data="tabData"  v-if="activeTabName==='impact'"></impact-tab>
 
             </v-col>
         </v-row>
@@ -92,10 +93,12 @@
     import TimelineTab from "./ScenarioTabs/TimelineTab"
     import JournalsTab from "./ScenarioTabs/JournalsTab"
     import SharingTab from "./ScenarioTabs/SharingTab"
+    import ImpactTab from "./ScenarioTabs/ImpactTab"
 
     export default {
         name: "Pkg",
         components: {
+            ImpactTab,
             Breadcrumbs,
             SliderTab,
             SingleJournalTab,
@@ -112,15 +115,16 @@
                 scenario: null,
                 tabData: null,
                 tabs: [
-                    {name: "slider", displayName: "Best deal"},
-                    {name: "singleJournal", displayName: "Single Journal", hideOnMenu: true},
-                    {name: "configs", displayName: "Configs"},
-                    {name: "costs", displayName: "Costs"},
-                    {name: "apc", displayName: "APCs"},
-                    {name: "fulfillment", displayName: "Fulfillment"},
-                    {name: "timeline", displayName: "Timeline"},
-                    {name: "journals", displayName: "Journals list"},
-                    {name: "sharing", displayName: "Sharing"},
+                    {name: "slider", displayName: "Best deal", api:true,},
+                    {name: "costs", displayName: "Costs", api:true,},
+                    {name: "apc", displayName: "APCs", api:true,},
+                    {name: "fulfillment", displayName: "Fulfillment", api:true,},
+                    {name: "timeline", displayName: "Timeline", api:true,},
+                    {name: "impact", displayName: "Institutional value", api:true,},
+                    {name: "journals", displayName: "Journals list", api:true,},
+                    {name: "singleJournal", displayName: "Single Journal", api:false,},
+                    {name: "configs", displayName: "Configs", api:false,},
+                    {name: "sharing", displayName: "Sharing", api:false,},
                 ],
                 selectedTabIndex: 0,
                 baseUrl: "https://unpaywall-jump-api.herokuapp.com/scenario/{key}?package=demo",
@@ -143,6 +147,7 @@
                 axios.post(url, this.scenario)
                     .then(resp => {
                         this.scenario.summary = resp.data._summary
+                        console.log("summary response:", this.scenario.summary)
                     })
                     .catch(err => {
                         console.log("got error from updateSummary", url, err)
@@ -150,14 +155,16 @@
                     .finally(()=>this.summaryLoading=false)
             },
             getTabData(){
+                if (!this.activeTab.api) return false
                 this.tabLoading = true
-                const tabName = "apc"
-                const url = this.baseUrl.replace("{key}", tabName)
-                console.log("loading tab data", tabName)
+                this.tabData = null
+                const url = this.baseUrl.replace("{key}", this.activeTabName)
+                console.log("loading tab data", this.activeTabName)
 
                 axios.post(url, this.scenario)
                     .then(resp => {
                         this.tabData = resp.data
+                        console.log("got tab data", resp.data)
                     })
                     .catch(err => {
                         console.log("got error from getTabData()", url, err)
@@ -174,6 +181,12 @@
             pkg(){
                 return this.$store.getters.selectedPkg
             },
+            activeTab(){
+                return this.tabs[this.selectedTabIndex]
+            },
+            activeTabName(){
+                return this.activeTab.name
+            }
         },
         created(){
         },
@@ -195,8 +208,14 @@
         },
         watch: {
             selectedTabIndex: function(to, from) {
-                console.log("tab change", to)
                 this.getTabData()
+            },
+            'scenario.configs': {
+                deep: true,
+                handler: function(to){
+                    console.log("scenario configs just done changed", to)
+                    this.updateSummary()
+                }
             }
         }
     }
