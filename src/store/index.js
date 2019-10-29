@@ -3,28 +3,42 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const demoConfigs = {
+    cost_alacart_increase: 0.08,
+    cost_bigdeal: 2200000,
+    cost_bigdeal_increase: 0.05,
+    cost_content_fee_percent: 0.057,
+    cost_ill: 5,
+    ill_request_percent_of_delayed: 0.1,
+    include_bronze: true,
+    include_submitted_version: true,
+    package: "demo",
+    social_networks_percent: 0.1,
+    weight_authorship: 100,
+    weight_citation: 10
+}
 
 const demoScenarios = [{
         id: "1",
         name: "My First Scenario",
-        pkg: "1",
+        pkgId: "demo-pkg-123",
         summary: {},
         subrs: [],
-        configs: {}
+        configs: {...demoConfigs}
     },
     {
         id: "2",
         name: "My Second Scenario",
-        pkg: "1",
+        pkgId: "demo-pkg-123",
         summary: {},
         subrs: [],
-        configs: {}
+        configs: {...demoConfigs}
     },
 ]
 
 const demoPkgs = [
     {
-        id: "1",
+        id: "demo-pkg-123",
         name: "my Elsevier Freedom Package",
         hasCounterData: true,
         numJournals: 1800,
@@ -33,7 +47,7 @@ const demoPkgs = [
 ]
 
 const demoUser = {
-    id: "demo1",
+    id: "demo-user",
     name: "Demo 1",
     selectedPkgId: null,
     selectedScenarioId: null,
@@ -68,7 +82,7 @@ export default new Vuex.Store({
             // state.scenarios = demoScenarios
             // state.pkgs = demoPkgs
         },
-        setUser(state, user){
+        setUser(state, user) {
             state.user = user
         },
 
@@ -88,7 +102,7 @@ export default new Vuex.Store({
                 return p.id === id
             })
         },
-        setPkgs(state, pkgs){
+        setPkgs(state, pkgs) {
             state.pkgs = pkgs
         },
         clearPkg(state) {
@@ -102,7 +116,7 @@ export default new Vuex.Store({
                 return s.id === id
             })
         },
-        setScenarios(state, scenarios){
+        setScenarios(state, scenarios) {
             state.scenarios = scenarios
         },
         clearScenario(state) {
@@ -114,10 +128,10 @@ export default new Vuex.Store({
             // implement later
         },
         loginDemo({commit}) {
-            const dummyPkgs = demoPkgs.map(p=>{
+            const dummyPkgs = demoPkgs.map(p => {
                 return {...p}
             })
-            const dummyScenarios = demoScenarios.map(s=>{
+            const dummyScenarios = demoScenarios.map(s => {
                 return {...s}
             })
             const dummyUser = {...demoUser}
@@ -129,8 +143,6 @@ export default new Vuex.Store({
                 commit('setUser', dummyUser)
                 commit('setPkgs', dummyPkgs)
                 commit('setScenarios', dummyScenarios)
-
-
 
 
                 resolve()
@@ -146,7 +158,7 @@ export default new Vuex.Store({
             if (!myPkg) return null
 
             myPkg.scenarios = state.scenarios.filter(s => {
-                return s.pkg === myPkg.id
+                return s.pkgId === myPkg.id
             })
             return myPkg
 
