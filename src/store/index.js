@@ -8,8 +8,7 @@ const demoScenarios = [{
         id: "1",
         name: "My First Scenario",
         pkg: "1",
-        cost: 142936,
-        percentInstantAccess: 71,
+        summary: {},
         subrs: [],
         configs: {}
     },
@@ -17,8 +16,7 @@ const demoScenarios = [{
         id: "2",
         name: "My Second Scenario",
         pkg: "1",
-        cost: 142936,
-        percentInstantAccess: 71,
+        summary: {},
         subrs: [],
         configs: {}
     },
@@ -145,7 +143,6 @@ export default new Vuex.Store({
         isLoggedIn: state => !!state.account,
         selectedPkg: state => {
             const myPkg = state.selectedPkg
-            console.log("selecting pkg", myPkg)
             if (!myPkg) return null
 
             myPkg.scenarios = state.scenarios.filter(s => {

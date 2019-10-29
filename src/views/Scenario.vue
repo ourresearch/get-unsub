@@ -1,46 +1,33 @@
 <template>
-    <v-container class="pkg" v-if="$store.getters.selectedScenario">
+    <v-container fluid class="pkg" v-if="scenario">
+        <v-row>
+            <v-col cols="2">
+                <div class="summary">
+                    <div class="loading" v-if="summaryLoading">summary loading</div>
+                    <div class="loaded" v-if="!summaryLoading">
+                        subscribed journals: {{scenario.summary.num_journals_subscribed}}
+                        %instant access: {{scenario.summary.use_instant_percent }}
+                    </div>
+                </div>
+                <div v-for="tab in tabs"
+                     @click="setTab(tab.name)"
+                     :key="tab.name">
+                    {{tab.displayName}}
+                </div>
+            </v-col>
+            <v-col>
+                <breadcrumbs></breadcrumbs>
 
+                <pre>{{scenario}}</pre>
+            </v-col>
+        </v-row>
 
-
-        <breadcrumbs></breadcrumbs>
-
-
-        <h1 class="display-3">{{ scenario.name }}</h1>
-<!--        <v-card outlined>-->
-<!--            <v-card-title>Your Scenarios</v-card-title>-->
-<!--            <v-card-text>-->
-<!--                <v-simple-table>-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th class="text-left">Name</th>-->
-<!--                        <th class="text-left">Subscribed journals</th>-->
-<!--                        <th class="text-left">Cost</th>-->
-<!--                        <th class="text-left">Instant access</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-<!--                    <tr v-for="scenario in pkg.scenarios"-->
-<!--                        :key="scenario.id"-->
-<!--                        @click="$router.push(`/a/${account.urlName}/${pkg.urlName}/${scenario.urlName}`)"-->
-<!--                        style="cursor:pointer;">-->
-<!--                        <td>{{ scenario.name }}</td>-->
-<!--                        <td>{{ scenario.subrs.length }}</td>-->
-<!--                        <td>{{ scenario.cost }}</td>-->
-<!--                        <td>{{ scenario.percentInstantAccess }}%</td>-->
-<!--                    </tr>-->
-<!--                    </tbody>-->
-<!--                </v-simple-table>-->
-<!--            </v-card-text>-->
-<!--            <v-card-actions>-->
-<!--                <v-btn @click="$store.commit('openNotSupportedMsg')" color="primary">Add new Scenario</v-btn>-->
-<!--            </v-card-actions>-->
-<!--        </v-card>-->
 
     </v-container>
 </template>
 
 <script>
+    import axios from 'axios'
     import Breadcrumbs from "../components/Breadcrumbs"
 
     export default {
@@ -48,10 +35,57 @@
         components: {Breadcrumbs},
         data() {
             return {
+                scenario: null,
+                apiData: null,
+                tabs: [
+                    {name: "slider", displayName: "Best deal"},
+                    {name: "singleJournal", displayName: "Single Journal", hideOnMenu: true},
+                    {name: "config", displayName: "Configs"},
+                    {name: "costs", displayName: "Costs"},
+                    {name: "apcs", displayName: "APCs"},
+                    {name: "fulfillment", displayName: "Fulfillment"},
+                    {name: "timeline", displayName: "Timeline"},
+                    {name: "journals", displayName: "Journals list"},
+                    {name: "sharing", displayName: "Sharing"},
+                ],
+                selectedTab: {name: "slider", displayName: "Best deal"},
+                baseUrl: "https://unpaywall-jump-api.herokuapp.com/scenario/{key}?package=demo",
+
+                summaryLoading: false,
+
+
+
             }
         },
         methods: {
-            increment() {
+            setTab(tabName){
+                const url = "/a/"
+                    + this.$route.params.userId + "/"
+                    + this.$route.params.pkgId + "/"
+                    + this.$route.params.scenarioId + "/"
+                    + tabName
+
+
+                this.$router.push(url)
+
+            },
+            setTabData(tabName) {
+                console.log("setting tab data")
+            },
+            updateSummary(){
+                const url = this.baseUrl.replace("{key}", "summary")
+                console.log("updating summary", url)
+                this.summaryLoading = true
+                axios.post(url, this.scenario)
+                    .then(resp => {
+                        console.log("got summary back", resp.data._summary)
+                        this.scenario.summary = resp.data._summary
+                    })
+                    .catch(err => {
+                        console.log("got error from updateSummary", url, err)
+                    })
+                    .finally(()=>this.summaryLoading=false)
+
             }
         },
         computed: {
@@ -63,17 +97,26 @@
             pkg(){
                 return this.$store.getters.selectedPkg
             },
-            scenario(){
-                return this.$store.getters.selectedScenario
-            },
         },
         created(){
         },
         mounted() {
-            this.$store.commit("selectPkg", this.$route.params.pkgId)
-            this.$store.commit("selectScenario", this.$route.params.scenarioId)
-
             console.log("scenario: mount up")
+            const userId = this.$route.params.userId
+            const pkgId = this.$route.params.pkgId
+            const scenarioId = this.$route.params.scenarioId
+            const tabId = this.$route.params.tabId
+
+
+
+
+            this.$store.commit("selectPkg", pkgId)
+            this.$store.commit("selectScenario", scenarioId)
+
+            this.scenario = {...this.$store.state.selectedScenario}
+            this.updateSummary()
+
+
         },
     }
 </script>
