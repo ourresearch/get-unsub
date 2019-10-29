@@ -4,16 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const demoConfigs = {
-    cost_alacart_increase: 0.08,
+    cost_alacart_increase: 8,
     cost_bigdeal: 2200000,
-    cost_bigdeal_increase: 0.05,
-    cost_content_fee_percent: 0.057,
+    cost_bigdeal_increase:5,
+    cost_content_fee_percent: 5.7,
     cost_ill: 5,
-    ill_request_percent_of_delayed: 0.1,
+    ill_request_percent_of_delayed: 10,
     include_bronze: true,
     include_submitted_version: true,
     package: "demo",
-    social_networks_percent: 0.1,
+    social_networks_percent: 10,
     weight_authorship: 100,
     weight_citation: 10
 }
