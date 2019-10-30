@@ -20,18 +20,18 @@
                             </v-col>
                         </v-row>
                         <v-row>
-                            ${{this.cost}}
+                            {{this.cost | currency}}
                         </v-row>
                     </v-col>
                     <v-col>
                         <v-row>
-                            <v-col cols="2">
+                            <v-col cols="4">
                                 <div class="bar-wrapper">
-                                    <div class="bar delayed bar-fill"></div>
-                                    <div class="bar paid instant" :style="{height: usage.subr+'%'}"></div>
-                                    <div class="bar free instant" :style="{height: usage.oa+'%'}"></div>
-                                    <div class="bar free instant" :style="{height: usage.backfile+'%'}"></div>
-                                    <div class="bar free instant" :style="{height: usage.asn+'%'}"></div>
+                                    <div class="bar delayed bar-fill">delayed</div>
+                                    <div class="bar paid instant" :style="{height: usage.subr+'%'}">Subscription</div>
+                                    <div class="bar free instant" :style="{height: usage.oa+'%'}">OA</div>
+                                    <div class="bar free instant" :style="{height: usage.backfile+'%'}">Backfile</div>
+                                    <div class="bar free instant" :style="{height: usage.asn+'%'}">ASNs</div>
                                 </div>
                             </v-col>
                         </v-row>
@@ -147,7 +147,7 @@
                 // subscribe to journals where subr is cheaper than ILL
                 this.data.journals.forEach(j => {
                     if (j.cost_subscription_minus_ill < 0) {
-                        j.subscribed = true
+                        j.subscribscenarioed = true
                         mySpendSoFar += j.cost_subscription_minus_ill
                     }
                 })
@@ -207,6 +207,7 @@
         }
 
         .bar {
+            border-top: 1px solid #eee;
             &.cost {
                 background: #555;
             }

@@ -62,7 +62,6 @@
 
             <v-col cols="10">
                 <breadcrumbs></breadcrumbs>
-                <div class="body-1">{{scenario.subrs.join(",")}}</div>
 
                 <slider-tab :data="tabData"
                             :scenario="scenario"
@@ -219,13 +218,11 @@
             'scenario.configs': {
                 deep: true,
                 handler: function(to){
-                    console.log("scenario configs just done changed", to)
                     this.updateSummary()
                 }
             },
             'scenario.subrs': {
                 handler: function(to){
-                    console.log("scenario subrs just done changed", to)
                     this.updateSummary()
                 }
             }
