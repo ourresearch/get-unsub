@@ -57,12 +57,18 @@
 <!--                     :key="tab.name">-->
 <!--                    {{tab.displayName}}-->
 <!--                </div>-->
+
             </v-col>
 
             <v-col cols="10">
                 <breadcrumbs></breadcrumbs>
+                <div class="body-1">{{scenario.subrs.join(",")}}</div>
 
-                <slider-tab :data="tabData" v-if="activeTabName==='slider'"></slider-tab>
+                <slider-tab :data="tabData"
+                            :scenario="scenario"
+                            v-if="activeTabName==='slider'">
+                </slider-tab>
+
                 <single-journal-tab :data="tabData"  v-if="activeTabName==='single-journal'"></single-journal-tab>
                 <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>
                 <costs-tab :data="tabData" v-if="activeTabName==='costs'"></costs-tab>
@@ -214,6 +220,12 @@
                 deep: true,
                 handler: function(to){
                     console.log("scenario configs just done changed", to)
+                    this.updateSummary()
+                }
+            },
+            'scenario.subrs': {
+                handler: function(to){
+                    console.log("scenario subrs just done changed", to)
                     this.updateSummary()
                 }
             }

@@ -9,6 +9,7 @@
                                 <v-slider
                                         v-model="costPercent"
                                         vertical
+                                        @end="sliderEnd"
                                 ></v-slider>
                             </v-col>
                             <v-col cols="2">
@@ -52,17 +53,28 @@
 
 <script>
     export default {
-        props: ["data"],
+        props: ["data", "scenario"],
         name: "SliderTab",
         data() {
             return {
-                costPercent: 50,
+                costPercent: 0,
                 totalUsage: 0,
             }
         },
         computed: {
             cost() {
                 return .01 * this.costPercent * this.data._summary.cost_bigdeal_projected
+            },
+            costFromSubrs(){
+                const costs = this.data.journals.map(j=>{
+                    if (j.subscribed){
+                        return j.cost_subscription
+                    }
+                    else {
+                        return j.cost_ill
+                    }
+                })
+                return costs.reduce((a,b)=>a+b)
             },
 
             subscribedJournals() {
@@ -114,6 +126,13 @@
 
         },
         methods: {
+            sliderEnd(){
+                console.log("slider blur")
+                this.scenario.subrs = this.data.journals
+                    .filter(j=>j.subscribed)
+                    .map(j=>j.issn_l)
+                console.log("subrs", this.subrs)
+            },
             updateJournals(){
                 if (!this.data) return
 
@@ -140,6 +159,9 @@
                         j.subscribed = true
                     }
                 })
+            },
+            setCostPercentFromJournals(){
+                this.costPercent = 100 * this.costFromSubrs / this.data._summary.cost_bigdeal_projected
             }
         },
         mounted(){
@@ -150,7 +172,17 @@
                 this.updateJournals()
             },
             numJournals: function(to, from){
-                this.updateJournals()
+                console.log("set journals")
+                // this.updateJournals()
+                this.data.journals.forEach(j=>{
+                    if (this.scenario.subrs.includes(j.issn_l)){
+                        j.subscribed = true
+                    }
+                    else {
+                        j.subscribed = false
+                    }
+                })
+                this.setCostPercentFromJournals()
             }
 
         }

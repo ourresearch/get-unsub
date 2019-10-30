@@ -24,6 +24,7 @@ const demoScenarios = [{
         pkgId: "demo-pkg-123",
         summary: {},
         subrs: [],
+        customSubrs: [],
         configs: {...demoConfigs}
     },
     {
@@ -32,6 +33,7 @@ const demoScenarios = [{
         pkgId: "demo-pkg-123",
         summary: {},
         subrs: [],
+        customSubrs: [],
         configs: {...demoConfigs}
     },
 ]
