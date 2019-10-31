@@ -35,29 +35,39 @@
                             :items-per-page="25"
                             :search="search"
                             :footer-props="{disableItemsPerPage:true}"
+                            :must-sort="true"
 
                     >
-                        <template v-slot:item.title="{ item }">
-                            <div class="py-2">
-                                <div class="float-left mr-2">
-                                    <v-btn icon text
-                                           @click="subscribe(item.issnl)"
-                                           v-if="!item.subscribed">
-                                        <v-icon>mdi-cart-outline</v-icon>
-                                    </v-btn>
-                                    <v-btn icon text
-                                           @click="unsubscribe(item.issnl)"
-                                           v-if="item.subscribed">
-                                        <v-icon>mdi-cart</v-icon>
-                                    </v-btn>
-                                </div>
-                                <div>
-                                    <div style="font-size:18px;">{{item.title}}</div>
-                                    <div class="caption">{{item.subject}}</div>
+                        <template v-slot:item="{ item }">
+                            <tr :class="{subscribed: item.subscribed}">
+                                <td>
+                                    <div class="py-2">
+                                        <div class="float-left mr-2">
+                                            <v-btn icon text
+                                                   @click="subscribe(item.issnl)"
+                                                   v-if="!item.subscribed">
+                                                <v-icon>mdi-cart-outline</v-icon>
+                                            </v-btn>
+                                            <v-btn icon text
+                                                   @click="unsubscribe(item.issnl)"
+                                                   v-if="item.subscribed">
+                                                <v-icon>mdi-cart</v-icon>
+                                            </v-btn>
+                                        </div>
+                                        <div>
+                                            <div :style="{'font-weight': item.subscribed ? 'normal' : 'normal'}" style="font-size:18px;">{{item.title}}</div>
+                                            <div class="caption">{{item.subject}}</div>
 
-                                </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td v-for="(v,k) in item"
+                                    v-if="!['issnl', 'title', 'subject', 'subscribed'].includes(k)"
+                                    :key="k">
+                                    {{ v }}
+                                </td>
 
-                            </div>
+                            </tr>
 
                         </template>
 
@@ -119,6 +129,9 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    table tr.subscribed {
+        background: #C2DBFD !important;
+    }
 
 </style>
