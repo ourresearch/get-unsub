@@ -1,7 +1,13 @@
 <template>
     <v-container fluid class="tab" v-if="data && data.journals">
         <v-row>
-            header stuff
+            <v-col>
+                sum-up here
+            </v-col>
+            <v-col v-for="(header, i) in data.headers" class="text-right">
+                <div class="main display-1">{{header.raw | round}}</div>
+                <div class="under subtitle-1">{{header.text}}</div>
+            </v-col>
         </v-row>
         <v-row>
             <v-col cols="12">
