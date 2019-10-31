@@ -6,17 +6,23 @@
         <v-row>
             <v-col cols="12">
                 <v-card>
-                    <v-card-title>
+                    <v-toolbar
+                            color="gray"
+                            dark
+                            flat
+                    >
                         Journals: Institutional Value
                         <v-spacer></v-spacer>
                         <v-text-field
                                 v-model="search"
                                 append-icon="mdi-magnify"
                                 label="Search"
-                                single-line
+                                solo-inverted
+                                flat
                                 hide-details
                         ></v-text-field>
-                    </v-card-title>
+
+                    </v-toolbar>
                     <v-data-table
                             :headers="tableHeaders"
                             :items="tableRows"
