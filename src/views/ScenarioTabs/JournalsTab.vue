@@ -36,7 +36,29 @@
                             :search="search"
                             :footer-props="{disableItemsPerPage:true}"
 
-                    ></v-data-table>
+                    >
+                        <template v-slot:item.title="{ item }">
+                            <div class="py-2">
+                                <div class="float-left mr-2">
+                                    <v-btn icon text v-if="!item.subscribed">
+                                        <v-icon>mdi-cart-outline</v-icon>
+                                    </v-btn>
+                                    <v-btn icon text v-if="item.subscribed">
+                                        <v-icon>mdi-cart</v-icon>
+                                    </v-btn>
+                                </div>
+                                <div>
+                                    <div style="font-size:18px;">{{item.title}}</div>
+                                    <div class="caption">{{item.subject}}</div>
+
+                                </div>
+
+                            </div>
+
+                        </template>
+
+
+                    </v-data-table>
 
                 </v-card>
 
@@ -58,7 +80,6 @@
             tableHeaders() {
                 const metaHeaders = [
                     {text: "Title", value: "title"},
-                    {text: "Subject", value: "subject"},
                 ]
 
                 return [...metaHeaders, ...this.data.headers]
@@ -73,6 +94,8 @@
                     })
                     ret.title = j.meta.title
                     ret.subject = j.meta.subject
+                    ret.issnl = j.meta.issn_l
+                    ret.subscribed = j.meta.subscribed
                     return ret
                 })
             }
