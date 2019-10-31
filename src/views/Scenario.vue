@@ -71,7 +71,12 @@
                             v-if="activeTabName==='slider'">
                 </slider-tab>
 
-                <journals-tab :data="tabData"  v-if="['journals', 'fulfillment', 'oa', 'impact', 'costs', 'apc',].includes(activeTabName)"></journals-tab>
+                <journals-tab :data="tabData"
+                              :scenario="scenario"
+                              @update="getTabData"
+                              v-if="['journals', 'fulfillment', 'oa', 'impact', 'costs', 'apc',].includes(activeTabName)">
+
+                </journals-tab>
 
 <!--                <costs-tab :data="tabData" v-if="activeTabName==='costs'"></costs-tab>-->
 <!--                <apcs-tab :data="tabData" v-if="activeTabName==='apcs'"></apcs-tab>-->
@@ -167,7 +172,6 @@
             getTabData(){
                 if (!this.activeTab.api) return false
                 this.tabLoading = true
-                this.tabData = null
                 const url = this.baseUrl.replace("{key}", this.activeTabName)
                 console.log("loading tab data", this.activeTabName)
 
@@ -218,6 +222,7 @@
         },
         watch: {
             selectedTabIndex: function(to, from) {
+                this.tabData = null
                 this.getTabData()
             },
             'scenario.configs': {

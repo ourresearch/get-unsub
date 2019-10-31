@@ -40,10 +40,14 @@
                         <template v-slot:item.title="{ item }">
                             <div class="py-2">
                                 <div class="float-left mr-2">
-                                    <v-btn icon text v-if="!item.subscribed">
+                                    <v-btn icon text
+                                           @click="subscribe(item.issnl)"
+                                           v-if="!item.subscribed">
                                         <v-icon>mdi-cart-outline</v-icon>
                                     </v-btn>
-                                    <v-btn icon text v-if="item.subscribed">
+                                    <v-btn icon text
+                                           @click="unsubscribe(item.issnl)"
+                                           v-if="item.subscribed">
                                         <v-icon>mdi-cart</v-icon>
                                     </v-btn>
                                 </div>
@@ -69,7 +73,7 @@
 
 <script>
     export default {
-        props: ["data"],
+        props: ["data", "scenario"],
         name: "JournalsTab",
         data() {
             return {
@@ -99,7 +103,18 @@
                     return ret
                 })
             }
-
+        },
+        methods: {
+            subscribe(issnl){
+                console.log("subscribe", issnl)
+                this.scenario.subrs.push(issnl)
+                this.$emit('update')
+            },
+            unsubscribe(issnl){
+                console.log("UNsubscribe", issnl)
+                this.scenario.subrs = this.scenario.subrs.filter(j=>j !== issnl)
+                this.$emit('update')
+            }
         }
     }
 </script>
