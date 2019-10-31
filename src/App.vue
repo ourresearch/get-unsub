@@ -1,10 +1,9 @@
 <template>
     <v-app>
-        <v-app-bar elevate-on-scroll app>
-            <v-toolbar-title class="headline">
+        <v-app-bar elevate-on-scroll app dark color="green">
+            <v-toolbar-title  class="headline">
                 <router-link to="/">
-                    <span>Unpaywall Journals</span>
-
+                    <img class="mt-3" style="height:35px;" src="./assets/logo.png" alt="">
                 </router-link>
             </v-toolbar-title>
             <v-spacer></v-spacer>
