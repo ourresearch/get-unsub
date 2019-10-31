@@ -4,11 +4,31 @@
             header stuff
         </v-row>
         <v-row>
-            <v-data-table
-                    :headers="tableHeaders"
-                    :items="tableRows"
-                    :items-per-page="25"
-            ></v-data-table>
+            <v-col cols="12">
+                <v-card>
+                    <v-card-title>
+                        Journals: Institutional Value
+                        <v-spacer></v-spacer>
+                        <v-text-field
+                                v-model="search"
+                                append-icon="mdi-magnify"
+                                label="Search"
+                                single-line
+                                hide-details
+                        ></v-text-field>
+                    </v-card-title>
+                    <v-data-table
+                            :headers="tableHeaders"
+                            :items="tableRows"
+                            :items-per-page="25"
+                            :search="search"
+                            :footer-props="{disableItemsPerPage:true}"
+
+                    ></v-data-table>
+
+                </v-card>
+
+            </v-col>
         </v-row>
     </v-container>
 </template>
@@ -17,6 +37,11 @@
     export default {
         props: ["data"],
         name: "JournalsTab",
+        data() {
+            return {
+                search: '',
+            }
+        },
         computed: {
             tableHeaders() {
                 const metaHeaders = [
@@ -26,11 +51,11 @@
 
                 return [...metaHeaders, ...this.data.headers]
             },
-            tableRows(){
-                return this.data.journals.map(j=>{
+            tableRows() {
+                return this.data.journals.map(j => {
                     let ret = {}
-                    Object.keys(j).forEach(key=>{
-                        if (key !== 'meta'){
+                    Object.keys(j).forEach(key => {
+                        if (key !== 'meta') {
                             ret[key] = j[key]
                         }
                     })
