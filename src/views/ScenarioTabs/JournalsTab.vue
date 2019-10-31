@@ -1,14 +1,46 @@
 <template>
-    <v-container fluid class="tab">
-        <h2 class="display-3">Journals</h2>
-        <pre>{{data}}</pre>
+    <v-container fluid class="tab" v-if="data && data.journals">
+        <v-row>
+            header stuff
+        </v-row>
+        <v-row>
+            <v-data-table
+                    :headers="tableHeaders"
+                    :items="tableRows"
+                    :items-per-page="25"
+            ></v-data-table>
+        </v-row>
     </v-container>
 </template>
 
 <script>
     export default {
         props: ["data"],
-        name: "JournalsTab"
+        name: "JournalsTab",
+        computed: {
+            tableHeaders() {
+                const metaHeaders = [
+                    {text: "Title", value: "title"},
+                    {text: "Subject", value: "subject"},
+                ]
+
+                return [...metaHeaders, ...this.data.headers]
+            },
+            tableRows(){
+                return this.data.journals.map(j=>{
+                    let ret = {}
+                    Object.keys(j).forEach(key=>{
+                        if (key !== 'meta'){
+                            ret[key] = j[key]
+                        }
+                    })
+                    ret.title = j.meta.title
+                    ret.subject = j.meta.subject
+                    return ret
+                })
+            }
+
+        }
     }
 </script>
 

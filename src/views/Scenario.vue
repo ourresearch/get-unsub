@@ -5,6 +5,7 @@
         <v-row>
             <v-col cols="2" class="pa-0">
                 <v-navigation-drawer permanent>
+
                     <v-list dense>
                         <v-list-item>
                             <v-list-item-content>
@@ -28,6 +29,8 @@
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
+
+
                     <v-divider></v-divider>
                     <v-list>
                         <v-list-item-group v-model="selectedTabIndex">
@@ -68,15 +71,16 @@
                             v-if="activeTabName==='slider'">
                 </slider-tab>
 
-                <single-journal-tab :data="tabData"  v-if="activeTabName==='single-journal'"></single-journal-tab>
+                <journals-tab :data="tabData"  v-if="['journals', 'fulfillment', 'oa', 'impact', 'costs', 'apc',].includes(activeTabName)"></journals-tab>
+
+<!--                <costs-tab :data="tabData" v-if="activeTabName==='costs'"></costs-tab>-->
+<!--                <apcs-tab :data="tabData" v-if="activeTabName==='apcs'"></apcs-tab>-->
+<!--                <fulfillment-tab :data="tabData" v-if="activeTabName==='fulfillment'"></fulfillment-tab>-->
+<!--                <impact-tab :data="tabData"  v-if="activeTabName==='impact'"></impact-tab>-->
+
+
                 <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>
-                <costs-tab :data="tabData" v-if="activeTabName==='costs'"></costs-tab>
-                <apcs-tab :data="tabData" v-if="activeTabName==='apcs'"></apcs-tab>
-                <fulfillment-tab :data="tabData" v-if="activeTabName==='fulfillment'"></fulfillment-tab>
-                <timeline-tab :data="tabData"  v-if="activeTabName==='timeline'"></timeline-tab>
-                <journals-tab :data="tabData"  v-if="activeTabName==='journals'"></journals-tab>
                 <sharing-tab :data="tabData"  v-if="activeTabName==='sharing'"></sharing-tab>
-                <impact-tab :data="tabData"  v-if="activeTabName==='impact'"></impact-tab>
 
             </v-col>
         </v-row>
@@ -121,13 +125,14 @@
                 tabData: null,
                 tabs: [
                     {name: "slider", displayName: "Best deal", api:true,},
-                    {name: "costs", displayName: "Costs", api:true,},
-                    {name: "apc", displayName: "APCs", api:true,},
+
+                    {name: "journals", displayName: "Overview", api:true,},
                     {name: "fulfillment", displayName: "Fulfillment", api:true,},
-                    {name: "timeline", displayName: "Timeline", api:true,},
+                    {name: "oa", displayName: "Open Access", api:true,},
                     {name: "impact", displayName: "Institutional value", api:true,},
-                    {name: "journals", displayName: "Journals list", api:true,},
-                    {name: "singleJournal", displayName: "Single Journal", api:false,},
+                    {name: "costs", displayName: "Read costs", api:true,},
+                    {name: "apc", displayName: "APC costs", api:true,},
+
                     {name: "configs", displayName: "Configs", api:false,},
                     {name: "sharing", displayName: "Sharing", api:false,},
                 ],
@@ -218,11 +223,13 @@
             'scenario.configs': {
                 deep: true,
                 handler: function(to){
+                    console.log("scenario configs just done changed", to)
                     this.updateSummary()
                 }
             },
             'scenario.subrs': {
                 handler: function(to){
+                    console.log("scenario subrs just done changed", to)
                     this.updateSummary()
                 }
             }

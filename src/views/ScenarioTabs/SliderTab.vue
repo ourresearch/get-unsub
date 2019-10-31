@@ -208,6 +208,8 @@
 
         .bar {
             border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #fff;
             &.cost {
                 background: #555;
             }
