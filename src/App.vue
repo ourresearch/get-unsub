@@ -41,8 +41,8 @@
             </div>
 
             <div class="logged-in" v-if="$store.getters.isLoggedIn">
-                <v-btn text @click="$store.commit('setScenarioTab', 'slider')">Overview</v-btn>
-                <v-btn text @click="$store.commit('setScenarioTab', 'journals')">Journals</v-btn>
+                <v-btn text @click="$store.dispatch('setScenarioPage', 'slider')">Slider</v-btn>
+                <v-btn text @click="$store.dispatch('setScenarioPage', 'journals')">Journals</v-btn>
             </div>
 
             <div class="logged-in" v-if="$store.getters.isLoggedIn">

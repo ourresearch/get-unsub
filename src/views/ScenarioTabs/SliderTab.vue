@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="tab" v-if="data">
+    <v-container fluid class="tab" v-if="showMe">
         <v-row>
             <v-col cols="8">
                 <v-row>
@@ -64,6 +64,9 @@
         computed: {
             data(){
                 return this.$store.state.tabData
+            },
+            showMe(){
+                return this.$store.getters.currentScenarioPage === 'slider'
             },
             cost() {
                 return .01 * this.costPercent * this.data._summary.cost_bigdeal_projected

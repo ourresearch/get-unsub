@@ -2,15 +2,9 @@
     <v-container fluid class="pkg pa-0 ma-0" v-if="$store.state.selectedScenario">
 
 
-        <slider-tab
-                    v-if="$store.getters.currentScenarioPage==='slider'">
-        </slider-tab>
+        <slider-tab></slider-tab>
 
-        <journals-tab
-                      @update="updateTabData"
-                      v-if="$store.getters.currentScenarioPage==='journals'">
-
-        </journals-tab>
+        <journals-tab></journals-tab>
 
 
 

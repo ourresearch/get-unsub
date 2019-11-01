@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="tab" v-if="data && data.journals">
+    <v-container fluid class="tab" v-if="showMe">
         <v-row>
             <v-col cols="2" class="py-0">
                 <v-navigation-drawer floating class="mt-2">
@@ -119,7 +119,7 @@
 
 <script>
     export default {
-        props: ["data",],
+        props: [],
         name: "JournalsTab",
         data() {
             return {
@@ -137,6 +137,12 @@
             }
         },
         computed: {
+            data(){
+                return this.$store.state.tabData
+            },
+            showMe(){
+                return this.$store.getters.currentScenarioPage==='journals'
+            },
             tableHeaders() {
                 const metaHeaders = [
                     {text: "Title", value: "title"},

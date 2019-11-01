@@ -26,7 +26,7 @@ const demoConfigs = {
 }
 
 const journalViews = [
-    {value: "overview", displayName: "Overview", icon: "mdi-person"},
+    {value: "journals", displayName: "Overview", icon: "mdi-person"},
     {value: "fulfillment", displayName: "Fulfillment", icon: "mdi-person"},
     {value: "oa", displayName: "Open Access", icon: "mdi-person"},
     {value: "impact", displayName: "Impact", icon: "mdi-person"},
@@ -98,7 +98,7 @@ export default new Vuex.Store({
 
         scenarios: [],
         selectedScenario: null,
-        scenarioTab: "slider",
+        scenarioPageName: "slider",
 
         pkgs: [],
         selectedPkg: null,
@@ -219,11 +219,11 @@ export default new Vuex.Store({
 
 
         // scenario UI stuff
-        setScenarioTab(state, name) {
-            state.scenarioTab = name
-        },
         setTabDataEndPointName(state, name) {
             state.tabDataEndpointName = name
+        },
+        setScenarioPageName(state, name) {
+            state.scenarioPageName = name
         }
 
 
@@ -256,8 +256,9 @@ export default new Vuex.Store({
         async updateTabData({commit, state}) {
             commit("tabDataLoading")
             const url = tabDataBaseUrl.replace("{key}", state.tabDataEndpointName)
-            axios.post(url, state.selectedScenario)
+            return axios.post(url, state.selectedScenario)
                 .then(resp => {
+                    resp.data.key = state.tabDataEndpointName
                     commit("setTabData", resp.data)
                     console.log("got tab data", resp.data)
                 })
@@ -305,7 +306,14 @@ export default new Vuex.Store({
             commit("setTabDataEndPointName", endpointName)
             await dispatch("updateTabData")
             return true
-        }
+        },
+
+
+        async setScenarioPage({commit, dispatch}, pageName) {
+            commit("setTabDataEndPointName", pageName)
+            await dispatch("updateTabData")
+            return true
+        },
 
 
     },
@@ -353,13 +361,16 @@ export default new Vuex.Store({
         },
 
         currentScenarioPage(state) {
+            // return state.scenarioPageName
+            if (!state.tabData) return "loading"
+
             const journalEndpoints = journalViews.map(v=>v.value)
 
-            if (['slider'].includes(state.tabDataEndpointName)) {
+            if (['slider'].includes(state.tabData.key)) {
                 return "slider"
-            } else if (['share'].includes(state.tabDataEndpointName)) {
+            } else if (['share'].includes(state.tabData.key)) {
                 return 'share'
-            } else if (journalEndpoints.includes(state.tabDataEndpointName)) {
+            } else if (journalEndpoints.includes(state.tabData.key)) {
                 return 'journals'
             }
         }
