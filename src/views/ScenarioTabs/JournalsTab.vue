@@ -7,7 +7,7 @@
                             <v-subheader>VIEWS</v-subheader>
                             <v-list-item-group v-model="activeViewIndex">
                                 <v-list-item
-                                        @click="$emit('update', view.value)"
+                                        @click="$store.dispatch('setTabData', view.value)"
                                         v-for="(view, i) in views"
                                         :key="i"
                                 >
@@ -124,14 +124,6 @@
         data() {
             return {
                 search: '',
-                views: [
-                    {value: "overview", displayName: "Overview", icon: "mdi-person"},
-                    {value: "fulfillment", displayName: "Fulfillment", icon: "mdi-person"},
-                    {value: "oa", displayName: "Open Access", icon: "mdi-person"},
-                    {value: "impact", displayName: "Impact", icon: "mdi-person"},
-                    {value: "costs", displayName: "Read cost", icon: "mdi-person"},
-                    {value: "apc", displayName: "APC cost", icon: "mdi-person"},
-                ],
                 activeViewIndex: 0,
 
             }
@@ -142,6 +134,9 @@
             },
             showMe(){
                 return this.$store.getters.currentScenarioPage==='journals'
+            },
+            views(){
+                return this.$store.getters.journalViews
             },
             tableHeaders() {
                 const metaHeaders = [
@@ -173,12 +168,10 @@
             subscribe(issnl) {
                 console.log("subscribe", issnl)
                 this.$store.dispatch("addSubr", issnl)
-                this.$emit('update', this.activeView)
             },
             unsubscribe(issnl) {
                 console.log("UNsubscribe", issnl)
                 this.$store.dispatch("removeSubr", issnl)
-                this.$emit('update', this.activeView)
             }
         }
     }
