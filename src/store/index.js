@@ -24,6 +24,9 @@ const demoConfigs = {
     weight_citation: 10
 }
 
+
+
+
 const demoScenarios = [{
         id: "1",
         name: "My First Scenario",
@@ -144,6 +147,20 @@ export default new Vuex.Store({
         },
 
 
+        // config stuff
+        setConfig(state, config){
+            state.selectedScenario.configs[config.k] = config.v
+
+            state.obj = {
+                ...state.selectedScenario.configs,
+                [config.k]: config.v
+            }
+
+
+            console.log("saved config",config, state.selectedScenario.configs)
+        },
+
+
         // scenario stuff
         selectScenario(state, id) {
             state.selectedScenario = state.scenarios.find(s => {
@@ -229,6 +246,8 @@ export default new Vuex.Store({
         addSubr({commit, state}, issnl){
             commit("addSubr", issnl)
             commit("summaryLoading")
+
+            // c/p...not sure best way to reuse.
             return axios.post(summaryUrl,state.selectedScenario)
                 .then(r=>{
                     commit("setSummary", r.data._summary)
@@ -238,12 +257,26 @@ export default new Vuex.Store({
         removeSubr({commit, state}, issnl){
             commit("removeSubr", issnl)
             commit("summaryLoading")
+
+            // c/p...not sure best way to reuse.
             return axios.post(summaryUrl,state.selectedScenario)
                 .then(r=>{
                     commit("setSummary", r.data._summary)
                 })
                 .finally(()=>commit("summaryDoneLoading"))
-        }
+        },
+        setConfig({commit, state}, config){
+            commit("setConfig", config)
+            commit("summaryLoading")
+
+            // c/p...not sure best way to reuse.
+            return axios.post(summaryUrl,state.selectedScenario)
+                .then(r=>{
+                    commit("setSummary", r.data._summary)
+                })
+                .finally(()=>commit("summaryDoneLoading"))
+        },
+
 
 
 
@@ -276,6 +309,16 @@ export default new Vuex.Store({
             }
             else {
                 return []
+            }
+        },
+        configs(state){
+            if (state.selectedScenario){
+                return state.selectedScenario.configs
+            }
+        },
+        config: (state) => (k) =>{
+            if (state.selectedScenario){
+                return state.selectedScenario.configs[k]
             }
         }
 

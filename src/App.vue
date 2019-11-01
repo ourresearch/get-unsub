@@ -49,16 +49,20 @@
                 <v-btn text icon>
                     <v-icon>mdi-content-save</v-icon>
                 </v-btn>
-                <v-btn text icon @click="drawerRight = !drawerRight">
-                    <v-icon>mdi-settings</v-icon>
-                </v-btn>
                 <v-btn text icon>
                     <v-icon>mdi-share</v-icon>
+                </v-btn>
+                <v-btn text icon @click="drawerRight = !drawerRight">
+                    <v-icon>mdi-settings</v-icon>
                 </v-btn>
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawerRight" app right clipped>hi there</v-navigation-drawer>
+        <v-navigation-drawer v-model="drawerRight" app right clipped>
+            <configs></configs>
+
+
+        </v-navigation-drawer>
 
         <v-content>
 
@@ -77,10 +81,11 @@
 
 <script>
     import Breadcrumbs from "./components/Breadcrumbs"
+    import Configs from "./components/Configs"
 
     export default {
         name: 'App',
-        components: {Breadcrumbs},
+        components: {Breadcrumbs, Configs},
         data: () => ({
             drawerRight: false,
         }),

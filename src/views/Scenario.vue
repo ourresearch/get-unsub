@@ -27,7 +27,6 @@
 
     import SliderTab from "./ScenarioTabs/SliderTab"
     import SingleJournalTab from "./ScenarioTabs/SingleJournalTab"
-    import ConfigsTab from "./ScenarioTabs/ConfigsTab"
     import JournalsTab from "./ScenarioTabs/JournalsTab"
     import SharingTab from "./ScenarioTabs/SharingTab"
 
@@ -36,7 +35,6 @@
         components: {
             SliderTab,
             SingleJournalTab,
-            ConfigsTab,
             JournalsTab,
             SharingTab
         },
@@ -84,7 +82,12 @@
             },
             activeTabName(){
                 return this.$store.state.scenarioTab
-            }
+            },
+            configs(){
+                if (this.$store.state.selectedScenario){
+                    return this.$store.state.selectedScenario.configs
+                }
+            },
         },
         created(){
         },
@@ -103,6 +106,11 @@
                 this.tabData = null
                 this.getPageData()
             },
+            "configs": {
+                deep: true,
+                handler: function(to){
+                }
+            }
         }
     }
 </script>
