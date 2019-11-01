@@ -12,7 +12,7 @@ const short = require('short-uuid');
 const demoConfigs = {
     cost_alacart_increase: 8,
     cost_bigdeal: 2200000,
-    cost_bigdeal_increase:5,
+    cost_bigdeal_increase: 5,
     cost_content_fee_percent: 5.7,
     cost_ill: 5,
     ill_request_percent_of_delayed: 10,
@@ -25,21 +25,19 @@ const demoConfigs = {
 }
 
 
-
-
 const demoScenarios = [{
-        id: "1",
-        name: "My First Scenario",
-        pkgId: "demo-pkg-123",
-        summary: {
-            cost_percent: 0,
-            use_instant_percent: 0,
-            num_journals_subscribed:0,
-        },
-        subrs: [],
-        customSubrs: [],
-        configs: {...demoConfigs}
+    id: "1",
+    name: "My First Scenario",
+    pkgId: "demo-pkg-123",
+    summary: {
+        cost_percent: 0,
+        use_instant_percent: 0,
+        num_journals_subscribed: 0,
     },
+    subrs: [],
+    customSubrs: [],
+    configs: {...demoConfigs}
+},
     {
         id: "2",
         name: "My Second Scenario",
@@ -47,7 +45,7 @@ const demoScenarios = [{
         summary: {
             cost_percent: 0,
             use_instant_percent: 0,
-            num_journals_subscribed:0,
+            num_journals_subscribed: 0,
         },
         subrs: [],
         customSubrs: [],
@@ -82,7 +80,7 @@ export default new Vuex.Store({
         user: null,
 
         summaryLoading: false,
-        tabLoading: false,
+        tabDataLoading: false,
 
         authState: "ready",
         notSupportedMsgOpen: false,
@@ -94,16 +92,23 @@ export default new Vuex.Store({
         pkgs: [],
         selectedPkg: null,
 
+        tabData: null,
 
 
     },
     mutations: {
         // stuff stuff
-        summaryLoading(state){
+        summaryLoading(state) {
             state.summaryLoading = true
         },
-        summaryDoneLoading(state){
+        summaryDoneLoading(state) {
             state.summaryLoading = false
+        },
+        tabDataLoading(state) {
+            state.tabDataLoading = true
+        },
+        tabDataDoneLoading(state) {
+            state.tabDataLoading = false
         },
 
 
@@ -148,7 +153,7 @@ export default new Vuex.Store({
 
 
         // config stuff
-        setConfig(state, config){
+        setConfig(state, config) {
             state.selectedScenario.configs[config.k] = config.v
 
             state.obj = {
@@ -157,7 +162,7 @@ export default new Vuex.Store({
             }
 
 
-            console.log("saved config",config, state.selectedScenario.configs)
+            console.log("saved config", config, state.selectedScenario.configs)
         },
 
 
@@ -173,39 +178,34 @@ export default new Vuex.Store({
         clearScenario(state) {
             state.selectedScenario = null
         },
-        saveScenario(state){
+        saveScenario(state) {
             // fake saving this to the server
-            return new Promise((resolve, reject)=>{
-                setTimeout(function(){
+            return new Promise((resolve, reject) => {
+                setTimeout(function () {
                     resolve()
                 }, 500)
             })
         },
-        setSubrs(state, subrIssnls){
+        setSubrs(state, subrIssnls) {
             state.selectedScenario.subrs = subrIssnls
         },
-        addSubr(state, issnl){
-            if (!state.selectedScenario.subrs.includes(issnl)){
+        addSubr(state, issnl) {
+            if (!state.selectedScenario.subrs.includes(issnl)) {
                 state.selectedScenario.subrs.push(issnl)
             }
         },
-        removeSubr(state, issnl){
-            this.state.selectedScenario.subrs = this.state.selectedScenario.subrs.filter(j=>j !== issnl)
+        removeSubr(state, issnl) {
+            this.state.selectedScenario.subrs = this.state.selectedScenario.subrs.filter(j => j !== issnl)
         },
-        setSummary(state, summary){
+        setSummary(state, summary) {
             state.selectedScenario.summary = summary
         },
 
 
         // scenario UI stuff
-        setScenarioTab(state, name){
+        setScenarioTab(state, name) {
             state.scenarioTab = name
         },
-
-
-
-
-
 
 
     },
@@ -234,50 +234,48 @@ export default new Vuex.Store({
                 resolve()
             })
         },
-        setSubrs({commit, state}, subrIssnls){
+        async updateTabData({commit, state, dispatch}) {
+            commit("tabDataLoading")
+            axios.post(url, this.$store.state.selectedScenario)
+                .then(resp => {
+                    commit("setTabData", resp.data)
+                    console.log("got tab data", resp.data)
+                })
+                .catch(err => {
+                    console.log("got error from updateTabData()", url, err)
+                })
+                .finally(() => commit("tabDataDoneLoading"))
+        },
+        async updateSummary({commit, state, dispatch}) {
+            commit("summaryLoading")
+            return axios.post(summaryUrl, state.selectedScenario)
+                .then(r => {
+                    commit("setSummary", r.data._summary)
+                })
+                .finally(() => commit("summaryDoneLoading"))
+        },
+
+
+        async setSubrs({commit, dispatch}, subrIssnls) {
             commit("setSubrs", subrIssnls)
-            commit("summaryLoading")
-            return axios.post(summaryUrl,state.selectedScenario)
-                .then(r=>{
-                    commit("setSummary", r.data._summary)
-                })
-                .finally(()=>commit("summaryDoneLoading"))
+            await dispatch("updateSummary")
+            return true
         },
-        addSubr({commit, state}, issnl){
+        async addSubr({commit, dispatch}, issnl) {
             commit("addSubr", issnl)
-            commit("summaryLoading")
-
-            // c/p...not sure best way to reuse.
-            return axios.post(summaryUrl,state.selectedScenario)
-                .then(r=>{
-                    commit("setSummary", r.data._summary)
-                })
-                .finally(()=>commit("summaryDoneLoading"))
+            await dispatch("updateSummary")
+            return true
         },
-        removeSubr({commit, state}, issnl){
+        async removeSubr({commit, dispatch}, issnl) {
             commit("removeSubr", issnl)
-            commit("summaryLoading")
-
-            // c/p...not sure best way to reuse.
-            return axios.post(summaryUrl,state.selectedScenario)
-                .then(r=>{
-                    commit("setSummary", r.data._summary)
-                })
-                .finally(()=>commit("summaryDoneLoading"))
+            await dispatch("updateSummary")
+            return true
         },
-        setConfig({commit, state}, config){
+        async setConfig({commit, dispatch}, config) {
             commit("setConfig", config)
-            commit("summaryLoading")
-
-            // c/p...not sure best way to reuse.
-            return axios.post(summaryUrl,state.selectedScenario)
-                .then(r=>{
-                    commit("setSummary", r.data._summary)
-                })
-                .finally(()=>commit("summaryDoneLoading"))
+            await dispatch("updateSummary")
+            return true
         },
-
-
 
 
     },
@@ -298,26 +296,25 @@ export default new Vuex.Store({
         selectedScenario(state) {
             return state.selectedScenario
         },
-        summary(state){
-            if (state.selectedScenario){
+        summary(state) {
+            if (state.selectedScenario) {
                 return state.selectedScenario.summary
             }
         },
-        subrs(state){
-            if (state.selectedScenario){
+        subrs(state) {
+            if (state.selectedScenario) {
                 return state.selectedScenario.subrs
-            }
-            else {
+            } else {
                 return []
             }
         },
-        configs(state){
-            if (state.selectedScenario){
+        configs(state) {
+            if (state.selectedScenario) {
                 return state.selectedScenario.configs
             }
         },
-        config: (state) => (k) =>{
-            if (state.selectedScenario){
+        config: (state) => (k) => {
+            if (state.selectedScenario) {
                 return state.selectedScenario.configs[k]
             }
         }

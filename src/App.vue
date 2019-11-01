@@ -58,7 +58,7 @@
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawerRight" app right clipped>
+        <v-navigation-drawer dark v-model="drawerRight" app right clipped>
             <configs></configs>
 
 
