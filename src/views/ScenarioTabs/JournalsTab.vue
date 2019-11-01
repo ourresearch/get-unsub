@@ -1,8 +1,8 @@
 <template>
-    <v-container fluid class="tab pa-0" v-if="data && data.journals">
+    <v-container fluid class="tab" v-if="data && data.journals">
         <v-row>
-            <v-col cols="2" class="pa-0">
-                <v-navigation-drawer class="pa-2">
+            <v-col cols="2" class="py-0">
+                <v-navigation-drawer floating class="mt-2">
                         <v-list>
                             <v-subheader>VIEWS</v-subheader>
                             <v-list-item-group v-model="activeViewIndex">
