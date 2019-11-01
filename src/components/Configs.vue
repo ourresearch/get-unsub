@@ -139,16 +139,24 @@
             displayName: "Include Green OA submitted versions",
             descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         },
+        include_social_networks: {
+            name: "include_social_networks",
+            default: true,
+            value: null,
+            display: "boolean",
+            displayName: "Include ASN-hosted content",
+            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+        include_backfile: {
+            name: "include_backfile",
+            default: true,
+            value: null,
+            display: "boolean",
+            displayName: "Include perpetual-access backfile content",
+            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
         package: {
             display: false
-        },
-        social_networks_percent: {
-            name: "social_networks_percent",
-            default: 10,
-            value: null,
-            display: "percent",
-            displayName: "ASNs frequency (dev use)",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         },
         weight_authorship: {
             name: "weight_authorship",

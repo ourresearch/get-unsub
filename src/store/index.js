@@ -18,10 +18,11 @@ const demoConfigs = {
     ill_request_percent_of_delayed: 10,
     include_bronze: true,
     include_submitted_version: true,
+    include_backfile: true,
+    include_social_networks: true,
     package: "demo",
-    social_networks_percent: 10,
     weight_authorship: 100,
-    weight_citation: 10
+    weight_citation: 10,
 }
 
 
