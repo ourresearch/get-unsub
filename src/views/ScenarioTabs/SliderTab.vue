@@ -170,6 +170,7 @@
                 })
             },
             setCostPercentFromJournals(){
+                console.log("getting setCostPercentFromJournals")
                 this.costPercent = 100 * this.costFromSubrs / this.data._summary.cost_bigdeal_projected
             }
         },
@@ -178,10 +179,11 @@
         },
         watch: {
             costPercent: function(to, from){
+                console.log("cost percent changed")
                 this.updateJournals()
             },
             numJournals: function(to, from){
-                console.log("set journals")
+                console.log("numJournals changed")
                 // this.updateJournals()
                 this.data.journals.forEach(j=>{
                     if (this.$store.getters.subrs.includes(j.issn_l)){
