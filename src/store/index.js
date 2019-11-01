@@ -25,6 +25,15 @@ const demoConfigs = {
     weight_citation: 10,
 }
 
+const journalViews = [
+    {value: "overview", displayName: "Overview", icon: "mdi-person"},
+    {value: "fulfillment", displayName: "Fulfillment", icon: "mdi-person"},
+    {value: "oa", displayName: "Open Access", icon: "mdi-person"},
+    {value: "impact", displayName: "Impact", icon: "mdi-person"},
+    {value: "costs", displayName: "Read cost", icon: "mdi-person"},
+    {value: "apc", displayName: "APC cost", icon: "mdi-person"},
+]
+
 
 const demoScenarios = [{
     id: "1",
@@ -75,6 +84,7 @@ const demoUser = {
 // looks useful: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
 
 const summaryUrl = "https://unpaywall-jump-api.herokuapp.com/scenario/summary?package=demo"
+const tabDataBaseUrl = "https://unpaywall-jump-api.herokuapp.com/scenario/{key}?package=demo"
 
 export default new Vuex.Store({
     state: {
@@ -94,6 +104,7 @@ export default new Vuex.Store({
         selectedPkg: null,
 
         tabData: null,
+        tabDataEndpointName: "slider",
 
 
     },
@@ -202,11 +213,18 @@ export default new Vuex.Store({
             state.selectedScenario.summary = summary
         },
 
+        setTabData(state, newTabData) {
+            state.tabData = newTabData
+        },
+
 
         // scenario UI stuff
         setScenarioTab(state, name) {
             state.scenarioTab = name
         },
+        setTabDataEndPointName(state, name) {
+            state.tabDataEndpointName = name
+        }
 
 
     },
@@ -235,9 +253,10 @@ export default new Vuex.Store({
                 resolve()
             })
         },
-        async updateTabData({commit, state, dispatch}) {
+        async updateTabData({commit, state}) {
             commit("tabDataLoading")
-            axios.post(url, this.$store.state.selectedScenario)
+            const url = tabDataBaseUrl.replace("{key}", state.tabDataEndpointName)
+            axios.post(url, state.selectedScenario)
                 .then(resp => {
                     commit("setTabData", resp.data)
                     console.log("got tab data", resp.data)
@@ -247,7 +266,7 @@ export default new Vuex.Store({
                 })
                 .finally(() => commit("tabDataDoneLoading"))
         },
-        async updateSummary({commit, state, dispatch}) {
+        async updateSummary({commit, state}) {
             commit("summaryLoading")
             return axios.post(summaryUrl, state.selectedScenario)
                 .then(r => {
@@ -259,24 +278,34 @@ export default new Vuex.Store({
 
         async setSubrs({commit, dispatch}, subrIssnls) {
             commit("setSubrs", subrIssnls)
-            await dispatch("updateSummary")
+            dispatch("updateSummary")
+            await dispatch("updateTabData")
             return true
         },
         async addSubr({commit, dispatch}, issnl) {
             commit("addSubr", issnl)
-            await dispatch("updateSummary")
+            dispatch("updateSummary")
+            await dispatch("updateTabData")
             return true
         },
         async removeSubr({commit, dispatch}, issnl) {
             commit("removeSubr", issnl)
-            await dispatch("updateSummary")
+            dispatch("updateSummary")
+            await dispatch("updateTabData")
             return true
         },
         async setConfig({commit, dispatch}, config) {
             commit("setConfig", config)
-            await dispatch("updateSummary")
+            dispatch("updateSummary")
+            await dispatch("updateTabData")
             return true
         },
+
+        async setTabData({commit, dispatch}, endpointName) {
+            commit("setTabDataEndPointName", endpointName)
+            await dispatch("updateTabData")
+            return true
+        }
 
 
     },
@@ -317,6 +346,21 @@ export default new Vuex.Store({
         config: (state) => (k) => {
             if (state.selectedScenario) {
                 return state.selectedScenario.configs[k]
+            }
+        },
+        journalViews(state) {
+            return journalViews
+        },
+
+        currentScenarioPage(state) {
+            const journalEndpoints = journalViews.map(v=>v.value)
+
+            if (['slider'].includes(state.tabDataEndpointName)) {
+                return "slider"
+            } else if (['share'].includes(state.tabDataEndpointName)) {
+                return 'share'
+            } else if (journalEndpoints.includes(state.tabDataEndpointName)) {
+                return 'journals'
             }
         }
 

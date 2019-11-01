@@ -2,13 +2,13 @@
     <v-container fluid class="pkg pa-0 ma-0" v-if="$store.state.selectedScenario">
 
 
-        <slider-tab :data="tabData"
-                    v-if="$store.state.scenarioTab==='slider'">
+        <slider-tab
+                    v-if="$store.getters.currentScenarioPage==='slider'">
         </slider-tab>
 
-        <journals-tab :data="tabData"
+        <journals-tab
                       @update="updateTabData"
-                      v-if="$store.state.scenarioTab==='journals'">
+                      v-if="$store.getters.currentScenarioPage==='journals'">
 
         </journals-tab>
 
@@ -40,36 +40,9 @@
         },
         data() {
             return {
-                scenario: null,
-                tabData: null,
-                baseUrl: "https://unpaywall-jump-api.herokuapp.com/scenario/{key}?package=demo",
-
-                summaryLoading: false,
-                tabLoading: false,
             }
         },
         methods: {
-            setTabData(tabName) {
-                console.log("setting tab data")
-            },
-            getPageData(){
-                this.updateTabData(this.activeTabName)
-            },
-            updateTabData(endpoint){
-                this.tabLoading = true
-                const url = this.baseUrl.replace("{key}", endpoint)
-                console.log("loading tab data", this.activeTabName)
-
-                axios.post(url, this.$store.state.selectedScenario)
-                    .then(resp => {
-                        this.tabData = resp.data
-                        console.log("got tab data", resp.data)
-                    })
-                    .catch(err => {
-                        console.log("got error from getPageData()", url, err)
-                    })
-                    .finally(()=>this.tabLoading=false)
-            }
         },
         computed: {
             count() {
@@ -79,14 +52,6 @@
             },
             pkg(){
                 return this.$store.getters.selectedPkg
-            },
-            activeTabName(){
-                return this.$store.state.scenarioTab
-            },
-            configs(){
-                if (this.$store.state.selectedScenario){
-                    return this.$store.state.selectedScenario.configs
-                }
             },
         },
         created(){
@@ -98,19 +63,12 @@
 
             this.$store.commit("selectPkg", pkgId)
             this.$store.commit("selectScenario", scenarioId)
+            this.$store.dispatch("setTabData", "slider")
+            this.$store.dispatch("updateSummary")
 
-            this.getPageData()
+
         },
         watch: {
-            activeTabName: function(to, from) {
-                this.tabData = null
-                this.getPageData()
-            },
-            "configs": {
-                deep: true,
-                handler: function(to){
-                }
-            }
         }
     }
 </script>

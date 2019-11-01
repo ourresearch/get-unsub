@@ -53,7 +53,7 @@
 
 <script>
     export default {
-        props: ["data", ],
+        props: [],
         name: "SliderTab",
         data() {
             return {
@@ -62,6 +62,9 @@
             }
         },
         computed: {
+            data(){
+                return this.$store.state.tabData
+            },
             cost() {
                 return .01 * this.costPercent * this.data._summary.cost_bigdeal_projected
             },
