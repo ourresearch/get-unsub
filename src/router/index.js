@@ -32,13 +32,6 @@ const routes = [
     },
     {
         path: "/a/:userId/:pkgId/:scenarioId",
-        meta: {requiresAuth: true},
-        redirect: to => {
-            return `/a/${to.params.userId}/${to.params.pkgId}/${to.params.scenarioId}/slider`
-        }
-    },
-    {
-        path: "/a/:userId/:pkgId/:scenarioId/:tabId",
         component: Scenario,
         meta: {requiresAuth: true},
     },

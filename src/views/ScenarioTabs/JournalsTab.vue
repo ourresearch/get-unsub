@@ -1,23 +1,57 @@
 <template>
-    <v-container fluid class="tab" v-if="data && data.journals">
+    <v-container fluid class="tab pa-0" v-if="data && data.journals">
         <v-row>
-            <v-col>
-                sum-up here
+            <v-col cols="2" class="pa-0">
+                <v-navigation-drawer class="pa-2">
+                        <v-list>
+                            <v-subheader>VIEWS</v-subheader>
+                            <v-list-item-group v-model="activeViewIndex">
+                                <v-list-item
+                                        @click="$emit('update', view.value)"
+                                        v-for="(view, i) in views"
+                                        :key="i"
+                                >
+<!--                                    <v-list-item-icon>-->
+<!--                                        <v-icon v-text="view.icon">{{view.icon}}</v-icon>-->
+<!--                                    </v-list-item-icon>-->
+
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="view.displayName"></v-list-item-title>
+                                    </v-list-item-content>
+
+                                </v-list-item>
+                            </v-list-item-group>
+                        </v-list>
+                    <v-divider></v-divider>
+                </v-navigation-drawer>
+
             </v-col>
-            <v-col v-for="(header, i) in data.headers" class="text-right">
-                <div class="main display-1">{{header.raw | round}}</div>
-                <div class="under subtitle-1">{{header.text}}</div>
-            </v-col>
-        </v-row>
-        <v-row>
-            <v-col cols="12">
+
+            <v-col cols="10">
+                <v-card>
+                    <v-card-text>
+                        <v-container fluid>
+                            <v-row>
+                                <v-col>
+                                    sum-up here
+                                </v-col>
+                                <v-col cols="2" v-for="(header, i) in data.headers" class="text-right">
+                                    <div class="main title">{{header.raw | round}}</div>
+                                    <div class="under subtitle-1">{{header.text}}</div>
+                                </v-col>
+                            </v-row>
+
+                        </v-container>
+
+                    </v-card-text>
+
+                </v-card>
                 <v-card>
                     <v-toolbar
                             color="gray"
                             dark
                             flat
                     >
-                        Journals: Institutional Value
                         <v-spacer></v-spacer>
                         <v-text-field
                                 v-model="search"
@@ -55,7 +89,9 @@
                                             </v-btn>
                                         </div>
                                         <div>
-                                            <div :style="{'font-weight': item.subscribed ? 'normal' : 'normal'}" style="font-size:18px;">{{item.title}}</div>
+                                            <div :style="{'font-weight': item.subscribed ? 'normal' : 'normal'}"
+                                                 style="font-size:18px;">{{item.title}}
+                                            </div>
                                             <div class="caption">{{item.subject}}</div>
 
                                         </div>
@@ -83,11 +119,21 @@
 
 <script>
     export default {
-        props: ["data", "scenario"],
+        props: ["data",],
         name: "JournalsTab",
         data() {
             return {
                 search: '',
+                views: [
+                    {value: "overview", displayName: "Overview", icon: "mdi-person"},
+                    {value: "fulfillment", displayName: "Fulfillment", icon: "mdi-person"},
+                    {value: "oa", displayName: "Open Access", icon: "mdi-person"},
+                    {value: "impact", displayName: "Impact", icon: "mdi-person"},
+                    {value: "costs", displayName: "Read cost", icon: "mdi-person"},
+                    {value: "apc", displayName: "APC cost", icon: "mdi-person"},
+                ],
+                activeViewIndex: 0,
+
             }
         },
         computed: {
@@ -112,18 +158,21 @@
                     ret.subscribed = j.meta.subscribed
                     return ret
                 })
+            },
+            activeView() {
+                return this.views[this.activeViewIndex]
             }
         },
         methods: {
-            subscribe(issnl){
+            subscribe(issnl) {
                 console.log("subscribe", issnl)
-                this.scenario.subrs.push(issnl)
-                this.$emit('update')
+                this.$store.dispatch("addSubr", issnl)
+                this.$emit('update', this.activeView)
             },
-            unsubscribe(issnl){
+            unsubscribe(issnl) {
                 console.log("UNsubscribe", issnl)
-                this.scenario.subrs = this.scenario.subrs.filter(j=>j !== issnl)
-                this.$emit('update')
+                this.$store.dispatch("removeSubr", issnl)
+                this.$emit('update', this.activeView)
             }
         }
     }

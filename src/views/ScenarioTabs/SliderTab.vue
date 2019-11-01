@@ -53,7 +53,7 @@
 
 <script>
     export default {
-        props: ["data", "scenario"],
+        props: ["data", ],
         name: "SliderTab",
         data() {
             return {
@@ -128,10 +128,13 @@
         methods: {
             sliderEnd(){
                 console.log("slider blur")
-                this.scenario.subrs = this.data.journals
+                const subrIssnls = this.data.journals
                     .filter(j=>j.subscribed)
                     .map(j=>j.issn_l)
-                console.log("subrs", this.subrs)
+                this.$store.dispatch("setSubrs", subrIssnls)
+                    .then(r=>{
+                        console.log("dispatch done i guess", r)
+                    })
             },
             updateJournals(){
                 if (!this.data) return
@@ -147,7 +150,7 @@
                 // subscribe to journals where subr is cheaper than ILL
                 this.data.journals.forEach(j => {
                     if (j.cost_subscription_minus_ill < 0) {
-                        j.subscribscenarioed = true
+                        j.subscribed = true
                         mySpendSoFar += j.cost_subscription_minus_ill
                     }
                 })
@@ -175,7 +178,7 @@
                 console.log("set journals")
                 // this.updateJournals()
                 this.data.journals.forEach(j=>{
-                    if (this.scenario.subrs.includes(j.issn_l)){
+                    if (this.$store.getters.subrs.includes(j.issn_l)){
                         j.subscribed = true
                     }
                     else {

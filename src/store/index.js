@@ -1,7 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
+
 
 Vue.use(Vuex)
+
+// https://www.npmjs.com/package/short-uuid
+const short = require('short-uuid');
+
 
 const demoConfigs = {
     cost_alacart_increase: 8,
@@ -22,7 +28,11 @@ const demoScenarios = [{
         id: "1",
         name: "My First Scenario",
         pkgId: "demo-pkg-123",
-        summary: {},
+        summary: {
+            cost_percent: 0,
+            use_instant_percent: 0,
+            num_journals_subscribed:0,
+        },
         subrs: [],
         customSubrs: [],
         configs: {...demoConfigs}
@@ -31,7 +41,11 @@ const demoScenarios = [{
         id: "2",
         name: "My Second Scenario",
         pkgId: "demo-pkg-123",
-        summary: {},
+        summary: {
+            cost_percent: 0,
+            use_instant_percent: 0,
+            num_journals_subscribed:0,
+        },
         subrs: [],
         customSubrs: [],
         configs: {...demoConfigs}
@@ -58,20 +72,38 @@ const demoUser = {
 
 // looks useful: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
 
+const summaryUrl = "https://unpaywall-jump-api.herokuapp.com/scenario/summary?package=demo"
+
 export default new Vuex.Store({
     state: {
         user: null,
+
+        summaryLoading: false,
+        tabLoading: false,
 
         authState: "ready",
         notSupportedMsgOpen: false,
 
         scenarios: [],
         selectedScenario: null,
+        scenarioTab: "slider",
 
         pkgs: [],
-        selectedPkg: null
+        selectedPkg: null,
+
+
+
     },
     mutations: {
+        // stuff stuff
+        summaryLoading(state){
+            state.summaryLoading = true
+        },
+        summaryDoneLoading(state){
+            state.summaryLoading = false
+        },
+
+
         // auth stuff
         authLoading(state) {
             state.authState = "loading"
@@ -124,6 +156,41 @@ export default new Vuex.Store({
         clearScenario(state) {
             state.selectedScenario = null
         },
+        saveScenario(state){
+            // fake saving this to the server
+            return new Promise((resolve, reject)=>{
+                setTimeout(function(){
+                    resolve()
+                }, 500)
+            })
+        },
+        setSubrs(state, subrIssnls){
+            state.selectedScenario.subrs = subrIssnls
+        },
+        addSubr(state, issnl){
+            if (!state.selectedScenario.subrs.includes(issnl)){
+                state.selectedScenario.subrs.push(issnl)
+            }
+        },
+        removeSubr(state, issnl){
+            this.state.selectedScenario.subrs = this.state.selectedScenario.subrs.filter(j=>j !== issnl)
+        },
+        setSummary(state, summary){
+            state.selectedScenario.summary = summary
+        },
+
+
+        // scenario UI stuff
+        setScenarioTab(state, name){
+            state.scenarioTab = name
+        },
+
+
+
+
+
+
+
     },
     actions: {
         login({commit}, userCreds) {
@@ -149,12 +216,42 @@ export default new Vuex.Store({
 
                 resolve()
             })
+        },
+        setSubrs({commit, state}, subrIssnls){
+            commit("setSubrs", subrIssnls)
+            commit("summaryLoading")
+            return axios.post(summaryUrl,state.selectedScenario)
+                .then(r=>{
+                    commit("setSummary", r.data._summary)
+                })
+                .finally(()=>commit("summaryDoneLoading"))
+        },
+        addSubr({commit, state}, issnl){
+            commit("addSubr", issnl)
+            commit("summaryLoading")
+            return axios.post(summaryUrl,state.selectedScenario)
+                .then(r=>{
+                    commit("setSummary", r.data._summary)
+                })
+                .finally(()=>commit("summaryDoneLoading"))
+        },
+        removeSubr({commit, state}, issnl){
+            commit("removeSubr", issnl)
+            commit("summaryLoading")
+            return axios.post(summaryUrl,state.selectedScenario)
+                .then(r=>{
+                    commit("setSummary", r.data._summary)
+                })
+                .finally(()=>commit("summaryDoneLoading"))
         }
+
+
+
     },
     modules: {},
     getters: {
         count: state => state.count,
-        isLoggedIn: state => !!state.account,
+        isLoggedIn: state => !!state.user,
         selectedPkg: state => {
             const myPkg = state.selectedPkg
             if (!myPkg) return null
@@ -167,7 +264,57 @@ export default new Vuex.Store({
         },
         selectedScenario(state) {
             return state.selectedScenario
+        },
+        summary(state){
+            if (state.selectedScenario){
+                return state.selectedScenario.summary
+            }
+        },
+        subrs(state){
+            if (state.selectedScenario){
+                return state.selectedScenario.subrs
+            }
+            else {
+                return []
+            }
         }
+
 
     }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,14 +3,12 @@
 
 <template>
     <div class="breadcrumbs">
-        <v-btn text :to="`/a/${account.id}`" active-class="">
-            <v-icon left>mdi-account</v-icon>
-            {{account.name}}
+        <v-btn icon small text :to="`/a/${account.id}`" active-class="">
+            <v-icon>mdi-account</v-icon>
         </v-btn>
         <v-icon v-if="selectedPkg">mdi-chevron-right</v-icon>
-        <v-btn v-if="selectedPkg" text :to="`/a/${account.id}/${selectedPkg.id}`">
-            <v-icon left>mdi-package-variant</v-icon>
-            {{selectedPkg.name}}
+        <v-btn icon small text v-if="selectedPkg" text :to="`/a/${account.id}/${selectedPkg.id}`">
+            <v-icon>mdi-package-variant</v-icon>
         </v-btn>
         <v-icon v-if="selectedScenario">mdi-chevron-right</v-icon>
         <v-btn v-if="selectedScenario" text>
