@@ -74,11 +74,9 @@
             <v-toolbar absolute width="100%">
                 <v-toolbar-title><v-icon small>mdi-pencil-outline</v-icon> Edit Configs</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-toolbar-item>
                     <v-btn icon text @click="drawerRight = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
-                </v-toolbar-item>
 
             </v-toolbar>
             <configs class="pt-4"></configs>

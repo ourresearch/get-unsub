@@ -16,8 +16,14 @@
                             <v-col cols="4">
                                 <div class="bar-wrapper">
                                     <div class="bar-fill"></div>
-                                    <div class="bar cost" :style="{height: subrCostPercent+'%'}">Subscription</div>
-                                    <div class="bar cost" :style="{height: illCostPercent +'%'}">ILL</div>
+                                    <div class="bar cost" :style="{height: subrCostPercent+'%'}">
+                                        <strong>{{subrCostPercent | round}}%</strong>
+                                        Subscription
+                                    </div>
+                                    <div class="bar cost" :style="{height: illCostPercent +'%'}">
+                                        <strong>{{illCostPercent | round}}%</strong>
+                                        ILL
+                                    </div>
                                 </div>
                             </v-col>
                         </v-row>
@@ -31,11 +37,26 @@
                         <v-row>
                             <v-col cols="4">
                                 <div class="bar-wrapper">
-                                    <div class="bar delayed bar-fill">other</div>
-                                    <div class="bar paid instant" :style="{height: usage.subr+'%'}">Subscription</div>
-                                    <div class="bar free instant" :style="{height: usage.oa+'%'}">OA</div>
-                                    <div class="bar free instant" :style="{height: usage.backfile+'%'}">Backfile</div>
-                                    <div class="bar free instant" :style="{height: usage.asn+'%'}">ASNs</div>
+                                    <div class="bar delayed bar-fill">
+                                        <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
+                                        Other
+                                    </div>
+                                    <div class="bar paid instant" :style="{height: usage.subr+'%'}">
+                                        <strong>{{usage.subr | round}}%</strong>
+                                        Subscription
+                                    </div>
+                                    <div class="bar free instant" :style="{height: usage.oa+'%'}">
+                                        <strong>{{usage.oa | round}}%</strong>
+                                        OA
+                                    </div>
+                                    <div class="bar free instant" :style="{height: usage.backfile+'%'}">
+                                        <strong>{{usage.backfile | round}}%</strong>
+                                        Backfile
+                                    </div>
+                                    <div class="bar free instant" :style="{height: usage.asn+'%'}">
+                                        <strong>{{usage.asn | round}}%</strong>
+                                        ASNs
+                                    </div>
                                 </div>
                             </v-col>
                         </v-row>
