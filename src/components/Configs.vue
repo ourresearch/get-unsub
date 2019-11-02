@@ -1,30 +1,57 @@
 <template>
     <div class="tab" v-if="$store.getters.configs">
+
         <v-list>
-            <config :key="myConfig.name" :data="myConfig" v-for="myConfig in configsList" @edit="edit"></config>
+                <v-list-item :key="myConfig.name"
+                             :data="myConfig"
+                             v-for="myConfig in configsList"
+                             v-model="selectedConfig"
+                             @click.stop="edit(myConfig.name)">
+                    <v-list-item-content class="body-2">
+                        {{myConfig.displayName}}
+                    </v-list-item-content>
 
-<!--            <v-subheader>Subscription costs</v-subheader>-->
-<!--            <config :data="configs.cost_bigdeal" @edit="edit"></config>-->
-<!--            <config :data="configs.cost_bigdeal_increase" @edit="edit"></config>-->
-<!--            <config :data="configs.cost_alacart_increase" @edit="edit"></config>-->
-<!--            <config :data="configs.cost_content_fee_percent" @edit="edit"></config>-->
-<!--            <v-divider></v-divider>-->
+                    <v-list-item-action class="font-weight-bold pl-2">
+                        <span class="percent" v-if="myConfig.display==='percent'">
+                            {{myConfig.value}}%
+                        </span>
+                        <span class="number" v-if="myConfig.display==='number'">
+                            {{myConfig.value}}
+                        </span>
+                        <span class="dollars" v-if="myConfig.display==='dollars'">
+                            {{myConfig.value | currency}}
+                        </span>
+                        <span class="boolean" v-if="myConfig.display==='boolean'">
+                            {{myConfig.value }}
+                        </span>
+                    </v-list-item-action>
 
-<!--            <v-subheader>ILL</v-subheader>-->
-<!--            <config :data="configs.cost_ill" @edit="edit"></config>-->
-<!--            <config :data="configs.ill_request_percent_of_delayed" @edit="edit"></config>-->
-<!--            <v-divider></v-divider>-->
 
-<!--            <v-subheader>Open Access</v-subheader>-->
-<!--            <config :data="configs.include_bronze" @edit="edit"></config>-->
-<!--            <config :data="configs.include_submitted_version" @edit="edit"></config>-->
-<!--            <config :data="configs.social_networks_percent" @edit="edit"></config>-->
-<!--            <v-divider></v-divider>-->
 
-<!--            <v-subheader>Institutional value</v-subheader>-->
-<!--            <config :data="configs.weight_citation" @edit="edit"></config>-->
-<!--            <config :data="configs.weight_authorship" @edit="edit"></config>-->
-<!--            <v-divider></v-divider>-->
+                </v-list-item>
+
+            <!--            <v-subheader>Subscription costs</v-subheader>-->
+            <!--            <config :data="configs.cost_bigdeal" @edit="edit"></config>-->
+            <!--            <config :data="configs.cost_bigdeal_increase" @edit="edit"></config>-->
+            <!--            <config :data="configs.cost_alacart_increase" @edit="edit"></config>-->
+            <!--            <config :data="configs.cost_content_fee_percent" @edit="edit"></config>-->
+            <!--            <v-divider></v-divider>-->
+
+            <!--            <v-subheader>ILL</v-subheader>-->
+            <!--            <config :data="configs.cost_ill" @edit="edit"></config>-->
+            <!--            <config :data="configs.ill_request_percent_of_delayed" @edit="edit"></config>-->
+            <!--            <v-divider></v-divider>-->
+
+            <!--            <v-subheader>Open Access</v-subheader>-->
+            <!--            <config :data="configs.include_bronze" @edit="edit"></config>-->
+            <!--            <config :data="configs.include_submitted_version" @edit="edit"></config>-->
+            <!--            <config :data="configs.social_networks_percent" @edit="edit"></config>-->
+            <!--            <v-divider></v-divider>-->
+
+            <!--            <v-subheader>Institutional value</v-subheader>-->
+            <!--            <config :data="configs.weight_citation" @edit="edit"></config>-->
+            <!--            <config :data="configs.weight_authorship" @edit="edit"></config>-->
+            <!--            <v-divider></v-divider>-->
         </v-list>
 
         <v-dialog v-if="configToEdit" v-model="showDialog" max-width="300">
@@ -66,7 +93,7 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn depressed @click="saveEdit" color="primary">Save</v-btn>
+                    <v-btn depressed @click="saveEdit" :loading="saving" color="primary">Save</v-btn>
                     <v-btn depressed @click="showDialog=false">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -187,7 +214,7 @@
         components: {Config},
         name: "ConfigsTab",
         data: () => ({
-            configToEdit: null,
+            configToEdit: 9999,
             showDialog: false,
             one: [
                 "cost_bigdeal",
@@ -195,6 +222,7 @@
                 "cost_alacart_increase",
                 "cost_content_fee_percent",
             ],
+            selectedConfig: null,
 
         }),
         computed: {
@@ -206,13 +234,16 @@
                 })
                 return ret
             },
-            configsList(){
-                return Object.keys(configsDisplay).map(k=>{
+            configsList() {
+                return Object.keys(configsDisplay).map(k => {
                     const newVal = this.$store.getters.config(k)
                     const ret = {...configsDisplay[k]}
                     ret.value = newVal
                     return ret
-                }).filter(c=>c.display)
+                }).filter(c => c.display)
+            },
+            saving() {
+                return this.$store.state.tabDataLoading
             }
         },
         methods: {
@@ -221,15 +252,20 @@
                 this.configToEdit = this.configs[k]
                 this.showDialog = true
             },
-            saveEdit(){
+            closeDialog() {
+                this.showDialog = false
+                this.configToEdit = 9999;
+
+            },
+            saveEdit() {
                 console.log("save this")
                 const config = {
                     k: this.configToEdit.name,
-                    v:this.configToEdit.value
+                    v: this.configToEdit.value
                 }
                 this.$store.dispatch("setConfig", config)
-                    .then(r=>{
-                        this.showDialog = false
+                    .then(r => {
+                        this.closeDialog()
                     })
             }
         }

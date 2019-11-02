@@ -2,12 +2,24 @@
     <v-app>
 
 
-        <v-app-bar elevate-on-scroll app clipped-right>
+        <v-app-bar elevate-on-scroll app>
             <v-toolbar-title class="headline">
                 <router-link to="/">
                     <img class="mt-3" style="height:35px;" src="./assets/logo.png" alt="">
                 </router-link>
             </v-toolbar-title>
+
+
+
+      <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        bottom
+        color="green"
+      ></v-progress-linear>
+
+
             <div class="logged-in pl-7" v-if="$store.getters.isLoggedIn">
                 <breadcrumbs></breadcrumbs>
             </div>
@@ -58,8 +70,18 @@
             </div>
         </v-app-bar>
 
-        <v-navigation-drawer dark v-model="drawerRight" app right clipped>
-            <configs></configs>
+        <v-navigation-drawer dark v-model="drawerRight" app right class="pt-12">
+            <v-toolbar absolute width="100%">
+                <v-toolbar-title><v-icon small>mdi-pencil-outline</v-icon> Edit Configs</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-toolbar-item>
+                    <v-btn icon text @click="drawerRight = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar-item>
+
+            </v-toolbar>
+            <configs class="pt-4"></configs>
 
 
         </v-navigation-drawer>
@@ -92,6 +114,9 @@
         computed: {
             summary() {
                 return this.$store.getters.summary
+            },
+            loading(){
+                return this.$store.state.tabDataLoading
             }
         }
     };

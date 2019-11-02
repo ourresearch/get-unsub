@@ -67,11 +67,10 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .summary {
-        &.loading {
-            opacity: .1;
-        }
+<style  lang="scss">
+    .tab.loading {
+        opacity: .5;
+        transition: opacity .25s ease-in-out;
     }
 
 </style>

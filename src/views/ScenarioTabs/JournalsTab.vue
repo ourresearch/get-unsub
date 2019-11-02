@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="tab" v-if="showMe">
+    <v-container fluid class="tab" v-if="showMe"  :class="{loading: loading}">
         <v-row>
             <v-col cols="2" class="py-0">
                 <v-navigation-drawer floating class="mt-2">
@@ -137,6 +137,9 @@
             },
             views(){
                 return this.$store.getters.journalViews
+            },
+            loading(){
+                return this.$store.state.tabDataLoading
             },
             tableHeaders() {
                 const metaHeaders = [

@@ -1,5 +1,5 @@
 <template>
-    <v-list-item>
+    <v-list-item @click.stop="$emit('edit', data.name)">
         <v-list-item-content class="body-2">
             {{data.displayName}}
         </v-list-item-content>
@@ -18,7 +18,7 @@
             </span>
         </v-list-item-action>
         <v-list-item-action>
-            <v-btn icon text @click.stop="$emit('edit', data.name)">
+            <v-btn icon text >
                 <v-icon small>mdi-pencil-outline</v-icon>
             </v-btn>
         </v-list-item-action>

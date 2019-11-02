@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="tab" v-if="showMe">
+    <v-container fluid class="tab" v-if="showMe" :class="{loading: loading}">
         <v-row>
             <v-col cols="8">
                 <v-row>
@@ -8,11 +8,12 @@
                             <v-col cols="1">
                                 <v-slider
                                         v-model="sliderPercent"
+                                        color="gray"
                                         vertical
                                         @end="sliderEnd"
                                 ></v-slider>
                             </v-col>
-                            <v-col cols="3">
+                            <v-col cols="4">
                                 <div class="bar-wrapper">
                                     <div class="bar-fill"></div>
                                     <div class="bar cost" :style="{height: subrCostPercent+'%'}">Subscription</div>
@@ -28,7 +29,7 @@
                     </v-col>
                     <v-col>
                         <v-row>
-                            <v-col cols="3">
+                            <v-col cols="4">
                                 <div class="bar-wrapper">
                                     <div class="bar delayed bar-fill">other</div>
                                     <div class="bar paid instant" :style="{height: usage.subr+'%'}">Subscription</div>
@@ -109,6 +110,9 @@
                     .filter(j=>!j.subscribed)
                     .map(j => j.cost_ill)
                     .reduce((a, b) => a + b, 0)
+            },
+            loading(){
+                return this.$store.state.tabDataLoading
             },
 
 
@@ -241,6 +245,7 @@
 </script>
 
 <style lang="scss">
+
     .v-slider--vertical {
         min-height: 400px !important;
         margin: 0 !important;
