@@ -62,29 +62,28 @@
             }
         },
         computed: {
-            data(){
+            data() {
                 return this.$store.state.tabData
             },
-            showMe(){
+            showMe() {
                 return this.$store.getters.currentScenarioPage === 'slider'
             },
             cost() {
                 return .01 * this.costPercent * this.data._summary.cost_bigdeal_projected
             },
-            costFromSubrs(){
-                const costs = this.data.journals.map(j=>{
-                    if (j.subscribed){
+            costFromSubrs() {
+                const costs = this.data.journals.map(j => {
+                    if (j.subscribed) {
                         return j.cost_subscription
-                    }
-                    else {
+                    } else {
                         return j.cost_ill
                     }
                 })
-                return costs.reduce((a,b)=>a+b)
+                return costs.reduce((a, b) => a + b)
             },
 
             subscribedJournals() {
-                return this.data.journals.filter(j=>!!j.subscribed)
+                return this.data.journals.filter(j => !!j.subscribed)
             },
             usage() {
                 const ret = {
@@ -95,60 +94,61 @@
                     otherDelayed: 0,
                     subr: 0,
                 }
-                this.data.journals.forEach(j=>{
+                this.data.journals.forEach(j => {
                     ret.oa += j.use_groups_free_instant.oa
                     ret.backfile += j.use_groups_free_instant.backfile
                     ret.asn += j.use_groups_free_instant.social_networks
 
-                    if (j.subscribed){
+                    if (j.subscribed) {
                         ret.subr += j.use_groups_if_subscribed.subscription
-                    }
-                    else {
+                    } else {
                         ret.ill += j.use_groups_if_not_subscribed.ill
                         ret.otherDelayed += j.use_groups_if_not_subscribed.other_delayed
                     }
                 })
-                const total = Object.values(ret).reduce((a,b)=>a+b) || 1
-                Object.keys(ret).forEach(k=>{
-                    ret[k] = 100 *  ret[k] / total
+                const total = Object.values(ret).reduce((a, b) => a + b) || 1
+                Object.keys(ret).forEach(k => {
+                    ret[k] = 100 * ret[k] / total
                 })
 
 
                 return ret
             },
-            instantUsage(){
+            instantUsage() {
                 const usage = this.usage
                 return usage.oa + usage.backfile + usage.asn + usage.subr
+            },
+            tabDataDigest() {
+                return this.$store.getters.tabDataDigest
             },
             instantUsagePercent() {
             },
             numSubr() {
                 return 0
             },
-            numJournals(){
+            numJournals() {
                 return this.data && this.data.journals.length
             }
 
 
         },
         methods: {
-            sliderEnd(){
+            sliderEnd() {
                 console.log("slider blur")
                 const subrIssnls = this.data.journals
-                    .filter(j=>j.subscribed)
-                    .map(j=>j.issn_l)
+                    .filter(j => j.subscribed)
+                    .map(j => j.issn_l)
                 this.$store.dispatch("setSubrs", subrIssnls)
-                    .then(r=>{
-                        console.log("dispatch done i guess", r)
+                    .then(r => {
                     })
             },
-            updateJournals(){
+            updateJournals() {
                 if (!this.data) return
 
                 const myMax = this.cost
 
                 // unsubscribe all
-                this.data.journals.forEach(j=>j.subscribed=false)
+                this.data.journals.forEach(j => j.subscribed = false)
 
                 // ILL cost must be paid regardless
                 let mySpendSoFar = this.data.journals.map(j => j.cost_ill).reduce((a, b) => a + b)
@@ -169,32 +169,34 @@
                     }
                 })
             },
-            setCostPercentFromJournals(){
-                console.log("getting setCostPercentFromJournals")
+            setCostPercentFromJournals() {
                 this.costPercent = 100 * this.costFromSubrs / this.data._summary.cost_bigdeal_projected
             }
         },
-        mounted(){
+        mounted() {
 
         },
         watch: {
-            costPercent: function(to, from){
+            costPercent: function (to, from) {
                 console.log("cost percent changed")
                 this.updateJournals()
             },
-            numJournals: function(to, from){
-                console.log("numJournals changed")
-                // this.updateJournals()
-                this.data.journals.forEach(j=>{
-                    if (this.$store.getters.subrs.includes(j.issn_l)){
-                        j.subscribed = true
-                    }
-                    else {
-                        j.subscribed = false
-                    }
-                })
-                this.setCostPercentFromJournals()
-            }
+            'tabDataDigest': {
+                deep: false,
+                handler: function (to, from) {
+                    console.log("summary changed", to)
+                    if (!this.data || !this.data.journals) return
+                    this.data.journals.forEach(j => {
+                        if (this.$store.getters.subrs.includes(j.issn_l)) {
+                            j.subscribed = true
+                        } else {
+                            j.subscribed = false
+                        }
+                    })
+                    this.setCostPercentFromJournals()
+                }
+            },
+
 
         }
     }
@@ -221,12 +223,15 @@
             border-top: 1px solid #eee;
             font-size: 12px;
             color: #fff;
+
             &.cost {
                 background: #555;
             }
+
             &.free {
                 background: green;
             }
+
             &.paid.instant {
                 background: dodgerblue;
             }

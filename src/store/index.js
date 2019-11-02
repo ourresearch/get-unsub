@@ -104,6 +104,7 @@ export default new Vuex.Store({
         selectedPkg: null,
 
         tabData: null,
+        tabDataDigest: "",
         tabDataEndpointName: "slider",
 
 
@@ -215,6 +216,8 @@ export default new Vuex.Store({
 
         setTabData(state, newTabData) {
             state.tabData = newTabData
+            state.tabDataDigest = Object.values(newTabData._summary).join()
+            console.log("setting tab data", newTabData, state.tabDataDigest)
         },
 
 
@@ -338,6 +341,9 @@ export default new Vuex.Store({
             if (state.selectedScenario) {
                 return state.selectedScenario.summary
             }
+        },
+        tabDataDigest(state) {
+            return state.tabDataDigest
         },
         subrs(state) {
             if (state.selectedScenario) {
