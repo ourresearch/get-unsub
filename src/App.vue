@@ -2,7 +2,7 @@
     <v-app>
 
 
-        <v-app-bar elevate-on-scroll app>
+        <v-app-bar  app>
             <v-toolbar-title class="headline">
                 <router-link to="/">
                     <img class="mt-3" style="height:35px;" src="./assets/logo.png" alt="">

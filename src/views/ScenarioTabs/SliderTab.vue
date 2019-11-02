@@ -1,6 +1,20 @@
 <template>
     <v-container fluid class="tab" v-if="showMe" :class="{loading: loading}">
         <v-row>
+            <v-col cols="4">
+                {{ subscribedJournals.length }} subscribed journals
+                total usage {{totalUsage}}
+                <div>
+                    <div v-for="journal in data.journals"
+                         :key="journal.title"
+                         class="journal-dot"
+                         :class="{subscribed: journal.subscribed}"
+                            style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
+
+                    </div>
+
+                </div>
+            </v-col>
             <v-col cols="8">
                 <v-row>
                     <v-col>
@@ -67,10 +81,7 @@
                     </v-col>
                 </v-row>
             </v-col>
-            <v-col cols="4">
-                {{ subscribedJournals.length }} subscribed journals
-                total usage {{totalUsage}}
-            </v-col>
+
         </v-row>
 
     </v-container>
@@ -99,15 +110,15 @@
                 // i think maybe this is garbage...
                 return .01 * (this.subrCostPercent + this.illCostPercent) * this.data._summary.cost_bigdeal_projected
             },
-            costFromSlider(){
+            costFromSlider() {
                 const sliderCost = .01 * this.sliderPercent * this.data._summary.cost_bigdeal_projected
                 return sliderCost
                 return Math.max(sliderCost, this.illCost)
             },
-            subrCostPercent(){
+            subrCostPercent() {
                 return 100 * this.subrCost / this.data._summary.cost_bigdeal_projected
             },
-            illCostPercent(){
+            illCostPercent() {
                 return 100 * this.illCost / this.data._summary.cost_bigdeal_projected
             },
             costFromSubrs() {
@@ -120,19 +131,19 @@
                 })
                 return costs.reduce((a, b) => a + b)
             },
-            subrCost(){
+            subrCost() {
                 return this.data.journals
-                    .filter(j=>!!j.subscribed)
+                    .filter(j => !!j.subscribed)
                     .map(j => j.cost_subscription)
                     .reduce((a, b) => a + b, 0)
             },
-            illCost(){
+            illCost() {
                 return this.data.journals
-                    .filter(j=>!j.subscribed)
+                    .filter(j => !j.subscribed)
                     .map(j => j.cost_ill)
                     .reduce((a, b) => a + b, 0)
             },
-            loading(){
+            loading() {
                 return this.$store.state.tabDataLoading
             },
 
@@ -190,7 +201,7 @@
         methods: {
             sliderEnd() {
                 console.log("slider blur")
-                if (this.sliderPercent < this.illCostPercent){
+                if (this.sliderPercent < this.illCostPercent) {
                     this.sliderPercent = this.illCostPercent
                 }
                 const subrIssnls = this.data.journals
@@ -227,8 +238,7 @@
                     mySpendSoFar += j.cost_subscription_minus_ill
                     if (mySpendSoFar <= myMax) {
                         j.subscribed = true
-                    }
-                    else {
+                    } else {
                         j.subscribed = false
                     }
                 })
@@ -256,7 +266,7 @@
                     if (!this.data || !this.data._summary) return
                     // this.illCost = this.data._summary.cost_scenario_ill
                     // this.subrCost = this.data._summary.cost_scenario_subscription
-                    this.sliderPercent = 100 * (this.illCost+this.subrCost) / this.data._summary.cost_bigdeal_projected
+                    this.sliderPercent = 100 * (this.illCost + this.subrCost) / this.data._summary.cost_bigdeal_projected
                 }
             },
 
@@ -266,6 +276,13 @@
 </script>
 
 <style lang="scss">
+
+    .journal-dot {
+        background: #ccc;
+        &.subscribed {
+            background: dodgerblue;
+        }
+    }
 
     .v-slider--vertical {
         min-height: 400px !important;
