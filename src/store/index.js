@@ -47,20 +47,7 @@ const demoScenarios = [{
     subrs: [],
     customSubrs: [],
     configs: {...demoConfigs}
-},
-    {
-        id: "2",
-        name: "My Second Scenario",
-        pkgId: "demo-pkg-123",
-        summary: {
-            cost_percent: 0,
-            use_instant_percent: 0,
-            num_journals_subscribed: 0,
-        },
-        subrs: [],
-        customSubrs: [],
-        configs: {...demoConfigs}
-    },
+}
 ]
 
 const demoPkgs = [
@@ -172,6 +159,7 @@ export default new Vuex.Store({
         setConfig(state, config) {
             state.selectedScenario.configs[config.k] = config.v
 
+            // @todo: wtf is this? i think ununsed. i hope.
             state.obj = {
                 ...state.selectedScenario.configs,
                 [config.k]: config.v
@@ -214,7 +202,8 @@ export default new Vuex.Store({
             this.state.selectedScenario.subrs = this.state.selectedScenario.subrs.filter(j => j !== issnl)
         },
         setSummary(state, summary) {
-            state.selectedScenario.summary = summary
+            // state.selectedScenario.summary = summary
+            Vue.set(state.selectedScenario, "summary", summary)
         },
 
         setTabData(state, newTabData) {

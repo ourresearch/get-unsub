@@ -46,10 +46,15 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        store.dispatch("loginDemo")
-            .then(resp => {
-                next()
-            })
+        if (!store.getters.isLoggedIn) {
+            store.dispatch("loginDemo")
+                .then(resp => {
+                    next()
+                })
+        }
+        else {
+            next()
+        }
     }
     else {
         next()

@@ -10,6 +10,7 @@
                 <v-simple-table>
                     <thead>
                     <tr>
+                        <th class="text-left"></th>
                         <th class="text-left">Name</th>
                         <th class="text-left">Subscribed journals</th>
                         <th class="text-left">Cost</th>
@@ -21,10 +22,21 @@
                         :key="scenario.id"
                         @click="$router.push(`/a/${account.id}/${pkg.id}/${scenario.id}`)"
                         style="cursor:pointer;">
+                        <td>
+                            <v-btn icon flat>
+                                <v-icon>mdi-content-copy</v-icon>
+                            </v-btn>
+                            <v-btn icon text>
+                                <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                        </td>
                         <td>{{ scenario.name }}</td>
                         <td>{{ scenario.subrs.length }}</td>
-                        <td>{{ scenario.cost }}</td>
-                        <td>{{ scenario.percentInstantAccess }}%</td>
+                        <td>
+                            {{ scenario.summary.cost_scenario | currency }}
+                            ({{ scenario.summary.cost_percent | round(1) }}%)
+                        </td>
+                        <td>{{ scenario.summary.use_free_instant_percent }}%</td>
                     </tr>
                     </tbody>
                 </v-simple-table>
