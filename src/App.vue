@@ -2,7 +2,7 @@
     <v-app>
 
 
-        <v-app-bar  app>
+        <v-app-bar app>
             <v-toolbar-title class="headline">
                 <router-link to="/">
                     <img class="mt-3" style="height:35px;" src="./assets/logo.png" alt="">
@@ -23,7 +23,7 @@
                     class="ml-8"
                     inset
                     vertical
-                     v-if="$store.getters.isLoggedIn"
+                    v-if="$store.getters.isLoggedIn"
             ></v-divider>
             <div class="logged-in pl-7" v-if="$store.getters.isLoggedIn">
                 <breadcrumbs></breadcrumbs>
@@ -47,7 +47,7 @@
                     class="mx-4"
                     inset
                     vertical
-                     v-if="$store.getters.isLoggedIn"
+                    v-if="$store.getters.isLoggedIn"
             ></v-divider>
 
             <div class="logged-in" v-if="$store.getters.isLoggedIn">
@@ -114,6 +114,29 @@
             <v-btn text @click="$store.commit('closeNotSupportedMsg')">close</v-btn>
         </v-snackbar>
 
+
+        <v-dialog v-model="$store.state.singleJournalId" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-card>
+                <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="clearSingleJournal">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Single Journal</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+<!--                        <v-btn dark text @click="dialog = false">Save</v-btn>-->
+                    </v-toolbar-items>
+                </v-toolbar>
+                <v-card-text>
+                    <code>
+                    <pre>{{$store.state.singleJournalData}}</pre>
+
+                    </code>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
+
+
     </v-app>
 </template>
 
@@ -133,7 +156,20 @@
             },
             loading() {
                 return this.$store.state.tabDataLoading
-            }
+            },
+            singleJournalIssnl(){
+                return this.$store.state.singleJournalIssnl
+            },
+            singleJournalData(){
+                return this.$store.state.singleJournalData
+            },
+
+        },
+        methods: {
+            clearSingleJournal(){
+                console.log("clear single journal")
+                this.$store.commit('clearSingleJournal')
+            },
         }
     };
 </script>

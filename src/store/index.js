@@ -107,6 +107,9 @@ export default new Vuex.Store({
         tabDataDigest: "",
         tabDataEndpointName: "slider",
 
+        singleJournalData: null,
+        singleJournalId: null,
+
 
     },
     mutations: {
@@ -227,6 +230,19 @@ export default new Vuex.Store({
         },
         setScenarioPageName(state, name) {
             state.scenarioPageName = name
+        },
+
+        // single journal stuff
+        setSingleJournalData(state, data){
+            state.singleJournalData = data
+        },
+        setSingleJournalId(state, issnl){
+            state.singleJournalId = issnl
+        },
+        clearSingleJournal(state){
+            state.singleJournalId = null
+            state.singleJournalData = null
+
         }
 
 
@@ -317,6 +333,25 @@ export default new Vuex.Store({
             await dispatch("updateTabData")
             return true
         },
+
+        async openSingleJournal({commit, state, dispatch}, issnl){
+            console.log("open single journal", issnl)
+            commit("setSingleJournalId", issnl)
+
+            const url = "https://unpaywall-jump-api.herokuapp.com/journal/issn_l/" + issnl
+            return axios.post(url, state.selectedScenario)
+                .then(resp => {
+                    commit("setSingleJournalData", resp.data)
+                    console.log("set the single journal data", resp.data)
+                })
+                .catch(err => {
+                    console.log("got error from openSingleJournal()", url, err)
+                })
+
+
+        },
+
+
 
 
     },

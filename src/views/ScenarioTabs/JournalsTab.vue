@@ -72,8 +72,8 @@
                             :must-sort="true"
 
                     >
-                        <template v-slot:item="{ item }">
-                            <tr :class="{subscribed: item.subscribed}">
+                        <template  v-slot:item="{ item }">
+                            <tr @click="openSingleJournal(item.issnl)" :class="{subscribed: item.subscribed}">
                                 <td>
                                     <div class="py-2">
                                         <div class="float-left mr-2">
@@ -175,6 +175,10 @@
             unsubscribe(issnl) {
                 console.log("UNsubscribe", issnl)
                 this.$store.dispatch("removeSubr", issnl)
+            },
+            openSingleJournal(issnl){
+                console.log("@click on openSingleJournal()", issnl)
+                this.$store.dispatch('openSingleJournal', issnl)
             }
         }
     }

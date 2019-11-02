@@ -6,7 +6,8 @@
                 total usage {{totalUsage}}
                 <div>
                     <div v-for="journal in data.journals"
-                         :key="journal.title"
+                         :key="journal.issn_l"
+                         @click="$store.dispatch('openSingleJournal', journal.issn_l)"
                          class="journal-dot"
                          :class="{subscribed: journal.subscribed}"
                             style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
