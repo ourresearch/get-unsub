@@ -37,18 +37,21 @@
                         <v-text-field
                                 v-if="configToEdit.display==='dollars'"
                                 outlined
+                                @keydown.enter="saveEdit"
                                 prepend-inner-icon="mdi-currency-usd"
                                 v-model="configToEdit.value"
                         ></v-text-field>
                         <v-text-field
                                 v-if="configToEdit.display==='percent'"
                                 outlined
+                                @keydown.enter="saveEdit"
                                 append-icon="mdi-percent"
                                 v-model="configToEdit.value"
                         ></v-text-field>
                         <v-text-field
                                 v-if="configToEdit.display==='number'"
                                 outlined
+                                @keydown.enter="saveEdit"
                                 v-model="configToEdit.value"
                         ></v-text-field>
                         <v-switch

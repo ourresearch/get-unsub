@@ -7,27 +7,30 @@
                         <v-row>
                             <v-col cols="1">
                                 <v-slider
-                                        v-model="costPercent"
+                                        v-model="sliderPercent"
                                         vertical
                                         @end="sliderEnd"
                                 ></v-slider>
                             </v-col>
-                            <v-col cols="2">
+                            <v-col cols="3">
                                 <div class="bar-wrapper">
                                     <div class="bar-fill"></div>
-                                    <div class="bar cost" :style="{height: costPercent+'%'}"></div>
+                                    <div class="bar cost" :style="{height: subrCostPercent+'%'}">Subscription</div>
+                                    <div class="bar cost" :style="{height: illCostPercent +'%'}">ILL</div>
                                 </div>
                             </v-col>
                         </v-row>
                         <v-row>
                             {{this.cost | currency}}
                         </v-row>
+                        <v-row>{{illCost | currency}}</v-row>
+                        <v-row>subr cost {{subrCost}}</v-row>
                     </v-col>
                     <v-col>
                         <v-row>
-                            <v-col cols="4">
+                            <v-col cols="3">
                                 <div class="bar-wrapper">
-                                    <div class="bar delayed bar-fill">delayed</div>
+                                    <div class="bar delayed bar-fill">other</div>
                                     <div class="bar paid instant" :style="{height: usage.subr+'%'}">Subscription</div>
                                     <div class="bar free instant" :style="{height: usage.oa+'%'}">OA</div>
                                     <div class="bar free instant" :style="{height: usage.backfile+'%'}">Backfile</div>
@@ -57,8 +60,10 @@
         name: "SliderTab",
         data() {
             return {
-                costPercent: 0,
+                sliderPercent: 0,
                 totalUsage: 0,
+                // subrCost:0,
+                // illCost: 0,
             }
         },
         computed: {
@@ -69,7 +74,19 @@
                 return this.$store.getters.currentScenarioPage === 'slider'
             },
             cost() {
-                return .01 * this.costPercent * this.data._summary.cost_bigdeal_projected
+                // i think maybe this is garbage...
+                return .01 * (this.subrCostPercent + this.illCostPercent) * this.data._summary.cost_bigdeal_projected
+            },
+            costFromSlider(){
+                const sliderCost = .01 * this.sliderPercent * this.data._summary.cost_bigdeal_projected
+                return sliderCost
+                return Math.max(sliderCost, this.illCost)
+            },
+            subrCostPercent(){
+                return 100 * this.subrCost / this.data._summary.cost_bigdeal_projected
+            },
+            illCostPercent(){
+                return 100 * this.illCost / this.data._summary.cost_bigdeal_projected
             },
             costFromSubrs() {
                 const costs = this.data.journals.map(j => {
@@ -81,6 +98,19 @@
                 })
                 return costs.reduce((a, b) => a + b)
             },
+            subrCost(){
+                return this.data.journals
+                    .filter(j=>!!j.subscribed)
+                    .map(j => j.cost_subscription)
+                    .reduce((a, b) => a + b, 0)
+            },
+            illCost(){
+                return this.data.journals
+                    .filter(j=>!j.subscribed)
+                    .map(j => j.cost_ill)
+                    .reduce((a, b) => a + b, 0)
+            },
+
 
             subscribedJournals() {
                 return this.data.journals.filter(j => !!j.subscribed)
@@ -128,13 +158,16 @@
             },
             numJournals() {
                 return this.data && this.data.journals.length
-            }
+            },
 
 
         },
         methods: {
             sliderEnd() {
                 console.log("slider blur")
+                if (this.sliderPercent < this.illCostPercent){
+                    this.sliderPercent = this.illCostPercent
+                }
                 const subrIssnls = this.data.journals
                     .filter(j => j.subscribed)
                     .map(j => j.issn_l)
@@ -145,13 +178,13 @@
             updateJournals() {
                 if (!this.data) return
 
-                const myMax = this.cost
+                const myMax = this.costFromSlider
 
                 // unsubscribe all
                 this.data.journals.forEach(j => j.subscribed = false)
 
                 // ILL cost must be paid regardless
-                let mySpendSoFar = this.data.journals.map(j => j.cost_ill).reduce((a, b) => a + b)
+                let mySpendSoFar = this.data.journals.map(j => j.cost_ill).reduce((a, b) => a + b, 0)
 
                 // subscribe to journals where subr is cheaper than ILL
                 this.data.journals.forEach(j => {
@@ -161,23 +194,33 @@
                     }
                 })
 
+                if (mySpendSoFar >= myMax) return
+
+
                 // subscribe to as many other journals as we can afford
                 this.data.journals.forEach(j => {
                     mySpendSoFar += j.cost_subscription_minus_ill
                     if (mySpendSoFar <= myMax) {
                         j.subscribed = true
                     }
+                    else {
+                        j.subscribed = false
+                    }
                 })
+
+                // set the subrCost
+                // this.subrCost = this.data.journals
+                //     .filter(j=>j.subscribed)
+                //     .map(j => j.cost_subscription_minus_ill)
+                //     .reduce((a, b) => a + b, 0)
+
             },
-            setCostPercentFromJournals() {
-                this.costPercent = 100 * this.costFromSubrs / this.data._summary.cost_bigdeal_projected
-            }
         },
         mounted() {
 
         },
         watch: {
-            costPercent: function (to, from) {
+            sliderPercent: function (to, from) {
                 console.log("cost percent changed")
                 this.updateJournals()
             },
@@ -185,15 +228,10 @@
                 deep: false,
                 handler: function (to, from) {
                     console.log("summary changed", to)
-                    if (!this.data || !this.data.journals) return
-                    this.data.journals.forEach(j => {
-                        if (this.$store.getters.subrs.includes(j.issn_l)) {
-                            j.subscribed = true
-                        } else {
-                            j.subscribed = false
-                        }
-                    })
-                    this.setCostPercentFromJournals()
+                    if (!this.data || !this.data._summary) return
+                    // this.illCost = this.data._summary.cost_scenario_ill
+                    // this.subrCost = this.data._summary.cost_scenario_subscription
+                    this.sliderPercent = 100 * (this.illCost+this.subrCost) / this.data._summary.cost_bigdeal_projected
                 }
             },
 
@@ -204,13 +242,13 @@
 
 <style lang="scss">
     .v-slider--vertical {
-        min-height: 500px !important;
+        min-height: 400px !important;
         margin: 0 !important;
     }
 
     .bar-wrapper {
         height: 100%;
-        min-height: 500px;
+        min-height: 400px;
         display: flex;
         flex-direction: column;
 
