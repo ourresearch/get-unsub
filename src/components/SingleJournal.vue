@@ -6,7 +6,7 @@
                 <v-btn icon dark @click="clearSingleJournal">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-toolbar-title>Single Journal</v-toolbar-title>
+                <v-toolbar-title>{{journal && journal.top.title}}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items>
                     <!--                        <v-btn dark text @click="dialog = false">Save</v-btn>-->
@@ -33,6 +33,7 @@
 
                         <div>Publisher: {{journal.top.publisher}}</div>
                         <div>Subject: {{journal.top.subject}}</div>
+                        <div>Avg annual output: {{journal.top.num_papers}} papers</div>
                         <div>Society journal:
                             <span v-if="journal.top.is_society_journal">yes</span>
                             <span v-if="!journal.top.is_society_journal">no</span>
@@ -45,6 +46,12 @@
                         </div>
                     </div>
 
+                    <v-alert type="info" text>
+                        All the figures below are for the <em>current scenario</em> as defined in your configs and
+                        subscriptions.
+                    </v-alert>
+
+
                     <v-card class="my-4">
                         <v-card-title>
                             Fulfillment
@@ -56,13 +63,28 @@
                                 hide-default-footer
                         >
                         </v-data-table>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            Notes:
+                            <ul>
+                                <li>Backfile is only content that’s not otherwise available as oa</li>
+                                <li>ASN is only content that’s not otherwise available as oa or backfile.</li>
+                            </ul>
+                        </v-card-text>
 
                     </v-card>
 
 
                     <v-card class="my-4">
                         <v-card-title>
-                            Open Access
+                            <div>
+                                <div>Open Access</div>
+                                <div class="body-1" v-if="journal.oa.oa_embargo_months">
+                                    <strong>Delayed OA ({{journal.oa.oa_embargo_months}}mo):</strong> this journal makes
+                                    back content available after an embargo of ({{journal.oa.oa_embargo_months}} months.
+                                </div>
+
+                            </div>
                         </v-card-title>
                         <v-data-table
                                 :headers="journal.oa.headers"
@@ -71,21 +93,19 @@
                                 hide-default-footer
                         >
                         </v-data-table>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            Notes:
+                            <ul>
+                                <li>green is only content that’s not otherwise available as hybrid or bronze</li>
+                            </ul>
+                        </v-card-text>
                     </v-card>
 
                     <v-card class="my-4">
                         <v-card-title>
                             Impact
                         </v-card-title>
-                        <v-card-text>
-                            <v-alert
-                                    outlined
-                                    type="info"
-                            >
-                                Praesent venenatis metus at tortor pulvinar varius. Aenean commodo ligula eget dolor.
-                                Praesent ac massa at ligula laoreet iaculis. Vestibulum ullamcorper mauris at ligula.
-                            </v-alert>
-                        </v-card-text>
                         <v-data-table
                                 :headers="journal.impact.headers"
                                 :items="journal.impact.data"
@@ -101,13 +121,8 @@
                             Subscription cost
                         </v-card-title>
                         <v-card-text>
-                            <v-alert
-                                    outlined
-                                    type="info"
-                            >
-                                Praesent venenatis metus at tortor pulvinar varius. Aenean commodo ligula eget dolor.
-                                Praesent ac massa at ligula laoreet iaculis. Vestibulum ullamcorper mauris at ligula.
-                            </v-alert>
+                            <span v-if="journal.cost.subscribed">You are currently subscribed to this journal.</span>
+                            <span v-if="!journal.cost.subscribed">You are currently <em>not</em> subscribed to this journal.</span>
                         </v-card-text>
                         <v-data-table
                                 :headers="journal.cost.headers"
@@ -123,24 +138,38 @@
                         <v-card-title>
                             APC cost
                         </v-card-title>
+
                         <v-card-text>
-                            <v-alert
-                                    outlined
-                                    type="info"
-                            >
-                                Praesent venenatis metus at tortor pulvinar varius. Aenean commodo ligula eget dolor.
-                                Praesent ac massa at ligula laoreet iaculis. Vestibulum ullamcorper mauris at ligula.
-                            </v-alert>
+                            <div>
+                                Your institution's historical fractional authorship in this journal: <strong>{{
+                                journal.apc.fractional_authorship || "none found" }}</strong>
+                            </div>
+                            <div>
+                                This journal's APC price: <strong>{{ journal.apc.apc_price || "none found"}}</strong>
+                            </div>
+                            <div>
+                                Adjusted APC spend from authors at your institution: <strong>{{
+                                journal.apc.cost_apc_historical || "none found" }}</strong>
+                            </div>
                         </v-card-text>
                         <v-divider></v-divider>
                     </v-card>
 
 
-                    <div>
-                        <pre>
-                            {{journal}}
-                        </pre>
-                    </div>
+                    <v-card>
+                        <v-card-title>
+                            <v-switch
+                                    color="primary"
+                                    v-model="showApi"
+                            ></v-switch>
+                            API response
+                        </v-card-title>
+                        <v-card-text v-if="showApi">
+                            <pre>
+                                {{journal}}
+                            </pre>
+                        </v-card-text>
+                    </v-card>
 
 
                 </div>
@@ -156,6 +185,7 @@
         data: () => ({
             drawerRight: false,
             switch: false,
+            showApi: false,
         }),
         computed: {
             summary() {
