@@ -1,13 +1,13 @@
 <template>
-    <v-container fluid class="tab" v-if="showMe" :class="{loading: loading}">
+    <v-container  class="tab" v-if="showMe" :class="{loading: loading}">
         <v-row>
-            <v-col cols="8">
+            <v-col cols="7">
                 {{ subscribedJournals.length }} subscribed journals
                 total usage {{totalUsage}}
                 <div>
                     <div v-for="journal in journalsBySubject"
                          :key="journal.issn_l"
-                         @click="$store.dispatch('openSingleJournal', journal.issn_l)"
+                         @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
                          class="journal-dot"
                          :class="{subscribed: journal.subscribed}"
                          style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
@@ -16,6 +16,7 @@
 
                 </div>
             </v-col>
+            <v-spacer></v-spacer>
             <v-col cols="4">
                 <v-row>
                     <v-col cols="1">
