@@ -1,84 +1,90 @@
 <template>
     <v-container fluid class="tab" v-if="showMe" :class="{loading: loading}">
         <v-row>
-            <v-col cols="4">
+            <v-col cols="8">
                 {{ subscribedJournals.length }} subscribed journals
                 total usage {{totalUsage}}
                 <div>
-                    <div v-for="journal in data.journals"
+                    <div v-for="journal in journalsBySubject"
                          :key="journal.issn_l"
                          @click="$store.dispatch('openSingleJournal', journal.issn_l)"
                          class="journal-dot"
                          :class="{subscribed: journal.subscribed}"
-                            style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
+                         style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
 
                     </div>
 
                 </div>
             </v-col>
-            <v-col cols="8">
+            <v-col cols="4">
                 <v-row>
-                    <v-col>
-                        <v-row>
-                            <v-col cols="1">
-                                <v-slider
-                                        v-model="sliderPercent"
-                                        color="gray"
-                                        vertical
-                                        @end="sliderEnd"
-                                ></v-slider>
-                            </v-col>
-                            <v-col cols="4">
-                                <div class="bar-wrapper">
-                                    <div class="bar-fill"></div>
-                                    <div class="bar cost" :style="{height: subrCostPercent+'%'}">
-                                        <strong>{{subrCostPercent | round}}%</strong>
-                                        Subscription
-                                    </div>
-                                    <div class="bar cost" :style="{height: illCostPercent +'%'}">
-                                        <strong>{{illCostPercent | round}}%</strong>
-                                        ILL
-                                    </div>
-                                </div>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            {{this.cost | currency}}
-                        </v-row>
-                        <v-row>{{illCost | currency}}</v-row>
-                        <v-row>subr cost {{subrCost}}</v-row>
+                    <v-col cols="1">
+                        <v-slider
+                                v-model="sliderPercent"
+                                color="gray"
+                                vertical
+                                @end="sliderEnd"
+                        ></v-slider>
                     </v-col>
-                    <v-col>
-                        <v-row>
-                            <v-col cols="4">
-                                <div class="bar-wrapper">
-                                    <div class="bar delayed bar-fill">
-                                        <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
-                                        Other
-                                    </div>
-                                    <div class="bar paid instant" :style="{height: usage.subr+'%'}">
-                                        <strong>{{usage.subr | round}}%</strong>
-                                        Subscription
-                                    </div>
-                                    <div class="bar free instant" :style="{height: usage.oa+'%'}">
-                                        <strong>{{usage.oa | round}}%</strong>
-                                        OA
-                                    </div>
-                                    <div class="bar free instant" :style="{height: usage.backfile+'%'}">
-                                        <strong>{{usage.backfile | round}}%</strong>
-                                        Backfile
-                                    </div>
-                                    <div class="bar free instant" :style="{height: usage.asn+'%'}">
-                                        <strong>{{usage.asn | round}}%</strong>
-                                        ASNs
-                                    </div>
-                                </div>
-                            </v-col>
-                        </v-row>
-                        <v-row>
+                    <v-col class="currency-area">
+                        <div class="bar-wrapper">
+                            <div class="bar-fill"></div>
+                            <div class="bar cost" :style="{height: subrCostPercent+'%'}">
+                                <strong>{{subrCostPercent | round}}%</strong>
+                                Subscription
+                            </div>
+                            <div class="bar cost" :style="{height: illCostPercent +'%'}">
+                                <strong>{{illCostPercent | round}}%</strong>
+                                ILL
+                            </div>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td class="num font-weight-bold  text-right pr-2">
+                                    {{(subrCostPercent+illCostPercent) | round}}%
+                                </td>
+                                <td class="">
+                                    Big Deal cost
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="main  text-right pr-2">
+                                    {{this.cost | currency}}
+                                </td>
+                                <td class="">
+                                    total cost
+                                </td>
+                            </tr>
+                        </table>
+                    </v-col>
+
+                    <v-col class="usage-area">
+                        <div class="bar-wrapper">
+                            <div class="bar delayed bar-fill">
+                                <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
+                                Other
+                            </div>
+                            <div class="bar paid instant" :style="{height: usage.subr+'%'}">
+                                <strong>{{usage.subr | round}}%</strong>
+                                Subscription
+                            </div>
+                            <div class="bar free instant" :style="{height: usage.oa+'%'}">
+                                <strong>{{usage.oa | round}}%</strong>
+                                OA
+                            </div>
+                            <div class="bar free instant" :style="{height: usage.backfile+'%'}">
+                                <strong>{{usage.backfile | round}}%</strong>
+                                Backfile
+                            </div>
+                            <div class="bar free instant" :style="{height: usage.asn+'%'}">
+                                <strong>{{usage.asn | round}}%</strong>
+                                ASNs
+                            </div>
+                        </div>
+                        <div>
                             {{instantUsage}} instant access
-                            <pre>{{usage}}</pre>
-                        </v-row>
+                        </div>
                     </v-col>
                 </v-row>
             </v-col>
@@ -146,6 +152,9 @@
             },
             loading() {
                 return this.$store.state.tabDataLoading
+            },
+            journalsBySubject() {
+                return this.data.journals
             },
 
 
@@ -280,19 +289,19 @@
 
     .journal-dot {
         background: #ccc;
+
         &.subscribed {
             background: dodgerblue;
         }
     }
 
     .v-slider--vertical {
-        min-height: 400px !important;
+        height: 500px !important;
         margin: 0 !important;
     }
 
     .bar-wrapper {
-        height: 100%;
-        min-height: 400px;
+        height: 500px;
         display: flex;
         flex-direction: column;
 
