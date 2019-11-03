@@ -1,7 +1,7 @@
 <template>
-    <v-container  class="tab" v-if="showMe" :class="{loading: loading}">
+    <v-container class="tab" v-if="showMe" :class="{loading: loading}">
         <v-row>
-            <v-col cols="7">
+            <v-col cols="6">
                 {{ subscribedJournals.length }} subscribed journals
                 total usage {{totalUsage}}
                 <div>
@@ -17,7 +17,7 @@
                 </div>
             </v-col>
             <v-spacer></v-spacer>
-            <v-col cols="4">
+            <v-col cols="5">
                 <v-row>
                     <v-col cols="1">
                         <v-slider
@@ -42,19 +42,19 @@
 
                         <table>
                             <tr>
-                                <td class="num font-weight-bold  text-right pr-2">
+                                <td class="num font-weight-bold main-number text-right pr-2">
                                     {{(subrCostPercent+illCostPercent) | round}}%
                                 </td>
                                 <td class="">
-                                    Big Deal cost
+                                    <span>Big Deal</span> cost
                                 </td>
                             </tr>
                             <tr>
-                                <td class="main  text-right pr-2">
+                                <td class="main second-row small-number text-right pr-2">
                                     {{this.cost | currency}}
                                 </td>
-                                <td class="">
-                                    total cost
+                                <td class="second-row">
+                                    total
                                 </td>
                             </tr>
                         </table>
@@ -84,7 +84,18 @@
                             </div>
                         </div>
                         <div>
-                            {{instantUsage}} instant access
+                            <table>
+                                <tr>
+                                    <td class="num font-weight-bold main-number text-right pr-2">
+                                        <div>
+                                            {{instantUsage | round}}%
+                                        </div>
+                                    </td>
+                                    <td class="">
+                                        Instant usage
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </v-col>
                 </v-row>
@@ -287,6 +298,22 @@
 </script>
 
 <style lang="scss">
+    table {
+        padding: 10px 0;
+        line-height: 1;
+        .main-number {
+            font-size: 60px;
+            color: #333;
+        }
+
+        .second-row {
+            padding-top: 10px;
+        }
+        .small-number {
+            font-size: 20px;
+
+        }
+    }
 
     .journal-dot {
         background: #ccc;
