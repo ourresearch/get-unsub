@@ -10,7 +10,7 @@
                              @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
                              class="journal-dot"
                              :class="{subscribed: journal.subscribed}"
-                             style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
+                             style="height: 5px; width: 5px; border-radius: 4px; margin: 1px 1px 0 0; float:left;">
 
                         </div>
                     </div>
@@ -34,16 +34,16 @@
                     <!--subjects-->
                     <div v-if="false">
                         <v-row align="center" class="pa-0 ma-0" v-for="subject in journalSubjects" :key="subject.name">
-                            <v-col cols="4" class="body-2 text-right py-2">
+                            <v-col cols="8" class="body-2 text-right py-2">
                                 {{subject.name}}
                             </v-col>
-                            <v-col cols="8" class="py-0">
+                            <v-col cols="4" class="py-0">
                                 <div v-for="journal in subject.journals"
                                      :key="'subj'+journal.issn_l"
                                      @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
                                      class="journal-dot"
                                      :class="{subscribed: journal.subscribed}"
-                                     style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
+                                     style="height: 4px; width: 4px; border-radius: 10px; margin: 1px 1px 0 0; float:left;">
 
                                 </div>
                             </v-col>
