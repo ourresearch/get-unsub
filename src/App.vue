@@ -115,26 +115,7 @@
         </v-snackbar>
 
 
-        <v-dialog v-model="$store.state.singleJournalId" fullscreen hide-overlay transition="dialog-bottom-transition">
-            <v-card>
-                <v-toolbar dark color="primary">
-                    <v-btn icon dark @click="clearSingleJournal">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                    <v-toolbar-title>Single Journal</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items>
-<!--                        <v-btn dark text @click="dialog = false">Save</v-btn>-->
-                    </v-toolbar-items>
-                </v-toolbar>
-                <v-card-text>
-                    <code>
-                    <pre>{{$store.state.singleJournalData}}</pre>
-
-                    </code>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
+        <single-journal></single-journal>
 
 
     </v-app>
@@ -143,10 +124,11 @@
 <script>
     import Breadcrumbs from "./components/Breadcrumbs"
     import Configs from "./components/Configs"
+    import SingleJournal from"./components/SingleJournal"
 
     export default {
         name: 'App',
-        components: {Breadcrumbs, Configs},
+        components: {Breadcrumbs, Configs, SingleJournal},
         data: () => ({
             drawerRight: false,
         }),
