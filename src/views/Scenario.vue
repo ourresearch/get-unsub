@@ -1,11 +1,10 @@
 <template>
-    <v-container fluid class="pkg pa-0 ma-0" v-if="$store.state.selectedScenario">
+    <div v-if="$store.state.selectedScenario">
 
 
         <slider-tab></slider-tab>
 
         <journals-tab></journals-tab>
-        <sharing-tab></sharing-tab>
 
 
 
@@ -14,7 +13,7 @@
 <!--        <sharing-tab :data="tabData"  v-if="activeTabName==='sharing'"></sharing-tab>-->
 
 
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -58,7 +57,7 @@
 
             this.$store.commit("selectPkg", pkgId)
             this.$store.commit("selectScenario", scenarioId)
-            this.$store.dispatch("setTabData", "slider")
+            this.$store.dispatch("setTabData", "journals")
             this.$store.dispatch("updateSummary")
 
 

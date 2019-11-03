@@ -32,6 +32,7 @@ const journalViews = [
     {value: "impact", displayName: "Impact", icon: "mdi-person"},
     {value: "costs", displayName: "Read cost", icon: "mdi-person"},
     {value: "apc", displayName: "APC cost", icon: "mdi-person"},
+    {value: "report", displayName: "Export", icon: "mdi-person"},
 ]
 
 
@@ -85,14 +86,13 @@ export default new Vuex.Store({
 
         scenarios: [],
         selectedScenario: null,
-        scenarioPageName: "slider",
 
         pkgs: [],
         selectedPkg: null,
 
         tabData: null,
         tabDataDigest: "",
-        tabDataEndpointName: "slider",
+        tabDataEndpointName: "journals",
 
         singleJournalData: null,
         singleJournalId: null,
@@ -217,9 +217,6 @@ export default new Vuex.Store({
         setTabDataEndPointName(state, name) {
             state.tabDataEndpointName = name
         },
-        setScenarioPageName(state, name) {
-            state.scenarioPageName = name
-        },
 
         // single journal stuff
         setSingleJournalData(state, data){
@@ -317,13 +314,6 @@ export default new Vuex.Store({
         },
 
 
-        async setScenarioPage({commit, dispatch}, pageName) {
-            console.log("set scenario page", pageName)
-            commit("setTabDataEndPointName", pageName)
-            await dispatch("updateTabData")
-            return true
-        },
-
         async openSingleJournal({commit, state, dispatch}, issnl){
             console.log("open single journal", issnl)
             commit("setSingleJournalId", issnl)
@@ -391,20 +381,6 @@ export default new Vuex.Store({
             return journalViews
         },
 
-        currentScenarioPage(state) {
-            // return state.scenarioPageName
-            if (!state.tabData) return "loading"
-
-            const journalEndpoints = journalViews.map(v=>v.value)
-
-            if (['slider'].includes(state.tabData.key)) {
-                return "slider"
-            } else if (['report'].includes(state.tabData.key)) {
-                return 'report'
-            } else if (journalEndpoints.includes(state.tabData.key)) {
-                return 'journals'
-            }
-        }
 
 
     }

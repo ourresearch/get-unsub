@@ -1,10 +1,11 @@
 <template>
-    <v-container fluid class="tab" v-if="showMe"  :class="{loading: loading}">
+    <v-container fluid class="tab" v-if="data && data.headers"  :class="{loading: loading}">
+        hi jason
         <v-row>
             <v-col cols="2" class="py-0">
-                <v-navigation-drawer floating class="mt-2">
+                <v-navigation-drawer class="mt-2">
                         <v-list>
-                            <v-subheader>VIEWS</v-subheader>
+<!--                            <v-subheader>VIEWS</v-subheader>-->
                             <v-list-item-group v-model="activeViewIndex">
                                 <v-list-item
                                         @click="$store.dispatch('setTabData', view.value)"
@@ -133,6 +134,7 @@
                 return this.$store.state.tabData
             },
             showMe(){
+                return true
                 return this.$store.getters.currentScenarioPage==='journals'
             },
             views(){

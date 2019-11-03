@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid class="tab" v-if="showMe">
+    <v-container fluid class="tab">
         <h2 class="display-3">Sharing</h2>
         <pre></pre>
     </v-container>

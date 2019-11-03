@@ -37,10 +37,6 @@
             </div>
 
 
-            <div class="logged-in" v-if="$store.getters.isLoggedIn">
-                <v-btn text @click="$store.dispatch('setScenarioPage', 'slider')">Slider</v-btn>
-                <v-btn text @click="$store.dispatch('setScenarioPage', 'journals')">Journals</v-btn>
-            </div>
 
 
             <v-divider
@@ -53,9 +49,6 @@
             <div class="logged-in" v-if="$store.getters.isLoggedIn">
                 <v-btn text icon>
                     <v-icon>mdi-content-copy</v-icon>
-                </v-btn>
-                <v-btn text icon @click="$store.dispatch('setScenarioPage', 'report')">
-                    <v-icon>mdi-export-variant</v-icon>
                 </v-btn>
                 <v-btn text icon @click="drawerRight = !drawerRight">
                     <v-icon>mdi-settings</v-icon>

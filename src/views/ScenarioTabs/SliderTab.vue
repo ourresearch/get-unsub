@@ -32,7 +32,7 @@
 
 
                     <!--subjects-->
-                    <div v-if="false">
+                    <div v-if="true">
                         <v-row align="center" class="pa-0 ma-0" v-for="subject in journalSubjects" :key="subject.name">
                             <v-col cols="8" class="body-2 text-right py-2">
                                 {{subject.name}}
@@ -167,6 +167,7 @@
                 return this.$store.state.tabData
             },
             showMe() {
+                return false
                 return this.$store.getters.currentScenarioPage === 'slider'
             },
             cost() {
