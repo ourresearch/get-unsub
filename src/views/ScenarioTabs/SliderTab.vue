@@ -2,16 +2,53 @@
     <v-container class="tab" v-if="showMe" :class="{loading: loading}">
         <v-row>
             <v-col cols="6">
-                {{ subscribedJournals.length }} subscribed journals
-                total usage {{totalUsage}}
                 <div>
-                    <div v-for="journal in journalsBySubject"
-                         :key="journal.issn_l"
-                         @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
-                         class="journal-dot"
-                         :class="{subscribed: journal.subscribed}"
-                         style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
+                    {{ subscribedJournals.length }} subscribed journals
+                    <div v-if="true">
+                        <div v-for="journal in data.journals"
+                             :key="journal.issn_l"
+                             @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
+                             class="journal-dot"
+                             :class="{subscribed: journal.subscribed}"
+                             style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
 
+                        </div>
+                    </div>
+
+
+                    <!--scatterplot-->
+                    <div v-if="false" style="height: 500px; width: 100%; position:relative;">
+                        <div v-for="journal in journalsXy"
+                             :key="journal.issn_l"
+                             @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
+                             class="journal-dot"
+                             :class="{subscribed: journal.subscribed}"
+                             :style="{bottom: journal.x, left: journal.y }"
+                             style="height: 5px; width: 5px; border-radius: 10px; margin: 1px;position:absolute;">
+
+                        </div>
+
+                    </div>
+
+
+                    <!--subjects-->
+                    <div v-if="false">
+                        <v-row align="center" class="pa-0 ma-0" v-for="subject in journalSubjects" :key="subject.name">
+                            <v-col cols="4" class="body-2 text-right py-2">
+                                {{subject.name}}
+                            </v-col>
+                            <v-col cols="8" class="py-0">
+                                <div v-for="journal in subject.journals"
+                                     :key="'subj'+journal.issn_l"
+                                     @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
+                                     class="journal-dot"
+                                     :class="{subscribed: journal.subscribed}"
+                                     style="height: 5px; width: 5px; border-radius: 10px; margin: 1px; float:left;">
+
+                                </div>
+                            </v-col>
+
+                        </v-row>
                     </div>
 
                 </div>
@@ -107,6 +144,8 @@
 </template>
 
 <script>
+    import _ from "lodash"
+
     export default {
         props: [],
         name: "SliderTab",
@@ -165,9 +204,6 @@
             loading() {
                 return this.$store.state.tabDataLoading
             },
-            journalsBySubject() {
-                return this.data.journals
-            },
 
 
             subscribedJournals() {
@@ -217,6 +253,39 @@
             numJournals() {
                 return this.data && this.data.journals.length
             },
+            journalSubjects() {
+                const dict = _.groupBy(this.data.journals, j => {
+                    return j.subject
+                })
+                const subjects = Object.keys(dict).map(k => {
+                    return {
+                        name: k,
+                        journals: dict[k]
+                    }
+                })
+                return subjects
+            },
+            topCost(){
+                return 31091 // tetrahedron letters
+                return Math.max(...this.data.journals.map(j=>j.cost_subscription))
+            },
+            topPaidUsage(){
+                return 4283.8 // cell
+
+                return Math.max(...this.data.journals.map(j=>{
+                    return j.use_groups_if_subscribed.subscription
+                }))
+            },
+            journalsXy(){
+
+                return this.data.journals.map(j=>{
+                    return {
+                        ...j,
+                        x: (100 * Math.log(j.cost_subscription) / Math.log(this.topCost)) + '%',
+                        y: (100 * Math.log(j.use_groups_if_subscribed.subscription) / Math.log(this.topPaidUsage)) + '%'
+                    }
+                })
+            }
 
 
         },
@@ -301,6 +370,7 @@
     table {
         padding: 10px 0;
         line-height: 1;
+
         .main-number {
             font-size: 60px;
             color: #333;
@@ -309,6 +379,7 @@
         .second-row {
             padding-top: 10px;
         }
+
         .small-number {
             font-size: 20px;
 
