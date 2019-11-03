@@ -55,8 +55,8 @@ const demoPkgs = [
         id: "demo-pkg-123",
         name: "my Elsevier Freedom Package",
         hasCounterData: true,
-        numJournals: 1800,
-        numPerpAccessJournals: 1800,
+        numJournals: 1851,
+        numPerpAccessJournals: 1851,
     }
 ]
 

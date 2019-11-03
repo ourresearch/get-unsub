@@ -17,6 +17,12 @@
                         <h1 class="display-3">{{journal.title}}</h1>
                         <div>Publisher: Elsevier</div>
                         <div>Topic: {{journal.subject}}</div>
+                        <div>
+<!--                            <div class="subr-status" v-if="sub">-->
+<!--                                Subscribed-->
+<!--                            </div>-->
+
+                        </div>
                     </div>
 
                     <div>
@@ -40,6 +46,7 @@
         components: {},
         data: () => ({
             drawerRight: false,
+            switch: false,
         }),
         computed: {
             summary() {
@@ -57,6 +64,11 @@
             journal(){
                 if (this.$store.state.singleJournalData){
                     return this.$store.state.singleJournalData.journal
+                }
+            },
+            subscribed(){
+                if (this.$store.state.singleJournalData){
+                    return this.$store.state.singleJournalData.journal.subscribed
                 }
             }
 

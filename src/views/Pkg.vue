@@ -1,6 +1,5 @@
 <template>
     <v-container class="pkg" v-if="$store.getters.selectedPkg">
-        <breadcrumbs></breadcrumbs>
 
 
         <h1 class="display-3">{{ pkg.name }}</h1>
@@ -42,9 +41,56 @@
                 </v-simple-table>
             </v-card-text>
             <v-card-actions>
-                <v-btn @click="$store.commit('openNotSupportedMsg')" color="primary">Add new Scenario</v-btn>
+                <v-btn @click="$store.commit('openNotSupportedMsg')" depressed>Add new Scenario</v-btn>
             </v-card-actions>
         </v-card>
+        <v-row>
+            <v-col cols="4">
+                <v-card>
+                    <v-card-title>
+                        COUNTER stats
+                    </v-card-title>
+                    <v-card-text>
+                        <v-alert colored-border border="left" type="success">
+                            Your COUNTER stats have been uploaded, with usage for <strong>1851</strong> journals.
+                        </v-alert>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">upload new stats</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+            <v-col cols="4">
+                <v-card>
+                    <v-card-title>
+                        Perpetual access
+                    </v-card-title>
+                    <v-card-text>
+                        <v-alert colored-border border="left" type="info">
+                            You haven't specified any journals <em>without</em> perpetual access rights, so our calculations will assume you to have perpetual access to all your existing backfile content.
+                        </v-alert>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Specify journals</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+            <v-col cols="4">
+                <v-card>
+                    <v-card-title>
+                        Custom pricelists
+                    </v-card-title>
+                    <v-card-text>
+                        <v-alert colored-border border="left" type="info">
+                            You haven't uploaded any custom per-journal prices, so we'll use the public list price for each title.
+                        </v-alert>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Upload custom prices</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-col>
+        </v-row>
 
     </v-container>
 </template>
