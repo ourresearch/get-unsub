@@ -52,9 +52,9 @@
 
             <div class="logged-in" v-if="$store.getters.isLoggedIn">
                 <v-btn text icon>
-                    <v-icon>mdi-content-save</v-icon>
+                    <v-icon>mdi-content-copy</v-icon>
                 </v-btn>
-                <v-btn text icon>
+                <v-btn text icon @click="$store.dispatch('setScenarioPage', 'report')">
                     <v-icon>mdi-export-variant</v-icon>
                 </v-btn>
                 <v-btn text icon @click="drawerRight = !drawerRight">

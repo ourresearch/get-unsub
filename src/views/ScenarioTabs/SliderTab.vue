@@ -55,87 +55,92 @@
             </v-col>
             <v-spacer></v-spacer>
             <v-col cols="5">
-                <v-row>
-                    <v-col cols="1">
-                        <v-slider
-                                v-model="sliderPercent"
-                                color="gray"
-                                vertical
-                                @end="sliderEnd"
-                        ></v-slider>
-                    </v-col>
-                    <v-col class="currency-area">
-                        <div class="bar-wrapper">
-                            <div class="bar-fill"></div>
-                            <div class="bar cost" :style="{height: subrCostPercent+'%'}">
-                                <strong>{{subrCostPercent | round}}%</strong>
-                                Subscription
-                            </div>
-                            <div class="bar cost" :style="{height: illCostPercent +'%'}">
-                                <strong>{{illCostPercent | round}}%</strong>
-                                ILL
-                            </div>
-                        </div>
+                <v-card class="pa-2">
 
-                        <table>
-                            <tr>
-                                <td class="num font-weight-bold main-number text-right pr-2">
-                                    {{(subrCostPercent+illCostPercent) | round}}%
-                                </td>
-                                <td class="">
-                                    <span>Big Deal</span> cost
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="main second-row small-number text-right pr-2">
-                                    {{this.cost | currency}}
-                                </td>
-                                <td class="second-row">
-                                    total
-                                </td>
-                            </tr>
-                        </table>
-                    </v-col>
+                    <v-row>
+                        <v-col cols="1">
+                            <v-slider
+                                    v-model="sliderPercent"
+                                    color="gray"
+                                    vertical
+                                    @end="sliderEnd"
+                            ></v-slider>
+                        </v-col>
+                        <v-col class="currency-area">
+                            <div class="bar-wrapper">
+                                <div class="bar-fill"></div>
+                                <div class="bar cost" :style="{height: subrCostPercent+'%'}">
+                                    <strong>{{subrCostPercent | round}}%</strong>
+                                    Subscription
+                                </div>
+                                <div class="bar cost" :style="{height: illCostPercent +'%'}">
+                                    <strong>{{illCostPercent | round}}%</strong>
+                                    ILL
+                                </div>
+                            </div>
 
-                    <v-col class="usage-area">
-                        <div class="bar-wrapper">
-                            <div class="bar delayed bar-fill">
-                                <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
-                                Other
-                            </div>
-                            <div class="bar paid instant" :style="{height: usage.subr+'%'}">
-                                <strong>{{usage.subr | round}}%</strong>
-                                Subscription
-                            </div>
-                            <div class="bar free instant" :style="{height: usage.oa+'%'}">
-                                <strong>{{usage.oa | round}}%</strong>
-                                OA
-                            </div>
-                            <div class="bar free instant" :style="{height: usage.backfile+'%'}">
-                                <strong>{{usage.backfile | round}}%</strong>
-                                Backfile
-                            </div>
-                            <div class="bar free instant" :style="{height: usage.asn+'%'}">
-                                <strong>{{usage.asn | round}}%</strong>
-                                ASNs
-                            </div>
-                        </div>
-                        <div>
                             <table>
                                 <tr>
                                     <td class="num font-weight-bold main-number text-right pr-2">
-                                        <div>
-                                            {{instantUsage | round}}%
-                                        </div>
+                                        {{(subrCostPercent+illCostPercent) | round}}%
                                     </td>
                                     <td class="">
-                                        Instant usage
+                                        <span>Big Deal</span> cost
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="main second-row small-number text-right pr-2">
+                                        {{this.cost | currency}}
+                                    </td>
+                                    <td class="second-row">
+                                        total
                                     </td>
                                 </tr>
                             </table>
-                        </div>
-                    </v-col>
-                </v-row>
+                        </v-col>
+
+                        <v-col class="usage-area">
+                            <div class="bar-wrapper">
+                                <div class="bar delayed bar-fill">
+                                    <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
+                                    Other
+                                </div>
+                                <div class="bar paid instant" :style="{height: usage.subr+'%'}">
+                                    <strong>{{usage.subr | round}}%</strong>
+                                    Subscription
+                                </div>
+                                <div class="bar free instant" :style="{height: usage.oa+'%'}">
+                                    <strong>{{usage.oa | round}}%</strong>
+                                    OA
+                                </div>
+                                <div class="bar free instant" :style="{height: usage.backfile+'%'}">
+                                    <strong>{{usage.backfile | round}}%</strong>
+                                    Backfile
+                                </div>
+                                <div class="bar free instant" :style="{height: usage.asn+'%'}">
+                                    <strong>{{usage.asn | round}}%</strong>
+                                    ASNs
+                                </div>
+                            </div>
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td class="num font-weight-bold main-number text-right pr-2">
+                                            <div>
+                                                {{instantUsage | round}}%
+                                            </div>
+                                        </td>
+                                        <td class="">
+                                            Instant usage
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </v-card>
+
+
             </v-col>
 
         </v-row>
@@ -395,12 +400,12 @@
     }
 
     .v-slider--vertical {
-        height: 500px !important;
+        height: 300px !important;
         margin: 0 !important;
     }
 
     .bar-wrapper {
-        height: 500px;
+        height: 300px;
         display: flex;
         flex-direction: column;
 

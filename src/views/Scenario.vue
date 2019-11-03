@@ -5,6 +5,7 @@
         <slider-tab></slider-tab>
 
         <journals-tab></journals-tab>
+        <sharing-tab></sharing-tab>
 
 
 

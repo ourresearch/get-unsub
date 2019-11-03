@@ -318,6 +318,7 @@ export default new Vuex.Store({
 
 
         async setScenarioPage({commit, dispatch}, pageName) {
+            console.log("set scenario page", pageName)
             commit("setTabDataEndPointName", pageName)
             await dispatch("updateTabData")
             return true
@@ -398,8 +399,8 @@ export default new Vuex.Store({
 
             if (['slider'].includes(state.tabData.key)) {
                 return "slider"
-            } else if (['share'].includes(state.tabData.key)) {
-                return 'share'
+            } else if (['report'].includes(state.tabData.key)) {
+                return 'report'
             } else if (journalEndpoints.includes(state.tabData.key)) {
                 return 'journals'
             }

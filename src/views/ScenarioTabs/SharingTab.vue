@@ -1,14 +1,20 @@
 <template>
-    <v-container fluid class="tab">
+    <v-container fluid class="tab" v-if="showMe">
         <h2 class="display-3">Sharing</h2>
-        <pre>{{data}}</pre>
+        <pre></pre>
     </v-container>
 </template>
 
 <script>
     export default {
-        props: ["data"],
-        name: "SharingTab"
+        props: [],
+
+        name: "SharingTab",
+        computed: {
+            showMe() {
+                return this.$store.getters.currentScenarioPage === 'report'
+            },
+        }
     }
 </script>
 
