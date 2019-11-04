@@ -2,7 +2,7 @@
     <div v-if="$store.state.selectedScenario">
 
 
-        <slider-tab></slider-tab>
+
 
         <journals-tab></journals-tab>
 

@@ -1,151 +1,179 @@
 <template>
-    <v-container class="tab" v-if="showMe" :class="{loading: loading}">
-        <v-row>
-            <v-col cols="6">
-                <div>
-                    {{ subscribedJournals.length }} subscribed journals
-                    <div v-if="true">
-                        <div v-for="journal in data.journals"
-                             :key="journal.issn_l"
-                             @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
-                             class="journal-dot"
-                             :class="{subscribed: journal.subscribed}"
-                             style="height: 5px; width: 5px; border-radius: 4px; margin: 1px 1px 0 0; float:left;">
+    <v-dialog scrollable class="tab" v-model="$store.state.wizardOpen" :class="{loading: loading}">
+        <v-card>
+            <v-toolbar dark color="primary">
+                <v-toolbar-title>Subscription wizard</v-toolbar-title>
+                <v-progress-linear
+                        :active="$store.getters.wizardLoading"
+                        :indeterminate="$store.getters.wizardLoading"
+                        absolute
+                        bottom
+                        color="white"
+                ></v-progress-linear>
+                <v-spacer></v-spacer>
+                <v-btn icon dark @click="$store.commit('clearWizard')">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-items>
+                    <!--                        <v-btn dark text @click="dialog = false">Save</v-btn>-->
+                </v-toolbar-items>
 
-                        </div>
-                    </div>
+            </v-toolbar>
 
-
-                    <!--scatterplot-->
-                    <div v-if="false" style="height: 500px; width: 100%; position:relative;">
-                        <div v-for="journal in journalsXy"
-                             :key="journal.issn_l"
-                             @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
-                             class="journal-dot"
-                             :class="{subscribed: journal.subscribed}"
-                             :style="{bottom: journal.x, left: journal.y }"
-                             style="height: 5px; width: 5px; border-radius: 10px; margin: 1px;position:absolute;">
-
-                        </div>
-
-                    </div>
-
-
-                    <!--subjects-->
-                    <div v-if="true">
-                        <v-row align="center" class="pa-0 ma-0" v-for="subject in journalSubjects" :key="subject.name">
-                            <v-col cols="8" class="body-2 text-right py-2">
-                                {{subject.name}}
-                            </v-col>
-                            <v-col cols="4" class="py-0">
-                                <div v-for="journal in subject.journals"
-                                     :key="'subj'+journal.issn_l"
-                                     @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
-                                     class="journal-dot"
-                                     :class="{subscribed: journal.subscribed}"
-                                     style="height: 4px; width: 4px; border-radius: 10px; margin: 1px 1px 0 0; float:left;">
-
-                                </div>
-                            </v-col>
-
-                        </v-row>
-                    </div>
-
-                </div>
-            </v-col>
-            <v-spacer></v-spacer>
-            <v-col cols="5">
-                <v-card class="pa-2">
+            <v-card-text style="min-height: 600px; color: #333;">
+                <div class="pa-3" v-if="$store.state.wizardData">
 
                     <v-row>
-                        <v-col cols="1">
-                            <v-slider
-                                    v-model="sliderPercent"
-                                    color="gray"
-                                    vertical
-                                    @end="sliderEnd"
-                            ></v-slider>
-                        </v-col>
-                        <v-col class="currency-area">
-                            <div class="bar-wrapper">
-                                <div class="bar-fill"></div>
-                                <div class="bar cost" :style="{height: subrCostPercent+'%'}">
-                                    <strong>{{subrCostPercent | round}}%</strong>
-                                    Subscription
-                                </div>
-                                <div class="bar cost" :style="{height: illCostPercent +'%'}">
-                                    <strong>{{illCostPercent | round}}%</strong>
-                                    ILL
-                                </div>
-                            </div>
-
-                            <table>
-                                <tr>
-                                    <td class="num font-weight-bold main-number text-right pr-2">
-                                        {{(subrCostPercent+illCostPercent) | round}}%
-                                    </td>
-                                    <td class="">
-                                        <span>Big Deal</span> cost
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="main second-row small-number text-right pr-2">
-                                        {{this.cost | currency}}
-                                    </td>
-                                    <td class="second-row">
-                                        total
-                                    </td>
-                                </tr>
-                            </table>
-                        </v-col>
-
-                        <v-col class="usage-area">
-                            <div class="bar-wrapper">
-                                <div class="bar delayed bar-fill">
-                                    <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
-                                    Other
-                                </div>
-                                <div class="bar paid instant" :style="{height: usage.subr+'%'}">
-                                    <strong>{{usage.subr | round}}%</strong>
-                                    Subscription
-                                </div>
-                                <div class="bar free instant" :style="{height: usage.oa+'%'}">
-                                    <strong>{{usage.oa | round}}%</strong>
-                                    OA
-                                </div>
-                                <div class="bar free instant" :style="{height: usage.backfile+'%'}">
-                                    <strong>{{usage.backfile | round}}%</strong>
-                                    Backfile
-                                </div>
-                                <div class="bar free instant" :style="{height: usage.asn+'%'}">
-                                    <strong>{{usage.asn | round}}%</strong>
-                                    ASNs
-                                </div>
-                            </div>
+                        <v-col cols="6">
                             <div>
-                                <table>
-                                    <tr>
-                                        <td class="num font-weight-bold main-number text-right pr-2">
-                                            <div>
-                                                {{instantUsage | round}}%
+                                {{ subscribedJournals.length }} subscribed journals
+                                <div v-if="true">
+                                    <div v-for="journal in data.journals"
+                                         :key="journal.issn_l"
+                                         class="journal-dot"
+                                         :class="{subscribed: journal.subscribed}"
+                                         style="height: 5px; width: 5px; border-radius: 4px; margin: 1px 1px 0 0; float:left;">
+
+                                    </div>
+                                </div>
+
+
+                                <!--scatterplot-->
+                                <div v-if="false" style="height: 500px; width: 100%; position:relative;">
+                                    <div v-for="journal in journalsXy"
+                                         :key="journal.issn_l"
+                                         @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
+                                         class="journal-dot"
+                                         :class="{subscribed: journal.subscribed}"
+                                         :style="{bottom: journal.x, left: journal.y }"
+                                         style="height: 5px; width: 5px; border-radius: 10px; margin: 1px;position:absolute;">
+
+                                    </div>
+
+                                </div>
+
+
+                                <!--subjects-->
+                                <div v-if="false">
+                                    <v-row align="center" class="pa-0 ma-0" v-for="subject in journalSubjects"
+                                           :key="subject.name">
+                                        <v-col cols="8" class="body-2 text-right py-2">
+                                            {{subject.name}}
+                                        </v-col>
+                                        <v-col cols="4" class="py-0">
+                                            <div v-for="journal in subject.journals"
+                                                 :key="'subj'+journal.issn_l"
+                                                 @click.stop="$store.dispatch('openSingleJournal', journal.issn_l)"
+                                                 class="journal-dot"
+                                                 :class="{subscribed: journal.subscribed}"
+                                                 style="height: 4px; width: 4px; border-radius: 10px; margin: 1px 1px 0 0; float:left;">
+
                                             </div>
-                                        </td>
-                                        <td class="">
-                                            Instant usage
-                                        </td>
-                                    </tr>
-                                </table>
+                                        </v-col>
+
+                                    </v-row>
+                                </div>
+
                             </div>
                         </v-col>
+                        <v-spacer></v-spacer>
+                        <v-col cols="5">
+                            <v-card class="pa-2">
+
+                                <v-row>
+                                    <v-col cols="1">
+                                        <v-slider
+                                                v-model="sliderPercent"
+                                                color="gray"
+                                                vertical
+                                                @end="sliderEnd"
+                                        ></v-slider>
+                                    </v-col>
+                                    <v-col class="currency-area">
+                                        <div class="bar-wrapper">
+                                            <div class="bar-fill"></div>
+                                            <div class="bar cost" :style="{height: subrCostPercent+'%'}">
+                                                <strong>{{subrCostPercent | round}}%</strong>
+                                                Subscription
+                                            </div>
+                                            <div class="bar cost" :style="{height: illCostPercent +'%'}">
+                                                <strong>{{illCostPercent | round}}%</strong>
+                                                ILL
+                                            </div>
+                                        </div>
+
+                                        <table>
+                                            <tr>
+                                                <td class="num font-weight-bold main-number text-right pr-2">
+                                                    {{(subrCostPercent+illCostPercent) | round}}%
+                                                </td>
+                                                <td class="">
+                                                    <span>Big Deal</span> cost
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="main second-row small-number text-right pr-2">
+                                                    {{this.cost | currency}}
+                                                </td>
+                                                <td class="second-row">
+                                                    total
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </v-col>
+
+                                    <v-col class="usage-area">
+                                        <div class="bar-wrapper">
+                                            <div class="bar delayed bar-fill">
+                                                <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
+                                                Other
+                                            </div>
+                                            <div class="bar paid instant" :style="{height: usage.subr+'%'}">
+                                                <strong>{{usage.subr | round}}%</strong>
+                                                Subscription
+                                            </div>
+                                            <div class="bar free instant" :style="{height: usage.oa+'%'}">
+                                                <strong>{{usage.oa | round}}%</strong>
+                                                OA
+                                            </div>
+                                            <div class="bar free instant" :style="{height: usage.backfile+'%'}">
+                                                <strong>{{usage.backfile | round}}%</strong>
+                                                Backfile
+                                            </div>
+                                            <div class="bar free instant" :style="{height: usage.asn+'%'}">
+                                                <strong>{{usage.asn | round}}%</strong>
+                                                ASNs
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <table>
+                                                <tr>
+                                                    <td class="num font-weight-bold main-number text-right pr-2">
+                                                        <div>
+                                                            {{instantUsage | round}}%
+                                                        </div>
+                                                    </td>
+                                                    <td class="">
+                                                        Instant usage
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </v-col>
+                                </v-row>
+                            </v-card>
+
+
+                        </v-col>
+
                     </v-row>
-                </v-card>
+                </div>
 
+            </v-card-text>
 
-            </v-col>
+        </v-card>
 
-        </v-row>
-
-    </v-container>
+    </v-dialog>
 </template>
 
 <script>
@@ -164,11 +192,10 @@
         },
         computed: {
             data() {
-                return this.$store.state.tabData
+                return this.$store.state.wizardData
             },
             showMe() {
-                return false
-                return this.$store.getters.currentScenarioPage === 'slider'
+                return this.$store.state.wizardOpen
             },
             cost() {
                 // i think maybe this is garbage...
@@ -271,20 +298,20 @@
                 })
                 return subjects
             },
-            topCost(){
+            topCost() {
                 return 31091 // tetrahedron letters
-                return Math.max(...this.data.journals.map(j=>j.cost_subscription))
+                return Math.max(...this.data.journals.map(j => j.cost_subscription))
             },
-            topPaidUsage(){
+            topPaidUsage() {
                 return 4283.8 // cell
 
-                return Math.max(...this.data.journals.map(j=>{
+                return Math.max(...this.data.journals.map(j => {
                     return j.use_groups_if_subscribed.subscription
                 }))
             },
-            journalsXy(){
+            journalsXy() {
 
-                return this.data.journals.map(j=>{
+                return this.data.journals.map(j => {
                     return {
                         ...j,
                         x: (100 * Math.log(j.cost_subscription) / Math.log(this.topCost)) + '%',
@@ -298,6 +325,7 @@
         methods: {
             sliderEnd() {
                 console.log("slider blur")
+                return
                 if (this.sliderPercent < this.illCostPercent) {
                     this.sliderPercent = this.illCostPercent
                 }

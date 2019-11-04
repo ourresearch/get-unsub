@@ -11,11 +11,11 @@ const short = require('short-uuid');
 
 const demoConfigs = {
     cost_alacart_increase: 8,
-    cost_bigdeal: 2200000,
+    cost_bigdeal: 2100000,
     cost_bigdeal_increase: 5,
     cost_content_fee_percent: 5.7,
-    cost_ill: 5,
-    ill_request_percent_of_delayed: 10,
+    cost_ill: 17,
+    ill_request_percent_of_delayed: 5,
     include_bronze: true,
     include_submitted_version: true,
     include_backfile: true,
@@ -96,6 +96,10 @@ export default new Vuex.Store({
 
         singleJournalData: null,
         singleJournalId: null,
+
+
+        wizardOpen: null,
+        wizardData: null,
 
 
     },
@@ -229,6 +233,21 @@ export default new Vuex.Store({
             state.singleJournalId = null
             state.singleJournalData = null
 
+        },
+
+
+        // wizard stuff
+        setWizardData(state, data){
+            state.wizardData = data
+        },
+        setWizardOpen(state){
+            console.log("set wizard open")
+            state.wizardOpen = true
+        },
+        clearWizard(state){
+            state.wizardOpen = null
+            state.wizardData = null
+
         }
 
 
@@ -332,6 +351,24 @@ export default new Vuex.Store({
         },
 
 
+        async openWizard({commit, state, dispatch}){
+            console.log("open wizard")
+            commit("setWizardOpen")
+
+            const url = "https://unpaywall-jump-api.herokuapp.com/scenario/slider?package=demo"
+            return axios.post(url, state.selectedScenario)
+                .then(resp => {
+                    commit("setWizardData", resp.data)
+                    console.log("set the wizard data", resp.data)
+                })
+                .catch(err => {
+                    console.log("got error from openWizard()", url, err)
+                })
+
+
+        },
+
+
 
 
     },
@@ -380,6 +417,14 @@ export default new Vuex.Store({
         journalViews(state) {
             return journalViews
         },
+        wizardLoading(state){
+            return state.wizardOpen && !state.wizardData
+        },
+        singleJournalLoading(state){
+            return state.singleJournalId && !state.singleJournalData
+
+        }
+
 
 
 

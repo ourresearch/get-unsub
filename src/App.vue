@@ -2,7 +2,7 @@
     <v-app>
 
 
-        <v-app-bar app>
+        <v-app-bar app clipped-left>
             <v-toolbar-title class="headline">
                 <router-link to="/">
                     <img class="mt-3" style="height:35px;" src="./assets/logo.png" alt="">
@@ -30,55 +30,34 @@
             </div>
             <v-spacer></v-spacer>
 
-            <div class="not-logged-in pl-2" v-if="!$store.getters.isLoggedIn">
-                <v-btn text to="support">Support</v-btn>
+            <v-toolbar-items>
+                <v-btn text to="support">Help</v-btn>
                 <v-btn text to="purchase">Purchase</v-btn>
                 <v-btn text to="login">Log in</v-btn>
+
+            </v-toolbar-items>
+
+            <div class="not-logged-in pl-2" v-if="!$store.getters.isLoggedIn">
             </div>
-
-
-
-
-            <v-divider
-                    class="mx-4"
-                    inset
-                    vertical
-                    v-if="$store.getters.isLoggedIn"
-            ></v-divider>
-
-            <div class="logged-in" v-if="$store.getters.isLoggedIn">
-                <v-btn text icon>
-                    <v-icon>mdi-content-copy</v-icon>
-                </v-btn>
-                <v-btn text icon @click="drawerRight = !drawerRight">
-                    <v-icon>mdi-settings</v-icon>
-                </v-btn>
-            </div>
-
-            <v-divider
-                    class="mx-4"
-                    inset
-                    vertical
-            ></v-divider>
 
             <div class="logged-in title" v-if="$store.getters.isLoggedIn && summary">
-                <span class="px-2 toolbar-summary">
+                <v-btn text depressed class="px-2 toolbar-summary" @click="$store.dispatch('setTabData', 'report')">
                     <v-icon small>mdi-cart</v-icon>
                     <div class="val headline pr-2">{{summary.num_journals_subscribed | round()}}</div>
-                    <div class="cost-bar bar small-bar">
-                        <div class="bar-fill"></div>
-                        <div class="segment cost" :style="{height: summary.cost_percent+'%'}"></div>
-                    </div>
-                    <div class="bar usage-bar small-bar">
-                        <div class="bar-fill"></div>
-                        <div class="segment paid-instant" :style="{height: summary.use_subscription_percent+'%'}"></div>
-                        <div class="segment free-instant" :style="{height: summary.use_free_instant_percent+'%'}"></div>
-                    </div>
-                </span>
+                </v-btn>
             </div>
+
+            <!--            <div class="logged-in" v-if="$store.getters.isLoggedIn">-->
+            <!--                <v-btn text icon @click="drawerRight = !drawerRight">-->
+            <!--                    <v-icon>mdi-settings</v-icon>-->
+            <!--                </v-btn>-->
+            <!--            </div>-->
+
+
         </v-app-bar>
 
-        <v-navigation-drawer dark v-model="drawerRight" app right class="pt-12">
+
+        <v-navigation-drawer v-if="summary" dark v-model="drawerRight" app right class="pt-12">
             <v-toolbar absolute width="100%">
                 <v-toolbar-title>
                     <v-icon small>mdi-pencil-outline</v-icon>
@@ -91,9 +70,109 @@
 
             </v-toolbar>
             <configs class="pt-4"></configs>
-
-
         </v-navigation-drawer>
+
+
+        <v-navigation-drawer v-if="summary" clipped app left dark>
+
+            <v-list>
+                <v-list-item>
+                    Cost
+                    <v-spacer></v-spacer>
+                    <strong>
+                        {{summary.cost_scenario | currency}}
+                    </strong>
+
+                    <vc-donut
+                            v-if="summary.cost_percent"
+                            class="ml-2"
+                            foreground="grey"
+                            background="#424242"
+                            :size="20"
+                            :thickness="50"
+                            :sections="[{value:summary.cost_percent, color: '#ffffff'}]"
+                    ></vc-donut>
+
+                </v-list-item>
+                <v-list-item>
+                    Instant access
+                    <v-spacer></v-spacer>
+                    <strong>
+                        {{summary.use_free_instant_percent | round(2)}}%
+                    </strong>
+
+                    <vc-donut
+                            v-if="summary.use_free_instant_percent"
+                            class="ml-2"
+                            foreground="grey"
+                            background="#424242"
+                            :size="20"
+                            :thickness="50"
+                            :sections="[{value:summary.use_free_instant_percent, color: '#ffffff'}]"
+                    ></vc-donut>
+
+                </v-list-item>
+            </v-list>
+
+
+            <v-divider></v-divider>
+            <v-list nav>
+                <v-list-item @click="openWizard">
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Subscription wizard
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-list-item @click="drawerRight = !drawerRight">
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            Scenario configs
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
+            </v-list>
+
+
+            <v-divider></v-divider>
+
+
+            <v-list>
+                <!--                            <v-subheader>VIEWS</v-subheader>-->
+                <v-list-item-group v-model="activeViewIndex">
+
+                    <template v-for="(view, i) in $store.getters.journalViews"
+                    >
+                        <v-list-item
+                                @click="$store.dispatch('setTabData', view.value)"
+
+                        >
+                            <!--                                    <v-list-item-icon>-->
+                            <!--                                        <v-icon v-text="view.icon">{{view.icon}}</v-icon>-->
+                            <!--                                    </v-list-item-icon>-->
+
+                            <v-list-item-content>
+                                <v-list-item-title v-text="view.displayName"></v-list-item-title>
+                            </v-list-item-content>
+
+                        </v-list-item>
+
+                        <v-divider v-if="view.value==='apc'"></v-divider>
+                    </template>
+                    <v-list-item @click="$store.commit('openNotSupportedMsg')">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Save as copy
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
+
+                </v-list-item-group>
+            </v-list>
+        </v-navigation-drawer>
+
 
         <v-content>
 
@@ -109,6 +188,7 @@
 
 
         <single-journal></single-journal>
+        <slider-tab></slider-tab>
 
 
     </v-app>
@@ -117,13 +197,16 @@
 <script>
     import Breadcrumbs from "./components/Breadcrumbs"
     import Configs from "./components/Configs"
-    import SingleJournal from"./components/SingleJournal"
+    import SingleJournal from "./components/SingleJournal"
+    import SliderTab from "./views/ScenarioTabs/SliderTab"
 
     export default {
         name: 'App',
-        components: {Breadcrumbs, Configs, SingleJournal},
+        components: {Breadcrumbs, Configs, SingleJournal, SliderTab},
         data: () => ({
             drawerRight: false,
+            activeViewIndex: 0,
+            wizardOpen: false,
         }),
         computed: {
             summary() {
@@ -132,19 +215,22 @@
             loading() {
                 return this.$store.state.tabDataLoading
             },
-            singleJournalIssnl(){
+            singleJournalIssnl() {
                 return this.$store.state.singleJournalIssnl
             },
-            singleJournalData(){
+            singleJournalData() {
                 return this.$store.state.singleJournalData
             },
 
         },
         methods: {
-            clearSingleJournal(){
+            clearSingleJournal() {
                 console.log("clear single journal")
                 this.$store.commit('clearSingleJournal')
             },
+            openWizard() {
+                this.$store.dispatch("openWizard")
+            }
         }
     };
 </script>
