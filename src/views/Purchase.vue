@@ -1,8 +1,18 @@
 <template>
     <v-container class="purchase">
-        <h1 class="display-3">Purchase</h1>
+        <v-card>
+            <v-card-title>
+                <h1 class="display-1">Purchase</h1>
+            </v-card-title>
+            <v-card-text>
+                some actions
+            </v-card-text>
+            <v-card-actions>
+                <v-btn depressed @click="buy">buy stuffs</v-btn>
 
-        <v-btn @click="buy">buy stuffs</v-btn>
+            </v-card-actions>
+        </v-card>
+
 
     </v-container>
 </template>
@@ -20,8 +30,8 @@
                 console.log("buy!")
                 this.stripe.redirectToCheckout({
                     items: [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}],
-                    successUrl: 'https://journals.upnpaywall.org/purchase-success',
-                    cancelUrl: 'https://journals.upnpaywall.org/purchase-cancelled',
+                    successUrl: 'https://journals.upnpaywall.org/purchase/success',
+                    cancelUrl: 'https://journals.upnpaywall.org/purchase/cancelled',
                 })
                     .then(function (result) {
                         if (result.error) {

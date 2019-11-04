@@ -96,42 +96,43 @@
         <v-navigation-drawer v-if="summary" clipped app left dark>
 
             <v-list>
-                <v-list-item>
-                    Cost
-                    <v-spacer></v-spacer>
-                    <strong>
-                        {{summary.cost_scenario | currency}}
-                    </strong>
+                    <v-list-item>
+                        Cost
+                        <v-spacer></v-spacer>
+                        <strong>
+                            {{summary.cost_scenario | currency}}
+                        </strong>
 
-                    <vc-donut
-                            v-if="summary.cost_percent"
-                            class="ml-2"
-                            foreground="grey"
-                            background="#424242"
-                            :size="20"
-                            :thickness="50"
-                            :sections="[{value:summary.cost_percent, color: '#ffffff'}]"
-                    ></vc-donut>
+                        <vc-donut
+                                v-if="summary.cost_percent"
+                                class="ml-2"
+                                foreground="grey"
+                                background="#424242"
+                                :size="20"
+                                :thickness="50"
+                                :sections="[{value:summary.cost_percent, color: '#ffffff'}]"
+                        ></vc-donut>
 
-                </v-list-item>
-                <v-list-item>
-                    Instant access
-                    <v-spacer></v-spacer>
-                    <strong>
-                        {{summary.use_free_instant_percent | round(2)}}%
-                    </strong>
+                    </v-list-item>
+                    <v-list-item >
+                        Instant access
+                        <v-spacer></v-spacer>
+                        <strong>
+                            {{summary.use_free_instant_percent | round(2)}}%
+                        </strong>
 
-                    <vc-donut
-                            v-if="summary.use_free_instant_percent"
-                            class="ml-2"
-                            foreground="grey"
-                            background="#424242"
-                            :size="20"
-                            :thickness="50"
-                            :sections="[{value:summary.use_free_instant_percent, color: '#ffffff'}]"
-                    ></vc-donut>
+                        <vc-donut
+                                v-if="summary.use_free_instant_percent"
+                                class="ml-2"
+                                foreground="grey"
+                                background="#424242"
+                                :size="20"
+                                :thickness="50"
+                                :sections="[{value:summary.use_free_instant_percent, color: '#ffffff'}]"
+                        ></vc-donut>
 
-                </v-list-item>
+                    </v-list-item>
+
             </v-list>
 
 
@@ -266,16 +267,20 @@
 
 <style lang="scss">
 
-     .theme--light.v-btn--active::before {
-        opacity: 0;
+    .breadcrumbs {
+         .theme--light.v-btn--active::before {
+            opacity: 0;
+        }
+         .theme--light.v-btn {
+            text-transform: none !important;
+             padding: 0 5px;
+        }
+        .theme--light.v-btn--active:hover::before {
+            opacity: .05;
+        }
+
     }
-     .theme--light.v-btn {
-        text-transform: none !important;
-         padding: 0 5px;
-    }
-    .theme--light.v-btn--active:hover::before {
-        opacity: .05;
-    }
+
 
     .toolbar-summary {
         display: inline-flex;

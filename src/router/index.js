@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Purchase from '../views/Purchase'
+import PurchaseResult from '../views/PurchaseResult'
 import Login from '../views/Login'
 import Support from '../views/Support'
 import Account from '../views/Account'
@@ -15,6 +16,7 @@ Vue.use(VueRouter)
 const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
+    {path: '/purchase/:result', component: PurchaseResult},
     {path: '/support', component: Support},
     {path: '/login', component: Login},
 

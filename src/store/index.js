@@ -30,7 +30,7 @@ const journalViews = [
     {value: "fulfillment", displayName: "Fulfillment", icon: "mdi-person"},
     {value: "oa", displayName: "Open Access", icon: "mdi-person"},
     {value: "impact", displayName: "Impact", icon: "mdi-person"},
-    {value: "costs", displayName: "Read cost", icon: "mdi-person"},
+    {value: "costs", displayName: "Subscription cost", icon: "mdi-person"},
     {value: "apc", displayName: "APC cost", icon: "mdi-person"},
     {value: "report", displayName: "Export", icon: "mdi-person"},
 ]
