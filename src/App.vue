@@ -31,20 +31,23 @@
             <v-spacer></v-spacer>
 
             <v-toolbar-items>
-                <v-btn text to="support">Help</v-btn>
-                <v-btn text to="purchase">Purchase</v-btn>
-                <v-btn text to="login">Log in</v-btn>
+                <v-btn text to="/support">Help</v-btn>
+                <v-btn text to="/purchase">Purchase</v-btn>
+                <v-btn text to="/login">Log in</v-btn>
 
+                <v-btn text
+                       v-if="summary"
+                       class="px-2 toolbar-summary"
+                       @click="$store.dispatch('setTabData', 'report')">
+                    <v-icon small>mdi-cart</v-icon>
+                    <div class="val headline pr-2">{{summary.num_journals_subscribed | round()}}</div>
+                </v-btn>
             </v-toolbar-items>
 
             <div class="not-logged-in pl-2" v-if="!$store.getters.isLoggedIn">
             </div>
 
             <div class="logged-in title" v-if="$store.getters.isLoggedIn && summary">
-                <v-btn text depressed class="px-2 toolbar-summary" @click="$store.dispatch('setTabData', 'report')">
-                    <v-icon small>mdi-cart</v-icon>
-                    <div class="val headline pr-2">{{summary.num_journals_subscribed | round()}}</div>
-                </v-btn>
             </div>
 
             <!--            <div class="logged-in" v-if="$store.getters.isLoggedIn">-->

@@ -22,7 +22,7 @@
                         @click="$router.push(`/a/${account.id}/${pkg.id}/${scenario.id}`)"
                         style="cursor:pointer;">
                         <td>
-                            <v-btn icon flat>
+                            <v-btn icon text>
                                 <v-icon>mdi-content-copy</v-icon>
                             </v-btn>
                             <v-btn icon text>
