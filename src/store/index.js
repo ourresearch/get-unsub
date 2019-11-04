@@ -156,6 +156,9 @@ export default new Vuex.Store({
         },
         clearPkg(state) {
             state.selectedPkg = null
+            state.selectedScenario = null
+            state.tabData = null
+            state.tabDataEndpointName = "journals"
         },
 
 

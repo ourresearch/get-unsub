@@ -5,7 +5,7 @@
         <v-app-bar app clipped-left>
             <v-toolbar-title class="headline">
                 <router-link to="/">
-                    <img class="mt-3" style="height:35px;" src="./assets/logo.png" alt="">
+                    <img class="mt-3" style="margin: 12px 28px 0" src="./assets/logo.png" alt="">
                 </router-link>
             </v-toolbar-title>
 
@@ -21,19 +21,36 @@
 
             <v-divider
                     class="ml-8"
-                    inset
                     vertical
                     v-if="$store.getters.isLoggedIn"
             ></v-divider>
-            <div class="logged-in pl-7" v-if="$store.getters.isLoggedIn">
-                <breadcrumbs></breadcrumbs>
-            </div>
+
+            <v-toolbar-items class="breadcrumbs" v-if="$store.getters.isLoggedIn">
+                <v-btn class="pa-0 pl-4" text :to="`/a/${account.id}`" active-class="">
+                    <v-icon left>mdi-account</v-icon>
+                    <v-icon  v-if="selectedPkg">mdi-chevron-right</v-icon>
+                    <span v-if="!selectedPkg">{{account.name}}</span>
+                </v-btn>
+                <v-btn text class="pl-4" v-if="selectedPkg" :to="`/a/${account.id}/${selectedPkg.id}`">
+                    <v-icon left>mdi-package-variant</v-icon>
+                    <v-icon  v-if="selectedScenario">mdi-chevron-right</v-icon>
+                    <span v-if="!selectedScenario">{{selectedPkg.name}}</span>
+                </v-btn>
+                <v-btn class="pl-4" v-if="selectedScenario" text>
+                    <v-icon left>mdi-chart-bar</v-icon>
+                    {{selectedScenario.name}}
+                </v-btn>
+
+
+            </v-toolbar-items>
+
+
             <v-spacer></v-spacer>
 
             <v-toolbar-items>
                 <v-btn text to="/support">Help</v-btn>
                 <v-btn text to="/purchase">Purchase</v-btn>
-                <v-btn text to="/login">Log in</v-btn>
+                <v-btn text to="/login" v-if="!$store.getters.isLoggedIn">Log in</v-btn>
 
                 <v-btn text
                        v-if="summary"
@@ -224,6 +241,15 @@
             singleJournalData() {
                 return this.$store.state.singleJournalData
             },
+            account() {
+                return this.$store.state.user
+            },
+            selectedPkg() {
+                return this.$store.getters.selectedPkg
+            },
+            selectedScenario() {
+                return this.$store.getters.selectedScenario
+            },
 
         },
         methods: {
@@ -239,6 +265,17 @@
 </script>
 
 <style lang="scss">
+
+     .theme--light.v-btn--active::before {
+        opacity: 0;
+    }
+     .theme--light.v-btn {
+        text-transform: none !important;
+         padding: 0 5px;
+    }
+    .theme--light.v-btn--active:hover::before {
+        opacity: .05;
+    }
 
     .toolbar-summary {
         display: inline-flex;

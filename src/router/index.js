@@ -56,7 +56,8 @@ router.beforeEach((to, from, next) => {
             next()
         }
     }
-    else {
+    else { // no auth required
+        store.commit('clearPkg')
         next()
     }
 })
