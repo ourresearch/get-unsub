@@ -1,7 +1,12 @@
 <template>
-    <v-container fluid class="tab">
-        <h2 class="display-3">Sharing</h2>
-        <pre></pre>
+    <v-container fluid>
+        <v-card class="pa-3" v-if="$store.state.tabDataEndpointName === 'report'" fluid>
+
+            <h2 class="display-1">Export scenario</h2>
+            <pre>hi i am the report page</pre>
+        </v-card>
+
+
     </v-container>
 </template>
 
@@ -12,7 +17,7 @@
         name: "SharingTab",
         computed: {
             showMe() {
-                return this.$store.getters.currentScenarioPage === 'report'
+                return this.$store.state.tabDataEndpointName === 'report'
             },
         }
     }

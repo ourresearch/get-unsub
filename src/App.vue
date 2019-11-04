@@ -160,7 +160,7 @@
 
             <v-list>
                 <!--                            <v-subheader>VIEWS</v-subheader>-->
-                <v-list-item-group v-model="activeViewIndex">
+                <v-list-item-group v-model="$store.state.tabDataIndex">
 
                     <template v-for="(view, i) in $store.getters.journalViews"
                     >

@@ -93,6 +93,7 @@ export default new Vuex.Store({
         tabData: null,
         tabDataDigest: "",
         tabDataEndpointName: "journals",
+        tabDataIndex: null,
 
         singleJournalData: null,
         singleJournalId: null,
@@ -159,6 +160,7 @@ export default new Vuex.Store({
             state.selectedScenario = null
             state.tabData = null
             state.tabDataEndpointName = "journals"
+            state.tabDataIndex = null
         },
 
 
@@ -215,6 +217,11 @@ export default new Vuex.Store({
 
         setTabData(state, newTabData) {
             state.tabData = newTabData
+            state.tabDataIndex = journalViews.findIndex(v=>{
+                return v.value === newTabData.key
+            })
+
+
             state.tabDataDigest = Object.values(newTabData._summary).join()
             console.log("setting tab data", newTabData, state.tabDataDigest)
         },

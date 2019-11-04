@@ -1,5 +1,5 @@
 <template>
-    <v-container v-if="data && data.headers" :class="{loading: loading}">
+    <v-container fluid v-if="data && data.headers" :class="{loading: loading}">
 
         <v-card >
             <v-tabs>
@@ -12,36 +12,59 @@
 
 
                 <v-tab-item>
-                    <v-container fluid>
-                        <v-row>
-                            <v-col>
-                                sum-up here
-                            </v-col>
-                            <v-col cols="2" v-for="(header, i) in data.headers" class="text-right">
-                                <div class="main title">{{header.raw | round}}</div>
-                                <div class="under subtitle-1">{{header.text}}</div>
-                            </v-col>
-                        </v-row>
+                        <v-card flat>
+                            <v-card-title>
+                                <div>
+                                    <h2 class="display-1">{{data.name}}</h2>
+                                    <div class="body-1">{{data.description}}</div>
+                                </div>
+                            </v-card-title>
 
-                    </v-container>
+                            <v-card-actions>
+                                <v-row>
+                                    <pre>
+                                        {{data.top}}
+                                    </pre>
+                                </v-row>
+
+                            </v-card-actions>
+
+                            <v-row>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    sum-up here
+                                </v-col>
+                                <v-col cols="2" v-for="(header, i) in data.headers" class="text-right">
+                                    <div class="main title">{{header.raw | round}}</div>
+                                    <div class="under subtitle-1">{{header.text}}</div>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+
+
 
                 </v-tab-item>
                 <v-tab-item>
                     <v-card>
                         <v-toolbar
-                                color="gray"
                                 flat
                         >
+                            <div>
+                                    <h2 class="display-1">{{data.name}} by Journal</h2>
+                                </div>
+                            <v-spacer></v-spacer>
+                            <v-spacer></v-spacer>
                             <v-text-field
                                     v-model="search"
                                     append-icon="mdi-magnify"
                                     label="Search"
                                     flat
                                     solo
+                                    dense
                                     outlined
                                     hide-details
                             ></v-text-field>
-                            <v-spacer></v-spacer>
 
                         </v-toolbar>
                         <v-data-table
@@ -94,8 +117,6 @@
                         </v-data-table>
 
                     </v-card>
-
-
                 </v-tab-item>
             </v-tabs>
 
