@@ -36,40 +36,60 @@
                     </div>
 
 
-                    <v-list>
-                        <v-list-item>
-                            <v-list-item-icon>
-                                <v-icon>mdi-checkbox-marked-outline</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    Customize usage stats
-                                </v-list-item-title>
-                                <v-list-item-subtitle>
-                                    Calculate usage based on your own uploaded COUNTER files.
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
+                    <v-row justify="center">
+
+                        <v-card flat width="800">
+
+                            <v-list>
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Customize usage stats
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Calculate usage based on your own uploaded COUNTER files.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
 
 
-                        <v-list-item>
-                            <v-list-item-icon>
-                                <v-icon>mdi-checkbox-marked-outline</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                                <v-list-item-title>
-                                    Customize authorship and citation stats
-                                </v-list-item-title>
-                                <v-list-item-subtitle>
-                                    Include automatically-gathered authorship and citation data for your institution.
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Customize authorship and citation stats
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Include automatically-gathered authorship and citation data for your institution.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Customize authorship and citation stats
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Include automatically-gathered authorship and citation data for your institution.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
 
 
 
 
-                    </v-list>
+                            </v-list>
+                        </v-card>
+                    </v-row>
 
 
                 </div>
