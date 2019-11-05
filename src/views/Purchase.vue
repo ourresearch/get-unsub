@@ -145,7 +145,7 @@
 
                             </v-list>
                                     <v-divider></v-divider>
-                            <v-card-actions>
+                            <v-card-actions class="pb-12">
                                 <div>
                                     <v-row class="body-1s" align="center">
                                             <v-checkbox v-model="agreedToTerms"></v-checkbox>
