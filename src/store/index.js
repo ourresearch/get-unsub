@@ -432,7 +432,6 @@ export default new Vuex.Store({
         },
         singleJournalLoading(state){
             return state.singleJournalId && !state.singleJournalData
-
         }
 
 
