@@ -62,7 +62,7 @@
                                         {{(subrCostPercent+illCostPercent) | round}}%
                                     </td>
                                     <td class="label">
-                                        of current cost
+                                        of base cost
                                     </td>
                                 </tr>
                             </table>

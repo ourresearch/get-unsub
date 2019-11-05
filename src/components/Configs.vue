@@ -117,7 +117,7 @@
             default: 2200000,
             value: null,
             display: "dollars",
-            displayName: "Big Deal cost",
+            displayName: "Base cost",
             descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         },
         cost_bigdeal_increase: {
@@ -125,7 +125,7 @@
             default: 5,
             value: null,
             display: "percent",
-            displayName: "Big Deal cost growth",
+            displayName: "Base cost growth",
             descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
 
         },

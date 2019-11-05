@@ -100,7 +100,7 @@
                     Cost
                     <v-spacer></v-spacer>
                     <strong>
-                        {{summary.cost_scenario | currency}}
+                        {{summary.cost_percent | round(1)}}%
                     </strong>
 
                     <vc-donut
