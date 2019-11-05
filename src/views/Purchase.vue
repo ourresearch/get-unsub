@@ -186,8 +186,11 @@
         }),
         methods: {
             buy() {
-                // const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
-                const items = [{plan: 'plan_G7bKcaYos2it45', quantity: 1}]
+                // real plan
+                const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
+
+                // test plan
+                // const items = [{plan: 'plan_G7bKcaYos2it45', quantity: 1}]
 
                 console.log("buy!")
                 this.stripe.redirectToCheckout({
@@ -205,8 +208,10 @@
         },
         mounted() {
             console.log("purchase page mounted")
-            // this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
-            this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
+            this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
+
+            // test account
+            // this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
         }
     }
 </script>
