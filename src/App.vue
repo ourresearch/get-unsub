@@ -28,12 +28,12 @@
             <v-toolbar-items class="breadcrumbs" v-if="$store.getters.isLoggedIn">
                 <v-btn class="pa-0 pl-4" text :to="`/a/${account.id}`" active-class="">
                     <v-icon left>mdi-account</v-icon>
-                    <v-icon  v-if="selectedPkg">mdi-chevron-right</v-icon>
+                    <v-icon v-if="selectedPkg">mdi-chevron-right</v-icon>
                     <span v-if="!selectedPkg">{{account.name}}</span>
                 </v-btn>
                 <v-btn text class="pl-4" v-if="selectedPkg" :to="`/a/${account.id}/${selectedPkg.id}`">
                     <v-icon left>mdi-package-variant</v-icon>
-                    <v-icon  v-if="selectedScenario">mdi-chevron-right</v-icon>
+                    <v-icon v-if="selectedScenario">mdi-chevron-right</v-icon>
                     <span v-if="!selectedScenario">{{selectedPkg.name}}</span>
                 </v-btn>
                 <v-btn class="pl-4" v-if="selectedScenario" text>
@@ -96,42 +96,42 @@
         <v-navigation-drawer v-if="summary" clipped app left dark>
 
             <v-list>
-                    <v-list-item>
-                        Cost
-                        <v-spacer></v-spacer>
-                        <strong>
-                            {{summary.cost_scenario | currency}}
-                        </strong>
+                <v-list-item>
+                    Cost
+                    <v-spacer></v-spacer>
+                    <strong>
+                        {{summary.cost_scenario | currency}}
+                    </strong>
 
-                        <vc-donut
-                                v-if="summary.cost_percent"
-                                class="ml-2"
-                                foreground="grey"
-                                background="#424242"
-                                :size="20"
-                                :thickness="50"
-                                :sections="[{value:summary.cost_percent, color: '#ffffff'}]"
-                        ></vc-donut>
+                    <vc-donut
+                            v-if="summary.cost_percent"
+                            class="ml-2"
+                            foreground="grey"
+                            background="#424242"
+                            :size="20"
+                            :thickness="50"
+                            :sections="[{value:summary.cost_percent, color: '#ffffff'}]"
+                    ></vc-donut>
 
-                    </v-list-item>
-                    <v-list-item >
-                        Instant access
-                        <v-spacer></v-spacer>
-                        <strong>
-                            {{summary.use_free_instant_percent | round(2)}}%
-                        </strong>
+                </v-list-item>
+                <v-list-item>
+                    Instant access
+                    <v-spacer></v-spacer>
+                    <strong>
+                        {{summary.use_free_instant_percent | round(2)}}%
+                    </strong>
 
-                        <vc-donut
-                                v-if="summary.use_free_instant_percent"
-                                class="ml-2"
-                                foreground="grey"
-                                background="#424242"
-                                :size="20"
-                                :thickness="50"
-                                :sections="[{value:summary.use_free_instant_percent, color: '#ffffff'}]"
-                        ></vc-donut>
+                    <vc-donut
+                            v-if="summary.use_free_instant_percent"
+                            class="ml-2"
+                            foreground="grey"
+                            background="#424242"
+                            :size="20"
+                            :thickness="50"
+                            :sections="[{value:summary.use_free_instant_percent, color: '#ffffff'}]"
+                    ></vc-donut>
 
-                    </v-list-item>
+                </v-list-item>
 
             </v-list>
 
@@ -198,6 +198,9 @@
         <v-content>
 
             <router-view></router-view>
+
+        <single-journal></single-journal>
+        <slider-tab></slider-tab>
         </v-content>
 
         <v-snackbar
@@ -216,8 +219,15 @@
         </v-snackbar>
 
 
-        <single-journal></single-journal>
-        <slider-tab></slider-tab>
+
+
+        <v-footer
+                class="text-right main-footer"
+        >
+                <div class="text-center" style="width:100%">
+                    <a href="https://github.com/ourresearch/unpaywall-journals">Open Source,</a> made with ❤︎ by <a href="https://ourresearch.org">Our Research.</a> | <a href="mailto:team@ourresearch.org">Contact</a>
+                </div>
+        </v-footer>
 
 
     </v-app>
@@ -243,7 +253,7 @@
             },
             loading() {
                 return this.$store.state.tabDataLoading
-                        || this.$store.getters.wizardLoading
+                    || this.$store.getters.wizardLoading
             },
             singleJournalIssnl() {
                 return this.$store.state.singleJournalIssnl
@@ -277,13 +287,15 @@
 <style lang="scss">
 
     .breadcrumbs {
-         .theme--light.v-btn--active::before {
+        .theme--light.v-btn--active::before {
             opacity: 0;
         }
-         .theme--light.v-btn {
+
+        .theme--light.v-btn {
             text-transform: none !important;
-             padding: 0 5px;
+            padding: 0 5px;
         }
+
         .theme--light.v-btn--active:hover::before {
             opacity: .05;
         }
@@ -331,6 +343,17 @@
     .v-slider--vertical {
         min-height: 400px !important;
         margin: 0 !important;
+    }
+
+    .main-footer {
+        font-size: 14px;
+        a {
+            color: #333 !important;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
 
