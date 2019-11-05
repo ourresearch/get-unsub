@@ -16,7 +16,6 @@
                             <v-card-title >
                                 <div>
                                     <h2 class="display-1">{{data.name}}</h2>
-                                    <div class="body-1">{{data.description}}</div>
                                 </div>
                             </v-card-title>
                             <v-card-actions>
