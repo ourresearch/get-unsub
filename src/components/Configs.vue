@@ -102,6 +102,7 @@
     </div>
 </template>
 
+
 <script>
     const configsDisplay = {
         cost_alacart_increase: {
@@ -110,15 +111,15 @@
             value: null,
             display: "percent",
             displayName: "A la carte subscription cost growth",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "The annual percent increase you expect in ala cart subscription prices (literature suggests 8%).",
         },
         cost_bigdeal: {
             name: "cost_bigdeal",
-            default: 2200000,
+            default: 2100000,
             value: null,
             display: "dollars",
             displayName: "Base cost",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "The base cost of your package right now -- either your Big Deal cost or the sum of subscriptions you are currently paying."
         },
         cost_bigdeal_increase: {
             name: "cost_bigdeal_increase",
@@ -126,7 +127,7 @@
             value: null,
             display: "percent",
             displayName: "Base cost growth",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "The annual percent increase you expect in your package price (literature suggests 5% if a Big Deal, 8% if individual subscriptions)."
 
         },
         cost_content_fee_percent: {
@@ -135,23 +136,23 @@
             value: null,
             display: "percent",
             displayName: "A la carte 'content fee'",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "A content fee charged by publishers when buying subscriptions ala cart, above whatever is included in your current package price (literature suggests 5.7% for subscriptions)."
         },
         cost_ill: {
             name: "cost_ill",
-            default: 5,
+            default: 17,
             value: null,
             display: "dollars",
             displayName: "ILL transaction cost",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "The cost of an ILL request for your institution (literature suggests $17 is average).",
         },
         ill_request_percent_of_delayed: {
             name: "ill_request_percent_of_delayed",
-            default: 10,
+            default: 5,
             value: null,
             display: "percent",
             displayName: "ILL frequency, as percent of delayed access",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "The percent of accesses which you estimate will result in ILL requests, of papers not available instantly (literature suggests 5).",
         },
         include_bronze: {
             name: "include_bronze",
@@ -159,7 +160,7 @@
             value: null,
             display: "boolean",
             displayName: "Include Bronze OA",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "Include Bronze OA as a type of fulfillment.  Bronze OA is when a paper is made freely available on a publisher site without an open license (includes Elsevier's \"open archive\" journals).",
         },
         include_submitted_version: {
             name: "include_submitted_version",
@@ -167,7 +168,7 @@
             value: null,
             display: "boolean",
             displayName: "Include Green OA submitted versions",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "Include submitted versions as a type of fulfillment.  Submitted versions are papers made available in repositories as preprints or other versions that have not yet been peer reviewed.",
         },
         include_social_networks: {
             name: "include_social_networks",
@@ -175,7 +176,7 @@
             value: null,
             display: "boolean",
             displayName: "Include ASN-hosted content",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "Include Academic Social Networks (ASNs) as a type of fulfillment -- these include ResearchGate, Academia.edu, and other social sites where academics post papers that are not open repositories.",
         },
         include_backfile: {
             name: "include_backfile",
@@ -183,7 +184,7 @@
             value: null,
             display: "boolean",
             displayName: "Include perpetual-access backfile content",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "Include backfile content as a type of fulfillment.  Disable to see what fulfillment would be like if you don't have perpetual access.",
         },
         package: {
             display: false
@@ -194,7 +195,7 @@
             value: null,
             display: "number",
             displayName: "Institutional authorship weight",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "A paper authored by someone in your institution contributes this many download-equivalent points to the Usage of the journal.  A common value is 100 -- in this case an authored paper in this journal is modelled as the equivalent of 100 downloads of this journal.",
         },
         weight_citation: {
             name: "weight_citation",
@@ -202,7 +203,7 @@
             value: null,
             display: "number",
             displayName: "Institutional citation weight",
-            descr: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+            descr: "A citation from someone in your institution contributes this many download-equivalent points to the Usage of the journal.  A common value is 10 -- in this case a citation from your institution to this journal is modelled as the equivalent of 10 downloads of this journal.",
         },
     }
 
