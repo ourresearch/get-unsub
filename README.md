@@ -1,5 +1,5 @@
 The is the source for the UI of Unpaywall Journals.
-The source for the backend is here:  https://github.com/ourresearch/jump-api
+There is a [separate repo](https://github.com/ourresearch/jump-api) for the API and backend.
 
 # unpaywall-journals
 
