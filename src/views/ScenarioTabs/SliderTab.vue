@@ -1,19 +1,18 @@
 <template>
 
             <v-card-text style="color: #333;">
-                <div class="pa-3" v-if="$store.state.wizardData">
+                <div class="pa-3" v-if="data">
                     <v-row>
-                        <v-col cols="4">
+                        <v-col>
 
-                            <h2 class="display-1">Summmary:</h2>
-                            <div class="text-summary">
+                            <div :class="{editable: !editable}" class="text-summary">
                                 At a projected annual spend of <strong>{{this.cost | currency}},</strong> subscribing to
                                 the <strong>{{ subscribedJournals.length}}</strong> most cost-effective journals saves
                                 <strong>{{100 - (subrCostPercent + illCostPercent) | round}}%</strong> off your current package subscription cost, while providing instant
                                 fulfillment for <strong>{{instantUsage | round}}%</strong> of (weighted) usage.
                             </div>
 
-                            <div class="mt-8">
+                            <div v-if="editable" class="mt-8">
                                 <v-btn depressed
                                        large
                                        :loading="makeItSoLoading"
@@ -24,12 +23,19 @@
                                 <v-btn depressed
                                        @click="$store.commit('clearWizard')"
                                        large
-                                       outline>cancel</v-btn>
+                                       outlined>cancel</v-btn>
+                            </div>
+                            <div v-if="!editable">
+                                <v-btn
+                                        class="mt-3"
+                                        depressed
+                                        outlined
+                                        @click='$store.dispatch("openWizard")'
+                                >Edit</v-btn>
                             </div>
 
                         </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col cols="1">
+                        <v-col cols="1" v-if="editable">
                             <v-slider
                                     v-model="sliderPercent"
                                     color="gray"
@@ -37,7 +43,7 @@
                                     @end="sliderEnd"
                             ></v-slider>
                         </v-col>
-                        <v-col cols="2" class="currency-area">
+                        <v-col :cols="barCols" class="currency-area">
                             <div class="bar-wrapper">
                                 <div class="bar-fill"></div>
                                 <div class="bar cost" :style="{height: subrCostPercent+'%'}">
@@ -63,7 +69,7 @@
                         </v-col>
 
 
-                        <v-col cols="2" class="usage-area">
+                        <v-col :cols="barCols" class="usage-area">
                             <div class="bar-wrapper">
                                 <div class="bar delayed bar-fill">
                                     <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
@@ -103,7 +109,7 @@
                         </v-col>
 
 
-                        <v-col cols="2" class="journals-area">
+                        <v-col :cols="barCols" class="journals-area">
                             <div class="dots-bar-wrapper">
                                     <div v-for="journal in data.journals"
                                          :key="journal.issn_l"
@@ -199,6 +205,9 @@
             },
             loading() {
                 return this.$store.state.tabDataLoading
+            },
+            barCols(){
+                return (this.editable) ? 2 : 3
             },
 
 
@@ -370,11 +379,14 @@
 </script>
 
 <style lang="scss">
-    $bar-height: 500px;
+    $bar-height: 400px;
 
     .text-summary {
         font-size: 24px;
         line-height: 1.4;
+        &.editable {
+            font-size: 20px;
+        }
     }
 
     table {

@@ -13,32 +13,20 @@
 
                 <v-tab-item>
                         <v-card flat>
-                            <v-card-title>
+                            <v-card-title >
                                 <div>
                                     <h2 class="display-1">{{data.name}}</h2>
                                     <div class="body-1">{{data.description}}</div>
                                 </div>
                             </v-card-title>
-
                             <v-card-actions>
-                                <v-row>
-                                    <pre>
-                                        {{data.top}}
-                                    </pre>
-                                </v-row>
-
+                                <div v-if="data.key==='journals'" style="margin-top:-20px;">
+                                    <slider-tab :editable="false" :data="data"></slider-tab>
+                                </div>
                             </v-card-actions>
 
+
                             <v-row>
-                            </v-row>
-                            <v-row>
-                                <v-col>
-                                    sum-up here
-                                </v-col>
-                                <v-col cols="2" v-for="(header, i) in data.headers" class="text-right">
-                                    <div class="main title">{{header.raw | round}}</div>
-                                    <div class="under subtitle-1">{{header.text}}</div>
-                                </v-col>
                             </v-row>
                         </v-card>
 
@@ -150,8 +138,10 @@
 </template>
 
 <script>
+    import SliderTab from "../ScenarioTabs/SliderTab"
     export default {
         props: [],
+        components: {SliderTab},
         name: "JournalsTab",
         data() {
             return {

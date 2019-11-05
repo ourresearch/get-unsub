@@ -33,7 +33,7 @@
 
             </v-toolbar>
 
-            <slider-tab :data="this.$store.state.wizardData"></slider-tab>
+            <slider-tab :editable="true" :data="this.$store.state.wizardData"></slider-tab>
 
 
         </v-card>
