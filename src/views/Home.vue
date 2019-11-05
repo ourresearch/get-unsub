@@ -1,5 +1,5 @@
 <template>
-    <v-container class="home">
+    <v-container fluid class="home">
         <v-card class="pa-6">
 
             <v-row class="top-screen py-12">
@@ -39,7 +39,7 @@
             </v-row>
             <v-divider class="my-12"></v-divider>
 
-            <div class="selling-points">
+            <v-container class="selling-points">
 
                 <!-- first point -->
                 <div class="selling-point">
@@ -133,7 +133,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </v-container>
 
 
             <v-divider class="my-12"></v-divider>
