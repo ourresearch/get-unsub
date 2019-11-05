@@ -55,7 +55,7 @@
                             </div>
 
                         </v-col>
-                        <v-col cols="1" >
+                        <v-col cols="1 slider-col lift" >
                             <v-slider
                                     v-model="sliderPercent"
                                     color="info"
@@ -64,7 +64,15 @@
                                     @end="sliderEnd"
                             ></v-slider>
                         </v-col>
-                        <v-col :cols="barCols" class="currency-area">
+                        <v-col :cols="barCols" class="currency-area lift">
+                            <div class="under-bar">
+                                <div class="num font-weight-bold main-number ">
+                                    {{(subrCostPercent+illCostPercent) | round}}%
+                                </div>
+                                <div class="label">
+                                        of base cost
+                                </div>
+                            </div>
                             <div class="bar-wrapper">
                                 <div class="bar-fill"></div>
                                 <div class="bar cost" :style="{height: subrCostPercent+'%'}">
@@ -77,24 +85,23 @@
                                 </div>
                             </div>
 
-                            <table>
-                                <tr>
-                                    <td class="num font-weight-bold main-number text-right pr-2">
-                                        {{(subrCostPercent+illCostPercent) | round}}%
-                                    </td>
-                                    <td class="label">
-                                        of base cost
-                                    </td>
-                                </tr>
-                            </table>
                         </v-col>
 
 
-                        <v-col :cols="barCols" class="usage-area">
+                        <v-col :cols="barCols" class="usage-area lift">
+                            <div class="under-bar">
+                                <div class="num font-weight-bold main-number ">
+                                    {{instantUsage | round}}%
+                                </div>
+                                <div class="label">
+                                        Instant Usage
+                                </div>
+                            </div>
+
                             <div class="bar-wrapper">
                                 <div class="bar delayed bar-fill">
                                     <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
-                                    ILL and other delayed
+                                    ILL and other
                                 </div>
                                 <div class="bar paid instant" :style="{height: usage.subr+'%'}">
                                     <strong>{{usage.subr | round}}%</strong>
@@ -113,24 +120,19 @@
                                     ResearchGate etc
                                 </div>
                             </div>
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td class="num font-weight-bold main-number text-right pr-2">
-                                            <div>
-                                                {{instantUsage | round}}%
-                                            </div>
-                                        </td>
-                                        <td class="label">
-                                            Instant usage
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+
                         </v-col>
 
 
-                        <v-col :cols="barCols" class="journals-area">
+                        <v-col :cols="barCols" class="journals-area lift">
+                            <div class="under-bar">
+                                <div class="num font-weight-bold main-number ">
+                                    {{subscribedJournals.length}}
+                                </div>
+                                <div class="label">
+                                        subscribed journals
+                                </div>
+                            </div>
                             <div class="dots-bar-wrapper">
                                     <div v-for="journal in data.journals"
                                          :key="journal.issn_l"
@@ -139,20 +141,6 @@
                                     >
                                     </div>
 
-                            </div>
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td class="num font-weight-bold main-number text-right pr-2">
-                                            <div>
-                                                {{subscribedJournals.length}}
-                                            </div>
-                                        </td>
-                                        <td class="label">
-                                            subscribed journals
-                                        </td>
-                                    </tr>
-                                </table>
                             </div>
                         </v-col>
 
@@ -342,7 +330,7 @@
                     .then(r => {
                         this.makeItSoLoading = false
                         this.$store.commit('clearWizard')
-                        this.$store.commit('snackbar', "Subscriptions updated!")
+                        this.$store.commit('snackbar', "Subscriptions updated!", "info")
                     })
             },
             updateJournals() {
@@ -431,19 +419,21 @@
         }
     }
 
-    table {
+    .under-bar {
         padding: 10px 0;
         line-height: 1;
 
         .main-number {
-            font-size: 60px;
+            font-size: 50px;
             color: #333;
+            text-align: center;
+            width: 100%;
         }
 
 
         .label {
             font-size: 14px;
-            width: 3em;
+            text-align: center;
 
         }
     }
@@ -462,6 +452,13 @@
         }
     }
 
+
+    .lift {
+        margin-top: -80px;
+    }
+    .slider-col {
+        padding-top: 100px;
+    }
     .v-slider--vertical {
         height: $bar-height !important;
         margin: 0 !important;
