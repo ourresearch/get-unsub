@@ -1,7 +1,7 @@
 <template>
     <v-container fluid v-if="data && data.headers" :class="{loading: loading}">
 
-        <v-card >
+        <v-card>
             <v-tabs>
                 <v-tab>
                     Stats
@@ -12,23 +12,42 @@
 
 
                 <v-tab-item>
-                        <v-card flat>
-                            <v-card-title >
-                                <div>
-                                    <h2 class="display-1">{{data.name}}</h2>
-                                </div>
-                            </v-card-title>
-                            <v-card-actions>
-                                <div v-if="data.key==='journals'" style="margin-top:-20px;">
-                                    <slider-tab :editable="false" :data="data"></slider-tab>
-                                </div>
-                            </v-card-actions>
+                    <v-card flat>
+                        <v-card-title>
+                            <div>
+                                <h2 class="display-1">{{data.name}}</h2>
+                            </div>
+                        </v-card-title>
+                        <v-card-actions class="px-5">
+                            <div v-if="data.key==='journals'" style="margin-top:-20px;">
+                                <slider-tab :editable="false" :data="data"></slider-tab>
+                            </div>
 
 
                             <v-row>
-                            </v-row>
-                        </v-card>
+                                <v-col cols="5">
+                                    <div class="text-summary" v-if="data.key==='fulfillment'">
+                                        <p>Over the next five years, {{ header('instant_usage_percent').percent }}% of your usage is projected to be fulfilled by instant sources, primarily perpetual access backfile ({{header('use_backfile').percent}}%) and Open Access ({{header('use_oa').percent}}%).
+                                        </p>
+                                        <p>
 
+                                        </p>
+                                    </div>
+                                </v-col>
+                                <v-col cols="7">
+                                    <div v-if="data.key==='fulfillment'">
+                                        Fulfillment graph coming soon...
+                                    </div>
+                                </v-col>
+                            </v-row>
+
+
+                        </v-card-actions>
+
+
+                        <v-row>
+                        </v-row>
+                    </v-card>
 
 
                 </v-tab-item>
@@ -38,8 +57,8 @@
                                 flat
                         >
                             <div>
-                                    <h2 class="display-1">{{data.name}} by Journal</h2>
-                                </div>
+                                <h2 class="display-1">{{data.name}} by Journal</h2>
+                            </div>
                             <v-spacer></v-spacer>
                             <v-spacer></v-spacer>
                             <v-text-field
@@ -115,7 +134,6 @@
                                         </span>
 
 
-
                                     </td>
 
                                 </tr>
@@ -138,6 +156,7 @@
 
 <script>
     import SliderTab from "../ScenarioTabs/SliderTab"
+
     export default {
         props: [],
         components: {SliderTab},
@@ -199,28 +218,36 @@
                 this.$store.dispatch("removeSubr", issnl)
             },
             openSingleJournal(issnl) {
-                if (this.data.key==="apc"){
+                if (this.data.key === "apc") {
                     return
                 }
 
                 console.log("@click on openSingleJournal()", issnl)
                 this.$store.dispatch('openSingleJournal', issnl)
             },
-            getColDisplayType(colName){
-                const myHeader = this.data.headers.find(h=>h.value === colName)
-                if (myHeader){
+            getColDisplayType(colName) {
+                const myHeader = this.data.headers.find(h => h.value === colName)
+                if (myHeader) {
                     return myHeader.display
-                }
-                else {
+                } else {
                     return "number"
                 }
 
+            },
+            header(k){
+                return this.data.headers.find(h=>h.value===k)
             }
         }
     }
 </script>
 
 <style scoped lang="scss">
+    .text-summary {
+        font-size: 20px;
+    }
+
+
+
     table tr.subscribed {
         background: #C2DBFD !important;
     }
