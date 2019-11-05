@@ -27,16 +27,37 @@
                             <v-row>
                                 <v-col cols="5">
                                     <div class="text-summary" v-if="data.key==='fulfillment'">
-                                        <p>Over the next five years, {{ header('instant_usage_percent').percent }}% of your usage is projected to be fulfilled by instant sources, primarily perpetual access backfile ({{header('use_backfile').percent}}%) and Open Access ({{header('use_oa').percent}}%).
+                                        <p>Over the next five years, {{ header('instant_usage_percent').percent }}% of
+                                            your usage is projected to be fulfilled by instant sources, primarily
+                                            perpetual access backfile ({{header('use_backfile').percent}}%) and Open
+                                            Access ({{header('use_oa').percent}}%).
+                                        </p>
+                                    </div>
+                                    <div class="text-summary" v-if="data.key==='oa'">
+                                        <p>Over the next five years, {{ header('use_oa_percent').percent }}% of your
+                                            usage can be fulfilled by Open Access. Key contributors include Bronze
+                                            ({{header('use_bronze_percent').percent}}%) and Green
+                                            ({{header('use_green_percent').percent}}%) OA.
+                                        </p>
+                                    </div>
+                                    <div class="text-summary" v-if="data.key==='impact'">
+                                        <p>
+                                            Over the next five years, authors affiliated with your institution are projected to cite the journals listed in this scenario {{header('citations').raw | round(2)}} times, and author {{ header('authorships').raw | round(2) }} publications.
                                         </p>
                                         <p>
-
+                                            based on your settings, each citation is contributing the equivalent of {{ $store.getters.configs.weight_citation  }} downloads, and each authored paper is contributing the equivalent of {{ $store.getters.configs.weight_authorship }} downloads to total Usage.
                                         </p>
                                     </div>
                                 </v-col>
                                 <v-col cols="7">
                                     <div v-if="data.key==='fulfillment'">
                                         Fulfillment graph coming soon...
+                                    </div>
+                                    <div v-if="data.key==='oa'">
+                                        Open Access graph coming soon...
+                                    </div>
+                                    <div v-if="data.key==='impact'">
+                                        Impact graph coming soon...
                                     </div>
                                 </v-col>
                             </v-row>
@@ -234,8 +255,8 @@
                 }
 
             },
-            header(k){
-                return this.data.headers.find(h=>h.value===k)
+            header(k) {
+                return this.data.headers.find(h => h.value === k)
             }
         }
     }
@@ -245,7 +266,6 @@
     .text-summary {
         font-size: 20px;
     }
-
 
 
     table tr.subscribed {
