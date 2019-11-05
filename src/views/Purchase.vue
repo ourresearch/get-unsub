@@ -36,7 +36,6 @@
                     successUrl: 'https://journals.upnpaywall.org/purchase/success',
                     cancelUrl: 'https://journals.upnpaywall.org/purchase/cancelled',
                     billingAddressCollection: 'auto',
-                    submitType: 'Purchase',
                 })
                     .then(function (result) {
                         if (result.error) {
