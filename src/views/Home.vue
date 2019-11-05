@@ -10,7 +10,7 @@
                 </div>
                 <div class="my-3">
                     <v-btn class="mr-3" depressed large color="primary">Purchase</v-btn>
-                    <v-btn @click="loginDemo" outlined large color="primary">View Demo</v-btn>
+                    <v-btn to="/a/demo-user/demo-pkg-123/1" outlined large color="primary">View Demo</v-btn>
                 </div>
             </v-col>
             <v-col>

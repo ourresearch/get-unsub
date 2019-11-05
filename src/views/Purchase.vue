@@ -27,11 +27,16 @@
         }),
         methods: {
             buy() {
+                // const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
+                const items = [{plan: 'plan_G7bKcaYos2it45', quantity: 1}]
+
                 console.log("buy!")
                 this.stripe.redirectToCheckout({
-                    items: [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}],
+                    items: items,
                     successUrl: 'https://journals.upnpaywall.org/purchase/success',
                     cancelUrl: 'https://journals.upnpaywall.org/purchase/cancelled',
+                    billingAddressCollection: 'auto',
+                    submitType: 'Purchase',
                 })
                     .then(function (result) {
                         if (result.error) {
@@ -42,7 +47,8 @@
         },
         mounted() {
             console.log("purchase page mounted")
-            this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
+            // this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
+            this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
         }
     }
 </script>

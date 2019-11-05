@@ -195,7 +195,7 @@
         </v-navigation-drawer>
 
 
-        <v-content>
+        <v-content style="margin-bottom: 0">
 
             <router-view></router-view>
 
