@@ -42,7 +42,7 @@
                             <v-card-title>
                                 Your purchase lets you:
                             </v-card-title>
-
+<v-divider></v-divider>
                             <v-list>
                                 <v-list-item>
                                     <v-list-item-icon>
@@ -91,6 +91,23 @@
 
 
                             </v-list>
+                                    <v-divider></v-divider>
+                            <v-card-actions>
+                                <div>
+                                    <v-row class="body-1s" align="center">
+                                            <v-checkbox v-model="agreedToTerms"></v-checkbox>
+
+                                        I agree to the  <a
+                                            href="https://ourresearch-admin.s3.amazonaws.com/UnpaywallJournalsTermsAndConditions.pdf" class="ml-1"> Terms and Conditions.</a>
+                                    </v-row>
+                                    <v-row>
+                                <v-btn :disabled="!agreedToTerms" x-large color="primary" depressed @click="buy">Purchase</v-btn>
+
+                                    </v-row>
+
+                                </div>
+
+                            </v-card-actions>
                         </v-card>
                     </v-row>
 
@@ -99,10 +116,6 @@
             </v-card-actions>
 
 
-            <v-card-actions>
-                <v-btn depressed @click="buy">buy stuffs</v-btn>
-
-            </v-card-actions>
         </v-card>
 
 
@@ -115,7 +128,8 @@
     export default {
         name: "Purchase",
         data: () => ({
-            stripe: null
+            stripe: null,
+            agreedToTerms: false
         }),
         methods: {
             buy() {
