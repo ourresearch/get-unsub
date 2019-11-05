@@ -207,6 +207,14 @@
             <v-btn text @click="$store.commit('closeNotSupportedMsg')">close</v-btn>
         </v-snackbar>
 
+        <v-snackbar
+                top
+                :color="$store.state.snackbarColor"
+                v-model="$store.state.snackbarIsOpen">
+            {{$store.state.snackbarMsg}}
+            <v-btn text @click="$store.commit('closeSnackbar')">close</v-btn>
+        </v-snackbar>
+
 
         <single-journal></single-journal>
         <slider-tab></slider-tab>

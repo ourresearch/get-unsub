@@ -83,6 +83,9 @@ export default new Vuex.Store({
 
         authState: "ready",
         notSupportedMsgOpen: false,
+        snackbarMsg: "",
+        snackbarIsOpen: false,
+        snackbarColor: "success",
 
         scenarios: [],
         selectedScenario: null,
@@ -143,6 +146,14 @@ export default new Vuex.Store({
         },
         openNotSupportedMsg(state) {
             state.notSupportedMsgOpen = true
+        },
+        snackbar(state, msg, color="success"){
+            state.snackbarMsg = msg
+            state.snackbarIsOpen = true
+        },
+        closeSnackbar(state){
+            state.snackbarMsg = ""
+            state.snackbarIsOpen = false
         },
 
 

@@ -14,8 +14,17 @@
                             </div>
 
                             <div class="mt-8">
-                                <v-btn depressed large class="mr-6" color="primary">Make it so</v-btn>
-                                <v-btn depressed large outline>cancel</v-btn>
+                                <v-btn depressed
+                                       large
+                                       :loading="makeItSoLoading"
+                                       @click="makeItSo"
+                                       class="mr-6"
+                                       color="primary">
+                                    Make it so</v-btn>
+                                <v-btn depressed
+                                       @click="$store.commit('clearWizard')"
+                                       large
+                                       outline>cancel</v-btn>
                             </div>
 
                         </v-col>
@@ -74,7 +83,7 @@
                                 </div>
                                 <div class="bar free instant" :style="{height: usage.asn+'%'}">
                                     <strong>{{usage.asn | round}}%</strong>
-                                    ASNs
+                                    ResearchGate etc
                                 </div>
                             </div>
                             <div>
@@ -138,6 +147,7 @@
                 sliderPercent: 0,
                 totalUsage: 0,
                 barHeight: 500,
+                makeItSoLoading: false,
                 // subrCost:0,
                 // illCost: 0,
             }
@@ -277,16 +287,20 @@
         },
         methods: {
             sliderEnd() {
-                console.log("slider blur")
-                return
                 if (this.sliderPercent < this.illCostPercent) {
                     this.sliderPercent = this.illCostPercent
                 }
+            },
+            makeItSo(){
+                this.makeItSoLoading = true
                 const subrIssnls = this.data.journals
                     .filter(j => j.subscribed)
                     .map(j => j.issn_l)
                 this.$store.dispatch("setSubrs", subrIssnls)
                     .then(r => {
+                        this.makeItSoLoading = false
+                        this.$store.commit('clearWizard')
+                        this.$store.commit('snackbar', "Subscriptions updated!")
                     })
             },
             updateJournals() {
@@ -337,16 +351,18 @@
                 console.log("cost percent changed")
                 this.updateJournals()
             },
-            'tabDataDigest': {
-                deep: false,
-                handler: function (to, from) {
-                    console.log("summary changed", to)
-                    if (!this.data || !this.data._summary) return
-                    // this.illCost = this.data._summary.cost_scenario_ill
-                    // this.subrCost = this.data._summary.cost_scenario_subscription
-                    this.sliderPercent = 100 * (this.illCost + this.subrCost) / this.data._summary.cost_bigdeal_projected
-                }
-            },
+
+
+            // 'tabDataDigest': {
+            //     deep: false,
+            //     handler: function (to, from) {
+            //         console.log("summary changed", to)
+            //         if (!this.data || !this.data._summary) return
+            //         // this.illCost = this.data._summary.cost_scenario_ill
+            //         // this.subrCost = this.data._summary.cost_scenario_subscription
+            //         this.sliderPercent = 100 * (this.illCost + this.subrCost) / this.data._summary.cost_bigdeal_projected
+            //     }
+            // },
 
 
         }
