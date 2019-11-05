@@ -48,6 +48,22 @@
                                             based on your settings, each citation is contributing the equivalent of {{ $store.getters.configs.weight_citation  }} downloads, and each authored paper is contributing the equivalent of {{ $store.getters.configs.weight_authorship }} downloads to total Usage.
                                         </p>
                                     </div>
+                                    <div class="text-summary" v-if="data.key==='costs'">
+                                        <p>
+                                            Your projected annual spend in this scenario is {{header('scenario_cost').raw | currency }}, with  {{header('ill_cost').raw | currency }} spent on ILL (@ {{$store.getters.configs.cost_ill | currency }}/delivery, based on your settings) and the rest on subscriptions.
+                                        </p>
+                                    </div>
+                                    <div class="text-summary" v-if="data.key==='apc'">
+                                        <p>
+                                            Your institution’s authors are projected to spend at least {{header('cost_apc').raw | currency }} annually on  APCs paid to this publisher (Elsevier) over the next five years
+                                        </p>
+                                        <v-alert type="info">
+This view is different from the others: it includes all journals published by this package’s publisher (elsevier) authors from your institution have paid APCs for gold or hybrid open access...this gives you a preliminary estimate of your “publish” spend
+                                        </v-alert>
+                                        <v-alert type="warning">
+                                            Data in this view is more preliminary than in the other tabs.
+                                        </v-alert>
+                                    </div>
                                 </v-col>
                                 <v-col cols="7">
                                     <div v-if="data.key==='fulfillment'">
@@ -58,6 +74,12 @@
                                     </div>
                                     <div v-if="data.key==='impact'">
                                         Impact graph coming soon...
+                                    </div>
+                                    <div v-if="data.key==='costs'">
+                                        Costs graph coming soon...
+                                    </div>
+                                    <div v-if="data.key==='apc'">
+                                        Costs graph coming soon...
                                     </div>
                                 </v-col>
                             </v-row>
