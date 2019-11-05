@@ -149,17 +149,17 @@
                             APC cost
                         </v-card-title>
 
-                        <v-card-text>
+                        <v-card-text class="body-1">
                             <div>
-                                Your institution's historical fractional authorship in this journal: <strong>{{
-                                journal.apc.fractional_authorship || "none found" }}</strong>
+                                Your institution's projected annual fractional authorship in this journal (fractional authorship = <em>number of authors from your institution</em> divided by <em>total coauthors</em> for each paper): <strong>{{
+                                journal.apc.annual_projected_fractional_authorship || "none found" }}</strong>
                             </div>
                             <div>
                                 This journal's APC price: <strong>{{ journal.apc.apc_price || "none found"}}</strong>
                             </div>
                             <div>
-                                Adjusted APC spend from authors at your institution: <strong>{{
-                                journal.apc.cost_apc_historical || "none found" }}</strong>
+                                Adjusted (fractional) projected annual APC spend from authors at your institution: <strong>{{
+                                journal.apc.annual_projected_cost || "none found" }}</strong>
                             </div>
                         </v-card-text>
                         <v-divider></v-divider>

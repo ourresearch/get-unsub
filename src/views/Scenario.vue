@@ -53,7 +53,6 @@
     import axios from 'axios'
 
     import SliderTab from "./ScenarioTabs/SliderTab"
-    import SingleJournalTab from "./ScenarioTabs/SingleJournalTab"
     import JournalsTab from "./ScenarioTabs/JournalsTab"
     import SharingTab from "./ScenarioTabs/SharingTab"
 
@@ -61,7 +60,6 @@
         name: "Pkg",
         components: {
             SliderTab,
-            SingleJournalTab,
             JournalsTab,
             SharingTab
         },

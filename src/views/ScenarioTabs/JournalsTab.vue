@@ -83,7 +83,7 @@
                                     :class="{subscribed: item.subscribed}">
                                     <td style="width:40%;">
                                         <v-row class="py-2">
-                                            <v-col style="flex-grow:1;">
+                                            <v-col v-if="data.key !== 'apc'" style="flex-grow:1;">
                                                 <v-btn icon text
                                                        @click.stop="subscribe(item.issnl)"
                                                        v-if="!item.subscribed">
@@ -183,12 +183,12 @@
             },
             tableRows() {
                 return this.data.journals.map(j => {
-                    let ret = {}
-                    Object.keys(j).forEach(key => {
-                        if (key !== 'meta') {
-                            ret[key] = j[key]
-                        }
-                    })
+                    let ret = j.table_row
+                    // Object.keys(j).forEach(key => {
+                    //     if (key !== 'meta') {
+                    //         ret[key] = j[key]
+                    //     }
+                    // })
                     ret.title = j.meta.title
                     ret.subject = j.meta.subject
                     ret.issnl = j.meta.issn_l
@@ -210,6 +210,10 @@
                 this.$store.dispatch("removeSubr", issnl)
             },
             openSingleJournal(issnl) {
+                if (this.data.key==="apc"){
+                    return
+                }
+
                 console.log("@click on openSingleJournal()", issnl)
                 this.$store.dispatch('openSingleJournal', issnl)
             },

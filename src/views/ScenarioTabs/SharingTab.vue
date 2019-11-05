@@ -23,7 +23,7 @@
                 </v-card-actions>
             </v-card>
 
-            <v-divider></v-divider>
+            <v-divider class="my-8"></v-divider>
             <v-card flat>
                 <v-card-title>
                     API key
@@ -38,7 +38,7 @@
 </code>
                 </v-card-actions>
             </v-card>
-            <v-divider></v-divider>
+            <v-divider class="my-8"></v-divider>
             <v-card flat>
                 <v-card-title>
                     Public summary page
