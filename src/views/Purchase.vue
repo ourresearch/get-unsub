@@ -39,6 +39,9 @@
                     <v-row justify="center">
 
                         <v-card flat width="800">
+                            <v-card-title>
+                                Your purchase lets you:
+                            </v-card-title>
 
                             <v-list>
                                 <v-list-item>
