@@ -14,7 +14,10 @@
                     Spreadsheets.
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn flat depressed>
+                    <v-btn color="primary"
+                           flat
+                           depressed
+                           href="https://unpaywall-jump-api.herokuapp.com/scenario/export.csv">
                         Download CSV
                     </v-btn>
                 </v-card-actions>
