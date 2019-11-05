@@ -33,8 +33,8 @@
                 console.log("buy!")
                 this.stripe.redirectToCheckout({
                     items: items,
-                    successUrl: 'https://journals.upnpaywall.org/purchase/success',
-                    cancelUrl: 'https://journals.upnpaywall.org/purchase/cancelled',
+                    successUrl: 'https://journals.unpaywall.org/purchase/success',
+                    cancelUrl: 'https://journals.unpaywall.org/purchase/cancelled',
                     billingAddressCollection: 'auto',
                 })
                     .then(function (result) {
