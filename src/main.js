@@ -20,6 +20,12 @@ import 'vue-css-donut-chart/dist/vcdonut.css';
 
 Vue.use(Donut);
 
+import VueAnalytics from 'vue-analytics'
+Vue.use(VueAnalytics, {
+  id: "UA-23384030-10",
+  router
+})
+
 
 
 Vue.config.productionTip = false

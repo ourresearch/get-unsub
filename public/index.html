@@ -9,6 +9,15 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
 
+    <script>
+      if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {alert("We're very sorry, but we have a bug affecting the Safari web browser, which it looks like you're using. It should be fixed in a few days. In the meantime, we are working on Firefox and Chrome!");}
+
+      if (window.innerWidth < 800){
+        alert("It looks like you're on a mobile browser. We're still working on mobile support for Unpaywall Journals Beta, so our apologies if your experience isn't great. Try out Unpaywall Journals on desktop for the full experience!")
+      }
+
+    </script>
+
 
 <script id="stripe-js" src="https://js.stripe.com/v3/" async></script>
 
