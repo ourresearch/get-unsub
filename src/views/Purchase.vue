@@ -68,7 +68,7 @@
                                             Customize authorship and citation stats
                                         </v-list-item-title>
                                         <v-list-item-subtitle>
-                                            Include automatically-gathered authorship and citation data for your institution.
+                                            Automatically gather authorship and citation data for your institution.
                                         </v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
@@ -79,16 +79,69 @@
                                     </v-list-item-icon>
                                     <v-list-item-content>
                                         <v-list-item-title>
-                                            Customize authorship and citation stats
+                                            View Open Access statistics
                                         </v-list-item-title>
                                         <v-list-item-subtitle>
-                                            Include automatically-gathered authorship and citation data for your institution.
+                                            Understand OA at the journal level.
                                         </v-list-item-subtitle>
                                     </v-list-item-content>
                                 </v-list-item>
 
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Stop paying for free content
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Calculate cost per paid use, given your institution's data.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
 
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Customize with your values and assumptions
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Weigh citations, authorships, and speed of access.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
 
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Look ahead
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Project Costs and Usage for the next five years.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+
+                                <v-list-item>
+                                    <v-list-item-icon>
+                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                                    </v-list-item-icon>
+                                    <v-list-item-content>
+                                        <v-list-item-title>
+                                            Share the data
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle>
+                                            Export as Report to share with administration and faculty.
+                                        </v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
 
                             </v-list>
                                     <v-divider></v-divider>
