@@ -6,40 +6,61 @@
                         <v-col>
 
                             <div :class="{editable: !editable}" class="text-summary">
-                                At a projected annual spend of <strong>{{this.cost | currency}},</strong> subscribing to
-                                the <strong>{{ subscribedJournals.length}}</strong> most cost-effective journals saves
-                                <strong>{{100 - (subrCostPercent + illCostPercent) | round}}%</strong> off your current package subscription cost, while providing instant
-                                fulfillment for <strong>{{instantUsage | round}}%</strong> of (weighted) usage.
+                                <p>
+                                    At a projected annual spend of <strong>{{this.cost | currency}},</strong> subscribing to
+
+                                    <span v-if="subscribedJournals.length">
+                                        only the <strong>{{ subscribedJournals.length}}</strong> most cost-effective journals
+                                    </span>
+                                    <span v-if="!subscribedJournals.length">
+                                        <em>none</em> of your baseline journals
+                                    </span>
+                                     saves <strong>{{100 - (subrCostPercent + illCostPercent) | round}}%</strong> off your current package subscription cost, while providing instant fulfillment for <strong>{{instantUsage | round}}%</strong> of (weighted) usage.
+                                </p>
+
+                                <p>
+                                    <v-btn
+                                            @click='$store.commit("setEditMode")'
+                                            v-if="!$store.state.editMode"
+                                            class="mt-4"
+                                            depressed color="info">edit</v-btn>
+                                </p>
+
+
+
+                                <v-alert text type="info" v-if="false && journalsCheaperToSubscribe.length">
+                                    <div>
+                                        You could save money by subscribing to the <strong>{{ journalsCheaperToSubscribe.length }}</strong> journals where subscription is cheaper than ILL.
+                                    </div>
+                                    <div>
+                                        <v-btn @click='$store.dispatch("openWizard")' class="mt-4" depressed color="info">show me</v-btn>
+                                    </div>
+                                </v-alert>
+
+
+
                             </div>
 
-                            <div v-if="editable" class="mt-8">
+                            <div v-if="$store.state.editMode" class="mt-8">
                                 <v-btn depressed
-                                       large
                                        :loading="makeItSoLoading"
                                        @click="makeItSo"
-                                       class="mr-6"
-                                       color="primary">
-                                    Make it so</v-btn>
+                                       class="mr-2"
+                                       color="info">
+                                    Save subscriptions</v-btn>
                                 <v-btn depressed
-                                       @click="$store.commit('clearWizard')"
-                                       large
+                                       @click="$store.commit('clearEditMode')"
+
                                        outlined>cancel</v-btn>
-                            </div>
-                            <div v-if="!editable">
-                                <v-btn
-                                        class="mt-3"
-                                        depressed
-                                        outlined
-                                        @click='$store.dispatch("openWizard")'
-                                >Edit</v-btn>
                             </div>
 
                         </v-col>
-                        <v-col cols="1" v-if="editable">
+                        <v-col cols="1" >
                             <v-slider
                                     v-model="sliderPercent"
-                                    color="gray"
+                                    color="info"
                                     vertical
+                                    :disabled="!$store.state.editMode"
                                     @end="sliderEnd"
                             ></v-slider>
                         </v-col>
@@ -144,9 +165,11 @@
 
 <script>
     import _ from "lodash"
+    import CostStick from "../../components/CostStick"
 
     export default {
         props: ["data", "editable"],
+        components: {CostStick},
         name: "SliderTab",
         data() {
             return {
@@ -165,6 +188,11 @@
             // },
             showMe() {
                 return this.$store.state.wizardOpen
+            },
+            journalsCheaperToSubscribe(){
+                return this.data.journals.filter(j=>{
+                    return j.cost_subscription_minus_ill < 0
+                })
             },
             cost() {
                 // i think maybe this is garbage...
@@ -207,6 +235,7 @@
                 return this.$store.state.tabDataLoading
             },
             barCols(){
+                return 2
                 return (this.editable) ? 2 : 3
             },
 
@@ -290,7 +319,10 @@
                         y: (100 * Math.log(j.use_groups_if_subscribed.subscription) / Math.log(this.topPaidUsage)) + '%'
                     }
                 })
-            }
+            },
+            editMode(){
+                return this.$store.state.editMode
+            },
 
 
         },
@@ -301,6 +333,7 @@
                 }
             },
             makeItSo(){
+                this.$store.commit("clearEditMode")
                 this.makeItSoLoading = true
                 const subrIssnls = this.data.journals
                     .filter(j => j.subscribed)
@@ -361,15 +394,24 @@
                 this.updateJournals()
             },
 
+            editMode: function (to, from) {
+                console.log("edit mode changed")
+                if (this.editMode){
+                    this.sliderEnd()
+                }
+            },
+
+
+
+
 
             // 'tabDataDigest': {
             //     deep: false,
             //     handler: function (to, from) {
-            //         console.log("summary changed", to)
+            //         console.log("tabData changed", to)
             //         if (!this.data || !this.data._summary) return
-            //         // this.illCost = this.data._summary.cost_scenario_ill
-            //         // this.subrCost = this.data._summary.cost_scenario_subscription
-            //         this.sliderPercent = 100 * (this.illCost + this.subrCost) / this.data._summary.cost_bigdeal_projected
+            //         this.sliderEnd()
+            //
             //     }
             // },
 
@@ -408,8 +450,8 @@
 
     .journal-dot {
         background: #ccc;
-        height: 5px;
-        width: 5px;
+        height: 4px;
+        width: 4px;
         border-radius: 5px;
         margin: 1px 1px 0 0;
         line-height: .1;

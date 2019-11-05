@@ -77,14 +77,14 @@
         </v-app-bar>
 
 
-        <v-navigation-drawer v-if="summary" dark v-model="drawerRight" app right class="pt-12">
+        <v-navigation-drawer v-if="summary" dark v-model="$store.state.configsOpen" app right class="pt-12">
             <v-toolbar absolute width="100%">
                 <v-toolbar-title>
                     <v-icon small>mdi-pencil-outline</v-icon>
                     Edit Configs
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon text @click="drawerRight = false">
+                <v-btn icon text @click="$store.commit('clearConfigsOpen')">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
 
@@ -138,14 +138,7 @@
 
             <v-divider></v-divider>
             <v-list nav>
-                <v-list-item @click="openWizard">
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Subscription wizard
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-                <v-list-item @click="drawerRight = !drawerRight">
+                <v-list-item @click="$store.commit('setConfigsOpen')">
                     <v-list-item-content>
                         <v-list-item-title>
                             Scenario configs

@@ -15,13 +15,26 @@
                     <v-card flat>
                         <v-card-title>
                             <div>
-                                <h2 class="display-1">{{data.name}}</h2>
+                                <h2 class="display-1">
+                                    {{data.name}}
+                                    <v-chip class="mx-2"
+                                            v-if="$store.state.editMode"
+                                            color="info">
+                                        <v-avatar left>
+                                        <v-icon>mdi-pencil</v-icon>
+                                      </v-avatar>
+                                        Edit mode
+
+                                    </v-chip>
+                                </h2>
                             </div>
                         </v-card-title>
                         <v-card-actions class="px-5">
                             <div v-if="data.key==='journals'" style="margin-top:-20px;">
-                                <slider-tab :editable="false" :data="data"></slider-tab>
+                                <slider-tab :editable="true" :data="data"></slider-tab>
                             </div>
+
+
 
 
                             <v-row>
@@ -71,6 +84,13 @@ This view is different from the others: it includes all journals published by th
                                     </div>
                                     <div v-if="data.key==='oa'">
                                         Open Access graph coming soon...
+                                        <vc-donut
+                                        :sections="donutData"
+                                        size="500"
+                                        has-legend
+                                        legend-placement="bottom"
+                                        :thickness="60">
+                                      </vc-donut>
                                     </div>
                                     <div v-if="data.key==='impact'">
                                         Impact graph coming soon...
@@ -221,6 +241,19 @@ This view is different from the others: it includes all journals published by th
             },
             views() {
                 return this.$store.getters.journalViews
+            },
+            donutData(){
+                return this.data.headers.map(h=>{
+                    return {
+                        value: h.percent,
+                        label: h.text,
+                        key: h.value, // name
+                    }
+                })
+                    .filter(h=>{
+                        return !['instant_usage_percent',].includes(h.key)
+                    })
+
             },
             loading() {
                 return this.$store.state.tabDataLoading

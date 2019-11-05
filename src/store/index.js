@@ -105,6 +105,11 @@ export default new Vuex.Store({
         wizardOpen: null,
         wizardData: null,
 
+        editMode: false,
+
+        configsOpen: false,
+
+
 
     },
     mutations: {
@@ -188,6 +193,21 @@ export default new Vuex.Store({
 
             console.log("saved config", config, state.selectedScenario.configs)
         },
+        setConfigsOpen(state){
+            if(state.editMode){
+                console.log("edit mode bro")
+                state.snackbarIsOpen = true
+                state.snackbarMsg = "You can't change configs when you're Edit Mode"
+                state.snackbarColor = "info"
+                return
+            }
+            state.configsOpen = true
+        },
+        clearConfigsOpen(state){
+            state.configsOpen = false
+        },
+
+
 
 
         // scenario stuff
@@ -268,8 +288,16 @@ export default new Vuex.Store({
         clearWizard(state){
             state.wizardOpen = null
             state.wizardData = null
+        },
 
-        }
+        // edit mode
+        setEditMode(state){
+            state.editMode = true
+            state.configsOpen = false
+        },
+        clearEditMode(state){
+            state.editMode = false
+        },
 
 
     },
