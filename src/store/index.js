@@ -109,6 +109,8 @@ export default new Vuex.Store({
 
         configsOpen: false,
 
+        startupTutorialOpen: true,
+
 
 
     },
@@ -159,6 +161,9 @@ export default new Vuex.Store({
         closeSnackbar(state){
             state.snackbarMsg = ""
             state.snackbarIsOpen = false
+        },
+        clearStartupTutorial(state){
+            state.startupTutorialOpen = false
         },
 
 

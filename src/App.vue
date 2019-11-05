@@ -192,8 +192,8 @@
 
             <router-view></router-view>
 
-        <single-journal></single-journal>
-        <slider-tab></slider-tab>
+            <single-journal></single-journal>
+            <startup-tutorial></startup-tutorial>
         </v-content>
 
         <v-snackbar
@@ -212,14 +212,13 @@
         </v-snackbar>
 
 
-
-
         <v-footer
                 class="text-right main-footer"
         >
-                <div class="text-center" style="width:100%">
-                    <a href="https://github.com/ourresearch/unpaywall-journals">Open Source,</a> made with ❤︎ by <a href="https://ourresearch.org">Our Research.</a> | <a href="mailto:team@ourresearch.org">Contact</a>
-                </div>
+            <div class="text-center" style="width:100%">
+                <a href="https://github.com/ourresearch/unpaywall-journals">Open Source,</a> made with ❤︎ by <a
+                    href="https://ourresearch.org">Our Research.</a> | <a href="mailto:team@ourresearch.org">Contact</a>
+            </div>
         </v-footer>
 
 
@@ -229,12 +228,13 @@
 <script>
     import Breadcrumbs from "./components/Breadcrumbs"
     import Configs from "./components/Configs"
+    import StartupTutorial from "./components/StartupTutorial"
     import SingleJournal from "./components/SingleJournal"
     import SliderTab from "./views/ScenarioTabs/SliderTab"
 
     export default {
         name: 'App',
-        components: {Breadcrumbs, Configs, SingleJournal, SliderTab},
+        components: {Breadcrumbs, Configs, SingleJournal, SliderTab, StartupTutorial},
         data: () => ({
             drawerRight: false,
             activeViewIndex: 0,
@@ -340,9 +340,11 @@
 
     .main-footer {
         font-size: 14px;
+
         a {
             color: #333 !important;
             text-decoration: none;
+
             &:hover {
                 text-decoration: underline;
             }
