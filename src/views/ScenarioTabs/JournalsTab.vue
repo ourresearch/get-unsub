@@ -79,10 +79,11 @@
 
                         >
                             <template v-slot:item="{ item }">
-                                <tr @click="openSingleJournal(item.issnl)" :class="{subscribed: item.subscribed}">
-                                    <td>
-                                        <div class="py-2">
-                                            <div class="float-left mr-2">
+                                <tr @click="openSingleJournal(item.issnl)"
+                                    :class="{subscribed: item.subscribed}">
+                                    <td style="width:40%;">
+                                        <v-row class="py-2">
+                                            <v-col style="flex-grow:1;">
                                                 <v-btn icon text
                                                        @click.stop="subscribe(item.issnl)"
                                                        v-if="!item.subscribed">
@@ -93,20 +94,41 @@
                                                        v-if="item.subscribed">
                                                     <v-icon>mdi-cart</v-icon>
                                                 </v-btn>
-                                            </div>
-                                            <div>
+                                            </v-col>
+
+                                            <v-col style="flex-grow:222;">
                                                 <div :style="{'font-weight': item.subscribed ? 'normal' : 'normal'}"
                                                      style="font-size:18px;">{{item.title}}
                                                 </div>
                                                 <div class="caption">{{item.subject}}</div>
 
-                                            </div>
-                                        </div>
+                                            </v-col>
+                                        </v-row>
                                     </td>
                                     <td v-for="(v,k) in item"
                                         v-if="!['issnl', 'title', 'subject', 'subscribed'].includes(k)"
                                         :key="k">
-                                        {{ v }}
+                                        <span v-if="getColDisplayType(k)==='number'">
+                                            {{ v.toLocaleString()}}
+                                        </span>
+                                        <span v-if="getColDisplayType(k)==='percent'">
+                                            {{ v | round }}%
+                                        </span>
+                                        <span v-if="getColDisplayType(k)==='currency'">
+                                            {{ v | currency({fractionCount:2}) }}
+                                        </span>
+                                        <span v-if="getColDisplayType(k)==='currency_int'">
+                                            {{ v | currency }}
+                                        </span>
+                                        <span v-if="getColDisplayType(k)==='text'">
+                                            {{ v }}
+                                        </span>
+                                        <span v-if="getColDisplayType(k)==='float1'">
+                                            {{ v.toFixed(1) }}
+                                        </span>
+
+
+
                                     </td>
 
                                 </tr>
@@ -190,6 +212,16 @@
             openSingleJournal(issnl) {
                 console.log("@click on openSingleJournal()", issnl)
                 this.$store.dispatch('openSingleJournal', issnl)
+            },
+            getColDisplayType(colName){
+                const myHeader = this.data.headers.find(h=>h.value === colName)
+                if (myHeader){
+                    return myHeader.display
+                }
+                else {
+                    return "number"
+                }
+
             }
         }
     }

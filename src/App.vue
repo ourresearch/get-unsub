@@ -235,6 +235,7 @@
             },
             loading() {
                 return this.$store.state.tabDataLoading
+                        || this.$store.getters.wizardLoading
             },
             singleJournalIssnl() {
                 return this.$store.state.singleJournalIssnl

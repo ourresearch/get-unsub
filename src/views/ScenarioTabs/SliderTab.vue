@@ -1,36 +1,21 @@
 <template>
-    <v-dialog scrollable class="tab" v-model="$store.state.wizardOpen" :class="{loading: loading}">
-        <v-card>
-            <v-toolbar dark color="primary">
-                <v-toolbar-title>Subscription wizard</v-toolbar-title>
-                <v-progress-linear
-                        :active="$store.getters.wizardLoading"
-                        :indeterminate="$store.getters.wizardLoading"
-                        absolute
-                        bottom
-                        color="white"
-                ></v-progress-linear>
-                <v-spacer></v-spacer>
-                <v-btn icon dark @click="$store.commit('clearWizard')">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-items>
-                    <!--                        <v-btn dark text @click="dialog = false">Save</v-btn>-->
-                </v-toolbar-items>
 
-            </v-toolbar>
-
-
-            <v-card-text style="min-height: 700px; color: #333;">
+            <v-card-text style="color: #333;">
                 <div class="pa-3" v-if="$store.state.wizardData">
                     <v-row>
                         <v-col cols="4">
 
+                            <h2 class="display-1">Summmary:</h2>
                             <div class="text-summary">
                                 At a projected annual spend of <strong>{{this.cost | currency}},</strong> subscribing to
                                 the <strong>{{ subscribedJournals.length}}</strong> most cost-effective journals saves
-                                <strong>22%</strong> off your current package subscription cost, while providing instant
+                                <strong>{{100 - (subrCostPercent + illCostPercent) | round}}%</strong> off your current package subscription cost, while providing instant
                                 fulfillment for <strong>{{instantUsage | round}}%</strong> of (weighted) usage.
+                            </div>
+
+                            <div class="mt-8">
+                                <v-btn depressed large class="mr-6" color="primary">Make it so</v-btn>
+                                <v-btn depressed large outline>cancel</v-btn>
                             </div>
 
                         </v-col>
@@ -73,7 +58,7 @@
                             <div class="bar-wrapper">
                                 <div class="bar delayed bar-fill">
                                     <strong>{{usage.ill + usage.otherDelayed | round}}%</strong>
-                                    Other
+                                    ILL and other delayed
                                 </div>
                                 <div class="bar paid instant" :style="{height: usage.subr+'%'}">
                                     <strong>{{usage.subr | round}}%</strong>
@@ -140,16 +125,13 @@
 
             </v-card-text>
 
-        </v-card>
-
-    </v-dialog>
 </template>
 
 <script>
     import _ from "lodash"
 
     export default {
-        props: [],
+        props: ["data", "editable"],
         name: "SliderTab",
         data() {
             return {
@@ -161,10 +143,10 @@
             }
         },
         computed: {
-            data() {
-                return this.$store.state.wizardData
-
-            },
+            // data() {
+            //     return this.$store.state.wizardData
+            //
+            // },
             showMe() {
                 return this.$store.state.wizardOpen
             },
@@ -375,7 +357,7 @@
     $bar-height: 500px;
 
     .text-summary {
-        font-size: 26px;
+        font-size: 24px;
         line-height: 1.4;
     }
 
@@ -433,6 +415,7 @@
         }
 
         .bar {
+            padding-left: 3px;
             border-top: 1px solid #eee;
             font-size: 12px;
             color: #fff;

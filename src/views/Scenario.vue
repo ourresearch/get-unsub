@@ -8,6 +8,38 @@
         <sharing-tab></sharing-tab>
 
 
+<v-dialog class="tab" v-model="$store.state.wizardOpen && this.$store.state.wizardData">
+        <v-card>
+            <v-toolbar dark color="primary">
+                <v-toolbar-title>
+                    <span v-if="$store.getters.wizardLoading">Loading the</span>
+                    Subscription Wizard
+                    <span v-if="$store.getters.wizardLoading">...</span>
+                </v-toolbar-title>
+                <v-progress-linear
+                        :active="$store.getters.wizardLoading"
+                        :indeterminate="$store.getters.wizardLoading"
+                        absolute
+                        bottom
+                        color="white"
+                ></v-progress-linear>
+                <v-spacer></v-spacer>
+                <v-btn icon dark @click="$store.commit('clearWizard')">
+                    <v-icon>mdi-close</v-icon>
+                </v-btn>
+                <v-toolbar-items>
+                    <!--                        <v-btn dark text @click="dialog = false">Save</v-btn>-->
+                </v-toolbar-items>
+
+            </v-toolbar>
+
+            <slider-tab :data="this.$store.state.wizardData"></slider-tab>
+
+
+        </v-card>
+</v-dialog>
+
+
 
 <!--        <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>-->
 
