@@ -109,7 +109,8 @@ export default new Vuex.Store({
 
         configsOpen: false,
 
-        startupTutorialOpen: true,
+        startupTutorialOpen: false,
+        startupTutorialFinished: false,
 
 
 
@@ -164,6 +165,13 @@ export default new Vuex.Store({
         },
         clearStartupTutorial(state){
             state.startupTutorialOpen = false
+            state.startupTutorialFinished = true
+        },
+        openStartupTutorial(state){
+            if (!state.startupTutorialFinished){
+                state.startupTutorialOpen = true
+            }
+
         },
 
 
@@ -326,6 +334,7 @@ export default new Vuex.Store({
                 commit('setUser', dummyUser)
                 commit('setPkgs', dummyPkgs)
                 commit('setScenarios', dummyScenarios)
+                commit("openStartupTutorial")
 
 
                 resolve()

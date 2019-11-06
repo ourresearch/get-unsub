@@ -7,7 +7,7 @@
                     Stats
                 </v-tab>
                 <v-tab>
-                    List
+                    journals list
                 </v-tab>
 
 

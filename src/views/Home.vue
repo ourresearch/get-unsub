@@ -2,7 +2,7 @@
     <v-container fluid class="home">
         <v-card class="pa-6">
 
-            <v-row class="top-screen py-12">
+            <v-row class="top-screen pa-12">
                 <v-col>
                     <div class="main-copy">
                         <div class="tagline">
@@ -21,7 +21,7 @@
     
                         <div class="cta">
                             <div class="my-3">
-                                <v-btn class="mr-3" depressed large color="primary">Purchase</v-btn>
+                                <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>
                                 <v-btn to="/a/demo-user/demo-pkg-123/1" outlined large color="primary">View Demo</v-btn>
                             </div>
     
@@ -32,7 +32,10 @@
                     
                 </v-col>
                 <v-col>
-                    <img style="max-width:600px; border:5px solid #eee; border-radius:5px;" src="https://i.imgur.com/E7qZ312.png" alt="">
+<!--                    <img style="max-width:600px; border:5px solid #eee; border-radius:5px;" src="https://i.imgur.com/E7qZ312.png" alt="">-->
+
+
+                    <img style="max-width:600px; border:12px solid #eee; border-radius:12px;" src="../assets/slider.gif" alt="">
                 </v-col>
 
 

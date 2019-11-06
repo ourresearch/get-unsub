@@ -48,8 +48,8 @@
             <v-spacer></v-spacer>
 
             <v-toolbar-items>
+                <v-btn text color="primary" to="/purchase">Pricing</v-btn>
                 <v-btn text to="/support">Help</v-btn>
-                <v-btn text to="/purchase">Purchase</v-btn>
                 <v-btn text to="/login" v-if="!$store.getters.isLoggedIn">Log in</v-btn>
 
                 <v-btn text
@@ -197,6 +197,7 @@
         </v-content>
 
         <v-snackbar
+                color="warning"
                 top
                 v-model="$store.state.notSupportedMsgOpen">
             Sorry, that's not supported on the demo account.

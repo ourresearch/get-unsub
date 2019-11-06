@@ -167,8 +167,8 @@
             default: true,
             value: null,
             display: "boolean",
-            displayName: "Include Green OA submitted versions",
-            descr: "Include submitted versions as a type of fulfillment.  Submitted versions are papers made available in repositories as preprints or other versions that have not yet been peer reviewed.",
+            displayName: "Permit non-peer-reviewed versions",
+            descr: "For Green OA, allow submitted versions as a type of fulfillment.  Submitted versions are papers made available in repositories as preprints or other versions that have not yet been peer reviewed.",
         },
         include_social_networks: {
             name: "include_social_networks",

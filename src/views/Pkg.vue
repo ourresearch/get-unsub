@@ -2,11 +2,11 @@
     <v-container class="pkg" v-if="$store.getters.selectedPkg">
 
 
-        <h1 class="display-3">{{ pkg.name }}</h1>
+        <h1 class="display-3 py-6">{{ pkg.name }}</h1>
         <v-card outlined>
             <v-card-title>Your Scenarios</v-card-title>
             <v-card-text>
-                <v-simple-table>
+                <v-simple-table class="mb-12 pb-12">
                     <thead>
                     <tr>
                         <th class="text-left"></th>
@@ -22,10 +22,10 @@
                         @click="$router.push(`/a/${account.id}/${pkg.id}/${scenario.id}`)"
                         style="cursor:pointer;">
                         <td>
-                            <v-btn icon text>
+                            <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
                                 <v-icon>mdi-content-copy</v-icon>
                             </v-btn>
-                            <v-btn icon text>
+                            <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
                                 <v-icon>mdi-delete</v-icon>
                             </v-btn>
                         </td>
@@ -50,7 +50,7 @@
                     <v-card-title>
                         COUNTER stats
                     </v-card-title>
-                    <v-card-text>
+                    <v-card-text >
                         <v-alert colored-border border="left" type="success">
                             Your COUNTER stats have been uploaded, with usage for <strong>1851</strong> journals.
                         </v-alert>

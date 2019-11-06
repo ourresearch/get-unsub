@@ -1,6 +1,6 @@
 <template>
     <v-container class="purchase">
-        <v-card>
+        <v-card class="pa-6">
             <v-card-title>
                 <h1 class="display-1">Purchase</h1>
             </v-card-title>
