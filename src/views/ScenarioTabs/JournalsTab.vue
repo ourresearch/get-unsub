@@ -58,7 +58,7 @@
                                             Over the next five years, authors affiliated with your institution are projected to cite the journals listed in this scenario {{header('citations').raw | round(2)}} times, and author {{ header('authorships').raw | round(2) }} publications.
                                         </p>
                                         <p>
-                                            based on your settings, each citation is contributing the equivalent of {{ $store.getters.configs.weight_citation  }} downloads, and each authored paper is contributing the equivalent of {{ $store.getters.configs.weight_authorship }} downloads to total Usage.
+                                            Based on your settings, each citation is contributing the equivalent of {{ $store.getters.configs.weight_citation  }} downloads, and each authored paper is contributing the equivalent of {{ $store.getters.configs.weight_authorship }} downloads to total Usage.
                                         </p>
                                     </div>
                                     <div class="text-summary" v-if="data.key==='costs'">
@@ -79,7 +79,7 @@ This view is different from the others: it includes all journals published by th
                                     </div>
                                 </v-col>
                                 <v-col cols="7">
-                                    <div v-if="data.key==='fulfillment'">
+                                    <div class="text-center" v-if="data.key==='fulfillment'">
                                         Fulfillment graph coming soon...
                                     </div>
                                     <div v-if="data.key==='oa'">

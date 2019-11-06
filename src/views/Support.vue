@@ -8,7 +8,7 @@
             
             <h2 class="display-1">Knowledge Base</h2>
             You'll find answers to many questions in our rapidly-expanding <a
-                href="https://support.unpaywall.org/support/solutions/articles/44001821896-unpaywall-journals-faq">knowledge base.</a>
+                href="https://support.unpaywall.org/support/solutions/folders/44001199244">knowledge base.</a>
 
         </v-card>
 

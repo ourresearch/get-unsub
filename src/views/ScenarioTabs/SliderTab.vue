@@ -412,8 +412,8 @@
     $bar-height: 400px;
 
     .text-summary {
-        font-size: 24px;
-        line-height: 1.4;
+        font-size: 20px;
+        line-height: 1.5;
         &.editable {
             font-size: 20px;
         }
