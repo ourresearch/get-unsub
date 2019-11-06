@@ -71,7 +71,7 @@
                                             Your institution’s authors are projected to spend at least {{header('cost_apc').raw | currency }} annually on  APCs paid to this publisher (Elsevier) over the next five years
                                         </p>
                                         <v-alert type="info">
-This view is different from the others: it includes all journals published by this package’s publisher (elsevier) authors from your institution have paid APCs for gold or hybrid open access...this gives you a preliminary estimate of your “publish” spend
+This view is different from the others: it includes all journals published by this package’s publisher (Elsevier) where authors from your institution have paid APCs for gold or hybrid open access...this gives you a preliminary estimate of your “publish” spend.
                                         </v-alert>
                                         <v-alert type="warning">
                                             Data in this view is more preliminary than in the other tabs.
