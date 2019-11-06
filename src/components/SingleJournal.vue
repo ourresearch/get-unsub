@@ -27,7 +27,7 @@
             <v-card-text style="min-height: 600px; color: #333;">
 
                 <div class="pa-3" v-if="journal">
-                    <div class="top mt-8">
+                    <div class="top my-8">
                         <div class="body-2">{{ journal.top.issn_l }}</div>
                         <h1 class="display-3">{{journal.top.title}}</h1>
                         <div class="subr-status yes" v-if="journal.cost.subscribed">
@@ -41,9 +41,7 @@
                             </div>
                         </div>
 
-                        <div>Publisher: {{journal.top.publisher}}</div>
-                        <div>Subject: {{journal.top.subject}}</div>
-                        <div>Avg annual output: {{journal.top.num_papers}} papers</div>
+                        <div>Average annual output: {{journal.top.num_papers}} papers</div>
                         <div>Society journal:
                             <span v-if="journal.top.is_society_journal">yes</span>
                             <span v-if="!journal.top.is_society_journal">no</span>
@@ -56,8 +54,30 @@
                         </div>
                     </div>
 
+<!--                    <v-row class="pa-6">-->
+<!--                        <v-card flat class="pa-6 mx-4" color="grey lighten-1">-->
+<!--                            <div class="top-number">-->
+<!--                                {{journal.impact.usage_total.toLocaleString()}}-->
+<!--                            </div>-->
+<!--                            <div class="bottom-number">-->
+<!--                                Weighted usage-->
+<!--                            </div>-->
+<!--                        </v-card>-->
+
+<!--                        <v-card flat class="pa-6" color="grey lighten-1">-->
+<!--                            <div class="top-number">-->
+<!--                                {{journal.top.use_instant_percent | round(2)}}%-->
+<!--                            </div>-->
+<!--                            <div class="bottom-number">-->
+<!--                                Instant access (free + paid)-->
+<!--                            </div>-->
+<!--                        </v-card>-->
+<!--                    </v-row>-->
+
+
+
                     <v-alert type="info" text>
-                        All the figures below are for the <em>current scenario</em> as defined in your configs and
+                        All the figures below are for your <em>current scenario</em> as defined in your configs and
                         subscriptions.
                     </v-alert>
 
@@ -71,6 +91,7 @@
                                 :items="journal.fulfillment.data"
                                 :must-sort="true"
                                 hide-default-footer
+                                disable-sort
                         >
                         </v-data-table>
                         <v-divider></v-divider>
@@ -101,6 +122,7 @@
                                 :items="journal.oa.data"
                                 :must-sort="true"
                                 hide-default-footer
+                                disable-sort
                         >
                         </v-data-table>
                         <v-divider></v-divider>
@@ -121,6 +143,7 @@
                                 :items="journal.impact.data"
                                 :must-sort="true"
                                 hide-default-footer
+                                disable-sort
                         >
                         </v-data-table>
                         <v-divider></v-divider>
@@ -139,6 +162,7 @@
                                 :items="journal.cost.data"
                                 :must-sort="true"
                                 hide-default-footer
+                                disable-sort
                         >
                         </v-data-table>
                         <v-divider></v-divider>

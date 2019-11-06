@@ -374,6 +374,7 @@ export default new Vuex.Store({
             commit("addSubr", issnl)
             dispatch("updateSummary")
             await dispatch("updateTabData")
+            commit("snackbar", "Article subscribed!")
             return true
         },
         async removeSubr({commit, dispatch}, issnl) {
@@ -387,6 +388,7 @@ export default new Vuex.Store({
             commit("setConfig", config)
             dispatch("updateSummary")
             await dispatch("updateTabData")
+            commit("snackbar", "Config changed!")
             return true
         },
 
