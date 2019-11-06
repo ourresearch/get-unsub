@@ -84,13 +84,13 @@ This view is different from the others: it includes all journals published by th
                                     </div>
                                     <div v-if="data.key==='oa'">
                                         Open Access graph coming soon...
-                                        <vc-donut
-                                        :sections="donutData"
-                                        size="500"
-                                        has-legend
-                                        legend-placement="bottom"
-                                        :thickness="60">
-                                      </vc-donut>
+<!--                                        <vc-donut-->
+<!--                                        :sections="donutData"-->
+<!--                                        size="500"-->
+<!--                                        has-legend-->
+<!--                                        legend-placement="bottom"-->
+<!--                                        :thickness="60">-->
+<!--                                      </vc-donut>-->
                                     </div>
                                     <div v-if="data.key==='impact'">
                                         Impact graph coming soon...
