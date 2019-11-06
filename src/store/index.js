@@ -374,7 +374,7 @@ export default new Vuex.Store({
             commit("addSubr", issnl)
             dispatch("updateSummary")
             await dispatch("updateTabData")
-            commit("snackbar", "Article subscribed!")
+            commit("snackbar", "Subscribed to the item!")
             return true
         },
         async removeSubr({commit, dispatch}, issnl) {
