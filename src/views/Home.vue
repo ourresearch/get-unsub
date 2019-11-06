@@ -34,6 +34,8 @@
                 <v-col>
 <!--                    <img style="max-width:600px; border:5px solid #eee; border-radius:5px;" src="https://i.imgur.com/E7qZ312.png" alt="">-->
 
+                    <!-- https://giphy.com/gifs/slider-open-access-unpaywall-f3FtB190p6TIQCtCHd -->
+
 
                     <img style="max-width:600px; border:12px solid #eee; border-radius:12px;" src="../assets/slider.gif" alt="">
                 </v-col>

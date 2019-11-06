@@ -9,6 +9,9 @@
                 <v-tab>
                     journals list
                 </v-tab>
+                <v-tab>
+                    help
+                </v-tab>
 
 
                 <v-tab-item>
@@ -26,6 +29,9 @@
                                         Edit mode
 
                                     </v-chip>
+                                    <v-btn icon :href="kbUrls[data.key]" target="_blank">
+                                        <v-icon>mdi-information-outline</v-icon>
+                                    </v-btn>
                                 </h2>
                             </div>
                         </v-card-title>
@@ -120,7 +126,13 @@ This view is different from the others: it includes all journals published by th
                                 flat
                         >
                             <div>
-                                <h2 class="display-1">{{data.name}} by Journal</h2>
+                                <h2 class="display-1">
+                                    {{data.name}} by Journal
+                                    <v-btn icon :href="kbUrls[data.key]" target="_blank">
+                                        <v-icon>mdi-information-outline</v-icon>
+                                    </v-btn>
+
+                                </h2>
                             </div>
                             <v-spacer></v-spacer>
                             <v-spacer></v-spacer>
@@ -208,6 +220,29 @@ This view is different from the others: it includes all journals published by th
 
                     </v-card>
                 </v-tab-item>
+
+                <v-tab-item>
+                    <v-card class="pa-6">
+                        <h2 class="display-1 mb-3">
+                            {{data.name}} help
+                        </h2>
+                            <v-alert text type="info">
+                                This help article is currently hosted on our Knowledge Base, and will be moved here soon.
+                            </v-alert>
+                            <div>
+                                <v-btn depressed
+                                       :href="kbUrls[data.key]"
+                                       target="_blank"
+                                       color="primary">
+                                    read on knowledge base
+                                    <v-icon right>mdi-open-in-new</v-icon>
+                                </v-btn>
+                            </div>
+
+
+
+                    </v-card>
+                </v-tab-item>
             </v-tabs>
 
 
@@ -228,6 +263,14 @@ This view is different from the others: it includes all journals published by th
             return {
                 search: '',
                 activeViewIndex: 0,
+                kbUrls: {
+                    journals: "https://support.unpaywall.org/support/solutions/articles/44001822204-page-overview",
+                    fulfillment: "https://support.unpaywall.org/support/solutions/articles/44001822213-page-fulfillment",
+                    oa: "https://support.unpaywall.org/support/solutions/articles/44001822207-page-open-access",
+                    impact: "https://support.unpaywall.org/support/solutions/articles/44001822215-page-impact",
+                    costs: "https://support.unpaywall.org/support/solutions/articles/44001822216-page-subscription-cost",
+                    apc: "https://support.unpaywall.org/support/solutions/articles/44001822217-page-apc-cost",
+                },
 
             }
         },
