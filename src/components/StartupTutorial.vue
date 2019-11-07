@@ -83,7 +83,7 @@
                             <v-divider class="my-3"></v-divider>
                             <div>
                                 This is a beta launch, and we're keen to hear any feedback you may have. And if you like what you see in the demo, please consider
-                                <a to="/purchase">purchasing a custom account</a> for your own university!
+                                <a @click="$store.commit('clearStartupTutorial')" href="/purchase">purchasing a custom account</a> for your own university!
                             </div>
 
                             <v-row>
