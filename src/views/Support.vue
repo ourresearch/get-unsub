@@ -2,13 +2,18 @@
     <v-container>
         <v-card class="pa-3" >
             <h2 class="display-1">Help</h2>
-            <v-alert type="info">
-                The documentation is still a work in progress! 
-            </v-alert>
-            
-            <h2 class="display-1">Knowledge Base</h2>
-            You'll find answers to many questions in our rapidly-expanding <a
-                href="https://support.unpaywall.org/support/solutions/folders/44001199244">knowledge base.</a>
+                            <v-alert text type="info">
+                                Our help articles are currently hosted on the Knowledge Base, but will be moved here soon.
+                            </v-alert>
+                            <div>
+                                <v-btn depressed
+                                       href="https://support.unpaywall.org/support/solutions/articles/44001822205-getting-started"
+                                       target="_blank"
+                                       color="primary">
+                                    visit knowledge base
+                                    <v-icon right>mdi-open-in-new</v-icon>
+                                </v-btn>
+                            </div>
 
         </v-card>
 

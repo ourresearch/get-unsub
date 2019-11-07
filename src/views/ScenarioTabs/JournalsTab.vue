@@ -88,7 +88,7 @@ This view is different from the others: it includes all journals published by th
                                     <div class="text-center" v-if="data.key==='fulfillment'">
                                         Fulfillment graph coming soon...
                                     </div>
-                                    <div v-if="data.key==='oa'">
+                                    <div class="text-center" v-if="data.key==='oa'">
                                         Open Access graph coming soon...
 <!--                                        <vc-donut-->
 <!--                                        :sections="donutData"-->
@@ -98,13 +98,13 @@ This view is different from the others: it includes all journals published by th
 <!--                                        :thickness="60">-->
 <!--                                      </vc-donut>-->
                                     </div>
-                                    <div v-if="data.key==='impact'">
+                                    <div class="text-center" v-if="data.key==='impact'">
                                         Impact graph coming soon...
                                     </div>
-                                    <div v-if="data.key==='costs'">
+                                    <div class="text-center" v-if="data.key==='costs'">
                                         Costs graph coming soon...
                                     </div>
-                                    <div v-if="data.key==='apc'">
+                                    <div class="text-center" v-if="data.key==='apc'">
                                         Costs graph coming soon...
                                     </div>
                                 </v-col>

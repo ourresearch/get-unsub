@@ -56,7 +56,7 @@
                                         Subscribe to an individual journal by clicking its <v-btn small icon><v-icon>mdi-cart</v-icon></v-btn> icon (hint: find journals on the <v-btn small text class="pa-0">Journal List</v-btn> tab).
                                     </li>
                                     <li class="my-4">
-                                        Edit configs and see how it changes your access and cost projections.
+                                        Edit configs <v-icon>mdi-settings</v-icon> and see how it changes your access and cost projections.
                                     </li>
                                 </ol>
 

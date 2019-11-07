@@ -165,6 +165,7 @@
                     <template v-for="(view, i) in $store.getters.journalViews"
                     >
                         <v-list-item
+                                :class="{'pl-6': !['journals', 'report',].includes(view.value)}"
                                 @click="$store.dispatch('setTabData', view.value)"
 
                         >
