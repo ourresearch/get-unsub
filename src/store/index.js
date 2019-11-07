@@ -219,6 +219,23 @@ export default new Vuex.Store({
         clearConfigsOpen(state){
             state.configsOpen = false
         },
+        toggleConfigsOpen(state){
+            if (state.configsOpen){
+                state.configsOpen = false
+            }
+            else { // configs are closed
+                if(state.editMode){
+                    console.log("edit mode bro")
+                    state.snackbarIsOpen = true
+                    state.snackbarMsg = "You can't change configs when you're Edit Mode"
+                    state.snackbarColor = "info"
+                    return
+                }
+                state.configsOpen = true
+
+            }
+
+        },
 
 
 

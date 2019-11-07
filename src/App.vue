@@ -55,9 +55,8 @@
                 <v-btn text
                        v-if="summary"
                        class="px-2 toolbar-summary"
-                       @click="$store.dispatch('setTabData', 'report')">
-                    <v-icon small>mdi-cart</v-icon>
-                    <div class="val headline pr-2">{{summary.num_journals_subscribed | round()}}</div>
+                       @click="$store.commit('toggleConfigsOpen')">
+                    <v-icon>mdi-settings</v-icon>
                 </v-btn>
             </v-toolbar-items>
 
@@ -100,7 +99,7 @@
                     Cost
                     <v-spacer></v-spacer>
                     <strong>
-                        {{summary.cost_percent | round(1)}}%
+                        {{summary.cost_percent | round()}}%
                     </strong>
 
                     <vc-donut
@@ -118,7 +117,7 @@
                     Instant access
                     <v-spacer></v-spacer>
                     <strong>
-                        {{summary.use_free_instant_percent | round(2)}}%
+                        {{summary.use_instant_percent | round()}}%
                     </strong>
 
                     <vc-donut
@@ -128,7 +127,25 @@
                             background="#424242"
                             :size="20"
                             :thickness="50"
-                            :sections="[{value:summary.use_free_instant_percent, color: '#ffffff'}]"
+                            :sections="[{value:summary.use_free_instant_percent, color: '#50aa06'}, {value:summary.use_subscription_percent, color: 'dodgerblue'}, ]"
+                    ></vc-donut>
+
+                </v-list-item>
+                <v-list-item>
+                    Subscriptions
+                    <v-spacer></v-spacer>
+                    <strong>
+                        {{summary.num_journals_subscribed | round()}}
+                    </strong>
+
+                    <vc-donut
+                            v-if="summary.num_journals_subscribed >= 0"
+                            class="ml-2"
+                            foreground="grey"
+                            background="#424242"
+                            :size="20"
+                            :thickness="50"
+                            :sections="[{value: 100 * summary.num_journals_subscribed / summary.num_journals_total, color: 'dodgerblue'}]"
                     ></vc-donut>
 
                 </v-list-item>
@@ -136,17 +153,6 @@
             </v-list>
 
 
-            <v-divider></v-divider>
-            <v-list nav>
-                <v-list-item @click="$store.commit('setConfigsOpen')">
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            Scenario configs
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-
-            </v-list>
 
 
             <v-divider></v-divider>

@@ -10,7 +10,8 @@
                                     At a projected annual spend of <strong>{{this.cost | currency}},</strong> subscribing to
 
                                     <span v-if="subscribedJournals.length">
-                                        only the <strong>{{ subscribedJournals.length}}</strong> most cost-effective journals
+                                        only the <strong>{{ subscribedJournals.length}}</strong> most <a
+                                            href="https://support.unpaywall.org/support/solutions/articles/44001822684-cost-effectiveness" target="_blank">cost-effective</a> journals
                                     </span>
                                     <span v-if="!subscribedJournals.length">
                                         <em>none</em> of your baseline journals
