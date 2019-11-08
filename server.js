@@ -1,8 +1,14 @@
+var sslRedirect = require('heroku-ssl-redirect');
+
+
 const express = require('express');
 const path = require('path');
 const serveStatic = require('serve-static');
 
 let app = express();
+
+// https://medium.com/@thiscodeworks.com/how-to-redirect-your-node-js-app-hosted-on-heroku-from-http-to-https-50ef80130bff
+app.use(sslRedirect());
 
 
 // this was helpful for configs:
