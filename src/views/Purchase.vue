@@ -193,17 +193,27 @@
                 // const items = [{plan: 'plan_G7bKcaYos2it45', quantity: 1}]
 
                 console.log("buy!")
-                this.stripe.redirectToCheckout({
-                    items: items,
-                    successUrl: 'https://journals.unpaywall.org/purchase/success',
-                    cancelUrl: 'https://journals.unpaywall.org/purchase/cancelled',
-                    billingAddressCollection: 'auto',
-                })
-                    .then(function (result) {
-                        if (result.error) {
-                            alert("Sorry, there was an error! Please let us know at team@ourresearch.org")
-                        }
+                try {
+                    this.stripe.redirectToCheckout({
+                        items: items,
+                        successUrl: 'https://journals.unpaywall.org/purchase/success',
+                        cancelUrl: 'https://journals.unpaywall.org/purchase/cancelled',
+                        billingAddressCollection: 'auto',
                     })
+                        .then(function (result) {
+                            if (result.error) {
+                                alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org")
+                            }
+                        })
+
+                }
+                catch {
+                            alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org. Thanks!")
+
+                }
+
+
+
             }
         },
         mounted() {
