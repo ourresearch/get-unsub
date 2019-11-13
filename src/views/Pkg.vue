@@ -96,11 +96,10 @@
 </template>
 
 <script>
-    import Breadcrumbs from "../components/Breadcrumbs"
 
     export default {
         name: "Pkg",
-        components: {Breadcrumbs},
+        components: {},
         data() {
             return {
             }

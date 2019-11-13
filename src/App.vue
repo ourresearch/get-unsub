@@ -60,7 +60,6 @@
 </template>
 
 <script>
-    import Breadcrumbs from "./components/Breadcrumbs"
     import Configs from "./components/Configs"
     import StartupTutorial from "./components/StartupTutorial"
     import SingleJournal from "./components/SingleJournal"
@@ -71,7 +70,6 @@
     export default {
         name: 'App',
         components: {
-            Breadcrumbs,
             Configs,
             SingleJournal,
             SliderTab,

@@ -55,10 +55,6 @@ export const auth = {
 
         async _fetchUser({commit, getters}) {
             commit("startLoading")
-
-            console.log("looking for token in getters", getters.token)
-            console.log("looking for token in localStorage", localStorage.getItem('token'))
-
             const headers = {
                 Authorization: `Bearer ${getters.token}`
             }
@@ -95,6 +91,6 @@ export const auth = {
             return state.token
         },
         account(state){return state.account},
-        isLoggedIn(state){return state.account},
+        isLoggedIn(state){return state.account },
     }
 }

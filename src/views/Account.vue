@@ -1,6 +1,5 @@
 <template>
     <v-container class="account">
-        <breadcrumbs></breadcrumbs>
         <h1 class="display-3">Your Account</h1>
         <v-card outlined>
             <v-card-title>Your Packages</v-card-title>
@@ -36,10 +35,9 @@
 </template>
 
 <script>
-    import Breadcrumbs from "../components/Breadcrumbs"
     export default {
         name: "Account",
-        components: {Breadcrumbs},
+        components: {},
         data() {
             return {
             }
