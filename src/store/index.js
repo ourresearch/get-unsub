@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+import {auth} from "./auth.module.js"
+
 
 Vue.use(Vuex)
 
@@ -81,7 +83,6 @@ export default new Vuex.Store({
         summaryLoading: false,
         tabDataLoading: false,
 
-        authState: "ready",
         notSupportedMsgOpen: false,
         snackbarMsg: "",
         snackbarIsOpen: false,
@@ -112,9 +113,13 @@ export default new Vuex.Store({
         startupTutorialOpen: false,
         startupTutorialFinished: false,
 
-
-
+        loading: false,
     },
+    modules: {
+        auth
+    },
+
+
     mutations: {
         // stuff stuff
         summaryLoading(state) {
@@ -129,20 +134,11 @@ export default new Vuex.Store({
         tabDataDoneLoading(state) {
             state.tabDataLoading = false
         },
+        startLoading(state){state.loading = true},
+        finishLoading(state){state.loading = false},
 
 
         // auth stuff
-        authLoading(state) {
-            state.authState = "loading"
-        },
-        authSuccess(state, account) {
-            state.authState = "success"
-            // state.account = account
-            // state.account.pkgs = demoPkgs
-            //
-            // state.scenarios = demoScenarios
-            // state.pkgs = demoPkgs
-        },
         setUser(state, user) {
             state.user = user
         },
@@ -332,9 +328,6 @@ export default new Vuex.Store({
 
     },
     actions: {
-        login({commit}, userCreds) {
-            // implement later
-        },
         loginDemo({commit}) {
             const dummyPkgs = demoPkgs.map(p => {
                 return {...p}
@@ -345,8 +338,6 @@ export default new Vuex.Store({
             const dummyUser = {...demoUser}
 
             return new Promise((resolve, reject) => {
-                commit('authLoading')
-                commit('authSuccess', demoUser)
 
                 commit('setUser', dummyUser)
                 commit('setPkgs', dummyPkgs)
@@ -455,10 +446,10 @@ export default new Vuex.Store({
 
 
     },
-    modules: {},
+
     getters: {
         count: state => state.count,
-        isLoggedIn: state => !!state.user,
+        // isLoggedIn: state => !!state.user,
         selectedPkg: state => {
             const myPkg = state.selectedPkg
             if (!myPkg) return null
@@ -505,7 +496,10 @@ export default new Vuex.Store({
         },
         singleJournalLoading(state){
             return state.singleJournalId && !state.singleJournalData
-        }
+        },
+        loading(state){return state.loading},
+
+
 
 
 

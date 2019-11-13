@@ -52,6 +52,13 @@
             <v-btn text to="/login" v-if="!$store.getters.isLoggedIn">Log in</v-btn>
 
             <v-btn text
+                   v-if="account"
+                   class="px-2 toolbar-summary"
+                   @click="logout">
+                <v-icon>mdi-logout</v-icon>
+            </v-btn>
+
+            <v-btn text
                    v-if="summary"
                    class="px-2 toolbar-summary"
                    @click="$store.commit('toggleConfigsOpen')">
@@ -81,6 +88,10 @@
         },
         methods: {
             increment() {
+            },
+            logout(){
+                this.$store.commit("logout")
+                this.$router.push("/")
             }
         },
         computed: {
@@ -90,11 +101,12 @@
             loading() {
                 return this.$store.state.tabDataLoading
                     || this.$store.getters.wizardLoading
+                || this.$store.getters.loading
             },
             count() {
             },
             account() {
-                return this.$store.state.user
+                return this.$store.getters.account
             },
             selectedPkg() {
                 return this.$store.getters.selectedPkg

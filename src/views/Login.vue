@@ -6,14 +6,27 @@
                         Log in to your account
                     </v-card-title>
                     <v-card-text>
+                        <v-alert text type="error" v-if="showError">
+                            <div>
+                                Sorry, we don't recognize that username/password combination. Would you like to log in to the demo account instead?
+
+                            </div>
+                            <div class="pt-4">
+                                <v-btn @click="loginDemo" depressed outlined color="error">Log in to Demo account</v-btn>
+                            </div>
+                        </v-alert>
+                    </v-card-text>
+                    <v-card-text>
                         <div>
                         <v-text-field
+                                v-model="creds.username"
                                 label="Username"
                                 placeholder="Username"
                                 outlined
                         ></v-text-field>
                         <v-text-field
                                 label="Password"
+                                v-model="creds.password"
                                 placeholder="Password"
                                 outlined
                                 type="password"
@@ -23,7 +36,7 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn large depressed color="primary">
+                        <v-btn @click="login" large depressed color="primary">
                             Log in
                         </v-btn>
                     </v-card-actions>
@@ -36,7 +49,34 @@
 
 <script>
     export default {
-        name: "Login"
+        name: "Login",
+        data(){
+          return {
+              creds: {
+                  password: "",
+                  username:"",
+              },
+              showError: false,
+          }
+        },
+        methods: {
+            login(){
+                this.$store.dispatch("login", this.creds)
+                    .then(resp => {
+                        console.log("looks like login is done")
+                        const id = this.$store.getters.account.id
+                        this.$router.push(`/a/${id}`)
+                    })
+                    .catch(err => {
+                        console.log("there was a login error", err)
+                        this.showError = true
+                    })
+            },
+            loginDemo(){
+                this.$store.dispatch("loginDemo")
+                    .then(() => this.$router.push("/a/" + this.$store.state.user.id))
+            }
+        }
     }
 </script>
 
