@@ -1,37 +1,24 @@
 <template>
-    <div v-if="scenario">
-        hi scenario
+    <v-container fluid v-if="scenario">
+        <v-card>
+            <v-toolbar flat>
+                <h2 class="display-1">Scenario Overview</h2>
+            </v-toolbar>
 
-
-
-<!--        <journals-tab></journals-tab>-->
-<!--        <sharing-tab></sharing-tab>-->
-
-
-
-
-
-<!--        <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>-->
-
-<!--        <sharing-tab :data="tabData"  v-if="activeTabName==='sharing'"></sharing-tab>-->
-
-
-    </div>
+            <v-divider></v-divider>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
     import axios from 'axios'
 
-    import SliderTab from "./ScenarioTabs/SliderTab"
-    import JournalsTab from "./ScenarioTabs/JournalsTab"
-    import SharingTab from "./ScenarioTabs/SharingTab"
+    import SliderTab from "../ScenarioTabs/SliderTab"
 
     export default {
         name: "Pkg",
         components: {
             SliderTab,
-            JournalsTab,
-            SharingTab
         },
         data() {
             return {
@@ -40,8 +27,6 @@
         methods: {
         },
         computed: {
-            count() {
-            },
             account() {
                 return this.$store.state.account
             },
@@ -55,19 +40,12 @@
         created(){
         },
         mounted() {
-            console.log("scenario: mount up")
+            console.log("scenario overview: mount up")
             const pkgId = this.$route.params.pkgId
             const scenarioId = this.$route.params.scenarioId
 
             this.$store.dispatch("fetchPkg", pkgId)
             this.$store.dispatch("fetchScenario", scenarioId)
-
-
-
-            // this.$store.dispatch("setTabData", "journals")
-            // this.$store.dispatch("updateSummary")
-
-
         },
         watch: {
         }

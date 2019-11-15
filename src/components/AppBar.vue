@@ -10,8 +10,8 @@
 
 
         <v-progress-linear
-                :active="loading"
-                :indeterminate="loading"
+                :active="api.numLoading > 0"
+                :indeterminate="api.numLoading > 0"
                 absolute
                 bottom
                 color="green"
@@ -24,13 +24,13 @@
                 v-if="$store.getters.isLoggedIn"
         ></v-divider>
 
-        <v-toolbar-items class="breadcrumbs" v-if="$store.getters.isLoggedIn">
-            <v-btn class="pa-0 pl-4" text :to="`/a/${account.id}`" active-class="">
+        <v-toolbar-items class="breadcrumbs" v-if="account">
+            <v-btn class="pa-0 pl-4" text to="/a" active-class="">
                 <v-icon left>mdi-account</v-icon>
                 <v-icon v-if="selectedPkg">mdi-chevron-right</v-icon>
                 <span v-if="!selectedPkg">{{account.name}}</span>
             </v-btn>
-            <v-btn text class="pl-4" v-if="selectedPkg" :to="`/a/${account.id}/${selectedPkg.id}`">
+            <v-btn text class="pl-4" v-if="selectedPkg" :to="`/a/${selectedPkg.id}`">
                 <v-icon left>mdi-package-variant</v-icon>
                 <v-icon v-if="selectedScenario">mdi-chevron-right</v-icon>
                 <span v-if="!selectedScenario">{{selectedPkg.name}}</span>
@@ -59,18 +59,12 @@
             </v-btn>
 
             <v-btn text
-                   v-if="summary"
+                   v-if="selectedScenario"
                    class="px-2 toolbar-summary"
                    @click="$store.commit('toggleConfigsOpen')">
                 <v-icon>mdi-settings</v-icon>
             </v-btn>
         </v-toolbar-items>
-
-        <div class="not-logged-in pl-2" v-if="!$store.getters.isLoggedIn">
-        </div>
-
-        <div class="logged-in title" v-if="$store.getters.isLoggedIn && summary">
-        </div>
 
 
     </v-app-bar>
@@ -79,6 +73,7 @@
 </template>
 
 <script>
+    import {api} from "../api"
 
     export default {
         name: "AppBar",
@@ -98,15 +93,13 @@
             summary() {
                 return this.$store.getters.summary
             },
-            loading() {
-                return this.$store.state.tabDataLoading
-                    || this.$store.getters.wizardLoading
-                || this.$store.getters.loading
+            api() {
+                return api
             },
             count() {
             },
             account() {
-                return this.$store.getters.account
+                return this.$store.getters.selectedAccount
             },
             selectedPkg() {
                 return this.$store.getters.selectedPkg
@@ -118,10 +111,6 @@
         created() {
         },
         mounted() {
-            this.$store.commit("selectPkg", this.$route.params.pkgId)
-            this.$store.commit("clearScenario")
-
-            console.log("pkg: mount up", this.$route.params)
         },
     }
 </script>

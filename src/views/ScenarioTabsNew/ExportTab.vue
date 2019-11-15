@@ -1,9 +1,10 @@
 <template>
+    <v-container fluid v-if="scenario">
+        <v-card class="">
+            <v-toolbar flat>
+                <h2 class="display-1">Export scenario</h2>
 
-
-    <v-container fluid>
-        <v-card class="pa-3" fluid>
-            <h2 class="display-1">Export scenario</h2>
+            </v-toolbar>
             <v-divider></v-divider>
             <v-card flat>
                 <v-card-title>
@@ -15,7 +16,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="primary"
-                           text
+                           flat
                            depressed
                            href="https://unpaywall-jump-api.herokuapp.com/scenario/export.csv">
                         Download CSV
@@ -56,7 +57,7 @@
                         <v-card flat
                                 outlined
                                 v-if="pageEnabled">
-                            <v-toolbar color="primary" dark text>Public report page</v-toolbar>
+                            <v-toolbar color="primary" dark flat>Public report page</v-toolbar>
                             <v-card-text>
                                 <v-switch
                                         color="primary"
@@ -76,7 +77,7 @@
 
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn @click="$store.commit('openNotSupportedMsg')" text color="primary">
+                                <v-btn @click="$store.commit('openNotSupportedMsg')" flat color="primary">
                                     Generate custom URL
                                 </v-btn>
                             </v-card-actions>
@@ -96,20 +97,50 @@
 </template>
 
 <script>
-    export default {
-        props: [],
+    import axios from 'axios'
 
-        name: "SharingTab",
+
+    export default {
+        name: "Export",
+        components: {
+        },
         data() {
             return {
                 pageEnabled: false
             }
         },
+        methods: {
+        },
         computed: {
+            account() {
+                return this.$store.state.account
+            },
+            pkg(){
+                return this.$store.getters.selectedPkg
+            },
+            scenario(){
+                return this.$store.getters.selectedScenario
+            }
+        },
+        created(){
+        },
+        mounted() {
+            console.log("scenario overview: mount up")
+            const pkgId = this.$route.params.pkgId
+            const scenarioId = this.$route.params.scenarioId
+
+            this.$store.dispatch("fetchPkg", pkgId)
+            this.$store.dispatch("fetchScenario", scenarioId)
+        },
+        watch: {
         }
     }
 </script>
 
-<style scoped>
+<style  lang="scss">
+    .tab.loading {
+        opacity: .5;
+        transition: opacity .25s ease-in-out;
+    }
 
 </style>

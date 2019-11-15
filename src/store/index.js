@@ -2,7 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-import {auth} from "./auth.module.js"
+import {account} from "./account.module.js"
+import {pkg} from "./pkg.module.js"
+import {scenario} from "./scenario.module"
+
+import api from "../api"
 
 
 Vue.use(Vuex)
@@ -11,21 +15,6 @@ Vue.use(Vuex)
 const short = require('short-uuid');
 
 
-const demoConfigs = {
-    cost_alacart_increase: 8,
-    cost_bigdeal: 2100000,
-    cost_bigdeal_increase: 5,
-    cost_content_fee_percent: 5.7,
-    cost_ill: 17,
-    ill_request_percent_of_delayed: 5,
-    include_bronze: true,
-    include_submitted_version: true,
-    include_backfile: true,
-    include_social_networks: true,
-    package: "demo",
-    weight_authorship: 100,
-    weight_citation: 10,
-}
 
 const journalViews = [
     {value: "journals", displayName: "Overview", icon: "mdi-person"},
@@ -38,37 +27,6 @@ const journalViews = [
 ]
 
 
-const demoScenarios = [{
-    id: "1",
-    name: "My First Scenario",
-    pkgId: "demo-pkg-123",
-    summary: {
-        cost_percent: 0,
-        use_instant_percent: 0,
-        num_journals_subscribed: 0,
-    },
-    subrs: [],
-    customSubrs: [],
-    configs: {...demoConfigs}
-}
-]
-
-const demoPkgs = [
-    {
-        id: "demo-pkg-123",
-        name: "my Elsevier Freedom Package",
-        hasCounterData: true,
-        numJournals: 1851,
-        numPerpAccessJournals: 1851,
-    }
-]
-
-const demoUser = {
-    id: "demo-user",
-    name: "Demo 1",
-    selectedPkgId: null,
-    selectedScenarioId: null,
-}
 
 
 // looks useful: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
@@ -91,8 +49,6 @@ export default new Vuex.Store({
         scenarios: [],
         selectedScenario: null,
 
-        pkgs: [],
-        selectedPkg: null,
 
         tabData: null,
         tabDataDigest: "",
@@ -113,10 +69,12 @@ export default new Vuex.Store({
         startupTutorialOpen: false,
         startupTutorialFinished: false,
 
-        loading: false,
+        loading: true,
     },
     modules: {
-        auth
+        account,
+        pkg,
+        scenario,
     },
 
 
@@ -134,8 +92,12 @@ export default new Vuex.Store({
         tabDataDoneLoading(state) {
             state.tabDataLoading = false
         },
-        startLoading(state){state.loading = true},
-        finishLoading(state){state.loading = false},
+        startLoading(state){
+            // state.loading = true
+        },
+        finishLoading(state){
+            // state.loading = false
+        },
 
 
         // auth stuff
@@ -171,23 +133,6 @@ export default new Vuex.Store({
         },
 
 
-        // pkg stuff
-        selectPkg(state, id) {
-            state.selectedPkg = state.pkgs.find(p => {
-                return p.id === id
-            })
-        },
-        setPkgs(state, pkgs) {
-            state.pkgs = pkgs
-        },
-        clearPkg(state) {
-            state.selectedPkg = null
-            state.selectedScenario = null
-            state.tabData = null
-            state.tabDataEndpointName = "journals"
-            state.tabDataIndex = null
-        },
-
 
         // config stuff
         setConfig(state, config) {
@@ -216,6 +161,8 @@ export default new Vuex.Store({
             state.configsOpen = false
         },
         toggleConfigsOpen(state){
+            console.log("toggle configs open")
+
             if (state.configsOpen){
                 state.configsOpen = false
             }
@@ -237,11 +184,11 @@ export default new Vuex.Store({
 
 
         // scenario stuff
-        selectScenario(state, id) {
-            state.selectedScenario = state.scenarios.find(s => {
-                return s.id === id
-            })
-        },
+        // selectScenario(state, id) {
+        //     state.selectedScenario = state.scenarios.find(s => {
+        //         return s.id === id
+        //     })
+        // },
         setScenarios(state, scenarios) {
             state.scenarios = scenarios
         },
@@ -259,11 +206,11 @@ export default new Vuex.Store({
         setSubrs(state, subrIssnls) {
             state.selectedScenario.subrs = subrIssnls
         },
-        addSubr(state, issnl) {
-            if (!state.selectedScenario.subrs.includes(issnl)) {
-                state.selectedScenario.subrs.push(issnl)
-            }
-        },
+        // addSubr(state, issnl) {
+        //     if (!state.selectedScenario.subrs.includes(issnl)) {
+        //         state.selectedScenario.subrs.push(issnl)
+        //     }
+        // },
         removeSubr(state, issnl) {
             this.state.selectedScenario.subrs = this.state.selectedScenario.subrs.filter(j => j !== issnl)
         },
@@ -324,30 +271,8 @@ export default new Vuex.Store({
         clearEditMode(state){
             state.editMode = false
         },
-
-
     },
     actions: {
-        loginDemo({commit}) {
-            const dummyPkgs = demoPkgs.map(p => {
-                return {...p}
-            })
-            const dummyScenarios = demoScenarios.map(s => {
-                return {...s}
-            })
-            const dummyUser = {...demoUser}
-
-            return new Promise((resolve, reject) => {
-
-                commit('setUser', dummyUser)
-                commit('setPkgs', dummyPkgs)
-                commit('setScenarios', dummyScenarios)
-                commit("openStartupTutorial")
-
-
-                resolve()
-            })
-        },
         async updateTabData({commit, state}) {
             commit("tabDataLoading")
             const url = tabDataBaseUrl.replace("{key}", state.tabDataEndpointName)
@@ -449,20 +374,9 @@ export default new Vuex.Store({
 
     getters: {
         count: state => state.count,
-        // isLoggedIn: state => !!state.user,
-        selectedPkg: state => {
-            const myPkg = state.selectedPkg
-            if (!myPkg) return null
-
-            myPkg.scenarios = state.scenarios.filter(s => {
-                return s.pkgId === myPkg.id
-            })
-            return myPkg
-
-        },
-        selectedScenario(state) {
-            return state.selectedScenario
-        },
+        // selectedScenario(state) {
+        //     return state.selectedScenario
+        // },
         summary(state) {
             if (state.selectedScenario) {
                 return state.selectedScenario.summary
@@ -497,7 +411,7 @@ export default new Vuex.Store({
         singleJournalLoading(state){
             return state.singleJournalId && !state.singleJournalData
         },
-        loading(state){return state.loading},
+        loading(state){return api.loading > 0},
 
 
 

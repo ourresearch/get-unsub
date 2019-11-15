@@ -3,7 +3,7 @@
         <app-bar></app-bar>
 
 
-        <v-navigation-drawer v-if="summary" dark v-model="$store.state.configsOpen" app right class="pt-12">
+        <v-navigation-drawer  dark v-model="$store.state.configsOpen" app right class="pt-12">
             <v-toolbar absolute width="100%">
                 <v-toolbar-title>
                     <v-icon small>mdi-pencil-outline</v-icon>
@@ -115,7 +115,11 @@
             openWizard() {
                 this.$store.dispatch("openWizard")
             }
-        }
+        },
+        mounted(){
+          console.log("app mounted")
+            this.$store.dispatch("fetchUser")
+        },
     };
 </script>
 

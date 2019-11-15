@@ -64,8 +64,7 @@
                 this.$store.dispatch("login", this.creds)
                     .then(resp => {
                         console.log("looks like login is done")
-                        const id = this.$store.getters.account.id
-                        this.$router.push(`/a/${id}`)
+                        this.$router.push(`/a`)
                     })
                     .catch(err => {
                         console.log("there was a login error", err)
@@ -74,7 +73,7 @@
             },
             loginDemo(){
                 this.$store.dispatch("loginDemo")
-                    .then(() => this.$router.push("/a/" + this.$store.state.user.id))
+                    .then(() => this.$router.push("/a"))
             }
         }
     }

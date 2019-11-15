@@ -22,7 +22,7 @@
                         <div class="cta">
                             <div class="my-3">
                                 <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>
-                                <v-btn to="/a/demo-user/demo-pkg-123/1" outlined large color="primary">View Demo</v-btn>
+                                <v-btn @click="loginDemo" outlined large color="primary">View Demo</v-btn>
                             </div>
     
                         </div>
@@ -167,8 +167,9 @@
         components: {vueVimeoPlayer},
         methods: {
             loginDemo() {
+                console.log("login demo account")
                 this.$store.dispatch("loginDemo")
-                    .then(() => this.$router.push("/a/" + this.$store.state.user.id))
+                    .then(() => this.$router.push("/a"))
                     .catch(err => console.log("error", err))
             }
         },
@@ -178,7 +179,6 @@
             }
         },
         mounted() {
-            console.log("mount up")
         },
     }
 </script>

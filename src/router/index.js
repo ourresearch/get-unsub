@@ -7,7 +7,12 @@ import Login from '../views/Login'
 import Support from '../views/Support'
 import Account from '../views/Account'
 import Pkg from '../views/Pkg'
+
 import Scenario from '../views/Scenario'
+import OverviewTab from "../views/ScenarioTabsNew/OverviewTab"
+import JournalsTab from "../views/ScenarioTabsNew/JournalsTab"
+import ApcTab from "../views/ScenarioTabsNew/ApcTab"
+import ExportTab from "../views/ScenarioTabsNew/ExportTab";
 
 import store from '../store/index.js'
 
@@ -21,20 +26,40 @@ const routes = [
     {path: '/login', component: Login},
 
     {
-        path: "/a/:accountName",
+        path: "/a",
         component: Account,
         meta: {requiresAuth: true},
 
     },
     {
-        path: "/a/:accountName/:pkgId",
+        path: "/a/:pkgId",
         component: Pkg,
         meta: {requiresAuth: true},
 
     },
     {
-        path: "/a/:userId/:pkgId/:scenarioId",
+        path: "/a/:pkgId/:scenarioId",
         component: Scenario,
+        meta: {requiresAuth: true},
+    },
+    {
+        path: "/a/:pkgId/:scenarioId/overview",
+        component: OverviewTab,
+        meta: {requiresAuth: true},
+    },
+    {
+        path: "/a/:pkgId/:scenarioId/journals",
+        component: JournalsTab,
+        meta: {requiresAuth: true},
+    },
+    {
+        path: "/a/:pkgId/:scenarioId/apc",
+        component: ApcTab,
+        meta: {requiresAuth: true},
+    },
+    {
+        path: "/a/:pkgId/:scenarioId/export",
+        component: ExportTab,
         meta: {requiresAuth: true},
     },
 ]
@@ -47,33 +72,25 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.isLoggedIn) {
-            store.dispatch("loginDemo")
-                .then(resp => {
-                    next()
-                })
-        }
-        else {
-            next()
-        }
-    }
-    else { // no auth required
-        store.commit('clearPkg')
-        next()
-    }
+    next()
+    return
+
+    // if (to.matched.some(record => record.meta.requiresAuth)) {
+    //     if (!store.getters.isLoggedIn) {
+    //         store.dispatch("loginDemo")
+    //             .then(resp => {
+    //                 next()
+    //             })
+    //     }
+    //     else {
+    //         next()
+    //     }
+    // }
+    // else { // no auth required
+    //     store.commit('clearPkg')
+    //     next()
+    // }
 })
 
-
-//   if (store.getters.isLoggedIn) {
-//     next()
-//   }
-//   else {
-//       next('/')
-//   }
-// } else {
-//   next()
-// }
-// })
 
 export default router

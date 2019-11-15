@@ -1,5 +1,5 @@
 <template>
-    <v-container class="pkg" v-if="$store.getters.selectedPkg">
+    <v-container class="pkg" v-if="pkg">
 
 
         <h1 class="display-3 py-6">{{ pkg.name }}</h1>
@@ -19,7 +19,7 @@
                     <tbody>
                     <tr v-for="scenario in pkg.scenarios"
                         :key="scenario.id"
-                        @click="$router.push(`/a/${account.id}/${pkg.id}/${scenario.id}`)"
+                        @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
                         style="cursor:pointer;">
                         <td>
                             <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
@@ -121,10 +121,10 @@
         created(){
         },
         mounted() {
-            this.$store.commit("selectPkg", this.$route.params.pkgId)
-            this.$store.commit("clearScenario")
-
             console.log("pkg: mount up", this.$route.params)
+            this.$store.commit("clearSelectedScenario")
+            this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+
         },
     }
 </script>

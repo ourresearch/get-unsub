@@ -1,19 +1,7 @@
 <template>
     <div v-if="scenario">
-        hi scenario
+        hi scenario APCs
 
-
-
-<!--        <journals-tab></journals-tab>-->
-<!--        <sharing-tab></sharing-tab>-->
-
-
-
-
-
-<!--        <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>-->
-
-<!--        <sharing-tab :data="tabData"  v-if="activeTabName==='sharing'"></sharing-tab>-->
 
 
     </div>
@@ -22,16 +10,10 @@
 <script>
     import axios from 'axios'
 
-    import SliderTab from "./ScenarioTabs/SliderTab"
-    import JournalsTab from "./ScenarioTabs/JournalsTab"
-    import SharingTab from "./ScenarioTabs/SharingTab"
 
     export default {
-        name: "Pkg",
+        name: "ApcTab",
         components: {
-            SliderTab,
-            JournalsTab,
-            SharingTab
         },
         data() {
             return {
@@ -40,8 +22,6 @@
         methods: {
         },
         computed: {
-            count() {
-            },
             account() {
                 return this.$store.state.account
             },
@@ -55,19 +35,12 @@
         created(){
         },
         mounted() {
-            console.log("scenario: mount up")
+            console.log("scenario overview: mount up")
             const pkgId = this.$route.params.pkgId
             const scenarioId = this.$route.params.scenarioId
 
             this.$store.dispatch("fetchPkg", pkgId)
             this.$store.dispatch("fetchScenario", scenarioId)
-
-
-
-            // this.$store.dispatch("setTabData", "journals")
-            // this.$store.dispatch("updateSummary")
-
-
         },
         watch: {
         }

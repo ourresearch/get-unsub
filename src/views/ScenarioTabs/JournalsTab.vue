@@ -29,7 +29,7 @@
                                         Edit mode
 
                                     </v-chip>
-                                    <v-btn icon :href="kbUrls[data.key]" target="_blank">
+                                    <v-btn icon href="kbUrls[data.key]" target="_blank">
                                         <v-icon>mdi-information-outline</v-icon>
                                     </v-btn>
                                 </h2>
@@ -278,26 +278,6 @@ This view is different from the others: it includes all journals published by th
             data() {
                 return this.$store.state.tabData
             },
-            showMe() {
-                return true
-                return this.$store.getters.currentScenarioPage === 'journals'
-            },
-            views() {
-                return this.$store.getters.journalViews
-            },
-            donutData(){
-                return this.data.headers.map(h=>{
-                    return {
-                        value: h.percent,
-                        label: h.text,
-                        key: h.value, // name
-                    }
-                })
-                    .filter(h=>{
-                        return !['instant_usage_percent',].includes(h.key)
-                    })
-
-            },
             loading() {
                 return this.$store.state.tabDataLoading
             },
@@ -311,11 +291,6 @@ This view is different from the others: it includes all journals published by th
             tableRows() {
                 return this.data.journals.map(j => {
                     let ret = j.table_row
-                    // Object.keys(j).forEach(key => {
-                    //     if (key !== 'meta') {
-                    //         ret[key] = j[key]
-                    //     }
-                    // })
                     ret.title = j.meta.title
                     ret.subject = j.meta.subject
                     ret.issnl = j.meta.issn_l
@@ -323,9 +298,6 @@ This view is different from the others: it includes all journals published by th
                     return ret
                 })
             },
-            activeView() {
-                return this.views[this.activeViewIndex]
-            }
         },
         methods: {
             subscribe(issnl) {

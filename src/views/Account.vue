@@ -1,5 +1,5 @@
 <template>
-    <v-container class="account">
+    <v-container class="account" v-if="$store.getters.selectedAccount">
         <h1 class="display-3">Your Account</h1>
         <v-card outlined>
             <v-card-title>Your Packages</v-card-title>
@@ -13,9 +13,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="pkg in $store.state.pkgs"
+                    <tr v-for="pkg in $store.getters.selectedAccount.packages"
                         :key="pkg.id"
-                        @click="$router.push(`/a/${account.id}/${pkg.id}`)"
+                        @click="$router.push(`/a/${pkg.id}`)"
                         style="cursor:pointer;">
                         <td>{{ pkg.name }}</td>
                         <td>{{ pkg.numJournals }}</td>
@@ -58,7 +58,7 @@
         },
         mounted() {
             console.log("mount up")
-            this.$store.commit("clearPkg")
+            this.$store.commit("clearSelectedPkg")
             this.$store.commit("clearScenario")
 
         },
