@@ -1,5 +1,5 @@
 <template>
-    <div class="tab" v-if="$store.getters.configs">
+    <div class="tab" v-if="$store.getters.selectedScenario">
 
         <v-list>
                 <v-list-item :key="myConfig.name"
@@ -258,16 +258,14 @@
                 this.configToEdit = 9999;
 
             },
-            saveEdit() {
+            async saveEdit() {
                 console.log("save this")
                 const config = {
                     k: this.configToEdit.name,
                     v: this.configToEdit.value
                 }
-                this.$store.dispatch("setConfig", config)
-                    .then(r => {
-                        this.closeDialog()
-                    })
+                await this.$store.dispatch("setConfig", config)
+                this.closeDialog()
             }
         }
     }

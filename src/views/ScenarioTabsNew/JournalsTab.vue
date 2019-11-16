@@ -197,7 +197,14 @@
             this.getData()
 
         },
-        watch: {}
+        watch: {
+            '$store.getters.configsDigest': function(to){
+                console.log("configs changed", to)
+                this.getData().then(resp => {
+                    this.$store.commit("snackbar", "Scenario recalculated with new configs")
+                })
+            }
+        }
     }
 </script>
 

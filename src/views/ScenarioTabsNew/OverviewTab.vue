@@ -14,15 +14,15 @@
                     </h2>
                 </div>
                 <v-spacer></v-spacer>
-                <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        label="Search"
-                        flat
-                        solo
-                        outlined
-                        hide-details
-                ></v-text-field>
+<!--                <v-text-field-->
+<!--                        v-model="search"-->
+<!--                        append-icon="mdi-magnify"-->
+<!--                        label="Search"-->
+<!--                        flat-->
+<!--                        solo-->
+<!--                        outlined-->
+<!--                        hide-details-->
+<!--                ></v-text-field>-->
 
             </v-toolbar>
 
@@ -58,6 +58,7 @@
                                             @click='startEdit'
                                             v-if="!editMode"
                                             class="mt-4"
+                                            :disabled="$store.getters.loading"
                                             depressed color="info">edit
                                     </v-btn>
                                 </p>
@@ -327,6 +328,7 @@
                 console.log("starting edit")
             },
             async getData() {
+
                 const path = `scenario/${this.scenarioId}/slider`
                 const resp = await api.get(path)
                 this.data = resp.data
@@ -343,7 +345,6 @@
 
                 this.$store.commit("setSubrs", subrIssnls)
                 await this.$store.dispatch("updateScenario")
-                await this.getData()
 
                 this.makeItSoLoading = false
                 this.$store.commit('snackbar', "Subscriptions updated!", "info")
@@ -402,6 +403,11 @@
                     this.sliderEnd()
                 }
             },
+
+            '$store.getters.scenarioDigest': function(to){
+                console.log("digest changed, run getDAta()")
+                this.getData()
+            }
         }
     }
 </script>

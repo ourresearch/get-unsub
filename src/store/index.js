@@ -133,18 +133,6 @@ export default new Vuex.Store({
 
 
         // config stuff
-        setConfig(state, config) {
-            state.selectedScenario.configs[config.k] = config.v
-
-            // @todo: wtf is this? i think ununsed. i hope.
-            state.obj = {
-                ...state.selectedScenario.configs,
-                [config.k]: config.v
-            }
-
-
-            console.log("saved config", config, state.selectedScenario.configs)
-        },
         setConfigsOpen(state){
             if(state.editMode){
                 console.log("edit mode bro")
@@ -306,13 +294,7 @@ export default new Vuex.Store({
             commit("snackbar", "Journal unsubscribed!")
             return true
         },
-        async setConfig({commit, dispatch}, config) {
-            commit("setConfig", config)
-            dispatch("updateSummary")
-            await dispatch("updateTabData")
-            commit("snackbar", "Config changed!")
-            return true
-        },
+
 
         async setTabData({commit, dispatch}, endpointName) {
             commit("setTabDataEndPointName", endpointName)
@@ -381,16 +363,7 @@ export default new Vuex.Store({
                 return []
             }
         },
-        configs(state) {
-            if (state.selectedScenario) {
-                return state.selectedScenario.configs
-            }
-        },
-        config: (state) => (k) => {
-            if (state.selectedScenario) {
-                return state.selectedScenario.configs[k]
-            }
-        },
+
         journalViews(state) {
             return journalViews
         },
@@ -400,7 +373,7 @@ export default new Vuex.Store({
         singleJournalLoading(state){
             return state.singleJournalId && !state.singleJournalData
         },
-        loading(state){return api.loading > 0},
+        loading(state){return state.loading > 0},
 
 
 
