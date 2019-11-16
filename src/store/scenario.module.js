@@ -17,6 +17,9 @@ export const scenario = {
                 state.selected.subrs.push(issnl)
             }
         },
+        setSubrs(state, subrIssnls) {
+            state.selected.subrs = subrIssnls
+        },
         removeSubr(state, issnl) {
             state.selected.subrs = state.selected.subrs.filter(j => j !== issnl)
         },

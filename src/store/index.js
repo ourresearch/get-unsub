@@ -201,14 +201,7 @@ export default new Vuex.Store({
                 }, 500)
             })
         },
-        setSubrs(state, subrIssnls) {
-            state.selectedScenario.subrs = subrIssnls
-        },
-        // addSubr(state, issnl) {
-        //     if (!state.selectedScenario.subrs.includes(issnl)) {
-        //         state.selectedScenario.subrs.push(issnl)
-        //     }
-        // },
+
 
         setSummary(state, summary) {
             // state.selectedScenario.summary = summary

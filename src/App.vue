@@ -63,7 +63,6 @@
     import Configs from "./components/Configs"
     import StartupTutorial from "./components/StartupTutorial"
     import SingleJournal from "./components/SingleJournal"
-    import SliderTab from "./views/ScenarioTabs/SliderTab"
     import NavSidebar from "./components/NavSidebar"
     import AppBar from "./components/AppBar"
 
@@ -72,7 +71,6 @@
         components: {
             Configs,
             SingleJournal,
-            SliderTab,
             StartupTutorial,
             NavSidebar,
             AppBar,

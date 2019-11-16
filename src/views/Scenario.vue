@@ -22,16 +22,10 @@
 <script>
     import axios from 'axios'
 
-    import SliderTab from "./ScenarioTabs/SliderTab"
-    import JournalsTab from "./ScenarioTabs/JournalsTab"
-    import SharingTab from "./ScenarioTabs/SharingTab"
 
     export default {
         name: "Pkg",
         components: {
-            SliderTab,
-            JournalsTab,
-            SharingTab
         },
         data() {
             return {
