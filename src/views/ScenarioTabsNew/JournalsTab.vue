@@ -14,7 +14,6 @@
                         </h2>
                     </div>
                     <v-spacer></v-spacer>
-                    <v-spacer></v-spacer>
                     <v-text-field
                             v-model="search"
                             append-icon="mdi-magnify"
@@ -47,8 +46,8 @@
                     <template v-slot:item="{ item }">
                         <tr @click="openSingleJournal(item.issnl)"
                             :class="{subscribed: item.subscribed}">
-                            <td style="width:40%;">
-                                <v-row class="">
+                            <td>
+                                <v-row class="" style="width:400px;">
                                     <v-col v-if="data.key !== 'apc'" style="flex-grow:1;">
                                         <v-btn icon text
                                                @click.stop="subscribe(item.issnl)"
@@ -71,9 +70,10 @@
                                     </v-col>
                                 </v-row>
                             </td>
+
                             <td v-for="(v,k) in item"
                                 v-if="!['issnl', 'title', 'subject', 'subscribed'].includes(k)"
-                                :key="k">
+                                :key="item.issnl + k">
                                         <span v-if="getColDisplayType(k)==='number'">
                                             {{ v.toLocaleString()}}
                                         </span>
@@ -126,11 +126,9 @@
         },
         methods: {
             async getData() {
-                this.$store.commit("startLoading")
                 const path = `scenario/${this.scenarioId}/table`
                 const resp = await api.get(path)
                 this.data = resp.data
-                this.$store.commit("finishLoading")
             },
             getColDisplayType(colName) {
                 const myHeader = this.data.headers.find(h => h.value === colName)
@@ -144,9 +142,17 @@
                 console.log("@click on openSingleJournal()", issnl)
                 this.$store.dispatch('openSingleJournal', issnl)
             },
-            subscribe(issnl){
+            async subscribe(issnl){
                 this.$store.commit("addSubr", issnl)
-                this.$store.dispatch("updateScenario")
+                await this.$store.dispatch("updateScenario")
+                await this.getData()
+                this.$store.commit("snackbar", "Journal subscribed!")
+            },
+            async unsubscribe(issnl){
+                this.$store.commit("removeSubr", issnl)
+                await this.$store.dispatch("updateScenario")
+                await this.getData()
+                this.$store.commit("snackbar", "Journal unsubscribed")
             },
         },
         computed: {
@@ -167,7 +173,6 @@
                 const metaHeaders = [
                     {text: "Title", value: "title"},
                 ]
-                console.log("working with headers", this.data.headers)
                 return [...metaHeaders, ...this.data.headers]
             },
             tableRows() {
@@ -204,6 +209,16 @@
 
     table tr.subscribed {
         background: #C2DBFD !important;
+    }
+    table tr {
+        cursor: pointer;
+    }
+
+    .v-data-table-header th.sortable {
+        min-width: 100px;
+        vertical-align:bottom;
+        padding-bottom: 5px;
+        padding-top: 5px;
     }
 
 </style>

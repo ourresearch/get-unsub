@@ -57,9 +57,8 @@
 
         },
         mounted() {
-            console.log("mount up")
             this.$store.commit("clearSelectedPkg")
-            this.$store.commit("clearScenario")
+            this.$store.commit("clearSelectedScenario")
 
         },
     }

@@ -2,6 +2,7 @@ import axios from "axios";
 const authUrl = "https://unpaywall-jump-api.herokuapp.com/login"
 const accountUrl = "https://unpaywall-jump-api.herokuapp.com/account "
 
+import {api} from "../api"
 
 export const account = {
     state: {
@@ -19,31 +20,15 @@ export const account = {
     },
     actions: {
         async login({commit, dispatch, getters}, userCreds) {
-            commit("startLoading")
-            console.log("getting token from server")
-            const resp = await  axios.post(authUrl, userCreds)
-            console.log("got fetchToken response", resp.data.access_token)
+            const resp = await  api.post("login", userCreds)
             commit("setToken", resp.data.access_token)
             return await dispatch("fetchUser")
+
         },
 
         async fetchUser({commit, getters}) {
-            commit("startLoading")
-            const token =  localStorage.getItem("token")
-            console.log("token in localstorate", token)
-            const headers = {
-                Authorization: `Bearer ${token}`
-            }
-            console.log("sending fetchUser request", headers)
-            return axios.get(accountUrl, {headers: headers})
-                .then(resp => {
-                    console.log("got fetchUser response", resp)
-                    commit("setSelected", resp.data)
-
-                })
-                .finally(() => {
-                    commit('finishLoading')
-                })
+            const resp = await api.get("account")
+            commit("setSelected", resp.data)
         },
 
         async loginDemo({dispatch}){

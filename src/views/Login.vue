@@ -63,7 +63,6 @@
             login(){
                 this.$store.dispatch("login", this.creds)
                     .then(resp => {
-                        console.log("looks like login is done")
                         this.$router.push(`/a`)
                     })
                     .catch(err => {

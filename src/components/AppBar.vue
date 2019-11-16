@@ -10,8 +10,8 @@
 
 
         <v-progress-linear
-                :active="api.numLoading > 0"
-                :indeterminate="api.numLoading > 0"
+                :active="$store.state.loading > 0"
+                :indeterminate="$store.state.loading > 0"
                 absolute
                 bottom
                 color="green"
@@ -86,6 +86,8 @@
             },
             logout(){
                 this.$store.commit("logout")
+                this.$store.commit("clearSelectedScenario")
+                this.$store.commit("clearSelectedPkg")
                 this.$router.push("/")
             }
         },

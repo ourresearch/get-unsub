@@ -117,7 +117,6 @@
             }
         },
         mounted(){
-          console.log("app mounted")
             this.$store.dispatch("fetchUser")
         },
     };

@@ -6,8 +6,6 @@ import {account} from "./account.module.js"
 import {pkg} from "./pkg.module.js"
 import {scenario} from "./scenario.module"
 
-import api from "../api"
-
 
 Vue.use(Vuex)
 
@@ -69,7 +67,7 @@ export default new Vuex.Store({
         startupTutorialOpen: false,
         startupTutorialFinished: false,
 
-        loading: true,
+        loading: 0,
     },
     modules: {
         account,
@@ -211,9 +209,7 @@ export default new Vuex.Store({
         //         state.selectedScenario.subrs.push(issnl)
         //     }
         // },
-        removeSubr(state, issnl) {
-            this.state.selectedScenario.subrs = this.state.selectedScenario.subrs.filter(j => j !== issnl)
-        },
+
         setSummary(state, summary) {
             // state.selectedScenario.summary = summary
             Vue.set(state.selectedScenario, "summary", summary)

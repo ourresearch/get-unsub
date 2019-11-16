@@ -1,6 +1,7 @@
 import axios from "axios";
 const pkgUrl = "https://unpaywall-jump-api.herokuapp.com/package/"
 
+import {api} from "../api"
 
 export const pkg = {
     state: {
@@ -14,22 +15,10 @@ export const pkg = {
     },
     actions: {
         async fetchPkg({commit, getters}, id) {
-            commit("startLoading")
-            const token =  localStorage.getItem("token")
-            const headers = {
-                Authorization: `Bearer ${token}`
-            }
-            console.log("sending fetchPkg request", headers)
-            const url = pkgUrl + id
-            return axios.get(url, {headers: headers})
-                .then(resp => {
-                    console.log("got fetchPkg response", resp)
-                    commit("setSelectedPkg", resp.data)
-
-                })
-                .finally(() => {
-                    commit('finishLoading')
-                })
+            const url = `package/${id}`
+            const resp = await api.get(url)
+            commit("setSelectedPkg", resp.data)
+            return resp.data
         },
 
     },

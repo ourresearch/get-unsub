@@ -16,7 +16,10 @@ export const scenario = {
             if (!state.selected.subrs.includes(issnl)) {
                 state.selected.subrs.push(issnl)
             }
-        }
+        },
+        removeSubr(state, issnl) {
+            state.selected.subrs = state.selected.subrs.filter(j => j !== issnl)
+        },
     },
     actions: {
         async fetchScenario({commit, getters}, id) {
@@ -25,11 +28,11 @@ export const scenario = {
             return resp
         },
 
-        async updateScenario({commit, dispatch, state}){
+        async updateScenario({commit, state}){
             const url = "scenario/" + state.selected.id;
-            await api.post(url, state.selected)
-            await dispatch("fetchScenario", state.selected.id)
-            return true
+            const resp = await api.post(url, state.selected)
+            commit("setSelectedScenario", resp.data)
+            return resp.data
         }
     },
     getters: {
