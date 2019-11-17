@@ -140,7 +140,7 @@
             },
             openSingleJournal(issnl) {
                 console.log("@click on openSingleJournal()", issnl)
-                this.$store.dispatch('openSingleJournal', issnl)
+                this.$store.commit('setZoomIssnl', issnl)
             },
             async subscribe(issnl){
                 this.$store.commit("addSubr", issnl)

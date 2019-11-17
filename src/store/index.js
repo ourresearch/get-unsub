@@ -274,51 +274,9 @@ export default new Vuex.Store({
         },
 
 
-        async setSubrs({commit, dispatch}, subrIssnls) {
-            commit("setSubrs", subrIssnls)
-            dispatch("updateSummary")
-            await dispatch("updateTabData")
-            return true
-        },
-        async addSubr({commit, dispatch}, issnl) {
-            commit("addSubr", issnl)
-            dispatch("updateSummary")
-            await dispatch("updateTabData")
-            commit("snackbar", "Journal subscribed!")
-            return true
-        },
-        async removeSubr({commit, dispatch}, issnl) {
-            commit("removeSubr", issnl)
-            dispatch("updateSummary")
-            await dispatch("updateTabData")
-            commit("snackbar", "Journal unsubscribed!")
-            return true
-        },
 
 
-        async setTabData({commit, dispatch}, endpointName) {
-            commit("setTabDataEndPointName", endpointName)
-            await dispatch("updateTabData")
-            return true
-        },
 
-
-        async openSingleJournal({commit, state, dispatch}, issnl){
-            console.log("open single journal", issnl)
-            commit("setSingleJournalId", issnl)
-
-            const url = "https://unpaywall-jump-api.herokuapp.com/journal/issn_l/" + issnl
-            return axios.post(url, state.selectedScenario)
-                .then(resp => {
-                    commit("setSingleJournalData", resp.data)
-                    console.log("set the single journal data", resp.data)
-                })
-                .catch(err => {
-                    console.log("got error from openSingleJournal()", url, err)
-                })
-
-
-        },
 
 
         async openWizard({commit, state, dispatch}){

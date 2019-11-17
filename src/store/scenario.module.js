@@ -10,6 +10,9 @@ export const scenario = {
         selected: null,
         digest: "",
         configsDigest: "",
+        zoomIssnl: null,
+        zoomOpen: false,
+
     },
     mutations: {
         _setSelectedScenario(state, scenario) {
@@ -17,6 +20,14 @@ export const scenario = {
             state.digest = Object.values(state.selected.summary).join()
         },
 
+        setZoomIssnl: (state, issnl) => {
+            state.zoomIssnl = issnl
+            state.zoomOpen = true
+        },
+        closeZoom: (state) => {
+            state.zoomIssnl = null
+            state.zoomOpen = false
+        },
 
         clearSelectedScenario(state) {
             state.selected = null
@@ -33,6 +44,7 @@ export const scenario = {
         removeSubr(state, issnl) {
             state.selected.subrs = state.selected.subrs.filter(j => j !== issnl)
         },
+
 
 
     },
@@ -65,6 +77,8 @@ export const scenario = {
             state.configsDigest = Object.values(state.selected.configs).join()
             return resp.data
         },
+
+
     },
     getters: {
         selectedScenario(state) {
@@ -72,6 +86,7 @@ export const scenario = {
         },
         scenarioDigest: (state) => state.digest,
         configsDigest: (state) => state.configsDigest,
+        zoomIssnl: (state) => state.zoomIssnl,
         configs(state) {
             return state.selected.configs
         },

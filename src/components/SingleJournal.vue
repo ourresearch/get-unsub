@@ -1,5 +1,5 @@
 <template>
-    <v-dialog scrollable v-model="$store.state.singleJournalId">
+    <v-dialog scrollable v-model="$store.state.scenario.zoomOpen">
         <v-card>
 
             <v-toolbar dark color="primary">
@@ -89,7 +89,8 @@
 
 
                             <v-alert type="info" text>
-                                All the figures below are for your <em>current scenario</em> as defined in your configs and
+                                All the figures below are for your <em>current scenario</em> as defined in your configs
+                                and
                                 subscriptions.
                             </v-alert>
 
@@ -123,8 +124,10 @@
                                     <div>
                                         <div>Open Access</div>
                                         <div class="body-1" v-if="journal.oa.oa_embargo_months">
-                                            <strong>Delayed OA ({{journal.oa.oa_embargo_months}}mo):</strong> this journal makes
-                                            back content available after an embargo of ({{journal.oa.oa_embargo_months}} months.
+                                            <strong>Delayed OA ({{journal.oa.oa_embargo_months}}mo):</strong> this
+                                            journal makes
+                                            back content available after an embargo of ({{journal.oa.oa_embargo_months}}
+                                            months.
                                         </div>
 
                                     </div>
@@ -141,7 +144,8 @@
                                 <v-card-text>
                                     Notes:
                                     <ul>
-                                        <li>green is only content that’s not otherwise available as hybrid or bronze</li>
+                                        <li>green is only content that’s not otherwise available as hybrid or bronze
+                                        </li>
                                     </ul>
                                 </v-card-text>
                             </v-card>
@@ -186,16 +190,19 @@
 
                                 <v-card-text class="body-1">
                                     <div>
-                                        Your institution's projected annual fractional authorship in this journal (fractional
+                                        Your institution's projected annual fractional authorship in this journal
+                                        (fractional
                                         authorship = <em>number of authors from your institution</em> divided by <em>total
                                         coauthors</em> for each paper): <strong>{{
                                         journal.apc.annual_projected_fractional_authorship || "none found" }}</strong>
                                     </div>
                                     <div>
-                                        This journal's APC price: <strong>{{ journal.apc.apc_price || "none found"}}</strong>
+                                        This journal's APC price: <strong>{{ journal.apc.apc_price || "none
+                                        found"}}</strong>
                                     </div>
                                     <div>
-                                        Adjusted (fractional) projected annual APC spend from authors at your institution:
+                                        Adjusted (fractional) projected annual APC spend from authors at your
+                                        institution:
                                         <strong>{{
                                             journal.apc.annual_projected_cost || "none found" }}</strong>
                                     </div>
@@ -231,6 +238,9 @@
 </template>
 
 <script>
+    import {api} from "../api";
+
+
     export default {
         name: 'SingleJournal',
         components: {},
@@ -238,37 +248,44 @@
             drawerRight: false,
             switch: false,
             showApi: false,
+            journal: null,
+            loading: false,
         }),
         computed: {
             summary() {
                 return this.$store.getters.summary
             },
-            loading() {
-                return this.$store.state.tabDataLoading
-            },
-            singleJournalIssnl() {
-                return this.$store.state.singleJournalIssnl
-            },
-            data() {
-                return this.$store.state.singleJournalData
-            },
-            journal() {
-                if (this.$store.state.singleJournalData) {
-                    return this.$store.state.singleJournalData.journal
-                }
-            },
             subscribed() {
                 if (this.$store.state.singleJournalData) {
                     return this.$store.state.singleJournalData.journal.subscribed
                 }
+            },
+            issnl() {
+                return this.$store.getters.zoomIssnl
             }
 
         },
         methods: {
             clearSingleJournal() {
-                console.log("clear single journal")
-                this.$store.commit('clearSingleJournal')
+                this.$store.commit('closeZoom')
             },
+            async getData() {
+                if (!this.issnl) {
+                    this.journal = null
+                    return
+                }
+                this.loading = true
+                const url = "journal/issn_l/" + this.issnl
+                const resp = await api.get(url)
+                this.journal = resp.data.journal
+                this.loading = false
+            }
+        },
+        watch: {
+            issnl: function (to) {
+                console.log("zoom issnl has changed")
+                this.getData()
+            }
         }
     };
 </script>
