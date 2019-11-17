@@ -209,7 +209,8 @@
                 makeItSoLoading: false,
                 search: "",
                 data: null,
-                sliderPercentAtStartOfEdit: null
+                sliderPercentAtStartOfEdit: null,
+                journalsAtStartOfEdit: null,
             }
         },
         computed: {
@@ -319,12 +320,15 @@
                 }
             },
             cancelEdit(){
-                this.$store.commit("clearEditMode")
                 this.sliderPercent = this.sliderPercentAtStartOfEdit
+                this.data.journals = this.journalsAtStartOfEdit
+                // this.updateJournals()
+                this.$store.commit("clearEditMode")
             },
             startEdit(){
                 this.$store.commit("setEditMode")
                 this.sliderPercentAtStartOfEdit = this.sliderPercent
+                this.journalsAtStartOfEdit = _.cloneDeep(this.data.journals)
                 console.log("starting edit")
             },
             async getData() {
@@ -351,6 +355,7 @@
 
             },
             updateJournals() {
+                console.log("update journals")
                 if (!this.data) return
 
                 const myMax = this.costFromSlider
@@ -394,7 +399,9 @@
         watch: {
             sliderPercent: function (to, from) {
                 console.log("cost percent changed")
-                this.updateJournals()
+                if (this.editMode){
+                    this.updateJournals()
+                }
             },
 
             editMode: function (to, from) {
