@@ -24,142 +24,150 @@
                         hide-details
                 ></v-text-field>
 
+                <div class="px-3">
+                    <v-tooltip bottom>
+                        <template v-slot:activator="{on}">
+                            <v-btn v-on="on" fab
+                                   dark small @click="showAddColsDialog = true">
+                                <v-icon>mdi-table-edit</v-icon>
+                            </v-btn>
+                        </template>
+                        <span>
+                            Show/hide columns
+                        </span>
+                    </v-tooltip>
+
+                </div>
+
             </v-toolbar>
 
 
             <v-divider></v-divider>
 
-            <v-card v-if="data">
+            <v-card v-if="data" class="main-card">
 
 
+                <div class="table-wrapper">
+
+                    <div class="table-portal">
+
+                        <table>
+                            <thead>
+                            <tr>
+                                <th class="title-header">
+                                    <span class="header-cell-contents">
+                                        <v-menu offset-y>
+                                            <template v-slot:activator="{ on }">
+                                                <span v-on="on">
+                                                    Title&nbsp;▿
+                                                </span>
+                                            </template>
+                                            <v-list>
+                                                <v-list-item @click="sortTable('title', true)">
+                                                    <v-list-item-icon>
+                                                        <v-icon>mdi-sort-ascending</v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-title>
+                                                        Sort Asc
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                            <v-list>
+                                                <v-list-item @click="sortTable('title', false)">
+                                                    <v-list-item-icon>
+                                                        <v-icon>mdi-sort-descending</v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-title>
+                                                        Sort Desc
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
 
 
+                                        </v-menu>
 
-
-
-
-                    <table>
-                        <thead>
-                        <tr>
-                            <th class="title-header">
-                                <v-menu offset-y>
-                                    <template v-slot:activator="{ on }">
-                                        <span v-on="on">
-                                            Title&nbsp;▿
-                                        </span>
-                                    </template>
-                                    <v-list>
-                                        <v-list-item @click="sortTable('title', true)">
-                                            <v-list-item-icon>
-                                                <v-icon>mdi-sort-ascending</v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-title>
-                                                Sort Asc
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                    <v-list>
-                                        <v-list-item @click="sortTable('title', false)">
-                                            <v-list-item-icon>
-                                                <v-icon>mdi-sort-descending</v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-title>
-                                                Sort Desc
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-
-
-                                </v-menu>
-
-
-                            </th>
-                            <th v-for="header in tableHeaders" :key="header.value">
-
-                                <v-menu offset-y>
-                                    <template v-slot:activator="{ on }">
-                                        <span v-on="on" v-html="header.textWithDownArrow">
-                                        </span>
-                                    </template>
-                                    <v-list>
-                                        <v-list-item @click="sortTable(header.value, true)">
-                                            <v-list-item-icon>
-                                                <v-icon>mdi-sort-ascending</v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-title>
-                                                Sort Asc
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                    <v-list>
-                                        <v-list-item @click="sortTable(header.value, false)">
-                                            <v-list-item-icon>
-                                                <v-icon>mdi-sort-descending</v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-title>
-                                                Sort Desc
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-
-                                    <v-list>
-                                        <v-list-item @click="$store.commit('hideTableCol', header.value)">
-
-                                            <v-list-item-icon>
-                                                <v-icon>mdi-eye-off</v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-title>
-                                                Hide
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-
-                                    <v-list>
-                                        <v-list-item @click="getInfo(header.value)">
-                                            <v-list-item-icon>
-                                                <v-icon>mdi-information-outline</v-icon>
-                                            </v-list-item-icon>
-                                            <v-list-item-title>
-                                                Info
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-
-                                </v-menu>
-
-
-                            </th>
-                            <th>
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{on}">
-                                        <v-btn v-on="on" fab
-                                               dark small @click="showAddColsDialog = true">
-                                            <v-icon>mdi-plus</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>
-                                        Add a column
                                     </span>
-                                </v-tooltip>
-                            </th>
-                        </tr>
 
 
-                        </thead>
-                        <tbody>
-                        <journal-row
-                                v-for="journal in journals"
-                                :key="journal.meta.issn_l"
-                                :journal="journal"
-                                :headers="tableHeaders"
-                        ></journal-row>
-                        </tbody>
-                    </table>
+                                </th>
+                                <th v-for="header in tableHeaders" :key="header.value">
+                                    <span class="header-width" v-html="header.textWithDownArrow"></span>
+
+                                    <span class="header-cell-contents">
+                                        <v-menu offset-y>
+                                            <template v-slot:activator="{ on }">
+                                                <span v-on="on" v-html="header.textWithDownArrow">
+                                                </span>
+                                            </template>
+                                            <v-list>
+                                                <v-list-item @click="sortTable(header.value, true)">
+                                                    <v-list-item-icon>
+                                                        <v-icon>mdi-sort-ascending</v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-title>
+                                                        Sort Asc
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                            <v-list>
+                                                <v-list-item @click="sortTable(header.value, false)">
+                                                    <v-list-item-icon>
+                                                        <v-icon>mdi-sort-descending</v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-title>
+                                                        Sort Desc
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+
+                                            <v-list>
+                                                <v-list-item @click="$store.commit('hideTableCol', header.value)">
+
+                                                    <v-list-item-icon>
+                                                        <v-icon>mdi-eye-off</v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-title>
+                                                        Hide
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+
+                                            <v-list>
+                                                <v-list-item @click="getInfo(header.value)">
+                                                    <v-list-item-icon>
+                                                        <v-icon>mdi-information-outline</v-icon>
+                                                    </v-list-item-icon>
+                                                    <v-list-item-title>
+                                                        Info
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+
+                                        </v-menu>
+
+                                    </span>
 
 
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
 
 
+                            </thead>
+                            <tbody>
+                            <journal-row
+                                    v-for="journal in journals"
+                                    :key="journal.meta.issn_l"
+                                    :journal="journal"
+                                    :headers="tableHeaders"
+                            ></journal-row>
+                            </tbody>
+                        </table>
+                    </div>
 
+                </div>
 
 
                 <v-divider></v-divider>
@@ -192,8 +200,6 @@
     </v-container>
 
 
-
-
 </template>
 
 <script>
@@ -208,7 +214,6 @@
     import AddColsDialog from "../../components/AddColsDialog"
 
 
-
     export default {
         name: "JournalsTab",
         components: {JournalRow, AddColsDialog},
@@ -220,7 +225,7 @@
                 pageStartIndex: 0,
                 sortKey: "subscription_cost",
                 sortDesc: false,
-                pageSize: 25,
+                pageSize: 200,
                 showAddColsDialog: false,
             }
         },
@@ -336,7 +341,7 @@
 
                 let ret = [...this.data.journals]
                 ret.sort(fn)
-                if (this.search){
+                if (this.search) {
                     ret = ret.filter(j => {
                         const searchTheseStrings = [
                             j.meta.title.toLowerCase(),
@@ -383,29 +388,70 @@
 
     table tr {
         cursor: pointer;
+        &:hover {
+            background: #fafafa;
+        }
+    }
+    table {
+        margin-top: -20px;
     }
 
     table th {
-        max-width: 120px;
-        text-align: right;
-        padding: 10px 10px 5px;
-        position: sticky;
-        top:64px;
+        padding: 0 10px;
+        white-space: nowrap;
         background: #fff;
-        z-index: 9;
-        background: #eee;
+        display: table-cell;
+        text-align: left;
+        vertical-align: center;
+
+        .header-cell-contents {
+            position: absolute;
+            padding-top: 10px;
+            top: 0;
+
+        }
+        .header-width {
+            visibility: hidden;
+            display:block;
+            height: 0;
+        }
 
         &.title-header {
             text-align: left;
             padding-left: 70px;
 
         }
+
+    }
+
+    .main-card {
+        height: 80vh;
+        overflow: auto;
+        position: relative;
+    }
+
+    .table-wrapper {
+        position: relative;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        width: 100%;
+        padding-top: 50px;
+        box-sizing: border-box;
+        overflow: auto;
+        overflow-y: hidden;
+    }
+    .table-portal {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        min-width: fit-content;
     }
 
     table {
         border-collapse: collapse;
-        overflow-x: auto;
-        width: 100%;
+        /*overflow-x: auto;*/
+        /*width: 100%;*/
         /*position:relative;*/
         /*thead {*/
         /*    display: block;*/

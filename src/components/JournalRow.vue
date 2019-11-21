@@ -1,7 +1,7 @@
 <template>
     <tr @click="openSingleJournal()">
         <td class="title-column">
-            <v-row class="" style="width:400px;">
+            <v-row class="" style="width:300px;">
                 <v-col style="flex-grow:1;">
                     <v-btn icon text
                            @click.stop="subscribe(journal.meta.issn_l)"
