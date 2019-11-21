@@ -2,7 +2,7 @@
     <v-navigation-drawer v-if="scenario" clipped app left dark>
 
 <!--     current summary. DISABLED for now -->
-        <v-list v-if="false">
+        <v-list>
             <v-list-item>
                 Cost
                 <v-spacer></v-spacer>

@@ -31,9 +31,6 @@
                     two
                 </v-tab>
 
-                <v-tab-item>
-                    one!
-                </v-tab-item>
 
                 <v-tab-item>
 
@@ -230,6 +227,13 @@
                         </div>
                     </v-card-text>
                 </v-tab-item>
+
+
+                <v-tab-item>
+                    two!
+                </v-tab-item>
+
+
             </v-tabs>
 
 

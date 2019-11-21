@@ -12,6 +12,12 @@ export const scenario = {
         configsDigest: "",
         zoomIssnl: null,
         zoomOpen: false,
+        tableColsToShow: [
+            "total_usage",
+            "instant_usage_percent",
+            "subscription_cost",
+            "ncppu",
+        ],
 
     },
     mutations: {
@@ -43,6 +49,23 @@ export const scenario = {
         },
         removeSubr(state, issnl) {
             state.selected.subrs = state.selected.subrs.filter(j => j !== issnl)
+        },
+        showTableCol(state, colName) {
+            if (!state.tableColsToShow.includes(colName)) {
+                state.tableColsToShow.push(colName)
+            }
+        },
+        hideTableCol(state, colName){
+            state.tableColsToShow = state.tableColsToShow.filter(c=>c !== colName)
+        },
+        toggleTableCol(state, colName){
+            if (state.tableColsToShow.includes(colName)) {
+                // hide it if it's showing
+                state.tableColsToShow = state.tableColsToShow.filter(c=>c !== colName)
+            }
+            else {
+                state.tableColsToShow.push(colName)
+            }
         },
 
 
@@ -85,6 +108,7 @@ export const scenario = {
             return state.selected
         },
         scenarioDigest: (state) => state.digest,
+        summary: (state) => state.selected.summary,
         configsDigest: (state) => state.configsDigest,
         zoomIssnl: (state) => state.zoomIssnl,
         configs(state) {
@@ -93,5 +117,6 @@ export const scenario = {
         config: (state) => (k) => {
             return state.selected.configs[k]
         },
+        tableColsToShow: (state) => state.tableColsToShow,
     }
 }

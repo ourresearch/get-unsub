@@ -306,11 +306,7 @@ export default new Vuex.Store({
         // selectedScenario(state) {
         //     return state.selectedScenario
         // },
-        summary(state) {
-            if (state.selectedScenario) {
-                return state.selectedScenario.summary
-            }
-        },
+
         tabDataDigest(state) {
             return state.tabDataDigest
         },

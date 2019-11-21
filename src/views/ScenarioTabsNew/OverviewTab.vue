@@ -95,6 +95,19 @@
                                 </v-btn>
                             </div>
 
+                            <pre>total: {{tempTotalUsage}}</pre>
+                            <pre>
+                                {{usageRaw}}
+                            </pre>
+
+                            <pre>
+                                {{usage}}
+                            </pre>
+
+
+
+
+
                         </v-col>
                         <v-col cols="1 slider-col lift">
                             <v-slider
@@ -204,7 +217,6 @@
         data() {
             return {
                 sliderPercent: 0,
-                totalUsage: 0,
                 barHeight: 500,
                 makeItSoLoading: false,
                 search: "",
@@ -268,7 +280,7 @@
             subscribedJournals() {
                 return this.data.journals.filter(j => !!j.subscribed)
             },
-            usage() {
+            usageRaw(){
                 const ret = {
                     oa: 0,
                     backfile: 0,
@@ -289,13 +301,19 @@
                         ret.otherDelayed += j.use_groups_if_not_subscribed.other_delayed
                     }
                 })
-                const total = Object.values(ret).reduce((a, b) => a + b) || 1
-                Object.keys(ret).forEach(k => {
-                    ret[k] = 100 * ret[k] / total
-                })
-
-
                 return ret
+            },
+
+            usage() {
+                const ret = {}
+                const total = this.tempTotalUsage
+                Object.keys(this.usageRaw).forEach(k => {
+                    ret[k] = 100 * this.usageRaw[k] / total
+                })
+                return ret
+            },
+            tempTotalUsage(){
+                return Object.values(this.usageRaw).reduce((a, b) => a + b, 0)
             },
             instantUsage() {
                 const usage = this.usage
@@ -355,7 +373,6 @@
 
             },
             updateJournals() {
-                console.log("update journals")
                 if (!this.data) return
 
                 const myMax = this.costFromSlider
@@ -398,7 +415,6 @@
         },
         watch: {
             sliderPercent: function (to, from) {
-                console.log("cost percent changed")
                 if (this.editMode){
                     this.updateJournals()
                 }
