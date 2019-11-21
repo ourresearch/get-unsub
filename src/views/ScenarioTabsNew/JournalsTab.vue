@@ -220,12 +220,11 @@
                 pageStartIndex: 0,
                 sortKey: "subscription_cost",
                 sortDesc: false,
-                pageSize: 50,
+                pageSize: 25,
                 showAddColsDialog: false,
             }
         },
         methods: {
-
 
             async getData() {
                 const path = `scenario/${this.scenarioId}/table`
@@ -328,18 +327,6 @@
                     })
             },
 
-
-
-            tableRows() {
-                return this.data.journals.map(j => {
-                    let ret = j.table_row
-                    ret.title = j.meta.title
-                    ret.subject = j.meta.subject
-                    ret.issnl = j.meta.issn_l
-                    ret.subscribed = j.meta.subscribed
-                    return ret
-                })
-            },
             journals() {
                 const fn = (a, b) => {
                     let diff = a.table_row[this.sortKey] - b.table_row[this.sortKey]
@@ -347,8 +334,18 @@
                     return diff
                 }
 
-                const ret = [...this.data.journals]
+                let ret = [...this.data.journals]
                 ret.sort(fn)
+                if (this.search){
+                    ret = ret.filter(j => {
+                        const searchTheseStrings = [
+                            j.meta.title.toLowerCase(),
+                            j.meta.issn_l.toLowerCase()
+                        ]
+                        const searchTerm = this.search.toLowerCase()
+                        return searchTheseStrings.some(m => m.indexOf(searchTerm) > -1)
+                    })
+                }
                 return ret.slice(this.pageStartIndex, this.pageEndIndex)
             },
         },
