@@ -95,15 +95,6 @@
                                 </v-btn>
                             </div>
 
-                            <pre>total: {{tempTotalUsage}}</pre>
-                            <pre>
-                                {{usageRaw}}
-                            </pre>
-
-                            <pre>
-                                {{usage}}
-                            </pre>
-
 
 
 

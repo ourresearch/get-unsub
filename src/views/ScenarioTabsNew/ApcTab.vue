@@ -4,7 +4,7 @@
             <v-toolbar flat>
                     <div>
                         <h2 class="display-1">
-                            Elsevier journals APC costs
+                            APC costs
                             <v-btn icon
                                    href="https://support.unpaywall.org/support/solutions/articles/44001822207-page-open-access"
                                    target="_blank">
@@ -26,6 +26,17 @@
                     ></v-text-field>
 
                 </v-toolbar>
+
+            <div v-if="data" class="px-3">
+                <div class="stat">
+                    <span class="k">Total Annual APC spend (est):</span>
+                    <span class="v">{{ totalCost | currency }}</span>
+                </div>
+                <div>
+                    Includes <em>all</em> journals published by this package’s publisher (Elsevier) where authors from your institution have paid APCs for gold or hybrid open access.
+                </div>
+
+            </div>
 
 
 
@@ -133,6 +144,12 @@
             },
         },
         computed: {
+            totalCost(){
+              return this.data.headers.find(h=>h.value==="cost_apc").raw
+            },
+            totalFractionalAuthorship(){
+              return this.data.headers.find(h=>h.value==="fractional_authorship").raw
+            },
 
             account() {
                 return this.$store.state.account
