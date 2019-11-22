@@ -6,7 +6,7 @@
                         <h2 class="display-1">
                             APC costs
                             <v-btn icon
-                                   href="https://support.unpaywall.org/support/solutions/articles/44001822207-page-open-access"
+                                   href="https://support.unpaywall.org/support/solutions/articles/44001822217-page-apc-cost"
                                    target="_blank">
                                 <v-icon>mdi-information-outline</v-icon>
                             </v-btn>

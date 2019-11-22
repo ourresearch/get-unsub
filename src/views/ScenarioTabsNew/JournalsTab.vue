@@ -6,7 +6,7 @@
                     <h2 class="display-1">
                         Scenario journals
                         <v-btn icon
-                               href="https://support.unpaywall.org/support/solutions/articles/44001822204-page-overview"
+                               href="https://support.unpaywall.org/support/solutions/articles/44001843595"
                                target="_blank">
                             <v-icon>mdi-information-outline</v-icon>
                         </v-btn>
@@ -133,7 +133,8 @@
                                             </v-list>
 
                                             <v-list>
-                                                <v-list-item @click="getInfo(header.value)">
+<!--                                                <v-list-item @click="getInfo(header.value)">-->
+                                                <v-list-item href="https://support.unpaywall.org/support/solutions/articles/44001843595" target="_blank">
                                                     <v-list-item-icon>
                                                         <v-icon>mdi-information-outline</v-icon>
                                                     </v-list-item-icon>
