@@ -23,16 +23,16 @@
             </v-toolbar>
 
 
-            <v-tabs>
-                <v-tab>
-                    one
-                </v-tab>
-                <v-tab>
-                    two
-                </v-tab>
+<!--            <v-tabs>-->
+<!--                <v-tab>-->
+<!--                    one-->
+<!--                </v-tab>-->
+<!--                <v-tab>-->
+<!--                    two-->
+<!--                </v-tab>-->
 
 
-                <v-tab-item>
+<!--                <v-tab-item>-->
 
                     <v-card-text style="min-height: 600px; color: #333;">
 
@@ -226,15 +226,15 @@
 
                         </div>
                     </v-card-text>
-                </v-tab-item>
+<!--                </v-tab-item>-->
 
 
-                <v-tab-item>
-                    two!
-                </v-tab-item>
+<!--                <v-tab-item>-->
+<!--                    two!-->
+<!--                </v-tab-item>-->
 
 
-            </v-tabs>
+<!--            </v-tabs>-->
 
 
         </v-card>

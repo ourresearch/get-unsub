@@ -194,7 +194,7 @@
 
 
         <v-dialog scrollable max-width="500px" v-model="showAddColsDialog">
-            <add-cols-dialog></add-cols-dialog>
+            <add-cols-dialog @close="showAddColsDialog=false"></add-cols-dialog>
         </v-dialog>
 
     </v-container>
@@ -449,10 +449,12 @@
         overflow-y: scroll;
         overflow-x: hidden;
         min-width: fit-content;
+        width: 100%;
     }
 
     table {
         border-collapse: collapse;
+        width: 100%;
         /*overflow-x: auto;*/
         /*width: 100%;*/
         /*position:relative;*/

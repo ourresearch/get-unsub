@@ -3,7 +3,7 @@
         <v-card-title>
             Add column
             <v-spacer></v-spacer>
-            <v-btn icon text @click="showAddColsDialog=false">
+            <v-btn icon text @click="$emit('close')">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-card-title>
