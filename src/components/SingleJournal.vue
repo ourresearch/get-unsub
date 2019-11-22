@@ -1,6 +1,6 @@
 <template>
     <v-dialog scrollable v-model="$store.state.scenario.zoomOpen">
-        <v-card>
+        <v-card flat>
 
             <v-toolbar dark color="primary">
                 <v-toolbar-title>{{journal && journal.top.title}}</v-toolbar-title>
@@ -23,23 +23,36 @@
             </v-toolbar>
 
 
-<!--            <v-tabs>-->
-<!--                <v-tab>-->
-<!--                    one-->
-<!--                </v-tab>-->
-<!--                <v-tab>-->
-<!--                    two-->
-<!--                </v-tab>-->
+            <v-card-text v-if="journal" class="pa-0" style="min-height: 600px; color: #333;">
+                <v-tabs>
+                    <v-tab>
+                        Overview
+                    </v-tab>
+                    <v-tab>
+                        Fulfillment
+                    </v-tab>
+                    <v-tab>
+                        Open Access
+                    </v-tab>
+                    <v-tab>
+                        Impact
+                    </v-tab>
+                    <v-tab>
+                        Subscription cost
+                    </v-tab>
+                    <v-tab>
+                        APC cost
+                    </v-tab>
+                    <v-tab>
+                        API
+                    </v-tab>
 
 
-<!--                <v-tab-item>-->
+                    <v-tab-item>
 
-                    <v-card-text style="min-height: 600px; color: #333;">
-
-                        <div class="pa-3" v-if="journal">
-                            <div class="top mt-8">
+                            <div class="top ma-4 mt-8">
                                 <div class="body-2">{{ journal.top.issn_l }}</div>
-                                <h1 class="display-3">{{journal.top.title}}</h1>
+                                <h1 class="display-1">{{journal.top.title}}</h1>
                                 <div class="subr-status yes" v-if="journal.cost.subscribed">
                                     <div class="headline">
                                         Subscribed
@@ -62,6 +75,11 @@
                                     <!--                            </div>-->
 
                                 </div>
+                                <v-alert type="info" text>
+                                    All the figures in this dialog are for your <em>current scenario</em> as defined in your configs
+                                    and
+                                    subscriptions.
+                                </v-alert>
                             </div>
 
                             <!--                    <v-row class="pa-6">-->
@@ -85,14 +103,12 @@
                             <!--                    </v-row>-->
 
 
-                            <v-alert type="info" text>
-                                All the figures below are for your <em>current scenario</em> as defined in your configs
-                                and
-                                subscriptions.
-                            </v-alert>
 
 
-                            <v-card class="my-4">
+                    </v-tab-item>
+                    <v-tab-item>
+
+                            <v-card class="my-4" flat>
                                 <v-card-title>
                                     Fulfillment
                                 </v-card-title>
@@ -114,9 +130,11 @@
                                 </v-card-text>
 
                             </v-card>
+                    </v-tab-item>
 
 
-                            <v-card class="my-4">
+                    <v-tab-item>
+                            <v-card class="my-4" flat>
                                 <v-card-title>
                                     <div>
                                         <div>Open Access</div>
@@ -146,8 +164,11 @@
                                     </ul>
                                 </v-card-text>
                             </v-card>
+                    </v-tab-item>
 
-                            <v-card class="my-4">
+                    <v-tab-item>
+
+                            <v-card class="my-4" flat>
                                 <v-card-title>
                                     Impact
                                 </v-card-title>
@@ -161,8 +182,11 @@
                                 </v-data-table>
                                 <v-divider></v-divider>
                             </v-card>
+                    </v-tab-item>
 
-                            <v-card class="my-4">
+                    <v-tab-item>
+
+                            <v-card class="my-4" flat>
                                 <v-card-title>
                                     Subscription cost
                                 </v-card-title>
@@ -179,8 +203,11 @@
                                 </v-data-table>
                                 <v-divider></v-divider>
                             </v-card>
+                    </v-tab-item>
 
-                            <v-card class="my-4">
+                    <v-tab-item>
+
+                            <v-card class="my-4" flat>
                                 <v-card-title>
                                     APC cost
                                 </v-card-title>
@@ -194,8 +221,7 @@
                                         journal.apc.annual_projected_fractional_authorship || "none found" }}</strong>
                                     </div>
                                     <div>
-                                        This journal's APC price: <strong>{{ journal.apc.apc_price || "none
-                                        found"}}</strong>
+                                        This journal's APC price: <strong>{{ journal.apc.apc_price || "none found"}}</strong>
                                     </div>
                                     <div>
                                         Adjusted (fractional) projected annual APC spend from authors at your
@@ -207,8 +233,10 @@
                                 <v-divider></v-divider>
                             </v-card>
 
+                    </v-tab-item>
+                    <v-tab-item>
 
-                            <v-card>
+                            <v-card flat>
                                 <v-card-title>
                                     <v-switch
                                             color="primary"
@@ -222,19 +250,15 @@
                                     </pre>
                                 </v-card-text>
                             </v-card>
+                    </v-tab-item>
 
 
-                        </div>
-                    </v-card-text>
-<!--                </v-tab-item>-->
 
 
-<!--                <v-tab-item>-->
-<!--                    two!-->
-<!--                </v-tab-item>-->
 
 
-<!--            </v-tabs>-->
+                </v-tabs>
+            </v-card-text>
 
 
         </v-card>
