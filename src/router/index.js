@@ -8,7 +8,6 @@ import Support from '../views/Support'
 import Account from '../views/Account'
 import Pkg from '../views/Pkg'
 
-import Scenario from '../views/Scenario'
 import OverviewTab from "../views/ScenarioTabsNew/OverviewTab"
 import JournalsTab from "../views/ScenarioTabsNew/JournalsTab"
 import ApcTab from "../views/ScenarioTabsNew/ApcTab"
@@ -65,10 +64,10 @@ const routes = [
         component: ExportTab,
         meta: {requiresAuth: true},
     },
-    {
-        path: "*",
-        redirect: "/"
-    },
+    // {
+    //     path: "*",
+    //     redirect: "/"
+    // },
 ]
 
 const router = new VueRouter({
@@ -79,10 +78,26 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.isLoggedIn)  next('/')
-        else next()
+        // this page requires authentication
+        if (store.getters.isLoggedIn)  {
+            // you're logged in great. proceed.
+            next()
+        }
+        else {
+            // you are supposed to be logged in for this, so
+            // let's try to log you in using your saved token.
+            store.dispatch("fetchUser")
+                .then(resp=>{
+                    // we logged you in, great. proceed.
+                    next()
+                })
+                .catch(err=>{
+                    // you don't have a token, or it's bogus. you'll need to log in.
+                    next("/login")
+                })
+        }
     }
-    else { // no auth required
+    else { // easy, no auth required. proceed.
         next()
     }
 })

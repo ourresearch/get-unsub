@@ -55,11 +55,18 @@
         props: ["journal", "headers"],
         name: "JournalRow",
         methods: {
-            subscribe() {
+            async subscribe() {
                 console.log("subscribe!")
+                await this.$store.dispatch("addSubr", this.journal.meta.issn_l)
+                this.$emit("subscribe")
             },
-            unsubscribe() {
+            async unsubscribe() {
                 console.log("unsubscribe!")
+                await this.$store.dispatch("removeSubr", this.journal.meta.issn_l)
+                this.$emit("subscribe")
+            },
+            isSubscribed(){
+
             },
             openSingleJournal() {
                 console.log("@click on openSingleJournal()")

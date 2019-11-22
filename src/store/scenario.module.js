@@ -1,8 +1,5 @@
-import axios from "axios";
 import _ from 'lodash'
 import {api} from "../api.js"
-
-const scenarioUrl = "https://unpaywall-jump-api.herokuapp.com/scenario/"
 
 
 export const scenario = {
@@ -99,6 +96,16 @@ export const scenario = {
             commit("_setSelectedScenario", resp.data)
             state.configsDigest = Object.values(state.selected.configs).join()
             return resp.data
+        },
+
+        async addSubr({commit, dispatch}, issnl){
+            commit("addSubr", issnl)
+            return await dispatch("updateScenario")
+        },
+
+        async removeSubr({commit, dispatch}, issnl){
+            commit("removeSubr", issnl)
+            return await dispatch("updateScenario")
         },
 
 

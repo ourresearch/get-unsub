@@ -163,6 +163,8 @@
                                     :key="journal.meta.issn_l"
                                     :journal="journal"
                                     :headers="tableHeaders"
+                                    @subscribe="subscribe"
+                                    @unsubscribe="unsubscribe"
                             ></journal-row>
                             </tbody>
                         </table>
@@ -248,15 +250,11 @@
                 }
             },
 
-            async subscribe(issnl) {
-                this.$store.commit("addSubr", issnl)
-                await this.$store.dispatch("updateScenario")
+            async subscribe() {
                 await this.getData()
                 this.$store.commit("snackbar", "Journal subscribed!")
             },
-            async unsubscribe(issnl) {
-                this.$store.commit("removeSubr", issnl)
-                await this.$store.dispatch("updateScenario")
+            async unsubscribe() {
                 await this.getData()
                 this.$store.commit("snackbar", "Journal unsubscribed")
             },
