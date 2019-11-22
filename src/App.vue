@@ -119,9 +119,7 @@
                 await this.$store.dispatch("fetchUser")
             }
             catch (e){
-                if (e === 401){
-                    this.$router.push("./login")
-                }
+                console.log("user is not logged in.")
             }
         },
     };

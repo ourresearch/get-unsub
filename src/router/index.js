@@ -77,26 +77,14 @@ const router = new VueRouter({
     routes
 })
 
-
 router.beforeEach((to, from, next) => {
-    next()
-    return
-
-    // if (to.matched.some(record => record.meta.requiresAuth)) {
-    //     if (!store.getters.isLoggedIn) {
-    //         store.dispatch("loginDemo")
-    //             .then(resp => {
-    //                 next()
-    //             })
-    //     }
-    //     else {
-    //         next()
-    //     }
-    // }
-    // else { // no auth required
-    //     store.commit('clearPkg')
-    //     next()
-    // }
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!store.getters.isLoggedIn)  next('/')
+        else next()
+    }
+    else { // no auth required
+        next()
+    }
 })
 
 
