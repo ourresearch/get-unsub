@@ -148,7 +148,7 @@
 
             <div class="my-12 text-center">
                 <v-btn x-large class="mr-3" depressed large color="primary">Purchase</v-btn>
-                <v-btn x-large to="/a/demo-user/demo-pkg-123/1" outlined large color="primary">View Demo</v-btn>
+                <v-btn x-large @click="loginDemo" outlined large color="primary">View Demo</v-btn>
             </div>
         </v-card>
 
@@ -166,11 +166,11 @@
         name: 'home',
         components: {vueVimeoPlayer},
         methods: {
-            loginDemo() {
+            async loginDemo() {
                 console.log("login demo account")
-                this.$store.dispatch("loginDemo")
-                    .then(() => this.$router.push("/a"))
-                    .catch(err => console.log("error", err))
+                await this.$store.dispatch("loginDemo")
+
+
             }
         },
         computed: {
