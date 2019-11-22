@@ -39,8 +39,11 @@ const routes = [
     },
     {
         path: "/a/:pkgId/:scenarioId",
-        component: Scenario,
-        meta: {requiresAuth: true},
+        // https://router.vuejs.org/guide/essentials/redirect-and-alias.html#redirect
+        redirect: to => {
+            // https://router.vuejs.org/api/#the-route-object
+            return to.path + "/overview"
+        },
     },
     {
         path: "/a/:pkgId/:scenarioId/overview",
@@ -61,6 +64,10 @@ const routes = [
         path: "/a/:pkgId/:scenarioId/export",
         component: ExportTab,
         meta: {requiresAuth: true},
+    },
+    {
+        path: "*",
+        redirect: "/"
     },
 ]
 

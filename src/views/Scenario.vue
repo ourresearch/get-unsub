@@ -1,20 +1,5 @@
 <template>
     <div v-if="scenario">
-        hi scenario
-
-
-
-<!--        <journals-tab></journals-tab>-->
-<!--        <sharing-tab></sharing-tab>-->
-
-
-
-
-
-<!--        <configs-tab :data="scenario.configs"  v-if="activeTabName==='configs'"></configs-tab>-->
-
-<!--        <sharing-tab :data="tabData"  v-if="activeTabName==='sharing'"></sharing-tab>-->
-
 
     </div>
 </template>

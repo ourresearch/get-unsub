@@ -391,9 +391,11 @@
         &:hover {
             background: #fafafa;
         }
+        td {
+            border-top: 1px solid #eee;
+        }
     }
     table {
-        margin-top: -20px;
     }
 
     table th {
@@ -403,6 +405,7 @@
         display: table-cell;
         text-align: left;
         vertical-align: center;
+        border-bottom: 1px solid #eee;
 
         .header-cell-contents {
             position: absolute;

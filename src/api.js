@@ -45,7 +45,10 @@ export const api = (function () {
                 res = await axios.get(url, getConfig())
                 console.log(`api GET ${path} success:`, res.data)
             } catch (e) {
-                console.log("api GET failure:", e)
+                // how to handle axios errors:
+                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
+                console.log("api GET failure:", e.response)
+                throw e.response.status
             } finally {
                 store.state.loading = store.state.loading - 1
             }
@@ -60,7 +63,10 @@ export const api = (function () {
                 res = await axios.post(url, data, getConfig())
                 console.log(`api POST ${path} success:`, res.data)
             } catch (e) {
-                console.log("api POST failure:", e)
+                // how to handle axios errors:
+                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
+                console.log("api POST failure:", e.response)
+                throw e.response.status
             } finally {
                 store.state.loading =  store.state.loading - 1
             }

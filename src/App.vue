@@ -114,8 +114,15 @@
                 this.$store.dispatch("openWizard")
             }
         },
-        mounted(){
-            this.$store.dispatch("fetchUser")
+        async mounted(){
+            try {
+                await this.$store.dispatch("fetchUser")
+            }
+            catch (e){
+                if (e === 401){
+                    this.$router.push("./login")
+                }
+            }
         },
     };
 </script>
