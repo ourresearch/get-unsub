@@ -250,51 +250,25 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async updateTabData({commit, state}) {
-            commit("tabDataLoading")
-            const url = tabDataBaseUrl.replace("{key}", state.tabDataEndpointName)
-            return axios.post(url, state.selectedScenario)
-                .then(resp => {
-                    resp.data.key = state.tabDataEndpointName
-                    commit("setTabData", resp.data)
-                    console.log("got tab data", resp.data)
-                })
-                .catch(err => {
-                    console.log("got error from updateTabData()", url, err)
-                })
-                .finally(() => commit("tabDataDoneLoading"))
-        },
-        async updateSummary({commit, state}) {
-            commit("summaryLoading")
-            return axios.post(summaryUrl, state.selectedScenario)
-                .then(r => {
-                    commit("setSummary", r.data._summary)
-                })
-                .finally(() => commit("summaryDoneLoading"))
+        async loginDemo({dispatch, state, getters}){
+            const userCreds = {
+                username: "demo",
+                password: "demo"
+            }
+            await dispatch("login", userCreds)
+            const firstPkgId = state.account.selected.packages[0].id
+
+            await dispatch("fetchPkg", firstPkgId)
+            const firstScenarioId = state.pkg.selected.scenarios[0].id
+
+            await dispatch("fetchScenario", firstScenarioId)
+            return `/a/${firstPkgId}/${firstScenarioId}`
         },
 
 
 
 
 
-
-
-        async openWizard({commit, state, dispatch}){
-            console.log("open wizard")
-            commit("setWizardOpen")
-
-            const url = "https://unpaywall-jump-api.herokuapp.com/scenario/slider?package=demo"
-            return axios.post(url, state.selectedScenario)
-                .then(resp => {
-                    commit("setWizardData", resp.data)
-                    console.log("set the wizard data", resp.data)
-                })
-                .catch(err => {
-                    console.log("got error from openWizard()", url, err)
-                })
-
-
-        },
 
 
 

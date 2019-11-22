@@ -168,7 +168,9 @@
         methods: {
             async loginDemo() {
                 console.log("login demo account")
-                await this.$store.dispatch("loginDemo")
+                const path = await this.$store.dispatch("loginDemo")
+                console.log("we logged in the demo user", path)
+                this.$router.push(path)
 
 
             }

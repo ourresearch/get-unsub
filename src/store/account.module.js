@@ -31,14 +31,6 @@ export const account = {
             commit("setSelected", resp.data)
         },
 
-        async loginDemo({dispatch}){
-            const userCreds = {
-                username: "demo",
-                password: "demo"
-            }
-            return await dispatch("login", userCreds)
-        },
-
 
 
 
