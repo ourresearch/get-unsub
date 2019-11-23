@@ -174,7 +174,10 @@
 
 
                 <v-divider></v-divider>
-                <v-toolbar flat>
+
+            </v-card>
+
+                <v-toolbar flat dense v-if="data">
                     <v-spacer></v-spacer>
                     <div>
                         {{pageStartIndex + 1}} &ndash; {{pageEndIndex}}
@@ -190,9 +193,6 @@
 
 
                 </v-toolbar>
-
-            </v-card>
-
         </v-card>
 
 
@@ -226,9 +226,9 @@
                 search: "",
                 editColumnsOpen: false,
                 pageStartIndex: 0,
-                sortKey: "subscription_cost",
+                sortKey: "title",
                 sortDesc: false,
-                pageSize: 200,
+                pageSize: 100,
                 showAddColsDialog: false,
             }
         },
@@ -256,6 +256,7 @@
             },
             async unsubscribe() {
                 await this.getData()
+                console.log("unsubscribed")
                 this.$store.commit("snackbar", "Journal unsubscribed")
             },
             editColumns() {
@@ -430,7 +431,7 @@
     }
 
     .main-card {
-        height: 80vh;
+        height: 70vh;
         overflow: auto;
         position: relative;
     }

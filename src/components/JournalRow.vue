@@ -32,7 +32,12 @@
                 {{ journal.table_row[header.value] | round }}%
             </span>
             <span v-if="header.display==='currency'">
-                {{ journal.table_row[header.value] | currency({fractionCount:2}) }}
+                <template v-if="typeof journal.table_row[header.value] === 'number'">
+                    {{ journal.table_row[header.value] | currency({fractionCount:2}) }}
+                </template>
+                <template v-if="typeof journal.table_row[header.value] !== 'number'">
+                    &mdash;
+                </template>
             </span>
             <span v-if="header.display==='currency_int'">
                 {{ journal.table_row[header.value] | currency }}
@@ -63,7 +68,7 @@
             async unsubscribe() {
                 console.log("unsubscribe!")
                 await this.$store.dispatch("removeSubr", this.journal.meta.issn_l)
-                this.$emit("subscribe")
+                this.$emit("unsubscribe")
             },
             isSubscribed(){
 

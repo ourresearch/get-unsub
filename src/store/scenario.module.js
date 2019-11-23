@@ -11,7 +11,7 @@ export const scenario = {
         zoomOpen: false,
         tableColsToShow: [
             "total_usage",
-            "instant_usage_percent",
+            "free_instant_usage_percent",
             "subscription_cost",
             "ncppu",
         ],

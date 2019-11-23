@@ -4,6 +4,7 @@ const journalColGroups = [
         name: "keyStats",
         colNames: [
             "use",
+            "free_instant_usage_percent",
             "instant_usage_percent",
             "cost",
             "ncppu",
@@ -82,6 +83,11 @@ const journalCols = [
         display: "percent"
     },
     {
+        display: "percent",
+        text: "Free Instant Usage Percent",
+        value: "free_instant_usage_percent"
+    },
+    {
         text: "Scenario Cost",
         value: "scenario_cost",
         display: "currency_int"
@@ -102,57 +108,57 @@ const journalCols = [
         display: "currency_int"
     },
     {
-        text: "ASNs",
+        text: "% usage from ASNs",
         value: "use_asns",
         display: "number"
     },
     {
-        text: "Open access",
+        text: "% usage from Open Access",
         value: "use_oa",
         display: "number"
     },
     {
-        text: "Backfile",
+        text: "% usage from backfile",
         value: "use_backfile",
         display: "number"
     },
     {
-        text: "Subscription",
+        text: "% usage from subscription",
         value: "use_subscription",
         display: "number"
     },
     {
-        text: "ILL",
+        text: "% usage from ILL",
         value: "use_ill",
         display: "number"
     },
     {
-        text: "Other (delayed)",
+        text: "% usage from 'other (delayed)'",
         value: "use_other_delayed",
         display: "number"
     },
     {
-        text: "Percent of Usage that is OA",
+        text: "% usage from OA",
         value: "use_oa_percent",
         display: "percent"
     },
     {
-        text: "Percent of Usage that is Green OA",
+        text: "% usage from Green OA",
         value: "use_green_percent",
         display: "percent"
     },
     {
-        text: "Percent of Usage that is Hybrid OA",
+        text: "% usage from Hybrid OA",
         value: "use_hybrid_percent",
         display: "percent"
     },
     {
-        text: "Percent of Usage that is Bronze OA",
+        text: "% usage from Bronze OA",
         value: "use_bronze_percent",
         display: "percent"
     },
     {
-        text: "Percent of Usage that is Peer-reviewed OA",
+        text: "% usage from Peer-reviewed OA",
         value: "use_peer_reviewed_percent",
         display: "percent"
     },
@@ -179,7 +185,7 @@ const journalCols = [
 ]
 
 
- const hydratedJournalColGroups = function() {
+const hydratedJournalColGroups = function () {
     const ret = journalColGroups.map(group => {
         const ret = {...group}
         ret.cols = journalCols.filter(h => {
