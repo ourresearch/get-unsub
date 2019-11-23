@@ -22,7 +22,7 @@ export const account = {
         async login({commit, dispatch, getters}, userCreds) {
             const resp = await  api.post("login", userCreds)
             commit("setToken", resp.data.access_token)
-            return await dispatch("fetchUser")
+            await dispatch("fetchUser")
 
         },
 

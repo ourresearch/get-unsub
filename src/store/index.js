@@ -65,7 +65,6 @@ export default new Vuex.Store({
         configsOpen: false,
 
         startupTutorialOpen: false,
-        startupTutorialFinished: false,
 
         loading: 0,
     },
@@ -121,10 +120,12 @@ export default new Vuex.Store({
         },
         clearStartupTutorial(state){
             state.startupTutorialOpen = false
-            state.startupTutorialFinished = true
+            localStorage.setItem("startupTutorialFinished", "true")
+
+
         },
         openStartupTutorial(state){
-            if (!state.startupTutorialFinished){
+            if (!localStorage.getItem("startupTutorialFinished")){
                 state.startupTutorialOpen = true
             }
 
@@ -250,7 +251,7 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async loginDemo({dispatch, state, getters}){
+        async loginDemo({dispatch, state, commit}){
             const userCreds = {
                 username: "demo",
                 password: "demo"
@@ -262,6 +263,7 @@ export default new Vuex.Store({
             const firstScenarioId = state.pkg.selected.scenarios[0].id
 
             await dispatch("fetchScenario", firstScenarioId)
+            commit("openStartupTutorial")
             return `/a/${firstPkgId}/${firstScenarioId}`
         },
 

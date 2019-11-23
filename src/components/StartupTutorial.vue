@@ -24,7 +24,7 @@
                             </div>
                             <v-divider class="my-3"></v-divider>
                             <div>
-                                This demo account shows the projected cost and access for a large US university’s Elsevier big deal package, modelling a move to individual journal subscriptions.
+                                In this demo account, we'll look at a large US university’s Elsevier big deal package (this is all real data). You can try cancelling and subscribing to different journals, and see the effect it has on your overall cost, and overall access.
                             </div>
                             <v-row>
                                 <v-spacer></v-spacer>
@@ -50,13 +50,13 @@
                             <div>
                                 <ol>
                                     <li class="my-4">
-                                        Edit your subscriptions in bulk from the Overview page.
+                                        Edit journal subscriptions in bulk from the Overview page (that's the page you're on right now), and see how you can fulfill most usage instantly, without spending nearly as much money as you were on the Big Deal.
                                     </li>
                                     <li class="my-4">
-                                        Subscribe to an individual journal by clicking its <v-btn small icon><v-icon>mdi-cart</v-icon></v-btn> icon (hint: find journals on the <v-btn small text class="pa-0">Journal List</v-btn> tab).
+                                        Subscribe to individual journals on the Journals page (click the small <v-btn small icon><v-icon>mdi-cart</v-icon></v-btn> icon next to each one).
                                     </li>
                                     <li class="my-4">
-                                        Edit configs <v-icon>mdi-settings</v-icon> and see how it changes your access and cost projections.
+                                        Edit configs (the <v-icon>mdi-settings</v-icon> icon at top right) and see how it changes your access and cost projections.
                                     </li>
                                 </ol>
 
@@ -82,7 +82,7 @@
                             </div>
                             <v-divider class="my-3"></v-divider>
                             <div>
-                                This is a beta launch, and we're keen to hear any feedback you may have. And if you like what you see in the demo, please consider
+                                This is a beta launch, and we're keen to hear any feedback you may have. And if you like what you see in the demo, consider
                                 <a @click="$store.commit('clearStartupTutorial')" href="/purchase">purchasing a custom account</a> for your own university!
                             </div>
 
