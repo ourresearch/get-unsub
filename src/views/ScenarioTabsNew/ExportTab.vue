@@ -18,7 +18,8 @@
                     <v-btn color="primary"
                            flat
                            depressed
-                           href="https://unpaywall-jump-api.herokuapp.com/scenario/export.csv">
+                           :href="csvUrl"
+                    >
                         Download CSV
                     </v-btn>
                 </v-card-actions>
@@ -110,6 +111,7 @@
             }
         },
         methods: {
+
         },
         computed: {
             account() {
@@ -120,6 +122,11 @@
             },
             scenario(){
                 return this.$store.getters.selectedScenario
+            },
+            csvUrl(){
+                let url = `https://unpaywall-jump-api.herokuapp.com/scenario/${this.scenario.id}/export.csv`;
+                url += "?jwt=" + this.$store.getters.token
+                return url
             }
         },
         created(){

@@ -303,7 +303,11 @@
                     return
                 }
                 this.loading = true
-                const url = "journal/issn_l/" + this.issnl
+                // const url = "journal/issn_l/" + this.issnl
+
+                const scenarioId = this.$store.getters.selectedScenario.id
+                const url = `scenario/${scenarioId}/journal/${this.issnl}`
+
                 const resp = await api.get(url)
                 this.journal = resp.data.journal
                 this.loading = false
