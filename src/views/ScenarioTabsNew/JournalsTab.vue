@@ -196,7 +196,7 @@
         </v-card>
 
 
-        <v-dialog scrollable max-width="500px" v-model="showAddColsDialog">
+        <v-dialog scrollable width="600px" v-model="showAddColsDialog">
             <add-cols-dialog @close="showAddColsDialog=false"></add-cols-dialog>
         </v-dialog>
 

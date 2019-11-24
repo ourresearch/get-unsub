@@ -1,0 +1,138 @@
+Total Usage
+
+The projected Usage of the journal by your institution.  Usage is a measure of the journal's value to your institution.  It is calculated as:
+
+Usage of a journal = Downloads from the journal
+                + (Citations to the journal by your authors) * (your selected citation weight)
+                + (Authored papers in the journal) * (your selected authorship weight)
+
+
+Downloads
+
+The number of times people in your institution will download papers from this journal.  We base this on your COUNTER statistics and literature on download decay curves (how often an article is to be downloaded based on how long ago it was published).
+
+
+
+Citations to papers
+
+The number of times that a paper authored by someone in your institution will cite a paper in this journal.  This number is based on the citations patterns of the previous five years.  The importance of this number to overall Usage is determined by the Citation Weight setting.
+
+
+
+Authored papers
+
+The number of papers in this journal that have at least one author from your institution.  This number is based on the authorship patterns of the previous five years.  The importance of this number to overall Usage is determined by the Authorship Weight setting.
+
+
+
+Fulfillment
+
+
+Instant Usage Percentage
+
+The percent of Usage that is available instantly -- available as Open Access, Backfile, ASNs, or Subscription.  Or to look at it the other way, all Usage that isn't via ILL or Other (delayed)
+
+
+
+ASNs
+
+The percent of Usage that is available from Academic Social Networks like ResearchGate and Academia.edu.  These are not considered open repositories, so papers hosted here are not considered Open Access.  These can be excluded in the settings.
+
+
+
+Open Access
+
+The percent of Usage that is available as Green, Hybrid, or Bronze Open Access.  Some of this content can be excluded in the settings (see the Open Access page for more info).
+
+
+
+Backfile
+
+The percent of Usage that is available from your backfile -- the content that you still have access to because it was published while you had a subscription.  If your institution doesn't have Perpetual access you can exclude Backfile in the settings. In a Paid Account you can also upload a customized list of perpetual access availability by journal.
+
+
+
+Subscription
+
+Percent of Usage that is fulfilled via subscription in this scenario.  Of course if you've subscribed to a journal you can actually fulfill all of it via subscription, but we model that you fulfill via free, instant sources when possible, and only subscription for the remainder of the paywalled content (costs and instant percentages aren't affected by this decision, it mostly just shows up in the fulfillment bar graphs showing fulfillment breakdowns).
+
+
+
+ILL
+
+Percent of Usage that is fulfilled via ILL in this scenario.  This all Usage that isn't available via a free, instant route multiplied by the ILL request rate (adjustable in the settings, though the default is based on an extensive literature search of other institution's experiences).
+
+
+
+Other (delayed)
+
+Percent of Usage that is fulfilled via Other (delayed) paths in this scenario.  This all Usage that isn't available via a free, instant route and the researcher does not choose to place an ILL request, but instead fulfills their information need another way -- asks the author for a paper, asks a colleague, finds another similar paper that is good enough for their purposes, etc.
+
+
+
+
+
+Open Access
+
+Percent of Usage that is OA
+
+The percent of Usage that is available as Green, Hybrid, or Bronze Open Access.
+
+
+
+Percent of Usage that is Green OA
+
+The percent of Usage that is available as Green OA.  This is Open Access hosted on open repositories, like Harvard's institutional repository, arXiv, or PMC.  Green OA that hasn't been peer-reviewed (preprints, submitted drafts, etc) can be excluded in Settings.
+
+
+
+Percent of Usage that is Hybrid OA
+
+The percent of Usage that is available as Hybrid OA.  This is Open Access hosted on the publisher site with an open license in an otherwise subscription journal.  Usually an APC was paid by the authors when they published this paper.
+
+
+
+Percent of Usage that is Bronze OA
+
+The percent of Usage that is available as Bronze OA.  This is Open Access hosted on the publisher site in an otherwise subscription journal, but unlike Hybrid it does not have an open license.  It is sometimes promotional material, and sometimes open after an embargo in a Delayed OA journal (like Elsevier's Open Archive content).  Bronze OA can be excluded in Settings.
+
+
+
+Percent of Usage that is Peer-reviewed OA
+
+Percent of Usage that is the peer-reviewed version.  This includes all of Hybrid and Bronze, and the portion of Green OA that is an Accepted or Published version of the paper.  Green OA that hasn't been peer-reviewed (preprints, submitted drafts, etc) can be excluded in Settings.
+
+
+
+
+
+
+Cost
+
+Scenario Cost
+
+The cost of this journal according to the Settings and Subscription status of the journals in this Scenario.  It will be either Subscription Cost or ILL Cost (see next columns), depending on whether the journal is currently subscribed to or not in this scenario.
+
+
+
+Subscription Cost
+
+The ala carte subscription cost of this journal.  It includes a 'content fee' based on your settings, and annual price increases over the next five years (the cost shown is the average cost over the next five years).  This data is based on public price lists unless you've uploaded a custom price list (available in a purchased account).
+
+
+
+ILL Cost
+
+The ILL subscription cost of this journal.  It is based on the ILL transaction cost from the settings, and an ILL request rate (adjustable in the settings, though the default is based on an extensive literature search of other institution's experiences).
+
+
+
+Subscription minus ILL Cost
+
+The net cost of the subscription, which is the Subscription cost above minus the ILL cost (since almost all universities will offer a journal by ILL if they didn't subscribe).  For some journals with very high Usage and low subscription prices this number is actually negative -- subscribing is *cheaper* than filling all the anticipated ILL requests.
+
+
+
+Net cost per paid use
+
+The net cost of subscription minus ILL, divided by holistic usage to articles which aren't available for free.  More information here.
