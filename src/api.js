@@ -39,7 +39,7 @@ export const api = (function () {
         get: async function (path) {
             store.state.loading += 1
             console.log("api GET:", path, store.state.loading)
-            const url = urlBase + path
+            const url = urlBase + path + `?timestamp=${new Date().getTime()}`
             let res
             try {
                 res = await axios.get(url, getConfig())
