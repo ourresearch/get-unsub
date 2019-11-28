@@ -3,7 +3,7 @@ const journalColGroups = [
         displayName: "Key stats",
         name: "keyStats",
         colNames: [
-            "use",
+            "usage",
             "free_instant_usage_percent",
             "instant_usage_percent",
             "cost",
@@ -15,10 +15,10 @@ const journalColGroups = [
         displayName: "Costs",
         name: "costs",
         colNames: [
-            "scenario_cost",
+            "cost",
             "subscription_cost",
             "ill_cost",
-            "real_cost",
+            "subscription_minus_ill_cost",
         ]
     },
 
@@ -38,12 +38,12 @@ const journalColGroups = [
         displayName: "Fulfillment",
         name: "fulfillment",
         colNames: [
-            "use_asns",
-            "use_oa",
-            "use_backfile",
-            "use_subscription",
-            "use_ill",
-            "use_other_delayed",
+            "use_asns_percent",
+            "use_oa_percent",
+            "use_backfile_percent",
+            "use_subscription_percent",
+            "use_ill_percent",
+            "use_other_delayed_percent",
         ]
     },
 
@@ -51,7 +51,7 @@ const journalColGroups = [
         displayName: "Impact",
         name: "usage",
         colNames: [
-            "total_usage",
+            "usage",
             "downloads",
             "citations",
             "authorships",
@@ -76,7 +76,7 @@ const journalCols = [
     },
     {
         text: "Usage",
-        value: "use",
+        value: "usage",
         display: "number",
         descr: "The projected Usage of the journal by your institution.  Usage is a measure of the journal's value to your institution.  It is calculated as: Usage of a journal = Downloads from the journal (Citations to the journal by your authors) * (your selected citation weight) + (Authored papers in the journal) * (your selected authorship weight)",
     },
@@ -93,12 +93,6 @@ const journalCols = [
         descr: "The percent of Usage that can be met by instantly-available, free sources: Open Access, Backfile, and ASNs. This excludes usage met only by ILL, 'Other (delayed),' or Subscription.",
     },
     {
-        text: "Scenario Cost",
-        value: "scenario_cost",
-        display: "currency_int",
-        descr: "The cost of this journal according to the Settings and Subscription status of the journals in this Scenario.  It will be either Subscription Cost or ILL Cost, depending on whether the journal is currently subscribed to or not in this scenario.",
-    },
-    {
         text: "Subscription Cost",
         value: "subscription_cost",
         display: "currency_int",
@@ -112,51 +106,45 @@ const journalCols = [
     },
     {
         text: "Subscription minus ILL Cost",
-        value: "real_cost",
+        value: "subscription_minus_ill_cost",
         display: "currency_int",
         descr: "The net cost of the subscription, which is the Subscription cost above minus the ILL cost (since almost all universities will offer a journal by ILL if they didn't subscribe).  For some journals with very high Usage and low subscription prices this number is actually negative -- subscribing is *cheaper* than filling all the anticipated ILL requests.",
     },
     {
         text: "% usage from ASNs",
-        value: "use_asns",
+        value: "use_asns_percent",
         display: "number",
         descr: "The percent of Usage that is available from Academic Social Networks like ResearchGate and Academia.edu.  These are not considered open repositories, so papers hosted here are not considered Open Access.  These can be excluded in the settings.",
     },
     {
         text: "% usage from Open Access",
-        value: "use_oa",
+        value: "use_oa_percent",
         display: "number",
         descr: "The percent of Usage that is available as Green, Hybrid, or Bronze Open Access.  Some of this content can be excluded in the settings (see the Open Access page for more info).",
     },
     {
         text: "% usage from backfile",
-        value: "use_backfile",
+        value: "use_backfile_percent",
         display: "number",
         descr: "The percent of Usage that is available from your backfile -- the content that you still have access to because it was published while you had a subscription.  If your institution doesn't have Perpetual access you can exclude Backfile in the settings. In a Paid Account you can also upload a customized list of perpetual access availability by journal.",
     },
     {
         text: "% usage from subscription",
-        value: "use_subscription",
+        value: "use_subscription_percent",
         display: "number",
         descr: "Percent of Usage that is fulfilled via subscription in this scenario.  Of course if you've subscribed to a journal you can actually fulfill all of it via subscription, but we model that you fulfill via free, instant sources when possible, and only subscription for the remainder of the paywalled content (costs and instant percentages aren't affected by this decision, it mostly just shows up in the fulfillment bar graphs showing fulfillment breakdowns).",
     },
     {
         text: "% usage from ILL",
-        value: "use_ill",
+        value: "use_ill_percent",
         display: "number",
         descr: "Percent of Usage that is fulfilled via ILL in this scenario.  This all Usage that isn't available via a free, instant route multiplied by the ILL request rate (adjustable in the settings, though the default is based on an extensive literature search of other institution's experiences).",
     },
     {
         text: "% usage from 'other (delayed)'",
-        value: "use_other_delayed",
+        value: "use_other_delayed_percent",
         display: "number",
         descr: "Percent of Usage that is fulfilled via Other (delayed) paths in this scenario.  This all Usage that isn't available via a free, instant route and the researcher does not choose to place an ILL request, but instead fulfills their information need another way -- asks the author for a paper, asks a colleague, finds another similar paper that is good enough for their purposes, etc.",
-    },
-    {
-        text: "% usage from OA",
-        value: "use_oa_percent",
-        display: "percent",
-        descr: "The percent of Usage that is available as Green, Hybrid, or Bronze Open Access.",
     },
     {
         text: "% usage from Green OA",
@@ -182,12 +170,6 @@ const journalCols = [
         display: "percent",
         descr: "Percent of Usage that is the peer-reviewed version.  This includes all of Hybrid and Bronze, and the portion of Green OA that is an Accepted or Published version of the paper.  Green OA that hasn't been peer-reviewed (preprints, submitted drafts, etc) can be excluded in Settings.",
 
-    },
-    {
-        text: "Total Usage",
-        value: "total_usage",
-        display: "number",
-        descr: "The projected Usage of the journal by your institution.  Usage is a measure of the journal's value to your institution.  It is calculated as: Usage of a journal = Downloads from the journal (Citations to the journal by your authors) * (your selected citation weight) + (Authored papers in the journal) * (your selected authorship weight)",
     },
     {
         text: "Downloads",
