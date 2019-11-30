@@ -34,7 +34,7 @@
                             institution would like to contribute more, we will gladly accept donations and will use that
                             money to continue making tools and data as openly available as possible.
                         </p><p>
-                            If you need an invoice or to pay by bank transfer, send an email with all data you need to appear on the invoice to team@ourresearch.org (currently no fee for this -- please only chose this option if you are not able to pay by credit card).
+                            If you need an invoice or to pay by bank transfer, send an email with all data you need to appear on the invoice to team@ourresearch.org (currently no fee for this -- please only choose this option if you are not able to pay by credit card).
                         </p>
 
                     </div>
