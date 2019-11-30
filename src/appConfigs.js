@@ -19,6 +19,7 @@ const journalColGroups = [
             "subscription_cost",
             "ill_cost",
             "subscription_minus_ill_cost",
+            "ncppu",
         ]
     },
 
@@ -49,7 +50,7 @@ const journalColGroups = [
 
     {
         displayName: "Impact",
-        name: "usage",
+        name: "impact",
         colNames: [
             "usage",
             "downloads",
