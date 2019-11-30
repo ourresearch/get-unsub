@@ -8,7 +8,7 @@
                         <h1 class="display-1">Purchase successful!</h1>
                         <div>
 
-                            Thanks your support! You'll receive an email from us shortly with instructions on how to upload
+                            Thanks for your support! You'll receive an email from us shortly with instructions on how to upload
                             your COUNTER files and set up your new account!
                         </div>
 
