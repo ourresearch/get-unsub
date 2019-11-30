@@ -28,9 +28,13 @@
                             Open Infrastructure, a partner in Unpaywall Journals, gets an Unpaywall Journals dashboard
                             customized to your institution. You will be able to upload your own COUNTER stats,
                             subscription history, and price lists. We'll use this information to customize the usage,
-                            open access percentages, citations, authorships, and prices for your university. If your
+                            open access percentages, citations, authorships, and prices for your university.
+                        </p><p>
+                            If your
                             institution would like to contribute more, we will gladly accept donations and will use that
                             money to continue making tools and data as openly available as possible.
+                        </p><p>
+                            If you need an invoice or to pay by bank transfer, send an email with all data you need to appear on the invoice to team@ourresearch.org (currently no fee for this -- please only chose this option if you are not able to pay by credit card).
                         </p>
 
                     </div>
