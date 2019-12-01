@@ -14,6 +14,7 @@ export const scenario = {
             "free_instant_usage_percent",
             "subscription_cost",
             "ncppu",
+            "ncppu_rank",
         ],
 
     },

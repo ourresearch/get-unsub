@@ -8,6 +8,7 @@ const journalColGroups = [
             "instant_usage_percent",
             "cost",
             "ncppu",
+            "ncppu_rank",
         ]
     },
 
@@ -67,7 +68,13 @@ const journalCols = [
         text: "Net cost per paid use",
         value: "ncppu",
         display: "currency",
-        descr: "The <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This is our most important measure of journal value--it summarizes the real value you're getting for your subscription dollar.  <a href='https://support.unpaywall.org/support/solutions/articles/44001822684-cost-effectiveness-ncppu-' target='_blank'>Read more about NCPPU here.</a>",
+        descr: "NCPPU is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This is our most important measure of journal value--it summarizes the real value you're getting for your subscription dollar.  <a href='https://support.unpaywall.org/support/solutions/articles/44001822684-cost-effectiveness-ncppu-' target='_blank'>Read more about NCPPU here.</a>",
+    },
+    {
+        text: "Rank of NCPPU",
+        value: "ncppu_rank",
+        display: "number",
+        descr: "The journal's rank according to Net cost per paid use (NCPPU), relative to other journals in this dataset. ",
     },
     {
         text: "Cost",
