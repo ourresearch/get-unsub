@@ -71,10 +71,10 @@ const journalCols = [
         descr: "NCPPU is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This is our most important measure of journal value--it summarizes the real value you're getting for your subscription dollar.  <a href='https://support.unpaywall.org/support/solutions/articles/44001822684-cost-effectiveness-ncppu-' target='_blank'>Read more about NCPPU here.</a>",
     },
     {
-        text: "Rank of NCPPU",
+        text: "Rank by NCPPU",
         value: "ncppu_rank",
         display: "number",
-        descr: "The journal's rank according to Net cost per paid use (NCPPU), relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
+        descr: "The journal's rank by Net cost per paid use (NCPPU), relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
     },
     {
         text: "Cost",
