@@ -74,7 +74,7 @@ const journalCols = [
         text: "Rank of NCPPU",
         value: "ncppu_rank",
         display: "number",
-        descr: "The journal's rank according to Net cost per paid use (NCPPU), relative to other journals in this dataset. ",
+        descr: "The journal's rank according to Net cost per paid use (NCPPU), relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
     },
     {
         text: "Cost",
