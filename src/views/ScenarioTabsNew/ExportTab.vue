@@ -132,7 +132,6 @@
         created(){
         },
         mounted() {
-            console.log("scenario overview: mount up")
             const pkgId = this.$route.params.pkgId
             const scenarioId = this.$route.params.scenarioId
 

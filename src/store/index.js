@@ -5,6 +5,7 @@ import axios from 'axios'
 import {account} from "./account.module.js"
 import {pkg} from "./pkg.module.js"
 import {scenario} from "./scenario.module"
+import configs from "../appConfigs"
 
 
 Vue.use(Vuex)
@@ -67,6 +68,9 @@ export default new Vuex.Store({
         startupTutorialOpen: false,
 
         loading: 0,
+
+        showColInfo: false,
+        colInfo: null,
     },
     modules: {
         account,
@@ -94,6 +98,16 @@ export default new Vuex.Store({
         },
         finishLoading(state){
             // state.loading = false
+        },
+        showColInfo(state, name){
+            state.colInfo = configs.journalCols.find(c => {
+                return c.value === name
+            })
+            state.showColInfo = true
+        },
+        clearColInfo(state){
+            state.showColInfo = false
+            state.colInfo = null
         },
 
 
@@ -304,6 +318,7 @@ export default new Vuex.Store({
             return state.singleJournalId && !state.singleJournalData
         },
         loading(state){return state.loading > 0},
+        colInfo(state){return state.colInfo},
 
 
 

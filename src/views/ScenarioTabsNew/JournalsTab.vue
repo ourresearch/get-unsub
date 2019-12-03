@@ -134,7 +134,8 @@
 
                                             <v-list>
 <!--                                                <v-list-item @click="getInfo(header.value)">-->
-                                                <v-list-item href="https://support.unpaywall.org/support/solutions/articles/44001843595" target="_blank">
+                                                <v-list-item
+                                                        @click="$store.commit('showColInfo', header.value)">
                                                     <v-list-item-icon>
                                                         <v-icon>mdi-information-outline</v-icon>
                                                     </v-list-item-icon>
@@ -177,22 +178,22 @@
 
             </v-card>
 
-                <v-toolbar flat dense v-if="data">
-                    <v-spacer></v-spacer>
-                    <div>
-                        {{pageStartIndex + 1}} &ndash; {{pageEndIndex}}
-                        of {{data.journals.length}}
-                        <v-btn icon :disabled="isFirstPage" @click="pageBack">
-                            <v-icon>mdi-chevron-left</v-icon>
-                        </v-btn>
-                        <v-btn icon :disabled="isLastPage" @click="pageForward">
-                            <v-icon>mdi-chevron-right</v-icon>
-                        </v-btn>
-                    </div>
-                    <v-spacer></v-spacer>
+            <v-toolbar flat dense v-if="data">
+                <v-spacer></v-spacer>
+                <div>
+                    {{pageStartIndex + 1}} &ndash; {{pageEndIndex}}
+                    of {{data.journals.length}}
+                    <v-btn icon :disabled="isFirstPage" @click="pageBack">
+                        <v-icon>mdi-chevron-left</v-icon>
+                    </v-btn>
+                    <v-btn icon :disabled="isLastPage" @click="pageForward">
+                        <v-icon>mdi-chevron-right</v-icon>
+                    </v-btn>
+                </div>
+                <v-spacer></v-spacer>
 
 
-                </v-toolbar>
+            </v-toolbar>
         </v-card>
 
 
@@ -200,26 +201,30 @@
             <add-cols-dialog @close="showAddColsDialog=false"></add-cols-dialog>
         </v-dialog>
 
+        <col-info-dialog></col-info-dialog>
+
+
     </v-container>
 
 
 </template>
 
 <script>
-    import axios from 'axios'
-    import VueScrollingTable from "vue-scrolling-table"
     import _ from "lodash"
-
-    import configs from "../../appConfigs"
 
     import {api} from '../../api'
     import JournalRow from "../../components/JournalRow"
     import AddColsDialog from "../../components/AddColsDialog"
+    import ColInfoDialog from "../../components/ColInfoDialog"
 
 
     export default {
         name: "JournalsTab",
-        components: {JournalRow, AddColsDialog},
+        components: {
+            JournalRow,
+            AddColsDialog,
+            ColInfoDialog
+        },
         data() {
             return {
                 data: null,
@@ -230,6 +235,7 @@
                 sortDesc: false,
                 pageSize: 100,
                 showAddColsDialog: false,
+
             }
         },
         methods: {
@@ -360,7 +366,6 @@
         created() {
         },
         mounted() {
-            console.log("scenario overview: mount up")
             const pkgId = this.$route.params.pkgId
 
             this.$store.dispatch("fetchPkg", pkgId)
@@ -391,13 +396,16 @@
 
     table tr {
         cursor: pointer;
+
         &:hover {
             background: #fafafa;
         }
+
         td {
             border-top: 1px solid #eee;
         }
     }
+
     table {
     }
 
@@ -416,9 +424,10 @@
             top: 0;
 
         }
+
         .header-width {
             visibility: hidden;
-            display:block;
+            display: block;
             height: 0;
         }
 
@@ -448,6 +457,7 @@
         overflow: auto;
         overflow-y: hidden;
     }
+
     .table-portal {
         overflow-y: scroll;
         overflow-x: hidden;

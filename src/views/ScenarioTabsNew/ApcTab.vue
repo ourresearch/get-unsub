@@ -183,7 +183,6 @@
         created() {
         },
         mounted() {
-            console.log("scenario overview: mount up")
             const pkgId = this.$route.params.pkgId
 
             this.$store.dispatch("fetchPkg", pkgId)
