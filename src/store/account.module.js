@@ -46,6 +46,10 @@ export const account = {
             return {
                 Authorization: `Bearer ${token}`
             }
+        },
+        isCustomerAccount(state){
+            if (!state.selected) return false
+            return !state.selected.is_demo_account
         }
     }
 }
