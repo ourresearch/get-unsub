@@ -33,7 +33,7 @@
             <v-btn text class="pl-4" v-if="selectedPkg" :to="`/a/${selectedPkg.id}`">
                 <v-icon left>mdi-package-variant</v-icon>
                 <v-icon v-if="selectedScenario">mdi-chevron-right</v-icon>
-                <span v-if="!selectedScenario">{{selectedPkg.name}}</span>
+                <span>{{selectedPkg.name}}</span>
             </v-btn>
             <v-btn class="pl-4" v-if="selectedScenario" text>
                 <v-icon left>mdi-chart-bar</v-icon>
