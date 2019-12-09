@@ -188,11 +188,13 @@ export default new Vuex.Store({
             }
             else { // configs are closed
                 if(state.editMode){
-                    console.log("edit mode bro")
-                    state.snackbarIsOpen = true
-                    state.snackbarMsg = "You can't change configs when you're Edit Mode"
-                    state.snackbarColor = "info"
-                    return
+                    state.editMode = false
+
+                    // console.log("edit mode bro")
+                    // state.snackbarIsOpen = true
+                    // state.snackbarMsg = "You can't change configs when you're Edit Mode"
+                    // state.snackbarColor = "info"
+                    // return
                 }
                 state.configsOpen = true
 
