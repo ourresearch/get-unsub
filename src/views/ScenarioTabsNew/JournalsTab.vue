@@ -216,6 +216,7 @@
     import JournalRow from "../../components/JournalRow"
     import AddColsDialog from "../../components/AddColsDialog"
     import ColInfoDialog from "../../components/ColInfoDialog"
+    import InfoDialog from "../../components/InfoDialog"
 
 
     export default {

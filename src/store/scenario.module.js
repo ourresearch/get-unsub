@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {api} from "../api.js"
-
+import appConfigs from "../appConfigs"
 
 export const scenario = {
     state: {
@@ -17,11 +17,15 @@ export const scenario = {
             "ncppu_rank",
         ],
 
+        showEditConfig: false,
+        configToEdit: null,
+
     },
     mutations: {
         _setSelectedScenario(state, scenario) {
             state.selected = scenario
             state.digest = Object.values(state.selected.summary).join()
+            console.log("store.scenario._setSelectedScenario()", scenario)
         },
 
         setZoomIssnl: (state, issnl) => {
@@ -66,6 +70,22 @@ export const scenario = {
             }
         },
 
+        showEditConfig(state, configKey){
+            if (!state.selected) return
+
+            state.showEditConfig = true
+            const configObject = {...appConfigs.scenarioConfigs[configKey]}
+            configObject.value = state.selected.configs[configKey]
+            state.configToEdit = configObject
+        },
+        clearEditConfig(state){
+            state.showEditConfig = false
+            state.configToEdit = null
+        },
+        setEditConfigValue(state, newVal){
+            state.configToEdit.value = newVal
+        }
+
 
 
     },
@@ -99,6 +119,25 @@ export const scenario = {
             return resp.data
         },
 
+        // this is an Action because we don't want to update the local model
+        // optimistically, we want to do *nothing* until it's changed on the
+        // server.
+        async saveconfigToEdit({commit, state}) {
+            if (!state.configToEdit) return
+            console.log("Saving config", state.configToEdit)
+
+            const scenario = _.cloneDeep(state.selected)
+            const config = state.configToEdit
+
+            scenario.configs[config.name] = config.value
+            const url = "scenario/" + state.selected.id;
+
+            const resp = await api.post(url, scenario)
+            commit("_setSelectedScenario", resp.data)
+            state.configsDigest = Object.values(state.selected.configs).join()
+            return resp.data
+        },
+
         async addSubr({commit, dispatch}, issnl){
             commit("addSubr", issnl)
             return await dispatch("updateScenario")
@@ -124,6 +163,18 @@ export const scenario = {
         },
         config: (state) => (k) => {
             return state.selected.configs[k]
+        },
+        configToEdit(state){
+            return state.configToEdit
+
+
+            // if (!(state.selected && state.configToEdit)) {
+            //     return false
+            // }
+            //
+            // const configObject = {...appConfigs.scenarioConfigs[state.configToEdit]}
+            // configObject.value = state.selected.configs[state.configToEdit]
+            // return configObject
         },
         tableColsToShow: (state) => state.tableColsToShow,
     }

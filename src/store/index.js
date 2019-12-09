@@ -71,6 +71,11 @@ export default new Vuex.Store({
 
         showColInfo: false,
         colInfo: null,
+
+        showInfo: false,
+        infoKey: null,
+
+
     },
     modules: {
         account,
@@ -99,6 +104,7 @@ export default new Vuex.Store({
         finishLoading(state){
             // state.loading = false
         },
+
         showColInfo(state, name){
             state.colInfo = configs.journalCols.find(c => {
                 return c.value === name
@@ -106,9 +112,22 @@ export default new Vuex.Store({
             state.showColInfo = true
         },
         clearColInfo(state){
-            state.showColInfo = false
-            state.colInfo = null
+            state.showInfo = false
+            state.info = null
         },
+
+        showInfo(state, infoKey){
+            state.infoKey = infoKey
+            state.showInfo = true
+        },
+        clearInfo(state){
+            state.showInfo = false
+            state.infoKey = null
+        },
+
+
+
+
 
 
         // auth stuff
@@ -319,6 +338,7 @@ export default new Vuex.Store({
         },
         loading(state){return state.loading > 0},
         colInfo(state){return state.colInfo},
+        infoKey(state){return state.infoKey},
 
 
 

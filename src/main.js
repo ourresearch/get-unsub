@@ -38,6 +38,10 @@ Vue.filter('round', function (value, decimals) {
     decimals = 0
   }
 
+  if (value < 1){
+    decimals = 2
+  }
+
   value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
 
   return value.toLocaleString()
