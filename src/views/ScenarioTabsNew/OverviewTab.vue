@@ -33,16 +33,14 @@
             <v-card>
                 <div class="pa-3" v-if="data">
                     <v-row>
-                        <v-col cols="7">
+                        <v-col >
 
                             <div class="text-summary">
 
                                 <p>
                                     This scenario helps you answer the question: Over the next five years, what would it
                                     look like to cancel your
-                                    Elsevier Big Deal package, and partly replace its
-                                    <info-link :text="pkg.numJournals.toLocaleString() + ' included journals'"
-                                               info-key="Big Deal journals"></info-link>
+                                    Elsevier Big Deal package, and partly replace it
                                     with a-la-carte subscriptions?
                                 </p>
 
@@ -86,7 +84,7 @@
                                 </ul>
 
 
-                                <h2 class="title">Fulfillment</h2>
+                                <h2 class="title pt-4">Fulfillment</h2>
                                 <p>
                                     Your usage is based on downloads as reported in the COUNTER files you’ve uploaded.
                                     It also includes the times a journal was cited by your faculty, and the times your
@@ -203,7 +201,7 @@
                         </v-col>
 
 
-                        <v-col cols="5" class="infovis">
+                        <v-col class="infovis">
                             <v-row>
                                 <v-col class="1 slider-col lift" cols="">
                                     <v-slider
@@ -307,7 +305,7 @@
                                                 @click='startEdit'
                                                 class="mt-4"
                                                 :disabled="$store.getters.loading"
-                                                depressed color="info">edit mode
+                                                depressed color="info">edit subscriptions
                                         </v-btn>
                                     </div>
                                     <div v-if="editMode" class="mt-8">
@@ -615,6 +613,11 @@
         /*font-size: 20px;*/
         /*line-height: 1.5;*/
 
+    }
+
+    .infovis {
+        flex: 0 0 500px;
+        min-width: 500px;
     }
 
     .bar-col {
