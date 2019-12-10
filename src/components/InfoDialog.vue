@@ -13,7 +13,7 @@
             </v-toolbar>
 
 
-            <v-card-text>
+            <v-card-text class="pt-3">
                 <div v-if="key=='backfile'">
                     Content for which you already have purchased perpetual access. We model this using your COUNTER data
                     and the readership decay curve over time for each title.
@@ -24,7 +24,12 @@
                     (modest) increase in ILL requests after loss of subscription access.
                 </div>
                 <div v-if="key=='Big Deal journals'">
-                    We currently have information for {{ pkg.numJournals.toLocaleString() }} that are all bundled together as part of your Big Deal.
+                    <p>
+                        We currently have information for {{ pkg.numJournals.toLocaleString() }} journals that are all bundled together as part of your Big Deal.
+                    </p>
+                    <p>
+                        You can edit these journals on the package page (click “My Elsevier Freedom Package” at the top of your screen)
+                    </p>
                 </div>
                 <div v-if="key=='Subscribed journals'">
                     In this scenario, you are currently subscribed to {{numSubscribedJournalsStr}} journals a-la-carte.
@@ -67,10 +72,13 @@
             scenario() {
                 return this.$store.getters.selectedScenario
             },
+            pkg() {
+                return this.$store.getters.selectedPkg
+            },
 
             numSubscribedJournalsStr() {
-                let ret = this.subscribedJournals.length.toLocaleString() + " journal"
-                if (this.subscribedJournals.length !== 1) ret += "s"
+                let ret = this.scenario.subrs.length.toLocaleString() + " journal"
+                if (this.scenario.subrs.length !== 1) ret += "s"
                 return ret
             },
         }
