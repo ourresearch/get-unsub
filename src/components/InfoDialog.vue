@@ -14,9 +14,6 @@
 
 
             <v-card-text>
-                <div v-if="key=='test1'">
-                    This is the text for 'test1'
-                </div>
                 <div v-if="key=='backfile'">
                     Content for which you already have purchased perpetual access. We model this using your COUNTER data
                     and the readership decay curve over time for each title.
@@ -27,15 +24,14 @@
                     (modest) increase in ILL requests after loss of subscription access.
                 </div>
                 <div v-if="key=='Big Deal journals'">
-                    Info about your Big Deal journals goes here.
+                    We currently have information for {{ pkg.numJournals.toLocaleString() }} that are all bundled together as part of your Big Deal.
                 </div>
                 <div v-if="key=='Subscribed journals'">
-                    Info about your subscribed journals goes here.
+                    In this scenario, you are currently subscribed to {{numSubscribedJournalsStr}} journals a-la-carte.
                 </div>
                 <div v-if="key=='Journal prices'">
                     <p>
-                        This scenario is currently using the Elsevier North American a-la-carte journal price list, as
-                        published on their website.
+                        This scenario is currently using the Elsevier North American a-la-carte journal price list, as published on their website.
                     </p>
                     <p>
                         If you’d like to enter custom prices of your own, you can do that on the package page (click “My Elsevier Freedom Package” at the top of your screen)
@@ -67,7 +63,16 @@
         computed: {
             key() {
                 return this.$store.getters.infoKey
-            }
+            },
+            scenario() {
+                return this.$store.getters.selectedScenario
+            },
+
+            numSubscribedJournalsStr() {
+                let ret = this.subscribedJournals.length.toLocaleString() + " journal"
+                if (this.subscribedJournals.length !== 1) ret += "s"
+                return ret
+            },
         }
     }
 </script>

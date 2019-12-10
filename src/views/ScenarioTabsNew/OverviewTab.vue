@@ -47,11 +47,11 @@
 
                                 <h2 class="title">A-la-carte subscriptions</h2>
                                 <p>
-                                    You’re now subscribed to
-                                    <info-link :text="numSubscribedJournalsStr"
+                                    You’re now
+                                    <info-link :text="'subscribed to '+numSubscribedJournalsStr"
                                                info-key="Subscribed journals"></info-link>
                                     out of the
-                                    <info-link :text="pkg.numJournals.toLocaleString() + ' included journals'"
+                                    <info-link :text="pkg.numJournals.toLocaleString() + ' journals'"
                                                info-key="Big Deal journals"></info-link>
 
 
@@ -430,7 +430,7 @@
 
             numSubscribedJournalsStr() {
                 let ret = this.subscribedJournals.length.toLocaleString() + " journal"
-                if (this.subscribedJournals.length > 1) ret += "s"
+                if (this.subscribedJournals.length !== 1) ret += "s"
                 return ret
             },
 
