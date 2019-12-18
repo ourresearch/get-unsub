@@ -32,7 +32,7 @@
                     </p>
                 </div>
                 <div v-if="key=='Subscribed journals'">
-                    In this scenario, you are currently subscribed to {{numSubscribedJournalsStr}} journals a-la-carte.
+                    In this scenario, you are currently subscribed to {{numSubscribedJournalsStr}} journals a-la-carte. You can edit this by clicking the blue "Edit Subscriptions" button.
                 </div>
                 <div v-if="key=='Journal prices'">
                     <p>

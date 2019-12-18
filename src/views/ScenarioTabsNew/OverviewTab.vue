@@ -55,7 +55,7 @@
                                                info-key="Big Deal journals"></info-link>
 
 
-                                    that were included in your Big Deal.
+                                    that were included in your Big Deal. Click the blue "Edit Subscriptions" button to change this (and see how it affects costs and access).
                                 </p>
 
                                 <h2 class="title">Costs</h2>
