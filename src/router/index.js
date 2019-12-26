@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Purchase from '../views/Purchase'
 import PurchaseResult from '../views/PurchaseResult'
 import Login from '../views/Login'
+import ChangePassword from "../views/ChangePassword"
 import Support from '../views/Support'
 import Account from '../views/Account'
 import Pkg from '../views/Pkg'
@@ -23,6 +24,7 @@ const routes = [
     {path: '/purchase/:result', component: PurchaseResult},
     {path: '/support', component: Support},
     {path: '/login', component: Login},
+    {path: '/change-password', component: ChangePassword},
 
     {
         path: "/a",

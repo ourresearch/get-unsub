@@ -72,6 +72,25 @@ export const api = (function () {
             }
             return res
         },
+        changePassword: async function(creds){
+            store.state.loading += 1
+            const queryStr = `username=${creds.username}&old-password=${creds.oldPassword}&new-password=${creds.newPassword}`
+            const url = urlBase + "admin/change-password?" + queryStr
+            console.log("api CHANGE PASSWORD:", creds, url, store.state.loading)
+            let res
+            try {
+                res = await axios.get(url)
+                console.log(`api CHANGE PASSWORD success:`, res.data)
+            } catch (e) {
+                // how to handle axios errors:
+                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
+                console.log("api CHANGE PASSWORD failure:", e.response)
+                throw e.response.status
+            } finally {
+                store.state.loading = store.state.loading - 1
+            }
+            return res
+        }
 
 
 

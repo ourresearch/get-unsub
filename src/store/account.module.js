@@ -31,6 +31,12 @@ export const account = {
             commit("setSelected", resp.data)
         },
 
+        async changePassword({commit}, creds){
+            const resp = await api.changePassword(creds)
+            commit("logout")
+            return resp
+        },
+
 
 
 
