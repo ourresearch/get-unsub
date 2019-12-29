@@ -22,7 +22,7 @@
                         <div class="cta">
                             <div class="my-3">
                                 <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>
-                                <v-btn @click="loginDemo" outlined large color="primary">View Demo</v-btn>
+                                <v-btn @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
                             </div>
     
                         </div>
@@ -148,7 +148,7 @@
 
             <div class="my-12 text-center">
                 <v-btn x-large class="mr-3" depressed large color="primary">Purchase</v-btn>
-                <v-btn x-large @click="loginDemo" outlined large color="primary">View Demo</v-btn>
+                <v-btn x-large @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
             </div>
         </v-card>
 
