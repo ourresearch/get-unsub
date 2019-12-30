@@ -100,7 +100,7 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn depressed @click="saveEdit" :loading="saving" color="primary">Save</v-btn>
+                    <v-btn depressed @click="saveEdit" color="primary">Save</v-btn>
                     <v-btn depressed @click="showDialog=false">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
@@ -149,9 +149,6 @@
                     return ret
                 }).filter(c => c.display)
             },
-            saving() {
-                return this.$store.state.tabDataLoading
-            }
         },
         methods: {
             edit(k) {
@@ -166,12 +163,12 @@
             },
             async saveEdit() {
                 console.log("save this")
+                this.closeDialog()
                 const config = {
                     k: this.configToEdit.name,
                     v: this.configToEdit.value
                 }
                 await this.$store.dispatch("setConfig", config)
-                this.closeDialog()
             }
         }
     }

@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from 'axios'
 
 import {account} from "./account.module.js"
 import {pkg} from "./pkg.module.js"
@@ -15,30 +14,14 @@ const short = require('short-uuid');
 
 
 
-const journalViews = [
-    {value: "journals", displayName: "Overview", icon: "mdi-person"},
-    {value: "fulfillment", displayName: "Fulfillment", icon: "mdi-person"},
-    {value: "oa", displayName: "Open Access", icon: "mdi-person"},
-    {value: "impact", displayName: "Institutional Value", icon: "mdi-person"},
-    {value: "costs", displayName: "Subscription cost", icon: "mdi-person"},
-    {value: "apc", displayName: "APC cost", icon: "mdi-person"},
-    {value: "report", displayName: "Export", icon: "mdi-person"},
-]
-
-
-
 
 // looks useful: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
-
-const summaryUrl = "https://unpaywall-jump-api.herokuapp.com/scenario/summary?package=demo"
-const tabDataBaseUrl = "https://unpaywall-jump-api.herokuapp.com/scenario/{key}?package=demo"
 
 export default new Vuex.Store({
     state: {
         user: null,
 
         summaryLoading: false,
-        tabDataLoading: false,
 
         notSupportedMsgOpen: false,
         snackbarMsg: "",
@@ -91,12 +74,6 @@ export default new Vuex.Store({
         },
         summaryDoneLoading(state) {
             state.summaryLoading = false
-        },
-        tabDataLoading(state) {
-            state.tabDataLoading = true
-        },
-        tabDataDoneLoading(state) {
-            state.tabDataLoading = false
         },
         startLoading(state){
             // state.loading = true
@@ -206,11 +183,6 @@ export default new Vuex.Store({
 
 
         // scenario stuff
-        // selectScenario(state, id) {
-        //     state.selectedScenario = state.scenarios.find(s => {
-        //         return s.id === id
-        //     })
-        // },
         setScenarios(state, scenarios) {
             state.scenarios = scenarios
         },
@@ -232,22 +204,8 @@ export default new Vuex.Store({
             Vue.set(state.selectedScenario, "summary", summary)
         },
 
-        setTabData(state, newTabData) {
-            state.tabData = newTabData
-            state.tabDataIndex = journalViews.findIndex(v=>{
-                return v.value === newTabData.key
-            })
 
 
-            state.tabDataDigest = Object.values(newTabData._summary).join()
-            console.log("setting tab data", newTabData, state.tabDataDigest)
-        },
-
-
-        // scenario UI stuff
-        setTabDataEndPointName(state, name) {
-            state.tabDataEndpointName = name
-        },
 
         // single journal stuff
         setSingleJournalData(state, data){

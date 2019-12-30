@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid v-if="scenario" :class="{loading: $store.state.loading > 0}">
+    <v-container fluid v-if="scenario">
         <v-card>
 
 
@@ -57,7 +57,7 @@
                                     <info-link :text="'subscribed to '+numSubscribedJournalsStr"
                                                info-key="Subscribed journals"></info-link>
                                     out of the
-                                    <info-link :text="pkg.numJournals.toLocaleString() + ' journals'"
+                                    <info-link v-if="pkg" :text="pkg.numJournals.toLocaleString() + ' journals'"
                                                info-key="Big Deal journals"></info-link>
 
 
@@ -423,9 +423,6 @@
                     .map(j => j.cost_ill)
                     .reduce((a, b) => a + b, 0)
             },
-            loading() {
-                return this.$store.state.tabDataLoading
-            },
             barCols() {
                 return 2
             },
@@ -610,10 +607,6 @@
 <style lang="scss">
     $bar-height: 400px;
 
-    .tab.loading {
-        opacity: .5;
-        transition: opacity .25s ease-in-out;
-    }
 
     .text-summary {
         /*font-size: 20px;*/

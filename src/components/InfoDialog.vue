@@ -53,6 +53,8 @@
 
 <script>
     import configs from "../appConfigs"
+    import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
+
 
     export default {
         name: "InfoDialog",
