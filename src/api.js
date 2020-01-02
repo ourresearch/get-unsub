@@ -1,7 +1,8 @@
 import axios from 'axios'
 import store from "./store"
 
-const urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+// const urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+const urlBase = "http://localhost:5004/"
 import Vue from 'vue'
 
 const getConfig = function () {

@@ -76,7 +76,7 @@
                                 <ul>
                                     <li>
                                         Interlibrary Loan (ILL): {{ (illCost /
-                                        scenario.configs.cost_ill).toLocaleString() }} annual requests
+                                        scenario.configs.cost_ill).toLocaleString(undefined, {maximumFractionDigits: 0}) }} annual requests
                                         <config-edit-link :text="'@$' + scenario.configs.cost_ill + '/request'"
                                                           config-key="cost_ill"></config-edit-link>
                                         = {{ illCost | currency }} per year
@@ -519,7 +519,6 @@
                 console.log("starting edit")
             },
             async getData() {
-
                 const path = `scenario/${this.scenarioId}/slider`
                 const resp = await api.get(path)
                 this.data = resp.data
@@ -535,7 +534,7 @@
                     .map(j => j.issn_l)
 
                 this.$store.commit("setSubrs", subrIssnls)
-                await this.$store.dispatch("updateScenario")
+                await this.$store.dispatch("updateSubrs")
 
                 this.makeItSoLoading = false
                 this.$store.commit('snackbar', "Subscriptions updated!", "info")

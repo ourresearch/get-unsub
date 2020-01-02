@@ -162,12 +162,13 @@
 
             },
             async saveEdit() {
-                console.log("save this")
-                this.closeDialog()
+                console.log("save this", this.configToEdit)
                 const config = {
                     k: this.configToEdit.name,
                     v: this.configToEdit.value
                 }
+                // make sure to set the configs before closing this
+                this.closeDialog()
                 await this.$store.dispatch("setConfig", config)
             }
         }
