@@ -258,11 +258,11 @@
             },
 
             async subscribe() {
-                await this.getData()
+                // await this.getData()
                 this.$store.commit("snackbar", "Journal subscribed!")
             },
             async unsubscribe() {
-                await this.getData()
+                // await this.getData()
                 console.log("unsubscribed")
                 this.$store.commit("snackbar", "Journal unsubscribed")
             },

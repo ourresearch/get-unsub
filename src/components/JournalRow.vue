@@ -62,11 +62,13 @@
         methods: {
             async subscribe() {
                 console.log("subscribe!")
+                this.journal.meta.subscribed = true
                 await this.$store.dispatch("addSubr", this.journal.meta.issn_l)
                 this.$emit("subscribe")
             },
             async unsubscribe() {
                 console.log("unsubscribe!")
+                this.journal.meta.subscribed = false
                 await this.$store.dispatch("removeSubr", this.journal.meta.issn_l)
                 this.$emit("unsubscribe")
             },

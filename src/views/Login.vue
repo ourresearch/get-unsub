@@ -40,6 +40,10 @@
                             Log in
                         </v-btn>
                     </v-card-actions>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <a href="https://journals.unpaywall.org/change-password">Change your password</a>
+                    </v-card-actions>
                 </v-card>
         </v-row>
 

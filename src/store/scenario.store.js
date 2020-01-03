@@ -97,23 +97,22 @@ export const scenario = {
             return resp
         },
 
-        async updateScenario({commit, state}) {
-            const url = "scenario/" + state.selected.id;
-            const resp = await api.post(url, state.selected)
-            commit("_setSelectedScenario", resp.data)
-            return resp.data
+        async updateSubrs({commit, state}) {
+            const url = "scenario/subscriptions/" + state.selected.id;
+            await api.post(url, state.selected)
+            return
         },
-
 
         // this is an Action because we don't want to update the local model
         // optimistically, we want to do *nothing* until it's changed on the
         // server.
         async setConfig({commit, state}, config) {
-            const clone = _.cloneDeep(state.selected)
-            clone.configs[config.k] = config.v
+            const scenario = _.cloneDeep(state.selected)
+            scenario.configs[config.k] = config.v
+
             const url = "scenario/" + state.selected.id;
 
-            const resp = await api.post(url, clone)
+            const resp = await api.post(url, scenario)
             commit("_setSelectedScenario", resp.data)
             state.configsDigest = Object.values(state.selected.configs).join()
             return resp.data
@@ -128,8 +127,8 @@ export const scenario = {
 
             const scenario = _.cloneDeep(state.selected)
             const config = state.configToEdit
-
             scenario.configs[config.name] = config.value
+
             const url = "scenario/" + state.selected.id;
 
             const resp = await api.post(url, scenario)
@@ -140,12 +139,14 @@ export const scenario = {
 
         async addSubr({commit, dispatch}, issnl){
             commit("addSubr", issnl)
-            return await dispatch("updateScenario")
+            await dispatch("updateSubrs")
+            return
         },
 
         async removeSubr({commit, dispatch}, issnl){
             commit("removeSubr", issnl)
-            return await dispatch("updateScenario")
+            await dispatch("updateSubrs")
+            return
         },
 
 

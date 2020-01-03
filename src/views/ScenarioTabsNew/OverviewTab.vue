@@ -76,7 +76,7 @@
                                 <ul>
                                     <li>
                                         Interlibrary Loan (ILL): {{ (illCost /
-                                        scenario.configs.cost_ill).toLocaleString() }} annual requests
+                                        scenario.configs.cost_ill).toLocaleString(undefined, {maximumFractionDigits: 0}) }} annual requests
                                         <config-edit-link :text="'@$' + scenario.configs.cost_ill + '/request'"
                                                           config-key="cost_ill"></config-edit-link>
                                         = {{ illCost | currency }} per year
@@ -499,8 +499,8 @@
         },
         methods: {
             sliderEnd() {
-                if (this.sliderPercent < this.illCostPercent) {
-                    this.sliderPercent = this.illCostPercent
+                if (this.sliderPercent < this.illCostPercent + this.subrCostPercent) {
+                    this.sliderPercent = this.illCostPercent + this.subrCostPercent
                 }
             },
             cancelEdit() {
@@ -516,7 +516,6 @@
                 console.log("starting edit")
             },
             async getData() {
-
                 const path = `scenario/${this.scenarioId}/slider`
                 const resp = await api.get(path)
                 this.data = resp.data
@@ -532,7 +531,7 @@
                     .map(j => j.issn_l)
 
                 this.$store.commit("setSubrs", subrIssnls)
-                await this.$store.dispatch("updateScenario")
+                await this.$store.dispatch("updateSubrs")
 
                 this.makeItSoLoading = false
                 this.$store.commit('snackbar', "Subscriptions updated!", "info")
@@ -551,7 +550,7 @@
 
                 // subscribe to journals where subr is cheaper than ILL
                 this.data.journals.forEach(j => {
-                    if (j.cost_subscription_minus_ill < 0) {
+                    if (j.ncppu < 0) {
                         j.subscribed = true
                         mySpendSoFar += j.cost_subscription_minus_ill
                     }
@@ -559,14 +558,16 @@
 
                 if (mySpendSoFar >= myMax) return
 
-
-                // subscribe to as many other journals as we can afford
+                // subscribe to as many other journals as we can afford, ordered by nccpu (from server)
                 this.data.journals.forEach(j => {
-                    mySpendSoFar += j.cost_subscription_minus_ill
-                    if (mySpendSoFar <= myMax) {
-                        j.subscribed = true
-                    } else {
-                        j.subscribed = false
+                    // already handled the negative ones above
+                    if (j.ncppu !== null && j.ncppu >= 0) {
+                        mySpendSoFar += j.cost_subscription_minus_ill
+                        if (mySpendSoFar <= myMax) {
+                            j.subscribed = true
+                        } else {
+                            j.subscribed = false
+                        }
                     }
                 })
 
