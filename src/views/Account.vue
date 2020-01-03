@@ -48,12 +48,6 @@
             }
         },
         computed: {
-            count() {
-                return this.$store.getters.count
-            },
-            account() {
-                return this.$store.state.user
-            },
 
         },
         mounted() {

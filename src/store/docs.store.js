@@ -1,30 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
-import {account} from "./account.store.js"
-import {pkg} from "./pkg.store.js"
-import {scenario} from "./scenario.store"
 import configs from "../appConfigs"
-
-
-Vue.use(Vuex)
-
-// https://www.npmjs.com/package/short-uuid
-const short = require('short-uuid');
-
-
 
 
 // looks useful: https://scotch.io/tutorials/handling-authentication-in-vue-using-vuex
 
 export default new Vuex.Store({
     state: {
-
-
         notSupportedMsgOpen: false,
         snackbarMsg: "",
         snackbarIsOpen: false,
         snackbarColor: "success",
+
+        scenarios: [],
+        selectedScenario: null,
+
+
+        tabData: null,
+        tabDataEndpointName: "journals",
+        tabDataIndex: null,
+
+        singleJournalData: null,
+        singleJournalId: null,
+
 
 
         editMode: false,
@@ -43,14 +41,10 @@ export default new Vuex.Store({
 
 
     },
-    modules: {
-        account,
-        pkg,
-        scenario,
-    },
 
 
     mutations: {
+        // stuff stuff
         startLoading(state){
             // state.loading = true
         },
@@ -102,12 +96,16 @@ export default new Vuex.Store({
         clearStartupTutorial(state){
             state.startupTutorialOpen = false
             localStorage.setItem("startupTutorialFinished", "true")
+
+
         },
         openStartupTutorial(state){
             if (!localStorage.getItem("startupTutorialFinished")){
                 state.startupTutorialOpen = true
             }
+
         },
+
 
 
         // config stuff
@@ -148,6 +146,42 @@ export default new Vuex.Store({
 
 
 
+
+        // scenario stuff
+        setScenarios(state, scenarios) {
+            state.scenarios = scenarios
+        },
+        clearScenario(state) {
+            state.selectedScenario = null
+        },
+        saveScenario(state) {
+            // fake saving this to the server
+            return new Promise((resolve, reject) => {
+                setTimeout(function () {
+                    resolve()
+                }, 500)
+            })
+        },
+
+
+
+
+
+
+        // single journal stuff
+        setSingleJournalData(state, data){
+            state.singleJournalData = data
+        },
+        setSingleJournalId(state, issnl){
+            state.singleJournalId = issnl
+        },
+        clearSingleJournal(state){
+            state.singleJournalId = null
+            state.singleJournalData = null
+
+        },
+
+
         // edit mode
         setEditMode(state){
             state.editMode = true
@@ -155,23 +189,6 @@ export default new Vuex.Store({
         },
         clearEditMode(state){
             state.editMode = false
-        },
-    },
-    actions: {
-        async loginDemo({dispatch, state, commit}){
-            const userCreds = {
-                username: "demo",
-                password: "demo"
-            }
-            await dispatch("login", userCreds)
-            const firstPkgId = state.account.selected.packages[0].id
-
-            await dispatch("fetchPkg", firstPkgId)
-            const firstScenarioId = state.pkg.selected.scenarios[0].id
-
-            await dispatch("fetchScenario", firstScenarioId)
-            commit("openStartupTutorial")
-            return `/a/${firstPkgId}/${firstScenarioId}`
         },
     },
 
