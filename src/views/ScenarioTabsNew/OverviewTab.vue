@@ -502,8 +502,8 @@
         },
         methods: {
             sliderEnd() {
-                if (this.sliderPercent < this.illCostPercent) {
-                    this.sliderPercent = this.illCostPercent
+                if (this.sliderPercent < this.illCostPercent + this.subrCostPercent) {
+                    this.sliderPercent = this.illCostPercent + this.subrCostPercent
                 }
             },
             cancelEdit() {
@@ -561,14 +561,17 @@
 
                 if (mySpendSoFar >= myMax) return
 
-
                 // subscribe to as many other journals as we can afford
+                this.data.journals.sort((a, b) => (a.cost_subscription_minus_ill > b.cost_subscription_minus_ill) ? 1 : -1)
                 this.data.journals.forEach(j => {
-                    mySpendSoFar += j.cost_subscription_minus_ill
-                    if (mySpendSoFar <= myMax) {
-                        j.subscribed = true
-                    } else {
-                        j.subscribed = false
+                    // already handled the negative ones above
+                    if (j.cost_subscription_minus_ill >= 0) {
+                        mySpendSoFar += j.cost_subscription_minus_ill
+                        if (mySpendSoFar <= myMax) {
+                            j.subscribed = true
+                        } else {
+                            j.subscribed = false
+                        }
                     }
                 })
 
