@@ -52,7 +52,14 @@
                     </v-card-title>
                     <v-card-text >
                         <v-alert colored-border border="left" type="success">
-                            Your COUNTER stats have been uploaded, with usage for <strong>1851</strong> journals.
+                            Your COUNTER file included:
+                            <ul>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} open access journals</li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} with no papers in 2019</li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} with a new publisher </li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} with no public price </li>
+                            </ul>
+                            The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
                         </v-alert>
                     </v-card-text>
                     <v-card-actions>
