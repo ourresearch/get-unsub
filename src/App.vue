@@ -33,7 +33,7 @@
                 color="warning"
                 top
                 v-model="$store.state.notSupportedMsgOpen">
-            Sorry, that's not supported on the demo account.
+            Sorry, that's not supported yet.  Contact team@ourresearch.org for more info.
             <v-btn text @click="$store.commit('closeNotSupportedMsg')">close</v-btn>
         </v-snackbar>
 
