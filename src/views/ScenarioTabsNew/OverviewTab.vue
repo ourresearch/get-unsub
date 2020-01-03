@@ -553,7 +553,7 @@
 
                 // subscribe to journals where subr is cheaper than ILL
                 this.data.journals.forEach(j => {
-                    if (j.cost_subscription_minus_ill < 0) {
+                    if (j.ncppu < 0) {
                         j.subscribed = true
                         mySpendSoFar += j.cost_subscription_minus_ill
                     }
@@ -561,11 +561,10 @@
 
                 if (mySpendSoFar >= myMax) return
 
-                // subscribe to as many other journals as we can afford
-                this.data.journals.sort((a, b) => (a.cost_subscription_minus_ill > b.cost_subscription_minus_ill) ? 1 : -1)
+                // subscribe to as many other journals as we can afford, ordered by nccpu (from server)
                 this.data.journals.forEach(j => {
                     // already handled the negative ones above
-                    if (j.cost_subscription_minus_ill >= 0) {
+                    if (j.ncppu !== null && j.ncppu >= 0) {
                         mySpendSoFar += j.cost_subscription_minus_ill
                         if (mySpendSoFar <= myMax) {
                             j.subscribed = true
