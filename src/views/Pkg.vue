@@ -11,6 +11,7 @@
                     <tr>
                         <th class="text-left"></th>
                         <th class="text-left">Name</th>
+                        <th class="text-left">Toll-access journals</th>
                         <th class="text-left">Subscribed journals</th>
                         <th class="text-left">Cost</th>
                         <th class="text-left">Instant access</th>
@@ -30,12 +31,13 @@
                             </v-btn>
                         </td>
                         <td>{{ scenario.name }}</td>
+                        <td>{{ pkg.numJournals }}</td>
                         <td>{{ scenario.subrs.length }}</td>
                         <td>
                             {{ scenario.summary.cost_scenario | currency }}
-                            ({{ scenario.summary.cost_percent | round(1) }}%)
+                            ({{ scenario.summary.cost_percent | round(0) }}%)
                         </td>
-                        <td>{{ scenario.summary.use_free_instant_percent }}%</td>
+                        <td>{{ scenario.summary.use_free_instant_percent | round(0) }}%</td>
                     </tr>
                     </tbody>
                 </v-simple-table>
@@ -45,7 +47,7 @@
             </v-card-actions>
         </v-card>
         <v-row>
-            <v-col cols="4">
+            <v-col cols="5">
                 <v-card>
                     <v-card-title>
                         COUNTER stats
@@ -54,10 +56,10 @@
                         <v-alert colored-border border="left" type="success">
                             Your COUNTER file included:
                             <ul>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} open access journals</li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} with no papers in 2019</li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} with a new publisher </li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} with no public price </li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} fully open access journals</li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} discontinued journals</li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without a public ala carte price </li>
                             </ul>
                             The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
                         </v-alert>
@@ -82,7 +84,7 @@
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="3">
                 <v-card>
                     <v-card-title>
                         Custom pricelists
