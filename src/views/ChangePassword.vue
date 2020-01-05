@@ -56,6 +56,10 @@
                         Change password
                     </v-btn>
                 </v-card-actions>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <a href="mailto:team@ourresearch.org?subject=Forgot password">Forgot your password?</a>
+                </v-card-actions>
             </v-card>
         </v-row>
 
