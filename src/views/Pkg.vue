@@ -37,7 +37,7 @@
                             {{ scenario.summary.cost_scenario | currency }}
                             ({{ scenario.summary.cost_percent | round(0) }}%)
                         </td>
-                        <td>{{ scenario.summary.use_free_instant_percent | round(0) }}%</td>
+                        <td>{{ scenario.summary.use_instant_percent | round(0) }}%</td>
                     </tr>
                     </tbody>
                 </v-simple-table>
