@@ -29,8 +29,9 @@
 
             <div v-if="data" class="px-3">
                 <div class="stat">
-                    <span class="k">Total Annual APC spend (est):</span>
+                    <span class="k">Annual Open Access Article Processing Costs (APC) to this publisher: </span>
                     <span class="v">{{ totalCost | currency }}</span>
+                    <span class="k"> (estimated) </span>
                 </div>
                 <div>
                     Includes <em>all</em> journals published by this package’s publisher (Elsevier) where authors from your institution have paid APCs for gold or hybrid open access.
