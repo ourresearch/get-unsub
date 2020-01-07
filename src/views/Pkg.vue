@@ -59,7 +59,7 @@
                                 <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} fully open access journals</li>
                                 <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} discontinued journals</li>
                                 <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without a public ala carte price </li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
                             </ul>
                             The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
                         </v-alert>
@@ -91,7 +91,7 @@
                     </v-card-title>
                     <v-card-text>
                         <v-alert colored-border border="left" type="info">
-                            You haven't uploaded any custom per-journal prices, so we'll use the public list price for each title.
+                            If you haven't uploaded any custom per-journal prices we'll use the public list price for each title.
                         </v-alert>
                     </v-card-text>
                     <v-card-actions>
