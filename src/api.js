@@ -67,7 +67,7 @@ export const api = (function () {
                 // how to handle axios errors:
                 // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
                 console.log("api POST failure:", e.response)
-                alert("We're sorry, there's currently a bug affecting scenario editing (subscribing/unsubscribing to journals as well as editing configs). We're a little shorthanded due to the holidays but are working to fix it as quickly as possible!")
+                alert("We're really sorry, but we've just encountered a bug. If you can send us an email at team@ourresearch.org we'll look at it right away!")
                 throw e.response.status
             } finally {
                 store.state.loading =  store.state.loading - 1
