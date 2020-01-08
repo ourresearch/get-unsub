@@ -11,6 +11,7 @@
                     <tr>
                         <th class="text-left"></th>
                         <th class="text-left">Name</th>
+                        <th class="text-left">Toll-access journals</th>
                         <th class="text-left">Subscribed journals</th>
                         <th class="text-left">Cost</th>
                         <th class="text-left">Instant access</th>
@@ -30,12 +31,13 @@
                             </v-btn>
                         </td>
                         <td>{{ scenario.name }}</td>
+                        <td>{{ pkg.numJournals }}</td>
                         <td>{{ scenario.subrs.length }}</td>
                         <td>
                             {{ scenario.summary.cost_scenario | currency }}
-                            ({{ scenario.summary.cost_percent | round(1) }}%)
+                            ({{ scenario.summary.cost_percent | round(0) }}%)
                         </td>
-                        <td>{{ scenario.summary.use_free_instant_percent }}%</td>
+                        <td>{{ scenario.summary.use_instant_percent | round(0) }}%</td>
                     </tr>
                     </tbody>
                 </v-simple-table>
@@ -45,25 +47,25 @@
             </v-card-actions>
         </v-card>
         <v-row>
-            <v-col cols="4">
+            <v-col cols="5">
                 <v-card>
                     <v-card-title>
                         COUNTER stats
                     </v-card-title>
-                    <v-card-text >
+                    <v-card-text v-if="pkg.hasCounterData">
                         <v-alert colored-border border="left" type="success">
                             Your COUNTER file included:
                             <ul>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} open access journals</li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} with no papers in 2019</li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} with a new publisher </li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} with no public price </li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} fully open access journals</li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} discontinued journals</li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
+                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
                             </ul>
                             The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
                         </v-alert>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">upload new stats</v-btn>
+                    <v-card-actions v-if="!pkg.hasCounterData">
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">upload counter</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -73,26 +75,34 @@
                         Perpetual access
                     </v-card-title>
                     <v-card-text>
-                        <v-alert colored-border border="left" type="info">
-                            You haven't specified any journals <em>without</em> perpetual access rights, so our calculations will assume you to have perpetual access to all your existing backfile content.
+                        <v-alert colored-border border="left" type="info" v-if="!pkg.hasCustomPerpetualAccess">
+                            You haven't yet uploaded specific perpetual access details, so our initial
+                            calculations will assume you have perpetual access to all your existing backfile content.
+                            You can alter this assumption in the Settings.
+                        </v-alert>
+                        <v-alert colored-border border="left" type="success" v-if="pkg.hasCustomPerpetualAccess">
+                            We are using your custom perpetual access list.
                         </v-alert>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Specify journals</v-btn>
+                    <v-card-actions v-if="!pkg.hasCustomPerpetualAccess">
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Upload perpetual access file</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="3">
                 <v-card>
                     <v-card-title>
                         Custom pricelists
                     </v-card-title>
                     <v-card-text>
-                        <v-alert colored-border border="left" type="info">
-                            You haven't uploaded any custom per-journal prices, so we'll use the public list price for each title.
+                        <v-alert colored-border border="left" type="info" v-if="!pkg.hasCustomPrices">
+                            If you haven't uploaded any custom per-journal prices we'll use the public list price for each title.
+                        </v-alert>
+                        <v-alert colored-border border="left" type="success" v-if="pkg.hasCustomPrices">
+                            We are using your custom price list.
                         </v-alert>
                     </v-card-text>
-                    <v-card-actions>
+                    <v-card-actions v-on: v-if="!pkg.hasCustomPrices">
                         <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Upload custom prices</v-btn>
                     </v-card-actions>
                 </v-card>

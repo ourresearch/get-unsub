@@ -62,7 +62,7 @@
                     Edit {{configToEdit.displayName}}
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon text @click="close()">
+                <v-btn icon text @click="showDialog=false">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
             </v-toolbar>

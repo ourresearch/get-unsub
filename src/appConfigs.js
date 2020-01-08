@@ -281,6 +281,14 @@ const scenarioConfigs = {
         displayName: "Include perpetual-access backfile content",
         descr: "Include backfile content as a type of fulfillment.  Disable to see what fulfillment would be like if you don't have perpetual access.",
     },
+    backfile_contribution: {
+        name: "backfile_contribution",
+        default: 100,
+        value: null,
+        display: "percent",
+        displayName: "Backfile available as perpetual access",
+        descr: "Percent of backfile available as perpetual access.  If you estimate that you have perpetual access to 90% of your content, set this to 90%.",
+    },
     package: {
         display: false
     },
