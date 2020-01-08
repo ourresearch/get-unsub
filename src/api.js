@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from "./store"
 
 const urlBase = "https://unpaywall-jump-api.herokuapp.com/"
-// const urlBase = "http://localhost:5004/"
+// const urlBase = "http://localhost:5004/"  // @todo make sure to turn this back
 import Vue from 'vue'
 
 const getConfig = function () {
