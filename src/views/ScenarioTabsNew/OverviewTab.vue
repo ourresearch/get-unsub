@@ -476,9 +476,6 @@
                 const usage = this.usage
                 return usage.oa + usage.backfile + usage.asn + usage.subr
             },
-            tabDataDigest() {
-                return this.$store.getters.tabDataDigest
-            },
             numJournals() {
                 return this.data && this.data.journals.length
             },
