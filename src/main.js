@@ -27,6 +27,10 @@ Vue.use(VueAnalytics, {
 })
 
 
+import VueIntercom from 'vue-intercom';
+Vue.use(VueIntercom, { appId: 'dc7bcjeo' });
+
+
 
 Vue.config.productionTip = false
 Vue.filter('round', function (value, decimals) {

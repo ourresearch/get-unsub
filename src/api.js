@@ -1,8 +1,16 @@
 import axios from 'axios'
 import store from "./store"
 
-const urlBase = "https://unpaywall-jump-api.herokuapp.com/"
-// const urlBase = "http://localhost:5004/"  // @todo make sure to turn this back
+let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+
+// this lets you develop against a local API endpoint
+// to set the port, when you start your dev server, use: npm run serve -- --port <my port num>
+// example:
+// npm run serve -- --port 8081
+if (window.location.port && parseInt(window.location.port) > 8080) {
+    urlBase = "http://localhost:5004/"  // your locally-hosted API
+    console.log("Setting API base URL to local machine (dev use only): " + urlBase)
+}
 import Vue from 'vue'
 
 const getConfig = function () {

@@ -159,6 +159,7 @@ export default new Vuex.Store({
     },
     actions: {
         async loginDemo({dispatch, state, commit}){
+            console.log("loginDemo()")
             const userCreds = {
                 username: "demo",
                 password: "demo"

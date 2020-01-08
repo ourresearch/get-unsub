@@ -1,7 +1,3 @@
-import axios from "axios";
-const authUrl = "https://unpaywall-jump-api.herokuapp.com/login"
-const accountUrl = "https://unpaywall-jump-api.herokuapp.com/account "
-
 import {api} from "../api"
 
 export const account = {
