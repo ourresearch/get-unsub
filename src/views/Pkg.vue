@@ -52,7 +52,7 @@
                     <v-card-title>
                         COUNTER stats
                     </v-card-title>
-                    <v-card-text >
+                    <v-card-text v-if="pkg.hasCounterData">
                         <v-alert colored-border border="left" type="success">
                             Your COUNTER file included:
                             <ul>
@@ -64,8 +64,8 @@
                             The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
                         </v-alert>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">upload new stats</v-btn>
+                    <v-card-actions v-if="!pkg.hasCounterData">
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">upload counter</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -75,12 +75,17 @@
                         Perpetual access
                     </v-card-title>
                     <v-card-text>
-                        <v-alert colored-border border="left" type="info">
-                            You haven't specified any journals <em>without</em> perpetual access rights, so our calculations will assume you to have perpetual access to all your existing backfile content.
+                        <v-alert colored-border border="left" type="info" v-if="!pkg.hasCustomPerpetualAccess">
+                            You haven't yet uploaded specific perpetual access details, so our initial
+                            calculations will assume you have perpetual access to all your existing backfile content.
+                            You can alter this assumption in the Settings.
+                        </v-alert>
+                        <v-alert colored-border border="left" type="success" v-if="pkg.hasCustomPerpetualAccess">
+                            We are using your custom perpetual access list.
                         </v-alert>
                     </v-card-text>
-                    <v-card-actions>
-                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Specify journals</v-btn>
+                    <v-card-actions v-if="!pkg.hasCustomPerpetualAccess">
+                        <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Upload perpetual access file</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -90,11 +95,14 @@
                         Custom pricelists
                     </v-card-title>
                     <v-card-text>
-                        <v-alert colored-border border="left" type="info">
+                        <v-alert colored-border border="left" type="info" v-if="!pkg.hasCustomPrices">
                             If you haven't uploaded any custom per-journal prices we'll use the public list price for each title.
                         </v-alert>
+                        <v-alert colored-border border="left" type="success" v-if="pkg.hasCustomPrices">
+                            We are using your custom price list.
+                        </v-alert>
                     </v-card-text>
-                    <v-card-actions>
+                    <v-card-actions v-on: v-if="!pkg.hasCustomPrices">
                         <v-btn depressed @click="$store.commit('openNotSupportedMsg')">Upload custom prices</v-btn>
                     </v-card-actions>
                 </v-card>
