@@ -61,7 +61,7 @@
                                                info-key="Big Deal journals"></info-link>
 
 
-                                    that were included in your Big Deal. Click the blue "Edit Subscriptions" button to change this (and see how it affects costs and access).
+                                    that were included in your Big Deal. Click the blue "Find best deal" button to change this (and see how it affects costs and access).
                                 </p>
 
                                 <h2 class="title">Costs</h2>
@@ -311,7 +311,9 @@
                                                 @click='startEdit'
                                                 class="mt-4"
                                                 :disabled="$store.getters.loading"
-                                                depressed color="info">edit subscriptions
+                                                depressed color="info">
+                                            <v-icon>mdi-auto-fix</v-icon>
+                                            Find best deal
                                         </v-btn>
                                     </div>
                                     <div v-if="editMode" class="mt-8">
@@ -320,7 +322,7 @@
                                                @click="makeItSo"
                                                class="mr-2"
                                                color="info">
-                                            Save subscriptions
+                                            Save these subscriptions
                                         </v-btn>
                                         <v-btn depressed
                                                @click="cancelEdit"
