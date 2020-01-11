@@ -52,34 +52,46 @@
 
                             <div class="top ma-4 mt-8">
                                 <div class="body-2">{{ journal.top.issn_l }}</div>
+                                <div class="body-2">{{ journal.top.subject }}</div>
                                 <h1 class="display-1">{{journal.top.title}}</h1>
-                                <div class="subr-status yes" v-if="journal.cost.subscribed">
-                                    <div class="headline">
-                                        Subscribed
+                                <v-card-text>
+                                    <div class="subr-status yes body-1" v-if="journal.cost.subscribed">
+                                            Currently subscribed in this scenario
                                     </div>
-                                </div>
-                                <div class="subr-status yes" v-if="!journal.cost.subscribed">
-                                    <div class="headline">
-                                        Not subscribed
+                                    <div class="subr-status no body-1" v-if="!journal.cost.subscribed">
+                                            Currently not subscribed in this scenario
                                     </div>
-                                </div>
+                                </v-card-text>
 
-                                <div>Average annual output: {{journal.top.num_papers}} papers</div>
-                                <div>Society journal:
-                                    <span v-if="journal.top.is_society_journal">yes</span>
-                                    <span v-if="!journal.top.is_society_journal">no</span>
-                                </div>
-                                <div>
-                                    <!--                            <div class="subr-status" v-if="sub">-->
-                                    <!--                                Subscribed-->
-                                    <!--                            </div>-->
+                                <v-card-text>
+                                    <div class="body-1">Average annual output: {{journal.top.num_papers}} papers</div>
+                                    <div class="body-1">Average usage: {{ journal.impact.usage_total | round }} uses</div>
+                                    <div class="body-1">NCPPU: {{ journal.top.ncppu }}</div>
+
+                                </v-card-text>
+
+                                <v-card-text>
+                                    <div class="body-1">
+                                        <span v-if="journal.top.is_society_journal">This journal is associated with an academic society.</span>
+                                        <span v-if="!journal.top.is_society_journal">This journal is <strong>not</strong> associated with an academic society.</span>
+                                    </div>
+                                </v-card-text>
+
+                                <v-card-text>
+                                    <div class="body-1" v-if="journal.oa.oa_embargo_months">
+                                        Delayed OA ({{journal.oa.oa_embargo_months}}mo): this
+                                        journal makes
+                                        back content available after an embargo of {{journal.oa.oa_embargo_months}}
+                                        months.
+                                    </div>
+                                </v-card-text>
 
                                 </div>
-                                <v-alert type="info" text>
-                                    All the figures in this dialog are for your <em>current scenario</em> as defined in your configs
-                                    and
-                                    subscriptions.
-                                </v-alert>
+                                <!--<v-alert type="info" text>-->
+                                    <!--All the figures in this dialog are for your <em>current scenario</em> as defined in your configs-->
+                                    <!--and-->
+                                    <!--subscriptions.-->
+                                <!--</v-alert>-->
                             </div>
 
                             <!--                    <v-row class="pa-6">-->
@@ -141,7 +153,7 @@
                                         <div class="body-1" v-if="journal.oa.oa_embargo_months">
                                             <strong>Delayed OA ({{journal.oa.oa_embargo_months}}mo):</strong> this
                                             journal makes
-                                            back content available after an embargo of ({{journal.oa.oa_embargo_months}}
+                                            back content available after an embargo of {{journal.oa.oa_embargo_months}}
                                             months.
                                         </div>
 
@@ -194,6 +206,10 @@
                                     <span v-if="journal.cost.subscribed">You are currently subscribed to this journal.</span>
                                     <span v-if="!journal.cost.subscribed">You are currently <em>not</em> subscribed to this journal.</span>
                                 </v-card-text>
+                                <v-card-text>
+                                    <span>NCPPU: {{ journal.top.ncppu }} </span>
+                                </v-card-text>
+
                                 <v-data-table
                                         :headers="journal.cost.headers"
                                         :items="journal.cost.data"
