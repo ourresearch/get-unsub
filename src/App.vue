@@ -117,12 +117,16 @@
             // try to log the user in
             try {
                 await this.$store.dispatch("fetchUser")
+                const userName = this.$store.getters.selectedAccount.name
 
-                // https://www.npmjs.com/package/vue-intercom
-                this.$intercom.boot({
-                    user_id: this.$store.getters.selectedAccount.id,
-                    name: this.$store.getters.selectedAccount.name
-                })
+                // if (userName.indexOf("Demo") === -1){
+                //     // https://www.npmjs.com/package/vue-intercom
+                //     this.$intercom.boot({
+                //         user_id: this.$store.getters.selectedAccount.id,
+                //         name: this.$store.getters.selectedAccount.name
+                //     })
+                // }
+
             }
             catch (e){
                 console.log("user is not logged in.", e)
