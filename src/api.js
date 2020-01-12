@@ -3,7 +3,10 @@ import store from "./store"
 
 let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
 const serverFlags = []
-if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock-account")
+if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock-account=1")
+if (location.href.indexOf("fast-mock-package") > -1) serverFlags.push("fast-mock-package=1")
+if (location.href.indexOf("fast-mock-scenario") > -1) serverFlags.push("fast-mock-scenario=1")
+if (location.href.indexOf("fast-mock-slider") > -1) serverFlags.push("fast-mock-slider=1")
 
 // this lets you develop against a local API endpoint
 // to set the port, when you start your dev server, use: npm run serve -- --port <my port num>
