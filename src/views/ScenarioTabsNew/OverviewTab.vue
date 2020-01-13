@@ -597,7 +597,7 @@
             },
 
             '$store.getters.scenarioDigest': function (to) {
-                console.log("digest changed, run getDAta()")
+                console.log("scenarioDigest updated", to)
                 this.getData()
             }
         }

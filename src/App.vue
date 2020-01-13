@@ -117,12 +117,16 @@
             // try to log the user in
             try {
                 await this.$store.dispatch("fetchUser")
+                const userName = this.$store.getters.selectedAccount.name
 
-                // https://www.npmjs.com/package/vue-intercom
-                this.$intercom.boot({
-                    user_id: this.$store.getters.selectedAccount.id,
-                    name: this.$store.getters.selectedAccount.name
-                })
+                // if (userName.indexOf("Demo") === -1){
+                //     // https://www.npmjs.com/package/vue-intercom
+                //     this.$intercom.boot({
+                //         user_id: this.$store.getters.selectedAccount.id,
+                //         name: this.$store.getters.selectedAccount.name
+                //     })
+                // }
+
             }
             catch (e){
                 console.log("user is not logged in.", e)
@@ -132,7 +136,16 @@
           "$route": {
               immediate: true,
               handler: function(val){
-                  this.$intercom.update()
+                  try {
+                    this.$intercom.update()
+                  }
+                  catch(e){
+                      // it seems like right when the page loads, it throws this error. i can silence it by setting "immediate: false" but i'm afraid that will cause the initial pageload to not be logged to Intercom.
+                      const expectedError = "Cannot read property 'apply' of undefined"
+                      if (e.message !== expectedError) {
+                          throw e
+                      }
+                  }
               }
           }
         },

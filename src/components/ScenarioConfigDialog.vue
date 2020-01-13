@@ -80,7 +80,6 @@
             },
             showMe: {
                 get: function () {
-                    console.log("checkig to see if we show the config edit box", !this.$store.getters.configToEdit)
                     return !!this.$store.getters.configToEdit
                 },
                 set: function (newVal) {
