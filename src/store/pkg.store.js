@@ -1,5 +1,4 @@
 import axios from "axios";
-const pkgUrl = "https://unpaywall-jump-api.herokuapp.com/package/"
 
 import {api} from "../api"
 

@@ -125,6 +125,8 @@
             },
             csvUrl(){
                 let url = `https://unpaywall-jump-api.herokuapp.com/scenario/${this.scenario.id}/export.csv`;
+                // change to this after testing
+                // let url = `https://api.unpaywalljournals.org/cache/scenario/${this.scenario.id}/export.csv`;
                 url += "?jwt=" + this.$store.getters.token
                 return url
             }
