@@ -2,6 +2,8 @@ import axios from 'axios'
 import store from "./store"
 
 let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+// let urlBase = "https://api.unpaywalljournals.org/cache/"
+
 const serverFlags = []
 if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock-account=1")
 if (location.href.indexOf("fast-mock-package") > -1) serverFlags.push("fast-mock-package=1")
