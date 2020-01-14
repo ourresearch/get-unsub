@@ -45,8 +45,8 @@
 
                                 <p>
                                     This scenario helps you answer the question: Over the next five years, what would it
-                                    look like to cancel your
-                                    Elsevier Big Deal package, and partly replace it
+                                    look like to cancel your current
+                                    Elsevier package, and partly replace it
                                     with a-la-carte subscriptions?
                                 </p>
 
@@ -61,7 +61,7 @@
                                                info-key="Big Deal journals"></info-link>
 
 
-                                    that were included in your Big Deal. Click the blue "Find best deal" button to change this (and see how it affects costs and access).
+                                    that were included in your current package. Click the blue "Find best deal" button to change this (and see how it affects costs and access).
                                 </p>
 
                                 <h2 class="title">Costs</h2>
@@ -71,7 +71,7 @@
                                     <config-edit-link :text="data._summary.cost_bigdeal_projected | currency"
                                                       config-key="cost_bigdeal"></config-edit-link>
                                     you’d
-                                    spend on your Big Deal). Your costs are:
+                                    spend on your current package). Your costs are:
                                 </p>
                                 <ul>
                                     <li>

@@ -25,7 +25,7 @@
                 </div>
                 <div v-if="key=='Big Deal journals'">
                     <p>
-                        We currently have information for {{ pkg.numJournals.toLocaleString() }} journals that are all bundled together as part of your Big Deal.
+                        We currently have information for {{ pkg.numJournals.toLocaleString() }} journals in your Elsevier package.
                     </p>
                     <p>
                         You can edit these journals on the package page (click “My Elsevier Freedom Package” at the top of your screen)
