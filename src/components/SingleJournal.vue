@@ -78,6 +78,15 @@
                                 </v-card-text>
 
                                 <v-card-text>
+                                    <div class="body-1" v-if="journal.fulfillment.perpetual_access_years.length > 0">
+                                        You have perpetual access to this journal.
+                                    </div>
+                                    <div class="body-1" v-if="journal.fulfillment.perpetual_access_years.length <= 0">
+                                        You do not have any perpetual access to this journal.
+                                    </div>
+                                </v-card-text>
+
+                                <v-card-text>
                                     <div class="body-1" v-if="journal.oa.oa_embargo_months">
                                         Delayed OA ({{journal.oa.oa_embargo_months}}mo): this
                                         journal makes
@@ -136,8 +145,7 @@
                                 <v-card-text>
                                     Notes:
                                     <ul>
-                                        <li>Backfile is only content that’s not otherwise available as oa</li>
-                                        <li>ASN is only content that’s not otherwise available as oa or backfile.</li>
+                                        <li>Backfile is only content that’s not otherwise available as OA.</li>
                                     </ul>
                                 </v-card-text>
 

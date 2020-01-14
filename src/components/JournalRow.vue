@@ -45,6 +45,9 @@
             <span v-if="header.display==='text'">
                 {{ journal.table_row[header.value] }}
             </span>
+            <span v-if="header.display==='boolean'">
+                {{ journal.table_row[header.value] }}
+            </span>
             <span v-if="header.display==='float1'">
                 {{ journal.table_row[header.value].toFixed(1) }}
             </span>

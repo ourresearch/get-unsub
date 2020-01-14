@@ -40,9 +40,10 @@ const journalColGroups = [
         displayName: "Fulfillment",
         name: "fulfillment",
         colNames: [
-            "use_asns_percent",
+            "has_perpetual_access",
             "use_oa_percent",
             "use_backfile_percent",
+            "use_asns_percent",
             "use_subscription_percent",
             "use_ill_percent",
             "use_other_delayed_percent",
@@ -196,6 +197,12 @@ const journalCols = [
         value: "authorships",
         display: "float1",
         descr: "The number of papers in this journal that have at least one author from your institution.  This number is based on the authorship patterns of the previous five years.  The importance of this number to overall Usage is determined by the Authorship Weight setting.",
+    },
+    {
+        text: "Perpetual access",
+        value: "has_perpetual_access",
+        display: "boolean",
+        descr: "Whether or not you have perpetual access to this title.",
     }
 ]
 
