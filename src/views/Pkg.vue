@@ -54,14 +54,26 @@
                     </v-card-title>
                     <v-card-text v-if="pkg.hasCounterData">
                         <v-alert colored-border border="left" type="success">
-                            Your COUNTER file included:
-                            <ul>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} fully open access journals</li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} discontinued journals</li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
-                                <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
-                            </ul>
-                            The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
+                            <div v-if="pkg.hasCoreJournalList">
+                                    Your core journal list included included:
+                                <ul>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_not_in_counter }} journals not in your COUNTER file</li>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} discontinued journals</li>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
+                                </ul>
+                                The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
+                            </div>
+                            <div v-if="!pkg.hasCoreJournalList">
+                                    Your COUNTER file included:
+                                <ul>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_open_access_journals }} fully open access journals</li>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_not_published_in_2019 }} discontinued journals</li>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
+                                    <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
+                                </ul>
+                                The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
+                            </div>
                         </v-alert>
                     </v-card-text>
                     <v-card-actions v-if="!pkg.hasCounterData">
