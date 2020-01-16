@@ -98,7 +98,7 @@ export const scenario = {
         },
 
         async updateSubrs({commit, state}) {
-            const url = "scenario/subscriptions/" + state.selected.id;
+            const url = "scenario/" + state.selected.id + '/subscriptions';
             await api.post(url, state.selected)
             return
         },

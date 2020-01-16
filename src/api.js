@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from "./store"
 
-let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+let urlBase = "https://unpaywall-jump-api.herokuapp.com/" // @todo
 // let urlBase = "https://api.unpaywalljournals.org/cache/"
 
 const serverFlags = []
