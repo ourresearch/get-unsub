@@ -8,10 +8,10 @@
                     <thead>
                     <tr>
                         <th class="text-left">Name</th>
-                        <th class="text-left">Journals</th>
-                        <th class="text-left">COUNTER</th>
-                        <th class="text-left">Custom perpetual access</th>
-                        <th class="text-left">Custom prices</th>
+                        <!--<th class="text-left">Journals</th>-->
+                        <!--<th class="text-left">COUNTER</th>-->
+                        <!--<th class="text-left">Custom perpetual access</th>-->
+                        <!--<th class="text-left">Custom prices</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -20,10 +20,10 @@
                         @click="$router.push(`/a/${pkg.id}`)"
                         style="cursor:pointer;">
                         <td>{{ pkg.name }}</td>
-                        <td>{{ pkg.numJournals }}</td>
-                        <td>{{ pkg.hasCounterData }}</td>
-                        <td>{{ pkg.hasCustomPerpetualAccess }}</td>
-                        <td>{{ pkg.hasCustomPrices }}</td>
+                        <!--<td>{{ pkg.numJournals }}</td>-->
+                        <!--<td>{{ pkg.hasCounterData }}</td>-->
+                        <!--<td>{{ pkg.hasCustomPerpetualAccess }}</td>-->
+                        <!--<td>{{ pkg.hasCustomPrices }}</td>-->
                     </tr>
                     </tbody>
                 </v-simple-table>

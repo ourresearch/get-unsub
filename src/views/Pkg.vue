@@ -11,10 +11,10 @@
                     <tr>
                         <th class="text-left"></th>
                         <th class="text-left">Name</th>
-                        <th class="text-left">Toll-access journals</th>
-                        <th class="text-left">Subscribed journals</th>
-                        <th class="text-left">Cost</th>
-                        <th class="text-left">Instant access</th>
+                        <!--<th class="text-left">Toll-access journals</th>-->
+                        <!--<th class="text-left">Subscribed journals</th>-->
+                        <!--<th class="text-left">Cost</th>-->
+                        <!--<th class="text-left">Instant access</th>-->
                     </tr>
                     </thead>
                     <tbody>
@@ -31,13 +31,13 @@
                             </v-btn>
                         </td>
                         <td>{{ scenario.name }}</td>
-                        <td>{{ pkg.numJournals }}</td>
-                        <td>{{ scenario.subrs.length }}</td>
-                        <td>
-                            {{ scenario.summary.cost_scenario | currency }}
-                            ({{ scenario.summary.cost_percent | round(0) }}%)
-                        </td>
-                        <td>{{ scenario.summary.use_instant_percent | round(0) }}%</td>
+                        <!--<td>{{ pkg.numJournals }}</td>-->
+                        <!--<td>{{ scenario.subrs.length }}</td>-->
+                        <!--<td>-->
+                            <!--{{ scenario.summary.cost_scenario | currency }}-->
+                            <!--({{ scenario.summary.cost_percent | round(0) }}%)-->
+                        <!--</td>-->
+                        <!--<td>{{ scenario.summary.use_instant_percent | round(0) }}%</td>-->
                     </tr>
                     </tbody>
                 </v-simple-table>
