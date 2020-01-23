@@ -329,9 +329,46 @@ const hydratedJournalColGroups = function () {
     return ret
 }
 
+const usageSegments = {
+    ill: {
+        displayName: "ILL",
+    },
+    otherDelayed: {
+        displayName: "Other delayed",
+    },
+    subr: {
+        displayName: "Subscription",
+    },
+    oa: {
+        displayName: "Open access",
+    },
+    backfile: {
+        displayName: "Backfile",
+    },
+    asn: {
+        displayName: "ResearchGate etc",
+    },
+}
+
+const costSegments = {
+    savings: {
+        displayName: "Savings",
+    },
+    subr: {
+        displayName: "Subscription",
+    },
+    ill: {
+        displayName: "ILL",
+    },
+
+}
+
+
 
 export default {
     journalColGroups: hydratedJournalColGroups(),
     journalCols,
     scenarioConfigs,
+    usageSegments,
+    costSegments,
 }

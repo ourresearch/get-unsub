@@ -9,6 +9,12 @@ if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock
 if (location.href.indexOf("fast-mock-package") > -1) serverFlags.push("fast-mock-package=1")
 if (location.href.indexOf("fast-mock-scenario") > -1) serverFlags.push("fast-mock-scenario=1")
 if (location.href.indexOf("fast-mock-slider") > -1) serverFlags.push("fast-mock-slider=1")
+if (location.href.indexOf("fast-mock-all") > -1) serverFlags.push(...[
+    "fast-mock-account=1",
+    "fast-mock-package=1",
+    "fast-mock-scenario=1",
+    "fast-mock-slider=1"
+])
 
 // this lets you develop against a local API endpoint
 // to set the port, when you start your dev server, use: npm run serve -- --port <my port num>
@@ -86,7 +92,7 @@ export const api = (function () {
                 // how to handle axios errors:
                 // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
                 console.log("api POST failure:", e.response)
-                alert("We're really sorry, but we've just encountered a bug. If you can send us an email at team@ourresearch.org we'll look at it right away!")
+                alert("We're sorry, but we've just encountered a bug. If you can send us an email at team@ourresearch.org we'll look at it right away!")
                 throw e.response.status
             } finally {
                 store.state.loading =  store.state.loading - 1
