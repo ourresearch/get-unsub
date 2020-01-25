@@ -1,14 +1,12 @@
 const journalColGroups = [
     {
-        displayName: "Key stats",
+        displayName: "Cost Effectiveness",
         name: "keyStats",
         colNames: [
-            "usage",
-            "free_instant_usage_percent",
-            "instant_usage_percent",
-            "cost",
             "ncppu",
             "ncppu_rank",
+            "old_school_cpu",
+            "old_school_cpu_rank",
         ]
     },
 
@@ -20,7 +18,6 @@ const journalColGroups = [
             "subscription_cost",
             "ill_cost",
             "subscription_minus_ill_cost",
-            "ncppu",
         ]
     },
 
@@ -40,6 +37,9 @@ const journalColGroups = [
         displayName: "Fulfillment",
         name: "fulfillment",
         colNames: [
+            "usage",
+            "free_instant_usage_percent",
+            "instant_usage_percent",
             "has_perpetual_access",
             "use_oa_percent",
             "use_backfile_percent",
@@ -76,6 +76,18 @@ const journalCols = [
         value: "ncppu_rank",
         display: "number",
         descr: "The journal's rank by Net cost per paid use (NCPPU), relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
+    },
+    {
+        text: "Cost per use",
+        value: "old_school_cpu",
+        display: "currency",
+        descr: "CPU is journal subscription cost divided by downloads.  For a more comprehensive metric, use Net cost per paid use.",
+    },
+    {
+        text: "Rank by CPU",
+        value: "old_school_cpu_rank",
+        display: "number",
+        descr: "The journal's rank by Cost Per Use (CPU), relative to other journals in this dataset. The most cost-effective journal has a rank of 1.  For a more comprehensive metric, use Rank by NCPPU.",
     },
     {
         text: "Cost",
@@ -202,7 +214,7 @@ const journalCols = [
         text: "Perpetual access",
         value: "has_perpetual_access",
         display: "boolean",
-        descr: "Whether or not you have perpetual access to this title.",
+        descr: "Whether or not you have perpetual access to this title if you were to unsubscribe.",
     }
 ]
 
@@ -329,9 +341,46 @@ const hydratedJournalColGroups = function () {
     return ret
 }
 
+const usageSegments = {
+    ill: {
+        displayName: "ILL",
+    },
+    otherDelayed: {
+        displayName: "Other delayed",
+    },
+    subr: {
+        displayName: "Subscription",
+    },
+    oa: {
+        displayName: "Open access",
+    },
+    backfile: {
+        displayName: "Backfile",
+    },
+    asn: {
+        displayName: "ResearchGate etc",
+    },
+}
+
+const costSegments = {
+    savings: {
+        displayName: "Savings",
+    },
+    subr: {
+        displayName: "Subscription",
+    },
+    ill: {
+        displayName: "ILL",
+    },
+
+}
+
+
 
 export default {
     journalColGroups: hydratedJournalColGroups(),
     journalCols,
     scenarioConfigs,
+    usageSegments,
+    costSegments,
 }
