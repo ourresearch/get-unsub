@@ -62,7 +62,7 @@
                                     <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
                                     <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
                                 </ul>
-                                The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
+                                The subscription analysis in this package focuses on the remaining <strong>{{ pkg.journal_detail.counts.in_scenario }}</strong> journals.
                             </div>
                             <div v-if="!pkg.hasCoreJournalList">
                                     Your COUNTER file included:
@@ -72,7 +72,7 @@
                                     <li>{{ pkg.journal_detail.diff_counts.diff_changed_publisher }} journals now with a new publisher </li>
                                     <li>{{ pkg.journal_detail.diff_counts.diff_no_price }} journals without an available ala carte price </li>
                                 </ul>
-                                The subscription analysis in this package focuses on the remaining <strong>{{ pkg.numJournals }}</strong> journals.
+                                The subscription analysis in this package focuses on the remaining <strong>{{ pkg.journal_detail.counts.in_scenario }}</strong> journals.
                             </div>
                         </v-alert>
                     </v-card-text>

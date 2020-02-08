@@ -57,7 +57,7 @@
                                     <info-link :text="'subscribed to '+numSubscribedJournalsStr"
                                                info-key="Subscribed journals"></info-link>
                                     out of the
-                                    <info-link v-if="pkg" :text="pkg.numJournals.toLocaleString() + ' journals'"
+                                    <info-link v-if="pkg" :text="numJournals.toLocaleString() + ' journals'"
                                                info-key="Big Deal journals"></info-link>
 
 
