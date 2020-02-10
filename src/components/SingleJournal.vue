@@ -78,10 +78,10 @@
                                 </v-card-text>
 
                                 <v-card-text>
-                                    <div class="body-1" v-if="journal.fulfillment.perpetual_access_years.length > 0">
-                                        You have perpetual access to this journal.
+                                    <div class="body-1" v-if="journal.fulfillment.perpetual_access_years_text.length > 0">
+                                        You have perpetual access to this journal from {{journal.fulfillment.perpetual_access_years_text}}.
                                     </div>
-                                    <div class="body-1" v-if="journal.fulfillment.perpetual_access_years.length <= 0">
+                                    <div class="body-1" v-if="journal.fulfillment.perpetual_access_years_text.length <= 0">
                                         You do not have any perpetual access to this journal.
                                     </div>
                                 </v-card-text>

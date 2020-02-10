@@ -345,6 +345,9 @@
                     if (this.sortKey === "title") {
                         diff = (a.meta.title > b.meta.title) ? 1 : -1
                     }
+                    if (this.sortKey.endsWith("text")) {
+                        diff = ((a.table_row[this.sortKey] || "") >= (b.table_row[this.sortKey] || "")) ? 1 : -1
+                    }
                     if (this.sortDesc) diff *= -1
                     return diff
                 }

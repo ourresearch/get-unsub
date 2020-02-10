@@ -40,7 +40,8 @@ const journalColGroups = [
             "usage",
             "free_instant_usage_percent",
             "instant_usage_percent",
-            "has_perpetual_access",
+            "perpetual_access_years_text",
+            "baseline_access_text",
             "use_oa_percent",
             "use_backfile_percent",
             "use_asns_percent",
@@ -212,9 +213,15 @@ const journalCols = [
     },
     {
         text: "Perpetual access",
-        value: "has_perpetual_access",
-        display: "boolean",
-        descr: "Whether or not you have perpetual access to this title if you were to unsubscribe.",
+        value: "perpetual_access_years_text",
+        display: "text",
+        descr: "The years for which you have perpetual access to this title if you were to unsubscribe.",
+    },
+    {
+        text: "Baseline access",
+        value: "baseline_access_text",
+        display: "text",
+        descr: "The method by which you access this title currently.  Provided for reference: this information is not used in the model.",
     }
 ]
 
