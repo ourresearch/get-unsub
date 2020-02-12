@@ -5,24 +5,20 @@
                 :title="title"
                 :main-number="mainNumber"
                 :secondary-number="secondaryNumber"
+                :secondary-number-label="secondaryLabel"
 
         />
-        <div class="bar-wrapper" v-if="type !== 'journals'">
+        <div class="bar-wrapper">
             <overview-graphic-bar-segment
+                    v-if="type !== 'journals'"
                     v-for="segment in segmentsToPrint"
-                    :percentage="segment.percentage"
                     :count="segment.value"
-                    :name="segment.displayName"
-                    :is-light="segment.colorIsLight"
+                    :count-total="segmentsRawSum"
+                    :num-journals="numJournals"
+                    :num-journals-subscribed="numJournalsSubscribed"
+                    :config-obj="segment.config"
             />
-        </div>
-        <div class="dots-bar-wrapper" v-if="type === 'journals'">
-            <div v-for="journal in journals"
-                 :key="journal.issn_l"
-                 class="journal-dot"
-                 :class="{subscribed: journal.subscribed}"
-            >
-            </div>
+
         </div>
     </div>
 </template>
@@ -30,11 +26,13 @@
 <script>
     import OverviewGraphicBarSegment from "./OverviewGraphicBarSegment";
     import OverviewGraphicBarHeader from "./OverviewGraphicBarHeader";
+    import OverviewGraphicBarDots from "./OverviewGraphicBarDots";
     import appConfigs from "../../appConfigs";
 
     export default {
         name: "OverviewGraphicBar",
         components: {
+            OverviewGraphicBarDots,
             OverviewGraphicBarHeader,
             OverviewGraphicBarSegment
         },
@@ -43,18 +41,20 @@
             mainNumber: String,
             secondaryNumber: String,
             segments: Array,
-            journals: Array,
+            numJournals: Number,
+            numJournalsSubscribed: Number,
             name: String,
         },
         computed: {
             title() {
                 if (this.type === 'cost') {
-                    return "Total Cost"
-                } else if (this.type === 'fulfillment') {
-                    return "Instant Fulfillment"
-                } else if (this.type === 'journals') {
-                    return "Subscribed Journals"
+                    return "Annual cost"
+                } else if (this.type === 'usage') {
+                    return "Annual usage"
                 }
+            },
+            secondaryLabel(){
+                return (this.type === 'cost') ? "of Big Deal cost" : "fulfilled instantly"
             },
             segmentsRawSum() {
                 if (!this.segments) return 0
@@ -63,30 +63,15 @@
                     .reduce((a, b) => a + b, 0)
             },
             segmentsToPrint() {
-                let config
-                if (this.type === 'journals') return []
-                else if (this.type === "cost") config = appConfigs.costSegments
-                else if (this.type === "fulfillment") config = appConfigs.usageSegments
-
+                let config = appConfigs.barSegments[this.type]
                 return this.segments.map(s => {
                     const myConfig = config[s.key]
                     return {
                         ...s,
-                        ...myConfig,
-                        percentage: s.value * 100 / this.segmentsRawSum
+                        config: myConfig,
                     }
                 })
             },
-            mainNumberFormat() {
-                if (this.type === 'journal') return "number"
-                return "percent"
-            },
-            secondaryNumberFormat() {
-                if (this.type === 'journal') return "none"
-                if (this.type === 'cost') return "currency"
-                if (this.type === 'fulfillment') return "number"
-
-            }
         }
     }
 </script>
@@ -130,25 +115,5 @@
     }
 
 
-    .dots-bar-wrapper {
-        height: $bar-height;
-        display: block;
-        display: flex;
-        flex-wrap: wrap-reverse;
-    }
-
-    .journal-dot {
-        background: #ccc;
-        height: 5px;
-        width: 5px;
-        border-radius: 5px;
-        margin: 1px 3px 0 0;
-        line-height: .1;
-        display: block;
-
-        &.subscribed {
-            background: dodgerblue;
-        }
-    }
 
 </style>

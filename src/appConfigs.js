@@ -328,39 +328,71 @@ const hydratedJournalColGroups = function () {
     })
     return ret
 }
-
 const usageSegments = {
-    ill: {
-        displayName: "ILL",
-    },
-    otherDelayed: {
-        displayName: "Other delayed",
+    delayed: {
+        name: "usageDelayed",
+        displayName: "ILL and other delayed",
+        displayNameLong: "ILL, Document Delivery, and other delayed access",
+        color: "#c5cae9",
+        darkColor: "#303F9F",
     },
     subr: {
+        name: "usageSubr",
         displayName: "Subscription",
+        displayNameLong: "À la carte subscription",
+        color: "#ffab91",
+        darkColor: "#BF360C",
     },
     oa: {
+        name: "usageOa",
         displayName: "Open access",
+        displayNameLong: "Open access",
+        color: "#a5d6a7",
     },
     backfile: {
+        name: "usageBackfile",
         displayName: "Backfile",
+        displayNameLong: "Perpetual access backfile",
+        color: "#a5d6a7",
     },
     asn: {
+        name: "usageAsn",
         displayName: "ResearchGate etc",
+        displayNameLong: "ResearchGate and other academic social networks",
+        color: "#a5d6a7",
     },
 }
 
 const costSegments = {
     savings: {
+        name: "costSavings",
         displayName: "Savings",
+        displayNameLong: "Cost savings (compared to Big Deal)",
+        color: "#eeeeee",
+        isCurrency: true,
     },
     subr: {
+        name: "costSubr",
         displayName: "Subscription",
+        displayNameLong: "À la carte subscription cost",
+        color: "#ffab91",
+        darkColor: "#BF360C",
+        isCurrency: true,
     },
     ill: {
+        name: "costIll",
         displayName: "ILL",
+        displayNameLong: "Interlibrary Loan and document delivery cost",
+        color: "#c5cae9",
+        darkColor: "#303F9F",
+        isCurrency: true,
     },
 
+}
+
+const barSegments = {
+    cost: costSegments,
+    usage: usageSegments
 }
 
 
@@ -371,4 +403,5 @@ export default {
     scenarioConfigs,
     usageSegments,
     costSegments,
+    barSegments,
 }

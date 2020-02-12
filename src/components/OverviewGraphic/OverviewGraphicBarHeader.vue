@@ -4,24 +4,24 @@
             width="500"
     >
         <template v-slot:activator="{ on }">
-            <div class="under-bar" v-on="on">
-                <div class="first-row">
-                    <div class="numbers">
-                        <div class="main-number">
-                            {{mainNumber }}
-                        </div>
-                        <div class="small-number currency">
-                            {{secondaryNumber}}
-                        </div>
-                    </div>
-                    <div class="label">
-                        <div v-html="titleWithBreak"></div>
-                    </div>
-                    <div>
-                        <v-icon>mdi-information-outline</v-icon>
-                    </div>
+            <div
+                    :style="{color: myColor}"
+                    class="under-bar text-right"
+                    v-on="on">
+                <div class="title">
+                    <div class="body-2" v-html="title"></div>
                 </div>
-
+                <div class="main-number headline">
+                    {{mainNumber }}
+                </div>
+                <div class="secondary-number body-2"
+                     :class="{overage: parseInt(secondaryNumber) > 100}"
+                     v-if="secondaryNumber">
+                    <span class="val">
+                        {{secondaryNumber}}
+                    </span>
+                    <span class="label">{{secondaryNumberLabel}}</span>
+                </div>
             </div>
         </template>
         <v-card>
@@ -43,6 +43,8 @@
             title: String,
             mainNumber: String,
             secondaryNumber: String,
+            secondaryNumberLabel: String,
+            color: String,
         },
         data() {
             return {
@@ -52,7 +54,11 @@
         computed: {
             titleWithBreak() {
                 return this.title.replace(" ", "<br>")
+            },
+            myColor() {
+                return (this.color) ? this.color : "#333333"
             }
+
         }
     }
 </script>
@@ -62,41 +68,23 @@
         padding: 10px 0;
         font-size: 18px;
 
+        .secondary-number {
+            &.overage {
+                font-weight: bold;
+                color: red;
+            }
+        }
+
         .first-row {
             line-height: 1;
-            display: flex;
-            text-align: left;
-            align-items: center;
-
-            &:hover {
-                color: green;
-            }
 
             cursor: help;
 
-            div.numbers {
-                padding-right: 10px;
 
-                .main-number {
-                    font-size: 30px;
-                }
+        }
 
-                .small-number {
-                    font-size: 14px;
-                    text-align: left;
-                }
-            }
-
-            .label {
-                width: 100%;
-                font-weight: bold;
-                line-height: 1.4;
-            }
-
-            i {
-                display: none;
-            }
-
+        i {
+            display: none;
         }
 
     }

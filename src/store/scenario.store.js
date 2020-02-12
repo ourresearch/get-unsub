@@ -2,9 +2,12 @@ import _ from 'lodash'
 import {api} from "../api.js"
 import appConfigs from "../appConfigs"
 
+
+
 export const scenario = {
     state: {
         selected: null,
+        journals: [],
         digest: "",
         configsDigest: "",
         zoomIssnl: null,
@@ -26,6 +29,9 @@ export const scenario = {
             state.selected = scenario
             state.digest = Object.values(state.selected.summary).join()
             console.log("store.scenario._setSelectedScenario()", scenario)
+        },
+        _setJournals(state, journals){
+            state.journals = journals
         },
 
         setZoomIssnl: (state, issnl) => {
@@ -90,16 +96,44 @@ export const scenario = {
 
     },
     actions: {
-        async fetchScenario({commit, getters}, id) {
+        async fetchScenario({commit, dispatch}, id) {
+            await dispatch("fetchScenarioMetadata", id)
+            await dispatch("fetchJournals", id)
+
+            // const [journalsResp, scenarioMetadataResp] = await Promise.all([
+            //     dispatch("fetchJournals", id),
+            //     dispatch("fetchScenarioMetadata", id),
+            // ])
+        },
+
+        async fetchJournals({commit, state}, id){
+            const path = `scenario/${id}/journals`
+            const resp = await api.get(path)
+            commit("_setJournals", resp.data.journals)
+            return resp
+        },
+
+        async fetchScenarioMetadata({commit, dispatch}, id) {
             const resp = await api.get("scenario/" + id)
             commit("_setSelectedScenario", resp.data)
-
             return resp
         },
 
         async updateSubrs({commit, state}) {
             const url = "scenario/" + state.selected.id + '/subscriptions';
             await api.post(url, state.selected)
+            return
+        },
+
+        async addSubr({commit, dispatch}, issnl){
+            commit("addSubr", issnl)
+            await dispatch("updateSubrs")
+            return
+        },
+
+        async removeSubr({commit, dispatch}, issnl){
+            commit("removeSubr", issnl)
+            await dispatch("updateSubrs")
             return
         },
 
@@ -137,17 +171,6 @@ export const scenario = {
             return resp.data
         },
 
-        async addSubr({commit, dispatch}, issnl){
-            commit("addSubr", issnl)
-            await dispatch("updateSubrs")
-            return
-        },
-
-        async removeSubr({commit, dispatch}, issnl){
-            commit("removeSubr", issnl)
-            await dispatch("updateSubrs")
-            return
-        },
 
 
     },
@@ -162,21 +185,41 @@ export const scenario = {
         configs(state) {
             return state.selected.configs
         },
+        costBigdealProjected(state){
+            let totalCost = 0
+            let numYears = 5
+            let costThisYear = state.selected.configs.cost_bigdeal
+            let yearlyIncrease = state.selected.configs.cost_bigdeal_increase * 0.01
+            for (let i = 1; i <= numYears; i++){
+                totalCost += costThisYear
+                costThisYear = costThisYear * (1 + yearlyIncrease)
+            }
+            return totalCost / numYears
+
+        },
         config: (state) => (k) => {
             return state.selected.configs[k]
         },
+        subrIssnls:(state) => state.selected.subrs,
+        subrJournalsCount:(state) => state.selected.subrs.length,
+        illJournalsCount: (state) => state.journals.length - state.selected.subrs.length,
         configToEdit(state){
             return state.configToEdit
-
-
-            // if (!(state.selected && state.configToEdit)) {
-            //     return false
-            // }
-            //
-            // const configObject = {...appConfigs.scenarioConfigs[state.configToEdit]}
-            // configObject.value = state.selected.configs[state.configToEdit]
-            // return configObject
         },
         tableColsToShow: (state) => state.tableColsToShow,
+
+        getJournals: (state) => {
+            const ret = []
+            for (let i = 0; i < state.journals.length; i++){
+                let myJournal = {...state.journals[i]}
+                myJournal.subscribed = state.selected.subrs.includes(myJournal.issn_l)
+                ret.push(myJournal)
+            }
+            return ret
+        },
+        journalsPercentSubscribed: (state) => {
+            return 100 * state.selected.subrs.length / state.journals.length
+        }
+
     }
 }
