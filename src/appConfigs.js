@@ -1,12 +1,8 @@
 const journalColGroups = [
     {
-        displayName: "Key stats",
+        displayName: "Cost Effectiveness",
         name: "keyStats",
         colNames: [
-            "usage",
-            "free_instant_usage_percent",
-            "instant_usage_percent",
-            "cost",
             "ncppu",
             "ncppu_rank",
         ]
@@ -20,7 +16,6 @@ const journalColGroups = [
             "subscription_cost",
             "ill_cost",
             "subscription_minus_ill_cost",
-            "ncppu",
         ]
     },
 
@@ -40,7 +35,11 @@ const journalColGroups = [
         displayName: "Fulfillment",
         name: "fulfillment",
         colNames: [
-            "has_perpetual_access",
+            "usage",
+            "free_instant_usage_percent",
+            "instant_usage_percent",
+            "perpetual_access_years_text",
+            "baseline_access_text",
             "use_oa_percent",
             "use_backfile_percent",
             "use_asns_percent",
@@ -69,7 +68,7 @@ const journalCols = [
         text: "Net cost per paid use",
         value: "ncppu",
         display: "currency",
-        descr: "NCPPU is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This is our most important measure of journal value--it summarizes the real value you're getting for your subscription dollar.  <a href='https://support.unpaywall.org/support/solutions/articles/44001822684-cost-effectiveness-ncppu-' target='_blank'>Read more about NCPPU here.</a>",
+        descr: "NCPPU is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This is our most important measure of journal value--it summarizes the real value you're getting for your subscription dollar.",
     },
     {
         text: "Rank by NCPPU",
@@ -200,11 +199,20 @@ const journalCols = [
     },
     {
         text: "Perpetual access",
-        value: "has_perpetual_access",
-        display: "boolean",
-        descr: "Whether or not you have perpetual access to this title.",
+        value: "perpetual_access_years_text",
+        display: "text",
+        descr: "The years for which you have perpetual access to this title if you were to unsubscribe.",
+    },
+    {
+        text: "Baseline access",
+        value: "baseline_access_text",
+        display: "text",
+        descr: "The method by which you access this title currently.  Provided for reference: this information is not used in the model.",
     }
 ]
+
+
+
 
 const scenarioConfigs = {
     cost_alacart_increase: {
@@ -317,6 +325,49 @@ const scenarioConfigs = {
     },
 }
 
+const scenarioConfigGroups = [
+    {
+        name: "costs",
+        displayName: "Costs",
+        contents: [
+            scenarioConfigs.cost_bigdeal,
+            scenarioConfigs.cost_bigdeal_increase,
+            scenarioConfigs.cost_alacart_increase,
+            scenarioConfigs.cost_content_fee_percent,
+        ],
+    },
+    {
+        name: "ill",
+        displayName: "ILL",
+        contents: [
+            scenarioConfigs.cost_ill,
+            scenarioConfigs.ill_request_percent_of_delayed,
+        ],
+    },
+    {
+        name: "fulfillment",
+        displayName: "Fulfillment sources",
+        contents: [
+            scenarioConfigs.include_bronze,
+            scenarioConfigs.include_submitted_version,
+            scenarioConfigs.include_social_networks,
+            scenarioConfigs.include_backfile,
+            scenarioConfigs.backfile_contribution,
+        ],
+    },
+    {
+        name: "usageWeights",
+        displayName: "Citation and authorship",
+        contents: [
+            scenarioConfigs.weight_citation,
+            scenarioConfigs.weight_authorship,
+        ],
+    },
+]
+
+
+
+
 
 const hydratedJournalColGroups = function () {
     const ret = journalColGroups.map(group => {
@@ -328,38 +379,70 @@ const hydratedJournalColGroups = function () {
     })
     return ret
 }
+
+const colors = {
+    delayed: {
+        light: "#C5CAE9",
+        normal: "#9FA8DA",
+        dark: "#7986cb",
+    },
+    subr: {
+        light: "#FFCCBC",
+        normal: "#ffab91",
+        dark: "#ff8a65",
+    },
+    free: {
+        light: "#C8E6C9",
+        normal: "#A5D6A7",
+        dark: "#81c784",
+    },
+    savings: {
+        light: "#eee",
+        normal: "#fafafa",
+        dark: "#999999",
+    }
+}
+
 const usageSegments = {
     delayed: {
         name: "usageDelayed",
         displayName: "ILL and other delayed",
         displayNameLong: "ILL, Document Delivery, and other delayed access",
-        color: "#c5cae9",
-        darkColor: "#303F9F",
+        lightColor: colors.delayed.light,
+        color: colors.delayed.normal,
+        darkColor: colors.delayed.dark,
     },
     subr: {
         name: "usageSubr",
         displayName: "Subscription",
         displayNameLong: "À la carte subscription",
-        color: "#ffab91",
-        darkColor: "#BF360C",
+        lightColor: colors.subr.light,
+        color: colors.subr.normal,
+        darkColor: colors.subr.dark,
     },
     oa: {
         name: "usageOa",
         displayName: "Open access",
         displayNameLong: "Open access",
-        color: "#a5d6a7",
+        lightColor: colors.free.light,
+        color: colors.free.normal,
+        darkColor: colors.free.dark,
     },
     backfile: {
         name: "usageBackfile",
         displayName: "Backfile",
         displayNameLong: "Perpetual access backfile",
-        color: "#a5d6a7",
+        lightColor: colors.free.light,
+        color: colors.free.normal,
+        darkColor: colors.free.dark,
     },
     asn: {
         name: "usageAsn",
         displayName: "ResearchGate etc",
         displayNameLong: "ResearchGate and other academic social networks",
-        color: "#a5d6a7",
+        lightColor: colors.free.light,
+        color: colors.free.normal,
+        darkColor: colors.free.dark,
     },
 }
 
@@ -368,23 +451,27 @@ const costSegments = {
         name: "costSavings",
         displayName: "Savings",
         displayNameLong: "Cost savings (compared to Big Deal)",
-        color: "#eeeeee",
+        lightColor: colors.savings.light,
+        color: colors.savings.normal,
+        darkColor: colors.savings.dark,
         isCurrency: true,
     },
     subr: {
         name: "costSubr",
         displayName: "Subscription",
         displayNameLong: "À la carte subscription cost",
-        color: "#ffab91",
-        darkColor: "#BF360C",
+        lightColor: colors.subr.light,
+        color: colors.subr.normal,
+        darkColor: colors.subr.dark,
         isCurrency: true,
     },
     ill: {
         name: "costIll",
         displayName: "ILL",
         displayNameLong: "Interlibrary Loan and document delivery cost",
-        color: "#c5cae9",
-        darkColor: "#303F9F",
+        lightColor: colors.delayed.light,
+        color: colors.delayed.normal,
+        darkColor: colors.delayed.dark,
         isCurrency: true,
     },
 
@@ -397,11 +484,14 @@ const barSegments = {
 
 
 
+
 export default {
     journalColGroups: hydratedJournalColGroups(),
     journalCols,
     scenarioConfigs,
+    scenarioConfigGroups,
     usageSegments,
     costSegments,
     barSegments,
+    colors,
 }
