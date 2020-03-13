@@ -1,57 +1,64 @@
 <template>
     <tr @click="openSingleJournal()">
+
+
         <td class="title-column">
             <v-row class="" style="width:300px;">
                 <v-col style="flex-grow:1;">
                     <v-btn icon text
-                           @click.stop="subscribe(journal.meta.issn_l)"
-                           v-if="!journal.meta.subscribed">
+                           @click.stop="subscribe"
+                           v-if="!isSubscribed">
                         <v-icon>mdi-cart-outline</v-icon>
                     </v-btn>
                     <v-btn icon text
-                           @click.stop="unsubscribe(journal.meta.issn_l)"
-                           v-if="journal.meta.subscribed">
+                           @click.stop="unsubscribe"
+                           v-if="isSubscribed">
                         <v-icon>mdi-cart</v-icon>
                     </v-btn>
                 </v-col>
 
                 <v-col style="flex-grow:222;">
-                    <div :style="{'font-weight': journal.meta.subscribed ? 'normal' : 'normal'}"
-                         style="font-size:18px;">{{journal.meta.title}}
+                    <div :style="{'font-weight': journal.subscribed ? 'normal' : 'normal'}"
+                         style="font-size:18px;">{{journal.title}}
                     </div>
-                    <div class="caption">{{journal.meta.subject}}</div>
+                    <div class="caption">{{journal.subject}}</div>
 
                 </v-col>
             </v-row>
         </td>
-        <td v-for="header in headers" :key="journal.meta.issn_l + header.value">
+
+        <td
+                v-for="header in headers"
+                :key="journal.issn_l + header.value"
+        >
             <span v-if="header.display==='number'">
-                {{ journal.table_row[header.value].toLocaleString()}}
+                {{ journal[header.value].toLocaleString()}}
             </span>
             <span v-if="header.display==='percent'">
-                {{ journal.table_row[header.value] | round }}%
+                {{ journal[header.value] | round }}%
             </span>
             <span v-if="header.display==='currency'">
-                <template v-if="typeof journal.table_row[header.value] === 'number'">
-                    {{ journal.table_row[header.value] | currency({fractionCount:2}) }}
+                <template v-if="typeof journal[header.value] === 'number'">
+                    {{ journal[header.value] | currency({fractionCount:2}) }}
                 </template>
-                <template v-if="typeof journal.table_row[header.value] !== 'number'">
+                <template v-if="typeof journal[header.value] !== 'number'">
                     &mdash;
                 </template>
             </span>
             <span v-if="header.display==='currency_int'">
-                {{ journal.table_row[header.value] | currency }}
+                {{ journal[header.value] | currency }}
             </span>
             <span v-if="header.display==='text'">
-                {{ journal.table_row[header.value] }}
+                {{ journal[header.value] }}
             </span>
             <span v-if="header.display==='boolean'">
-                {{ journal.table_row[header.value] }}
+                {{ journal[header.value] }}
             </span>
             <span v-if="header.display==='float1'">
-                {{ journal.table_row[header.value].toFixed(1) }}
+                {{ journal[header.value].toFixed(1) }}
             </span>
         </td>
+
         <td class="spacer">&nbsp;</td>
 
 
@@ -63,24 +70,22 @@
         props: ["journal", "headers"],
         name: "JournalRow",
         methods: {
-            async subscribe() {
+            subscribe() {
                 console.log("subscribe!")
-                this.journal.meta.subscribed = true
-                await this.$store.dispatch("addSubr", this.journal.meta.issn_l)
-                this.$emit("subscribe")
+                this.$store.dispatch("subscribeCustom", this.journal.issn_l)
             },
-            async unsubscribe() {
+            unsubscribe() {
                 console.log("unsubscribe!")
-                this.journal.meta.subscribed = false
-                await this.$store.dispatch("removeSubr", this.journal.meta.issn_l)
-                this.$emit("unsubscribe")
-            },
-            isSubscribed(){
-
+                this.$store.dispatch("unsubscribeCustom", this.journal.issn_l)
             },
             openSingleJournal() {
                 console.log("@click on openSingleJournal()")
-                this.$store.commit('setZoomIssnl', this.journal.meta.issn_l)
+                this.$store.commit('setZoomIssnl', this.journal.issn_l)
+            },
+        },
+        computed: {
+            isSubscribed(){
+                return this.journal.subscribed || this.journal.customSubscribed
             },
         }
     }

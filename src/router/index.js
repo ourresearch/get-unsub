@@ -9,10 +9,9 @@ import Support from '../views/Support'
 import Account from '../views/Account'
 import Pkg from '../views/Pkg'
 
-import OverviewTab from "../views/ScenarioTabsNew/OverviewTab"
-import JournalsTab from "../views/ScenarioTabsNew/JournalsTab"
-import ApcTab from "../views/ScenarioTabsNew/ApcTab"
-import ExportTab from "../views/ScenarioTabsNew/ExportTab";
+
+import Scenario from "../views/Scenario"
+import PublisherApcs from "../views/PublisherApcs";
 
 import store from '../store/index.js'
 
@@ -38,34 +37,32 @@ const routes = [
         meta: {requiresAuth: true},
 
     },
+
+    // this has to come before the scenario route, or else the
+    // scenario route greedily steals it with scenario="apc"
+    {
+        path: "/a/:pkgId/apc",
+        component: PublisherApcs,
+        name: "publisherApc",
+        meta: {requiresAuth: true},
+    },
+
     {
         path: "/a/:pkgId/:scenarioId",
+        component: Scenario,
+        name: "publisherScenario",
+        meta: {requiresAuth: true},
+    },
+
+    {
+        path: "/a/:pkgId/:scenarioId/overview",
         // https://router.vuejs.org/guide/essentials/redirect-and-alias.html#redirect
         redirect: to => {
             // https://router.vuejs.org/api/#the-route-object
-            return to.path + "/overview"
+            return to.path.replace("/overview", "")
         },
     },
-    {
-        path: "/a/:pkgId/:scenarioId/overview",
-        component: OverviewTab,
-        meta: {requiresAuth: true},
-    },
-    {
-        path: "/a/:pkgId/:scenarioId/journals",
-        component: JournalsTab,
-        meta: {requiresAuth: true},
-    },
-    {
-        path: "/a/:pkgId/:scenarioId/apc",
-        component: ApcTab,
-        meta: {requiresAuth: true},
-    },
-    {
-        path: "/a/:pkgId/:scenarioId/export",
-        component: ExportTab,
-        meta: {requiresAuth: true},
-    },
+
     {
         path: "*",
         redirect: "/"

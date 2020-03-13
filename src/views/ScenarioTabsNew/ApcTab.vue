@@ -117,7 +117,7 @@
 
 
     export default {
-        name: "JournalsTab",
+        name: "ApcTab",
         components: {},
         data() {
             return {
@@ -184,20 +184,17 @@
         created() {
         },
         mounted() {
-            const pkgId = this.$route.params.pkgId
-
-            this.$store.dispatch("fetchPkg", pkgId)
             this.$store.dispatch("fetchScenario", this.scenarioId)
             this.getData()
 
         },
         watch: {
-            '$store.getters.configsDigest': function(to){
-                console.log("configs changed", to)
-                this.getData().then(resp => {
-                    this.$store.commit("snackbar", "Scenario recalculated with new configs")
-                })
-            }
+            // '$store.getters.configsDigest': function(to){
+            //     console.log("configs changed", to)
+            //     this.getData().then(resp => {
+            //         this.$store.commit("snackbar", "Scenario recalculated with new configs")
+            //     })
+            // }
         }
     }
 </script>

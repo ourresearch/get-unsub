@@ -89,6 +89,11 @@
                         <v-list-item-title>Export</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item :to="scenarioUrl + '/settings'">
+                    <v-list-item-content>
+                        <v-list-item-title>Settings</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
                 <v-list-item @click="$store.commit('openNotSupportedMsg')">
                     <v-list-item-content>
                         <v-list-item-title>

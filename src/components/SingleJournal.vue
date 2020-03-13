@@ -3,7 +3,14 @@
         <v-card flat>
 
             <v-toolbar dark color="primary">
-                <v-toolbar-title>{{journal && journal.top.title}}</v-toolbar-title>
+                <v-toolbar-title>
+                    <span v-if="journal">
+                        {{journal.top.title}}
+                    </span>
+                    <span v-if="!journal">
+                        Loading journal data...
+                    </span>
+                </v-toolbar-title>
                 <v-progress-linear
                         :active="loading"
                         :indeterminate="loading"
@@ -24,6 +31,7 @@
 
 
             <v-card-text v-if="journal" class="pa-0" style="min-height: 600px; color: #333;">
+
                 <v-tabs>
                     <v-tab>
                         Overview
@@ -291,6 +299,8 @@
 
 <script>
     import {api} from "../api";
+    import {mapGetters} from 'vuex'
+
 
 
     export default {
@@ -304,6 +314,9 @@
             loading: false,
         }),
         computed: {
+            ...mapGetters([
+                "scenarioId"
+            ]),
             summary() {
                 return this.$store.getters.summary
             },
@@ -320,6 +333,7 @@
         methods: {
             clearSingleJournal() {
                 this.$store.commit('closeZoom')
+                this.journal = null
             },
             async getData() {
                 if (!this.issnl) {
@@ -327,10 +341,8 @@
                     return
                 }
                 this.loading = true
-                // const url = "journal/issn_l/" + this.issnl
 
-                const scenarioId = this.$store.getters.selectedScenario.id
-                const url = `scenario/${scenarioId}/journal/${this.issnl}`
+                const url = `scenario/${this.scenarioId}/journal/${this.issnl}`
 
                 const resp = await api.get(url)
                 this.journal = resp.data.journal

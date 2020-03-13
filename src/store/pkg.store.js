@@ -23,5 +23,14 @@ export const pkg = {
     },
     getters: {
         selectedPkg(state){return state.selected},
+        pkgName(state){
+            if (state.selected) {
+                console.log("state.selected.name", state.selected.name)
+                return state.selected.name.replace("my Elsevier Freedom Package", "Elsevier")
+            }
+        },
+        pkgId(state){
+            if (state.selected) return state.selected.id
+        },
     }
 }

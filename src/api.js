@@ -1,5 +1,8 @@
 import axios from 'axios'
 import store from "./store"
+import _ from "lodash"
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
+
 
 let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
 // let urlBase = "https://api.unpaywalljournals.org/cache/"  // for cloudflare
@@ -81,7 +84,10 @@ export const api = (function () {
             return res
         },
         post: async function (path, data) {
-            store.state.loading += 1
+            let isSubscriptionsEndpoint = path.match(/\/subscriptions$/)
+            if (!isSubscriptionsEndpoint) {
+                store.state.loading += 1
+            }
             console.log("api POST:", path, store.state.loading)
             const url = urlBase + path
             let res
@@ -95,9 +101,12 @@ export const api = (function () {
                 alert("We're sorry, but we've just encountered a bug. If you can send us an email at team@ourresearch.org we'll look at it right away!")
                 throw e.response.status
             } finally {
-                store.state.loading =  store.state.loading - 1
+                if (!isSubscriptionsEndpoint) {
+                    store.state.loading =  store.state.loading - 1
+                }
             }
             return res
+
         },
         changePassword: async function(creds){
             store.state.loading += 1
@@ -124,3 +133,8 @@ export const api = (function () {
 
     }
 })()
+
+export const apiPostUnbounced = AwesomeDebouncePromise(
+      api.post,
+      1000,
+    )

@@ -35,7 +35,7 @@
                     <template v-slot:activator="{ on }">
                         <v-list-item @click="">
                             <v-list-item-icon class="mr-2">
-                                <v-icon>mdi-cart-remove</v-icon>
+                                <v-icon>mdi-cart</v-icon>
                             </v-list-item-icon>
                             <v-list-item-title class="font-weight-regular">
                                 Subscribe all

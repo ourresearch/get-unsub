@@ -2,29 +2,8 @@
     <v-app>
         <app-bar></app-bar>
 
-
-        <v-navigation-drawer  dark v-model="$store.state.configsOpen" app right class="pt-12">
-            <v-toolbar absolute width="100%">
-                <v-toolbar-title>
-                    <v-icon small>mdi-pencil-outline</v-icon>
-                    Edit Configs
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon text @click="$store.commit('clearConfigsOpen')">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-
-            </v-toolbar>
-            <configs class="pt-4"></configs>
-        </v-navigation-drawer>
-
-
-        <nav-sidebar></nav-sidebar>
-
         <v-content style="margin-bottom: 0">
-
             <router-view></router-view>
-
             <single-journal></single-journal>
             <startup-tutorial></startup-tutorial>
         </v-content>
@@ -44,8 +23,6 @@
             {{$store.state.snackbarMsg}}
             <v-btn text @click="$store.commit('closeSnackbar')">close</v-btn>
         </v-snackbar>
-
-
         <v-footer
                 class="text-right main-footer"
         >
@@ -60,19 +37,15 @@
 </template>
 
 <script>
-    import Configs from "./components/Configs"
     import StartupTutorial from "./components/StartupTutorial"
     import SingleJournal from "./components/SingleJournal"
-    import NavSidebar from "./components/NavSidebar"
     import AppBar from "./components/AppBar"
 
     export default {
         name: 'App',
         components: {
-            Configs,
             SingleJournal,
             StartupTutorial,
-            NavSidebar,
             AppBar,
         },
         data: () => ({
@@ -153,6 +126,13 @@
 </script>
 
 <style lang="scss">
+
+    .v-tooltip__content {
+        opacity: 1 !important;
+    }
+    .dot-tooltip-edit-mode-true {
+        display: none !important;
+    }
 
     .breadcrumbs {
         .theme--light.v-btn--active::before {

@@ -38,7 +38,6 @@ export default new Vuex.Store({
         showColInfo: false,
         colInfo: null,
 
-        showInfo: false,
         infoKey: null,
 
 
@@ -65,18 +64,10 @@ export default new Vuex.Store({
             state.showColInfo = true
         },
         clearColInfo(state){
-            state.showInfo = false
-            state.info = null
+            state.colInfo = false
+            state.colInfo = null
         },
 
-        showInfo(state, infoKey){
-            state.infoKey = infoKey
-            state.showInfo = true
-        },
-        clearInfo(state){
-            state.showInfo = false
-            state.infoKey = null
-        },
 
 
 

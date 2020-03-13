@@ -21,6 +21,9 @@ import 'vue-css-donut-chart/dist/vcdonut.css';
 
 Vue.use(Donut);
 
+Vue.use(require('vue-shortkey'))
+
+
 import VueAnalytics from 'vue-analytics'
 
 Vue.use(VueAnalytics, {

@@ -3,6 +3,9 @@
 
         <overview-graphic-bar-header
                 :title="title"
+                :type="type"
+                :num-journals="numJournals"
+                :num-journals-subscribed="numJournalsSubscribed"
                 :main-number="mainNumber"
                 :secondary-number="secondaryNumber"
                 :secondary-number-label="secondaryLabel"
@@ -12,6 +15,7 @@
             <overview-graphic-bar-segment
                     v-if="type !== 'journals'"
                     v-for="segment in segmentsToPrint"
+                    :key="segment.config.name"
                     :count="segment.value"
                     :count-total="segmentsRawSum"
                     :num-journals="numJournals"
@@ -48,13 +52,13 @@
         computed: {
             title() {
                 if (this.type === 'cost') {
-                    return "Annual cost"
+                    return "Cost"
                 } else if (this.type === 'usage') {
-                    return "Annual usage"
+                    return "Uses"
                 }
             },
             secondaryLabel(){
-                return (this.type === 'cost') ? "of Big Deal cost" : "fulfilled instantly"
+                return (this.type === 'cost') ? "of Big Deal" : "fulfilled instantly"
             },
             segmentsRawSum() {
                 if (!this.segments) return 0

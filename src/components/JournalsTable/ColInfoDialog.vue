@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import configs from "../appConfigs"
+    import configs from "../../appConfigs"
 
     export default {
         name: "ColInfoDialog",

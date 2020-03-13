@@ -1,194 +1,247 @@
 <template>
-    <div class="bar-col">
-        <div class="headers row pl-3">
-            <div>
-                <overview-graphic-bar-header
-                        title="Subscription journals"
-                        :main-number="subrJournalsCount | round"
-                        :color="subrConfigs.darkColor"
+    <div
+            class="dots-graphic"
+    >
 
-                />
-            </div>
-
-            <v-slider
-                    class="pt-3 px-2"
-                    v-model="sliderPercent"
-                    @end="sliderEnd"
-                    color="deep-orange"
-                    track-color="indigo"
-                    :disabled="savingSliderChoice"
-
-            />
-
-            <div class="pr-5">
-                <overview-graphic-bar-header
-                        title="ILL journals"
-                        :main-number="illJournalsCount | round"
-                        :color="illConfigs.darkColor"
-                />
-            </div>
+        <div class="top-section d-flex">
+            <overview-graphic-subrs-counter/>
+            <v-spacer />
         </div>
-        <div class="bar-wrapper">
-            <div class="dots-bar-wrapper">
-                <div class="bin-splitter pt-2">
-                    <span class="main body-2 font-weight-bold">High value  </span>
-                    <span class="body-2">(<$1 per use)</span>
+
+
+        <div class="dots-graphic-labels d-flex align-center pb-1">
+            <div class="cpu-label hist-label">
+                <div class="top-line">Cost</div>
+                <div class="bottom-line">per use</div>
+            </div>
+
+            <div class="journals pl-3">
+                Your {{ this.journals.length | round}} Elsevier journals
+            </div>
+
+
+            <v-spacer />
+        </div>
+        <div
+                class="histogram-bars"
+                @mouseleave="mouseoutOfHistogram"
+        >
+            <div class="histogram-bar"
+                 :key="'histogram-bar'+index"
+                 v-if="myBin.end < maxBinValue"
+                 v-for="(myBin, index) in journalBins">
+
+                <div class="bar-label" v-if="myBin.end % 5 === 0">
+                    <div class="number">
+                        {{myBin.end | currency}}
+                    </div>
                 </div>
-
-<!--                <div v-for="(item, index) in itemsToPrint" :key="'dot'+index">-->
-<!--                </div>-->
-
-
-                <template v-for="(item, index) in itemsToPrint">
-                    <div class="bin-splitter pt-2"
-                         :key="'firstBinSplit'"
-                         v-if="item==='firstBinSplit'">
-                        <span class="main body-2 font-weight-bold">Medium value  </span>
-                        <span class="body-2">($1-10 per use)</span>
-                    </div>
-                    <div class="bin-splitter pt-2"
-                         :key="'secondBinSplit'"
-                         v-if="item==='secondBinSplit'">
-                        <span class="main body-2 font-weight-bold">Low value  </span>
-                        <span class="body-2">(>$10 per use)</span>
-                    </div>
-
-<!--                    <div :key="'dot'+index">.</div>-->
-                    <overview-graphic-bar-single-dot
-                            v-if="item.issn_l"
-                            :key="item.issn_l"
-                            :journal="item"
-                    />
-
-
-
-                </template>
+                <overview-graphic-bar-single-dot
+                        v-for="item in myBin.journals"
+                        :key="item.issnl"
+                        :journal="item"
+                />
+                <div class="bar-filler"
+                     @click="barFillerClick(myBin)"
+                >
+                </div>
             </div>
         </div>
+
+
     </div>
 </template>
 
 <script>
+    import _ from 'lodash'
+    import ClickOutside from 'vue-click-outside'
+    import LongPress from 'vue-directive-long-press'
+
+
     import OverviewGraphicBarSingleDot from "./OverviewGraphicBarSingleDot";
     import OverviewGraphicBarHeader from "./OverviewGraphicBarHeader";
+    import OverviewGraphicSubrsCounter from "./OverviewGraphicSubrsCounter";
     import appConfigs from "../../appConfigs";
 
     export default {
         name: "OverviewGraphicBarDots",
         components: {
             OverviewGraphicBarSingleDot,
-            OverviewGraphicBarHeader
+            OverviewGraphicBarHeader,
+            OverviewGraphicSubrsCounter,
+        },
+        directives: {
+            ClickOutside,
+            LongPress,
         },
         props: {
             journals: Array,
         },
         data() {
             return {
-                firstBinSplit: 1,
-                secondBinSplit: 10,
                 illConfigs: appConfigs.costSegments.ill,
                 subrConfigs: appConfigs.costSegments.subr,
                 savingSliderChoice: false,
-                foo: 0,
+                subrColor: appConfigs.costSegments.subr.color,
+                illColor: appConfigs.costSegments.ill.lightColor,
+                colors: appConfigs.colors,
+                maxBinValue: 200,
             }
         },
         computed: {
-            itemsToPrint() {
-                const firstBinIndex = this.journals.findIndex(j => j.ncppu > this.firstBinSplit)
-                const secondBinIndex = this.journals.findIndex(j => j.ncppu > this.secondBinSplit)
-                const ret = [...this.journals]
-                ret.splice(firstBinIndex, 0, "firstBinSplit")
-                ret.splice(secondBinIndex, 0, "secondBinSplit")
-                return ret
+            myJournals() {
+                return this.$store.getters.journals
             },
-            firstBinCount() {
-                return this.journals.filter(j => j.ncppu <= this.firstBinSplit).length
+
+            journalBins() {
+                const bins = []
+                const binWidth = 1
+                const histogramStart = -1
+                const histogramEnd = 200
+                for (let i = histogramStart; i <= histogramEnd; i += binWidth) {
+                    bins.push({
+                        start: i,
+                        end: i + binWidth,
+                        journals: [],
+                    })
+                }
+
+                this.myJournals.forEach(myJournal => {
+                    const myBin = bins.find(bin => {
+                        return bin.start <= myJournal.ncppu && bin.end > myJournal.ncppu
+                    })
+                    if (myBin) {
+                        myBin.journals.push(myJournal)
+                    }
+                })
+
+                return bins
+
             },
-            secondBinCount() {
-                return this.journals.filter(j => j.ncppu <= this.secondBinSplit).length
-            },
-            thirdBinCount() {
-                return this.journals.filter(j => j.ncppu > this.secondBinSplit).length
-            },
+
             subrJournalsCount() {
                 // return this.$store.getters.subrJournalsCount
-                return this.journals.filter(j=>j.subscribed).length
+                return this.journals.filter(j => j.subscribed).length
             },
             illJournalsCount() {
                 // return this.$store.getters.illJournalsCount
-                return this.journals.filter(j=>!j.subscribed).length
-            },
-            journalsCount(){
-                return this.journals.length
-            },
-            sliderPercent: {
-                get() {
-                    return 100 * this.subrJournalsCount / this.journalsCount
-                    // return this.$store.getters.journalsPercentSubscribed
-                },
-                set(percent) {
-                    const len = this.journals.length
-                    const indexToSubscribeUpTo = .01 * percent * len
-                    for (let i = 0; i < len; i++) {
-                        if (i < indexToSubscribeUpTo) {
-                            this.journals[i].subscribed = true
-                        }
-                        else {
-                            this.journals[i].subscribed = false
-                        }
-                    }
-                }
+                return this.journals.filter(j => !j.subscribed).length
             },
 
         },
         methods: {
-            async sliderEnd() {
-                console.log("slider end.", this.sliderPercent)
-                this.savingSliderChoice = true
-                const subrIssnls = this.journals
-                    .filter(j => j.subscribed)
-                    .map(j => j.issn_l)
+            mouseoutOfHistogram() {
+            },
+            barFillerClick(histogramBin) {
 
-                this.$store.commit("setSubrs", subrIssnls)
-                await this.$store.dispatch("updateSubrs")
-                this.$store.commit('snackbar', "Subscriptions updated!", "info")
-                this.savingSliderChoice = false
+                // disable for now.
+                return
+
+                this.$store.commit(
+                    "subscribeUpToIndex",
+                    histogramBin.journals[histogramBin.journals.length - 1].cpuIndex
+                )
+            },
+            increaseMaxBinValue() {
+                this.maxBinValue += 50
             }
         },
-        watch: {
-            sliderPercent: function (to, from) {
-            }
-        },
+        watch: {},
         mounted() {
             console.log("dots mounted")
-            // this.sliderPercent = 33
+            this.maxBinValue = 100
         }
     }
 </script>
 
 <style scoped lang="scss">
-    .bar-col {
+    $dots-graphic-left-gutter: 60px;
+    $histogram-bar-width: 11px;
+    .dots-graphic {
         height: 100%;
-        display: flex;
-        flex-direction: column;
-
-        .bar-wrapper {
-            flex: 1;
-        }
-
-        .headers {
-            flex: 0;
-        }
-    }
-
-    .dots-bar-wrapper {
-        height: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        /*flex-wrap: wrap-reverse;*/
-    }
-
-    .bin-splitter {
         width: 100%;
+        padding: 10px 20px 20px;
+        border-radius: 5px;
+        margin-left: 30px;
+
+        // https://stackoverflow.com/a/4407335/226013
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently  supported by Chrome, Opera and Firefox */
+
+
+        .top-section {
+            margin: 0 0 50px $dots-graphic-left-gutter;
+        }
+
+        .dots-graphic-labels {
+            line-height: 1;
+
+            .hist-label {
+                line-height: 1;
+                font-size: 15px;
+                flex: 0 1 $dots-graphic-left-gutter;
+                align-content: center;
+                text-align: right;
+                border-right: 1px solid #555;
+                padding-right: 10px;
+
+                &.journals-label {
+                    border-right: none;
+                    flex: 0 1 7em;
+                    text-align: left;
+
+                }
+            }
+
+            .journals-subr-num {
+                width: 50px;
+                display: inline-block;
+                text-align: right;
+            }
+        }
+
+        .histogram-bars {
+            padding-left: $dots-graphic-left-gutter;
+            width: 100%;
+            display: flex;
+            align-items: stretch;
+            flex-direction: column;
+
+            .histogram-bar {
+                border-left: 1px solid #555;
+
+                &:first-child {
+                    border-top: 1px solid #eee;
+                }
+
+                display: flex;
+                flex-direction: row;
+                flex: 0 1 $histogram-bar-width;
+                position: relative;
+
+                .bar-label {
+                    position: absolute;
+                    font-size: 14px;
+                    top: 0;
+                    left: 0;
+                    width: 50px;
+                    height: 20px;
+                    margin-left: -60px;
+                    text-align: right;
+
+                }
+
+                .bar-filler {
+                    flex-grow: 100;
+                    /*cursor: pointer;*/
+                }
+
+            }
+        }
     }
+
 </style>
