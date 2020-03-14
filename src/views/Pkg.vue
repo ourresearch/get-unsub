@@ -12,6 +12,7 @@
                             <div class="headline">Your subscription scenarios</div>
                         </div>
                     </v-card-title>
+                    <v-divider />
                     <v-list class="pb-8">
                         <v-list-item
                                 two-line
