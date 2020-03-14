@@ -36,6 +36,7 @@ export const scenario = {
         _setScenario(state, scenarioApiResp) {
             // this is the new way to do it
             state.scenarioSaved = scenarioApiResp.saved
+            state.scenarioSaved.id = scenarioApiResp.meta.scenario_id
             state.subrIndex = state.scenarioSaved.subrs.length
 
             const journals = scenarioApiResp.journals
@@ -301,10 +302,11 @@ export const scenario = {
             if (state.scenarioMeta) return state.scenarioMeta.scenario_id
         },
         scenarioName(state){
-            if (state.scenarioMeta) return state.scenarioMeta.scenario_name
-                .replace("First Scenario", "My First Scenario")
+            if (state.scenarioSaved) return state.scenarioSaved.name
         },
-        scenarioSaved:  (state) => state.scenarioSaved,
+        scenarioSaved:  (state) => {
+            if (state.scenarioSaved) return state.scenarioSaved
+        },
 
 
         subrJournalsCount: (state) => state.scenarioSaved.subrs.length,

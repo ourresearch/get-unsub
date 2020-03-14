@@ -16,7 +16,7 @@
                         max-width="400"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-list-item v-on="on" :to="'/a/' + pkgName">
+                        <v-list-item v-on="on" :to="'/a/' + pkgId">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-close</v-icon>
                             </v-list-item-icon>
@@ -27,11 +27,7 @@
                     </template>
                     <span>Close this scenario and return to the {{pkgName}} publisher page (all your changes have been automatically saved).</span>
                 </v-tooltip>
-
-
-                <!--                <v-divider />-->
-                <!--                <v-subheader>Current scenario</v-subheader>-->
-                <v-list-item @click="">
+                <v-list-item @click="openCopyDialog(scenarioSaved)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-content-copy</v-icon>
                     </v-list-item-icon>
@@ -39,9 +35,7 @@
                         Copy
                     </v-list-item-title>
                 </v-list-item>
-
-
-                <v-list-item @click="">
+                <v-list-item @click="openRenameDialog(scenarioSaved)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-pencil</v-icon>
                     </v-list-item-icon>
@@ -49,7 +43,7 @@
                         Rename
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="">
+                <v-list-item @click="openDeleteDialog(scenarioSaved)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -61,65 +55,49 @@
             </v-list>
         </v-menu>
 
+        <scenario-edit-dialogs />
 
-        <v-dialog v-model="isRenameDialogOpen" max-width="400" persistent>
-            <v-card v-if="isRenameDialogOpen">
-                <v-card-title class="headline">
-                    Rename scenario
-                </v-card-title>
-                <v-card-text class="pt-4">
-                    <div>
-                        <v-text-field
-                                outlined
-                                type="text"
-                                :disabled="isSavingRename"
-                                @keydown.enter="renameScenario(newScenarioName)"
-                                v-model="newScenarioName"
-                        />
-                    </div>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn depressed
-                           @click="renameScenario(newScenarioName)"
-                           color="primary"
-                           :loading="isSavingRename"
-                    >
-                        Rename
-                    </v-btn>
-                    <v-btn depressed @click="isRenameDialogOpen=false">
-                        Cancel
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+
+
+
+
+
 
     </div>
 </template>
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import ScenarioEditDialogs from "../ScenarioEditDialogs/ScenarioEditDialogs";
 
     export default {
         name: "ScenarioMenuScenario",
+        components: {
+            ScenarioEditDialogs,
+        },
         data() {
             return {
-                isRenameDialogOpen: false,
-                newScenarioName: "",
-                isDeleteDialogOpen: false,
-                isCopyDialogOpen: false,
-                isSavingRename: false,
             }
         },
         computed: {
             ...mapGetters([
-                "pkgName"
+                "pkgName",
+                "pkgId",
+                "scenarioName",
+                "scenarioSaved",
             ]),
+            renameDefaultName() {
+                return this.scenarioName + " copy"
+            }
         },
         methods: {
             ...mapActions([
-                "clearAllSubrs",
-                "renameScenario",
-            ])
+            ]),
+            ...mapMutations([
+                "openCopyDialog",
+                "openRenameDialog",
+                "openDeleteDialog",
+            ]),
         }
     }
 </script>

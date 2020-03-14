@@ -11,6 +11,11 @@ export const pkg = {
         clearSelectedPkg(state){
             state.selected = null
         },
+        deleteScenario(state, scenarioIdToDelete) {
+            state.selected.scenarios = state.selected.scenarios.filter(myScenario => {
+                return myScenario.id !== scenarioIdToDelete
+            })
+        }
     },
     actions: {
         async fetchPkg({commit, getters}, id) {
@@ -19,18 +24,23 @@ export const pkg = {
             commit("setSelectedPkg", resp.data)
             return resp.data
         },
-
+        async refreshPkg({dispatch, getters}) {
+            return await dispatch("fetchPkg", getters.pkgId)
+        },
     },
     getters: {
         selectedPkg(state){return state.selected},
         pkgName(state){
             if (state.selected) {
-                console.log("state.selected.name", state.selected.name)
-                return state.selected.name.replace("my Elsevier Freedom Package", "Elsevier")
+                return state.selected.name
             }
         },
         pkgId(state){
             if (state.selected) return state.selected.id
         },
+        scenarioSavedFromId: (state) => (scenarioId) => {
+            if (!state.selected) return
+            return state.selected.find(s => s.id === scenarioId)
+        }
     }
 }

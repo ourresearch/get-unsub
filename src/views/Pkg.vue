@@ -9,59 +9,39 @@
                     <v-card-title>
                         <div>
                             <div class="body-2">"Read" dashboard</div>
-                            <div class="headline">Subscription scenarios</div>
+                            <div class="headline">Your subscription scenarios</div>
                         </div>
                     </v-card-title>
-                    <v-card-text>
-                        <v-list>
-                            <v-list-item
-                                    v-for="scenario in pkg.scenarios"
-                                    :key="scenario.id"
-                                    @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
-                            >
-                                <v-list-item-content>
-                                    <v-list-item-title v-text="scenario.name" />
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
-                                        <v-icon>mdi-content-copy</v-icon>
-                                    </v-btn>
-                                    <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
-                                        <v-icon>mdi-delete</v-icon>
-                                    </v-btn>
-                                </v-list-item-action>
-                            </v-list-item>
-
-                        </v-list>
-
-                        <v-simple-table class="">
-                            <thead>
-                            <tr>
-                                <th class="text-left"></th>
-                                <th class="text-left">Name</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="scenario in pkg.scenarios"
+                    <v-list class="pb-8">
+                        <v-list-item
+                                two-line
+                                v-for="scenario in pkg.scenarios"
                                 :key="scenario.id"
                                 @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
-                                style="cursor:pointer;">
-                                <td>
+                        >
+                            <v-list-item-content>
+                                <v-list-item-title class="title" v-text="scenario.name" />
+                                <v-list-item-subtitle>
+                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <div>
                                     <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
                                         <v-icon>mdi-content-copy</v-icon>
                                     </v-btn>
+                                    <v-btn icon text @click.stop="openRenameDialog(scenario)">
+                                        <v-icon>mdi-pencil</v-icon>
+                                    </v-btn>
+
                                     <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
-                                </td>
-                                <td>{{ scenario.name }}</td>
-                            </tr>
-                            </tbody>
-                        </v-simple-table>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-btn @click="$store.commit('openNotSupportedMsg')" depressed>Add new Scenario</v-btn>
-                    </v-card-actions>
+                                </div>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                    </v-list>
                 </v-card>
                 <v-card outlined>
                     <v-card-title>
@@ -207,19 +187,28 @@
                 </v-card>
             </v-col>
         </v-row>
+        <scenario-edit-dialogs />
     </v-container>
 </template>
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
+    import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
 
     export default {
         name: "Pkg",
-        components: {},
+        components: {
+            ScenarioEditDialogs,
+        },
         data() {
             return {}
         },
         methods: {
+            ...mapMutations([
+                "openCopyDialog",
+                "openRenameDialog",
+                "openDeleteDialog",
+            ]),
             increment() {
             }
         },

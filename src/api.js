@@ -108,6 +108,28 @@ export const api = (function () {
             return res
 
         },
+        delete: async function (path) {
+            store.state.loading += 1
+            console.log("api DELETE:", path, store.state.loading)
+            const myServerFlags = [
+                ...serverFlags,
+                `timestamp=${new Date().getTime()}`
+            ]
+            const url = urlBase + path + "?" + myServerFlags.join("&")
+            let res
+            try {
+                res = await axios.delete(url, getConfig())
+                console.log(`api DELETE ${path} success:`, res.data)
+            } catch (e) {
+                // how to handle axios errors:
+                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
+                console.log("api DELETE failure:", e.response)
+                throw e.response.status
+            } finally {
+                store.state.loading = store.state.loading - 1
+            }
+            return res
+        },
         changePassword: async function(creds){
             store.state.loading += 1
             const queryStr = `username=${creds.username}&old-password=${creds.oldPassword}&new-password=${creds.newPassword}`

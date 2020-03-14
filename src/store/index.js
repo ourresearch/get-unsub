@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import {account} from "./account.store.js"
 import {pkg} from "./pkg.store.js"
 import {scenario} from "./scenario.store"
+import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEditDialogsStore";
 import configs from "../appConfigs"
 
 
@@ -43,6 +44,7 @@ export default new Vuex.Store({
 
     },
     modules: {
+        scenarioEditDialogs,
         account,
         pkg,
         scenario,
