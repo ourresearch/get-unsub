@@ -11,11 +11,6 @@ export const pkg = {
         clearSelectedPkg(state){
             state.selected = null
         },
-        deleteScenario(state, scenarioIdToDelete) {
-            state.selected.scenarios = state.selected.scenarios.filter(myScenario => {
-                return myScenario.id !== scenarioIdToDelete
-            })
-        }
     },
     actions: {
         async fetchPkg({commit, getters}, id) {
@@ -38,9 +33,8 @@ export const pkg = {
         pkgId(state){
             if (state.selected) return state.selected.id
         },
-        scenarioSavedFromId: (state) => (scenarioId) => {
-            if (!state.selected) return
-            return state.selected.find(s => s.id === scenarioId)
-        }
+        pkgScenariosCount(state){
+            return state.selected.scenarios.length
+        },
     }
 }

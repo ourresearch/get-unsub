@@ -2,6 +2,39 @@
     <div>
 
 
+        <v-dialog v-model="isCopyDialogOpen" max-width="400" persistent>
+            <v-card v-if="isCopyDialogOpen">
+                <v-card-title class="headline">
+                    Copy scenario
+                </v-card-title>
+                <v-card-text class="pt-4">
+                    <div>
+                        <v-text-field
+                                outlined
+                                label="Name for the new scenario:"
+                                type="text"
+                                :disabled="scenarioEditDialogIsSaving"
+                                @keydown.enter="confirmCopyScenario"
+                                v-model="scenarioEditNewName"
+                        />
+                    </div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn depressed
+                           @click="confirmCopyScenario"
+                           color="primary"
+                           :loading="scenarioEditDialogIsSaving"
+                    >
+                        Copy
+                    </v-btn>
+                    <v-btn depressed @click="setScenarioEditDialogsAllClosed">
+                        Cancel
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
         <v-dialog v-model="isRenameDialogOpen" max-width="400" persistent>
             <v-card v-if="isRenameDialogOpen">
                 <v-card-title class="headline">
@@ -12,9 +45,10 @@
                         <v-text-field
                                 outlined
                                 type="text"
+                                label="New name:"
                                 :disabled="scenarioEditDialogIsSaving"
                                 @keydown.enter="confirmRenameScenario"
-                                v-model="scenarioEditRenameNewName"
+                                v-model="scenarioEditNewName"
                         />
                     </div>
                 </v-card-text>
@@ -99,18 +133,19 @@
                     this.$store.commit("setDeleteDialog", newVal)
                 },
             },
-            scenarioEditRenameNewName: {
+            scenarioEditNewName: {
                 get() {
-                    return this.$store.getters.scenarioEditRenameNewName
+                    return this.$store.getters.scenarioEditNewName
                 },
                 set(newVal) {
-                    this.$store.commit("setScenarioEditRenameNewName", newVal)
+                    this.$store.commit("setScenarioEditNewName", newVal)
                 },
 
             }
         },
         methods: {
             ...mapActions([
+                "confirmCopyScenario",
                 "confirmRenameScenario",
                 "confirmDeleteScenario",
             ]),

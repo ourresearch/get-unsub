@@ -43,7 +43,7 @@
                         Rename
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="openDeleteDialog(scenarioSaved)">
+                <v-list-item v-if="pkgScenariosCount > 1" @click="openDeleteDialog(scenarioSaved)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -85,10 +85,8 @@
                 "pkgId",
                 "scenarioName",
                 "scenarioSaved",
+                "pkgScenariosCount",
             ]),
-            renameDefaultName() {
-                return this.scenarioName + " copy"
-            }
         },
         methods: {
             ...mapActions([

@@ -28,14 +28,14 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <div>
-                                    <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
+                                    <v-btn icon @click.stop="openCopyDialog(scenario)">
                                         <v-icon>mdi-content-copy</v-icon>
                                     </v-btn>
-                                    <v-btn icon text @click.stop="openRenameDialog(scenario)">
+                                    <v-btn icon @click.stop="openRenameDialog(scenario)">
                                         <v-icon>mdi-pencil</v-icon>
                                     </v-btn>
 
-                                    <v-btn icon text @click.stop="$store.commit('openNotSupportedMsg')">
+                                    <v-btn v-if="pkgScenariosCount > 1"  icon @click.stop="openDeleteDialog(scenario)">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </div>
@@ -217,6 +217,7 @@
             ...mapGetters([
                 "pkgName",
                 "pkgId",
+                "pkgScenariosCount",
             ]),
             count() {
             },
