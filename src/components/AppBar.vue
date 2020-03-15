@@ -48,8 +48,17 @@
         <v-spacer></v-spacer>
 
         <v-toolbar-items>
+
+            <v-btn text
+                   v-if="selectedScenario"
+                   class="px-2 toolbar-summary"
+                   @click="$store.commit('toggleConfigsOpen')">
+                Settings
+            </v-btn>
+
             <v-btn text color="primary" v-if="!$store.getters.isCustomerAccount" to="/purchase">Pricing</v-btn>
             <v-btn text to="/support">Help</v-btn>
+
             <v-btn text to="/login" v-if="!$store.getters.isLoggedIn">Log in</v-btn>
 
             <v-btn text
@@ -59,12 +68,6 @@
                 <v-icon>mdi-logout</v-icon>
             </v-btn>
 
-            <v-btn text
-                   v-if="selectedScenario"
-                   class="px-2 toolbar-summary"
-                   @click="$store.commit('toggleConfigsOpen')">
-                <v-icon>mdi-settings</v-icon>
-            </v-btn>
         </v-toolbar-items>
 
 
