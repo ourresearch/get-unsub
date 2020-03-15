@@ -17,6 +17,9 @@
             <v-toolbar flat :color="configObj.color" class="mb-3">
                 <v-toolbar-title>
                     <v-icon class="pr-2">mdi-information-outline</v-icon>
+                    <span v-if="configObj.isFree">Free fulfillment: </span>
+
+
                     {{configObj.displayNameLong}}
 
                 </v-toolbar-title>
@@ -41,7 +44,7 @@
                     <P>
 
                         That leaves {{numJournals -
-                        numJournalsSubscribed | round}} journals where you'll need to fulfill usage using either <color-highlighted-phrase color-key="freeInstant" text="free sources" /> (ResearchGate, backfile, Open Access) or <color-highlighted-phrase color-key="ill" text="ILL," /> which isn't free to the library. We forecast your average annual ILL spend in this scenario at <strong>{{count | currency}}/yr</strong> over the next five years.
+                        numJournalsSubscribed | round}} journals where you'll need to fulfill usage using either <color-highlighted-phrase color-key="freeInstant" text="free sources" /> (backfile, Open Access) or <color-highlighted-phrase color-key="ill" text="ILL," /> which isn't free to the library. We forecast your average annual ILL spend in this scenario at <strong>{{count | currency}}/yr</strong> over the next five years.
                     </p>
                     <p>
                         We arrive at this estimate by projecting how much usage <em>can't</em> be met by subscription or  free sources, then applying industry average estimates for ILL transaction cost and frequency. You can customize these estimates in settings.
@@ -80,7 +83,7 @@
 
                 <div v-if="configObj.name=='usageBackfile'">
                     <p>
-                        In this scenario, we forecast <strong>{{count | round}}</strong> annual uses will be fulfilled by your  perpetual-access backfile (historical content you've already paid for), even though they can't  be fulfilled with other <color-highlighted-phrase color-key="freeInstant" text="free sources" /> (Open Access or ResearchGate).
+                        In this scenario, we forecast <strong>{{count | round}}</strong> annual uses will be fulfilled by your  perpetual-access backfile (historical content you've already paid for), even though they can't be fulfilled via Open Access.
                     </p>
                     <p>
                         Backfile fulfillments will trend downward every year after a cancellation, as perpetual access content becomes increasingly stale. For some titles (eg in biomed), readers mostly care about  new content, and so the backfile loses value quickly after cancellation. In others (eg in math), old content stays relevant for a long time, and so the backfile will fulfill a lot of usage for years to come. Our model accounts for this.
@@ -88,9 +91,6 @@
                     <p>
                         By default, we assume you've got perpetual access to all purchased content since 2010. You can modify that assumption by uploading custom perpetual access date ranges.
                     </p>
-                </div>
-                <div v-if="configObj.name=='usageAsn'">
-                    In this scenario, we forecast  <strong>{{count | round}}</strong> annual uses can be fulfilled <color-highlighted-phrase color-key="freeInstant" text="for free" /> by ResearchGate or another Academic Social Network, even though they can't be fulfilled via Open Access.
                 </div>
 
                 <div v-if="configObj.name=='usageOa'">

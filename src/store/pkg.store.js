@@ -34,7 +34,8 @@ export const pkg = {
             if (state.selected) return state.selected.id
         },
         pkgScenariosCount(state){
-            return state.selected.scenarios.length
+            if (state.selected) return state.selected.scenarios.length
+            return 0
         },
     }
 }

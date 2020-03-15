@@ -190,7 +190,6 @@
                     ret.delayed,
                     ret.subr,
                     ret.backfile,
-                    ret.asn,
                     ret.oa,
                 ]
             },
@@ -211,12 +210,10 @@
                 const ret = {
                     oa: 0,
                     backfile: 0,
-                    asn: 0,
                 }
                 this.journals.forEach(j => {
                     ret.oa += j.use_groups_free_instant.oa
                     ret.backfile += j.use_groups_free_instant.backfile
-                    ret.asn += j.use_groups_free_instant.social_networks
                 })
                 return ret
             },
@@ -245,7 +242,7 @@
             },
 
             instantUsagePercent() {
-                const instant = this.usageRaw.oa + this.usageRaw.backfile + this.usageRaw.asn + this.usageRaw.subr
+                const instant = this.usageRaw.oa + this.usageRaw.backfile +  this.usageRaw.subr
                 return 100 * instant / this.usageTotal
             },
             numJournals() {
