@@ -5,7 +5,6 @@ import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 
 let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
-// let urlBase = "https://api.unpaywalljournals.org/cache/"  // for cloudflare
 
 const serverFlags = []
 if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock-account=1")
@@ -32,38 +31,19 @@ import Vue from 'vue'
 const getConfig = function () {
     const token = localStorage.getItem("token")
     const headers = {}
-    if (token){
+    if (token) {
         headers.Authorization = `Bearer ${token}`
     }
-
     return {
         headers: headers
     }
 }
 
 
-let numLoading = 0
-const finishLoading = function () {
-    numLoading = Math.min(0, numLoading - 1)
-    Vue.set()
-}
-const startLoading = function () {
-    numLoading += 1
-
-    console.log("adding to numLoading", state.numLoading)
-}
-
-
-export const api = (function () {
+const api = (function () {
     return {
-        numLoading: 0,
-        state: {
-            numLoading: 0,
-
-        },
         get: async function (path) {
-            store.state.loading += 1
-            console.log("api GET:", path, store.state.loading)
+            console.log("api GET:", path)
             const myServerFlags = [
                 ...serverFlags,
                 `timestamp=${new Date().getTime()}`
@@ -74,89 +54,86 @@ export const api = (function () {
                 res = await axios.get(url, getConfig())
                 console.log(`api GET ${path} success:`, res.data)
             } catch (e) {
-                // how to handle axios errors:
                 // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
                 console.log("api GET failure:", e.response)
-                throw e.response.status
-            } finally {
-                store.state.loading = store.state.loading - 1
+                throw e
             }
             return res
         },
         post: async function (path, data) {
-            let isSubscriptionsEndpoint = path.match(/\/subscriptions$/)
-            if (!isSubscriptionsEndpoint) {
-                store.state.loading += 1
-            }
-            console.log("api POST:", path, store.state.loading)
+            console.log("api POST:", path)
             const url = urlBase + path
             let res
             try {
                 res = await axios.post(url, data, getConfig())
                 console.log(`api POST ${path} success:`, res.data)
             } catch (e) {
-                // how to handle axios errors:
-                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
                 console.log("api POST failure:", e.response)
-                alert("We're sorry, but we've just encountered a bug. If you can send us an email at team@ourresearch.org we'll look at it right away!")
-                throw e.response.status
-            } finally {
-                if (!isSubscriptionsEndpoint) {
-                    store.state.loading =  store.state.loading - 1
-                }
+                throw e
             }
             return res
-
         },
+        postFile: async function (path, file) {
+            console.log(`api POST FILE!`)
+            const url = urlBase + path
+            let res
+            try {
+                res = await axios.post(url, file, getConfig())
+                console.log(`api POST FILE ${path} success:`, res.data)
+            } catch (e) {
+                console.log("api POST FILE failure:", e.response)
+                throw e
+            }
+            return res
+        },
+
         delete: async function (path) {
-            store.state.loading += 1
-            console.log("api DELETE:", path, store.state.loading)
-            const myServerFlags = [
-                ...serverFlags,
-                `timestamp=${new Date().getTime()}`
-            ]
-            const url = urlBase + path + "?" + myServerFlags.join("&")
+            console.log("api DELETE:", path)
+            const url = urlBase + path
             let res
             try {
                 res = await axios.delete(url, getConfig())
                 console.log(`api DELETE ${path} success:`, res.data)
             } catch (e) {
-                // how to handle axios errors:
-                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
                 console.log("api DELETE failure:", e.response)
-                throw e.response.status
-            } finally {
-                store.state.loading = store.state.loading - 1
+                throw e
             }
             return res
         },
-        changePassword: async function(creds){
-            store.state.loading += 1
+        changePassword: async function (creds) {
             const queryStr = `username=${creds.username}&old-password=${creds.oldPassword}&new-password=${creds.newPassword}`
             const url = urlBase + "admin/change-password?" + queryStr
-            console.log("api CHANGE PASSWORD:", creds, url, store.state.loading)
+            console.log("api CHANGE PASSWORD:", creds, url)
             let res
             try {
                 res = await axios.get(url)
                 console.log(`api CHANGE PASSWORD success:`, res.data)
             } catch (e) {
-                // how to handle axios errors:
-                // https://gist.github.com/fgilio/230ccd514e9381fafa51608fcf137253
                 console.log("api CHANGE PASSWORD failure:", e.response)
-                throw e.response.status
-            } finally {
-                store.state.loading = store.state.loading - 1
+                throw e
             }
             return res
         }
 
 
-
-
     }
 })()
 
-export const apiPostUnbounced = AwesomeDebouncePromise(
-      api.post,
-      1000,
-    )
+const apiPostUnbounced = AwesomeDebouncePromise(
+    api.post,
+    1000,
+)
+
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
+export {
+    urlBase,
+    api,
+    apiPostUnbounced,
+    toBase64,
+}

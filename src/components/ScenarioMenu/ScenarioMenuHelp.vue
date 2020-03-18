@@ -20,14 +20,6 @@
                         <v-icon small>mdi-open-in-new</v-icon>
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="">
-                    <v-list-item-icon class="mr-2">
-                        <v-icon >mdi-keyboard-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title class="font-weight-regular">
-                        Keyboard shortcuts
-                    </v-list-item-title>
-                </v-list-item>
                 <v-list-item href="mailto:team@ourresearch.org">
                     <v-list-item-icon class="mr-2">
                         <v-icon >mdi-email-outline</v-icon>

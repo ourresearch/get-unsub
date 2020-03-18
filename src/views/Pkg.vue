@@ -12,7 +12,7 @@
                             <div class="headline">Your subscription scenarios</div>
                         </div>
                     </v-card-title>
-                    <v-divider />
+                    <v-divider/>
                     <v-list class="pb-8">
                         <v-list-item
                                 two-line
@@ -21,7 +21,7 @@
                                 @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
                         >
                             <v-list-item-content>
-                                <v-list-item-title class="title" v-text="scenario.name" />
+                                <v-list-item-title class="title" v-text="scenario.name"/>
                                 <v-list-item-subtitle>
                                     <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions
                                 </v-list-item-subtitle>
@@ -35,7 +35,7 @@
                                         <v-icon>mdi-pencil</v-icon>
                                     </v-btn>
 
-                                    <v-btn v-if="pkgScenariosCount > 1"  icon @click.stop="openDeleteDialog(scenario)">
+                                    <v-btn v-if="pkgScenariosCount > 1" icon @click.stop="openDeleteDialog(scenario)">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </div>
@@ -133,7 +133,7 @@
                                 <v-btn
                                         v-if="!pkg.hasCustomPrices"
                                         text
-                                        @click="$store.commit('openNotSupportedMsg')"
+                                        @click="openUploadDialog('prices')"
                                 >
                                     <v-icon>mdi-upload</v-icon>
                                     Upload
@@ -167,7 +167,7 @@
                                 <v-btn
                                         v-if="!pkg.hasCustomPerpetualAccess"
                                         text
-                                        @click="$store.commit('openNotSupportedMsg')"
+                                        @click="openUploadDialog('perpetual-access')"
                                 >
                                     <v-icon>mdi-upload</v-icon>
                                     Upload
@@ -180,7 +180,9 @@
                         </div>
                     </v-card-title>
                     <v-card-text class="details" v-if="!pkg.hasCustomPerpetualAccess">
-                        We are assuming <em>full perpetual access</em> for the last 10 years of each journal's backfile. If there are some date ranges for some journals where you <em>don't</em> have perpetual access, you can upload them as a spreadsheet and we'll use them instead.
+                        We are assuming <em>full perpetual access</em> for the last 10 years of each journal's backfile.
+                        If there are some date ranges for some journals where you <em>don't</em> have perpetual access,
+                        you can upload them as a spreadsheet and we'll use them instead.
                     </v-card-text>
                     <v-card-text class="details" v-if="pkg.hasCustomPerpetualAccess">
                         We are using your custom uploaded perpetual access dates for each journal.
@@ -188,11 +190,85 @@
                 </v-card>
             </v-col>
         </v-row>
-        <scenario-edit-dialogs />
+
+        <v-dialog v-model="uploadDialogIsOpen" max-width="500" persistent>
+            <v-card v-if="uploadDialogIsOpen">
+                <v-card-title class="headline">
+                    <div>
+                        Upload
+                        <span v-if="uploadFileType==='counter'"> COUNTER file</span>
+                        <span v-if="uploadFileType==='prices'"> Custom journals prices</span>
+                        <span v-if="uploadFileType==='perpetual-access'"> Perpetual access dates</span>
+                    </div>
+                </v-card-title>
+
+
+<!--                <v-slide-y-transition :leave-absolute="true">-->
+<!--                        <div v-if="errorMsg && fileSelected">-->
+<!--                            <span v-html="errorMsg"></span>-->
+<!--                        </div>-->
+<!--                    </v-slide-y-transition>-->
+                <v-card-text class="pt-4">
+                    <v-alert
+                        :value="!!errorMsg && !!fileSelected"
+                        type="error"
+                        icon="mdi-alert"
+                        transition="slide-x-transition"
+                    >
+                        <span v-html="errorMsg" />
+                    </v-alert>
+                    <div class="descr">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+                        voluptate velit esse cillum dolore eu fugiat nulla pariatur
+                    </div>
+                    <div>
+                        <v-file-input
+                                class="my-5"
+                                label="Select your file"
+                                show-size
+                                counter
+                                v-model="fileSelected"
+                                :disabled="isUploadFileLoading"
+                                @change="errorMsg=''"
+                        />
+                    </div>
+                </v-card-text>
+
+
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                            :disabled="isUploadFileLoading"
+                            depressed
+                            @click="closeUploadDialog"
+                    >
+                        <v-icon>mdi-close</v-icon>
+                        Cancel
+                    </v-btn>
+                    <v-btn depressed
+                           @click="uploadFile"
+                           color="primary"
+                           :loading="isUploadFileLoading"
+                           :disabled="isUploadFileLoading || !fileSelected"
+                    >
+                        <v-icon>mdi-upload</v-icon>
+                        Upload
+                    </v-btn>
+
+                </v-card-actions>
+
+            </v-card>
+        </v-dialog>
+
+
+        <scenario-edit-dialogs/>
     </v-container>
 </template>
 
 <script>
+    import {api, toBase64} from "../api";
     import {mapGetters, mapMutations} from 'vuex'
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
 
@@ -202,7 +278,13 @@
             ScenarioEditDialogs,
         },
         data() {
-            return {}
+            return {
+                uploadDialogIsOpen: false,
+                uploadFileType: "",
+                fileSelected: null,
+                isUploadFileLoading: false,
+                errorMsg: "",
+            }
         },
         methods: {
             ...mapMutations([
@@ -210,7 +292,30 @@
                 "openRenameDialog",
                 "openDeleteDialog",
             ]),
-            increment() {
+            openUploadDialog(fileType) {
+                this.uploadDialogIsOpen = true
+                this.uploadFileType = fileType
+            },
+            closeUploadDialog() {
+                this.uploadDialogIsOpen = false
+                this.uploadFileType = ""
+                this.errorMsg = ""
+                this.fileSelected = null
+            },
+            async uploadFile() {
+                this.isUploadFileLoading = true
+                const path = `package/${this.pkgId}/${this.uploadFileType}`
+                const data = {file: await toBase64(this.fileSelected)}
+                try {
+                    await api.postFile(path, data)
+                } catch (e) {
+                    this.errorMsg = (e.response && e.response.data) ?
+                        e.response.data.msg :
+                        "Sorry, we encountered an unknown error!"
+                }
+                finally {
+                    this.isUploadFileLoading = false
+                }
             }
         },
         computed: {
@@ -219,8 +324,9 @@
                 "pkgId",
                 "pkgScenariosCount",
             ]),
-            count() {
-            },
+            // fileSelected() {
+            //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
+            // },
             account() {
                 return this.$store.state.user
             },
