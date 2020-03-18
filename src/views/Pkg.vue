@@ -208,14 +208,20 @@
 <!--                            <span v-html="errorMsg"></span>-->
 <!--                        </div>-->
 <!--                    </v-slide-y-transition>-->
-                <v-card-text class="pt-4">
+                <v-card-text>
+<!--                    <v-scale-transition>-->
+<!--                        <div style="height:100px;" v-if="foo">-->
+<!--                            foo-->
+<!--                        </div>-->
+<!--                    </v-scale-transition>-->
+<!--                    <v-btn x-small @click="foo=!foo">toggle</v-btn>-->
                     <v-alert
                         :value="!!errorMsg && !!fileSelected"
                         type="error"
                         icon="mdi-alert"
                         transition="slide-x-transition"
                     >
-                        <span v-html="errorMsg" />
+                        <span class="body-2" v-html="errorMsg" />
                     </v-alert>
                     <div class="descr">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -284,6 +290,7 @@
                 fileSelected: null,
                 isUploadFileLoading: false,
                 errorMsg: "",
+                foo: false,
             }
         },
         methods: {

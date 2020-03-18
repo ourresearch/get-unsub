@@ -94,6 +94,21 @@
         </v-dialog>
 
 
+        <v-snackbar
+                v-model="isCopySnackbarOpen"
+                :timeout="5000"
+        >
+            Scenario copied!
+            <v-btn
+                    color="blue"
+                    text
+                    @click="isCopySnackbarOpen = false"
+            >
+                Stay here
+            </v-btn>
+        </v-snackbar>
+
+
     </div>
 </template>
 
@@ -103,7 +118,11 @@
     export default {
         name: "ScenarioEditDialogs",
         data() {
-            return {}
+            return {
+                isCopySnackbarOpen: false,
+                isRenameSnackbarOpen: false,
+                isDeleteSnackbarOpen: false,
+            }
         },
         computed: {
             ...mapGetters([
@@ -114,7 +133,7 @@
                     return this.$store.getters.isCopyDialogOpen
                 },
                 set(newVal) {
-                   this.$store.commit("setCopyDialog", newVal)
+                    this.$store.commit("setCopyDialog", newVal)
                 },
             },
             isRenameDialogOpen: {
