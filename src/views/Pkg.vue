@@ -310,9 +310,15 @@
                 this.fileSelected = null
             },
             async uploadFile() {
+                console.log("uploadFile() file", this.fileSelected)
                 this.isUploadFileLoading = true
                 const path = `package/${this.pkgId}/${this.uploadFileType}`
-                const data = {file: await toBase64(this.fileSelected)}
+                const data = {
+                    file: await toBase64(this.fileSelected),
+                    name: this.fileSelected.name,
+                    type: this.fileSelected.type,
+                    size: this.fileSelected.size,
+                }
                 try {
                     await api.postFile(path, data)
                 } catch (e) {
