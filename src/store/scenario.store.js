@@ -2,6 +2,7 @@ import _ from 'lodash'
 
 import {api, apiPostUnbounced} from "../api.js"
 import appConfigs from "../appConfigs"
+import {buildScenarioFromApiResp} from "../shared/scenario";
 
 
 export const scenario = {
@@ -145,7 +146,7 @@ export const scenario = {
         clearSelectedScenario(state) {
             state.selected = null
             state.scenarioJournals = []
-            state.scenarioMeta = null
+            state.selected.meta = null
             state.scenarioSaved = null
         },
         hideTableCol(state, colName) {
@@ -173,13 +174,6 @@ export const scenario = {
 
         async refreshScenario({commit, dispatch, getters}) {
             return await dispatch("fetchScenario", getters.scenarioId)
-        },
-
-        async renameScenario({getters, commit, dispatch}, newName) {
-            commit("setScenarioName", newName)
-            const url = `scenario/${getters.scenarioId}`
-            await api.post(url, getters.scenarioSaved)
-            return true
         },
 
 
@@ -297,9 +291,9 @@ export const scenario = {
         scenarioJournalsCustomSubr: (state) => state.scenarioJournals.filter(j=>j.customSubscribed),
         scenarioJournalsAnySubr: (state) => state.scenarioJournals.filter(j=>j.subscribed || j.customSubscribed),
 
-        scenarioMeta:  (state) => state.scenarioMeta,
+        scenarioMeta:  (state) => state.selected.meta,
         scenarioId(state){
-            if (state.scenarioMeta) return state.scenarioMeta.scenario_id
+            if (state.selected.meta) return state.selected.meta.scenario_id
         },
         scenarioName(state){
             if (state.scenarioSaved) return state.scenarioSaved.name

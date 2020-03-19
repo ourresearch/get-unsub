@@ -7,7 +7,12 @@ export const pkg = {
         selected: null,
     },
     mutations: {
-        setSelectedPkg(state, myPkg){state.selected = myPkg},
+        setSelectedPkg(state, myPkg){
+            state.selected = myPkg
+            state.selected.scenarios.forEach(scenario=>{
+                scenario.loading = true
+            })
+        },
         clearSelectedPkg(state){
             state.selected = null
         },

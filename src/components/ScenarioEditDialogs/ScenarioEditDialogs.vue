@@ -27,7 +27,10 @@
                     >
                         Copy
                     </v-btn>
-                    <v-btn depressed @click="setScenarioEditDialogsAllClosed">
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                           :disabled="scenarioEditDialogIsSaving"
+                    >
                         Cancel
                     </v-btn>
                 </v-card-actions>
@@ -60,7 +63,10 @@
                     >
                         Rename
                     </v-btn>
-                    <v-btn depressed @click="setScenarioEditDialogsAllClosed">
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                           :disabled="scenarioEditDialogIsSaving"
+                    >
                         Cancel
                     </v-btn>
                 </v-card-actions>
@@ -86,7 +92,10 @@
                     >
                         Delete scenario
                     </v-btn>
-                    <v-btn depressed @click="setScenarioEditDialogsAllClosed">
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                           :disabled="scenarioEditDialogIsSaving"
+                    >
                         Cancel
                     </v-btn>
                 </v-card-actions>
@@ -95,16 +104,13 @@
 
 
         <v-snackbar
-                v-model="isCopySnackbarOpen"
-                :timeout="5000"
+                v-model="isRenameSnackbarOpen"
+                :timeout="3000"
+                top
         >
-            Scenario copied!
-            <v-btn
-                    color="blue"
-                    text
-                    @click="isCopySnackbarOpen = false"
-            >
-                Stay here
+            Scenario renamed
+            <v-btn dark icon @click="isRenameSnackbarOpen = false">
+                <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
 
@@ -164,13 +170,22 @@
         },
         methods: {
             ...mapActions([
-                "confirmCopyScenario",
-                "confirmRenameScenario",
-                "confirmDeleteScenario",
             ]),
             ...mapMutations([
                 "setScenarioEditDialogsAllClosed",
             ]),
+            async confirmCopyScenario(){
+                await this.$store.dispatch("confirmCopyScenario")
+                this.isCopySnackbarOpen = true
+            },
+            async confirmRenameScenario(){
+                await this.$store.dispatch("confirmRenameScenario")
+                this.isRenameSnackbarOpen = true
+            },
+            async confirmDeleteScenario(){
+                await this.$store.dispatch("confirmDeleteScenario")
+                this.isDeleteSnackbarOpen = true
+            },
         }
     }
 </script>

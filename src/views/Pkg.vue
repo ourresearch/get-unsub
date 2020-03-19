@@ -21,7 +21,7 @@
                                 @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
                         >
                             <v-list-item-content>
-                                <v-list-item-title class="title" v-text="scenario.name"/>
+                                <v-list-item-title class="title" v-text="scenario.saved.name"/>
                                 <v-list-item-subtitle>
                                     <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions
                                 </v-list-item-subtitle>

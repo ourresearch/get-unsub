@@ -27,7 +27,7 @@
                     </template>
                     <span>Close this scenario and return to the {{pkgName}} publisher page (all your changes have been automatically saved).</span>
                 </v-tooltip>
-                <v-list-item @click="openCopyDialog(scenarioSaved)">
+                <v-list-item @click="openCopyDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-content-copy</v-icon>
                     </v-list-item-icon>
@@ -35,7 +35,7 @@
                         Copy
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="openRenameDialog(scenarioSaved)">
+                <v-list-item @click="openRenameDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-pencil</v-icon>
                     </v-list-item-icon>
@@ -43,7 +43,7 @@
                         Rename
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item v-if="pkgScenariosCount > 1" @click="openDeleteDialog(scenarioSaved)">
+                <v-list-item v-if="pkgScenariosCount > 1" @click="openDeleteDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -84,7 +84,7 @@
                 "pkgName",
                 "pkgId",
                 "scenarioName",
-                "scenarioSaved",
+                "selectedScenario",
                 "pkgScenariosCount",
             ]),
         },

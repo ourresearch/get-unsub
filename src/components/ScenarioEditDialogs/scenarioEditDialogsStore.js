@@ -12,7 +12,7 @@ export const scenarioEditDialogs = {
         isRenameDialogOpen: false,
         isDeleteDialogOpen: false,
 
-        scenarioSavedToEdit: null,
+        scenarioToEdit: null,
         scenarioEditNewName: "",
         scenarioEditDialogIsSaving: false
     },
@@ -28,18 +28,18 @@ export const scenarioEditDialogs = {
         },
 
 
-        openCopyDialog(state, scenarioSaved){
-            state.scenarioSavedToEdit = scenarioSaved
-            state.scenarioEditNewName = scenarioSaved.name + " COPY"
+        openCopyDialog(state, scenario){
+            state.scenarioToEdit = scenario
+            state.scenarioEditNewName = scenario.saved.name + " COPY"
             state.isCopyDialogOpen = true
         },
-        openRenameDialog(state, scenarioSaved){
-            state.scenarioSavedToEdit = scenarioSaved
-            state.scenarioEditNewName = scenarioSaved.name
+        openRenameDialog(state, scenario){
+            state.scenarioToEdit = scenario
+            state.scenarioEditNewName = scenario.saved.name
             state.isRenameDialogOpen = true
         },
-        openDeleteDialog(state, scenarioSaved){
-            state.scenarioSavedToEdit = scenarioSaved
+        openDeleteDialog(state, scenario){
+            state.scenarioToEdit = scenario
             state.isDeleteDialogOpen = true
         },
 
@@ -49,7 +49,7 @@ export const scenarioEditDialogs = {
 
 
         setScenarioEditDialogsAllClosed(state){
-            state.scenarioSavedToEdit = null
+            state.scenarioToEdit = null
             state.scenarioEditNewName = ""
             state.isDeleteDialogOpen = false
             state.isCopyDialogOpen = false
@@ -60,13 +60,12 @@ export const scenarioEditDialogs = {
 
 
         async confirmRenameScenario({commit, getters, dispatch, state}) {
-            console.log("confirmRenameScenario()", state)
-            state.scenarioSavedToEdit.name = state.scenarioEditNewName
+            state.scenarioToEdit.saved.name = state.scenarioEditNewName
 
             state.scenarioEditDialogIsSaving = true
-            const url = `scenario/${state.scenarioSavedToEdit.id}`
-            await api.post(url, state.scenarioSavedToEdit)
-            await dispatch("refreshPkg")
+            const url = `scenario/${state.scenarioToEdit.id}`
+            await api.post(url, state.scenarioToEdit.saved)
+            // await dispatch("refreshPkg")
 
             state.scenarioEditDialogIsSaving = false
             commit("setScenarioEditDialogsAllClosed")
@@ -77,7 +76,7 @@ export const scenarioEditDialogs = {
             console.log("confirmCopyScenario()", state)
 
             state.scenarioEditDialogIsSaving = true
-            const url = `package/${getters.pkgId}/scenario?copy=${state.scenarioSavedToEdit.id}`
+            const url = `package/${getters.pkgId}/scenario?copy=${state.scenarioToEdit.id}`
             await api.post(url, {name: state.scenarioEditNewName})
             await dispatch("refreshPkg")
 
@@ -89,7 +88,7 @@ export const scenarioEditDialogs = {
 
         async confirmDeleteScenario({commit, getters, state, dispatch}) {
             if (getters.pkgScenariosCount < 2) return
-            const url = `scenario/${state.scenarioSavedToEdit.id}`
+            const url = `scenario/${state.scenarioToEdit.id}`
 
             state.scenarioEditDialogIsSaving = true
             await api.delete(url)
