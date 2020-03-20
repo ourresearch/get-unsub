@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid v-if="scenario">
+    <v-container fluid v-if="!isLoading">
         <v-card>
             <v-card>
                 <div class="pa-3" v-if="journals.length">
@@ -91,7 +91,8 @@
                 barHeight: 500,
                 addSubrsInterval: null,
                 removeSubrsInterval: null,
-                colors: appConfigs.colors
+                colors: appConfigs.colors,
+                isLoading: true,
                 // journals: [],
             }
         },
@@ -287,9 +288,15 @@
         },
         mounted() {
             console.log("loading scenario")
+            const that = this
 
-            this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
-            this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            // this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
+            that.$store.commit("_setScenario", that.$store.getters.getScenario)
+
+            // this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            setTimeout(function(){
+                that.isLoading = false
+            }, 500)
         },
         watch: {}
     }

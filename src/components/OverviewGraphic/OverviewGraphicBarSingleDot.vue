@@ -8,7 +8,7 @@
         <v-tooltip
                 bottom
                 max-width="200px"
-                open-delay="500"
+                open-delay="100"
                 content-class="dot-tooltip"
         >
             <template v-slot:activator="{ on }">
