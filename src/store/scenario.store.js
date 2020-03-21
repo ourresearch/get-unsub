@@ -8,7 +8,7 @@ import {buildScenarioFromApiResp} from "../shared/scenario";
 export const scenario = {
     state: {
         selected: null,
-        subrIndex: null,
+        isLoading: false,
 
         zoomIssnl: null,
         zoomOpen: false,
@@ -34,7 +34,6 @@ export const scenario = {
     mutations: {
         _setScenario(state, scenarioApiResp) {
             state.selected = buildScenarioFromApiResp(scenarioApiResp)
-            // state.subrIndex = state.selected.saved.subrs.length
 
         },
         subscribeUpToIndex(state, index){
@@ -109,6 +108,13 @@ export const scenario = {
             state.zoomIssnl = null
             state.zoomOpen = false
         },
+
+
+        setIsLoading: (state, isLoading) => {
+            state.isLoading = isLoading
+        },
+
+
 
 
 
@@ -251,7 +257,6 @@ export const scenario = {
         },
         subrIssnls: (state) => state.selected.saved.subrs,
         customSubrs: (state) => state.selected.saved.customSubrs,
-        subrIndex: (state) => state.subrIndex,
         journals: (state) => state.selected.journals,
 
         scenarioJournals: (state) => state.selected.journals,
@@ -266,6 +271,12 @@ export const scenario = {
         },
         scenarioSaved:  (state) => {
             if (state.selected && state.selected.saved) return state.selected.saved
+        },
+        selectedScenarioIsLoading: (state) => {
+            if (!state.selected) return true
+            if (state.isLoading) return true
+            if (!state.selected.saved.name) return true
+            return false
         },
 
 

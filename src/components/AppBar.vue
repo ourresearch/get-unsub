@@ -61,10 +61,10 @@
                     Scenario
                 </div>
                 <div class="bottom headline">
-                    <span v-if="scenarioName">
+                    <span v-if="!selectedScenarioIsLoading">
                         {{scenarioName}}
                     </span>
-                    <span v-if="!scenarioName" class="grey--text">
+                    <span v-if="selectedScenarioIsLoading" class="grey--text">
                         Loading...
                     </span>
                 </div>
@@ -175,6 +175,7 @@
                 'scenarioName',
                 'pkgId',
                 'pkgName',
+                'selectedScenarioIsLoading',
             ]),
             summary() {
                 return this.$store.getters.summary

@@ -20,17 +20,23 @@
                                 :key="scenario.id"
                                 @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
                         >
-                            <v-list-item-content v-if="!scenario.saved.name">
-                                <v-list-item-title>
-                                    Loading...
+                            <v-list-item-content v-if="scenario.isLoading">
+                                <v-list-item-title class="title grey--text d-flex align-center">
+                                    <v-progress-circular class="mr-2" indeterminate size="20" />
+                                    Scenario loading...
                                 </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    &nbsp;
+                                </v-list-item-subtitle>
+
                             </v-list-item-content>
 
 
-                            <v-list-item-content v-if="scenario.saved.name">
+                            <v-list-item-content v-if="!scenario.isLoading">
                                 <v-list-item-title class="title" v-text="scenario.saved.name"/>
                                 <v-list-item-subtitle>
-                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions
+                                    id: {{scenario.id}}
+<!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action  v-if="scenario.saved.name">
@@ -359,8 +365,13 @@
         mounted() {
             console.log("pkg: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
-            if (!this.$store.getters.getScenario.saved.name ){
+
+            if (!this.pkgName){
                 this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            }
+
+
+            if (!(this.$store.getters.getScenario.saved && this.$store.getters.getScenario.saved.name) ){
             }
 
         },

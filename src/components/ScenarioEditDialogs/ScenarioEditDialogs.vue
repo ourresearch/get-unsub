@@ -13,7 +13,6 @@
                                 outlined
                                 label="Name for the new scenario:"
                                 type="text"
-                                :disabled="scenarioEditDialogIsSaving"
                                 @keydown.enter="confirmCopyScenario"
                                 v-model="scenarioEditNewName"
                         />
@@ -23,13 +22,11 @@
                     <v-btn depressed
                            @click="confirmCopyScenario"
                            color="primary"
-                           :loading="scenarioEditDialogIsSaving"
                     >
                         Copy
                     </v-btn>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
-                           :disabled="scenarioEditDialogIsSaving"
                     >
                         Cancel
                     </v-btn>
@@ -49,7 +46,6 @@
                                 outlined
                                 type="text"
                                 label="New name:"
-                                :disabled="scenarioEditDialogIsSaving"
                                 @keydown.enter="confirmRenameScenario"
                                 v-model="scenarioEditNewName"
                         />
@@ -59,13 +55,11 @@
                     <v-btn depressed
                            @click="confirmRenameScenario"
                            color="primary"
-                           :loading="scenarioEditDialogIsSaving"
                     >
                         Rename
                     </v-btn>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
-                           :disabled="scenarioEditDialogIsSaving"
                     >
                         Cancel
                     </v-btn>
@@ -88,13 +82,11 @@
                     <v-btn depressed
                            @click="confirmDeleteScenario"
                            color="primary"
-                           :loading="scenarioEditDialogIsSaving"
                     >
                         Delete scenario
                     </v-btn>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
-                           :disabled="scenarioEditDialogIsSaving"
                     >
                         Cancel
                     </v-btn>
@@ -104,12 +96,35 @@
 
 
         <v-snackbar
+                v-model="isCopySnackbarOpen"
+                :timeout="3000"
+                top
+        >
+            Scenario copied
+            <v-btn dark icon @click="isCopySnackbarOpen = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+
+        <v-snackbar
                 v-model="isRenameSnackbarOpen"
                 :timeout="3000"
                 top
         >
             Scenario renamed
             <v-btn dark icon @click="isRenameSnackbarOpen = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+        <v-snackbar
+                v-model="isDeleteSnackbarOpen"
+                :timeout="3000"
+                top
+        >
+            Scenario deleted
+            <v-btn dark icon @click="isDeleteSnackbarOpen = false">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
@@ -133,6 +148,7 @@
         computed: {
             ...mapGetters([
                 "scenarioEditDialogIsSaving",
+                "scenarioToEdit",
             ]),
             isCopyDialogOpen: {
                 get() {
@@ -169,21 +185,29 @@
             }
         },
         methods: {
-            ...mapActions([
-            ]),
+            ...mapActions([]),
             ...mapMutations([
                 "setScenarioEditDialogsAllClosed",
             ]),
-            async confirmCopyScenario(){
-                await this.$store.dispatch("confirmCopyScenario")
+            confirmCopyScenario() {
+                this.$store.dispatch("copyScenario", {
+                    id: this.scenarioToEdit.id,
+                    newName: this.scenarioEditNewName,
+                })
                 this.isCopySnackbarOpen = true
+                this.$store.commit("setScenarioEditDialogsAllClosed")
             },
-            async confirmRenameScenario(){
-                await this.$store.dispatch("confirmRenameScenario")
+            confirmRenameScenario() {
+                this.$store.dispatch("renameScenario", {
+                    id: this.scenarioToEdit.id,
+                    newName: this.scenarioEditNewName,
+                })
                 this.isRenameSnackbarOpen = true
+                this.$store.commit("setScenarioEditDialogsAllClosed")
             },
-            async confirmDeleteScenario(){
-                await this.$store.dispatch("confirmDeleteScenario")
+            confirmDeleteScenario() {
+                this.$store.dispatch("deleteScenario", this.scenarioToEdit.id)
+                this.$store.commit("setScenarioEditDialogsAllClosed")
                 this.isDeleteSnackbarOpen = true
             },
         }

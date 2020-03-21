@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid v-if="!isLoading">
+    <v-container fluid v-if="!selectedScenarioIsLoading">
         <v-card>
             <v-card>
                 <div class="pa-3" v-if="journals.length">
@@ -93,12 +93,12 @@
                 removeSubrsInterval: null,
                 colors: appConfigs.colors,
                 isLoading: true,
-                // journals: [],
             }
         },
         computed: {
             ...mapGetters([
                 'menuSettingsView',
+                'selectedScenarioIsLoading',
             ]),
 
 
@@ -119,9 +119,6 @@
             },
             costPerUse() {
                 return (this.subrCost + this.illCost) / this.usageRawPaid.subr
-            },
-            costPerUseStr() {
-                return "$" + this.costPerUse.toFixed(2)
             },
             subrCostPercent() {
                 return 100 * this.subrCost / this.$store.getters.costBigdealProjected
@@ -149,11 +146,6 @@
                 return this.journals.filter(j => !!j.subscribed || j.customSubscribed)
             },
 
-            numSubscribedJournalsStr() {
-                let ret = this.subscribedJournals.length.toLocaleString() + " journal"
-                if (this.subscribedJournals.length !== 1) ret += "s"
-                return ret
-            },
 
             costSegments() {
                 const mySavings = this.$store.getters.costBigdealProjected - (this.illCost + this.subrCost)
@@ -257,46 +249,17 @@
             ...mapMutations([
                 "menuViewToggleShowCostBar",
             ]),
-            // adding subrs:
-            addSubrByCpu() {
-                this.$store.commit("subrIndexIncrement")
-            },
-            startAddingSubrsByCpu(){
-                this.addSubrsInterval = setInterval(()=>{
-                    this.addSubrByCpu()
-                }, 50)
-            },
-            endAddingSubrsByCpu(){
-                clearInterval(this.addSubrsInterval)
-            },
-
-            // removing subrs:
-            removeSubrByCpu() {
-                this.$store.commit("subrIndexDecrement")
-            },
-            startRemovingSubrsByCpu(){
-                this.removeSubrsInterval = setInterval(()=>{
-                    this.removeSubrByCpu()
-                }, 50)
-
-            },
-            endRemovingSubrsByCpu(){
-                clearInterval(this.removeSubrsInterval)
-            },
-
-
         },
-        mounted() {
-            console.log("loading scenario")
+        async mounted() {
+            this.$store.commit("setIsLoading", true)
+            await this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            const myScenario = this.$store.getters.getScenario(this.$route.params.scenarioId)
+            this.$store.commit("_setScenario", myScenario)
+
             const that = this
-
-            // this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
-            that.$store.commit("_setScenario", that.$store.getters.getScenario)
-
-            // this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
             setTimeout(function(){
-                that.isLoading = false
-            }, 500)
+                that.$store.commit("setIsLoading", false)
+            }, 0)
         },
         watch: {}
     }
