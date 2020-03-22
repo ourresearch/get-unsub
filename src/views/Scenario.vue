@@ -1,11 +1,14 @@
 <template>
-    <v-container fluid v-if="!selectedScenarioIsLoading">
+    <v-container fluid >
         <v-card>
             <v-card>
-                <div class="pa-3" v-if="journals.length">
+                <div class="pa-3">
                     <v-row>
-                        <v-col class="journals-info" cols="7">
-                            <v-row>
+                        <v-col class="journals-info" cols="7" >
+                            <v-row v-if="selectedScenarioIsLoading" class="d-flex justify-center align-center py-10">
+                                Loading...
+                            </v-row>
+                            <v-row v-if="!selectedScenarioIsLoading">
                                 <overview-graphic-bar-dots
                                         v-if="menuSettingsView.displayJournalsAsSelected=='histogram'"
                                         :journals="journals"
@@ -21,7 +24,7 @@
 
 
                         <v-col cols="4">
-                            <v-row>
+                            <v-row  v-if="scenario && journals.length" >
                                 <v-col>
                                     <overview-graphic-bar
                                             type="cost"
@@ -259,7 +262,7 @@
             const that = this
             setTimeout(function(){
                 that.$store.commit("setIsLoading", false)
-            }, 0)
+            }, 500)
         },
         watch: {}
     }

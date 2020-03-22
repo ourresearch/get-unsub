@@ -276,6 +276,7 @@ export const scenario = {
             if (!state.selected) return true
             if (state.isLoading) return true
             if (!state.selected.saved.name) return true
+            if (!state.selected.journals.length) return true
             return false
         },
 

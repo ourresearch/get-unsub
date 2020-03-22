@@ -1,3 +1,6 @@
+// https://www.npmjs.com/package/short-uuid
+const short = require('short-uuid');
+
 const buildScenarioFromApiResp = function (apiResp) {
     apiResp.journals.forEach((myJournal, myIndex) => {
         myJournal.cpuIndex = myIndex
@@ -10,7 +13,29 @@ const buildScenarioFromApiResp = function (apiResp) {
     return apiResp
 }
 
-const setCostBigdealProjected = function(scenario){
+const newScenario = function (id) {
+    return {
+        id: id,
+        isLoading: false,
+        meta: {
+            scenario_id: id,
+        },
+        journals: [],
+        saved: {
+            subrs: [],
+            name: "",
+            configs: {}
+        }
+    }
+}
+
+const newScenarioId = function(isDemo){
+    let id = short.generate().slice(0, 8)
+    if (isDemo) id = "demo-scenario-" + id
+    return id
+}
+
+const setCostBigdealProjected = function (scenario) {
     let totalCost = 0
     let numYears = 5
     let costThisYear = scenario.saved.configs.cost_bigdeal
@@ -24,5 +49,7 @@ const setCostBigdealProjected = function(scenario){
 
 
 export {
-    buildScenarioFromApiResp
+    buildScenarioFromApiResp,
+    newScenarioId,
+    newScenario,
 }

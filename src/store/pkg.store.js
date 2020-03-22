@@ -3,7 +3,7 @@ import Vue from "vue"
 import router from "../router"
 
 import {api} from "../api"
-import {buildScenarioFromApiResp} from "../shared/scenario";
+import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/scenario";
 import _ from "lodash";
 
 // https://www.npmjs.com/package/short-uuid
@@ -14,39 +14,8 @@ export const pkg = {
         selected: null,
     },
     mutations: {
-        setSelectedPkg(state, pkgApiResp) {
-            const ret = {...pkgApiResp}
-            ret.scenarios = []
-            pkgApiResp.scenarios.forEach(apiScenario => {
-                ret.scenarios.push({
-                    id: apiScenario.id,
-                    isLoading: true,
-                    meta: {},
-                    journals: [],
-                    saved: {
-                        subrs: [],
-                        name: "",
-                        configs: {}
-                    },
-                })
-            });
-
-            ret.scenarios.forEach(s => {
-                let path = `scenario/${s.id}`
-                // let path = `scenario/demo-scenario-ap9sJbqN`
-                path += "/journals" // required hack! endopint is misnamed for legacy reasons.
-                api.get(path)
-                    .then(function(resp){
-                        // const hydratedScenario = {id: 22, foo: {a: 2, b: 4}, bar: {a:33, b:55}}
-                        const hydratedScenario = buildScenarioFromApiResp(resp.data)
-                        console.log("made hydrated scenario from resp:", hydratedScenario)
-                        Object.keys(hydratedScenario).forEach(k => {
-                            s[k] = hydratedScenario[k]
-                        })
-                        s.isLoading = false
-                    })
-            })
-            state.selected = ret
+        setSelectedPkg(state, pkg) {
+            state.selected = pkg
         },
         clearSelectedPkg(state) {
             state.selected = null
@@ -65,31 +34,60 @@ export const pkg = {
             const scenarioToCopy = state.selected.scenarios.find(s=>{
                 return s.id === id
             })
-
             const clone = _.cloneDeep(scenarioToCopy)
             clone.saved.name = newName
             clone.id = newId
             clone.meta.scenario_id = newId // should get rid of this in due time
             state.selected.scenarios.push(clone)
         },
+        createScenario(state, {newName, newId}) {
+            const myNewScenario = newScenario(newId)
+            myNewScenario.saved.name = newName
+            state.selected.scenarios.push(myNewScenario)
+        },
     },
     actions: {
-        async fetchPkg({commit, getters}, id) {
+        async fetchPkg({commit, dispatch, getters}, id) {
             if (getters.pkgName) return
+
             const url = `package/${id}`
             const resp = await api.get(url)
+
+            resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
+                const scenario = newScenario(apiScenario.id)
+                scenario.isLoading = true
+                return scenario
+            });
             commit("setSelectedPkg", resp.data)
-            return resp.data
+            dispatch("hydratePkgScenarios")
         },
-        async refreshPkg({dispatch, getters}) {
-            return await dispatch("fetchPkg", getters.pkgId)
+
+        async hydratePkgScenarios({dispatch, getters}) {
+            getters.getScenarios.forEach(s => {
+                dispatch("hydratePkgScenario", s.id)
+            })
         },
+
+        async hydratePkgScenario({dispatch, getters}, scenarioId) {
+            const path = `scenario/${scenarioId}/journals`
+            const myScenario = getters.getScenario(scenarioId)
+
+            const resp = await api.get(path)
+            const hydratedScenario = buildScenarioFromApiResp(resp.data)
+            Object.keys(hydratedScenario).forEach(k => {
+
+                myScenario[k] = hydratedScenario[k]
+            })
+            myScenario.isLoading = false
+        },
+
+
         async copyScenario({commit, getters}, {id, newName}) {
-            let newId = getters.newScenarioIdPrefix + short.generate().slice(0, 8)
+            let newId = newScenarioId(getters.isPkgDemo)
             commit("copyScenario", {id, newName, newId})
             const data = {
                 name: newName,
-                id: newId
+                id: newId,
             }
             console.log("POSTing this copy scenario", data)
             const url = `package/${getters.pkgId}/scenario?copy=${id}`
@@ -105,6 +103,20 @@ export const pkg = {
             commit("deleteScenario", id)
             router.push(`/a/${getters.pkgId}`)
             await api.delete(`scenario/${id}`)
+        },
+        async createScenario({commit, dispatch, getters}) {
+            const newId = newScenarioId(getters.isPkgDemo)
+            const newName = "New Scenario"
+            commit("createScenario", {newName, newId})
+            const data = {
+                id: newId,
+                name: newName,
+            }
+            console.log("POSTing this to create scenario", data)
+            const url = `package/${getters.pkgId}/scenario`
+            await api.post(url, data)
+            dispatch("hydratePkgScenario", newId)
+
         },
     },
     getters: {
@@ -126,10 +138,7 @@ export const pkg = {
         getScenario: (state) => (id) =>{
             return state.selected.scenarios.find(s => s.id === id)
         },
-        newScenarioIdPrefix(state) {
-            return (/^demo-package-/.test(state.selected.name)) ?
-                "" :
-                "demo-scenario-"
-        }
+        getScenarios: (state) => state.selected.scenarios,
+        isPkgDemo: (state) =>  /^demo-package-/.test(state.selected.id),
     }
 }

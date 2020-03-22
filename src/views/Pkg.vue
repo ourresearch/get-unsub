@@ -1,19 +1,32 @@
 <template>
     <v-container class="pkg" v-if="pkg">
-
         <!--        <h1 class="display-3 py-6">{{ pkg.name }}</h1>-->
         <v-row class="fill-height">
-            <v-col cols="6">
+            <v-col cols="7">
                 <h2 class="display-1 my-2">Your dashboards</h2>
-                <v-card outlined class="mb-2">
-                    <v-card-title>
-                        <div>
-                            <div class="body-2">"Read" dashboard</div>
-                            <div class="headline">Your subscription scenarios</div>
-                        </div>
-                    </v-card-title>
-                    <v-divider/>
-                    <v-list class="pb-8">
+                <v-card  class="mb-2">
+                    <v-toolbar dark color="#555">
+                        <v-toolbar-title>
+                            <div class="body-2">5yr forecast</div>
+                            <div class="headline">Cancellation scenarios</div>
+                        </v-toolbar-title>
+                        <template v-slot:extension>
+                            <v-btn
+                                    absolute
+                                    light
+                                    color="white"
+                                    fab
+                                    bottom
+                                    left
+                                    small
+                                    @click="createScenario"
+                            >
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </template>
+                    </v-toolbar>
+
+                    <v-list class="pb-8 pt-4">
                         <v-list-item
                                 two-line
                                 v-for="scenario in pkg.scenarios"
@@ -22,7 +35,7 @@
                         >
                             <v-list-item-content v-if="scenario.isLoading">
                                 <v-list-item-title class="title grey--text d-flex align-center">
-                                    <v-progress-circular class="mr-2" indeterminate size="20" />
+                                    <v-progress-circular class="mr-2" indeterminate size="20"/>
                                     Scenario loading...
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
@@ -36,10 +49,10 @@
                                 <v-list-item-title class="title" v-text="scenario.saved.name"/>
                                 <v-list-item-subtitle>
                                     id: {{scenario.id}}
-<!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
+                                    <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                            <v-list-item-action  v-if="scenario.saved.name">
+                            <v-list-item-action v-if="scenario.saved.name">
                                 <div>
                                     <v-btn icon @click.stop="openCopyDialog(scenario)">
                                         <v-icon>mdi-content-copy</v-icon>
@@ -73,7 +86,7 @@
 
             </v-col>
 
-            <v-col cols="6">
+            <v-col cols="5">
                 <h2 class="display-1 my-2">Your data</h2>
                 <v-card outlined class="mb-2">
                     <v-card-title>
@@ -216,25 +229,25 @@
                 </v-card-title>
 
 
-<!--                <v-slide-y-transition :leave-absolute="true">-->
-<!--                        <div v-if="errorMsg && fileSelected">-->
-<!--                            <span v-html="errorMsg"></span>-->
-<!--                        </div>-->
-<!--                    </v-slide-y-transition>-->
+                <!--                <v-slide-y-transition :leave-absolute="true">-->
+                <!--                        <div v-if="errorMsg && fileSelected">-->
+                <!--                            <span v-html="errorMsg"></span>-->
+                <!--                        </div>-->
+                <!--                    </v-slide-y-transition>-->
                 <v-card-text>
-<!--                    <v-scale-transition>-->
-<!--                        <div style="height:100px;" v-if="foo">-->
-<!--                            foo-->
-<!--                        </div>-->
-<!--                    </v-scale-transition>-->
-<!--                    <v-btn x-small @click="foo=!foo">toggle</v-btn>-->
+                    <!--                    <v-scale-transition>-->
+                    <!--                        <div style="height:100px;" v-if="foo">-->
+                    <!--                            foo-->
+                    <!--                        </div>-->
+                    <!--                    </v-scale-transition>-->
+                    <!--                    <v-btn x-small @click="foo=!foo">toggle</v-btn>-->
                     <v-alert
-                        :value="!!errorMsg && !!fileSelected"
-                        type="error"
-                        icon="mdi-alert"
-                        transition="slide-x-transition"
+                            :value="!!errorMsg && !!fileSelected"
+                            type="error"
+                            icon="mdi-alert"
+                            transition="slide-x-transition"
                     >
-                        <span class="body-2" v-html="errorMsg" />
+                        <span class="body-2" v-html="errorMsg"/>
                     </v-alert>
                     <div class="descr">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -288,7 +301,7 @@
 
 <script>
     import {api, toBase64} from "../api";
-    import {mapGetters, mapMutations} from 'vuex'
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
 
     export default {
@@ -311,6 +324,9 @@
                 "openCopyDialog",
                 "openRenameDialog",
                 "openDeleteDialog",
+            ]),
+            ...mapActions([
+                "createScenario",
             ]),
             openUploadDialog(fileType) {
                 this.uploadDialogIsOpen = true
@@ -338,8 +354,7 @@
                     this.errorMsg = (e.response && e.response.data) ?
                         e.response.data.msg :
                         "Sorry, we encountered an unknown error!"
-                }
-                finally {
+                } finally {
                     this.isUploadFileLoading = false
                 }
             }
@@ -349,6 +364,7 @@
                 "pkgName",
                 "pkgId",
                 "pkgScenariosCount",
+                "isPkgDemo",
             ]),
             // fileSelected() {
             //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
@@ -366,18 +382,21 @@
             console.log("pkg: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
 
-            if (!this.pkgName){
+            if (!this.pkgName) {
                 this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
             }
 
 
-            if (!(this.$store.getters.getScenario.saved && this.$store.getters.getScenario.saved.name) ){
+            if (!(this.$store.getters.getScenario.saved && this.$store.getters.getScenario.saved.name)) {
             }
 
         },
     }
 </script>
 
-<style scoped>
+<style  lang="scss">
+    .v-toolbar__extension {
+        border-top: none !important;
+    }
 
 </style>
