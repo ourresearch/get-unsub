@@ -15,6 +15,7 @@ export const pkg = {
     },
     mutations: {
         setSelectedPkg(state, pkg) {
+            console.log("setting selected pkg", pkg)
             state.selected = pkg
         },
         clearSelectedPkg(state) {
@@ -52,7 +53,6 @@ export const pkg = {
 
             const url = `package/${id}`
             const resp = await api.get(url)
-
             resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
                 const scenario = newScenario(apiScenario.id)
                 scenario.isLoading = true
@@ -60,6 +60,8 @@ export const pkg = {
             });
             commit("setSelectedPkg", resp.data)
             dispatch("hydratePkgScenarios")
+            console.log("returning now...")
+            return resp
         },
 
         async hydratePkgScenarios({dispatch, getters}) {
@@ -136,6 +138,7 @@ export const pkg = {
             return 0
         },
         getScenario: (state) => (id) =>{
+            console.log("looking to get a scenario", id, state.selected.scenarios)
             return state.selected.scenarios.find(s => s.id === id)
         },
         getScenarios: (state) => state.selected.scenarios,

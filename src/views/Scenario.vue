@@ -256,7 +256,9 @@
         async mounted() {
             this.$store.commit("setIsLoading", true)
             await this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            console.log("finished loading the package")
             const myScenario = this.$store.getters.getScenario(this.$route.params.scenarioId)
+            console.log("got a scenario", myScenario)
             this.$store.commit("_setScenario", myScenario)
 
             const that = this
