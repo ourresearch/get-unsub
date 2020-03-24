@@ -49,7 +49,7 @@ export const account = {
                 Authorization: `Bearer ${token}`
             }
         },
-        isCustomerAccount(state){
+        isUserSubscribed(state){
             if (!state.selected) return false
             return !state.selected.is_demo_account
         }

@@ -5,6 +5,8 @@ import {account} from "./account.store.js"
 import {pkg} from "./pkg.store.js"
 import {scenario} from "./scenario.store"
 import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEditDialogsStore";
+import {institution} from "./institution.store";
+import {user} from "./user.store";
 import configs from "../appConfigs"
 
 
@@ -20,13 +22,10 @@ const short = require('short-uuid');
 
 export default new Vuex.Store({
     state: {
-
-
         notSupportedMsgOpen: false,
         snackbarMsg: "",
         snackbarIsOpen: false,
         snackbarColor: "success",
-
 
         editMode: false,
 
@@ -45,6 +44,8 @@ export default new Vuex.Store({
     },
     modules: {
         scenarioEditDialogs,
+        // institution,
+        // user,
         account,
         pkg,
         scenario,

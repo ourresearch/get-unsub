@@ -82,7 +82,7 @@
 
         <v-spacer/>
         <v-toolbar-items>
-            <v-btn text color="primary" v-if="!$store.getters.isCustomerAccount" to="/purchase">Pricing</v-btn>
+            <v-btn text color="primary" v-if="!$store.getters.isUserSubscribed" to="/purchase">Pricing</v-btn>
             <v-btn text to="/support" v-if="!scenarioName">Help</v-btn>
             <v-btn text to="/login" v-if="!$store.getters.isLoggedIn">Log in</v-btn>
 

@@ -13,8 +13,8 @@
                         <template v-slot:extension>
                             <v-btn
                                     absolute
-                                    light
-                                    color="white"
+                                    dark
+                                    color="black"
                                     fab
                                     bottom
                                     left
