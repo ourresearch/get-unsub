@@ -58,7 +58,7 @@
         name: "ScenarioMenuSubscriptions",
         computed: {
             ...mapGetters([
-                "pkgName",
+                "publisherName",
                 "scenarioJournals"
             ]),
         },

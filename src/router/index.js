@@ -8,6 +8,8 @@ import ChangePassword from "../views/ChangePassword"
 import Support from '../views/Support'
 import Account from '../views/Account'
 import Pkg from '../views/Pkg'
+import User from "../views/User"
+import Institution from "../views/Institution";
 
 
 import Scenario from "../views/Scenario"
@@ -26,13 +28,30 @@ const routes = [
     {path: '/change-password', component: ChangePassword},
 
     {
+        path: "/u",
+        component: User,
+        meta: {requiresAuth: true},
+
+    },
+
+    {
+        path: "/i/:institutionId",
+        component: Institution,
+        meta: {requiresAuth: true},
+    },
+
+
+
+
+
+    {
         path: "/a",
         component: Account,
         meta: {requiresAuth: true},
 
     },
     {
-        path: "/a/:pkgId",
+        path: "/a/:publisherId",
         component: Pkg,
         meta: {requiresAuth: true},
 
@@ -41,21 +60,21 @@ const routes = [
     // this has to come before the scenario route, or else the
     // scenario route greedily steals it with scenario="apc"
     {
-        path: "/a/:pkgId/apc",
+        path: "/a/:publisherId/apc",
         component: PublisherApcs,
         name: "publisherApc",
         meta: {requiresAuth: true},
     },
 
     {
-        path: "/a/:pkgId/:scenarioId",
+        path: "/a/:publisherId/:scenarioId",
         component: Scenario,
         name: "publisherScenario",
         meta: {requiresAuth: true},
     },
 
     {
-        path: "/a/:pkgId/:scenarioId/overview",
+        path: "/a/:publisherId/:scenarioId/overview",
         // https://router.vuejs.org/guide/essentials/redirect-and-alias.html#redirect
         redirect: to => {
             // https://router.vuejs.org/api/#the-route-object

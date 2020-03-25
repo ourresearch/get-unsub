@@ -61,7 +61,7 @@
                                         <v-icon>mdi-pencil</v-icon>
                                     </v-btn>
 
-                                    <v-btn v-if="pkgScenariosCount > 1" icon @click.stop="openDeleteDialog(scenario)">
+                                    <v-btn v-if="publisherScenariosCount > 1" icon @click.stop="openDeleteDialog(scenario)">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </div>
@@ -78,7 +78,7 @@
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <v-btn large outlined :to="'/a/' + pkgId + '/apc'">
+                        <v-btn large outlined :to="'/a/' + publisherId + '/apc'">
                             View your APC costs
                         </v-btn>
                     </v-card-text>
@@ -341,7 +341,7 @@
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
                 this.isUploadFileLoading = true
-                const path = `package/${this.pkgId}/${this.uploadFileType}`
+                const path = `package/${this.publisherId}/${this.uploadFileType}`
                 const data = {
                     file: await toBase64(this.fileSelected),
                     name: this.fileSelected.name,
@@ -361,10 +361,10 @@
         },
         computed: {
             ...mapGetters([
-                "pkgName",
-                "pkgId",
-                "pkgScenariosCount",
-                "isPkgDemo",
+                "publisherName",
+                "publisherId",
+                "publisherScenariosCount",
+                "isPublisherDemo",
             ]),
             // fileSelected() {
             //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
@@ -373,7 +373,7 @@
                 return this.$store.state.user
             },
             pkg() {
-                return this.$store.getters.selectedPkg
+                return this.$store.getters.selectedPublisher
             }
         },
         created() {
@@ -382,8 +382,8 @@
             console.log("pkg: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
 
-            if (!this.pkgName) {
-                this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            if (!this.publisherName) {
+                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             }
 
 

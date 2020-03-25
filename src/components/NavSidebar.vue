@@ -130,7 +130,7 @@
                 return this.$store.state.user
             },
             pkg() {
-                return this.$store.getters.selectedPkg
+                return this.$store.getters.selectedPublisher
             },
             scenario() {
                 return this.$store.getters.selectedScenario

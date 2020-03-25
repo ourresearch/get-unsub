@@ -128,7 +128,7 @@
         },
         methods: {
             async getData() {
-                let path = `package/${this.pkgId}/apc`
+                let path = `package/${this.publisherId}/apc`
 
                 // temp development hack!!!
                 path = "scenario/demo-scenario-wVJCKiMPNZ/apc"
@@ -151,8 +151,8 @@
         },
         computed: {
             ...mapGetters([
-               "pkgId",
-               "pkgName"
+               "publisherId",
+               "publisherName"
             ]),
             totalCost(){
               return this.data.headers.find(h=>h.value==="cost_apc").raw
@@ -165,7 +165,7 @@
                 return this.$store.state.account
             },
             pkg() {
-                return this.$store.getters.selectedPkg
+                return this.$store.getters.selectedPublisher
             },
             scenario() {
                 return this.$store.getters.selectedScenario
@@ -193,7 +193,7 @@
         created() {
         },
         mounted() {
-            this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             this.getData()
 
         },

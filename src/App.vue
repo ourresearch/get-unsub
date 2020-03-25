@@ -66,8 +66,8 @@
             account() {
                 return this.$store.state.user
             },
-            selectedPkg() {
-                return this.$store.getters.selectedPkg
+            selectedPublisher() {
+                return this.$store.getters.selectedPublisher
             },
             selectedScenario() {
                 return this.$store.getters.selectedScenario

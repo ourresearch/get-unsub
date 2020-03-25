@@ -109,7 +109,7 @@
                 return this.$store.state.account
             },
             pkg() {
-                return this.$store.getters.selectedPkg
+                return this.$store.getters.selectedPublisher
             },
             scenario() {
                 return this.$store.getters.selectedScenario
@@ -255,7 +255,7 @@
         },
         async mounted() {
             this.$store.commit("setIsLoading", true)
-            await this.$store.dispatch("fetchPkg", this.$route.params.pkgId)
+            await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             console.log("finished loading the package")
             const myScenario = this.$store.getters.getScenario(this.$route.params.scenarioId)
             console.log("got a scenario", myScenario)

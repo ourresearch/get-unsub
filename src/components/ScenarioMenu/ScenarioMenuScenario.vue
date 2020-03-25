@@ -16,7 +16,7 @@
                         max-width="400"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-list-item v-on="on" :to="'/a/' + pkgId">
+                        <v-list-item v-on="on" :to="'/a/' + publisherId">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-close</v-icon>
                             </v-list-item-icon>
@@ -25,7 +25,7 @@
                             </v-list-item-title>
                         </v-list-item>
                     </template>
-                    <span>Close this scenario and return to the {{pkgName}} publisher page (all your changes have been automatically saved).</span>
+                    <span>Close this scenario and return to the {{publisherName}} publisher page (all your changes have been automatically saved).</span>
                 </v-tooltip>
                 <v-list-item @click="openCopyDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
@@ -43,7 +43,7 @@
                         Rename
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item v-if="pkgScenariosCount > 1" @click="openDeleteDialog(selectedScenario)">
+                <v-list-item v-if="publisherScenariosCount > 1" @click="openDeleteDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -81,11 +81,11 @@
         },
         computed: {
             ...mapGetters([
-                "pkgName",
-                "pkgId",
+                "publisherName",
+                "publisherId",
                 "scenarioName",
                 "selectedScenario",
-                "pkgScenariosCount",
+                "publisherScenariosCount",
             ]),
         },
         methods: {

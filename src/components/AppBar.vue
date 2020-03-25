@@ -29,25 +29,25 @@
                         to="/a">
                     <v-icon style="margin-top:-4px;">mdi-home-outline</v-icon>
                 </router-link>
-                <span class="chevron pl-1 pr-2" v-if="pkgId">
+                <span class="chevron pl-1 pr-2" v-if="publisherId">
                     ›
                 </span>
             </span>
 
             <!-- second breadcrumb -->
-            <div v-if="pkgName" class="breadcrumb-segment">
+            <div v-if="publisherName" class="breadcrumb-segment">
                 <div class="top">
                     Publisher
                 </div>
                 <div class="bottom headline">
                     <span v-if="!thirdBreadcrumb">
-                        {{pkgName}}
+                        {{publisherName}}
                     </span>
                     <router-link
                             v-if="!!thirdBreadcrumb"
                             class="breadcumbs-publisher-link"
-                            :to="'/a/' + pkgId">
-                        {{pkgName}}
+                            :to="'/a/' + publisherId">
+                        {{publisherName}}
                     </router-link>
                     <span v-if="!!thirdBreadcrumb" class="chevron px-3">
                         ›
@@ -165,7 +165,7 @@
             logout() {
                 this.$store.commit("logout")
                 this.$store.commit("clearSelectedScenario")
-                this.$store.commit("clearSelectedPkg")
+                this.$store.commit("clearSelectedPublisher")
                 this.$router.push("/")
             }
         },
@@ -173,8 +173,8 @@
             ...mapGetters([
                 'scenarioId',
                 'scenarioName',
-                'pkgId',
-                'pkgName',
+                'publisherId',
+                'publisherName',
                 'selectedScenarioIsLoading',
             ]),
             summary() {
@@ -192,8 +192,8 @@
             account() {
                 return this.$store.getters.selectedAccount
             },
-            selectedPkg() {
-                return this.$store.getters.selectedPkg
+            selectedPublisher() {
+                return this.$store.getters.selectedPublisher
             },
             selectedScenario() {
                 return this.$store.getters.selectedScenario

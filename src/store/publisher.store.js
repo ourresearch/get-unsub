@@ -9,16 +9,16 @@ import _ from "lodash";
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
 
-export const pkg = {
+export const publisher = {
     state: {
         selected: null,
     },
     mutations: {
-        setSelectedPkg(state, pkg) {
+        setSelectedPublisher(state, pkg) {
             console.log("setting selected pkg", pkg)
             state.selected = pkg
         },
-        clearSelectedPkg(state) {
+        clearSelectedPublisher(state) {
             state.selected = null
         },
         deleteScenario(state, scenarioIdToDelete) {
@@ -48,8 +48,8 @@ export const pkg = {
         },
     },
     actions: {
-        async fetchPkg({commit, dispatch, getters}, id) {
-            if (getters.pkgName) return
+        async fetchPublisher({commit, dispatch, getters}, id) {
+            if (getters.publisherName) return
 
             const url = `package/${id}`
             const resp = await api.get(url)
@@ -58,19 +58,19 @@ export const pkg = {
                 scenario.isLoading = true
                 return scenario
             });
-            commit("setSelectedPkg", resp.data)
-            dispatch("hydratePkgScenarios")
+            commit("setSelectedPublisher", resp.data)
+            dispatch("hydratePublisherScenarios")
             console.log("returning now...")
             return resp
         },
 
-        async hydratePkgScenarios({dispatch, getters}) {
+        async hydratePublisherScenarios({dispatch, getters}) {
             getters.getScenarios.forEach(s => {
-                dispatch("hydratePkgScenario", s.id)
+                dispatch("hydratePublisherScenario", s.id)
             })
         },
 
-        async hydratePkgScenario({dispatch, getters}, scenarioId) {
+        async hydratePublisherScenario({dispatch, getters}, scenarioId) {
             const path = `scenario/${scenarioId}/journals`
             const myScenario = getters.getScenario(scenarioId)
 
@@ -85,14 +85,14 @@ export const pkg = {
 
 
         async copyScenario({commit, getters}, {id, newName}) {
-            let newId = newScenarioId(getters.isPkgDemo)
+            let newId = newScenarioId(getters.isPublisherDemo)
             commit("copyScenario", {id, newName, newId})
             const data = {
                 name: newName,
                 id: newId,
             }
             console.log("POSTing this copy scenario", data)
-            const url = `package/${getters.pkgId}/scenario?copy=${id}`
+            const url = `package/${getters.publisherId}/scenario?copy=${id}`
             await api.post(url, data)
         },
         async renameScenario({commit, getters}, {id, newName}) {
@@ -101,13 +101,13 @@ export const pkg = {
             await api.post(url, getters.getScenario(id).saved)
         },
         async deleteScenario({commit, getters}, id) {
-            if (getters.pkgScenariosCount < 2) return // temp
+            if (getters.publisherScenariosCount < 2) return // temp
             commit("deleteScenario", id)
-            router.push(`/a/${getters.pkgId}`)
+            router.push(`/a/${getters.publisherId}`)
             await api.delete(`scenario/${id}`)
         },
         async createScenario({commit, dispatch, getters}) {
-            const newId = newScenarioId(getters.isPkgDemo)
+            const newId = newScenarioId(getters.isPublisherDemo)
             const newName = "New Scenario"
             commit("createScenario", {newName, newId})
             const data = {
@@ -115,25 +115,25 @@ export const pkg = {
                 name: newName,
             }
             console.log("POSTing this to create scenario", data)
-            const url = `package/${getters.pkgId}/scenario`
+            const url = `package/${getters.publisherId}/scenario`
             await api.post(url, data)
-            dispatch("hydratePkgScenario", newId)
+            dispatch("hydratePublisherScenario", newId)
 
         },
     },
     getters: {
-        selectedPkg(state) {
+        selectedPublisher(state) {
             return state.selected
         },
-        pkgName(state) {
+        publisherName(state) {
             if (state.selected) {
                 return state.selected.name
             }
         },
-        pkgId(state) {
+        publisherId(state) {
             if (state.selected) return state.selected.id
         },
-        pkgScenariosCount(state) {
+        publisherScenariosCount(state) {
             if (state.selected) return state.selected.scenarios.length
             return 0
         },
@@ -142,6 +142,6 @@ export const pkg = {
             return state.selected.scenarios.find(s => s.id === id)
         },
         getScenarios: (state) => state.selected.scenarios,
-        isPkgDemo: (state) =>  /^demo-package-/.test(state.selected.id),
+        isPublisherDemo: (state) =>  /^demo-package-/.test(state.selected.id),
     }
 }

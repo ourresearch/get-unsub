@@ -4,6 +4,10 @@
 
             <v-row class="top-screen pa-12">
                 <v-col>
+                    <img style="max-width:600px; border:12px solid #eee; border-radius:12px;" src="../assets/slider.gif"
+                         alt="">
+                </v-col>
+                <v-col>
                     <div class="main-copy">
                         <div class="tagline">
                             <h2 class="display-2 mb-6">
@@ -16,27 +20,43 @@
                                 Open Access statistics and more, to help librarians confidently manage their serials
                                 collections.
                             </p>
-    
+
                         </div>
-    
+
                         <div class="cta">
-                            <div class="my-3">
-                                <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>
-                                <v-btn @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
+                            <div class="headline pb-3">
+                                Try the demo!
                             </div>
-    
+                            <div class="my-3 d-flex">
+
+                                <!--                                <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>-->
+                                <v-text-field
+                                        class="pr-1"
+                                        label="Your email"
+                                        @keydown.enter="createDemo"
+                                        :loading="createDemoLoading"
+                                        :disabled="createDemoLoading"
+                                        outlined
+                                        type="email"
+                                        v-model="userEmail"
+                                />
+                                <v-btn
+                                        @click="createDemo"
+                                        x-large
+                                        :loading="createDemoLoading"
+                                        class="mr-3"
+                                        style="margin-top: 1px;"
+                                        color="primary">
+                                    Go!
+                                    <v-icon>mdi-arrow-right</v-icon>
+                                </v-btn>
+                            </div>
+
                         </div>
-    
-    
+
+
                     </div>
-                    
-                </v-col>
-                <v-col>
-<!--                    <img style="max-width:600px; border:5px solid #eee; border-radius:5px;" src="https://i.imgur.com/E7qZ312.png" alt="">-->
 
-
-
-                    <img style="max-width:600px; border:12px solid #eee; border-radius:12px;" src="../assets/slider.gif" alt="">
                 </v-col>
 
 
@@ -106,7 +126,6 @@
                 </div>
 
 
-
                 <v-divider class="my-12"></v-divider>
 
                 <!-- third point -->
@@ -143,11 +162,9 @@
             <v-divider class="my-12"></v-divider>
 
 
-
-
             <div class="my-12 text-center">
                 <v-btn x-large class="mr-3" depressed large color="primary">Purchase</v-btn>
-                <v-btn x-large @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
+                <v-btn x-large @click="createDemo" outlined large color="primary">Try Demo</v-btn>
             </div>
         </v-card>
 
@@ -164,14 +181,22 @@
     export default {
         name: 'home',
         components: {vueVimeoPlayer},
+        data() {
+            return {
+                userEmail: "",
+                createDemoLoading: false,
+            }
+        },
         methods: {
-            async loginDemo() {
-                console.log("login demo account")
-                const path = await this.$store.dispatch("loginDemo")
-                console.log("we logged in the demo user", path)
-                this.$router.push(path)
-
-
+            async createDemo() {
+                console.log("login demo account", this.userEmail)
+                this.createDemoLoading = true
+                await this.$store.dispatch("createDemo", {
+                    email: this.userEmail,
+                    password: "",
+                })
+                this.createDemoLoading = false
+                await this.$router.push("/u")
             }
         },
         computed: {

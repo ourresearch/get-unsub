@@ -1,4 +1,5 @@
 import {api} from "../api";
+import router from "../router"
 
 
 export const user = {
@@ -7,7 +8,7 @@ export const user = {
         name: "",
         email: "",
         password: "",
-        permissions: [],
+        institutions: [],
     },
     mutations: {
         setToken(state, token){
@@ -18,7 +19,7 @@ export const user = {
             state.name = ""
             state.email = ""
             state.password = ""
-            state.permissions = []
+            state.institutions = []
             localStorage.removeItem("token")
         },
         setFromApiResp(state, apiResp){
@@ -26,14 +27,19 @@ export const user = {
             state.name = apiResp.name
             state.email = apiResp.email
             state.password = apiResp.password
-            state.permissions = apiResp.permissions
+            state.institutions = apiResp.user_permissions
         },
     },
     actions: {
         async login({commit, dispatch, getters}, {email, password}) {
-            const resp = await  api.post("user/login", {email, password})
+            const resp = await api.post("user/login", {email, password})
             commit("setToken", resp.data.access_token)
-            await dispatch("fetchUser")
+            dispatch("fetchUser")
+        },
+        async createDemo({commit, dispatch, getters}, {email, password}) {
+            const resp = await api.post("user/demo", {email, password})
+            commit("setToken", resp.data.access_token)
+            dispatch("fetchUser")
         },
         async fetchUser({commit, getters}) {
             const resp = await api.get("user/me")
@@ -60,11 +66,11 @@ export const user = {
         userName: (state) => state.name,
         userEmail: (state) => state.email,
         userPassword: (state) => state.password,
-        userPermissions: (state) => state.permissions,
+        userInstitutions: (state) => state.institutions,
         isLoggedIn: (state) => state.email,
         token: () => localStorage.getItem("token"),
         isUserSubscribed(state){
-            return state.selected.password
+            return state.password
         }
     }
 }

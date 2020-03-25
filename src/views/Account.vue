@@ -55,7 +55,7 @@
 
         },
         mounted() {
-            this.$store.commit("clearSelectedPkg")
+            this.$store.commit("clearSelectedPublisher")
             this.$store.commit("clearSelectedScenario")
 
         },

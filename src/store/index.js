@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import {account} from "./account.store.js"
-import {pkg} from "./pkg.store.js"
+import {publisher} from "./publisher.store.js"
 import {scenario} from "./scenario.store"
 import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEditDialogsStore";
 import {institution} from "./institution.store";
@@ -45,9 +45,9 @@ export default new Vuex.Store({
     modules: {
         scenarioEditDialogs,
         // institution,
-        // user,
-        account,
-        pkg,
+        user,
+        // account,
+        publisher,
         scenario,
     },
 
@@ -152,22 +152,22 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async loginDemo({dispatch, state, commit}){
-            console.log("loginDemo()")
-            const userCreds = {
-                username: "demo",
-                password: "demo"
-            }
-            await dispatch("login", userCreds)
-            const firstPkgId = state.account.selected.packages[0].id
-
-            await dispatch("fetchPkg", firstPkgId)
-            const firstScenarioId = state.pkg.selected.scenarios[0].id
-
-            await dispatch("fetchScenario", firstScenarioId)
-            commit("openStartupTutorial")
-            return `/a/${firstPkgId}/${firstScenarioId}`
-        },
+        // async loginDemo({dispatch, state, commit}){
+        //     console.log("loginDemo()")
+        //     const userCreds = {
+        //         username: "demo",
+        //         password: "demo"
+        //     }
+        //     await dispatch("login", userCreds)
+        //     const firstpublisherId = state.account.selected.packages[0].id
+        //
+        //     await dispatch("fetchPublisher", firstpublisherId)
+        //     const firstScenarioId = state.pkg.selected.scenarios[0].id
+        //
+        //     await dispatch("fetchScenario", firstScenarioId)
+        //     commit("openStartupTutorial")
+        //     return `/a/${firstpublisherId}/${firstScenarioId}`
+        // },
     },
 
     getters: {
