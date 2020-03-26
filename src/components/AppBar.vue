@@ -13,64 +13,15 @@
                 v-if="isLoggedIn"
         />
 
-        <v-toolbar-items class="account breadcrumbs d-flex align-center pl-4" v-if="isLoggedIn">
+        <v-toolbar-items class="account breadcrumbs" v-if="institutionName">
+            <v-btn class="px-5" text :to="`/i/${institutionId}`">
+                <v-icon color="grey darken-2" small class="pr-2">mdi-bank</v-icon>
+                <span class="title">
+                    {{ institutionName }}
 
-            <!-- first breadcrumb -->
-            <span class="first-breadcrumb breadcrumb-segment headline" v-if="!thirdBreadcrumb">
-                <router-link
-                        class="breadcumbs-publisher-link"
-                        to="/u">
-                    <v-icon style="margin-top:-4px;">mdi-home-outline</v-icon>
-                </router-link>
-                <span class="chevron pl-1 pr-2" v-if="publisherId">
-                    ›
                 </span>
-            </span>
 
-            <!-- second breadcrumb -->
-            <div v-if="publisherName" class="breadcrumb-segment">
-                <div class="top">
-                    Publisher
-                </div>
-                <div class="bottom headline">
-                    <span v-if="!thirdBreadcrumb">
-                        {{publisherName}}
-                    </span>
-                    <router-link
-                            v-if="!!thirdBreadcrumb"
-                            class="breadcumbs-publisher-link"
-                            :to="'/a/' + publisherId">
-                        {{publisherName}}
-                    </router-link>
-                    <span v-if="!!thirdBreadcrumb" class="chevron px-3">
-                        ›
-                    </span>
-                </div>
-            </div>
-
-            <!-- third breadcrumb -->
-            <div v-if="thirdBreadcrumb=='scenario'" class="breadcrumb-segment">
-                <div class="top">
-                    Scenario
-                </div>
-                <div class="bottom headline">
-                    <span v-if="!selectedScenarioIsLoading">
-                        {{scenarioName}}
-                    </span>
-                    <span v-if="selectedScenarioIsLoading" class="grey--text">
-                        Loading...
-                    </span>
-                </div>
-            </div>
-            <div v-if="thirdBreadcrumb=='apc'">
-                <div class="top">
-                    Current spending
-                </div>
-                <div class="bottom headline">
-                    Your publishing costs
-                </div>
-            </div>
-
+            </v-btn>
         </v-toolbar-items>
 
         <v-spacer/>
@@ -171,6 +122,8 @@
                 'publisherName',
                 'selectedScenarioIsLoading',
                 'isLoggedIn',
+                'institutionName',
+                'institutionId',
                 'foo',
             ]),
             isApcPage(){
@@ -195,16 +148,6 @@
             "$route": {
                 immediate: true,
                 handler: function(to, from){
-                    console.log("route change", to, from)
-                    if (to.name === "publisherApc") {
-                        this.thirdBreadcrumb = "apc"
-                    }
-                    else if (to.name === "publisherScenario") {
-                        this.thirdBreadcrumb = "scenario"
-                    }
-                    else {
-                        this.thirdBreadcrumb = null
-                    }
 
                 }
             }
@@ -216,26 +159,6 @@
     .v-toolbar__extension {
         /*background: #eee;*/
         border-top: 1px solid #ddd;
-    }
-
-    .breadcumbs-publisher-link {
-        color: #333 !important;
-        text-decoration: none;
-
-        &:hover {
-            text-decoration: underline;
-        }
-    }
-
-    .breadcrumbs {
-        .breadcrumb-segment {
-            .top {
-                font-size: 12px;
-            }
-        }
-        .headline {
-            line-height: 1 !important;
-        }
     }
 
 

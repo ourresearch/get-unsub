@@ -92,18 +92,33 @@
                             <v-list-item-action>
                                 <v-menu>
                                     <template v-slot:activator="{ on }">
-                                        <v-btn text v-on="on" :disabled="person.is_authenticated_user">
+                                        <v-btn text v-on="on">
                                             {{roleFromPermissions(person.permissions)}}
                                             <v-icon>mdi-menu-down</v-icon>
                                         </v-btn>
                                     </template>
-                                    <v-list v-if="true">
+                                    <v-list v-if="!person.is_authenticated_user">
                                         <v-list-item
                                                 v-for="role in roles"
                                                 :key="role"
                                                 @click="setRole(person.user_email, role)"
                                         >
+                                            <v-list-item-content >
+                                                {{role}}
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list>
+                                    <v-list v-if="person.is_authenticated_user">
+                                        <v-list-item @click="">
                                             <v-list-item-content>
+                                                Admin
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                        <v-list-item
+                                                v-for="role in roles.filter(r => r !== 'Admin')"
+                                                :key="role"
+                                        >
+                                            <v-list-item-content class="text--disabled">
                                                 {{role}}
                                             </v-list-item-content>
                                         </v-list-item>
@@ -306,6 +321,9 @@
             ...mapMutations([]),
             ...mapActions([]),
             async setRole(email, role) {
+                console.log("set role", email, role)
+                return
+
                 this.isRoleUpdating = true
                 const permissions = permissionsFromRole(role)
                 try {
@@ -328,6 +346,10 @@
             console.log("Institution mount up!", this.institutionId)
             this.$store.dispatch("fetchInstitution", this.institutionId)
         },
+        destroyed() {
+            this.$store.commit("clearInstitution")
+
+        }
     }
 </script>
 
