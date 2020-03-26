@@ -67,10 +67,10 @@ export const user = {
         userEmail: (state) => state.email,
         userPassword: (state) => state.password,
         userInstitutions: (state) => state.institutions,
-        isLoggedIn: (state) => state.email,
+        isLoggedIn: (state) => !!state.email,
         token: () => localStorage.getItem("token"),
         isUserSubscribed(state){
             return state.password
-        }
+        },
     }
 }

@@ -44,7 +44,7 @@ export default new Vuex.Store({
     },
     modules: {
         scenarioEditDialogs,
-        // institution,
+        institution,
         user,
         // account,
         publisher,

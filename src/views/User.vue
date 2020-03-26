@@ -1,13 +1,17 @@
 <template>
     <v-container class="user">
+        <div class="display-2 my-8">
+            <v-icon x-large>mdi-account</v-icon>
+            Your account
+        </div>
         <v-row>
             <v-col cols="5">
                 <v-card>
                     <v-toolbar dark color="#555">
-                        <v-icon>mdi-account</v-icon>
+                        <v-icon class="mr-2">mdi-account-details</v-icon>
                         <v-toolbar-title>
                             <div class="">
-                                Your account
+                                Your details
                             </div>
                         </v-toolbar-title>
                     </v-toolbar>
@@ -63,7 +67,7 @@
             <v-col>
                 <v-card>
                     <v-toolbar dark color="#555">
-                        <v-icon>mdi-bank</v-icon>
+                        <v-icon class="mr-2">mdi-bank</v-icon>
                         <v-toolbar-title>
                             <div class="">
                                 Your Institutions ({{userInstitutions.length}})

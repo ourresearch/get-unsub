@@ -1,12 +1,5 @@
 <template>
     <v-app-bar app>
-        <v-progress-linear
-                :active="$store.state.loading > 0"
-                :indeterminate="$store.state.loading > 0"
-                absolute
-                top
-                color="green"
-        />
         <v-toolbar-title class="headline">
             <router-link to="/">
                 <img class="pl-3 pt-3" src="../assets/logo.png" alt="">
@@ -17,16 +10,16 @@
         <v-divider
                 class="ml-4"
                 vertical
-                v-if="$store.getters.isLoggedIn"
+                v-if="isLoggedIn"
         />
 
-        <v-toolbar-items class="account breadcrumbs d-flex align-center pl-4" v-if="account">
+        <v-toolbar-items class="account breadcrumbs d-flex align-center pl-4" v-if="isLoggedIn">
 
             <!-- first breadcrumb -->
             <span class="first-breadcrumb breadcrumb-segment headline" v-if="!thirdBreadcrumb">
                 <router-link
                         class="breadcumbs-publisher-link"
-                        to="/a">
+                        to="/u">
                     <v-icon style="margin-top:-4px;">mdi-home-outline</v-icon>
                 </router-link>
                 <span class="chevron pl-1 pr-2" v-if="publisherId">
@@ -81,23 +74,28 @@
         </v-toolbar-items>
 
         <v-spacer/>
-        <v-toolbar-items>
-            <v-btn text color="primary" v-if="!$store.getters.isUserSubscribed" to="/purchase">Pricing</v-btn>
-            <v-btn text to="/support" v-if="!scenarioName">Help</v-btn>
-            <v-btn text to="/login" v-if="!$store.getters.isLoggedIn">Log in</v-btn>
+        <div>
+            <v-btn text color="primary" v-if="!$store.getters.isUserSubscribed" to="/purchase">
+                Buy
+            </v-btn>
 
-            <v-menu offset-y v-if="account">
+            <v-btn icon to="/support" v-if="!scenarioName">
+                <v-icon>mdi-help-circle-outline</v-icon>
+            </v-btn>
+
+            <v-btn text to="/login" v-if="!isLoggedIn">Log in</v-btn>
+            <v-menu offset-y v-if="isLoggedIn">
                 <template
                         v-slot:activator="{ on }">
-                    <v-btn text
-                           class="px-2 toolbar-summary"
+                    <v-btn icon
+                           class="px-2"
                            v-on="on"
                     >
                         <v-icon>mdi-account</v-icon>
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item to="/a">
+                    <v-list-item to="/u">
                         <v-list-item-icon>
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-icon>
@@ -115,7 +113,7 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-        </v-toolbar-items>
+        </div>
 
         <template v-slot:extension v-if="scenarioName">
             <scenario-menu-scenario/>
@@ -133,7 +131,6 @@
 <script>
     import {mapGetters, mapMutations} from 'vuex'
 
-    import {api} from "../api"
     import ScenarioMenuScenario from "./ScenarioMenu/ScenarioMenuScenario";
     import ScenarioMenuSubscriptions from "./ScenarioMenu/ScenarioMenuSubscriptions";
     import ScenarioMenuView from "./ScenarioMenu/ScenarioMenuView";
@@ -141,7 +138,6 @@
     import ScenarioMenuSettings from "./ScenarioMenu/ScenarioMenuSettings";
     import ScenarioMenuExport from "./ScenarioMenu/ScenarioMenuExport";
     import ScenarioMenuHelp from "./ScenarioMenu/ScenarioMenuHelp";
-    import appConfigs from "../appConfigs";
 
     export default {
         name: "AppBar",
@@ -160,8 +156,6 @@
             }
         },
         methods: {
-            increment() {
-            },
             logout() {
                 this.$store.commit("logout")
                 this.$store.commit("clearSelectedScenario")
@@ -176,18 +170,12 @@
                 'publisherId',
                 'publisherName',
                 'selectedScenarioIsLoading',
+                'isLoggedIn',
+                'foo',
             ]),
-            summary() {
-                return this.$store.getters.summary
-            },
-            api() {
-                return api
-            },
             isApcPage(){
                 // hack for now
                 return !!location.href.match(/\/apc$/)
-            },
-            count() {
             },
             account() {
                 return this.$store.getters.selectedAccount
