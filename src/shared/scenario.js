@@ -30,8 +30,8 @@ const newScenario = function (id) {
 }
 
 const newScenarioId = function(isDemo){
-    let id = short.generate().slice(0, 8)
-    if (isDemo) id = "demo-scenario-" + id
+    let id = "scenario-" + short.generate().slice(0, 8)
+    if (isDemo) id = "demo-" + id
     return id
 }
 
@@ -53,3 +53,4 @@ export {
     newScenarioId,
     newScenario,
 }
+

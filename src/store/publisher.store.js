@@ -12,6 +12,19 @@ const short = require('short-uuid');
 export const publisher = {
     state: {
         selected: null,
+
+        id: null,
+        name: "",
+        isDemo: false,
+        scenarios: [],
+        journalDetail: {},
+        journalCounts: {
+            analyzed: 0,
+            missingPrices: 0,
+            oa: 0,
+            leftOrStopped: 0
+        },
+        dataFiles: [],
     },
     mutations: {
         setSelectedPublisher(state, pkg) {

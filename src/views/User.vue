@@ -1,20 +1,27 @@
 <template>
     <v-container class="user">
-        <div class="display-2 my-8">
-            <v-icon x-large>mdi-account</v-icon>
-            Your account
+        <div class="page-title mt-8 mb-4">
+            <div class="body-2">
+                <v-icon small>mdi-account</v-icon>
+                Account
+            </div>
+            <div class="display-2">
+                Your account
+            </div>
         </div>
+
         <v-row>
-            <v-col cols="5">
+            <v-col cols="4">
                 <v-card>
-                    <v-toolbar dark color="#555">
-                        <v-icon class="mr-2">mdi-account-details</v-icon>
-                        <v-toolbar-title>
-                            <div class="">
-                                Your details
-                            </div>
-                        </v-toolbar-title>
-                    </v-toolbar>
+<!--                    <v-toolbar flat>-->
+<!--                        <v-toolbar-title>-->
+<!--                        </v-toolbar-title>-->
+<!--                    </v-toolbar>-->
+                    <v-card-title>
+                            Account details
+                    </v-card-title>
+                    <v-divider></v-divider>
+
                     <v-list two-line>
                         <v-list-item>
                             <v-list-item-avatar>
@@ -30,11 +37,12 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon @click="openDialogToEditUserInfo('name')">
-                                    <v-icon color="grey lighten-1">mdi-pencil</v-icon>
+                                    <v-icon >mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
 
+                        <v-divider></v-divider>
                         <v-list-item>
                             <v-list-item-avatar>
                                 <v-icon>mdi-email-outline</v-icon>
@@ -47,11 +55,12 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon @click="openDialogToEditUserInfo('email')">
-                                    <v-icon color="grey lighten-1">mdi-pencil</v-icon>
+                                    <v-icon >mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
 
+                        <v-divider></v-divider>
                         <v-list-item>
                             <v-list-item-avatar>
                                 <v-icon v-if="!userPasswordIsSet">mdi-shield-alert-outline</v-icon>
@@ -68,24 +77,24 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon @click="openDialogToEditUserInfo('password')">
-                                    <v-icon color="grey lighten-1">mdi-pencil</v-icon>
+                                    <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
                     </v-list>
                 </v-card>
             </v-col>
-            <v-col cols="7">
+            <v-col cols="8">
                 <v-card>
-                    <v-toolbar dark color="#555">
-                        <v-icon class="mr-2">mdi-bank</v-icon>
-                        <v-toolbar-title>
-                            <div class="">
-                                Your Institutions
-                                <span class="body-2">({{userInstitutions.length}})</span>
-                            </div>
-                        </v-toolbar-title>
-                    </v-toolbar>
+
+                    <v-card-title>
+                        <div>
+                            Your Institutions
+                            <span class="body-2">({{userInstitutions.length}})</span>
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+
                     <v-list>
                         <v-list-item
                                 v-for="insti in userInstitutions"
@@ -96,14 +105,15 @@
                                 <v-icon large>mdi-bank</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <div class="headline">
+                                <div class="headline font-weight-bold">
                                     {{ insti.institution_name}}
                                 </div>
 
                                 <v-list-item-subtitle>
-                                    <span v-if="/\bdemo\b|\bDemo\b/.test(insti.institution_name)">
-                                        Demo institution, some functionality restricted
-                                    </span>
+                                    This is your selected institution
+<!--                                    <span v-if="/\bdemo\b|\bDemo\b/.test(insti.institution_name)">-->
+<!--                                        Demo institution, some functionality restricted-->
+<!--                                    </span>-->
 
                                     <span v-if="0">
                                         Permissions:
@@ -112,28 +122,26 @@
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn text>view</v-btn>
+                                <div class="primary--text font-weight-bold">
+                                    <v-icon color="primary">mdi-check</v-icon>
+                                    Selected
+                                </div>
                             </v-list-item-action>
                         </v-list-item>
+                        <v-list-item @click="" :disabled="true">
+                            <v-list-item-avatar size="50">
+                                <v-btn icon>
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-btn>
+                            </v-list-item-avatar>
+
+                            <v-list-item-content>
+                                <v-list-item-title class="body-2 text--secondary">
+                                    New institution
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list>
-                    <v-card-text
-                            v-if="false"
-                            class="mt-6"
-                            style="height: 100px; position: relative; background: #fff; border-top:1px solid #ddd;"
-                    >
-                        <v-btn
-                                absolute
-                                light
-                                small
-                                fab
-                                top
-                                right
-                                color="white"
-                                @click="showSnackbarNoPermissions = true"
-                        >
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                    </v-card-text>
 
 
                 </v-card>

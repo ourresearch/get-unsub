@@ -1,14 +1,14 @@
 <template>
-    <v-app-bar app>
-        <v-toolbar-title class="headline">
-            <router-link to="/">
-                <img class="pl-3 pt-3" src="../assets/logo.png" alt="">
-            </router-link>
-        </v-toolbar-title>
+    <v-app-bar app color="white">
+        <router-link to="/">
+            <img  class="mt-2" src="../assets/unpaywall-journals-logo.png" alt="" />
+        </router-link>
+<!--        <v-toolbar-title class="headline">-->
+<!--        </v-toolbar-title>-->
 
 
         <v-divider
-                class="ml-4"
+                class="d-none ml-4"
                 vertical
                 v-if="isLoggedIn"
         />

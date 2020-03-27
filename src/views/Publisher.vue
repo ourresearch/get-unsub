@@ -1,6 +1,69 @@
 <template>
     <v-container class="pkg" v-if="pkg">
-        <!--        <h1 class="display-3 py-6">{{ pkg.name }}</h1>-->
+        <div class="page-title mt-8 mb-4 d-flex">
+            <img class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+            <div class="text">
+                <div class="body-2">
+                    <v-icon small>mdi-book-multiple-outline</v-icon>
+                    Publisher
+                </div>
+                <div class="display-2">
+                    {{ publisherName }}
+                </div>
+
+            </div>
+        </div>
+
+        <v-row>
+            <v-col cols="4">
+                <v-card>
+                    <v-card-title>
+                        <div>
+                            Institution details
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+
+                    <v-list two-line>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-bank</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <div class="">
+                                    hey dude
+                                </div>
+                                <v-list-item-subtitle>
+                                    Name
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon>
+                                    <v-icon>mdi-pencil</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                    </v-list>
+
+                </v-card>
+            </v-col>
+        </v-row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <v-row class="fill-height">
             <v-col cols="7">
                 <h2 class="display-1 my-2">Your dashboards</h2>
@@ -319,6 +382,23 @@
                 foo: false,
             }
         },
+        computed: {
+            ...mapGetters([
+                "publisherName",
+                "publisherId",
+                "publisherScenariosCount",
+                "isPublisherDemo",
+            ]),
+            // fileSelected() {
+            //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
+            // },
+            account() {
+                return this.$store.state.user
+            },
+            pkg() {
+                return this.$store.getters.selectedPublisher
+            }
+        },
         methods: {
             ...mapMutations([
                 "openCopyDialog",
@@ -359,23 +439,7 @@
                 }
             }
         },
-        computed: {
-            ...mapGetters([
-                "publisherName",
-                "publisherId",
-                "publisherScenariosCount",
-                "isPublisherDemo",
-            ]),
-            // fileSelected() {
-            //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
-            // },
-            account() {
-                return this.$store.state.user
-            },
-            pkg() {
-                return this.$store.getters.selectedPublisher
-            }
-        },
+
         created() {
         },
         mounted() {

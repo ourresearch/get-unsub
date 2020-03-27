@@ -117,6 +117,9 @@
 </script>
 
 <style lang="scss">
+    .v-content__wrap {
+        background: #fafafa;
+    }
 
     .v-tooltip__content {
         opacity: 1 !important;

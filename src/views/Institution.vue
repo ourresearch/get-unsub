@@ -1,14 +1,30 @@
 <template>
     <v-container class="institution">
-        <div class="display-2 my-8">
-            <v-icon x-large>mdi-bank</v-icon>
-            {{ institutionName }}
+        <div class="page-title mt-8 mb-4">
+            <div class="body-2">
+                <v-icon small>mdi-bank</v-icon>
+                Institution
+            </div>
+            <div class="display-2">
+                {{ institutionName }}
+            </div>
         </div>
+
         <v-row>
-            <v-col cols="5">
+            <v-col cols="4">
                 <v-card>
+                    <v-card-title>
+                        <div>
+                            Institution details
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+
                     <v-list two-line>
                         <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-bank</v-icon>
+                            </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="">
                                     {{ institutionName }}
@@ -19,25 +35,24 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon>
-                                    <v-icon color="grey lighten-1">mdi-pencil</v-icon>
+                                    <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
 
                     </v-list>
-                </v-card>
-                <v-card class="mt-4">
-                    <v-toolbar  dark color="#555">
-                        <v-icon class="d-none">mdi-bank</v-icon>
-                        <v-toolbar-title>
+
+                    <v-card-title class="pr-4 mt-10">
+                        <div>
                             GRID IDs <span class="body-2">({{institutionGridIds.length}})</span>
-                        </v-toolbar-title>
+                        </div>
                         <v-spacer></v-spacer>
                         <v-btn icon>
                             <v-icon>mdi-help-circle-outline</v-icon>
                         </v-btn>
-                    </v-toolbar>
-                    <v-list>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-list dense>
                         <v-list-item
                                 v-for="gridId in institutionGridIds"
                                 :v-key="gridId"
@@ -53,6 +68,11 @@
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
+                                <v-btn icon :href="`https://www.grid.ac/institutes/${gridId}`" target="_blank">
+                                    <v-icon>mdi-open-in-new</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                            <v-list-item-action>
                                 <v-btn icon>
                                     <v-icon>mdi-delete</v-icon>
                                 </v-btn>
@@ -62,24 +82,23 @@
                             <v-list-item-avatar>
                                 <v-icon>mdi-plus</v-icon>
                             </v-list-item-avatar>
-                            <v-list-item-content class="body-2">
+                            <v-list-item-content class="body-2 text--secondary">
                                 New GRID ID
                             </v-list-item-content>
                         </v-list-item>
                     </v-list>
-                </v-card>
 
-                <v-card class="mt-4" :loading="isRoleUpdating">
-                    <v-toolbar  dark color="#555">
-                        <v-icon class="d-none">mdi-bank</v-icon>
-                        <v-toolbar-title>
+
+                    <v-card-title class="pr-4 mt-10">
+                        <div>
                             Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>
-                        </v-toolbar-title>
+                        </div>
                         <v-spacer></v-spacer>
                         <v-btn icon>
                             <v-icon>mdi-help-circle-outline</v-icon>
                         </v-btn>
-                    </v-toolbar>
+                    </v-card-title>
+                    <v-divider></v-divider>
                     <v-list>
                         <v-list-item
                                 v-for="person in institutionUsersWithRoles"
@@ -110,7 +129,8 @@
                                     <template v-slot:activator="{ on }">
                                         <v-btn
                                                 text
-                                               v-on="on"
+                                                small
+                                                v-on="on"
                                         >
                                             {{roleFromPermissions(person.permissions)}}
                                             <v-icon>mdi-menu-down</v-icon>
@@ -122,7 +142,7 @@
                                                 :key="role"
                                                 @click="setRole(person.user_email, role)"
                                         >
-                                            <v-list-item-content >
+                                            <v-list-item-content>
                                                 {{role}}
                                             </v-list-item-content>
                                         </v-list-item>
@@ -155,7 +175,7 @@
                             <v-list-item-avatar>
                                 <v-icon>mdi-plus</v-icon>
                             </v-list-item-avatar>
-                            <v-list-item-content class="body-2">
+                            <v-list-item-content class="body-2 text--secondary">
                                 New group member
                             </v-list-item-content>
                         </v-list-item>
@@ -163,17 +183,15 @@
                 </v-card>
             </v-col>
 
-            <v-col>
+            <v-col cols="8">
                 <v-card>
-                    <v-toolbar dark color="#555">
-                        <v-icon class="mr-2">mdi-book-multiple</v-icon>
-                        <v-toolbar-title>
-                            <div class="">
-                                Your Publishers
+                    <v-card-title>
+                        <div>
+                                Publishers
                                 <span class="body-2">({{institutionPublishers.length}})</span>
-                            </div>
-                        </v-toolbar-title>
-                    </v-toolbar>
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
                     <v-list>
                         <v-list-item
                                 v-for="pub in institutionPublishers"
@@ -181,12 +199,12 @@
                                 :to="`/i/${institutionId}/p/${pub.id}`"
                         >
                             <v-list-item-avatar tile size="50">
-<!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
+                                <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
                                 <v-img src="https://i.imgur.com/Qt1sOqp.png"></v-img>
                             </v-list-item-avatar>
 
                             <v-list-item-content>
-                                <v-list-item-title class="title">
+                                <v-list-item-title class="headline font-weight-bold">
                                     {{pub.name}}
                                 </v-list-item-title>
 
@@ -199,7 +217,7 @@
                             </v-list-item-action>
                         </v-list-item>
 
-                        <v-list-item  @click="">
+                        <v-list-item @click="" :disabled="true">
                             <v-list-item-avatar size="50">
                                 <v-btn icon>
                                     <v-icon>mdi-plus</v-icon>
@@ -207,14 +225,11 @@
                             </v-list-item-avatar>
 
                             <v-list-item-content>
-                                <v-list-item-title class="">
+                                <v-list-item-title class="body-2 text--secondary">
                                     New publisher
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-
-
-
 
 
                     </v-list>
@@ -279,7 +294,7 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer />
+                    <v-spacer/>
                     <v-btn depressed
                            @click="dialogs.createGroupMember = false"
                     >
@@ -305,7 +320,7 @@
                     Coming soon...
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer />
+                    <v-spacer/>
                     <v-btn depressed
                            @click="dialogs.addGridId = false"
                     >
@@ -365,7 +380,7 @@
             institutionId() {
                 return this.$route.params.institutionId
             },
-            userIsAdmin(){
+            userIsAdmin() {
                 const authenticatedUserPermissisonObject = this.institutionUsersWithRoles.find(u => {
                     return u.user_id === this.userId
                 })
