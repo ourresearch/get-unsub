@@ -51,7 +51,7 @@ export const publisher = {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (getters.publisherName) return
 
-            const url = `package/${id}`
+            const url = `publisher/${id}`
             const resp = await api.get(url)
             resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
                 const scenario = newScenario(apiScenario.id)

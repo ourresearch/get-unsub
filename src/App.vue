@@ -84,22 +84,13 @@
             }
         },
         async mounted(){
-
-            this.$intercom.boot()
-
-            // try to log the user in
             try {
                 await this.$store.dispatch("fetchUser")
-                const userName = this.$store.getters.selectedAccount.name
-
-                // if (userName.indexOf("Demo") === -1){
-                //     // https://www.npmjs.com/package/vue-intercom
-                //     this.$intercom.boot({
-                //         user_id: this.$store.getters.selectedAccount.id,
-                //         name: this.$store.getters.selectedAccount.name
-                //     })
-                // }
-
+                this.$intercom.boot({
+                    user_id: this.$store.getters.userId,
+                    name: this.$store.getters.userName,
+                    email: this.$store.getters.userEmail,
+                })
             }
             catch (e){
                 console.log("user is not logged in.", e)
@@ -132,6 +123,15 @@
     }
     .dot-tooltip-edit-mode-true {
         display: none !important;
+    }
+
+    .no-highlight {
+        .theme--light.v-btn--active::before {
+            opacity: 0;
+        }
+        .theme--light.v-btn--active:hover::before {
+            opacity: .05;
+        }
     }
 
     .breadcrumbs {

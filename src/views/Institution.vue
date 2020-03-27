@@ -10,7 +10,7 @@
                     <v-list two-line>
                         <v-list-item>
                             <v-list-item-content>
-                                <div class="display-1">
+                                <div class="">
                                     {{ institutionName }}
                                 </div>
                                 <v-list-item-subtitle>
@@ -27,15 +27,12 @@
                     </v-list>
                 </v-card>
                 <v-card class="mt-4">
-                    <v-toolbar dark color="#555">
+                    <v-toolbar  dark color="#555">
                         <v-icon class="d-none">mdi-bank</v-icon>
                         <v-toolbar-title>
                             GRID IDs <span class="body-2">({{institutionGridIds.length}})</span>
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn icon @click="dialogs.addGridId = true">
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
                         <v-btn icon>
                             <v-icon>mdi-help-circle-outline</v-icon>
                         </v-btn>
@@ -45,6 +42,9 @@
                                 v-for="gridId in institutionGridIds"
                                 :v-key="gridId"
                         >
+                            <v-list-item-avatar>
+                                <v-icon>mdi-map-marker-outline</v-icon>
+                            </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title class="" v-html="gridId"/>
 
@@ -58,19 +58,24 @@
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
+                        <v-list-item @click="dialogs.addGridId = true">
+                            <v-list-item-avatar>
+                                <v-icon>mdi-plus</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content class="body-2">
+                                New GRID ID
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list>
                 </v-card>
 
                 <v-card class="mt-4" :loading="isRoleUpdating">
-                    <v-toolbar dark color="#555">
+                    <v-toolbar  dark color="#555">
                         <v-icon class="d-none">mdi-bank</v-icon>
                         <v-toolbar-title>
                             Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>
                         </v-toolbar-title>
                         <v-spacer></v-spacer>
-                        <v-btn icon @click="dialogs.createGroupMember = true">
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
                         <v-btn icon>
                             <v-icon>mdi-help-circle-outline</v-icon>
                         </v-btn>
@@ -80,19 +85,33 @@
                                 v-for="person in institutionUsersWithRoles"
                                 :v-key="person.email"
                         >
+                            <v-list-item-avatar>
+                                <v-icon>mdi-account-outline</v-icon>
+                            </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title class="">
-                                    <span v-if="person.user_name">{{person.user_name}}</span>
+                                    <span v-if="person.user_name">
+                                        {{person.user_name}}
+                                        <span class="you" v-if="person.user_id === userId">(you)</span>
+                                    </span>
                                     <span v-if="!person.user_name">Nameless Person</span>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
                                     {{person.user_email}}
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                            <v-list-item-action>
+
+                            <v-list-item-action v-if="!userIsAdmin">
+                                {{person.role}}
+                            </v-list-item-action>
+
+                            <v-list-item-action v-if="userIsAdmin">
                                 <v-menu>
                                     <template v-slot:activator="{ on }">
-                                        <v-btn text v-on="on">
+                                        <v-btn
+                                                text
+                                               v-on="on"
+                                        >
                                             {{roleFromPermissions(person.permissions)}}
                                             <v-icon>mdi-menu-down</v-icon>
                                         </v-btn>
@@ -132,6 +151,14 @@
                                 <!--                                </v-btn>-->
                             </v-list-item-action>
                         </v-list-item>
+                        <v-list-item v-if="userIsAdmin" @click="dialogs.createGroupMember = true">
+                            <v-list-item-avatar>
+                                <v-icon>mdi-plus</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content class="body-2">
+                                New group member
+                            </v-list-item-content>
+                        </v-list-item>
                     </v-list>
                 </v-card>
             </v-col>
@@ -151,24 +178,45 @@
                         <v-list-item
                                 v-for="pub in institutionPublishers"
                                 :v-key="pub.id"
-                                @click=""
+                                :to="`/i/${institutionId}/p/${pub.id}`"
                         >
+                            <v-list-item-avatar tile size="50">
+<!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
+                                <v-img src="https://i.imgur.com/Qt1sOqp.png"></v-img>
+                            </v-list-item-avatar>
+
                             <v-list-item-content>
-                                <v-list-item-title class="">
+                                <v-list-item-title class="title">
                                     {{pub.name}}
                                 </v-list-item-title>
 
-                                <v-list-item-subtitle>
-
+                                <v-list-item-subtitle v-if="pub.is_demo">
+                                    Demo publisher; some functionality restricted
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                            <v-list-item-action v-if="0">
-                                <div class="body-2">
-                                    <v-icon small color="grey lighten-1">mdi-alert-circle-outline</v-icon>
-                                    Demonstration institution
-                                </div>
+                            <v-list-item-action>
+                                <v-btn text>view</v-btn>
                             </v-list-item-action>
                         </v-list-item>
+
+                        <v-list-item  @click="">
+                            <v-list-item-avatar size="50">
+                                <v-btn icon>
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-btn>
+                            </v-list-item-avatar>
+
+                            <v-list-item-content>
+                                <v-list-item-title class="">
+                                    New publisher
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+
+
+
+
+
                     </v-list>
                     <v-card-text
                             v-if="false"
@@ -312,18 +360,24 @@
                 "institutionGridIds",
                 "institutionPublishers",
                 "institutionUsersWithRoles",
+                "userId",
             ]),
             institutionId() {
                 return this.$route.params.institutionId
-            }
+            },
+            userIsAdmin(){
+                const authenticatedUserPermissisonObject = this.institutionUsersWithRoles.find(u => {
+                    return u.user_id === this.userId
+                })
+                return authenticatedUserPermissisonObject && authenticatedUserPermissisonObject.role === "Admin"
+            },
+
         },
         methods: {
             ...mapMutations([]),
             ...mapActions([]),
             async setRole(email, role) {
                 console.log("set role", email, role)
-                return
-
                 this.isRoleUpdating = true
                 const permissions = permissionsFromRole(role)
                 try {

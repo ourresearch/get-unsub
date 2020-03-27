@@ -176,6 +176,7 @@
 
 <script>
     // https://www.npmjs.com/package/vue-vimeo-player
+    import { randanimal, randanimalSync } from 'randanimal';
     import {vueVimeoPlayer} from 'vue-vimeo-player'
 
     export default {
@@ -191,10 +192,22 @@
             async createDemo() {
                 console.log("login demo account", this.userEmail)
                 this.createDemoLoading = true
+                const adjectiveAnimal = randanimalSync()
+                const animal = adjectiveAnimal.split(" ")[1]
+
                 await this.$store.dispatch("createDemo", {
                     email: this.userEmail,
                     password: "",
+                    name: "Anonymous " + animal,
                 })
+
+                this.$intercom.boot({
+                    user_id: this.$store.getters.userId,
+                    name: this.$store.getters.userName,
+                    email: this.$store.getters.userEmail,
+                })
+
+
                 this.createDemoLoading = false
                 await this.$router.push("/u")
             }

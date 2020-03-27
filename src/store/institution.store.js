@@ -8,7 +8,7 @@ export const institution = {
         institutionGridIds: [],
         institutionName:"",
         institutionUsers: [],
-        institutionPublishers: []
+        institutionPublishers: [],
     },
     mutations: {
         clearInstitution(state){
@@ -17,6 +17,7 @@ export const institution = {
             state.institutionName = ""
             state.institutionUsers =  []
             state.institutionPublishers =  []
+            state.userIsAdmin = false
         },
         setInstitutionFromApiResp(state, apiResp){
             state.institutionId =  apiResp.id
@@ -26,6 +27,7 @@ export const institution = {
             state.institutionUsers.forEach(user => {
             });
             state.institutionPublishers = apiResp.publishers
+
         },
         setUserPermissions(state, {email, permissions}) {
             console.log("setUserPermissions", email, permissions)
@@ -80,16 +82,10 @@ export const institution = {
             return state.institutionUsers.map(user => {
                 const ret = {
                     ...user,
+                    roles: roles,
+                    role: roleFromPermissions(user.permissions),
 
                 }
-
-                ret.roles = [
-                    "Admin", "Collaborator", "Viewer", "Unaffiliated"
-                ]
-                if (user.permissions.includes("admin")) ret.role = "Admin"
-                else if (user.permissions.includes("write")) ret.role = "Collaborator"
-                else if (user.permissions.includes("read")) ret.role = "Viewer"
-                else ret.role = "Unaffiliated"
                 return ret
             })
         },

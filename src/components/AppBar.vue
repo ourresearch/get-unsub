@@ -25,16 +25,14 @@
         </v-toolbar-items>
 
         <v-spacer/>
-        <div>
+        <div class="no-highlight">
             <v-btn text color="primary" v-if="!$store.getters.isUserSubscribed" to="/purchase">
                 Buy
             </v-btn>
 
-            <v-btn icon to="/support" v-if="!scenarioName">
-                <v-icon>mdi-help-circle-outline</v-icon>
-            </v-btn>
 
-            <v-btn text to="/login" v-if="!isLoggedIn">Log in</v-btn>
+
+            <v-btn class="breadcrumbs" text to="/login" v-if="!isLoggedIn">Log in</v-btn>
             <v-menu offset-y v-if="isLoggedIn">
                 <template
                         v-slot:activator="{ on }">
@@ -64,6 +62,9 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
+            <v-btn icon to="/support" v-if="!scenarioName">
+                <v-icon>mdi-help-circle-outline</v-icon>
+            </v-btn>
         </div>
 
         <template v-slot:extension v-if="scenarioName">
