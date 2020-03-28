@@ -66,9 +66,6 @@
             account() {
                 return this.$store.state.user
             },
-            selectedPublisher() {
-                return this.$store.getters.selectedPublisher
-            },
             selectedScenario() {
                 return this.$store.getters.selectedScenario
             },
@@ -86,11 +83,12 @@
         async mounted(){
             try {
                 await this.$store.dispatch("fetchUser")
-                this.$intercom.boot({
+                const data = {
                     user_id: this.$store.getters.userId,
                     name: this.$store.getters.userName,
-                    email: this.$store.getters.userEmail,
-                })
+                }
+                if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
+                this.$intercom.boot(data)
             }
             catch (e){
                 console.log("user is not logged in.", e)

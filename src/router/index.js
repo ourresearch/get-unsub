@@ -5,8 +5,6 @@ import Purchase from '../views/Purchase'
 import PurchaseResult from '../views/PurchaseResult'
 import Login from '../views/Login'
 import Support from '../views/Support'
-import Account from '../views/Account'
-import Pkg from '../views/Pkg'
 import Publisher from "../views/Publisher";
 import User from "../views/User"
 import Institution from "../views/Institution";
@@ -26,6 +24,8 @@ const routes = [
     {path: '/support', component: Support},
     {path: '/login', component: Login},
     {path: '/change-password', redirect: "/login"},
+    {path: '/a', redirect: "/u"},
+    {path: '/a/:publisherId', redirect: "/u"},
 
     {
         path: "/u",
@@ -56,21 +56,6 @@ const routes = [
 
 
 
-
-    // oldschool routes
-
-    {
-        path: "/a",
-        component: Account,
-        meta: {requiresAuth: true},
-
-    },
-    {
-        path: "/a/:publisherId",
-        component: Pkg,
-        meta: {requiresAuth: true},
-
-    },
 
     // this has to come before the scenario route, or else the
     // scenario route greedily steals it with scenario="apc"

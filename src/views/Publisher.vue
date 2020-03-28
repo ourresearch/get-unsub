@@ -1,5 +1,5 @@
 <template>
-    <v-container class="pkg" v-if="pkg">
+    <v-container class="publisher" v-if="publisherName">
         <div class="page-title mt-8 mb-4 d-flex">
             <img class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
             <div class="text">
@@ -19,7 +19,7 @@
                 <v-card>
                     <v-card-title>
                         <div>
-                            Institution details
+                            Publisher details
                         </div>
                     </v-card-title>
                     <v-divider></v-divider>
@@ -48,6 +48,125 @@
 
                 </v-card>
             </v-col>
+
+            <v-col cols="8">
+                <v-card>
+
+                    <v-card-title>
+                        <div>
+                            Cancellation scenarios
+                            <span class="body-2">({{publisherScenarios.length}})</span>
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+
+
+
+
+
+                    <v-list class="pb-8 pt-4">
+
+                        <template
+                            v-for="scenario in publisherScenarios"
+                        >
+
+                            <v-list-item
+                                    two-line
+                                    v-if="scenario.isLoading"
+                            >
+                                <v-list-item-avatar size="50">
+                                    <v-progress-circular color="grey" indeterminate />
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="headline font-weight-bold" v-text="scenario.saved.name"/>
+                                    <v-list-item-subtitle>
+                                        Scenario loading...
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
+                            </v-list-item>
+
+
+
+                            <v-list-item
+                                    two-line
+                                    v-if="!scenario.isLoading"
+                                    :key="scenario.id"
+                                    @click="$router.push(`/a/${publisherId}/${scenario.id}`)"
+                            >
+
+                                <v-list-item-avatar size="50">
+                                    <v-icon large>mdi-finance</v-icon>
+                                </v-list-item-avatar>
+
+                                <v-list-item-content>
+                                    <v-list-item-title class="headline font-weight-bold" v-text="scenario.saved.name"/>
+                                    <v-list-item-subtitle>
+                                        id: {{scenario.id}}
+                                        <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action v-if="scenario.saved.name">
+                                    <div>
+                                        <v-btn icon @click.stop="openCopyDialog(scenario)">
+                                            <v-icon>mdi-content-copy</v-icon>
+                                        </v-btn>
+                                        <v-btn icon @click.stop="openRenameDialog(scenario)">
+                                            <v-icon>mdi-pencil</v-icon>
+                                        </v-btn>
+
+                                        <v-btn icon @click.stop="openDeleteDialog(scenario)">
+                                            <v-icon>mdi-delete</v-icon>
+                                        </v-btn>
+                                    </div>
+                                </v-list-item-action>
+                            </v-list-item>
+
+                        </template>
+
+
+
+
+                        <v-list-item @click="">
+                            <v-list-item-avatar size="50">
+                                <v-btn icon>
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-btn>
+                            </v-list-item-avatar>
+
+                            <v-list-item-content>
+                                <v-list-item-title class="body-2 text--secondary">
+                                    New scenario
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+
+
+
+                    </v-list>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </v-card>
+            </v-col>
+
         </v-row>
 
 
@@ -64,7 +183,7 @@
 
 
 
-        <v-row class="fill-height">
+        <v-row v-if="0" class="fill-height">
             <v-col cols="7">
                 <h2 class="display-1 my-2">Your dashboards</h2>
                 <v-card  class="mb-2">
@@ -386,6 +505,7 @@
             ...mapGetters([
                 "publisherName",
                 "publisherId",
+                "publisherScenarios",
                 "publisherScenariosCount",
                 "isPublisherDemo",
             ]),
@@ -445,6 +565,7 @@
         mounted() {
             console.log("publisher: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
+
 
             if (!this.publisherName) {
                 this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)

@@ -413,10 +413,11 @@
         },
         mounted() {
             console.log("Institution mount up!", this.institutionId)
+            this.$store.commit("clearPublisher")
             this.$store.dispatch("fetchInstitution", this.institutionId)
         },
         destroyed() {
-            this.$store.commit("clearInstitution")
+            // this.$store.commit("clearInstitution")
 
         }
     }

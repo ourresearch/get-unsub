@@ -13,7 +13,7 @@ const buildScenarioFromApiResp = function (apiResp) {
     return apiResp
 }
 
-const newScenario = function (id) {
+const newScenario = function (id, name="") {
     return {
         id: id,
         isLoading: false,
@@ -23,7 +23,7 @@ const newScenario = function (id) {
         journals: [],
         saved: {
             subrs: [],
-            name: "",
+            name: name,
             configs: {}
         }
     }

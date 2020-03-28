@@ -8,19 +8,29 @@
 
 
         <v-divider
-                class="d-none ml-4"
+                class=" ml-7"
                 vertical
-                v-if="isLoggedIn"
+                v-if="institutionName"
         />
 
-        <v-toolbar-items class="account breadcrumbs" v-if="institutionName">
-            <v-btn class="px-5" text :to="`/i/${institutionId}`">
-                <v-icon color="grey darken-2" small class="pr-2">mdi-bank</v-icon>
-                <span class="title">
+        <v-toolbar-items class="account breadcrumbs">
+            <v-btn v-if="institutionName"
+                   class="px-5"
+                   :class="{'pr-1': !!publisherName}"
+                   text
+                   :to="`/i/${institutionId}`"
+            >
+                <span class="title font-weight-regular">
                     {{ institutionName }}
+                </span>
+                <v-icon color="grey" v-if="publisherName"  class="pl-3">mdi-chevron-right</v-icon>
+            </v-btn>
+            <v-btn v-if="publisherName" class="px-3" text :to="`/i/${institutionId}/p/${publisherId}`">
+<!--                <v-icon color="grey"  class="pr-2">mdi-bank</v-icon>-->
+                <span class="title font-weight-regular">
+                    {{ publisherName }}
 
                 </span>
-
             </v-btn>
         </v-toolbar-items>
 
@@ -40,16 +50,17 @@
                            class="px-2"
                            v-on="on"
                     >
-                        <v-icon>mdi-account</v-icon>
+                        <v-icon>mdi-account-outline</v-icon>
                     </v-btn>
                 </template>
-                <v-list>
+                <v-list subheader>
+                    <v-subheader>Hi, {{ userName }}!</v-subheader>
                     <v-list-item to="/u">
                         <v-list-item-icon>
-                            <v-icon>mdi-account</v-icon>
+                            <v-icon>mdi-account-outline</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>
-                            My account
+                            My account info
                         </v-list-item-title>
                     </v-list-item>
                     <v-list-item @click="logout">
@@ -111,7 +122,7 @@
             logout() {
                 this.$store.commit("logout")
                 this.$store.commit("clearSelectedScenario")
-                this.$store.commit("clearSelectedPublisher")
+                this.$store.commit("clearPublisher")
                 this.$router.push("/")
             }
         },
@@ -126,6 +137,7 @@
                 'institutionName',
                 'institutionId',
                 'foo',
+                "userName",
             ]),
             isApcPage(){
                 // hack for now
@@ -133,9 +145,6 @@
             },
             account() {
                 return this.$store.getters.selectedAccount
-            },
-            selectedPublisher() {
-                return this.$store.getters.selectedPublisher
             },
             selectedScenario() {
                 return this.$store.getters.selectedScenario

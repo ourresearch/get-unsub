@@ -201,11 +201,14 @@
                     name: "Anonymous " + animal,
                 })
 
-                this.$intercom.boot({
+                const data = {
                     user_id: this.$store.getters.userId,
                     name: this.$store.getters.userName,
-                    email: this.$store.getters.userEmail,
-                })
+                }
+                if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
+                this.$intercom.boot(data)
+
+
 
 
                 this.createDemoLoading = false

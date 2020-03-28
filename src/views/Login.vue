@@ -83,11 +83,14 @@
                     .then(resp => {
                         this.$router.push(`/u`)
                         // https://www.npmjs.com/package/vue-intercom
-                        this.$intercom.boot({
+
+                        const data = {
                             user_id: this.$store.getters.userId,
                             name: this.$store.getters.userName,
-                            email: this.$store.getters.userEmail,
-                        })
+                        }
+                        if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
+                        this.$intercom.boot(data)
+
                     })
                     .catch(err => {
                         console.log("there was a login error", err)
@@ -98,12 +101,12 @@
                 this.$store.dispatch("loginDemo")
                     .then(resp => {
                         this.$router.push(`/u`)
-                        // https://www.npmjs.com/package/vue-intercom
-                        this.$intercom.boot({
+                        const data = {
                             user_id: this.$store.getters.userId,
                             name: this.$store.getters.userName,
-                            email: this.$store.getters.userEmail,
-                        })
+                        }
+                        if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
+                        this.$intercom.boot(data)
                     })
                     .catch(err => {
                         console.log("there was a login error", err)

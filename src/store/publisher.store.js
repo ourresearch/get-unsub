@@ -27,37 +27,63 @@ export const publisher = {
         dataFiles: [],
     },
     mutations: {
-        setSelectedPublisher(state, pkg) {
-            console.log("setting selected pkg", pkg)
-            state.selected = pkg
+        clearPublisher(state){
+            state.id = null
+            state.name = ""
+            state.isDemo = false
+            state.scenarios = []
+            state.journalDetail = {}
+            state.journalCounts = {
+                analyzed: 0,
+                missingPrices: 0,
+                oa: 0,
+                leftOrStopped: 0
+            }
+            state.dataFiles = []
+        },
+        setSelectedPublisher(state, apiPublisher) {
+            state.selected = apiPublisher // legacy
+
+            state.id = apiPublisher.id
+            state.name = apiPublisher.name
+            state.isDemo = apiPublisher.is_demo
+            state.scenarios = apiPublisher.scenarios
+            state.journalDetail = apiPublisher.journal_detail
+            state.journalCounts = {
+                analyzed: 0,
+                missingPrices: 0,
+                oa: 0,
+                leftOrStopped: 0
+            }
+            state.dataFiles = apiPublisher.data_files
         },
         clearSelectedPublisher(state) {
             state.selected = null
         },
         deleteScenario(state, scenarioIdToDelete) {
-            state.selected.scenarios = state.selected.scenarios.filter(s=>{
+            state.scenarios = state.scenarios.filter(s=>{
                 return s.id !== scenarioIdToDelete
             })
         },
         renameScenario(state, {id, newName}) {
-            state.selected.scenarios.find(s=>{
+            state.scenarios.find(s=>{
                 return s.id === id
             }).saved.name = newName
         },
         copyScenario(state, {id, newName, newId}) {
-            const scenarioToCopy = state.selected.scenarios.find(s=>{
+            const scenarioToCopy = state.scenarios.find(s=>{
                 return s.id === id
             })
             const clone = _.cloneDeep(scenarioToCopy)
             clone.saved.name = newName
             clone.id = newId
             clone.meta.scenario_id = newId // should get rid of this in due time
-            state.selected.scenarios.push(clone)
+            state.scenarios.push(clone)
         },
         createScenario(state, {newName, newId}) {
             const myNewScenario = newScenario(newId)
             myNewScenario.saved.name = newName
-            state.selected.scenarios.push(myNewScenario)
+            state.scenarios.push(myNewScenario)
         },
     },
     actions: {
@@ -67,13 +93,12 @@ export const publisher = {
             const url = `publisher/${id}`
             const resp = await api.get(url)
             resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
-                const scenario = newScenario(apiScenario.id)
+                const scenario = newScenario(apiScenario.id, apiScenario.name)
                 scenario.isLoading = true
                 return scenario
             });
             commit("setSelectedPublisher", resp.data)
             dispatch("hydratePublisherScenarios")
-            console.log("returning now...")
             return resp
         },
 
@@ -90,7 +115,6 @@ export const publisher = {
             const resp = await api.get(path)
             const hydratedScenario = buildScenarioFromApiResp(resp.data)
             Object.keys(hydratedScenario).forEach(k => {
-
                 myScenario[k] = hydratedScenario[k]
             })
             myScenario.isLoading = false
@@ -104,7 +128,6 @@ export const publisher = {
                 name: newName,
                 id: newId,
             }
-            console.log("POSTing this copy scenario", data)
             const url = `package/${getters.publisherId}/scenario?copy=${id}`
             await api.post(url, data)
         },
@@ -114,7 +137,6 @@ export const publisher = {
             await api.post(url, getters.getScenario(id).saved)
         },
         async deleteScenario({commit, getters}, id) {
-            if (getters.publisherScenariosCount < 2) return // temp
             commit("deleteScenario", id)
             router.push(`/a/${getters.publisherId}`)
             await api.delete(`scenario/${id}`)
@@ -138,23 +160,17 @@ export const publisher = {
         selectedPublisher(state) {
             return state.selected
         },
-        publisherName(state) {
-            if (state.selected) {
-                return state.selected.name
-            }
+        publisherName: (state) => {
+            if (/Elsevier/.test(state.name)) return "Elsevier"
+            return state.name
         },
-        publisherId(state) {
-            if (state.selected) return state.selected.id
-        },
-        publisherScenariosCount(state) {
-            if (state.selected) return state.selected.scenarios.length
-            return 0
-        },
+        publisherId: (state)  => state.id,
+        publisherScenariosCount: (state) => state.scenarios.length,
         getScenario: (state) => (id) =>{
-            console.log("looking to get a scenario", id, state.selected.scenarios)
-            return state.selected.scenarios.find(s => s.id === id)
+            return state.scenarios.find(s => s.id === id)
         },
-        getScenarios: (state) => state.selected.scenarios,
-        isPublisherDemo: (state) =>  /^demo-package-/.test(state.selected.id),
+        getScenarios: (state) => state.scenarios,
+        publisherScenarios: (state) => state.scenarios,
+        isPublisherDemo: (state) =>  /^demo-/.test(state.id),
     }
 }

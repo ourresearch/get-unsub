@@ -155,9 +155,6 @@
             account() {
                 return this.$store.state.account
             },
-            pkg() {
-                return this.$store.getters.selectedPublisher
-            },
             scenario() {
                 return this.$store.getters.selectedScenario
             },

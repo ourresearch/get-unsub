@@ -48,13 +48,34 @@
                                 <v-icon>mdi-email-outline</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title v-html="userEmail" class=""/>
+                                <v-list-item-title v-if="userEmail" v-html="userEmail" class=""/>
+                                <v-list-item-title v-if="!userEmail">
+                                    No email set
+                                </v-list-item-title>
                                 <v-list-item-subtitle>
                                     Your email
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon @click="openDialogToEditUserInfo('email')">
+                                    <v-icon >mdi-pencil</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                        <v-divider v-if="userUsername"></v-divider>
+                        <v-list-item v-if="userUsername">
+                            <v-list-item-avatar>
+                                <v-icon>mdi-account-outline</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title v-html="userUsername" class=""/>
+                                <v-list-item-subtitle>
+                                    Your username
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn :disabled="true" icon @click="openDialogToEditUserInfo('email')">
                                     <v-icon >mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
@@ -258,6 +279,7 @@
         computed: {
             ...mapGetters([
                 "userEmail",
+                "userUsername",
                 "userName",
                 "userPasswordIsSet",
                 "userInstitutions",

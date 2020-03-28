@@ -41,9 +41,14 @@ export const user = {
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
         },
-        async fetchUser({commit, getters}) {
+        async fetchUser({commit, dispatch, getters}) {
             const resp = await api.get("user/me")
             commit("setFromApiResp", resp.data)
+            if (getters.userInstitutions.length === 1) {
+                const myOnlyInstitutionId = getters.userInstitutions[0].institution_id
+                dispatch("fetchInstitution", myOnlyInstitutionId)
+            }
+
         },
         async changeName({commit, state}, name){
             const resp = await api.post("user/me", {name})
@@ -65,7 +70,16 @@ export const user = {
     getters: {
         userName: (state) => state.name,
         userId: (state) => state.id,
-        userEmail: (state) => state.email,
+        userEmail: (state) => {
+            if (/@/.test(state.email)) {
+                return state.email
+            }
+        },
+        userUsername: (state) => {
+            if (!/@/.test(state.email)) {
+                return state.email
+            }
+        },
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
         isLoggedIn: (state) => !!state.email,
