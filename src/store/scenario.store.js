@@ -2,12 +2,12 @@ import _ from 'lodash'
 
 import {api, apiPostUnbounced} from "../api.js"
 import appConfigs from "../appConfigs"
-import {buildScenarioFromApiResp} from "../shared/scenario";
+import {buildScenarioFromApiResp, newScenario} from "../shared/scenario";
 
 
 export const scenario = {
     state: {
-        selected: null,
+        selected: newScenario(),
         isLoading: false,
 
         zoomIssnl: null,
@@ -17,7 +17,10 @@ export const scenario = {
              view: {
                  showCostBar: true,
                  showUsageBar: true,
-                 displayJournalsAsOptions: ["histogram", "table"],
+                 displayJournalsAsOptions: [
+                     {name: "table", icon: "mdi-table-large"},
+                     {name: "histogram", icon: "mdi-poll-box"},
+                 ],
                  displayJournalsAsSelected: "histogram",
              },
             histogram: {
@@ -32,9 +35,17 @@ export const scenario = {
 
     },
     mutations: {
-        _setScenario(state, scenarioApiResp) {
+        setScenarioFromApiResp(state, scenarioApiResp) {
             state.selected = buildScenarioFromApiResp(scenarioApiResp)
-
+        },
+        setScenarioFromObject(state, scenarioObject) {
+            state.selected = scenarioObject
+        },
+        clearSelectedScenario(state) {
+            state.selected = newScenario()
+        },
+        initSelectedScenario(state, id) {
+            state.selected = newScenario(id)
         },
         subscribeUpToIndex(state, index){
 
@@ -132,9 +143,7 @@ export const scenario = {
             state.menuSettings.view.displayJournalsAsSelected = displayAs
         },
 
-        clearSelectedScenario(state) {
-            state.selected = null
-        },
+
         hideTableCol(state, colName) {
             state.tableColsToShow = state.tableColsToShow.filter(c => c !== colName)
         },
@@ -154,7 +163,7 @@ export const scenario = {
         async fetchScenario({commit, dispatch, getters}, id) {
             const path = `scenario/${id}/journals`
             const resp = await api.get(path)
-            commit("_setScenario", resp.data)
+            commit("setScenarioFromApiResp", resp.data)
             return true
         },
 
@@ -239,6 +248,9 @@ export const scenario = {
         menuSettingsShowAsTable(state){
             return state.menuSettings.view.displayJournalsAsSelected === "table"
         },
+        menuSettingsDisplayJournalsAsSelected(state){
+            return state.menuSettings.view.displayJournalsAsSelected
+        },
 
 
         summary: (state) => state.selected.summary,
@@ -262,9 +274,8 @@ export const scenario = {
         scenarioJournals: (state) => state.selected.journals,
         scenarioJournalsAnySubr: (state) => state.selected.journals.filter(j=>j.subscribed || j.customSubscribed),
 
-        scenarioMeta:  (state) => state.selected.meta,
         scenarioId(state){
-            if (state.selected.meta) return state.selected.meta.scenario_id
+            if (state.selected) return state.selected.id
         },
         scenarioName(state){
             if (state.selected && state.selected.saved) return state.selected.saved.name

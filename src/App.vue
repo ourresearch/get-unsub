@@ -12,7 +12,7 @@
                 color="warning"
                 top
                 v-model="$store.state.notSupportedMsgOpen">
-            Sorry, that's not supported yet.  Contact team@ourresearch.org for more info.
+            Sorry, that's not supported yet. Contact team@ourresearch.org for more info.
             <v-btn text @click="$store.commit('closeNotSupportedMsg')">close</v-btn>
         </v-snackbar>
 
@@ -80,7 +80,7 @@
                 this.$store.dispatch("openWizard")
             }
         },
-        async mounted(){
+        async mounted() {
             try {
                 await this.$store.dispatch("fetchUser")
                 const data = {
@@ -89,39 +89,38 @@
                 }
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
                 this.$intercom.boot(data)
-            }
-            catch (e){
+            } catch (e) {
                 console.log("user is not logged in.", e)
             }
         },
         watch: {
-          "$route": {
-              immediate: true,
-              handler: function(val){
-                  try {
-                    this.$intercom.update()
-                  }
-                  catch(e){
-                      // it seems like right when the page loads, it throws this error. i can silence it by setting "immediate: false" but i'm afraid that will cause the initial pageload to not be logged to Intercom.
-                      const expectedError = "Cannot read property 'apply' of undefined"
-                      if (e.message !== expectedError) {
-                          throw e
-                      }
-                  }
-              }
-          }
+            "$route": {
+                immediate: true,
+                handler: function (val) {
+                    try {
+                        this.$intercom.update()
+                    } catch (e) {
+                        // it seems like right when the page loads, it throws this error. i can silence it by setting "immediate: false" but i'm afraid that will cause the initial pageload to not be logged to Intercom.
+                        const expectedError = "Cannot read property 'apply' of undefined"
+                        if (e.message !== expectedError) {
+                            throw e
+                        }
+                    }
+                }
+            }
         },
     };
 </script>
 
 <style lang="scss">
-    .v-content__wrap {
+    .v-content {
         background: #fafafa;
     }
 
     .v-tooltip__content {
         opacity: 1 !important;
     }
+
     .dot-tooltip-edit-mode-true {
         display: none !important;
     }
@@ -130,6 +129,7 @@
         .theme--light.v-btn--active::before {
             opacity: 0;
         }
+
         .theme--light.v-btn--active:hover::before {
             opacity: .05;
         }
@@ -205,6 +205,18 @@
                 text-decoration: underline;
             }
         }
+    }
+
+
+    a.low-key-link {
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    img.gravatar {
+        border-radius: 60px;
     }
 
 

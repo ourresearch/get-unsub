@@ -1,16 +1,6 @@
 <template>
     <div class="usage-area lift bar-col">
 
-        <overview-graphic-bar-header
-                :title="title"
-                :type="type"
-                :num-journals="numJournals"
-                :num-journals-subscribed="numJournalsSubscribed"
-                :main-number="mainNumber"
-                :secondary-number="secondaryNumber"
-                :secondary-number-label="secondaryLabel"
-
-        />
         <div class="bar-wrapper">
             <overview-graphic-bar-segment
                     v-if="type !== 'journals'"
@@ -81,7 +71,7 @@
 </script>
 
 <style scoped lang="scss">
-    $bar-height: 400px;
+    $bar-height: 350px;
     .bar-wrapper {
         height: $bar-height;
         display: flex;

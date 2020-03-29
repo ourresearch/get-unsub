@@ -1,14 +1,29 @@
 <template>
     <v-container class="user">
-        <div class="page-title mt-8 mb-4">
-            <div class="body-2">
-                <v-icon small>mdi-account</v-icon>
-                Account
+        <div class="page-title mt-8 mb-4 d-flex">
+            <div class="mt-1 mr-2">
+                <v-gravatar default-img="mm" class="gravatar" :email="userEmail" :size="60"></v-gravatar>
             </div>
-            <div class="display-2">
-                Your account
+            <div class="text">
+                <div class="body-2">
+                    Account
+                </div>
+                <div class="display-2">
+                    Your account
+                </div>
             </div>
         </div>
+        <v-alert v-if="userIsDemo"  color="info" text dense icon="mdi-information-outline">
+            <div class="d-flex align-center">
+                <div>
+                    This is a demo account; some functionality is restricted.
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                </div>
+            </div>
+        </v-alert>
 
         <v-row>
             <v-col cols="4">
@@ -119,11 +134,12 @@
                     <v-list>
                         <v-list-item
                                 v-for="insti in userInstitutions"
-                                :v-key="insti.institution_id"
+                                :key="insti.institution_id"
                                 @click="goToInstitution(insti.institution_id)"
                         >
-                            <v-list-item-avatar>
-                                <v-icon large>mdi-bank</v-icon>
+                            <v-list-item-avatar tile>
+                                <v-icon large v-if="!/\bDemo\b/.test(insti.institution_name)">mdi-bank</v-icon>
+                                <v-img src="https://i.imgur.com/oeSIBs7.png" v-if="/\bDemo\b/.test(insti.institution_name)" />
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="headline font-weight-bold">
@@ -131,23 +147,37 @@
                                 </div>
 
                                 <v-list-item-subtitle>
-                                    This is your selected institution
 <!--                                    <span v-if="/\bdemo\b|\bDemo\b/.test(insti.institution_name)">-->
 <!--                                        Demo institution, some functionality restricted-->
 <!--                                    </span>-->
 
-                                    <span v-if="0">
-                                        Permissions:
-                                        {{ insti.permissions.join(", ")}}
+                                    <span>
+                                        Your're a<template v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this institution
                                     </span>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                            <v-list-item-action>
-                                <div class="primary--text font-weight-bold">
+
+                            <v-list-item-action v-if="0">
+                                <div
+                                        v-if="insti.institution_id === institutionId"
+                                        class="primary--text font-weight-bold"
+                                >
                                     <v-icon color="primary">mdi-check</v-icon>
                                     Selected
                                 </div>
+                                <div
+                                        v-if="insti.institution_id === institutionId"
+                                        class="primary--text font-weight-bold"
+                                >
+                                    <v-icon color="primary">mdi-check</v-icon>
+                                    <v-btn text>
+                                        Select
+                                    </v-btn>
+                                </div>
                             </v-list-item-action>
+
+
+
                         </v-list-item>
                         <v-list-item @click="" :disabled="true">
                             <v-list-item-avatar size="50">
@@ -252,6 +282,7 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {roleFromPermissions} from "../shared/userPermissions";
 
     export default {
         name: "User",
@@ -283,15 +314,21 @@
                 "userName",
                 "userPasswordIsSet",
                 "userInstitutions",
+                "institutionId",
+                "userIsDemo",
             ]),
         },
         methods: {
             ...mapMutations([]),
             ...mapActions([]),
             goToInstitution(id) {
-                console.log("go to institution", id)
                 const url = `/i/${id}`
                 this.$router.push(url)
+            },
+            roleFromPermissions,
+            async selectInstitution(id){
+                this.$store.commit("clearInstitution")
+                await this.$store.dispatch("fetchInstitution", id)
             },
             openDialogToEditUserInfo(infoType) {
                 console.log("openDialogToEditUserInfo", infoType)
@@ -320,7 +357,7 @@
             }
         },
         mounted() {
-
+            this.$store.commit("clearInstitution")
         },
     }
 </script>

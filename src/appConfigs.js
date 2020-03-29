@@ -65,16 +65,16 @@ const journalColGroups = [
 
 const journalCols = [
     {
-        text: "Net cost per paid use",
+        text: "Cost per use",
         value: "ncppu",
         display: "currency",
-        descr: "NCPPU is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This is our most important measure of journal value--it summarizes the real value you're getting for your subscription dollar.",
+        descr: "Cost per use (CPU) is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This measures the real value you're getting for your subscription dollar.",
     },
     {
-        text: "Rank by NCPPU",
+        text: "Rank by CPU",
         value: "ncppu_rank",
         display: "number",
-        descr: "The journal's rank by Net cost per paid use (NCPPU), relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
+        descr: "The journal's rank by Cost Per Use (CPU) relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
     },
     {
         text: "Cost",
@@ -406,7 +406,7 @@ const colors = {
 const usageSegments = {
     delayed: {
         name: "usageDelayed",
-        displayName: "ILL and other delayed",
+        displayName: "ILL/delayed",
         displayNameLong: "ILL, Document Delivery, and other delayed access",
         isFree: false,
         lightColor: colors.delayed.light,

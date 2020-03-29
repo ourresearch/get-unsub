@@ -1,5 +1,9 @@
 <template>
     <v-container class="publisher" v-if="publisherName">
+        <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}`">
+            <strong>‹</strong>
+            Back <span v-if="institutionName">to {{institutionName}}</span>
+        </router-link>
         <div class="page-title mt-8 mb-4 d-flex">
             <img class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
             <div class="text">
@@ -13,6 +17,20 @@
 
             </div>
         </div>
+
+        <v-alert v-if="isPublisherDemo"  color="info" text dense icon="mdi-information-outline">
+            <div class="d-flex align-center">
+                <div>
+                    This publisher belongs to a demo institution; the data is real, but some functionality is restricted.
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                </div>
+            </div>
+        </v-alert>
+
+
 
         <v-row>
             <v-col cols="4">
@@ -64,7 +82,7 @@
 
 
 
-                    <v-list class="pb-8 pt-4">
+                    <v-list>
 
                         <template
                             v-for="scenario in publisherScenarios"
@@ -72,36 +90,25 @@
 
                             <v-list-item
                                     two-line
-                                    v-if="scenario.isLoading"
-                            >
-                                <v-list-item-avatar size="50">
-                                    <v-progress-circular color="grey" indeterminate />
-                                </v-list-item-avatar>
-                                <v-list-item-content>
-                                    <v-list-item-title class="headline font-weight-bold" v-text="scenario.saved.name"/>
-                                    <v-list-item-subtitle>
-                                        Scenario loading...
-                                    </v-list-item-subtitle>
-                                </v-list-item-content>
-                            </v-list-item>
-
-
-
-                            <v-list-item
-                                    two-line
-                                    v-if="!scenario.isLoading"
                                     :key="scenario.id"
-                                    @click="$router.push(`/a/${publisherId}/${scenario.id}`)"
+                                    :to="`/i/${institutionId}/p/${publisherId}/s/${scenario.id}`"
+                                    :disabled="scenario.isLoading"
                             >
 
                                 <v-list-item-avatar size="50">
-                                    <v-icon large>mdi-finance</v-icon>
+                                    <jazzicon v-if="!scenario.isLoading" :address="scenario.id" :diameter="50" />
+                                    <v-progress-circular v-if="scenario.isLoading" color="grey" indeterminate />
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
-                                    <v-list-item-title class="headline font-weight-bold" v-text="scenario.saved.name"/>
+                                    <v-list-item-title
+                                            class="headline font-weight-bold"
+                                            :class="{'text--secondary': scenario.isLoading}"
+                                            v-text="scenario.saved.name"
+                                    />
                                     <v-list-item-subtitle>
-                                        id: {{scenario.id}}
+                                        <span v-if="scenario.isLoading">Scenario loading...</span>
+                                        <span v-if="!scenario.isLoading">ID: {{scenario.id}}</span>
                                         <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
@@ -126,19 +133,25 @@
 
 
 
-                        <v-list-item @click="">
-                            <v-list-item-avatar size="50">
-                                <v-btn icon>
-                                    <v-icon>mdi-plus</v-icon>
-                                </v-btn>
-                            </v-list-item-avatar>
+                        <v-fade-transition>
+                            <v-list-item
+                                    @click=""
+                                    key="add-scenario"
+                                    v-if="publisherScenariosAreAllLoaded"
+                            >
+                                <v-list-item-avatar size="50">
+                                    <v-btn icon>
+                                        <v-icon>mdi-plus</v-icon>
+                                    </v-btn>
+                                </v-list-item-avatar>
 
-                            <v-list-item-content>
-                                <v-list-item-title class="body-2 text--secondary">
-                                    New scenario
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
+                                <v-list-item-content>
+                                    <v-list-item-title class="body-2 text--secondary">
+                                        New scenario
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-fade-transition>
 
 
 
@@ -213,7 +226,8 @@
                                 two-line
                                 v-for="scenario in pkg.scenarios"
                                 :key="scenario.id"
-                                @click="$router.push(`/a/${pkg.id}/${scenario.id}`)"
+                                :disabled="scenario.isLoading"
+                                @click="goToScenario(scenario.id)"
                         >
                             <v-list-item-content v-if="scenario.isLoading">
                                 <v-list-item-title class="title grey--text d-flex align-center">
@@ -508,6 +522,9 @@
                 "publisherScenarios",
                 "publisherScenariosCount",
                 "isPublisherDemo",
+                "institutionId",
+                "institutionName",
+                "publisherScenariosAreAllLoaded",
             ]),
             // fileSelected() {
             //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
@@ -537,6 +554,12 @@
                 this.uploadFileType = ""
                 this.errorMsg = ""
                 this.fileSelected = null
+            },
+            goToScenario(scenarioId){
+                const  url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${this.scenario.id}`
+                console.log("go to scenario!", url)
+                this.$router.push(url)
+
             },
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
@@ -572,8 +595,6 @@
             }
 
 
-            if (!(this.$store.getters.getScenario.saved && this.$store.getters.getScenario.saved.name)) {
-            }
 
         },
     }

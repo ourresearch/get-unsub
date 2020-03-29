@@ -8,7 +8,7 @@
                     class="under-bar mb-8 text-right"
                     v-on="on">
                 <div
-                        class="main-number display-1"
+                        class="main-number headline"
                         :style="{color: color}"
                         style="line-height: 1;"
                 >

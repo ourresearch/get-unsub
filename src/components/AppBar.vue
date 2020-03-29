@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app color="white">
+    <v-app-bar app hide-on-scroll color="white">
         <router-link to="/">
             <img  class="mt-2" src="../assets/unpaywall-journals-logo.png" alt="" />
         </router-link>
@@ -16,22 +16,40 @@
         <v-toolbar-items class="account breadcrumbs">
             <v-btn v-if="institutionName"
                    class="px-5"
-                   :class="{'pr-1': !!publisherName}"
                    text
                    :to="`/i/${institutionId}`"
             >
+                <v-avatar tile size="40" class="mr-2" v-if="institutionIsDemo">
+                    <img src="https://i.imgur.com/oeSIBs7.png" alt="">
+                </v-avatar>
                 <span class="title font-weight-regular">
                     {{ institutionName }}
                 </span>
-                <v-icon color="grey" v-if="publisherName"  class="pl-3">mdi-chevron-right</v-icon>
             </v-btn>
-            <v-btn v-if="publisherName" class="px-3" text :to="`/i/${institutionId}/p/${publisherId}`">
-<!--                <v-icon color="grey"  class="pr-2">mdi-bank</v-icon>-->
-                <span class="title font-weight-regular">
-                    {{ publisherName }}
 
-                </span>
-            </v-btn>
+
+<!--            not using breadcrumbs right now. -->
+            <div class="d-none">
+                <v-btn v-if="institutionName"
+                       class="px-3"
+                       :class="{'pr-0': !!publisherName}"
+                       text
+                       :to="`/i/${institutionId}`"
+                >
+                    <span class="title font-weight-regular">
+                        {{ institutionName }}
+                    </span>
+                    <v-icon color="grey" v-if="publisherName"  class="pl-2">mdi-chevron-right</v-icon>
+                </v-btn>
+                <v-btn v-if="publisherName" class="px-2" text :to="`/i/${institutionId}/p/${publisherId}`">
+    <!--                <v-icon color="grey"  class="pr-2">mdi-bank</v-icon>-->
+                    <span class="title font-weight-regular">
+                        {{ publisherName }}
+
+                    </span>
+                </v-btn>
+
+            </div>
         </v-toolbar-items>
 
         <v-spacer/>
@@ -73,45 +91,22 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-            <v-btn icon to="/support" v-if="!scenarioName">
+            <v-btn icon to="/support">
                 <v-icon>mdi-help-circle-outline</v-icon>
             </v-btn>
         </div>
-
-        <template v-slot:extension v-if="scenarioName">
-            <scenario-menu-scenario/>
-            <scenario-menu-view/>
-            <scenario-menu-subscriptions />
-            <scenario-menu-columns/>
-            <scenario-menu-settings/>
-            <scenario-menu-export/>
-            <scenario-menu-help/>
-        </template>
-
     </v-app-bar>
 </template>
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
 
-    import ScenarioMenuScenario from "./ScenarioMenu/ScenarioMenuScenario";
-    import ScenarioMenuSubscriptions from "./ScenarioMenu/ScenarioMenuSubscriptions";
-    import ScenarioMenuView from "./ScenarioMenu/ScenarioMenuView";
-    import ScenarioMenuColumns from "./ScenarioMenu/ScenarioMenuColumns";
-    import ScenarioMenuSettings from "./ScenarioMenu/ScenarioMenuSettings";
-    import ScenarioMenuExport from "./ScenarioMenu/ScenarioMenuExport";
-    import ScenarioMenuHelp from "./ScenarioMenu/ScenarioMenuHelp";
+
 
     export default {
         name: "AppBar",
         components: {
-            ScenarioMenuScenario,
-            ScenarioMenuView,
-            ScenarioMenuSubscriptions,
-            ScenarioMenuColumns,
-            ScenarioMenuExport,
-            ScenarioMenuSettings,
-            ScenarioMenuHelp,
+
         },
         data() {
             return {
@@ -120,9 +115,10 @@
         },
         methods: {
             logout() {
-                this.$store.commit("logout")
                 this.$store.commit("clearSelectedScenario")
                 this.$store.commit("clearPublisher")
+                this.$store.commit("clearInstitution")
+                this.$store.commit("logout")
                 this.$router.push("/")
             }
         },
@@ -136,6 +132,7 @@
                 'isLoggedIn',
                 'institutionName',
                 'institutionId',
+                'institutionIsDemo',
                 'foo',
                 "userName",
             ]),

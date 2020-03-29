@@ -221,6 +221,7 @@
             }
         },
         mounted() {
+            if (this.$store.getters.userId) this.$router.push("/u")
         },
     }
 </script>

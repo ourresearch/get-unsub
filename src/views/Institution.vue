@@ -1,14 +1,41 @@
 <template>
     <v-container class="institution">
-        <div class="page-title mt-8 mb-4">
-            <div class="body-2">
-                <v-icon small>mdi-bank</v-icon>
-                Institution
+        <router-link class="text--secondary low-key-link" to="/u">
+            <strong>‹</strong>
+            Back to your user page
+        </router-link>
+
+
+
+        <div class="page-title mt-8 mb-4 d-flex">
+            <div class="mt-1 mr-2">
+                <v-avatar tile size="60">
+                    <img  v-if="institutionIsDemo" src="https://i.imgur.com/oeSIBs7.png" alt="">
+                    <v-icon x-large v-if="!institutionIsDemo">mdi-bank</v-icon>
+                </v-avatar>
             </div>
-            <div class="display-2">
-                {{ institutionName }}
+            <div class="text">
+                <div class="body-2">
+                    Institution
+                </div>
+                <div class="display-2">
+                     {{ institutionName }}
+                </div>
             </div>
         </div>
+
+
+        <v-alert v-if="institutionIsDemo" color="info" text dense icon="mdi-information-outline">
+            <div class="d-flex align-center">
+                <div>
+                    This is a demo institution; the data is real, but some functionality is restricted.
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                </div>
+            </div>
+        </v-alert>
 
         <v-row>
             <v-col cols="4">
@@ -52,10 +79,11 @@
                         </v-btn>
                     </v-card-title>
                     <v-divider></v-divider>
-                    <v-list dense>
+
+                    <v-list :dense="institutionGridIds.length > 1">
                         <v-list-item
                                 v-for="gridId in institutionGridIds"
-                                :v-key="gridId"
+                                :key="gridId"
                         >
                             <v-list-item-avatar>
                                 <v-icon>mdi-map-marker-outline</v-icon>
@@ -102,7 +130,7 @@
                     <v-list>
                         <v-list-item
                                 v-for="person in institutionUsersWithRoles"
-                                :v-key="person.email"
+                                :key="person.email"
                         >
                             <v-list-item-avatar>
                                 <v-icon>mdi-account-outline</v-icon>
@@ -187,15 +215,15 @@
                 <v-card>
                     <v-card-title>
                         <div>
-                                Publishers
-                                <span class="body-2">({{institutionPublishers.length}})</span>
+                            Publishers
+                            <span class="body-2">({{institutionPublishers.length}})</span>
                         </div>
                     </v-card-title>
                     <v-divider></v-divider>
                     <v-list>
                         <v-list-item
                                 v-for="pub in institutionPublishers"
-                                :v-key="pub.id"
+                                :key="pub.id"
                                 :to="`/i/${institutionId}/p/${pub.id}`"
                         >
                             <v-list-item-avatar tile size="50">
@@ -216,6 +244,7 @@
                                 <v-btn text>view</v-btn>
                             </v-list-item-action>
                         </v-list-item>
+
 
                         <v-list-item @click="" :disabled="true">
                             <v-list-item-avatar size="50">
@@ -375,6 +404,7 @@
                 "institutionGridIds",
                 "institutionPublishers",
                 "institutionUsersWithRoles",
+                "institutionIsDemo",
                 "userId",
             ]),
             institutionId() {

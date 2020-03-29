@@ -77,7 +77,6 @@ export const publisher = {
             const clone = _.cloneDeep(scenarioToCopy)
             clone.saved.name = newName
             clone.id = newId
-            clone.meta.scenario_id = newId // should get rid of this in due time
             state.scenarios.push(clone)
         },
         createScenario(state, {newName, newId}) {
@@ -110,10 +109,10 @@ export const publisher = {
 
         async hydratePublisherScenario({dispatch, getters}, scenarioId) {
             const path = `scenario/${scenarioId}/journals`
-            const myScenario = getters.getScenario(scenarioId)
-
             const resp = await api.get(path)
             const hydratedScenario = buildScenarioFromApiResp(resp.data)
+
+            const myScenario = getters.publisherScenario(scenarioId)
             Object.keys(hydratedScenario).forEach(k => {
                 myScenario[k] = hydratedScenario[k]
             })
@@ -134,7 +133,7 @@ export const publisher = {
         async renameScenario({commit, getters}, {id, newName}) {
             commit("renameScenario", {id, newName})
             const url = `scenario/${id}`
-            await api.post(url, getters.getScenario(id).saved)
+            await api.post(url, getters.publisherScenario(id).saved)
         },
         async deleteScenario({commit, getters}, id) {
             commit("deleteScenario", id)
@@ -166,8 +165,11 @@ export const publisher = {
         },
         publisherId: (state)  => state.id,
         publisherScenariosCount: (state) => state.scenarios.length,
-        getScenario: (state) => (id) =>{
+        publisherScenario: (state) => (id) =>{
             return state.scenarios.find(s => s.id === id)
+        },
+        publisherScenariosAreAllLoaded: (state) =>{
+            return state.scenarios.filter(s => s.isLoading).length === 0
         },
         getScenarios: (state) => state.scenarios,
         publisherScenarios: (state) => state.scenarios,

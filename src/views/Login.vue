@@ -8,7 +8,10 @@
 
         <v-row class="pt-10" align="center" justify="center">
 
-            <v-card width="400" flat style="transform: scale(1.25); transform-origin: top;">
+            <v-card width="400" >
+                <v-card-title>
+                    Your info
+                </v-card-title>
                 <v-card-text>
                     <v-alert class="body-2" text type="error" v-if="showError">
                         <div>

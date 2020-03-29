@@ -13,13 +13,16 @@ const buildScenarioFromApiResp = function (apiResp) {
     return apiResp
 }
 
-const newScenario = function (id, name="") {
+
+const hydrateScenario = function(dehydratedScenario, fullScenarioFromApi){
+    const hydratingScenario = buildScenarioFromApiResp(fullScenarioFromApi)
+
+}
+
+const newScenario = function (id = "", name="") {
     return {
         id: id,
         isLoading: false,
-        meta: {
-            scenario_id: id,
-        },
         journals: [],
         saved: {
             subrs: [],

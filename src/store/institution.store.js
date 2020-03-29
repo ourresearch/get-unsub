@@ -9,6 +9,7 @@ export const institution = {
         institutionName:"",
         institutionUsers: [],
         institutionPublishers: [],
+        isDemo: false,
     },
     mutations: {
         clearInstitution(state){
@@ -18,15 +19,17 @@ export const institution = {
             state.institutionUsers =  []
             state.institutionPublishers =  []
             state.userIsAdmin = false
+            state.isDemo = false
         },
         setInstitutionFromApiResp(state, apiResp){
             state.institutionId =  apiResp.id
-            state.institutionGridIds =  apiResp.grid_ids
+            state.institutionGridIds =  apiResp.grid_ids.filter(g => !!g)
             state.institutionName = apiResp.name
             state.institutionUsers = apiResp.user_permissions
             state.institutionUsers.forEach(user => {
             });
             state.institutionPublishers = apiResp.publishers
+            state.isDemo = apiResp.is_demo
 
         },
         setUserPermissions(state, {email, permissions}) {
@@ -91,6 +94,7 @@ export const institution = {
         },
         institutionPublishers: (state) => state.institutionPublishers,
         institutionUsers: (state) => state.institutionUsers,
+        institutionIsDemo: (state) => state.isDemo,
     }
 }
 

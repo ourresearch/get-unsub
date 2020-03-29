@@ -3,25 +3,6 @@
             class="dots-graphic"
     >
 
-        <div class="top-section d-flex">
-            <overview-graphic-subrs-counter/>
-            <v-spacer />
-        </div>
-
-
-        <div class="dots-graphic-labels d-flex align-center pb-1">
-            <div class="cpu-label hist-label">
-                <div class="top-line">Cost</div>
-                <div class="bottom-line">per use</div>
-            </div>
-
-            <div class="journals pl-3">
-                Your {{ this.journals.length | round}} Elsevier journals
-            </div>
-
-
-            <v-spacer />
-        </div>
         <div
                 class="histogram-bars"
                 @mouseleave="mouseoutOfHistogram"
@@ -31,7 +12,7 @@
                  v-if="myBin.end < maxBinValue"
                  v-for="(myBin, index) in journalBins">
 
-                <div class="bar-label" v-if="myBin.end % 5 === 0">
+                <div class="bar-label" v-if="myBin.end % 10 === 0">
                     <div class="number">
                         {{myBin.end | currency}}
                     </div>
@@ -49,6 +30,15 @@
         </div>
 
 
+
+
+        <div class="x-axis-label text-center">
+            {{ publisherName }} journals, by cost per use
+        </div>
+
+
+
+
     </div>
 </template>
 
@@ -56,6 +46,8 @@
     import _ from 'lodash'
     import ClickOutside from 'vue-click-outside'
     import LongPress from 'vue-directive-long-press'
+    import {mapGetters, mapMutations} from 'vuex'
+
 
 
     import OverviewGraphicBarSingleDot from "./OverviewGraphicBarSingleDot";
@@ -86,9 +78,13 @@
                 illColor: appConfigs.costSegments.ill.lightColor,
                 colors: appConfigs.colors,
                 maxBinValue: 200,
+
             }
         },
         computed: {
+            ...mapGetters([
+                'publisherName',
+            ]),
             myJournals() {
                 return this.$store.getters.journals
             },
@@ -155,15 +151,8 @@
 </script>
 
 <style scoped lang="scss">
-    $dots-graphic-left-gutter: 60px;
-    $histogram-bar-width: 11px;
+    $histogram-bar-width: 7px;
     .dots-graphic {
-        height: 100%;
-        width: 100%;
-        padding: 10px 20px 20px;
-        border-radius: 5px;
-        margin-left: 30px;
-
         // https://stackoverflow.com/a/4407335/226013
         -webkit-touch-callout: none; /* iOS Safari */
         -webkit-user-select: none; /* Safari */
@@ -174,63 +163,38 @@
 
 
         .top-section {
-            margin: 0 0 50px $dots-graphic-left-gutter;
         }
 
-        .dots-graphic-labels {
-            line-height: 1;
-
-            .hist-label {
-                line-height: 1;
-                font-size: 15px;
-                flex: 0 1 $dots-graphic-left-gutter;
-                align-content: center;
-                text-align: right;
-                border-right: 1px solid #555;
-                padding-right: 10px;
-
-                &.journals-label {
-                    border-right: none;
-                    flex: 0 1 7em;
-                    text-align: left;
-
-                }
-            }
-
-            .journals-subr-num {
-                width: 50px;
-                display: inline-block;
-                text-align: right;
-            }
-        }
 
         .histogram-bars {
-            padding-left: $dots-graphic-left-gutter;
             width: 100%;
             display: flex;
             align-items: stretch;
-            flex-direction: column;
+            flex-direction: row;
+            border-bottom: 1px solid #555;
+            padding-bottom: 2px;
+            margin-bottom: 20px;
 
             .histogram-bar {
-                border-left: 1px solid #555;
+                /*border-left: 1px solid #555;*/
 
-                &:first-child {
-                    border-top: 1px solid #eee;
-                }
+                /*&:first-child {*/
+                /*    border-top: 1px solid #eee;*/
+                /*}*/
 
                 display: flex;
-                flex-direction: row;
-                flex: 0 1 $histogram-bar-width;
+                flex-direction: column-reverse;
                 position: relative;
 
                 .bar-label {
                     position: absolute;
-                    font-size: 14px;
-                    top: 0;
+                    font-size: 12px;
+                    bottom: 0;
                     left: 0;
-                    width: 50px;
+                    /*width: 50px;*/
                     height: 20px;
-                    margin-left: -60px;
+                    margin-left: 0;
+                    margin-bottom: -25px;
                     text-align: right;
 
                 }

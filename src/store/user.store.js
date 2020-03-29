@@ -44,9 +44,9 @@ export const user = {
         async fetchUser({commit, dispatch, getters}) {
             const resp = await api.get("user/me")
             commit("setFromApiResp", resp.data)
-            if (getters.userInstitutions.length === 1) {
-                const myOnlyInstitutionId = getters.userInstitutions[0].institution_id
-                dispatch("fetchInstitution", myOnlyInstitutionId)
+            if (getters.userInstitutions.length) {
+                const myFirstInstitution = getters.userInstitutions[0].institution_id
+                dispatch("fetchInstitution", myFirstInstitution)
             }
 
         },
@@ -82,6 +82,9 @@ export const user = {
         },
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
+        userIsDemo: (state) => {
+            return state.institutions.length === 1 && state.institutions[0].is_demo
+        },
         isLoggedIn: (state) => !!state.email,
         token: () => localStorage.getItem("token"),
         isUserSubscribed(state){

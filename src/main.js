@@ -36,6 +36,11 @@ import VueIntercom from 'vue-intercom';
 
 Vue.use(VueIntercom, {appId: 'dc7bcjeo'});
 
+import Jazzicon from 'vue-jazzicon';
+Vue.component('jazzicon', Jazzicon);
+
+import Gravatar from 'vue-gravatar';
+Vue.component('v-gravatar', Gravatar);
 
 const rounder = function (value, decimals) {
     if (!value) {

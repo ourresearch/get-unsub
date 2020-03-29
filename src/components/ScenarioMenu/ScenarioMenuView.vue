@@ -22,6 +22,7 @@
                         </v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
+                        <v-icon>mdi-poll-box</v-icon>
                         Histogram
                     </v-list-item-title>
                 </v-list-item>
@@ -33,6 +34,7 @@
                         </v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
+                        <v-icon>mdi-table-large</v-icon>
                         Table
                     </v-list-item-title>
                 </v-list-item>

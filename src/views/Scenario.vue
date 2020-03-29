@@ -1,64 +1,241 @@
 <template>
-    <v-container fluid >
-        <v-card>
-            <v-card>
-                <div class="pa-3">
-                    <v-row>
-                        <v-col class="journals-info" cols="7" >
-                            <v-row v-if="selectedScenarioIsLoading" class="d-flex justify-center align-center py-10">
-                                Loading...
-                            </v-row>
-                            <v-row v-if="!selectedScenarioIsLoading">
-                                <overview-graphic-bar-dots
-                                        v-if="menuSettingsView.displayJournalsAsSelected=='histogram'"
-                                        :journals="journals"
-                                />
-                                <journals-table-table
-                                        v-if="menuSettingsView.displayJournalsAsSelected=='table'"
-                                        :journals="journals"
-                                />
-                            </v-row>
-                        </v-col>
+    <div>
 
-                        <v-col cols="1"></v-col>
+        <v-container>
+            <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}/p/${publisherId}`">
+                <strong>‹</strong>
+                Back <span v-if="publisherName">to {{publisherName}}</span>
+            </router-link>
+            <div class="page-title mt-8 d-flex">
+                <v-avatar size="50"class="mt-3 mr-3">
+                    <jazzicon v-show="!selectedScenarioIsLoading" class="" :address="scenarioId" :diameter="50"/>
+                    <v-progress-circular
+                            size="50"
+                            v-show="selectedScenarioIsLoading"
+                            indeterminate
+                    />
+                </v-avatar>
+
+                <div class="text">
+                    <div class="body-2">
+                        <span v-if="selectedScenarioIsLoading">Loading scenario</span>
+                        <span v-if="!selectedScenarioIsLoading">Big Deal cancellation scenario</span>
+                    </div>
+                    <div class="display-2">
+                        {{ scenarioName }}
+                    </div>
+
+                </div>
+            </div>
+        </v-container>
 
 
-                        <v-col cols="4">
-                            <v-row  v-if="scenario && journals.length" >
-                                <v-col>
+        <div
+                class="sticky-toolbar"
+                id="sticky-toolbar"
+                v-if="!selectedScenarioIsLoading"
+        >
+            <v-container
+                    class="pt-0 pb-0"
+                    :fluid="stickyToolbarIsAtTopOfWindow"
+                    v-scroll="onScroll"
+            >
+                <v-card
+                        style="width: 100%; position: relative"
+                >
+                    <div class="pa-4" style="position: absolute; top: 0; left: 0;">
+                            <overview-graphic-subrs-counter />
+                    </div>
+                    <v-container class="py-3 px-0" style="max-width: 1155px;">
+                        <v-row class="mx-0 align-center">
+                            <v-spacer/>
+
+                            <v-col cols="1" class="pa-0 pr-8 text-right caption text--secondary">
+                                Your 5yr forecast:
+                            </v-col>
+                            <v-divider vertical></v-divider>
+
+<!--                         COST AND FULFILLMENT section-->
+                            <v-col class="py-0" cols="4">
+                                <v-row class="mx-0">
+<!--                                COST -->
+                                    <v-col class="py-0" cols="6">
+                                        <div  class="text-right">
+                                            <div class="headline">
+                                                {{ subrCost + illCost | currency }}
+                                            </div>
+                                            <div class="caption">
+                                                <v-tooltip bottom max-width="400" color="#333">
+                                                    <template v-slot:activator="{ on }">
+                                                        <span v-on="on">
+                                                            Annual cost
+                                                            <v-icon small>mdi-information-outline</v-icon>
+                                                        </span>
+                                                    </template>
+                                                    <div>
+                                                        This is the average annual cost to the library over the next five years, based on your selected settings and subscriptions.
+                                                    </div>
+                                                </v-tooltip>
+                                            </div>
+                                        </div>
+                                    </v-col>
+
+<!--                                FULFILLMENT -->
+                                    <v-col class="py-0" cols="6">
+                                        <div class="text-right">
+                                            <div class="headline">
+                                                {{ instantUsagePercent | percent(1) }}
+                                            </div>
+                                            <div class="caption">
+                                                <v-tooltip bottom max-width="400" color="#333">
+                                                    <template v-slot:activator="{ on }">
+                                                        <span v-on="on">
+                                                            Instant fulfillment
+                                                            <v-icon small>mdi-information-outline</v-icon>
+                                                        </span>
+                                                    </template>
+                                                    <div>
+                                                        This is the percentage of content requests that your library will successfully fulfill <em>instantly</em> over the next five years (either via subscription, backfile, or OA).
+                                                    </div>
+                                                </v-tooltip>
+                                            </div>
+                                        </div>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+
+                    </v-container>
+                    <v-divider></v-divider>
+                    <div class="d-flex pa-1">
+                        <scenario-menu-scenario key="scenario"/>
+                        <scenario-menu-view key="view"/>
+                        <scenario-menu-subscriptions key="subscriptions"/>
+                        <scenario-menu-columns key="columns"/>
+                        <scenario-menu-settings key="settings"/>
+                        <scenario-menu-export key="export"/>
+                        <scenario-menu-help key="help"/>
+                    </div>
+                </v-card>
+
+
+            </v-container>
+
+        </div>
+
+
+        <v-container v-if="!selectedScenarioIsLoading">
+            <v-row>
+                <v-col cols="8">
+                    <v-card>
+                        <v-toolbar flat>
+                            <v-toolbar-title>
+                                A-la-carte journals
+                                <span class="body-2">({{ numJournals | round }})</span>
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+
+                            <v-menu>
+                                <template v-slot:activator="{on}">
+                                    <v-btn
+                                            text
+                                            v-on="on"
+                                            icon
+
+                                    >
+                                        <v-icon v-if="'histogram' === menuSettingsView.displayJournalsAsSelected">
+                                            mdi-poll-box
+                                        </v-icon>
+                                        <v-icon v-if="'table' === menuSettingsView.displayJournalsAsSelected">
+                                            mdi-table-large
+                                        </v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list dense subheader>
+                                    <v-subheader>Display journals as:</v-subheader>
+                                    <v-list-item
+                                            v-for="option in menuSettingsView.displayJournalsAsOptions"
+                                            :key="option.name"
+                                            @click="menuViewSetDisplayJournalsAs(option.name)"
+                                    >
+                                        <v-list-item-icon>
+                                            <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
+                                                mdi-radiobox-marked
+                                            </v-icon>
+                                            <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
+                                                mdi-radiobox-blank
+                                            </v-icon>
+                                        </v-list-item-icon>
+
+                                        <v-list-item-title>
+                                            <v-icon>{{option.icon}}</v-icon>
+                                            {{ option.name }}
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-toolbar>
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            <overview-graphic-bar-dots
+                                    v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
+                                    :journals="journals"
+                            />
+                            <journals-table-table
+                                    v-show="menuSettingsView.displayJournalsAsSelected=='table'"
+                                    :journals="journals"
+                            />
+
+                        </v-card-text>
+                    </v-card>
+
+                </v-col>
+                <v-col cols="4">
+                    <v-card class="px-2" style="position: sticky; top: 130px;">
+                            <v-row v-if="journals.length">
+                                <v-col  cols="6">
                                     <overview-graphic-bar
                                             type="cost"
                                             :segments="costSegments"
-                                            :main-number="subrCost + illCost | currency"
-                                            :secondary-number="subrCostPercent + illCostPercent | percent"
                                             :num-journals="journals.length"
                                             :num-journals-subscribed="subscribedJournals.length"
                                     />
+                                    <div class="text-center">
+                                        <div class="headline">
+                                            Annual costs
+                                        </div>
+                                        <div class="caption text--secondary">
+                                            As % of Big Deal
+                                        </div>
+                                    </div>
                                 </v-col>
-                                <v-col>
+                                <v-col cols="6">
                                     <overview-graphic-bar
                                             type="usage"
                                             :segments="usageSegments"
-                                            :main-number="usageTotal | round"
-                                            :secondary-number="instantUsagePercent | percent"
                                             :num-journals="journals.length"
                                             :num-journals-subscribed="subscribedJournals.length"
                                     />
+                                    <div class="text-center">
+                                        <div class="headline">
+                                            Fulfillment
+                                        </div>
+                                        <div class="caption text--secondary">
+                                            by method
+                                        </div>
+                                    </div>
                                 </v-col>
 
                             </v-row>
-                        </v-col>
+                    </v-card>
+                </v-col>
+
+            </v-row>
+
+        </v-container>
 
 
-                    </v-row>
-
-
-                </div>
-
-            </v-card>
-        </v-card>
-
-    </v-container>
+    </div>
 </template>
 
 <script>
@@ -73,8 +250,17 @@
     import OverviewGraphicBarHeader from "../components/OverviewGraphic/OverviewGraphicBarHeader";
     import OverviewGraphicBar from "../components/OverviewGraphic/OverviewGraphicBar";
     import OverviewGraphicBarDots from "../components/OverviewGraphic/OverviewGraphicBarDots";
+    import OverviewGraphicSubrsCounter from "../components/OverviewGraphic/OverviewGraphicSubrsCounter";
 
     import JournalsTableTable from "../components/JournalsTable/JournalsTableTable";
+
+    import ScenarioMenuScenario from "../components/ScenarioMenu/ScenarioMenuScenario";
+    import ScenarioMenuSubscriptions from "../components/ScenarioMenu/ScenarioMenuSubscriptions";
+    import ScenarioMenuView from "../components/ScenarioMenu/ScenarioMenuView";
+    import ScenarioMenuColumns from "../components/ScenarioMenu/ScenarioMenuColumns";
+    import ScenarioMenuSettings from "../components/ScenarioMenu/ScenarioMenuSettings";
+    import ScenarioMenuExport from "../components/ScenarioMenu/ScenarioMenuExport";
+    import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
 
 
     export default {
@@ -83,7 +269,16 @@
             OverviewGraphicBar,
             OverviewGraphicBarDots,
             OverviewGraphicBarHeader,
+            OverviewGraphicSubrsCounter,
             JournalsTableTable,
+
+            ScenarioMenuScenario,
+            ScenarioMenuView,
+            ScenarioMenuSubscriptions,
+            ScenarioMenuColumns,
+            ScenarioMenuExport,
+            ScenarioMenuSettings,
+            ScenarioMenuHelp,
         },
         directives: {
             "long-press": LongPress,
@@ -96,12 +291,22 @@
                 removeSubrsInterval: null,
                 colors: appConfigs.colors,
                 isLoading: true,
+                stickyToolbarIsAtTopOfWindow: false,
             }
         },
         computed: {
             ...mapGetters([
                 'menuSettingsView',
                 'selectedScenarioIsLoading',
+                'institutionId',
+                'scenarioName',
+                'scenarioId',
+                'publisherName',
+                'publisherId',
+                'journals',
+
+
+                'menuSettingsView',
             ]),
 
 
@@ -111,7 +316,7 @@
             scenario() {
                 return this.$store.getters.selectedScenario
             },
-            subrJournalsCount(){
+            subrJournalsCount() {
                 return this.$store.getters.subrJournalsCount
             },
             cost() {
@@ -235,33 +440,43 @@
             },
 
             instantUsagePercent() {
-                const instant = this.usageRaw.oa + this.usageRaw.backfile +  this.usageRaw.subr
+                const instant = this.usageRaw.oa + this.usageRaw.backfile + this.usageRaw.subr
                 return 100 * instant / this.usageTotal
             },
             numJournals() {
                 return this.journals.length
             },
-            journals() {
-                return this.$store.getters.journals
-            }
         },
         methods: {
             ...mapMutations([
                 "menuViewToggleShowCostBar",
+                "menuViewSetDisplayJournalsAs",
             ]),
+            onScroll(e) {
+                const stickyToolbar = document.getElementById("sticky-toolbar")
+                const distanceToTopOfWindow = stickyToolbar.getBoundingClientRect().top
+                this.stickyToolbarIsAtTopOfWindow = (distanceToTopOfWindow === 0) ? true : false
+
+            }
         },
         async mounted() {
             this.$store.commit("setIsLoading", true)
             await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-            console.log("finished loading the package")
-            const myScenario = this.$store.getters.getScenario(this.$route.params.scenarioId)
-            console.log("got a scenario", myScenario)
-            this.$store.commit("_setScenario", myScenario)
+
+            this.$store.commit(
+                "setScenarioFromObject",
+                this.$store.getters.publisherScenario(this.$route.params.scenarioId)
+            )
+
+            // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
 
             const that = this
-            setTimeout(function(){
+            setTimeout(function () {
                 that.$store.commit("setIsLoading", false)
             }, 500)
+        },
+        destroyed() {
+
         },
         watch: {}
     }
@@ -271,6 +486,7 @@
     .journals-info-header {
     }
 
+
     .infovis {
         flex: 0 0 500px;
         min-width: 500px;
@@ -279,6 +495,21 @@
     .slider-col {
         padding-top: 85px;
         flex: 0 0 1%;
+    }
+
+    .sticky-toolbar {
+        top: 0;
+        left: 0;
+        right: 0;
+        position: -webkit-sticky;
+        position: sticky;
+        z-index: 9;
+
+        div.container {
+            transition: max-width 300ms;
+
+        }
+
     }
 
 
