@@ -69,10 +69,10 @@
                                                 <v-list-item @click="$store.commit('hideTableCol', header.value)">
 
                                                     <v-list-item-icon>
-                                                        <v-icon>mdi-eye-off</v-icon>
+                                                        <v-icon>mdi-table-remove</v-icon>
                                                     </v-list-item-icon>
                                                     <v-list-item-title>
-                                                        Hide
+                                                        Remove
                                                     </v-list-item-title>
                                                 </v-list-item>
 <!--                                                <v-list-item @click="getInfo(header.value)">-->

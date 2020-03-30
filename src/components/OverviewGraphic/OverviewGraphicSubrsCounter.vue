@@ -1,43 +1,74 @@
 <template>
 
 
-    <div class="number-and-controls d-flex align-center pt-1">
-        <v-btn
-                v-long-press="300"
-                :disabled="myCount <= 0"
-                @long-press-start="longPressStart(-1)"
-                @long-press-stop="longPressStop"
-                @click="changeMyCount(-1)"
-                x-small
-                outlined
-                icon
-        >
-            <v-icon>mdi-minus</v-icon>
-        </v-btn>
-        <div class="input-container mx-2">
-            <v-text-field
-                    v-model="myCount"
-                    label="Subscriptions"
-                    dense
-                    hide-details
-                    outlined
-                    color="#333"
-            />
-
+    <div>
+        <div v-if="0" class="individual-mode d-flex">
+            <div class="text-right subr-count" style="">
+                <div class="headline">
+                    {{ myCount | round }}
+                </div>
+                <div class="caption">
+                    <v-tooltip bottom max-width="400" color="#333">
+                        <template v-slot:activator="{ on }">
+                                                            <span v-on="on">
+                                                                Subscriptions
+                                                                <v-icon small>mdi-information-outline</v-icon>
+                                                            </span>
+                        </template>
+                        <div>
+                            This is the percentage of content requests that your library will successfully fulfill <em>instantly</em>
+                            over the next five years (either via subscription, backfile, or OA).
+                        </div>
+                    </v-tooltip>
+                </div>
+            </div>
+            <div class="mode">Individual mode</div>
         </div>
-            <v-btn
-                    v-long-press="300"
-                    :disabled="myCount > numJournals"
-                    @long-press-start="longPressStart(1)"
-                    @long-press-stop="longPressStop"
-                    @click="changeMyCount(1)"
-                    x-small
-                    outlined
-                    icon
-            >
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
+
+        <div v-if="1" class="best-deal-mode d-flex">
+            <div class="number-and-controls d-flex align-center pt-2">
+                <v-btn
+                        v-long-press="300"
+                        :disabled="(myCount <= 0)"
+                        @long-press-start="longPressStart(-1)"
+                        @long-press-stop="longPressStop"
+                        @click="changeMyCount(-1)"
+                        x-small
+                        outlined
+                        icon
+                >
+                    <v-icon>mdi-minus</v-icon>
+                </v-btn>
+                <div class="input-container mx-2">
+                    <v-text-field
+                            v-model="myCount"
+                            label="Subscriptions"
+                            dense
+                            hide-details
+                            outlined
+                            color="#333"
+                    />
+
+                </div>
+                <v-btn
+                        v-long-press="300"
+                        :disabled="(myCount > numJournals)"
+                        @long-press-start="longPressStart(1)"
+                        @long-press-stop="longPressStop"
+                        @click="changeMyCount(1)"
+                        x-small
+                        outlined
+                        icon
+
+                >
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
+            </div>
+            <div v-if="0" class="mode">Best Deal mode</div>
+        </div>
     </div>
+
+
 </template>
 
 <script>
@@ -80,8 +111,9 @@
                 "scenarioJournalsAnySubr",
                 "subrIssnls",
                 "scenarioJournals",
+                "scenarioSubrsAreInCpuOrder",
             ]),
-            numJournals(){
+            numJournals() {
                 return this.scenarioJournals.length
             },
             myCount: {
@@ -99,6 +131,9 @@
 </script>
 
 <style lang="scss">
+    .subr-count {
+        width: 180px;
+    }
     .number-and-controls {
         .input-container {
             width: 120px;

@@ -6,10 +6,13 @@
         <template v-slot:activator="{ on }">
             <div class="bar-segment"
                  v-on="on"
-                 :style="{height: percentage+'%', background: configObj.color}">
+                 :style="{height: percentage+'%', background: configObj.color, color: configObj.barTextColor}">
                 <strong v-if="!configObj.isCurrency">{{percentage | round}}%</strong>
                 <strong v-if="configObj.isCurrency">{{count | currency}}</strong>
-                {{configObj.displayName}}
+                <span style="opacity: 0.7;">
+                    {{configObj.displayName}}
+
+                </span>
             </div>
         </template>
 

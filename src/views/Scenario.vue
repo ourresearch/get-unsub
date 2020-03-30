@@ -2,6 +2,7 @@
     <div>
 
         <v-container>
+
             <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}/p/${publisherId}`">
                 <strong>‹</strong>
                 Back <span v-if="publisherName">to {{publisherName}}</span>
@@ -43,7 +44,7 @@
                 <v-card
                         style="width: 100%; position: relative"
                 >
-                    <div class="pa-4" style="position: absolute; top: 0; left: 0;">
+                    <div class="pa-2 pl-4" style="position: absolute; top: 0; left: 0;">
                             <overview-graphic-subrs-counter />
                     </div>
                     <v-container class="py-3 px-0" style="max-width: 1155px;">
@@ -110,7 +111,7 @@
                     <div class="d-flex pa-1">
                         <scenario-menu-scenario key="scenario"/>
                         <scenario-menu-view key="view"/>
-                        <scenario-menu-subscriptions key="subscriptions"/>
+                        <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
                         <scenario-menu-columns key="columns"/>
                         <scenario-menu-settings key="settings"/>
                         <scenario-menu-export key="export"/>
@@ -135,6 +136,7 @@
                             </v-toolbar-title>
                             <v-spacer></v-spacer>
 
+                            <scenario-menu-columns :icon="true" />
                             <v-menu>
                                 <template v-slot:activator="{on}">
                                     <v-btn
@@ -143,12 +145,13 @@
                                             icon
 
                                     >
-                                        <v-icon v-if="'histogram' === menuSettingsView.displayJournalsAsSelected">
-                                            mdi-poll-box
-                                        </v-icon>
-                                        <v-icon v-if="'table' === menuSettingsView.displayJournalsAsSelected">
-                                            mdi-table-large
-                                        </v-icon>
+                                        <v-icon>mdi-eye</v-icon>
+<!--                                        <v-icon v-if="'histogram' === menuSettingsView.displayJournalsAsSelected">-->
+<!--                                            mdi-poll-box-->
+<!--                                        </v-icon>-->
+<!--                                        <v-icon v-if="'table' === menuSettingsView.displayJournalsAsSelected">-->
+<!--                                            mdi-table-large-->
+<!--                                        </v-icon>-->
                                     </v-btn>
                                 </template>
                                 <v-list dense subheader>
@@ -202,7 +205,7 @@
                                     />
                                     <div class="text-center">
                                         <div class="headline">
-                                            Annual costs
+                                            Annual cost
                                         </div>
                                         <div class="caption text--secondary">
                                             As % of Big Deal
@@ -218,10 +221,8 @@
                                     />
                                     <div class="text-center">
                                         <div class="headline">
+                                            Instant
                                             Fulfillment
-                                        </div>
-                                        <div class="caption text--secondary">
-                                            by method
                                         </div>
                                     </div>
                                 </v-col>
@@ -304,6 +305,7 @@
                 'publisherName',
                 'publisherId',
                 'journals',
+                'scenarioSubrsAreInCpuOrder',
 
 
                 'menuSettingsView',

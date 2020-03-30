@@ -173,6 +173,6 @@ export const publisher = {
         },
         getScenarios: (state) => state.scenarios,
         publisherScenarios: (state) => state.scenarios,
-        isPublisherDemo: (state) =>  /^demo-/.test(state.id),
+        isPublisherDemo: (state) =>  state.isDemo,
     }
 }

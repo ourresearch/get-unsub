@@ -7,14 +7,17 @@
         >
             <template v-slot:activator="{ on }">
                 <v-btn
-                        text
                         class="text-capitalize"
                         v-on="on"
+                        :icon="icon"
+                        :text="!icon"
                 >
-                    Columns
+                    <span v-if="!icon">Table</span>
+                    <v-icon v-if="icon">mdi-table-edit</v-icon>
                 </v-btn>
             </template>
-            <v-list dense>
+            <v-list dense subheader>
+                <v-subheader>Add/remove columns</v-subheader>
                 <v-menu
                         v-for="group in groupedTableHeaders"
                         :key="'groupMenu'+group.name"
@@ -76,6 +79,7 @@
 
     export default {
         name: "ScenarioMenuColumns",
+        props: ["icon"],
         computed: {
             groupedTableHeaders: () => appConfigs.journalColGroups,
             showMe(){

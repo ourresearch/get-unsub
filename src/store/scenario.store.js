@@ -290,6 +290,16 @@ export const scenario = {
             if (!state.selected.journals.length) return true
             return false
         },
+        scenarioSubrsAreInCpuOrder: (state) => {
+            let lastSubscribedIndex = 0
+            for (let i = 0; i < state.selected.journals.length; i++) {
+                if (state.selected.journals[i].subscribed){
+                    if (i - lastSubscribedIndex > 1) return false
+                    lastSubscribedIndex = i
+                }
+            }
+            return true
+        },
 
 
         subrJournalsCount: (state) => state.selected.saved.subrs.length,

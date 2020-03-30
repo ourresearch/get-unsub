@@ -400,7 +400,9 @@ const colors = {
         light: "#eee",
         normal: "#fafafa",
         dark: "#999999",
-    }
+    },
+    dark: "#555",
+    light: "#fafafa"
 }
 
 const usageSegments = {
@@ -410,7 +412,9 @@ const usageSegments = {
         displayNameLong: "ILL, Document Delivery, and other delayed access",
         isFree: false,
         lightColor: colors.delayed.light,
-        color: colors.delayed.normal,
+        // color: colors.delayed.normal,
+        color: colors.light,
+        barTextColor: colors.dark,
         darkColor: colors.delayed.dark,
     },
     subr: {
@@ -419,7 +423,9 @@ const usageSegments = {
         displayNameLong: "À la carte subscription",
         isFree: false,
         lightColor: colors.subr.light,
-        color: colors.subr.normal,
+        // color: colors.subr.normal,
+        color: colors.dark,
+        barTextColor: colors.light,
         darkColor: colors.subr.dark,
     },
     oa: {
@@ -428,7 +434,9 @@ const usageSegments = {
         displayNameLong: "Open access",
         lightColor: colors.free.light,
         isFree: true,
-        color: colors.free.normal,
+        // color: colors.free.normal,
+        color: colors.dark,
+        barTextColor: colors.light,
         darkColor: colors.free.dark,
     },
     backfile: {
@@ -437,7 +445,9 @@ const usageSegments = {
         displayNameLong: "Perpetual access backfile",
         isFree: true,
         lightColor: colors.free.light,
-        color: colors.free.normal,
+        // color: colors.free.normal,
+        color: colors.dark,
+        barTextColor: colors.light,
         darkColor: colors.free.dark,
     },
 }
@@ -448,7 +458,9 @@ const costSegments = {
         displayName: "Savings",
         displayNameLong: "Cost savings (compared to Big Deal)",
         lightColor: colors.savings.light,
-        color: colors.savings.normal,
+        // color: colors.savings.normal,
+        color: colors.light,
+        barTextColor: colors.dark,
         darkColor: colors.savings.dark,
         isCurrency: true,
     },
@@ -457,7 +469,9 @@ const costSegments = {
         displayName: "Subscription",
         displayNameLong: "À la carte subscription cost",
         lightColor: colors.subr.light,
-        color: colors.subr.normal,
+        // color: colors.subr.normal,
+        color: colors.dark,
+        barTextColor: colors.light,
         darkColor: colors.subr.dark,
         isCurrency: true,
     },
@@ -466,7 +480,9 @@ const costSegments = {
         displayName: "ILL",
         displayNameLong: "Interlibrary Loan and document delivery cost",
         lightColor: colors.delayed.light,
-        color: colors.delayed.normal,
+        // color: colors.delayed.normal,
+        color: colors.dark,
+        barTextColor: colors.light,
         darkColor: colors.delayed.dark,
         isCurrency: true,
     },
