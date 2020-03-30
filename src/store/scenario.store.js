@@ -91,6 +91,9 @@ export const scenario = {
     },
     actions: {
         async fetchScenario({commit, getters}, id) {
+            alert("We are currently working to fix a bug that's making scenarios not load correctly. We're very sorry about this! We are working get scenarios running again as quickly as possible.")
+            return
+
             const resp = await api.get("scenario/" + id)
             commit("_setSelectedScenario", resp.data)
 
