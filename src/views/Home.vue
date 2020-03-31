@@ -22,7 +22,7 @@
                         <div class="cta">
                             <div class="my-3">
                                 <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>
-                                <v-btn v-if="0" @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
+                                <v-btn @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
                             </div>
     
                         </div>
@@ -147,7 +147,7 @@
 
             <div class="my-12 text-center">
                 <v-btn x-large class="mr-3" depressed large color="primary">Purchase</v-btn>
-                <v-btn v-if="0" x-large @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
+                <v-btn x-large @click="loginDemo" outlined large color="primary">Try Demo</v-btn>
             </div>
         </v-card>
 
@@ -166,8 +166,6 @@
         components: {vueVimeoPlayer},
         methods: {
             async loginDemo() {
-                console.log("demo creation is currently disabled, due to a bug! We're very sorry about this, and are working to get it fixed as quicky as possible.")
-                return
 
                 console.log("login demo account")
                 const path = await this.$store.dispatch("loginDemo")
