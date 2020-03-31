@@ -22,6 +22,7 @@
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
     "vue-click-outside": "^1.0.7",
+    "vue-clipboard2": "^0.3.1",
     "vue-css-donut-chart": "^1.2.0",
     "vue-currency-filter": "^3.4.3",
     "vue-directive-long-press": "^1.1.0",

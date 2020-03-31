@@ -57,18 +57,22 @@ export const institution = {
             const resp = await  api.post(url, data)
             return resp
         },
-        async createGroupMember({commit, dispatch, getters}, {email, name}) {
+        async createGroupMember({commit, dispatch, getters}, {email, name, password, role}) {
+            if (!password) password = ""
+            if (!role) role = "Viewer"
+
             const newPermissionsObject = {
                 user_email: email,
                 user_name: name,
                 institution_id: getters.institutionId,
-                permissions:  permissionsFromRole("Collaborator"),
+                permissions:  permissionsFromRole(role),
             }
             commit("addUserPermission", newPermissionsObject)
 
             const newUser = {
                 email,
                 name,
+                password,
                 user_permissions: [
                     newPermissionsObject
                 ]

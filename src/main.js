@@ -42,6 +42,9 @@ Vue.component('jazzicon', Jazzicon);
 import Gravatar from 'vue-gravatar';
 Vue.component('v-gravatar', Gravatar);
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 const rounder = function (value, decimals) {
     if (!value) {
         value = 0

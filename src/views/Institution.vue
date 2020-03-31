@@ -199,7 +199,7 @@
                                 <!--                                </v-btn>-->
                             </v-list-item-action>
                         </v-list-item>
-                        <v-list-item v-if="userIsAdmin" @click="dialogs.createGroupMember = true">
+                        <v-list-item v-if="userIsAdmin" @click="openCreateGroupMemberDialog">
                             <v-list-item-avatar>
                                 <v-icon>mdi-plus</v-icon>
                             </v-list-item-avatar>
@@ -309,16 +309,37 @@
                 <v-card-text class="pt-4">
                     <div>
                         <v-text-field
-                                outlined
+                                hide-details
+                                dense
                                 type="text"
                                 label="Name"
                                 v-model="newGroupMember.name"
+                                prepend-icon="mdi-account-outline"
                         />
                         <v-text-field
-                                outlined
+                                hide-details
+                                dense
                                 type="email"
                                 label="Email"
                                 v-model="newGroupMember.email"
+                                prepend-icon="mdi-email-outline"
+                        />
+                        <v-text-field
+                                hide-details
+                                dense
+                                type="text"
+                                label="Password"
+                                v-model="newGroupMember.password"
+                                prepend-icon="mdi-shield-outline"
+                                append-outer-icon="mdi-clipboard-text"
+                                @click:append-outer="copyPassword"
+                        />
+                        <v-select
+                                hide-details
+                                label="Role"
+                                dense
+                                v-model="newGroupMember.role"
+                                :items="roles"
                         />
                     </div>
                 </v-card-text>
@@ -365,12 +386,22 @@
             </v-card>
         </v-dialog>
 
+
+        <v-snackbar v-model="snackbars.copySuccess" bottom left>
+            Password copied
+            <v-btn dark icon @click="snackbars.copySuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+
     </v-container>
 </template>
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {roleFromPermissions, permissionsFromRole, roles} from "../shared/userPermissions";
+    const short = require('short-uuid');
 
     export default {
         name: "Institution",
@@ -379,7 +410,8 @@
             return {
                 snackbars: {
                     newGroupMember: false,
-                    roleUpdated: false
+                    roleUpdated: false,
+                    copySuccess: false,
                 },
                 dialogs: {
                     createGroupMember: false,
@@ -393,6 +425,8 @@
                 newGroupMember: {
                     name: "",
                     email: "",
+                    password: "",
+                    role: "Collaborator",
                 },
 
                 isRoleUpdating: false,
@@ -437,7 +471,14 @@
                 await this.$store.dispatch("createGroupMember", this.newGroupMember)
                 this.snackbars.newGroupMember = true
                 this.dialogs.createGroupMember = false
-
+            },
+            openCreateGroupMemberDialog(){
+                this.dialogs.createGroupMember = true
+                this.newGroupMember.password = short.generate().slice(0, 8)
+            },
+            async copyPassword(){
+                await this.$copyText(this.newGroupMember.password)
+                this.snackbars.copySuccess = true
             }
 
         },
