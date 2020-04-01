@@ -39,6 +39,7 @@ export const scenario = {
             state.selected = buildScenarioFromApiResp(scenarioApiResp)
         },
         setScenarioFromObject(state, scenarioObject) {
+            console.log("setScenarioFromObject", scenarioObject)
             state.selected = scenarioObject
         },
         clearSelectedScenario(state) {

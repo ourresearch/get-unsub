@@ -18,10 +18,11 @@
             </div>
         </div>
 
-        <v-alert v-if="isPublisherDemo"  color="info" text dense icon="mdi-information-outline">
+        <v-alert v-if="isPublisherDemo" color="info" text dense icon="mdi-information-outline">
             <div class="d-flex align-center">
                 <div>
-                    This publisher belongs to a demo institution; the data is real, but some functionality is restricted.
+                    This publisher belongs to a demo institution; the data is real, but some functionality is
+                    restricted.
                 </div>
                 <v-spacer></v-spacer>
                 <div>
@@ -29,7 +30,6 @@
                 </div>
             </div>
         </v-alert>
-
 
 
         <v-row>
@@ -49,20 +49,72 @@
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="">
-                                    hey dude
+                                    {{publisherName}}
                                 </div>
                                 <v-list-item-subtitle>
                                     Name
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon>
+                                <v-btn icon disabled>
                                     <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
 
                     </v-list>
+
+
+                    <v-card-title class="mt-10">
+                        <div>
+                            OA publication costs
+                        </div>
+                        <v-spacer></v-spacer>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-list two-line dense>
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-cash</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <div class="">
+                                    $424,242
+                                </div>
+                                <v-list-item-subtitle>
+                                    Est. APC Spend
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon>
+                                    <v-icon>mdi-information-outline</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-account-multiple</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <div class="">
+                                    534
+                                </div>
+                                <v-list-item-subtitle>
+                                    Number of authorships (fractional)
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon>
+                                    <v-icon>mdi-information-outline</v-icon>
+                                </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                    </v-list>
+                    <v-btn text>
+                        See more details
+                    </v-btn>
 
                 </v-card>
             </v-col>
@@ -79,13 +131,10 @@
                     <v-divider></v-divider>
 
 
-
-
-
                     <v-list>
 
                         <template
-                            v-for="scenario in publisherScenarios"
+                                v-for="scenario in publisherScenarios"
                         >
 
                             <v-list-item
@@ -96,8 +145,8 @@
                             >
 
                                 <v-list-item-avatar size="50">
-                                    <jazzicon v-if="!scenario.isLoading" :address="scenario.id" :diameter="50" />
-                                    <v-progress-circular v-if="scenario.isLoading" color="grey" indeterminate />
+                                    <jazzicon v-if="!scenario.isLoading" :address="scenario.id" :diameter="50"/>
+                                    <v-progress-circular v-if="scenario.isLoading" color="grey" indeterminate/>
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
@@ -131,8 +180,6 @@
                         </template>
 
 
-
-
                         <v-fade-transition>
                             <v-list-item
                                     @click=""
@@ -154,27 +201,7 @@
                         </v-fade-transition>
 
 
-
                     </v-list>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                 </v-card>
@@ -183,23 +210,10 @@
         </v-row>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
         <v-row v-if="0" class="fill-height">
             <v-col cols="7">
                 <h2 class="display-1 my-2">Your dashboards</h2>
-                <v-card  class="mb-2">
+                <v-card class="mb-2">
                     <v-toolbar dark color="#555">
                         <v-toolbar-title>
                             <div class="body-2">5yr forecast</div>
@@ -257,7 +271,8 @@
                                         <v-icon>mdi-pencil</v-icon>
                                     </v-btn>
 
-                                    <v-btn v-if="publisherScenariosCount > 1" icon @click.stop="openDeleteDialog(scenario)">
+                                    <v-btn v-if="publisherScenariosCount > 1" icon
+                                           @click.stop="openDeleteDialog(scenario)">
                                         <v-icon>mdi-delete</v-icon>
                                     </v-btn>
                                 </div>
@@ -555,8 +570,8 @@
                 this.errorMsg = ""
                 this.fileSelected = null
             },
-            goToScenario(scenarioId){
-                const  url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${this.scenario.id}`
+            goToScenario(scenarioId) {
+                const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${this.scenario.id}`
                 console.log("go to scenario!", url)
                 this.$router.push(url)
 
@@ -595,12 +610,11 @@
             }
 
 
-
         },
     }
 </script>
 
-<style  lang="scss">
+<style lang="scss">
     .v-toolbar__extension {
         border-top: none !important;
     }

@@ -83,7 +83,7 @@ export const user = {
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
         userIsDemo: (state) => {
-            return state.institutions.length === 1 && state.institutions[0].is_demo
+            return state.institutions.length === 1 &&  /\bDemo\b/.test(state.institutions[0].institution_name)
         },
         isLoggedIn: (state) => !!state.email,
         token: () => localStorage.getItem("token"),

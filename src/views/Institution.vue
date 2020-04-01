@@ -6,11 +6,10 @@
         </router-link>
 
 
-
         <div class="page-title mt-8 mb-4 d-flex">
             <div class="mt-1 mr-2">
                 <v-avatar tile size="60">
-                    <img  v-if="institutionIsDemo" src="https://i.imgur.com/oeSIBs7.png" alt="">
+                    <img v-if="institutionIsDemo" src="https://i.imgur.com/oeSIBs7.png" alt="">
                     <v-icon x-large v-if="!institutionIsDemo">mdi-bank</v-icon>
                 </v-avatar>
             </div>
@@ -19,7 +18,7 @@
                     Institution
                 </div>
                 <div class="display-2">
-                     {{ institutionName }}
+                    {{ institutionName }}
                 </div>
             </div>
         </div>
@@ -144,7 +143,14 @@
                                     <span v-if="!person.user_name">Nameless Person</span>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
-                                    {{person.user_email}}
+                                    <div>
+                                        <div>
+                                            {{person.user_email}}
+                                        </div>
+                                        <div class="mt-1 font-weight-bold">
+                                            {{ roleFromPermissions(person.permissions) }}
+                                        </div>
+                                    </div>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
 
@@ -152,7 +158,7 @@
                                 {{person.role}}
                             </v-list-item-action>
 
-                            <v-list-item-action v-if="userIsAdmin">
+                            <v-list-item-action v-if="0 && userIsAdmin">
                                 <v-menu>
                                     <template v-slot:activator="{ on }">
                                         <v-btn
@@ -309,37 +315,33 @@
                 <v-card-text class="pt-4">
                     <div>
                         <v-text-field
-                                hide-details
-                                dense
                                 type="text"
                                 label="Name"
                                 v-model="newGroupMember.name"
                                 prepend-icon="mdi-account-outline"
                         />
                         <v-text-field
-                                hide-details
-                                dense
                                 type="email"
                                 label="Email"
                                 v-model="newGroupMember.email"
                                 prepend-icon="mdi-email-outline"
                         />
                         <v-text-field
-                                hide-details
-                                dense
                                 type="text"
                                 label="Password"
                                 v-model="newGroupMember.password"
                                 prepend-icon="mdi-shield-outline"
                                 append-outer-icon="mdi-clipboard-text"
+                                id="pw"
                                 @click:append-outer="copyPassword"
                         />
                         <v-select
-                                hide-details
                                 label="Role"
-                                dense
                                 v-model="newGroupMember.role"
                                 :items="roles"
+                                prepend-icon="mdi-account-key-outline"
+                                :hint="roleDescriptions[newGroupMember.role]"
+                                persistent-hint
                         />
                     </div>
                 </v-card-text>
@@ -400,7 +402,8 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {roleFromPermissions, permissionsFromRole, roles} from "../shared/userPermissions";
+    import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
+
     const short = require('short-uuid');
 
     export default {
@@ -419,6 +422,7 @@
                 },
 
                 roles,
+                roleDescriptions,
                 roleFromPermissions,
                 permissionsFromRole,
 
@@ -472,12 +476,15 @@
                 this.snackbars.newGroupMember = true
                 this.dialogs.createGroupMember = false
             },
-            openCreateGroupMemberDialog(){
+            openCreateGroupMemberDialog() {
                 this.dialogs.createGroupMember = true
                 this.newGroupMember.password = short.generate().slice(0, 8)
             },
-            async copyPassword(){
-                await this.$copyText(this.newGroupMember.password)
+            async copyPassword() {
+                const copyText = document.querySelector("#pw");
+                copyText.select();
+                document.execCommand("copy");
+                // await this.$copyText(this.newGroupMember.password)
                 this.snackbars.copySuccess = true
             }
 

@@ -4,7 +4,8 @@ import _ from "lodash"
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 
-let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+// let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+let urlBase = "https://unpaywall-jump-api-dev.herokuapp.com/"
 
 const serverFlags = []
 if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock-account=1")

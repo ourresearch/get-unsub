@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <v-container>
 
             <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}/p/${publisherId}`">
@@ -469,6 +468,8 @@
                 "setScenarioFromObject",
                 this.$store.getters.publisherScenario(this.$route.params.scenarioId)
             )
+
+            console.log("scenario selected:", this.$store.getters.selectedScenario)
 
             // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
 

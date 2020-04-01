@@ -1,6 +1,12 @@
 
 
 const roles = ["Admin", "Collaborator", "Viewer", "Unaffiliated"]
+const roleDescriptions = {
+    Admin: "Can view, modify data; can add/del users",
+    Collaborator: "Can view and modify data",
+    Viewer: "Can view data only",
+    Unaffiliated: "No access"
+}
 
 const roleFromPermissions = function (permissions) {
     let ret
@@ -26,5 +32,6 @@ const permissionsFromRole = function (role) {
 export {
     roleFromPermissions,
     permissionsFromRole,
-    roles
+    roles,
+    roleDescriptions,
 }
