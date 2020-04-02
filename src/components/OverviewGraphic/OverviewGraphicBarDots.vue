@@ -36,7 +36,7 @@
 
         <v-card flat class="mt-5" v-show="journalsWithCpuOutsideBins.length">
             <div class="">
-                Journals with APC > {{maxBinValue | currency}} <span class="body-">({{journalsWithCpuOutsideBins.length}})</span>
+                Journals with CPU > {{maxBinValue | currency}} <span class="body-">({{journalsWithCpuOutsideBins.length}})</span>
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot

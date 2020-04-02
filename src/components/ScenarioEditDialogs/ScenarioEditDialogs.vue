@@ -98,7 +98,7 @@
         <v-snackbar
                 v-model="isCopySnackbarOpen"
                 :timeout="3000"
-                top
+                bottom left
         >
             Scenario copied
             <v-btn dark icon @click="isCopySnackbarOpen = false">
@@ -110,7 +110,7 @@
         <v-snackbar
                 v-model="isRenameSnackbarOpen"
                 :timeout="3000"
-                top
+                bottom left
         >
             Scenario renamed
             <v-btn dark icon @click="isRenameSnackbarOpen = false">
@@ -121,7 +121,7 @@
         <v-snackbar
                 v-model="isDeleteSnackbarOpen"
                 :timeout="3000"
-                top
+                bottom left
         >
             Scenario deleted
             <v-btn dark icon @click="isDeleteSnackbarOpen = false">

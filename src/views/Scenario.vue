@@ -8,7 +8,7 @@
             </router-link>
             <div class="page-title mt-8 d-flex">
                 <v-avatar size="50" class="mt-3 mr-3">
-                    <jazzicon v-show="!selectedScenarioIsLoading" class="" :address="scenarioId" :diameter="50"/>
+                    <jazzicon v-show="!selectedScenarioIsLoading" class="" :address="scenarioIdHash" :diameter="50"/>
                     <v-progress-circular
                             size="50"
                             v-show="selectedScenarioIsLoading"
@@ -27,13 +27,217 @@
 
                 </div>
             </div>
+            <v-divider></v-divider>
+            <div class="d-flex pa-1">
+                <scenario-menu-scenario key="scenario"/>
+                <scenario-menu-view key="view"/>
+                <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
+                <scenario-menu-columns key="columns"/>
+                <scenario-menu-settings key="settings"/>
+                <scenario-menu-export key="export"/>
+                <scenario-menu-help key="help"/>
+            </div>
+        </v-container>
+
+
+        <v-container>
+            <v-row>
+                <v-col cols="4">
+                    <v-card style="position: sticky; top: 0px;">
+                        <v-toolbar flat>
+                            <v-toolbar-title>
+                                5yr forecast overview
+                            </v-toolbar-title>
+                        </v-toolbar>
+                        <v-divider />
+                        <v-card-text>
+                            <v-row>
+                                <v-spacer />
+                                <overview-graphic-subrs-counter/>
+                                <v-spacer />
+                            </v-row>
+                        </v-card-text>
+                        <v-divider />
+
+                        <v-card-text>
+                            <v-row class="">
+                                <!--                                COST -->
+                                <v-col class="py-0" cols="6">
+                                    <div class="text-right">
+                                        <div class="headline">
+                                            {{ subrCost + illCost | currency }}
+                                        </div>
+                                        <div class="caption">
+                                            <v-tooltip bottom max-width="400" color="#333">
+                                                <template v-slot:activator="{ on }">
+                                                            <span v-on="on">
+                                                                Annual cost
+                                                                <v-icon small>mdi-information-outline</v-icon>
+                                                            </span>
+                                                </template>
+                                                <div>
+                                                    This is the average annual cost to the library over the next
+                                                    five years, based on your selected settings and subscriptions.
+                                                </div>
+                                            </v-tooltip>
+                                        </div>
+                                    </div>
+                                </v-col>
+
+                                <!--                                FULFILLMENT -->
+                                <v-col class="py-0" cols="6">
+                                    <div class="text-right">
+                                        <div class="headline">
+                                            {{ instantUsagePercent | percent(1) }}
+                                        </div>
+                                        <div class="caption">
+                                            <v-tooltip bottom max-width="400" color="#333">
+                                                <template v-slot:activator="{ on }">
+                                                            <span v-on="on">
+                                                                Instant fulfillment
+                                                                <v-icon small>mdi-information-outline</v-icon>
+                                                            </span>
+                                                </template>
+                                                <div>
+                                                    This is the percentage of content requests that your library
+                                                    will successfully fulfill <em>instantly</em> over the next five
+                                                    years (either via subscription, backfile, or OA).
+                                                </div>
+                                            </v-tooltip>
+                                        </div>
+                                    </div>
+                                </v-col>
+                            </v-row>
+
+                        </v-card-text>
+
+                        <v-card-text>
+                            <v-row>
+                                <v-col cols="6">
+                                    <overview-graphic-bar
+                                            type="cost"
+                                            :segments="costSegments"
+                                            :num-journals="journals.length"
+                                            :num-journals-subscribed="subscribedJournals.length"
+                                    />
+                                    <div class="text-center mt-2">
+                                        <div class="body-1">
+                                            Annual cost
+                                        </div>
+                                        <div class="caption text--secondary">
+                                            {{ (this.subrCostPercent + this.illCostPercent) | percent(1) }} of Big Deal
+                                        </div>
+                                    </div>
+                                </v-col>
+                                <v-col cols="6">
+                                    <overview-graphic-bar
+                                            type="usage"
+                                            :segments="usageSegments"
+                                            :num-journals="journals.length"
+                                            :num-journals-subscribed="subscribedJournals.length"
+                                    />
+                                    <div class="text-center mt-2">
+                                        <div class="body-1">
+                                            Instant fulfillment
+                                        </div>
+                                    </div>
+                                </v-col>
+
+                            </v-row>
+
+                        </v-card-text>
+
+
+
+                    </v-card>
+                </v-col>
+
+                <v-col cols="8">
+                    <v-card>
+                        <v-toolbar flat  style="position: sticky; top: 0px; z-index: 999; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+                            <v-toolbar-title>
+                                A-la-carte journals
+                                <span class="body-2">({{ numJournals | round }})</span>
+                            </v-toolbar-title>
+                            <v-spacer></v-spacer>
+
+                            <div class="mr-3">
+                                <v-text-field
+                                        v-if="menuSettingsView.displayJournalsAsSelected=='table'"
+                                        hide-details
+                                        outlined
+                                        dense
+                                        label="Search journals"
+                                        v-model="search"
+                                        append-icon="mdi-magnify"
+                                        full-width
+
+                                />
+                            </div>
+                            <scenario-menu-columns :icon="true"/>
+                            <v-menu>
+                                <template v-slot:activator="{on}">
+                                    <v-btn
+                                            text
+                                            v-on="on"
+                                            icon
+
+                                    >
+                                        <v-icon>mdi-eye</v-icon>
+                                        <!--                                        <v-icon v-if="'histogram' === menuSettingsView.displayJournalsAsSelected">-->
+                                        <!--                                            mdi-poll-box-->
+                                        <!--                                        </v-icon>-->
+                                        <!--                                        <v-icon v-if="'table' === menuSettingsView.displayJournalsAsSelected">-->
+                                        <!--                                            mdi-table-large-->
+                                        <!--                                        </v-icon>-->
+                                    </v-btn>
+                                </template>
+                                <v-list dense subheader>
+                                    <v-subheader>Display journals as:</v-subheader>
+                                    <v-list-item
+                                            v-for="option in menuSettingsView.displayJournalsAsOptions"
+                                            :key="option.name"
+                                            @click="menuViewSetDisplayJournalsAs(option.name)"
+                                    >
+                                        <v-list-item-icon>
+                                            <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
+                                                mdi-radiobox-marked
+                                            </v-icon>
+                                            <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
+                                                mdi-radiobox-blank
+                                            </v-icon>
+                                        </v-list-item-icon>
+
+                                        <v-list-item-title>
+                                            <v-icon>{{option.icon}}</v-icon>
+                                            {{ option.name }}
+                                        </v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-toolbar>
+                        <v-card-text>
+                            <overview-graphic-bar-dots
+                                    v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
+                                    :journals="filteredJournals"
+                            />
+                            <journals-table-table
+                                    v-show="menuSettingsView.displayJournalsAsSelected=='table'"
+                                    :journals="filteredJournals"
+                            />
+
+                        </v-card-text>
+                    </v-card>
+
+                </v-col>
+            </v-row>
         </v-container>
 
 
         <div
                 class="sticky-toolbar"
                 id="sticky-toolbar"
-                v-if="!selectedScenarioIsLoading"
+                v-if="0 && !selectedScenarioIsLoading"
         >
             <v-container
                     class="pt-0 pb-0"
@@ -127,129 +331,6 @@
         </div>
 
 
-        <v-container v-if="!selectedScenarioIsLoading">
-            <v-row>
-                <v-col cols="8">
-                    <v-card>
-                        <v-toolbar flat>
-                            <v-toolbar-title>
-                                A-la-carte journals
-                                <span class="body-2">({{ numJournals | round }})</span>
-                            </v-toolbar-title>
-                            <v-spacer></v-spacer>
-
-                            <div>
-                                <v-text-field
-                                        v-if="menuSettingsView.displayJournalsAsSelected=='table'"
-                                        hide-details
-                                        outlined
-                                        dense
-                                        label="Search journals"
-                                        v-model="search"
-                                        append-icon="mdi-magnify"
-                                        full-width
-                                />
-                            </div>
-                            <scenario-menu-columns :icon="true"/>
-                            <v-menu>
-                                <template v-slot:activator="{on}">
-                                    <v-btn
-                                            text
-                                            v-on="on"
-                                            icon
-
-                                    >
-                                        <v-icon>mdi-eye</v-icon>
-                                        <!--                                        <v-icon v-if="'histogram' === menuSettingsView.displayJournalsAsSelected">-->
-                                        <!--                                            mdi-poll-box-->
-                                        <!--                                        </v-icon>-->
-                                        <!--                                        <v-icon v-if="'table' === menuSettingsView.displayJournalsAsSelected">-->
-                                        <!--                                            mdi-table-large-->
-                                        <!--                                        </v-icon>-->
-                                    </v-btn>
-                                </template>
-                                <v-list dense subheader>
-                                    <v-subheader>Display journals as:</v-subheader>
-                                    <v-list-item
-                                            v-for="option in menuSettingsView.displayJournalsAsOptions"
-                                            :key="option.name"
-                                            @click="menuViewSetDisplayJournalsAs(option.name)"
-                                    >
-                                        <v-list-item-icon>
-                                            <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
-                                                mdi-radiobox-marked
-                                            </v-icon>
-                                            <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
-                                                mdi-radiobox-blank
-                                            </v-icon>
-                                        </v-list-item-icon>
-
-                                        <v-list-item-title>
-                                            <v-icon>{{option.icon}}</v-icon>
-                                            {{ option.name }}
-                                        </v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
-                            </v-menu>
-                        </v-toolbar>
-                        <v-divider></v-divider>
-                        <v-card-text>
-                            <overview-graphic-bar-dots
-                                    v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
-                                    :journals="filteredJournals"
-                            />
-                            <journals-table-table
-                                    v-show="menuSettingsView.displayJournalsAsSelected=='table'"
-                                    :journals="filteredJournals"
-                            />
-
-                        </v-card-text>
-                    </v-card>
-
-                </v-col>
-                <v-col cols="4">
-                    <v-card class="px-2" style="position: sticky; top: 130px;">
-                        <v-row v-if="journals.length">
-                            <v-col cols="6">
-                                <overview-graphic-bar
-                                        type="cost"
-                                        :segments="costSegments"
-                                        :num-journals="journals.length"
-                                        :num-journals-subscribed="subscribedJournals.length"
-                                />
-                                <div class="text-center">
-                                    <div class="headline">
-                                        Annual cost
-                                    </div>
-                                    <div class="caption text--secondary">
-                                        As % of Big Deal
-                                    </div>
-                                </div>
-                            </v-col>
-                            <v-col cols="6">
-                                <overview-graphic-bar
-                                        type="usage"
-                                        :segments="usageSegments"
-                                        :num-journals="journals.length"
-                                        :num-journals-subscribed="subscribedJournals.length"
-                                />
-                                <div class="text-center">
-                                    <div class="headline">
-                                        Instant
-                                        Fulfillment
-                                    </div>
-                                </div>
-                            </v-col>
-
-                        </v-row>
-                    </v-card>
-                </v-col>
-
-            </v-row>
-
-        </v-container>
-
-
     </div>
 </template>
 
@@ -321,6 +402,7 @@
                 'publisherId',
                 'journals',
                 'scenarioSubrsAreInCpuOrder',
+                'scenarioIdHash',
 
 
                 'menuSettingsView',
@@ -463,7 +545,7 @@
             numJournals() {
                 return this.journals.length
             },
-            filteredJournals(){
+            filteredJournals() {
                 // return this.journals.map(j=>{
                 //     return {
                 //         ...j,

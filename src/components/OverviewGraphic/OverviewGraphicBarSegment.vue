@@ -7,8 +7,8 @@
             <div class="bar-segment"
                  v-on="on"
                  :style="{height: percentage+'%', background: configObj.color, color: configObj.barTextColor}">
-                <strong v-if="!configObj.isCurrency">{{percentage | round}}%</strong>
-                <strong v-if="configObj.isCurrency">{{count | currency}}</strong>
+                <span v-if="!configObj.isCurrency">{{percentage | round}}%</span>
+                <span v-if="configObj.isCurrency">{{count | currency}}</span>
                 <span style="opacity: 0.7;">
                     {{configObj.displayName}}
 

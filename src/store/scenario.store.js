@@ -5,6 +5,11 @@ import appConfigs from "../appConfigs"
 import {buildScenarioFromApiResp, newScenario} from "../shared/scenario";
 
 
+function hashCode(str) {
+  return Math.abs(str.split('').reduce((prevHash, currVal) =>
+    (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0));
+}
+
 export const scenario = {
     state: {
         selected: newScenario(),
@@ -306,6 +311,7 @@ export const scenario = {
         subrJournalsCount: (state) => state.selected.saved.subrs.length,
         illJournalsCount: (state) => state.selected.journals.length - state.selected.saved.subrs.length,
         tableColsToShow: (state) => state.tableColsToShow,
+        scenarioIdHash: (state) => state.selected.idHash,
 
 
     }

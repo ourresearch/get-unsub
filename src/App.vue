@@ -1,8 +1,8 @@
 <template>
     <v-app>
-        <app-bar></app-bar>
 
         <v-content style="margin-bottom: 0">
+            <app-bar></app-bar>
             <router-view></router-view>
             <single-journal></single-journal>
             <startup-tutorial></startup-tutorial>

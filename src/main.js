@@ -45,6 +45,8 @@ Vue.component('v-gravatar', Gravatar);
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 
+
+
 const rounder = function (value, decimals) {
     if (!value) {
         value = 0
@@ -59,7 +61,13 @@ const rounder = function (value, decimals) {
     }
 
     value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
-    return value.toLocaleString()
+
+    // https://stackoverflow.com/a/43539443/226013
+    const localStrOpts = {
+            minimumFractionDigits: decimals,
+            maximumFractionDigits: decimals,
+    }
+    return value.toLocaleString(undefined, localStrOpts)
 }
 
 Vue.config.productionTip = false

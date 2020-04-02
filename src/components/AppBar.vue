@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar app hide-on-scroll color="white">
+    <v-toolbar color="white">
         <router-link to="/">
             <img  class="mt-2" src="../assets/unpaywall-journals-logo.png" alt="" />
         </router-link>
@@ -95,7 +95,7 @@
                 <v-icon>mdi-help-circle-outline</v-icon>
             </v-btn>
         </div>
-    </v-app-bar>
+    </v-toolbar>
 </template>
 
 <script>

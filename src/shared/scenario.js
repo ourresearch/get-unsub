@@ -1,5 +1,6 @@
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
+import {toHexHash} from "./util";
 
 const buildScenarioFromApiResp = function (apiResp) {
     apiResp.journals.forEach((myJournal, myIndex) => {
@@ -22,6 +23,7 @@ const hydrateScenario = function(dehydratedScenario, fullScenarioFromApi){
 const newScenario = function (id = "", name="") {
     return {
         id: id,
+        idHash: toHexHash(id),
         isLoading: false,
         journals: [],
         saved: {

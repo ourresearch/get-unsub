@@ -142,64 +142,36 @@
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title class="">
-                                    <span v-if="person.user_name">
-                                        {{person.user_name}}
-                                        <span class="you" v-if="person.user_id === userId">(you)</span>
-                                    </span>
-                                    <span v-if="!person.user_name">Nameless Person</span>
+                                    {{person.user_email}}
+                                    <span class="you" v-if="person.user_id === userId">(you)</span>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
-                                    <div>
-                                        <div>
-                                            {{person.user_email}}
-                                        </div>
-                                        <div class="mt-1 font-weight-bold">
-                                            {{ roleFromPermissions(person.permissions) }}
-                                        </div>
-                                    </div>
+                                    <span class="font-weight-bold">
+                                        {{ roleFromPermissions(person.permissions) }}
+                                    </span>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
 
-                            <v-list-item-action v-if="!userIsAdmin">
-                                {{person.role}}
-                            </v-list-item-action>
-
-                            <v-list-item-action v-if="0 && userIsAdmin">
+                            <v-list-item-action v-if="userIsAdmin && person.user_id !== userId">
                                 <v-menu>
                                     <template v-slot:activator="{ on }">
                                         <v-btn
-                                                text
-                                                small
+                                                icon
                                                 v-on="on"
                                         >
-                                            {{roleFromPermissions(person.permissions)}}
-                                            <v-icon>mdi-menu-down</v-icon>
+                                            <v-icon>mdi-pencil</v-icon>
                                         </v-btn>
                                     </template>
-                                    <v-list v-if="!person.is_authenticated_user">
+                                    <v-list dense>
+                                        <v-subheader class="body-2 text--secondary pa-1">Select role</v-subheader>
                                         <v-list-item
                                                 v-for="role in roles"
                                                 :key="role"
                                                 @click="setRole(person.user_email, role)"
                                         >
-                                            <v-list-item-content>
+                                            <v-list-item-title>
                                                 {{role}}
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                    </v-list>
-                                    <v-list v-if="person.is_authenticated_user">
-                                        <v-list-item @click="">
-                                            <v-list-item-content>
-                                                Admin
-                                            </v-list-item-content>
-                                        </v-list-item>
-                                        <v-list-item
-                                                v-for="role in roles.filter(r => r !== 'Admin')"
-                                                :key="role"
-                                        >
-                                            <v-list-item-content class="text--disabled">
-                                                {{role}}
-                                            </v-list-item-content>
+                                            </v-list-item-title>
                                         </v-list-item>
                                     </v-list>
                                 </v-menu>
@@ -321,25 +293,10 @@
                 <v-card-text class="pt-4">
                     <div>
                         <v-text-field
-                                type="text"
-                                label="Name"
-                                v-model="newGroupMember.name"
-                                prepend-icon="mdi-account-outline"
-                        />
-                        <v-text-field
                                 type="email"
                                 label="Email"
                                 v-model="newGroupMember.email"
                                 prepend-icon="mdi-email-outline"
-                        />
-                        <v-text-field
-                                type="text"
-                                label="Password"
-                                v-model="newGroupMember.password"
-                                prepend-icon="mdi-shield-outline"
-                                append-outer-icon="mdi-clipboard-text"
-                                id="pw"
-                                @click:append-outer="copyPassword"
                         />
                         <v-select
                                 label="Role"
@@ -351,7 +308,7 @@
                         />
                     </div>
                 </v-card-text>
-                <v-card-actions>
+                <v-card-actions class="mt-6">
                     <v-spacer/>
                     <v-btn depressed
                            @click="dialogs.createGroupMember = false"
@@ -361,7 +318,6 @@
                     <v-btn depressed
                            @click="createGroupMember"
                            color="primary"
-                           :disabled="!(newGroupMember.name && newGroupMember.email)"
                     >
                         Create group member
                     </v-btn>
@@ -409,8 +365,6 @@
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
-
-    const short = require('short-uuid');
 
     export default {
         name: "Institution",
@@ -478,13 +432,12 @@
                 this.snackbars.roleUpdated = true
             },
             async createGroupMember() {
-                await this.$store.dispatch("createGroupMember", this.newGroupMember)
                 this.snackbars.newGroupMember = true
                 this.dialogs.createGroupMember = false
+                await this.$store.dispatch("createGroupMember", this.newGroupMember)
             },
             openCreateGroupMemberDialog() {
                 this.dialogs.createGroupMember = true
-                this.newGroupMember.password = short.generate().slice(0, 8)
             },
             async copyPassword() {
                 const copyText = document.querySelector("#pw");

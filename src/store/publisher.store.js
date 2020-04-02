@@ -1,6 +1,5 @@
 import axios from "axios";
 import Vue from "vue"
-import router from "../router"
 
 import {api} from "../api"
 import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/scenario";
@@ -8,6 +7,9 @@ import _ from "lodash";
 
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
+
+
+
 
 export const publisher = {
     state: {
@@ -185,7 +187,6 @@ export const publisher = {
         },
         async deleteScenario({commit, getters}, id) {
             commit("deleteScenario", id)
-            router.push(`/a/${getters.publisherId}`)
             await api.delete(`scenario/${id}`)
         },
         async createScenario({commit, dispatch, getters}) {

@@ -22,7 +22,7 @@
 
                 <v-list-item @click="showApiKeyDialog=true">
                     <v-list-item-icon class="mr-2">
-                        <v-icon>mdi-settings-outline</v-icon>
+                        <v-icon>mdi-api</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
                         Your API key
