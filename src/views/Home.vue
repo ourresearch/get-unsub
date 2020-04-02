@@ -27,7 +27,7 @@
                             <div class="headline pb-3">
                                 Try the demo!
                             </div>
-                            <div class="my-3 d-flex">
+                            <div class="mt-3 d-flex">
 
                                 <!--                                <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>-->
                                 <v-text-field
@@ -35,10 +35,11 @@
                                         label="Your email"
                                         @keydown.enter="createDemo"
                                         :loading="createDemoLoading"
-                                        :disabled="createDemoLoading"
+                                        :readonly="createDemoLoading"
                                         outlined
                                         type="email"
                                         v-model="userEmail"
+                                        :error-messages="errorMsg"
                                 />
                                 <v-btn
                                         @click="createDemo"
@@ -51,6 +52,7 @@
                                     <v-icon>mdi-arrow-right</v-icon>
                                 </v-btn>
                             </div>
+                            <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead</router-link>
 
                         </div>
 
@@ -162,7 +164,7 @@
             <v-divider class="my-12"></v-divider>
 
 
-            <div class="my-12 text-center">
+            <div v-if="0" class="my-12 text-center">
                 <v-btn x-large class="mr-3" depressed large color="primary">Purchase</v-btn>
                 <v-btn x-large @click="createDemo" outlined large color="primary">Try Demo</v-btn>
             </div>
@@ -186,20 +188,31 @@
             return {
                 userEmail: "",
                 createDemoLoading: false,
+                errorMsg: ""
             }
         },
         methods: {
             async createDemo() {
                 console.log("login demo account", this.userEmail)
+                this.errorMsg = ""
                 this.createDemoLoading = true
                 const adjectiveAnimal = randanimalSync()
                 const animal = adjectiveAnimal.split(" ")[1]
 
-                await this.$store.dispatch("createDemo", {
-                    email: this.userEmail,
-                    password: "",
-                    name: "Anonymous " + animal,
-                })
+                try {
+                    await this.$store.dispatch("createDemo", {
+                        email: this.userEmail,
+                        password: "",
+                        name: "Anonymous " + animal,
+                    })
+                }
+                catch (e){
+                    this.errorMsg = "Email already in use"
+                    return
+                }
+                finally {
+                    this.createDemoLoading = false
+                }
 
                 const data = {
                     user_id: this.$store.getters.userId,
@@ -208,10 +221,6 @@
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
                 this.$intercom.boot(data)
 
-
-
-
-                this.createDemoLoading = false
                 await this.$router.push("/u")
             }
         },
