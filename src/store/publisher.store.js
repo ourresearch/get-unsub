@@ -13,6 +13,7 @@ export const publisher = {
     state: {
         selected: null,
 
+        isLoading: false,
         id: null,
         name: "",
         isDemo: false,
@@ -25,9 +26,20 @@ export const publisher = {
             leftOrStopped: 0
         },
         dataFiles: [],
+        bigDealCost: 0,
+
+        // apc stuff
+        apcHeaders: [],
+        apcJournals: [],
+        apcPapersCount: 0,
+        apcAuthorsFractionalCount: 0,
+        apcCost: 0,
+
+
     },
     mutations: {
         clearPublisher(state){
+            state.isLoading = false
             state.id = null
             state.name = ""
             state.isDemo = false
@@ -40,6 +52,9 @@ export const publisher = {
                 leftOrStopped: 0
             }
             state.dataFiles = []
+            state.apcPapersCount = 0
+            state.apcAuthorsFractionalCount = 0
+            state.apcCost = 0
         },
         setSelectedPublisher(state, apiPublisher) {
             state.selected = apiPublisher // legacy
@@ -56,9 +71,16 @@ export const publisher = {
                 leftOrStopped: 0
             }
             state.dataFiles = apiPublisher.data_files
+            state.bigDealCost = apiPublisher.cost_bigdeal
         },
         clearSelectedPublisher(state) {
             state.selected = null
+        },
+        startLoading(state) {
+            state.isLoading = true
+        },
+        finishLoading(state) {
+            state.isLoading = false
         },
         deleteScenario(state, scenarioIdToDelete) {
             state.scenarios = state.scenarios.filter(s=>{
@@ -87,7 +109,18 @@ export const publisher = {
     },
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
-            if (getters.publisherName) return
+            commit("startLoading")
+
+            await Promise.all([
+                dispatch("fetchPublisherApcData", id),
+                dispatch("fetchPublisherMainData", id),
+            ])
+            dispatch("hydratePublisherScenarios")
+            commit("finishLoading")
+            return
+        },
+        async fetchPublisherMainData({commit, dispatch, getters}, id) {
+            if (getters.publisherBigDealCost) return
 
             const url = `publisher/${id}`
             const resp = await api.get(url)
@@ -98,6 +131,21 @@ export const publisher = {
             });
             commit("setSelectedPublisher", resp.data)
             dispatch("hydratePublisherScenarios")
+            return resp
+        },
+
+        async fetchPublisherApcData({commit, state, dispatch, getters}, id) {
+            if (getters.publisherApcCost) return
+
+            const url = `publisher/${id}/apc`
+            const resp = await api.get(url)
+            state.apcPapersCount = resp.data.headers.find(h=>h.value==="num_apc_papers").raw
+            state.apcAuthorsFractionalCount = resp.data.headers.find(h=>h.value==="fractional_authorship").raw
+            state.apcCost = resp.data.headers.find(h=>h.value==="cost_apc").raw
+            state.apcHeaders = resp.data.headers
+            state.apcJournals = resp.data.journals
+
+
             return resp
         },
 
@@ -161,6 +209,7 @@ export const publisher = {
         },
         publisherName: (state) => {
             if (/Elsevier/.test(state.name)) return "Elsevier"
+            if (!state.name) return "Elsevier"
             return state.name
         },
         publisherId: (state)  => state.id,
@@ -174,5 +223,14 @@ export const publisher = {
         getScenarios: (state) => state.scenarios,
         publisherScenarios: (state) => state.scenarios,
         isPublisherDemo: (state) =>  state.isDemo,
+        publisherBigDealCost: (state) =>  state.bigDealCost,
+        publisherIsLoading: (state) =>  state.isLoading,
+
+        // apc stuff
+        publisherApcPapersCount: (state) => state.apcPapersCount,
+        publisherApcAuthorsFractionalCount: (state) => state.apcAuthorsFractionalCount,
+        publisherApcCost: (state) =>  state.apcCost,
+        publisherApcJournals: (state) =>  state.apcJournals,
+        publisherApcHeaders: (state) =>  state.apcHeaders,
     }
 }

@@ -5,11 +5,9 @@
 
         <div
                 class="histogram-bars"
-                @mouseleave="mouseoutOfHistogram"
         >
             <div class="histogram-bar"
                  :key="'histogram-bar'+index"
-                 v-if="myBin.end < maxBinValue"
                  v-for="(myBin, index) in journalBins">
 
                 <div class="bar-label" v-if="myBin.end % 10 === 0">
@@ -23,7 +21,6 @@
                         :journal="item"
                 />
                 <div class="bar-filler"
-                     @click="barFillerClick(myBin)"
                 >
                 </div>
             </div>
@@ -35,6 +32,33 @@
         <div class="x-axis-label text-center">
             {{ publisherName }} journals, by cost per use
         </div>
+
+
+        <v-card flat class="mt-5" v-show="journalsWithCpuOutsideBins.length">
+            <div class="">
+                Journals with APC > {{maxBinValue | currency}} <span class="body-">({{journalsWithCpuOutsideBins.length}})</span>
+            </div>
+            <div class="d-flex flex-wrap">
+                <overview-graphic-bar-single-dot
+                            v-for="item in journalsWithCpuOutsideBins"
+                            :key="item.issnl"
+                            :journal="item"
+                    />
+            </div>
+        </v-card>
+
+        <v-card flat class="mt-5" v-show="journalsWithNoUsage.length">
+            <div class="">
+                Journals with no usage (CPU is undefined) <span class="body-">({{journalsWithNoUsage.length}})</span>
+            </div>
+            <div class="d-flex flex-wrap">
+                <overview-graphic-bar-single-dot
+                            v-for="item in journalsWithNoUsage"
+                            :key="item.issnl"
+                            :journal="item"
+                    />
+            </div>
+        </v-card>
 
 
 
@@ -77,7 +101,7 @@
                 subrColor: appConfigs.costSegments.subr.color,
                 illColor: appConfigs.costSegments.ill.lightColor,
                 colors: appConfigs.colors,
-                maxBinValue: 200,
+                maxBinValue: 100,
 
             }
         },
@@ -93,7 +117,7 @@
                 const bins = []
                 const binWidth = 1
                 const histogramStart = -1
-                const histogramEnd = 200
+                const histogramEnd = this.maxBinValue
                 for (let i = histogramStart; i <= histogramEnd; i += binWidth) {
                     bins.push({
                         start: i,
@@ -102,7 +126,7 @@
                     })
                 }
 
-                this.myJournals.forEach(myJournal => {
+                this.journals.forEach(myJournal => {
                     const myBin = bins.find(bin => {
                         return bin.start <= myJournal.ncppu && bin.end > myJournal.ncppu
                     })
@@ -113,6 +137,12 @@
 
                 return bins
 
+            },
+            journalsWithCpuOutsideBins(){
+                return this.journals.filter(j => j.ncppu > this.maxBinValue)
+            },
+            journalsWithNoUsage(){
+                return this.journals.filter(j => isNaN(j.ncppu) )
             },
 
             subrJournalsCount() {
@@ -145,7 +175,6 @@
         watch: {},
         mounted() {
             console.log("dots mounted")
-            this.maxBinValue = 100
         }
     }
 </script>

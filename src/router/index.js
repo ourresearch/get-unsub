@@ -47,6 +47,12 @@ const routes = [
     },
 
     {
+        path: "/i/:institutionId/p/:publisherId/apc",
+        component: PublisherApcs,
+        meta: {requiresAuth: true},
+    },
+
+    {
         path: "/i/:institutionId/p/:publisherId/s/:scenarioId",
         component: Scenario,
         meta: {requiresAuth: true},
@@ -56,15 +62,6 @@ const routes = [
 
 
 
-
-    // this has to come before the scenario route, or else the
-    // scenario route greedily steals it with scenario="apc"
-    {
-        path: "/a/:publisherId/apc",
-        component: PublisherApcs,
-        name: "publisherApc",
-        meta: {requiresAuth: true},
-    },
 
     {
         path: "/a/:publisherId/:scenarioId",

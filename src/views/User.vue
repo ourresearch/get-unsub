@@ -1,19 +1,29 @@
 <template>
     <v-container class="user">
-        <div class="page-title mt-8 mb-4 d-flex">
-            <div class="mt-1 mr-2">
-                <v-gravatar default-img="mm" class="gravatar" :email="userEmail" :size="60"></v-gravatar>
-            </div>
+        <div class="page-title mt-8 d-flex">
+            <v-avatar size="50" class="mt-3 mr-3">
+                <v-gravatar v-show="!isLoading" default-img="mm" class="gravatar" :email="gravatarStr" :size="50"></v-gravatar>
+                <v-progress-circular
+                        size="50"
+                        v-show="isLoading"
+                        indeterminate
+                />
+            </v-avatar>
+
             <div class="text">
                 <div class="body-2">
-                    Account
+                    <span v-if="isLoading">Loading...</span>
+                    <span v-if="!isLoading">Account</span>
                 </div>
                 <div class="display-2">
                     Your account
                 </div>
+
             </div>
         </div>
-        <v-alert v-if="userIsDemo"  color="info" text dense icon="mdi-information-outline">
+
+
+        <v-alert v-if="userIsDemo && !isLoading" color="info" text dense icon="mdi-information-outline">
             <div class="d-flex align-center">
                 <div>
                     This is a demo account; some functionality is restricted.
@@ -25,15 +35,15 @@
             </div>
         </v-alert>
 
-        <v-row>
+        <v-row v-if="!isLoading">
             <v-col cols="4">
                 <v-card>
-<!--                    <v-toolbar flat>-->
-<!--                        <v-toolbar-title>-->
-<!--                        </v-toolbar-title>-->
-<!--                    </v-toolbar>-->
+                    <!--                    <v-toolbar flat>-->
+                    <!--                        <v-toolbar-title>-->
+                    <!--                        </v-toolbar-title>-->
+                    <!--                    </v-toolbar>-->
                     <v-card-title>
-                            Account details
+                        Account details
                     </v-card-title>
                     <v-divider></v-divider>
 
@@ -52,7 +62,7 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon @click="openDialogToEditUserInfo('name')">
-                                    <v-icon >mdi-pencil</v-icon>
+                                    <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
@@ -73,7 +83,7 @@
                             </v-list-item-content>
                             <v-list-item-action>
                                 <v-btn icon @click="openDialogToEditUserInfo('email')">
-                                    <v-icon >mdi-pencil</v-icon>
+                                    <v-icon>mdi-pencil</v-icon>
                                 </v-btn>
                             </v-list-item-action>
                         </v-list-item>
@@ -89,11 +99,6 @@
                                     Your username
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn :disabled="true" icon @click="openDialogToEditUserInfo('email')">
-                                    <v-icon >mdi-pencil</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
                         </v-list-item>
 
                         <v-divider></v-divider>
@@ -139,7 +144,8 @@
                         >
                             <v-list-item-avatar tile>
                                 <v-icon large v-if="!/\bDemo\b/.test(insti.institution_name)">mdi-bank</v-icon>
-                                <v-img src="https://i.imgur.com/oeSIBs7.png" v-if="/\bDemo\b/.test(insti.institution_name)" />
+                                <v-img src="https://i.imgur.com/oeSIBs7.png"
+                                       v-if="/\bDemo\b/.test(insti.institution_name)"/>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="headline font-weight-bold">
@@ -147,12 +153,13 @@
                                 </div>
 
                                 <v-list-item-subtitle>
-<!--                                    <span v-if="/\bdemo\b|\bDemo\b/.test(insti.institution_name)">-->
-<!--                                        Demo institution, some functionality restricted-->
-<!--                                    </span>-->
+                                    <!--                                    <span v-if="/\bdemo\b|\bDemo\b/.test(insti.institution_name)">-->
+                                    <!--                                        Demo institution, some functionality restricted-->
+                                    <!--                                    </span>-->
 
                                     <span>
-                                        Your're a<template v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this institution
+                                        Your're a<template
+                                            v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this institution
                                     </span>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
@@ -175,7 +182,6 @@
                                     </v-btn>
                                 </div>
                             </v-list-item-action>
-
 
 
                         </v-list-item>
@@ -273,7 +279,9 @@
 
         <v-snackbar v-model="snackbars.editUserSuccess" bottom left>
             {{ snackbars.editUserSuccessMsg }}
-            <v-btn dark icon @click="snackbars.editUserSuccess = false"><v-icon>mdi-close</v-icon></v-btn>
+            <v-btn dark icon @click="snackbars.editUserSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
         </v-snackbar>
 
 
@@ -299,7 +307,7 @@
                     emailIsTaken: false,
                 },
                 dialogs: {
-                   editUserInfo: false,
+                    editUserInfo: false,
                 },
                 snackbars: {
                     editUserSuccess: false,
@@ -316,7 +324,11 @@
                 "userInstitutions",
                 "institutionId",
                 "userIsDemo",
+                "gravatarStr",
             ]),
+            isLoading(){
+                return this.$store.getters.userInstitutions.length === 0
+            }
         },
         methods: {
             ...mapMutations([]),
@@ -326,7 +338,7 @@
                 this.$router.push(url)
             },
             roleFromPermissions,
-            async selectInstitution(id){
+            async selectInstitution(id) {
                 this.$store.commit("clearInstitution")
                 await this.$store.dispatch("fetchInstitution", id)
             },
@@ -338,14 +350,14 @@
                 else if (infoType === 'email') this.editUserInfoStr = this.userEmail
                 else this.editUserInfoStr = ""
             },
-            closeEditUserInfo(){
+            closeEditUserInfo() {
                 this.editUserInfoType = null
                 this.editUserInfoStr = ""
                 this.editUserInfoLoading = false
                 this.editUserErrors.emailIsTaken = false
                 this.dialogs.editUserInfo = false
             },
-            async editUserInfo(){
+            async editUserInfo() {
                 console.log("edit user info!", this.editUserInfoType, this.editUserInfoStr)
                 this.editUserInfoLoading = true
                 const methodName = _.camelCase(`change ${this.editUserInfoType}`)

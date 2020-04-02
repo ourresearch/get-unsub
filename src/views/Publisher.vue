@@ -5,10 +5,16 @@
             Back <span v-if="institutionName">to {{institutionName}}</span>
         </router-link>
         <div class="page-title mt-8 mb-4 d-flex">
-            <img class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+            <v-avatar size="60" class="mt-3 mr-3">
+                <img v-if="!publisherIsLoading" class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+                <v-progress-circular
+                        size="60"
+                        v-show="publisherIsLoading"
+                        indeterminate
+                />
+            </v-avatar>
             <div class="text">
                 <div class="body-2">
-                    <v-icon small>mdi-book-multiple-outline</v-icon>
                     Publisher
                 </div>
                 <div class="display-2">
@@ -18,7 +24,12 @@
             </div>
         </div>
 
-        <v-alert v-if="isPublisherDemo" color="info" text dense icon="mdi-information-outline">
+        <v-alert v-if="publisherIsLoading" color="info" text dense icon="mdi-information-outline">
+            Publisher loading (this takes a minute)...
+        </v-alert>
+
+
+        <v-alert v-if="isPublisherDemo && !publisherIsLoading" color="info" text dense icon="mdi-information-outline">
             <div class="d-flex align-center">
                 <div>
                     This publisher belongs to a demo institution; the data is real, but some functionality is
@@ -32,12 +43,12 @@
         </v-alert>
 
 
-        <v-row>
+        <v-row v-if="!publisherIsLoading">
             <v-col cols="4">
                 <v-card>
                     <v-card-title>
                         <div>
-                            Publisher details
+                            Publisher costs <span class="body-2">(historical)</span>
                         </div>
                     </v-card-title>
                     <v-divider></v-divider>
@@ -45,63 +56,55 @@
                     <v-list two-line>
                         <v-list-item>
                             <v-list-item-avatar>
-                                <v-icon>mdi-bank</v-icon>
+                                <v-icon>mdi-pen</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="">
-                                    {{publisherName}}
+                                    {{ publisherApcCost | currency }}
                                 </div>
                                 <v-list-item-subtitle>
-                                    Name
+                                    OA <strong>Publish</strong> cost (2019)
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon disabled>
-                                    <v-icon>mdi-pencil</v-icon>
-                                </v-btn>
+                                <v-tooltip
+                                        bottom
+                                        color="#333"
+                                >
+                                    <template v-slot:activator="{on}">
+                                        <v-btn :to="`/i/${institutionId}/p/${publisherId}/apc`" icon v-on="on">
+                                            <v-icon>mdi-file-find-outline</v-icon>
+                                        </v-btn>
+                                    </template>
+                                    <div>Explore your {{publisherName}} publication costs.</div>
+                                </v-tooltip>
                             </v-list-item-action>
-                        </v-list-item>
-
-                    </v-list>
-
-
-                    <v-card-title class="mt-10">
-                        <div>
-                            OA publication costs
-                        </div>
-                        <v-spacer></v-spacer>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-list two-line dense>
-                        <v-list-item>
-                            <v-list-item-avatar>
-                                <v-icon>mdi-cash</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <div class="">
-                                    $424,242
-                                </div>
-                                <v-list-item-subtitle>
-                                    Est. APC Spend
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
                             <v-list-item-action>
-                                <v-btn icon>
-                                    <v-icon>mdi-information-outline</v-icon>
-                                </v-btn>
+                                <v-tooltip
+                                        bottom
+                                        color="#333"
+                                        max-width="400"
+                                >
+                                    <template v-slot:activator="{on}">
+                                        <v-icon v-on="on">mdi-information-outline</v-icon>
+                                    </template>
+                                    <div>This is the sum total total OA publication fees (APCs) paid to
+                                        {{publisherName}} by your faculty last year (est).
+                                    </div>
+                                </v-tooltip>
                             </v-list-item-action>
                         </v-list-item>
 
                         <v-list-item>
                             <v-list-item-avatar>
-                                <v-icon>mdi-account-multiple</v-icon>
+                                <v-icon>mdi-book-open</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="">
-                                    534
+                                    {{ publisherBigDealCost | currency }}
                                 </div>
                                 <v-list-item-subtitle>
-                                    Number of authorships (fractional)
+                                    Big Deal <strong>Read</strong> cost (2019)
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
@@ -112,9 +115,7 @@
                         </v-list-item>
 
                     </v-list>
-                    <v-btn text>
-                        See more details
-                    </v-btn>
+
 
                 </v-card>
             </v-col>
@@ -140,7 +141,7 @@
                             <v-list-item
                                     two-line
                                     :key="scenario.id"
-                                    :to="`/i/${institutionId}/p/${publisherId}/s/${scenario.id}`"
+                                    @click="goToScenario(scenario.id)"
                                     :disabled="scenario.isLoading"
                             >
 
@@ -540,6 +541,14 @@
                 "institutionId",
                 "institutionName",
                 "publisherScenariosAreAllLoaded",
+                "publisherBigDealCost",
+                "publisherIsLoading",
+
+                // apc stuff
+                "publisherApcPapersCount",
+                "publisherApcAuthorsFractionalCount",
+                "publisherApcCost",
+
             ]),
             // fileSelected() {
             //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
@@ -571,7 +580,7 @@
                 this.fileSelected = null
             },
             goToScenario(scenarioId) {
-                const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${this.scenario.id}`
+                const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${scenarioId}`
                 console.log("go to scenario!", url)
                 this.$router.push(url)
 
@@ -603,11 +612,7 @@
         mounted() {
             console.log("publisher: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
-
-
-            if (!this.publisherName) {
-                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-            }
+            this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
 
 
         },

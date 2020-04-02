@@ -14,11 +14,11 @@
             <template v-slot:activator="{ on }">
                 <div v-on="on">
                     <div class="journal-dot"
-                         v-if="isSubscribed"
+                         v-if="isSubscribed && isShowing"
                          :style="{background: '#777'}"
                     ></div>
                     <div class="journal-dot"
-                         v-if="!isSubscribed"
+                         v-if="!isSubscribed && isShowing"
                          :style="{background: '#ccc'}"
                     ></div>
                 </div>
@@ -75,6 +75,10 @@
             isSubscribed() {
                 return this.journal.subscribed
             },
+            isShowing(){
+                return true
+                return this.journal.isShowing
+            }
         },
         methods: {
             openZoom(){

@@ -1,50 +1,74 @@
 <template>
-    <v-container fluid v-if="data">
-        <v-card class="">
-            <v-toolbar flat>
-                    <div>
-                        <h2 class="display-1">
-                            APC costs
-                            <v-btn icon
-                                   href="https://support.unpaywall.org/support/solutions/articles/44001822217-page-apc-cost"
-                                   target="_blank">
-                                <v-icon>mdi-information-outline</v-icon>
-                            </v-btn>
+    <v-container class="publisher">
+        <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}/p/${publisherId}`">
+            <strong>‹</strong>
+            Back <span v-if="publisherName">to {{publisherName}}</span>
+        </router-link>
+        <div class="page-title mt-8 mb-4 d-flex">
+            <img class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+            <div class="text">
+                <div class="body-2">
+                    Publisher APC costs
+                </div>
+                <div class="display-2">
+                    {{ publisherName }}
+                    <v-icon>mdi-chevron-right</v-icon>
+                    <span class="text--secondary">Publication costs</span>
+                </div>
 
-                        </h2>
+            </div>
+        </div>
 
-                    </div>
-                    <v-spacer></v-spacer>
-                    <v-text-field
-                            v-model="search"
-                            append-icon="mdi-magnify"
-                            label="Search"
-                            flat
-                            solo
-                            outlined
-                            hide-details
-                    ></v-text-field>
+        <v-alert v-if="isPublisherDemo" color="info" text dense icon="mdi-information-outline">
+            <div class="d-flex align-center">
+                <div>
+                    This publisher belongs to a demo institution; the data is real, but some functionality is
+                    restricted.
+                </div>
+                <v-spacer></v-spacer>
+                <div>
+                    <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                </div>
+            </div>
+        </v-alert>
 
-                </v-toolbar>
-
-            <div v-if="data" class="px-3">
+        <v-card class="mb-4">
+            <v-card-text>
                 <div class="stat">
                     <span class="k">Annual Open Access Article Processing Costs (APC) to this publisher: </span>
-                    <span class="v">{{ totalCost | currency }}</span>
+                    <span class="v">{{ publisherApcCost | currency }}</span>
                     <span class="k"> (estimated) </span>
                 </div>
                 <div>
                     Includes <em>all</em> journals published by this package’s publisher (Elsevier) where authors from your institution have paid APCs for gold or hybrid open access.
                 </div>
-
-            </div>
-
-
+            </v-card-text>
+        </v-card>
 
 
+        <v-card>
+
+            <v-card-title class="d-flex">
+                <v-row>
+                    <v-col>
+                        Gold/Hybrid OA Journals
+                    </v-col>
+                    <v-spacer></v-spacer>
+                    <v-col cols="6">
+                        <v-text-field
+                                hide-details
+                                outlined
+                                dense
+                                label="Search journals"
+                                v-model="search"
+                                append-icon="mdi-magnify"
+                                full-width
+                        />
+                    </v-col>
+                </v-row>
+            </v-card-title>
             <v-divider></v-divider>
-
-            <v-card v-if="data" flat>
+            <v-card flat>
                 <v-data-table
                         :headers="tableHeaders"
                         :items="tableRows"
@@ -56,7 +80,7 @@
 
                 >
                     <template v-slot:item="{ item }">
-                        <tr @click="openSingleJournal(item.issnl)"
+                        <tr @click="setZoomIssnl(item.issnl)"
                             :class="{subscribed: item.subscribed}">
                             <td>
                                 <v-row class="" style="width:400px;">
@@ -107,80 +131,53 @@
 
 
         </v-card>
+
     </v-container>
 </template>
 
 <script>
-    import axios from 'axios'
-    import {mapGetters, mapMutations} from 'vuex'
-
-    import {api} from '../api'
-
+    import {api, toBase64} from "../api";
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
 
     export default {
-        name: "PublsherApcs",
-        components: {},
+        name: "Publisher",
+        components: {
+            ScenarioEditDialogs,
+        },
         data() {
             return {
-                data: null,
+                uploadDialogIsOpen: false,
+                uploadFileType: "",
+                fileSelected: null,
+                isUploadFileLoading: false,
+                errorMsg: "",
+                foo: false,
                 search: "",
             }
         },
-        methods: {
-            async getData() {
-                let path = `package/${this.publisherId}/apc`
-
-                // temp development hack!!!
-                path = "scenario/demo-scenario-wVJCKiMPNZ/apc"
-
-                const resp = await api.get(path)
-                this.data = resp.data
-            },
-            getColDisplayType(colName) {
-                const myHeader = this.data.headers.find(h => h.value === colName)
-                if (myHeader) {
-                    return myHeader.display
-                } else {
-                    return "number"
-                }
-            },
-            openSingleJournal(issnl) {
-                console.log("@click on openSingleJournal()", issnl)
-                this.$store.commit('setZoomIssnl', issnl)
-            },
-        },
         computed: {
             ...mapGetters([
-               "publisherId",
-               "publisherName"
-            ]),
-            totalCost(){
-              return this.data.headers.find(h=>h.value==="cost_apc").raw
-            },
-            totalFractionalAuthorship(){
-              return this.data.headers.find(h=>h.value==="fractional_authorship").raw
-            },
+                "publisherName",
+                "publisherId",
+                "publisherScenarios",
+                "publisherScenariosCount",
+                "isPublisherDemo",
+                "institutionId",
+                "institutionName",
+                "publisherScenariosAreAllLoaded",
+                "publisherBigDealCost",
 
-            account() {
-                return this.$store.state.account
-            },
-            pkg() {
-                return this.$store.getters.selectedPublisher
-            },
-            scenario() {
-                return this.$store.getters.selectedScenario
-            },
-            scenarioId() {
-                return this.$route.params.scenarioId
-            },
-            tableHeaders() {
-                const metaHeaders = [
-                    {text: "Title", value: "title"},
-                ]
-                return [...metaHeaders, ...this.data.headers]
-            },
+                // apc stuff
+                "publisherApcPapersCount",
+                "publisherApcAuthorsFractionalCount",
+                "publisherApcCost",
+                "publisherApcJournals",
+                "publisherApcHeaders",
+
+            ]),
             tableRows() {
-                return this.data.journals.map(j => {
+                return this.$store.getters.publisherApcJournals.map(j => {
                     let ret = j.table_row
                     ret.title = j.meta.title
                     ret.subject = j.meta.subject
@@ -189,37 +186,48 @@
                     return ret
                 })
             },
+            tableHeaders() {
+                const metaHeaders = [
+                    {text: "Title", value: "title"},
+                ]
+                return [...metaHeaders, ...this.publisherApcHeaders]
+            },
         },
+        methods: {
+            ...mapMutations([
+                "openCopyDialog",
+                "openRenameDialog",
+                "openDeleteDialog",
+                "setZoomIssnl",
+            ]),
+            ...mapActions([
+                "createScenario",
+            ]),
+            getColDisplayType(colName) {
+                const myHeader = this.publisherApcHeaders.find(h => h.value === colName)
+                if (myHeader) {
+                    return myHeader.display
+                } else {
+                    return "number"
+                }
+            },
+        },
+
         created() {
         },
         mounted() {
-            this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-            this.getData()
+            if (!this.publisherName) {
+                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+            }
+
 
         },
-        watch: {
-        }
     }
 </script>
 
 <style lang="scss">
-    .tab.loading {
-        opacity: .5;
-        transition: opacity .25s ease-in-out;
-    }
-
-    table tr.subscribed {
-        background: #C2DBFD !important;
-    }
-    table tr {
-        cursor: pointer;
-    }
-
-    .v-data-table-header th.sortable {
-        min-width: 100px;
-        vertical-align:bottom;
-        padding-bottom: 5px;
-        padding-top: 5px;
+    .v-toolbar__extension {
+        border-top: none !important;
     }
 
 </style>

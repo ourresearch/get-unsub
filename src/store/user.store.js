@@ -1,4 +1,5 @@
 import {api} from "../api";
+import {sleep} from "../shared/util";
 import router from "../router"
 
 
@@ -6,6 +7,7 @@ export const user = {
     state: {
         id: "",
         name: "",
+        username: "",
         email: "",
         isPasswordSet: "",
         institutions: [],
@@ -18,6 +20,7 @@ export const user = {
             state.id = ""
             state.name = ""
             state.email = ""
+            state.username = ""
             state.isPasswordSet = ""
             state.institutions = []
             localStorage.removeItem("token")
@@ -26,13 +29,14 @@ export const user = {
             state.id = apiResp.id
             state.name = apiResp.name
             state.email = apiResp.email
+            state.username = apiResp.username
             state.isPasswordSet = apiResp.is_password_set
             state.institutions = apiResp.user_permissions
         },
     },
     actions: {
-        async login({commit, dispatch, getters}, {email, password}) {
-            const resp = await api.post("user/login", {email, password})
+        async login({commit, dispatch, getters}, creds) {
+            const resp = await api.post("user/login", creds)
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
         },
@@ -42,11 +46,12 @@ export const user = {
             await dispatch("fetchUser")
         },
         async fetchUser({commit, dispatch, getters}) {
+            if (getters.userInstitutions.length) return
             const resp = await api.get("user/me")
             commit("setFromApiResp", resp.data)
             if (getters.userInstitutions.length) {
-                const myFirstInstitution = getters.userInstitutions[0].institution_id
-                dispatch("fetchInstitution", myFirstInstitution)
+                // const myFirstInstitution = getters.userInstitutions[0].institution_id
+                // dispatch("fetchInstitution", myFirstInstitution)
             }
 
         },
@@ -70,22 +75,18 @@ export const user = {
     getters: {
         userName: (state) => state.name,
         userId: (state) => state.id,
-        userEmail: (state) => {
-            if (/@/.test(state.email)) {
-                return state.email
-            }
-        },
-        userUsername: (state) => {
-            if (!/@/.test(state.email)) {
-                return state.email
-            }
-        },
+        userEmail: (state) => state.email,
+        userUsername: (state) => state.username,
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
         userIsDemo: (state) => {
             return state.institutions.length === 1 &&  /\bDemo\b/.test(state.institutions[0].institution_name)
         },
-        isLoggedIn: (state) => !!state.email,
+        gravatarStr: (state) => {
+            if (state.email) return state.email
+            else return "placeholder@example.com"
+        },
+        isLoggedIn: (state) => !!state.id,
         token: () => localStorage.getItem("token"),
         isUserSubscribed(state){
             return state.password

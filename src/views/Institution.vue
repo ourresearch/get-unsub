@@ -8,9 +8,15 @@
 
         <div class="page-title mt-8 mb-4 d-flex">
             <div class="mt-1 mr-2">
-                <v-avatar tile size="60">
+                <v-avatar tile size="60" v-show="institutionName">
                     <img v-if="institutionIsDemo" src="https://i.imgur.com/oeSIBs7.png" alt="">
                     <v-icon x-large v-if="!institutionIsDemo">mdi-bank</v-icon>
+                </v-avatar>
+                <v-avatar tile size="60" v-show="!institutionName">
+                    <v-progress-circular
+                            size="60"
+                            indeterminate
+                    />
                 </v-avatar>
             </div>
             <div class="text">
@@ -489,10 +495,10 @@
             }
 
         },
-        mounted() {
+        async mounted() {
             console.log("Institution mount up!", this.institutionId)
-            this.$store.commit("clearPublisher")
-            this.$store.dispatch("fetchInstitution", this.institutionId)
+            await this.$store.dispatch("fetchInstitution", this.institutionId)
+            // await this.$store.dispatch("fetchPublisher", this.institutionPublishers[0].id)
         },
         destroyed() {
             // this.$store.commit("clearInstitution")
