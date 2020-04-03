@@ -1,5 +1,5 @@
 <template>
-    <v-container class="publisher" >
+    <v-container class="publisher">
         <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}`">
             <strong>‹</strong>
             Back <span v-if="institutionName">to {{institutionName}}</span>
@@ -56,14 +56,37 @@
                     <v-list two-line>
                         <v-list-item>
                             <v-list-item-avatar>
-                                <v-icon>mdi-pen</v-icon>
+                                <v-icon v-if="!publisherApcIsLoading">mdi-pen</v-icon>
+                                <v-progress-circular
+                                        v-if="publisherApcIsLoading"
+                                        indeterminate
+                                        color="grey"
+                                />
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="">
-                                    {{ publisherApcCost | currency }}
+                                    <span v-show="publisherApcIsLoading" class="cost text--secondary">Loading...</span>
+                                    <span v-show="!publisherApcIsLoading"
+                                          class="cost">{{ publisherApcCost | currency }}</span>
+
                                 </div>
                                 <v-list-item-subtitle>
-                                    OA <strong>Publish</strong> cost (2019)
+                                    <v-tooltip
+                                            bottom
+                                            color="#333"
+                                            max-width="400"
+                                    >
+                                        <template v-slot:activator="{on}">
+                                            <span v-on="on">
+                                                OA <strong>Publish</strong> cost (2019)
+                                                <v-icon small>mdi-information-outline</v-icon>
+                                            </span>
+                                        </template>
+                                        <div>{{ publisherApcCost | currency }} is the sum total total OA publication
+                                            fees (APCs) paid to
+                                            {{publisherName}} by your faculty last year (est).
+                                        </div>
+                                    </v-tooltip>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                             <v-list-item-action>
@@ -73,24 +96,10 @@
                                 >
                                     <template v-slot:activator="{on}">
                                         <v-btn :to="`/i/${institutionId}/p/${publisherId}/apc`" icon v-on="on">
-                                            <v-icon>mdi-file-find-outline</v-icon>
+                                            <v-icon>mdi-magnify</v-icon>
                                         </v-btn>
                                     </template>
                                     <div>Explore your {{publisherName}} publication costs.</div>
-                                </v-tooltip>
-                            </v-list-item-action>
-                            <v-list-item-action>
-                                <v-tooltip
-                                        bottom
-                                        color="#333"
-                                        max-width="400"
-                                >
-                                    <template v-slot:activator="{on}">
-                                        <v-icon v-on="on">mdi-information-outline</v-icon>
-                                    </template>
-                                    <div>This is the sum total total OA publication fees (APCs) paid to
-                                        {{publisherName}} by your faculty last year (est).
-                                    </div>
                                 </v-tooltip>
                             </v-list-item-action>
                         </v-list-item>
@@ -104,20 +113,130 @@
                                     {{ publisherBigDealCost | currency }}
                                 </div>
                                 <v-list-item-subtitle>
-                                    Big Deal <strong>Read</strong> cost (2019)
+                                    <v-tooltip
+                                            bottom
+                                            color="#333"
+                                            max-width="400"
+                                    >
+                                        <template v-slot:activator="{on}">
+                                            <span v-on="on">
+                                                Big Deal <strong>Read</strong> cost (2019)
+                                                <v-icon small v-on="on">mdi-information-outline</v-icon>
+                                            </span>
+                                        </template>
+                                        <div>{{ publisherBigDealCost | currency }} is the current annual cost of your {{ publisherName }} Big Deal package.
+                                        </div>
+                                    </v-tooltip>
+
+
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn icon>
-                                    <v-icon>mdi-information-outline</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
                         </v-list-item>
 
                     </v-list>
-
-
                 </v-card>
+                <v-card class="mt-4">
+                    <v-card-title dark color="#333">
+                        <div>
+                            Publisher datasets
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+                    <v-subheader class="text--primary subtitle-1">
+                        <v-icon class="mr-2">mdi-file-eye-outline</v-icon>
+                        Usage data
+                    </v-subheader>
+                    <v-card-text class="py-0">
+                        You're using data from your uploaded COUNTER JR1 file.
+                    </v-card-text>
+
+                    <v-divider class="mt-10"></v-divider>
+                    <v-subheader class="text--primary subtitle-1">
+                        <v-icon class="mr-2">mdi-cash-multiple</v-icon>
+                        A-la-carte journal prices
+                    </v-subheader>
+                    <v-card-text class="py-0">
+                        You're using data from the {{publisherName}} public pricelist.
+                    </v-card-text>
+
+                    <v-divider class="mt-10"></v-divider>
+                    <v-subheader class="text--primary subtitle-1">
+                        <v-icon class="mr-2">mdi-briefcase-clock-outline</v-icon>
+                        Perpetual Access
+                    </v-subheader>
+                    <v-card-text class="py-0">
+                        Scenarios assume perpetual access to all titles
+                    </v-card-text>
+
+                    <v-list v-if="false">
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-file-eye-outline</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    COUNTER JR1 uploaded
+                                </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    Your institutional usage data
+                                </v-list-item-subtitle>
+
+                                <div class="d-none body-2 text--secondary">
+                                    Your COUNTER JR1 file has been uploaded.
+                                </div>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon @click="openUploadDialog('counter')"> <v-icon>mdi-pencil</v-icon> </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-cash-multiple</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    Public pricelist
+                                </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    Source for a-la-carte journal costs
+                                </v-list-item-subtitle>
+                                <div class="d-none body-2 text--secondary">
+                                    You'll pay list price for any a-la-carte subscriptions you make.
+                                </div>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon @click="openUploadDialog('prices')"> <v-icon>mdi-pencil</v-icon> </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+                        <v-list-item>
+                            <v-list-item-avatar>
+                                <v-icon>mdi-briefcase-clock-outline</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    Full perpetual access
+                                </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    Backfile perpetual access rights
+                                </v-list-item-subtitle>
+                                <div class="d-none body-2 text--secondary">
+                                    You have perpetual access rights to the last 10yrs of content for all {{publisherName}} titles.
+                                </div>
+                            </v-list-item-content>
+                            <v-list-item-action>
+                                <v-btn icon @click="openUploadDialog('perpetual-access')"> <v-icon>mdi-pencil</v-icon> </v-btn>
+                            </v-list-item-action>
+                        </v-list-item>
+
+
+
+
+                    </v-list>
+                </v-card>
+
+
             </v-col>
 
             <v-col cols="8">
@@ -299,7 +418,6 @@
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
 
 
-
     export default {
         name: "Publisher",
         components: {
@@ -332,6 +450,7 @@
                 "publisherApcPapersCount",
                 "publisherApcAuthorsFractionalCount",
                 "publisherApcCost",
+                "publisherApcIsLoading",
 
             ]),
             // fileSelected() {

@@ -495,6 +495,54 @@ const barSegments = {
 }
 
 
+const dataFiles = {
+    counter: {
+        name: "counter",
+        displayName: "2018 COUNTER JR1",
+        dataType: "COUNTER usage data",
+        icon: "mdi-file-eye-outline",
+
+        format: "A standard COUNTER JR1 download report spreadsheet",
+        alternativeSource: null,
+        display: true,
+        required: true,
+
+    },
+    "perpetual-access": {
+        name: "perpetual-access",
+        displayName: "Perpetual access date ranges",
+        dataType: "Access rights to backfile content",
+        icon: "mdi-briefcase-file-outline",
+
+        uploadFormat: "A spreadsheet with one row per journal, and three columns: ISSN, perpetual access start date, and perpetual access end date",
+        uploadSource: "Custom date ranges",
+
+        defaultSource: "Partial perpetual access",
+        display: true,
+        required: false,
+    },
+    prices: {
+        name: "prices",
+        displayName: "A-la-carte pricelist",
+        dataType: "A-la-carte subscription prices",
+        icon: "mdi-cash-multiple",
+
+        uploadFormat: "A spreadsheet with one row per journal, and two columns: ISSN, and custom price",
+        uploadSource: "Custom pricelist",
+
+        defaultSource: "Public list prices",
+        display: true,
+        required: false,
+
+    },
+    "core-journals": {
+        name: "core-journals",
+        display: false,
+    },
+}
+
+
+
 
 
 export default {
@@ -506,4 +554,5 @@ export default {
     costSegments,
     barSegments,
     colors,
+    dataFiles,
 }

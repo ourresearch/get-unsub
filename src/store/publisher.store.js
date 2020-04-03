@@ -16,6 +16,8 @@ export const publisher = {
         selected: null,
 
         isLoading: false,
+        apcIsLoading: false,
+
         id: null,
         name: "",
         isDemo: false,
@@ -113,10 +115,14 @@ export const publisher = {
         async fetchPublisher({commit, dispatch, getters}, id) {
             commit("startLoading")
 
-            await Promise.all([
-                dispatch("fetchPublisherApcData", id),
-                dispatch("fetchPublisherMainData", id),
-            ])
+            // await Promise.all([
+            //     dispatch("fetchPublisherApcData", id),
+            //     dispatch("fetchPublisherMainData", id),
+            // ])
+
+
+            dispatch("fetchPublisherApcData", id),
+            await dispatch("fetchPublisherMainData", id),
             dispatch("hydratePublisherScenarios")
             commit("finishLoading")
             return
@@ -138,6 +144,7 @@ export const publisher = {
 
         async fetchPublisherApcData({commit, state, dispatch, getters}, id) {
             if (getters.publisherApcCost) return
+            state.apcIsLoading = true
 
             const url = `publisher/${id}/apc`
             const resp = await api.get(url)
@@ -146,7 +153,7 @@ export const publisher = {
             state.apcCost = resp.data.headers.find(h=>h.value==="cost_apc").raw
             state.apcHeaders = resp.data.headers
             state.apcJournals = resp.data.journals
-
+            state.apcIsLoading = false
 
             return resp
         },
@@ -228,6 +235,7 @@ export const publisher = {
         publisherIsLoading: (state) =>  state.isLoading,
 
         // apc stuff
+        publisherApcIsLoading: (state) => state.apcIsLoading,
         publisherApcPapersCount: (state) => state.apcPapersCount,
         publisherApcAuthorsFractionalCount: (state) => state.apcAuthorsFractionalCount,
         publisherApcCost: (state) =>  state.apcCost,

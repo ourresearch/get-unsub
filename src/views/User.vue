@@ -105,7 +105,7 @@
                         <v-list-item>
                             <v-list-item-avatar>
                                 <v-icon v-if="!userPasswordIsSet">mdi-shield-alert-outline</v-icon>
-                                <v-icon v-if="userPasswordIsSet">mdi-shield-outline</v-icon>
+                                <v-icon v-if="userPasswordIsSet">mdi-shield-check-outline</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title class="">
@@ -185,7 +185,7 @@
 
 
                         </v-list-item>
-                        <v-list-item @click="" :disabled="true">
+                        <v-list-item v-if="false" @click="" :disabled="true">
                             <v-list-item-avatar size="50">
                                 <v-btn icon>
                                     <v-icon>mdi-plus</v-icon>

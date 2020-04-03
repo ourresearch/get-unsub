@@ -278,7 +278,7 @@
         </v-snackbar>
 
         <v-snackbar v-model="snackbars.newGroupMember" bottom left>
-            New group member created.
+           User created and welcome email sent.
             <v-btn dark icon @click="snackbars.newGroupMember = false">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -295,6 +295,7 @@
                         <v-text-field
                                 type="email"
                                 label="Email"
+                                @keydown.enter="createGroupMember"
                                 v-model="newGroupMember.email"
                                 prepend-icon="mdi-email-outline"
                         />
@@ -305,6 +306,11 @@
                                 prepend-icon="mdi-account-key-outline"
                                 :hint="roleDescriptions[newGroupMember.role]"
                                 persistent-hint
+                        />
+                        <v-checkbox
+                                v-model="sendNewUserWelcomeEmail"
+                                label="Send automated welcome email"
+                                readonly
                         />
                     </div>
                 </v-card-text>
@@ -365,6 +371,7 @@
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
+    const short = require('short-uuid');
 
     export default {
         name: "Institution",
@@ -392,6 +399,7 @@
                     password: "",
                     role: "Collaborator",
                 },
+                sendNewUserWelcomeEmail: true,
 
                 isRoleUpdating: false,
             }
@@ -437,6 +445,7 @@
                 await this.$store.dispatch("createGroupMember", this.newGroupMember)
             },
             openCreateGroupMemberDialog() {
+                this.newGroupMember.password = short.generate().slice(0, 8)
                 this.dialogs.createGroupMember = true
             },
             async copyPassword() {

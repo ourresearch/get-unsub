@@ -76,7 +76,10 @@ export const user = {
         userName: (state) => state.name,
         userId: (state) => state.id,
         userEmail: (state) => state.email,
-        userUsername: (state) => state.username,
+        userUsername: (state) => {
+            if (/@/.test(state.username)) return null
+            return state.username
+        },
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
         userIsDemo: (state) => {
