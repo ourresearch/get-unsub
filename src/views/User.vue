@@ -35,6 +35,14 @@
             </div>
         </v-alert>
 
+        <v-alert v-if="!userEmail && !isLoading" color="warning" text dense icon="mdi-email-alert-outline">
+            <div class="d-flex align-center">
+                <div>
+                    Please set your email address.
+                </div>
+            </div>
+        </v-alert>
+
         <v-row v-if="!isLoading">
             <v-col cols="4">
                 <v-card>
@@ -70,12 +78,15 @@
                         <v-divider></v-divider>
                         <v-list-item>
                             <v-list-item-avatar>
-                                <v-icon>mdi-email-outline</v-icon>
+                                <v-icon v-if="userEmail">mdi-email-outline</v-icon>
+                                <v-icon v-if="!userEmail" color="warning">mdi-email-alert-outline</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title v-if="userEmail" v-html="userEmail" class=""/>
-                                <v-list-item-title v-if="!userEmail">
-                                    No email set
+                                <v-list-item-title v-if="!userEmail" color="warning">
+                                   <em class="warning--text">
+                                        None set
+                                    </em>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
                                     Your email
@@ -109,7 +120,7 @@
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <v-list-item-title class="">
-                                    <span v-if="!userPasswordIsSet">No password set</span>
+                                    <span v-if="!userPasswordIsSet"><em>None set</em></span>
                                     <span v-if="userPasswordIsSet">••••••••</span>
                                 </v-list-item-title>
                                 <v-list-item-subtitle>
@@ -226,6 +237,7 @@
                         Sorry, that email is taken.
                     </v-alert>
                     <v-text-field
+                            outlined
                             autofocus
                             clearable
                             v-if="editUserInfoType==='name'"
@@ -234,6 +246,7 @@
                             @keydown.enter="editUserInfo"
                     />
                     <v-text-field
+                            outlined
                             autofocus
                             clearable
                             v-if="editUserInfoType==='email'"
@@ -242,6 +255,7 @@
                             @keydown.enter="editUserInfo"
                     />
                     <v-text-field
+                            outlined
                             autofocus
                             v-if="editUserInfoType==='password'"
                             label="Your password"
@@ -302,7 +316,7 @@
                 editUserInfoType: null,
                 editUserInfoStr: "",
                 editUserInfoLoading: false,
-                editUserShowPassword: false,
+                editUserShowPassword: true,
                 editUserErrors: {
                     emailIsTaken: false,
                 },
@@ -369,7 +383,6 @@
             }
         },
         mounted() {
-            this.$store.commit("clearInstitution")
         },
     }
 </script>

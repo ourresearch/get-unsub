@@ -18,6 +18,7 @@
                         <v-text-field
                                 v-model="usernameOrEmail"
                                 outlined
+                                autofocus
                                 label="Email or username"
                                 @keydown.enter="setUsernameOrEmail"
                                 :error-messages="errorMsg"
@@ -54,6 +55,7 @@
 
                         />
                         <v-text-field
+                                autofocus
                                 outlined
                                 label="Password"
                                 v-model="password"
@@ -101,25 +103,6 @@
             }
         },
         methods: {
-            login() {
-                this.$store.dispatch("login", this.creds)
-                    .then(resp => {
-                        this.$router.push(`/u`)
-                        // https://www.npmjs.com/package/vue-intercom
-
-                        const data = {
-                            user_id: this.$store.getters.userId,
-                            name: this.$store.getters.userName,
-                        }
-                        if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
-                        this.$intercom.boot(data)
-
-                    })
-                    .catch(err => {
-                        console.log("there was a login error", err)
-                        this.showError = true
-                    })
-            },
             bootIntercom() {
                 const data = {
                     user_id: this.$store.getters.userId,
@@ -138,7 +121,7 @@
                 else creds.username = this.usernameOrEmail
 
                 try {
-                    await this.$store.dispatch("login", creds)
+                    await this.$store.dispatch("loginFromCreds", creds)
                 } catch (e) {
                     console.log("login fail", e.response.status)
                     if (e.response.status === 404) {
@@ -157,7 +140,6 @@
                     this.isLoading = false
                 }
                 this.bootIntercom()
-                this.$router.push(`/u`)
             },
             async loginWithPassword(){
                 this.isLoading = true
@@ -168,7 +150,7 @@
                 if (/@/.test(this.usernameOrEmail)) creds.email = this.usernameOrEmail
                 else creds.username = this.usernameOrEmail
                 try {
-                    await this.$store.dispatch("login", creds)
+                    await this.$store.dispatch("loginFromCreds", creds)
                 } catch (e) {
                     console.log("login fail", e.response.status)
                     if (e.response.status === 403) {
@@ -183,7 +165,6 @@
                     this.isLoading = false
                 }
                 this.bootIntercom()
-                this.$router.push(`/u`)
             },
         }
     }

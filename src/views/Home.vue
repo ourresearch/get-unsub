@@ -193,7 +193,6 @@
         },
         methods: {
             async createDemo() {
-                console.log("login demo account", this.userEmail)
                 this.errorMsg = ""
                 this.createDemoLoading = true
                 const adjectiveAnimal = randanimalSync()
@@ -203,7 +202,7 @@
                     await this.$store.dispatch("createDemo", {
                         email: this.userEmail,
                         password: "",
-                        name: "Anonymous " + animal,
+                        name: "Anonymous User",
                     })
                 }
                 catch (e){
@@ -213,15 +212,12 @@
                 finally {
                     this.createDemoLoading = false
                 }
-
                 const data = {
                     user_id: this.$store.getters.userId,
                     name: this.$store.getters.userName,
                 }
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
                 this.$intercom.boot(data)
-
-                await this.$router.push("/u")
             }
         },
         computed: {

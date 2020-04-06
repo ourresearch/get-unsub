@@ -293,6 +293,9 @@
                 <v-card-text class="pt-4">
                     <div>
                         <v-text-field
+                                autofocus
+                                outlined
+                                clearable
                                 type="email"
                                 label="Email"
                                 @keydown.enter="createGroupMember"
@@ -300,6 +303,7 @@
                                 prepend-icon="mdi-email-outline"
                         />
                         <v-select
+                                outlined
                                 label="Role"
                                 v-model="newGroupMember.role"
                                 :items="roles"

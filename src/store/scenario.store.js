@@ -291,9 +291,17 @@ export const scenario = {
         },
         selectedScenarioIsLoading: (state) => {
             if (!state.selected) return true
+            console.log("TRUE state.selected")
+
             if (state.isLoading) return true
+            console.log("FALSE state.isLoading")
+
+
             if (!state.selected.saved.name) return true
+            console.log("TRUE state.selected.saved.name")
+
             if (!state.selected.journals.length) return true
+            console.log("TRUE state.selected.journals.length")
             return false
         },
         scenarioSubrsAreInCpuOrder: (state) => {

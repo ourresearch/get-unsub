@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import {account} from "./account.store.js"
 import {publisher} from "./publisher.store.js"
 import {scenario} from "./scenario.store"
 import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEditDialogsStore";
@@ -46,7 +45,6 @@ export default new Vuex.Store({
         scenarioEditDialogs,
         institution,
         user,
-        // account,
         publisher,
         scenario,
     },
@@ -152,22 +150,6 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        // async loginDemo({dispatch, state, commit}){
-        //     console.log("loginDemo()")
-        //     const userCreds = {
-        //         username: "demo",
-        //         password: "demo"
-        //     }
-        //     await dispatch("login", userCreds)
-        //     const firstpublisherId = state.account.selected.packages[0].id
-        //
-        //     await dispatch("fetchPublisher", firstpublisherId)
-        //     const firstScenarioId = state.pkg.selected.scenarios[0].id
-        //
-        //     await dispatch("fetchScenario", firstScenarioId)
-        //     commit("openStartupTutorial")
-        //     return `/a/${firstpublisherId}/${firstScenarioId}`
-        // },
     },
 
     getters: {

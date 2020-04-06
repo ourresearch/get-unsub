@@ -91,28 +91,21 @@ const router = new VueRouter({
     routes
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+    if (store.getters.token) {
+        await store.dispatch("fetchUser")
+    }
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this page requires authentication
-        if (store.getters.isLoggedIn)  {
-            // you're logged in great. proceed.
+        if (store.getters.isLoggedIn)  {  // you're logged in great. proceed.
             next()
         }
-        else {
-            // you are supposed to be logged in for this, so
-            // let's try to log you in using your saved token.
-            store.dispatch("fetchUser")
-                .then(resp=>{
-                    // we logged you in, great. proceed.
-                    next()
-                })
-                .catch(err=>{
-                    // you don't have a token, or it's bogus. you'll need to log in.
-                    next("/login")
-                })
+        else { // sorry, you can't view this page. go log in.
+            next("/login")
         }
     }
-    else { // easy, no auth required. proceed.
+    else { //  no auth required. proceed.
         next()
     }
 })

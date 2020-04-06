@@ -16,14 +16,14 @@ export const user = {
         setToken(state, token){
             localStorage.setItem("token", token)
         },
-        logout(state){
+        async logout(state){
+            await localStorage.removeItem("token")
             state.id = ""
             state.name = ""
             state.email = ""
             state.username = ""
             state.isPasswordSet = ""
             state.institutions = []
-            localStorage.removeItem("token")
         },
         setFromApiResp(state, apiResp){
             state.id = apiResp.id
@@ -35,25 +35,24 @@ export const user = {
         },
     },
     actions: {
-        async login({commit, dispatch, getters}, creds) {
+        async loginFromCreds({commit, dispatch, getters}, creds) {
             const resp = await api.post("user/login", creds)
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
+            await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
+            await router.push(`i/institution/${getters.userPrimaryInstitutionId}`)
         },
         async createDemo({commit, dispatch, getters}, {email, password, name}) {
             const resp = await api.post("user/demo", {email, password, name})
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
+            await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
+            await router.push(`i/institution/${getters.userPrimaryInstitutionId}`)
         },
         async fetchUser({commit, dispatch, getters}) {
             if (getters.userInstitutions.length) return
             const resp = await api.get("user/me")
             commit("setFromApiResp", resp.data)
-            if (getters.userInstitutions.length) {
-                // const myFirstInstitution = getters.userInstitutions[0].institution_id
-                // dispatch("fetchInstitution", myFirstInstitution)
-            }
-
         },
         async changeName({commit, state}, name){
             const resp = await api.post("user/me", {name})
@@ -94,5 +93,9 @@ export const user = {
         isUserSubscribed(state){
             return state.password
         },
+        userPrimaryInstitutionId: (state) => {
+            if (!state.institutions.length) return
+            return state.institutions[0].institution_id // temp hack way of doing it for now.
+        }
     }
 }

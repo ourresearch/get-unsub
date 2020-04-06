@@ -2,13 +2,17 @@
     <div>
         <v-container>
 
-            <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}/p/${publisherId}`">
+            <router-link
+                    v-if="publisherId && institutionId"
+                    class="text--secondary low-key-link"
+                    :to="`/i/${institutionId}/p/${publisherId}`">
                 <strong>‹</strong>
                 Back <span v-if="publisherName">to {{publisherName}}</span>
             </router-link>
             <div class="page-title mt-8 d-flex">
                 <v-avatar size="50" class="mt-3 mr-3">
-                    <jazzicon v-show="!selectedScenarioIsLoading" class="" :address="scenarioIdHash" :diameter="50"/>
+<!--                    https://github.com/tobiaslins/avatar -->
+                    <v-img v-show="!selectedScenarioIsLoading" :src="`https://avatar.tobi.sh/${scenarioId}`" contain></v-img>
                     <v-progress-circular
                             size="50"
                             v-show="selectedScenarioIsLoading"
@@ -40,7 +44,7 @@
         </v-container>
 
 
-        <v-container>
+        <v-container  v-if="!selectedScenarioIsLoading">
             <v-row>
                 <v-col cols="4">
                     <v-card style="position: sticky; top: 0px;">
@@ -154,7 +158,7 @@
 
                 <v-col cols="8">
                     <v-card>
-                        <v-toolbar flat  style="position: sticky; top: 0px; z-index: 999; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+                        <v-toolbar flat  style="position: sticky; top: 0px; z-index: 9; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
                             <v-toolbar-title>
                                 A-la-carte journals
                                 <span class="body-2">({{ numJournals | round }})</span>
@@ -234,103 +238,6 @@
         </v-container>
 
 
-        <div
-                class="sticky-toolbar"
-                id="sticky-toolbar"
-                v-if="0 && !selectedScenarioIsLoading"
-        >
-            <v-container
-                    class="pt-0 pb-0"
-                    :fluid="stickyToolbarIsAtTopOfWindow"
-                    v-scroll="onScroll"
-            >
-                <v-card
-                        style="width: 100%; position: relative"
-                >
-                    <div class="pa-2 pl-4" style="position: absolute; top: 0; left: 0;">
-                        <overview-graphic-subrs-counter/>
-                    </div>
-                    <v-container class="py-3 px-0" style="max-width: 1155px;">
-                        <v-row class="mx-0 align-center">
-                            <v-spacer/>
-
-                            <v-col cols="1" class="pa-0 pr-8 text-right caption text--secondary">
-                                Your 5yr forecast:
-                            </v-col>
-                            <v-divider vertical></v-divider>
-
-                            <!--                         COST AND FULFILLMENT section-->
-                            <v-col class="py-0" cols="4">
-                                <v-row class="mx-0">
-                                    <!--                                COST -->
-                                    <v-col class="py-0" cols="6">
-                                        <div class="text-right">
-                                            <div class="headline">
-                                                {{ subrCost + illCost | currency }}
-                                            </div>
-                                            <div class="caption">
-                                                <v-tooltip bottom max-width="400" color="#333">
-                                                    <template v-slot:activator="{ on }">
-                                                        <span v-on="on">
-                                                            Annual cost
-                                                            <v-icon small>mdi-information-outline</v-icon>
-                                                        </span>
-                                                    </template>
-                                                    <div>
-                                                        This is the average annual cost to the library over the next
-                                                        five years, based on your selected settings and subscriptions.
-                                                    </div>
-                                                </v-tooltip>
-                                            </div>
-                                        </div>
-                                    </v-col>
-
-                                    <!--                                FULFILLMENT -->
-                                    <v-col class="py-0" cols="6">
-                                        <div class="text-right">
-                                            <div class="headline">
-                                                {{ instantUsagePercent | percent(1) }}
-                                            </div>
-                                            <div class="caption">
-                                                <v-tooltip bottom max-width="400" color="#333">
-                                                    <template v-slot:activator="{ on }">
-                                                        <span v-on="on">
-                                                            Instant fulfillment
-                                                            <v-icon small>mdi-information-outline</v-icon>
-                                                        </span>
-                                                    </template>
-                                                    <div>
-                                                        This is the percentage of content requests that your library
-                                                        will successfully fulfill <em>instantly</em> over the next five
-                                                        years (either via subscription, backfile, or OA).
-                                                    </div>
-                                                </v-tooltip>
-                                            </div>
-                                        </div>
-                                    </v-col>
-                                </v-row>
-                            </v-col>
-                        </v-row>
-
-                    </v-container>
-                    <v-divider></v-divider>
-                    <div class="d-flex pa-1">
-                        <scenario-menu-scenario key="scenario"/>
-                        <scenario-menu-view key="view"/>
-                        <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
-                        <scenario-menu-columns key="columns"/>
-                        <scenario-menu-settings key="settings"/>
-                        <scenario-menu-export key="export"/>
-                        <scenario-menu-help key="help"/>
-                    </div>
-                </v-card>
-
-
-            </v-container>
-
-        </div>
-
-
     </div>
 </template>
 
@@ -389,6 +296,8 @@
                 isLoading: true,
                 stickyToolbarIsAtTopOfWindow: false,
                 search: "",
+
+                showSlowRenderingThings: false,
             }
         },
         computed: {
@@ -576,6 +485,7 @@
         async mounted() {
             this.$store.commit("setIsLoading", true)
             await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+            await this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
             this.$store.commit(
                 "setScenarioFromObject",
@@ -585,11 +495,16 @@
             console.log("scenario selected:", this.$store.getters.selectedScenario)
 
             // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
+            // this.$nextTick(()=>{
+            //     this.showSlowRenderingThings = true
+            //
+            // })
 
             const that = this
             setTimeout(function () {
                 that.$store.commit("setIsLoading", false)
-            }, 500)
+                // that.showSlowRenderingThings = true
+            }, 0)
         },
         destroyed() {
 

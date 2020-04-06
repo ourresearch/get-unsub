@@ -78,20 +78,20 @@
             },
             openWizard() {
                 this.$store.dispatch("openWizard")
-            }
-        },
-        async mounted() {
-            try {
-                await this.$store.dispatch("fetchUser")
+            },
+            bootIntercom() {
+                if (!this.$store.getters.userId) return
                 const data = {
                     user_id: this.$store.getters.userId,
                     name: this.$store.getters.userName,
                 }
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
                 this.$intercom.boot(data)
-            } catch (e) {
-                console.log("user is not logged in.", e)
             }
+        },
+
+        async mounted() {
+            this.bootIntercom()
         },
         watch: {
             "$route": {

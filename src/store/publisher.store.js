@@ -69,10 +69,10 @@ export const publisher = {
             state.scenarios = apiPublisher.scenarios
             state.journalDetail = apiPublisher.journal_detail
             state.journalCounts = {
-                analyzed: 0,
-                missingPrices: 0,
-                oa: 0,
-                leftOrStopped: 0
+                analyzed: apiPublisher.journal_detail.counts.in_scenario,
+                missingPrices: apiPublisher.journal_detail.diff_counts.diff_no_price,
+                oa: apiPublisher.journal_detail.diff_counts.diff_open_access_journals,
+                leftOrStopped: apiPublisher.journal_detail.diff_counts.diff_not_published_in_2019 + apiPublisher.journal_detail.diff_counts.diff_changed_publisher
             }
             state.dataFiles = apiPublisher.data_files
             state.bigDealCost = apiPublisher.cost_bigdeal
@@ -108,6 +108,7 @@ export const publisher = {
         createScenario(state, {newName, newId}) {
             const myNewScenario = newScenario(newId)
             myNewScenario.saved.name = newName
+            myNewScenario.isLoading = true
             state.scenarios.push(myNewScenario)
         },
     },
@@ -123,7 +124,6 @@ export const publisher = {
 
             dispatch("fetchPublisherApcData", id),
             await dispatch("fetchPublisherMainData", id),
-            dispatch("hydratePublisherScenarios")
             commit("finishLoading")
             return
         },
@@ -170,6 +170,7 @@ export const publisher = {
             const hydratedScenario = buildScenarioFromApiResp(resp.data)
 
             const myScenario = getters.publisherScenario(scenarioId)
+            console.log("gonna hydrate this scenario", scenarioId, myScenario)
             Object.keys(hydratedScenario).forEach(k => {
                 myScenario[k] = hydratedScenario[k]
             })
@@ -204,7 +205,6 @@ export const publisher = {
                 id: newId,
                 name: newName,
             }
-            console.log("POSTing this to create scenario", data)
             const url = `package/${getters.publisherId}/scenario`
             await api.post(url, data)
             dispatch("hydratePublisherScenario", newId)
@@ -221,6 +221,7 @@ export const publisher = {
             return state.name
         },
         publisherId: (state)  => state.id,
+        publisherJournalCounts: (state)  => state.journalCounts,
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) =>{
             return state.scenarios.find(s => s.id === id)
@@ -233,6 +234,17 @@ export const publisher = {
         isPublisherDemo: (state) =>  state.isDemo,
         publisherBigDealCost: (state) =>  state.bigDealCost,
         publisherIsLoading: (state) =>  state.isLoading,
+        publisherUploadsDict: (state) =>{
+            const ret = {}
+            state.dataFiles.forEach(f => {
+                ret[f.name] = {
+                    isUploaded: f.uploaded
+                }
+            })
+            return ret
+        },
+
+
 
         // apc stuff
         publisherApcIsLoading: (state) => state.apcIsLoading,

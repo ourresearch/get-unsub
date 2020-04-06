@@ -24,10 +24,6 @@
             </div>
         </div>
 
-        <v-alert v-if="publisherIsLoading" color="info" text dense icon="mdi-information-outline">
-            Publisher loading (this takes a minute)...
-        </v-alert>
-
 
         <v-alert v-if="isPublisherDemo && !publisherIsLoading" color="info" text dense icon="mdi-information-outline">
             <div class="d-flex align-center">
@@ -135,38 +131,64 @@
 
                     </v-list>
                 </v-card>
-                <v-card class="mt-4">
+                <v-card class="mt-4" v-if="publisherUploadsDict.prices">
                     <v-card-title dark color="#333">
                         <div>
                             Publisher datasets
                         </div>
                     </v-card-title>
-                    <v-divider></v-divider>
-                    <v-subheader class="text--primary subtitle-1">
-                        <v-icon class="mr-2">mdi-file-eye-outline</v-icon>
-                        Usage data
-                    </v-subheader>
-                    <v-card-text class="py-0">
-                        You're using data from your uploaded COUNTER JR1 file.
-                    </v-card-text>
+                    <v-divider />
+                    <v-card v-if="publisherJournalCounts" tile flat class="pb-2">
+                        <v-subheader class="text--primary subtitle-1">
+                            <v-icon class="mr-2">mdi-file-eye-outline</v-icon>
+                            Usage data
+                        </v-subheader>
+                        <v-card-text class="pt-0">
+                            You're using the usage data from your uploaded <strong>COUNTER JR1</strong> file.
+                            <div class="mt-2">
+                                This file included {{ publisherJournalCounts.oa | round}} OA journals,  {{ publisherJournalCounts.missingPrices | round}} journals without pricing info, and   {{ publisherJournalCounts.leftOrStopped | round}} journals that left {{publisherName}} or have stopped publishing. Our analysis focuses on the remaining <strong>{{ publisherJournalCounts.analyzed | round }}</strong> journals.
 
-                    <v-divider class="mt-10"></v-divider>
-                    <v-subheader class="text--primary subtitle-1">
-                        <v-icon class="mr-2">mdi-cash-multiple</v-icon>
-                        A-la-carte journal prices
-                    </v-subheader>
-                    <v-card-text class="py-0">
-                        You're using data from the {{publisherName}} public pricelist.
-                    </v-card-text>
+                            </div>
+                        </v-card-text>
+                    </v-card>
+                    <v-divider />
 
-                    <v-divider class="mt-10"></v-divider>
-                    <v-subheader class="text--primary subtitle-1">
-                        <v-icon class="mr-2">mdi-briefcase-clock-outline</v-icon>
-                        Perpetual Access
-                    </v-subheader>
-                    <v-card-text class="py-0">
-                        Scenarios assume perpetual access to all titles
-                    </v-card-text>
+
+                    <v-card tile flat class="pb-2">
+                        <v-subheader class="text--primary subtitle-1">
+                            <v-icon class="mr-2">mdi-cash-multiple</v-icon>
+                            A-la-carte journal prices
+                        </v-subheader>
+                        <v-card-text class="pt-0" v-if="!publisherUploadsDict.prices.isUploaded">
+                            You're using data from the {{publisherName}} public pricelist.
+                        </v-card-text>
+                        <v-card-text class="pt-0" v-if="publisherUploadsDict.prices.isUploaded">
+                            You're using your custom uploaded title-level pricelist, rather than the public list price, to determine the price of each journal.
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn small text @click="openUploadDialog('prices')"> Upload custom data </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                    <v-divider />
+
+
+                    <v-card tile flat class="pb-2">
+                        <v-subheader class="text--primary subtitle-1">
+                            <v-icon class="mr-2">mdi-briefcase-clock-outline</v-icon>
+                            Perpetual Access
+                        </v-subheader>
+                        <v-card-text class="pt-0" v-if="publisherUploadsDict['perpetual-access'].isUploaded">
+                            You're using your custom uploaded title-level perpetual access list, with date ranges for each journal.
+                        </v-card-text>
+                        <v-card-text class="pt-0" v-if="!publisherUploadsDict['perpetual-access'].isUploaded">
+                            You're using the default, which is to assume full perpetual access for all your {{publisherName}} titles.
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn small text @click="openUploadDialog('perpetual-access')"> Upload custom data </v-btn>
+                        </v-card-actions>
+                    </v-card>
+
+
 
                     <v-list v-if="false">
                         <v-list-item>
@@ -265,7 +287,8 @@
                             >
 
                                 <v-list-item-avatar size="50">
-                                    <jazzicon v-show="!scenario.isLoading" :address="scenario.idHash" :diameter="50"/>
+                                    <!--                    https://github.com/tobiaslins/avatar -->
+                                    <v-img v-show="!scenario.isLoading" :src="`https://avatar.tobi.sh/${scenario.id}`" contain></v-img>
                                     <v-progress-circular v-show="scenario.isLoading" color="grey" indeterminate/>
                                 </v-list-item-avatar>
 
@@ -281,7 +304,7 @@
                                         <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
-                                <v-list-item-action v-if="scenario.saved.name">
+                                <v-list-item-action v-show="!scenario.isLoading">
                                     <div>
                                         <v-btn icon @click.stop="openCopyDialog(scenario)">
                                             <v-icon>mdi-content-copy</v-icon>
@@ -302,9 +325,9 @@
 
                         <v-fade-transition>
                             <v-list-item
-                                    @click=""
+                                     @click="createScenario"
                                     key="add-scenario"
-                                    v-if="publisherScenariosAreAllLoaded"
+                                    :disabled="!publisherScenariosAreAllLoaded"
                             >
                                 <v-list-item-avatar size="50">
                                     <v-btn icon>
@@ -313,7 +336,7 @@
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
-                                    <v-list-item-title @click="createScenario" class="body-2 text--secondary">
+                                    <v-list-item-title class="body-2 text--secondary">
                                         New scenario
                                     </v-list-item-title>
                                 </v-list-item-content>
@@ -330,6 +353,7 @@
         </v-row>
 
 
+
         <v-dialog v-model="uploadDialogIsOpen" max-width="500" persistent>
             <v-card v-if="uploadDialogIsOpen">
                 <v-card-title class="headline">
@@ -340,20 +364,17 @@
                         <span v-if="uploadFileType==='perpetual-access'"> Perpetual access dates</span>
                     </div>
                 </v-card-title>
-
-
-                <!--                <v-slide-y-transition :leave-absolute="true">-->
-                <!--                        <div v-if="errorMsg && fileSelected">-->
-                <!--                            <span v-html="errorMsg"></span>-->
-                <!--                        </div>-->
-                <!--                    </v-slide-y-transition>-->
                 <v-card-text>
-                    <!--                    <v-scale-transition>-->
-                    <!--                        <div style="height:100px;" v-if="foo">-->
-                    <!--                            foo-->
-                    <!--                        </div>-->
-                    <!--                    </v-scale-transition>-->
-                    <!--                    <v-btn x-small @click="foo=!foo">toggle</v-btn>-->
+                    <v-alert type="info" text icon="mdi-information-outline">
+                        <div v-if="uploadFileType==='prices'">
+                            We'll be launching self-serve editing of custom pricelists soon. In the meantime, please email us your custom pricelist, in spreadsheet format. The spreadsheet just needs two columns: <code>ISSN</code> and <code>Price</code>.
+                        </div>
+                        <div v-if="uploadFileType==='perpetual-access'">
+                            We'll be launching self-serve editing of custom perpetual access dates soon. In the meantime, please email us your custom perpetual access date ranges, in spreadsheet format. The spreadsheet just needs three columns: <code>ISSN</code>,  <code>Start date</code>, and <code>End date</code>.
+                        </div>
+                    </v-alert>
+                </v-card-text>
+                <v-card-text v-if="0">
                     <v-alert
                             :value="!!errorMsg && !!fileSelected"
                             type="error"
@@ -392,7 +413,21 @@
                         <v-icon>mdi-close</v-icon>
                         Cancel
                     </v-btn>
-                    <v-btn depressed
+                    <v-btn
+                            depressed
+                            color="primary"
+                            @click="closeUploadDialog"
+                            href="mailto:team@ourresearch.org"
+                            target="_blank"
+                    >
+                        <v-icon>mdi-email-outline</v-icon>
+                        Email file
+                    </v-btn>
+
+
+                    <v-btn
+                            v-if="0"
+                            depressed
                            @click="uploadFile"
                            color="primary"
                            :loading="isUploadFileLoading"
@@ -445,6 +480,8 @@
                 "publisherScenariosAreAllLoaded",
                 "publisherBigDealCost",
                 "publisherIsLoading",
+                "publisherUploadsDict",
+                "publisherJournalCounts",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -470,8 +507,10 @@
                 "openDeleteDialog",
             ]),
             ...mapActions([
-                "createScenario",
             ]),
+            createScenario(){
+                this.$store.dispatch("createScenario")
+            },
             openUploadDialog(fileType) {
                 this.uploadDialogIsOpen = true
                 this.uploadFileType = fileType

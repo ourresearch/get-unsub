@@ -114,12 +114,12 @@
             }
         },
         methods: {
-            logout() {
+            async logout() {
                 this.$store.commit("clearSelectedScenario")
                 this.$store.commit("clearPublisher")
                 this.$store.commit("clearInstitution")
-                this.$store.commit("logout")
-                this.$router.push("/")
+                await this.$store.commit("logout")
+                await this.$router.push("/")
             }
         },
         computed: {
