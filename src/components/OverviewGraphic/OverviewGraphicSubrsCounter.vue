@@ -27,42 +27,44 @@
 
         <div v-if="1" class="best-deal-mode d-flex">
             <div class="number-and-controls d-flex align-center pt-2">
-                <v-btn
-                        v-long-press="300"
-                        :disabled="(myCount <= 0)"
-                        @long-press-start="longPressStart(-1)"
-                        @long-press-stop="longPressStop"
-                        @click="changeMyCount(-1)"
-                        x-small
-                        outlined
-                        icon
-                >
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
-                <div class="input-container mx-2">
+                <div class="input-container mx-2 d-flex align-center">
+                    <v-icon color="blue" class="mr-2">mdi-cart</v-icon>
                     <v-text-field
                             v-model="myCount"
                             label="Subscriptions"
                             dense
                             hide-details
                             outlined
-                            color="#333"
+                            color="blue"
                     />
 
                 </div>
-                <v-btn
-                        v-long-press="300"
-                        :disabled="(myCount > numJournals)"
-                        @long-press-start="longPressStart(1)"
-                        @long-press-stop="longPressStop"
-                        @click="changeMyCount(1)"
-                        x-small
-                        outlined
-                        icon
+                <div class="buttons">
 
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
+                    <div
+                            class="button top d-block"
+                            v-long-press="300"
+                            :disabled="(myCount > numJournals)"
+                            @long-press-start="longPressStart(1)"
+                            @long-press-stop="longPressStop"
+                            @click="changeMyCount(1)"
+                            v-ripple
+
+                    >
+                        <v-icon  dark>mdi-chevron-up</v-icon>
+                    </div>
+                    <div
+                            class="button bottom d-block"
+                            v-long-press="300"
+                            :disabled="(myCount <= 0)"
+                            @long-press-start="longPressStart(-1)"
+                            @long-press-stop="longPressStop"
+                            @click="changeMyCount(-1)"
+                            v-ripple
+                    >
+                        <v-icon dark>mdi-chevron-down</v-icon>
+                    </div>
+                </div>
             </div>
             <div v-if="0" class="mode">Best Deal mode</div>
         </div>
@@ -134,21 +136,47 @@
     .subr-count {
         width: 180px;
     }
+    .button {
+        cursor: pointer;
+        background: dodgerblue;
+        &:hover {
+            background: darken(dodgerblue, 20%);
+        }
+        &.top {
+            border-bottom: 1px solid #fff;
+            border-radius: 5px 5px 0 0;
+        }
+        &.bottom {
+            border-radius: 0 0 5px 5px;
+        }
+    }
+
     .number-and-controls {
         .input-container {
-            width: 120px;
+            width: 160px;
         }
 
         .v-input input {
             max-height: none;
         }
+        .v-input {
+
+        }
+        .v-text-field--outlined fieldset {
+            border-color: dodgerblue !important;
+            border-radius: 4px;
+
+        }
 
         .v-text-field input {
-            font-size: 26px;
+            color: dodgerblue;
+            font-size: 38px;
             text-align: right;
-            font-weight: bold;
             padding-top: 4px;
             padding-bottom: 2px;
+        }
+        .theme--light.v-label {
+            color: dodgerblue;
         }
 
     }

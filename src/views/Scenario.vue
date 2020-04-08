@@ -63,12 +63,12 @@
                         </v-card-text>
                         <v-divider />
 
-                        <v-card-text>
+                        <v-card-text class="pt-9 pb-0">
                             <v-row class="">
                                 <!--                                COST -->
                                 <v-col class="py-0" cols="6">
                                     <div class="text-right">
-                                        <div class="headline">
+                                        <div class="headline font-weight-bold">
                                             {{ subrCost + illCost | currency }}
                                         </div>
                                         <div class="caption">
@@ -91,8 +91,8 @@
                                 <!--                                FULFILLMENT -->
                                 <v-col class="py-0" cols="6">
                                     <div class="text-right">
-                                        <div class="headline">
-                                            {{ instantUsagePercent | percent(1) }}
+                                        <div class="headline font-weight-bold">
+                                            {{ instantUsagePercent | percent }}
                                         </div>
                                         <div class="caption">
                                             <v-tooltip bottom max-width="400" color="#333">
@@ -115,7 +115,7 @@
 
                         </v-card-text>
 
-                        <v-card-text>
+                        <v-card-text class="pt-0">
                             <v-row>
                                 <v-col cols="6">
                                     <overview-graphic-bar
@@ -125,7 +125,7 @@
                                             :num-journals-subscribed="subscribedJournals.length"
                                     />
                                     <div class="text-center mt-2">
-                                        <div class="body-1">
+                                        <div class="">
                                             Annual cost
                                         </div>
                                         <div class="caption text--secondary">
@@ -141,7 +141,7 @@
                                             :num-journals-subscribed="subscribedJournals.length"
                                     />
                                     <div class="text-center mt-2">
-                                        <div class="body-1">
+                                        <div class="">
                                             Instant fulfillment
                                         </div>
                                     </div>
@@ -220,8 +220,9 @@
                                 </v-list>
                             </v-menu>
                         </v-toolbar>
-                        <v-card-text>
+                        <v-card-text class="px-0">
                             <overview-graphic-bar-dots
+                                    class="pa-3"
                                     v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
                                     :journals="filteredJournals"
                             />

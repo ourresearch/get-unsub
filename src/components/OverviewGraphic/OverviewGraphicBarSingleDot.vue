@@ -8,18 +8,17 @@
         <v-tooltip
                 bottom
                 max-width="200px"
-                open-delay="100"
+                open-delay="0"
                 content-class="dot-tooltip"
+                transition="fade-transition"
         >
             <template v-slot:activator="{ on }">
                 <div v-on="on">
-                    <div class="journal-dot"
+                    <div class="journal-dot journal-dot-subscribed"
                          v-if="isSubscribed && isShowing"
-                         :style="{background: '#777'}"
                     ></div>
                     <div class="journal-dot"
                          v-if="!isSubscribed && isShowing"
-                         :style="{background: '#ccc'}"
                     ></div>
                 </div>
             </template>
@@ -119,12 +118,23 @@
 
     .journal-dot {
         background: #ccc;
+        &:hover {
+            background: darken(#ccc, 20%);
+        }
         cursor: pointer;
 
         /*height: 10px;*/
         /*width: 10px;*/
         /*border: 1px solid #fff;*/
         /*border-radius: 20px;*/
+
+        $dot-color: dodgerblue;
+        &.journal-dot-subscribed {
+            background: dodgerblue;
+            &:hover {
+                background: darken($dot-color, 30%);
+            }
+        }
 
         height: 7px;
         width: 7px;
