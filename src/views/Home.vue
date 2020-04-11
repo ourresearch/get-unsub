@@ -206,8 +206,17 @@
                     })
                 }
                 catch (e){
-                    this.errorMsg = "Email already in use"
-                    return
+                    if (!e.response){
+                        console.log("non-axios error!", e)
+                        this.errorMsg = "Sorry, there was an error"
+                    }
+                    else if (e.response.status === 409) {
+                        this.errorMsg = "Email already in use"
+                    }
+                    else{
+                        console.log("axios error!", e.response)
+                        this.errorMsg = "Sorry, there was an error"
+                    }
                 }
                 finally {
                     this.createDemoLoading = false

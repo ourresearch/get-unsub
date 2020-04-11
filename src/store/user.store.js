@@ -17,13 +17,13 @@ export const user = {
             localStorage.setItem("token", token)
         },
         async logout(state){
-            await localStorage.removeItem("token")
             state.id = ""
             state.name = ""
             state.email = ""
             state.username = ""
             state.isPasswordSet = ""
             state.institutions = []
+            await localStorage.removeItem("token")
         },
         setFromApiResp(state, apiResp){
             state.id = apiResp.id
@@ -40,14 +40,14 @@ export const user = {
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
             await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
-            await router.push(`i/institution/${getters.userPrimaryInstitutionId}`)
+            await router.push(`i/${getters.userPrimaryInstitutionId}`)
         },
         async createDemo({commit, dispatch, getters}, {email, password, name}) {
             const resp = await api.post("user/demo", {email, password, name})
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
             await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
-            await router.push(`i/institution/${getters.userPrimaryInstitutionId}`)
+            await router.push(`i/${getters.userPrimaryInstitutionId}`)
         },
         async fetchUser({commit, dispatch, getters}) {
             if (getters.userInstitutions.length) return
