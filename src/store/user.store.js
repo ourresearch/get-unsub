@@ -16,14 +16,14 @@ export const user = {
         setToken(state, token){
             localStorage.setItem("token", token)
         },
-        async logout(state){
+        logout(state){
             state.id = ""
             state.name = ""
             state.email = ""
             state.username = ""
             state.isPasswordSet = ""
             state.institutions = []
-            await localStorage.removeItem("token")
+            localStorage.removeItem("token")
         },
         setFromApiResp(state, apiResp){
             state.id = apiResp.id
@@ -89,7 +89,6 @@ export const user = {
             else return "placeholder@example.com"
         },
         isLoggedIn: (state) => !!state.id,
-        token: () => localStorage.getItem("token"),
         isUserSubscribed(state){
             return state.password
         },

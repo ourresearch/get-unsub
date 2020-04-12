@@ -11,7 +11,7 @@
                         class="text-capitalize"
                         v-on="on"
                 >
-                    Settings
+                    Parameters
                 </v-btn>
             </template>
             <v-list dense>

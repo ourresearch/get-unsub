@@ -286,11 +286,6 @@
                                     :disabled="scenario.isLoading"
                             >
 
-                                <v-list-item-avatar size="50">
-                                    <!--                    https://github.com/tobiaslins/avatar -->
-                                    <v-img v-show="!scenario.isLoading" :src="`https://avatar.tobi.sh/${scenario.id}`" contain></v-img>
-                                    <v-progress-circular v-show="scenario.isLoading" color="grey" indeterminate/>
-                                </v-list-item-avatar>
 
                                 <v-list-item-content>
                                     <v-list-item-title

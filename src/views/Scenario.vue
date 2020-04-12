@@ -10,16 +10,6 @@
                 Back <span v-if="publisherName">to {{publisherName}}</span>
             </router-link>
             <div class="page-title mt-8 d-flex">
-                <v-avatar size="50" class="mt-3 mr-3">
-<!--                    https://github.com/tobiaslins/avatar -->
-                    <v-img v-show="!selectedScenarioIsLoading" :src="`https://avatar.tobi.sh/${scenarioId}`" contain></v-img>
-                    <v-progress-circular
-                            size="50"
-                            v-show="selectedScenarioIsLoading"
-                            indeterminate
-                    />
-                </v-avatar>
-
                 <div class="text">
                     <div class="body-2">
                         <span v-if="selectedScenarioIsLoading">Loading scenario</span>
@@ -104,7 +94,7 @@
                                                 </template>
                                                 <div>
                                                     This is the percentage of content requests that your library
-                                                    will successfully fulfill <em>instantly</em> over the next five
+                                                    will fulfill <em>instantly</em> over the next five
                                                     years (either via subscription, backfile, or OA).
                                                 </div>
                                             </v-tooltip>
@@ -158,21 +148,23 @@
 
                 <v-col cols="8">
                     <v-card>
-                        <v-toolbar flat  style="position: sticky; top: 0px; z-index: 9; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+                        <v-toolbar flat  style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
                             <v-toolbar-title>
                                 A-la-carte journals
-                                <span class="body-2">({{ numJournals | round }})</span>
+                                <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>
                             </v-toolbar-title>
                             <v-spacer></v-spacer>
 
                             <div class="mr-3">
                                 <v-text-field
-                                        v-if="menuSettingsView.displayJournalsAsSelected=='table'"
                                         hide-details
+                                        clearable
                                         outlined
                                         dense
                                         label="Search journals"
+                                        autocomplete="false"
                                         v-model="search"
+                                        v-on:input="setJournalsFilterStatus"
                                         append-icon="mdi-magnify"
                                         full-width
 
@@ -224,11 +216,11 @@
                             <overview-graphic-bar-dots
                                     class="pa-3"
                                     v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
-                                    :journals="filteredJournals"
+                                    :journals="journals"
                             />
                             <journals-table-table
                                     v-show="menuSettingsView.displayJournalsAsSelected=='table'"
-                                    :journals="filteredJournals"
+                                    :journals="journals"
                             />
 
                         </v-card-text>
@@ -455,21 +447,9 @@
             numJournals() {
                 return this.journals.length
             },
-            filteredJournals() {
-                // return this.journals.map(j=>{
-                //     return {
-                //         ...j,
-                //         isShowing:  j.title.toLowerCase().indexOf(this.search) > -1
-                //     }
-                // })
-
-
-                if (this.search.length < 3) return this.journals
-
-                return this.journals.filter(j => {
-                    return j.title.toLowerCase().indexOf(this.search) > -1
-                })
-            }
+            numJournalsNotHiddenByFilters(){
+                return this.journals.filter(j => !j.isHiddenByFilters).length
+            },
         },
         methods: {
             ...mapMutations([
@@ -480,8 +460,21 @@
                 const stickyToolbar = document.getElementById("sticky-toolbar")
                 const distanceToTopOfWindow = stickyToolbar.getBoundingClientRect().top
                 this.stickyToolbarIsAtTopOfWindow = (distanceToTopOfWindow === 0) ? true : false
+            },
+            setJournalsFilterStatus: _.debounce(
+                function(){
+                    console.log("setJournalsFilterStatus", this.search)
+                    // needed because clearing the field sets it to NULL and we want ""
+                    const searchStr = (this.search) ? this.search : ""
 
-            }
+                    const isHiddenByFilters = function(journal){
+                        if (!journal.title) return false
+                        return journal.title.toLowerCase().indexOf(searchStr) === -1
+                    }
+                    this.journals.forEach(j => {
+                        j.isHiddenByFilters = isHiddenByFilters(j)
+                    })
+                }, 300),
         },
         async mounted() {
             this.$store.commit("setIsLoading", true)
@@ -535,7 +528,7 @@
         right: 0;
         position: -webkit-sticky;
         position: sticky;
-        z-index: 9;
+        z-index: 8;
 
         div.container {
             transition: max-width 300ms;

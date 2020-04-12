@@ -44,229 +44,238 @@
 
         <v-row>
             <v-col cols="4">
-                <v-card>
-                    <v-card-title>
-                        <div>
-                            Institution details
-                        </div>
-                    </v-card-title>
-                    <v-divider></v-divider>
+                <v-skeleton-loader
+                  :loading="institutionIsLoading"
+                  type="card-heading, list-item-avatar-two-line, list-item"
+                >
 
-                    <v-list two-line>
-                        <v-list-item>
-                            <v-list-item-avatar>
-                                <v-icon>mdi-bank</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <div class="">
-                                    {{ institutionName }}
+                    <v-card>
+                        <v-card-title class="pr-4 align-baseline">
+                            <div>
+                                Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>
+                            </div>
+                            <v-spacer></v-spacer>
+                            <v-tooltip bottom max-width="200" color="#333">
+                                <template v-slot:activator="{on}">
+                                    <v-icon v-on="on" small>mdi-help-circle-outline</v-icon>
+                                </template>
+                                <div>
+                                    Manage who has access to your institutional dashboard.
                                 </div>
-                                <v-list-item-subtitle>
-                                    Name
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn icon>
-                                    <v-icon>mdi-pencil</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
-                        </v-list-item>
 
-                    </v-list>
+                            </v-tooltip>
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-list>
+                            <v-list-item
+                                    v-for="person in institutionUsersWithRoles"
+                                    :key="person.email"
+                            >
+                                <v-list-item-avatar>
+                                    <v-icon>mdi-account-outline</v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="">
+                                        {{person.user_email}}
+                                        <span class="you" v-if="person.user_id === userId">(you)</span>
+                                    </v-list-item-title>
+                                    <v-list-item-subtitle>
+                                        <span class="font-weight-bold">
+                                            {{ roleFromPermissions(person.permissions) }}
+                                        </span>
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
 
-                    <v-card-title class="pr-4 mt-10">
-                        <div>
-                            GRID IDs <span class="body-2">({{institutionGridIds.length}})</span>
-                        </div>
-                        <v-spacer></v-spacer>
-                        <v-btn icon>
-                            <v-icon>mdi-help-circle-outline</v-icon>
-                        </v-btn>
-                    </v-card-title>
-                    <v-divider></v-divider>
-
-                    <v-list :dense="institutionGridIds.length > 1">
-                        <v-list-item
-                                v-for="gridId in institutionGridIds"
-                                :key="gridId"
-                        >
-                            <v-list-item-avatar>
-                                <v-icon>mdi-map-marker-outline</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title class="" v-html="gridId"/>
-
-                                <v-list-item-subtitle v-if="/example|424899|433631/.test(gridId)">
-                                    (demo ID)
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn icon :href="`https://www.grid.ac/institutes/${gridId}`" target="_blank">
-                                    <v-icon>mdi-open-in-new</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
-                            <v-list-item-action>
-                                <v-btn icon>
-                                    <v-icon>mdi-delete</v-icon>
-                                </v-btn>
-                            </v-list-item-action>
-                        </v-list-item>
-                        <v-list-item @click="dialogs.addGridId = true">
-                            <v-list-item-avatar>
-                                <v-icon>mdi-plus</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content class="body-2 text--secondary">
-                                New GRID ID
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
+                                <v-list-item-action v-if="userIsAdmin && person.user_id !== userId">
+                                    <v-menu>
+                                        <template v-slot:activator="{ on }">
+                                            <v-btn
+                                                    icon
+                                                    v-on="on"
+                                            >
+                                                <v-icon>mdi-pencil</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <v-list dense>
+                                            <v-subheader class="body-2 text--secondary pa-1">Select role</v-subheader>
+                                            <v-list-item
+                                                    v-for="role in roles"
+                                                    :key="role"
+                                                    @click="setRole(person.user_email, role)"
+                                            >
+                                                <v-list-item-title>
+                                                    {{role}}
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
 
 
-                    <v-card-title class="pr-4 mt-10">
-                        <div>
-                            Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>
-                        </div>
-                        <v-spacer></v-spacer>
-                        <v-btn icon>
-                            <v-icon>mdi-help-circle-outline</v-icon>
-                        </v-btn>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-list>
-                        <v-list-item
-                                v-for="person in institutionUsersWithRoles"
-                                :key="person.email"
-                        >
-                            <v-list-item-avatar>
-                                <v-icon>mdi-account-outline</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title class="">
-                                    {{person.user_email}}
-                                    <span class="you" v-if="person.user_id === userId">(you)</span>
-                                </v-list-item-title>
-                                <v-list-item-subtitle>
-                                    <span class="font-weight-bold">
-                                        {{ roleFromPermissions(person.permissions) }}
-                                    </span>
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-
-                            <v-list-item-action v-if="userIsAdmin && person.user_id !== userId">
-                                <v-menu>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn
-                                                icon
-                                                v-on="on"
-                                        >
-                                            <v-icon>mdi-pencil</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <v-list dense>
-                                        <v-subheader class="body-2 text--secondary pa-1">Select role</v-subheader>
-                                        <v-list-item
-                                                v-for="role in roles"
-                                                :key="role"
-                                                @click="setRole(person.user_email, role)"
-                                        >
-                                            <v-list-item-title>
-                                                {{role}}
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                </v-menu>
+                                    <!--                                <span class="admin"></span>-->
+                                    <!--                                <v-btn icon>-->
+                                    <!--                                    <v-icon>mdi-pencil</v-icon>-->
+                                    <!--                                </v-btn>-->
+                                </v-list-item-action>
+                            </v-list-item>
+                            <v-list-item v-if="userIsAdmin" @click="openCreateGroupMemberDialog">
+                                <v-list-item-avatar>
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content class="body-2 text--secondary">
+                                    New group member
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
 
 
-                                <!--                                <span class="admin"></span>-->
-                                <!--                                <v-btn icon>-->
-                                <!--                                    <v-icon>mdi-pencil</v-icon>-->
-                                <!--                                </v-btn>-->
-                            </v-list-item-action>
-                        </v-list-item>
-                        <v-list-item v-if="userIsAdmin" @click="openCreateGroupMemberDialog">
-                            <v-list-item-avatar>
-                                <v-icon>mdi-plus</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content class="body-2 text--secondary">
-                                New group member
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                </v-card>
+                    </v-card>
+                </v-skeleton-loader>
+
+
+                <v-skeleton-loader
+                  :loading="institutionIsLoading"
+                  type="card-heading, list-item-avatar-two-line, list-item"
+                >
+                    <v-card class="mt-3">
+                        <v-card-title class="pr-4">
+                            <div>
+                                GRID IDs <span class="body-2">({{institutionGridIds.length}})</span>
+                            </div>
+                            <v-spacer></v-spacer>
+                            <v-tooltip bottom max-width="300" color="#333">
+                                <template v-slot:activator="{on}">
+                                    <v-icon v-on="on" small>mdi-help-circle-outline</v-icon>
+                                </template>
+                                <div>
+                                    A GRID ID is a unique ID (like an ISSN) for research institutions. Some institution have multiple IDs (eg. one for main campus, one for med school). We base your institutional citation and authorship counts on your GRID ID(s).
+                                </div>
+
+                            </v-tooltip>
+                        </v-card-title>
+                        <v-divider></v-divider>
+
+                        <v-list :dense="institutionGridIds.length > 1">
+                            <v-list-item
+                                    v-for="gridId in institutionGridIds"
+                                    :key="gridId"
+                            >
+                                <v-list-item-avatar>
+                                    <v-icon>mdi-map-marker-outline</v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="" style="font-family: Monaco, monospace;" v-html="gridId"/>
+
+                                    <v-list-item-subtitle v-if="/example|424899|433631/.test(gridId)">
+                                        (demo GRID ID)
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-tooltip bottom color="#333" max-width="200">
+                                        <template v-slot:activator="{on}">
+                                            <v-btn v-on="on" icon :href="`https://www.grid.ac/institutes/${gridId}`" target="_blank">
+                                                <v-icon>mdi-open-in-new</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <div>
+                                            View institutional metadata on www.grid.ac
+                                        </div>
+
+                                    </v-tooltip>
+                                </v-list-item-action>
+                            </v-list-item>
+                            <v-list-item @click="dialogs.addGridId = true">
+                                <v-list-item-avatar>
+                                    <v-icon>mdi-plus</v-icon>
+                                </v-list-item-avatar>
+                                <v-list-item-content class="body-2 text--secondary">
+                                    New GRID ID
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+
+
+
+                    </v-card>
+                </v-skeleton-loader>
             </v-col>
 
             <v-col cols="8">
-                <v-card>
-                    <v-card-title>
-                        <div>
-                            Publishers
-                            <span class="body-2">({{institutionPublishers.length}})</span>
-                        </div>
-                    </v-card-title>
-                    <v-divider></v-divider>
-                    <v-list>
-                        <v-list-item
-                                v-for="pub in institutionPublishers"
-                                :key="pub.id"
-                                :to="`/i/${institutionId}/p/${pub.id}`"
+                <v-skeleton-loader
+                  :loading="institutionIsLoading"
+                  type="card-heading, list-item-avatar-two-line, list-item"
+                >
+                    <v-card>
+                        <v-card-title>
+                            <div>
+                                Publishers
+                                <span class="body-2">({{institutionPublishers.length}})</span>
+                            </div>
+                        </v-card-title>
+                        <v-divider></v-divider>
+                        <v-list>
+                            <v-list-item
+                                    v-for="pub in institutionPublishers"
+                                    :key="pub.id"
+                                    :to="`/i/${institutionId}/p/${pub.id}`"
+                            >
+                                <v-list-item-avatar tile size="50">
+                                    <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
+                                    <v-img src="https://i.imgur.com/Qt1sOqp.png"></v-img>
+                                </v-list-item-avatar>
+
+                                <v-list-item-content>
+                                    <v-list-item-title class="headline font-weight-bold">
+                                        {{pub.name}}
+                                    </v-list-item-title>
+
+                                    <v-list-item-subtitle v-if="pub.is_demo">
+                                        Demo publisher; some functionality restricted
+                                    </v-list-item-subtitle>
+                                </v-list-item-content>
+                                <v-list-item-action>
+                                    <v-btn text>view</v-btn>
+                                </v-list-item-action>
+                            </v-list-item>
+
+
+                            <v-list-item @click="" :disabled="true">
+                                <v-list-item-avatar size="50">
+                                    <v-btn icon>
+                                        <v-icon>mdi-plus</v-icon>
+                                    </v-btn>
+                                </v-list-item-avatar>
+
+                                <v-list-item-content>
+                                    <v-list-item-title class="body-2 text--secondary">
+                                        New publisher
+                                    </v-list-item-title>
+                                </v-list-item-content>
+                            </v-list-item>
+
+
+                        </v-list>
+                        <v-card-text
+                                v-if="false"
+                                class="mt-6"
+                                style="height: 100px; position: relative; background: #fff; border-top:1px solid #ddd;"
                         >
-                            <v-list-item-avatar tile size="50">
-                                <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
-                                <v-img src="https://i.imgur.com/Qt1sOqp.png"></v-img>
-                            </v-list-item-avatar>
-
-                            <v-list-item-content>
-                                <v-list-item-title class="headline font-weight-bold">
-                                    {{pub.name}}
-                                </v-list-item-title>
-
-                                <v-list-item-subtitle v-if="pub.is_demo">
-                                    Demo publisher; some functionality restricted
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                            <v-list-item-action>
-                                <v-btn text>view</v-btn>
-                            </v-list-item-action>
-                        </v-list-item>
+                            <v-btn
+                                    absolute
+                                    light
+                                    small
+                                    fab
+                                    top
+                                    right
+                                    color="white"
+                                    @click="showSnackbarNoPermissions = true"
+                            >
+                                <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                        </v-card-text>
 
 
-                        <v-list-item @click="" :disabled="true">
-                            <v-list-item-avatar size="50">
-                                <v-btn icon>
-                                    <v-icon>mdi-plus</v-icon>
-                                </v-btn>
-                            </v-list-item-avatar>
-
-                            <v-list-item-content>
-                                <v-list-item-title class="body-2 text--secondary">
-                                    New publisher
-                                </v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-
-
-                    </v-list>
-                    <v-card-text
-                            v-if="false"
-                            class="mt-6"
-                            style="height: 100px; position: relative; background: #fff; border-top:1px solid #ddd;"
-                    >
-                        <v-btn
-                                absolute
-                                light
-                                small
-                                fab
-                                top
-                                right
-                                color="white"
-                                @click="showSnackbarNoPermissions = true"
-                        >
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                    </v-card-text>
-
-
-                </v-card>
+                    </v-card>
+                </v-skeleton-loader>
             </v-col>
         </v-row>
 
@@ -341,7 +350,7 @@
                     Add GRID ID
                 </v-card-title>
                 <v-card-text class="pt-4">
-                    Coming soon...
+                    Currently you’re limited to just one GRID ID, but we’ll be changing this soon.
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
@@ -416,6 +425,7 @@
                 "institutionUsersWithRoles",
                 "institutionIsDemo",
                 "userId",
+                "institutionIsLoading",
             ]),
             institutionId() {
                 return this.$route.params.institutionId

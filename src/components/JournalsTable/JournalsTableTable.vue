@@ -102,7 +102,7 @@
                             </thead>
                             <tbody>
                             <journal-row
-                                    v-for="journal in sortedJournals"
+                                    v-for="journal in currentPageOfJournals"
                                     :key="journal.issn_l"
                                     :journal="journal"
                                     :headers="tableHeaders"
@@ -239,22 +239,14 @@
                     if (this.sortDesc) diff *= -1
                     return diff
                 }
-
-                let ret = [...this.journals]
-
-                ret.sort(fn)
-                // if (this.search) {
-                //     ret = ret.filter(j => {
-                //         const searchTheseStrings = [
-                //             j.title.toLowerCase(),
-                //             j.issn_l.toLowerCase()
-                //         ]
-                //         const searchTerm = this.search.toLowerCase()
-                //         return searchTheseStrings.some(m => m.indexOf(searchTerm) > -1)
-                //     })
-                // }
-                return ret.slice(this.pageStartIndex, this.pageEndIndex)
+                return [...this.journals].sort(fn)
             },
+            sortedJournalsFiltered() {
+                return this.sortedJournals.filter(j=>!j.isHiddenByFilters)
+            },
+            currentPageOfJournals(){
+                return this.sortedJournalsFiltered.slice(this.pageStartIndex, this.pageEndIndex)
+            }
         },
         created() {
         },

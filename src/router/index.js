@@ -92,7 +92,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-    if (store.getters.token) {
+    if (localStorage.getItem("token")) {
         await store.dispatch("fetchUser")
     }
 

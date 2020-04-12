@@ -16,7 +16,7 @@
                                                             </span>
                         </template>
                         <div>
-                            This is the percentage of content requests that your library will successfully fulfill <em>instantly</em>
+                            This is the percentage of content requests that your library will fulfill <em>instantly</em>
                             over the next five years (either via subscription, backfile, or OA).
                         </div>
                     </v-tooltip>
@@ -170,7 +170,7 @@
 
         .v-text-field input {
             color: dodgerblue;
-            font-size: 38px;
+            font-size: 30px;
             text-align: right;
             padding-top: 4px;
             padding-bottom: 2px;

@@ -1,22 +1,84 @@
 <template>
-    <v-dialog
+    <v-tooltip
             v-model="helpDialogIsOpen"
-            width="600"
+            max-width="400"
+            right
+            color="#333"
     >
         <template v-slot:activator="{ on }">
             <div class="bar-segment"
                  v-on="on"
+                 :class="{light: configObj.isLeftover}"
                  :style="{height: percentage+'%', background: configObj.color, color: configObj.barTextColor}">
-                <span v-if="!configObj.isCurrency">{{percentage | round}}%</span>
-                <span v-if="configObj.isCurrency">{{count | currency}}</span>
-                <span style="opacity: 0.7;">
-                    {{configObj.displayName}}
 
+                <span class="segment-label d-flex px-2" v-if="percentage > 5">
+                    <span>
+                        {{configObj.displayName}}
+                    </span>
+                    <v-spacer />
+                    <span class="number" v-if="!configObj.isCurrency">{{percentage | round}}%</span>
+                    <span class="number" v-if="configObj.isCurrency">{{count | currency}}</span>
                 </span>
+
             </div>
         </template>
+        <div class="pa-3 pt-1" v-if="configObj.segmentType==='cost'">
+            <div class="d-flex subtitle-1 align-center">
+                <span class="name font-weight-bold">
+                    {{configObj.displayNameLong}}
+                </span>
+                <v-spacer />
+                <span class="number pl-3">
+                    {{count | currency}}
+                </span>
+            </div>
+            <v-divider class="my-2" dark />
 
-        <v-card>
+            <span v-if="configObj.name=='costSavings'">
+                Your annual savings over the next five years,
+            </span>
+            <span v-if="configObj.name=='costSubr'">
+                Your subscription spend over the next five years,
+            </span>
+            <span v-if="configObj.name=='costIll'">
+                Your ILL spend over the next five years,
+            </span>
+
+            given your current model parameters and subscriptions cart.
+        </div>
+
+
+        <div class="pa-3 pt-1" v-if="configObj.segmentType==='usage'">
+            <div class="d-flex subtitle-1 align-center">
+                <span class="name font-weight-bold">
+                    {{configObj.displayNameLong}}
+                </span>
+                <v-spacer />
+                <span class="number pl-3">
+                    {{percentage | round}}%
+                </span>
+            </div>
+            <v-divider class="my-2"  dark />
+
+            Percentage of usage that
+            <span v-if="configObj.name=='usageDelayed'">
+                 can't be fulfilled by any free source or subscription, and will generate an ILL request
+            </span>
+            <span v-if="configObj.name=='usageSubr'">
+                can't be fulfilled by any free source, but can be fulfilled by one of your a-la-carte subscriptions
+            </span>
+            <span v-if="configObj.name=='usageBackfile'">
+                can't be fulfilled by Open Access, but can be fulfilled by your already-purchased backfile
+            </span>
+            <span v-if="configObj.name=='usageOa'">
+                can be fulfilled by online Open Access
+            </span>
+
+            (given your current model parameters and subscriptions cart).
+        </div>
+
+
+        <v-card v-if="false">
             <v-toolbar flat :color="configObj.color" class="mb-3">
                 <v-toolbar-title>
                     <v-icon class="pr-2">mdi-information-outline</v-icon>
@@ -127,7 +189,7 @@
         </v-card>
 
 
-    </v-dialog>
+    </v-tooltip>
 </template>
 
 <script>
@@ -166,13 +228,20 @@
 <style scoped lang="scss">
     .bar-segment {
         padding-left: 3px;
-        border-top: 1px solid #eee;
-        font-size: 12px;
-        cursor: help;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        font-size: 11px;
         color: #333;
+        opacity: .8;
+        &.light {
+            opacity: .5;
+        }
+        span {
+            cursor: default;
+        }
 
         &:hover {
-            /*background: #444 !important;*/
+            /*background: #333 !important;*/
+            /*color: #fff !important;*/
             opacity: 1;
         }
     }

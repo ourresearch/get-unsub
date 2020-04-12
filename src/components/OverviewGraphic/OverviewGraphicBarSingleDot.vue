@@ -15,10 +15,12 @@
             <template v-slot:activator="{ on }">
                 <div v-on="on">
                     <div class="journal-dot journal-dot-subscribed"
-                         v-if="isSubscribed && isShowing"
+                         :style="{opacity: myOpacity}"
+                         v-if="isSubscribed"
                     ></div>
                     <div class="journal-dot"
-                         v-if="!isSubscribed && isShowing"
+                         v-if="!isSubscribed"
+                         :style="{opacity: myOpacity}"
                     ></div>
                 </div>
             </template>
@@ -74,9 +76,8 @@
             isSubscribed() {
                 return this.journal.subscribed
             },
-            isShowing(){
-                return true
-                return this.journal.isShowing
+            myOpacity(){
+                return (this.journal.isHiddenByFilters) ? 0.1 : 1
             }
         },
         methods: {
@@ -117,9 +118,9 @@
 
 
     .journal-dot {
-        background: #ccc;
+        background: #aaa;
         &:hover {
-            background: darken(#ccc, 20%);
+            background: darken(#aaa, 20%);
         }
         cursor: pointer;
 

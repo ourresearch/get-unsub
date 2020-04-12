@@ -401,13 +401,14 @@ const colors = {
         normal: "#fafafa",
         dark: "#999999",
     },
-    dark: "#555",
-    light: "#fafafa"
+    dark: "#333",
+    light: "#ccc"
 }
 
 const usageSegments = {
     delayed: {
         name: "usageDelayed",
+        segmentType: "usage",
         displayName: "ILL/delayed",
         displayNameLong: "ILL, Document Delivery, and other delayed access",
         isFree: false,
@@ -416,9 +417,11 @@ const usageSegments = {
         color: colors.light,
         barTextColor: colors.dark,
         darkColor: colors.delayed.dark,
+        isLeftover: true,
     },
     subr: {
         name: "usageSubr",
+        segmentType: "usage",
         displayName: "Subscription",
         displayNameLong: "À la carte subscription",
         isFree: false,
@@ -427,9 +430,11 @@ const usageSegments = {
         color: colors.dark,
         barTextColor: colors.light,
         darkColor: colors.subr.dark,
+        isLeftover: false,
     },
     oa: {
         name: "usageOa",
+        segmentType: "usage",
         displayName: "Open access",
         displayNameLong: "Open access",
         lightColor: colors.free.light,
@@ -438,9 +443,11 @@ const usageSegments = {
         color: colors.dark,
         barTextColor: colors.light,
         darkColor: colors.free.dark,
+        isLeftover: false,
     },
     backfile: {
         name: "usageBackfile",
+        segmentType: "usage",
         displayName: "Backfile",
         displayNameLong: "Perpetual access backfile",
         isFree: true,
@@ -449,12 +456,14 @@ const usageSegments = {
         color: colors.dark,
         barTextColor: colors.light,
         darkColor: colors.free.dark,
+        isLeftover: false,
     },
 }
 
 const costSegments = {
     savings: {
         name: "costSavings",
+        segmentType: "cost",
         displayName: "Savings",
         displayNameLong: "Cost savings (compared to Big Deal)",
         lightColor: colors.savings.light,
@@ -463,9 +472,11 @@ const costSegments = {
         barTextColor: colors.dark,
         darkColor: colors.savings.dark,
         isCurrency: true,
+        isLeftover: true,
     },
     subr: {
         name: "costSubr",
+        segmentType: "cost",
         displayName: "Subscription",
         displayNameLong: "À la carte subscription cost",
         lightColor: colors.subr.light,
@@ -474,9 +485,11 @@ const costSegments = {
         barTextColor: colors.light,
         darkColor: colors.subr.dark,
         isCurrency: true,
+        isLeftover: false,
     },
     ill: {
         name: "costIll",
+        segmentType: "cost",
         displayName: "ILL",
         displayNameLong: "Interlibrary Loan and document delivery cost",
         lightColor: colors.delayed.light,
@@ -485,6 +498,7 @@ const costSegments = {
         barTextColor: colors.light,
         darkColor: colors.delayed.dark,
         isCurrency: true,
+        isLeftover: false,
     },
 
 }
