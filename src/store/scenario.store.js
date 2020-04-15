@@ -15,8 +15,7 @@ export const scenario = {
         selected: newScenario(),
         isLoading: false,
 
-        zoomIssnl: null,
-        zoomOpen: false,
+        zoomedJournal: {},
 
         menuSettings: {
              view: {
@@ -116,14 +115,13 @@ export const scenario = {
 
         },
 
-
         setZoomIssnl: (state, issnl) => {
-            state.zoomIssnl = issnl
-            state.zoomOpen = true
+            state.zoomedJournal = state.selected.journals.find(j => {
+                return j.issn_l === issnl
+            })
         },
         closeZoom: (state) => {
-            state.zoomIssnl = null
-            state.zoomOpen = false
+            state.zoomedJournal = {}
         },
 
 
@@ -260,7 +258,7 @@ export const scenario = {
 
 
         summary: (state) => state.selected.summary,
-        zoomIssnl: (state) => state.zoomIssnl,
+        zoomIssnl: (state) => state.zoomedJournal && state.zoomedJournal.issn_l,
         configs(state) {
             return state.selected.saved.configs
         },
@@ -291,17 +289,9 @@ export const scenario = {
         },
         selectedScenarioIsLoading: (state) => {
             if (!state.selected) return true
-            console.log("TRUE state.selected")
-
             if (state.isLoading) return true
-            console.log("FALSE state.isLoading")
-
-
             if (!state.selected.saved.name) return true
-            console.log("TRUE state.selected.saved.name")
-
             if (!state.selected.journals.length) return true
-            console.log("TRUE state.selected.journals.length")
             return false
         },
         scenarioSubrsAreInCpuOrder: (state) => {
@@ -320,6 +310,7 @@ export const scenario = {
         illJournalsCount: (state) => state.selected.journals.length - state.selected.saved.subrs.length,
         tableColsToShow: (state) => state.tableColsToShow,
         scenarioIdHash: (state) => state.selected.idHash,
+        scenarioZoomedJournal: (state) => state.zoomedJournal,
 
 
     }

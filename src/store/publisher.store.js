@@ -115,18 +115,23 @@ export const publisher = {
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
             commit("startLoading")
-
-            // await Promise.all([
-            //     dispatch("fetchPublisherApcData", id),
-            //     dispatch("fetchPublisherMainData", id),
-            // ])
-
-
             dispatch("fetchPublisherApcData", id),
             await dispatch("fetchPublisherMainData", id),
             commit("finishLoading")
             return
         },
+
+        async fetchPublisherAsync({commit, dispatch, getters}, id) {
+            commit("startLoading")
+            await Promise.all([
+                dispatch("fetchPublisherApcData", id),
+                dispatch("fetchPublisherMainData", id),
+            ])
+            commit("finishLoading")
+            return
+        },
+
+
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
             if (getters.publisherBigDealCost) return
 
@@ -138,7 +143,7 @@ export const publisher = {
                 return scenario
             });
             commit("setSelectedPublisher", resp.data)
-            dispatch("hydratePublisherScenarios")
+            await dispatch("hydratePublisherScenarios")
             return resp
         },
 

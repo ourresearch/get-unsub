@@ -7,48 +7,56 @@
             class="journal-dot-container">
         <v-tooltip
                 bottom
-                max-width="200px"
+                max-width="400px"
                 open-delay="0"
                 content-class="dot-tooltip"
                 transition="fade-transition"
+                color="#333"
+                :disabled="journal.isHiddenByFilters"
         >
             <template v-slot:activator="{ on }">
                 <div v-on="on">
                     <div class="journal-dot journal-dot-subscribed"
-                         :style="{opacity: myOpacity}"
-                         v-if="isSubscribed"
+                         :class="{isNotHiddenByFilters: !journal.isHiddenByFilters}"
+                         v-show="isSubscribed"
                     ></div>
                     <div class="journal-dot"
-                         v-if="!isSubscribed"
-                         :style="{opacity: myOpacity}"
+                         :class="{isNotHiddenByFilters: !journal.isHiddenByFilters}"
+                         v-show="!isSubscribed"
                     ></div>
                 </div>
             </template>
             <span
-                    style="line-height: 1.1"
                     class="d-flex align-center tooltip-contents"
             >
                 <div
+                        v-if="!isNaN(journal.ncppu)"
                         class="pr-2 mr-2 text-right cpu-section"
-                        :style="{color: subrColorLight}"
                         style="border-right: 1px solid #ddd;"
                 >
-                    <div
-                            class="caption"
-                    >
-                        CPU
-                    </div>
                     <div class="">
                         <strong
-                                :style="{color: subrColorLight}"
                                 v-if="journal.ncppu !== null">
                             ${{journal.ncppu | round(2)}}
                         </strong>
                     </div>
+                    <div
+                        style="font-size: 11px;"
+                    >
+                        CPU
+                    </div>
                 </div>
 
                 <div>
-                    <span class="journal-title">{{journal.title}}</span>
+                    <div class="journal-title mb-1 font-weight-bold" style="line-height: 1.1">{{journal.title}}</div>
+                    <div style="color: #64b5f6;" class="caption" v-if="isSubscribed">
+                        <v-icon color="#64b5f6" dark x-small >mdi-cart</v-icon>
+                        Subscribed
+                    </div>
+                    <div style="color: #ccc;" class="caption" v-if="!isSubscribed">
+                        <v-icon color="#ccc" dark x-small>mdi-cart-outline</v-icon>
+                        Not subscribed
+                    </div>
                 </div>
             </span>
         </v-tooltip>
@@ -76,18 +84,17 @@
             isSubscribed() {
                 return this.journal.subscribed
             },
-            myOpacity(){
+            myOpacity() {
                 return (this.journal.isHiddenByFilters) ? 0.1 : 1
             }
         },
         methods: {
-            openZoom(){
+            openZoom() {
                 this.$store.commit('setZoomIssnl', this.journal.issn_l)
             },
-            subscribeUpToIndex(){
+            subscribeUpToIndex() {
                 console.log("subscribeUpToIndex in overview graphic", this.journal.cpuIndex)
                 this.$store.dispatch("subscribeUpToIndex", this.journal.cpuIndex + 1)
-
 
 
                 // if (this.journal.cpuIndex === 0 && this.journal.subscribed){
@@ -98,12 +105,11 @@
                 //     this.$store.dispatch("subscribeUpToIndex", this.journal.cpuIndex)
                 // }
             },
-            toggleCustomSubscribed(){
+            toggleCustomSubscribed() {
                 console.log("custom subscribe!")
-                if (this.journal.customSubscribed){
+                if (this.journal.customSubscribed) {
                     this.$store.dispatch("unsubscribeCustom", this.journal.issn_l)
-                }
-                else {
+                } else {
                     this.$store.dispatch("subscribeCustom", this.journal.issn_l)
                 }
             },
@@ -119,9 +125,27 @@
 
     .journal-dot {
         background: #aaa;
-        &:hover {
-            background: darken(#aaa, 20%);
+        opacity: .1;
+        &.isNotHiddenByFilters {
+            opacity: 1;
         }
+
+        &.isNotHiddenByFilters:hover {
+            background: darken(#aaa, 30%);
+            border-top: none;
+            border-left: none;
+            box-shadow: 0px 0px 20px 20px rgba(255,255,255,.2);
+            z-index: 4;
+            position: relative;
+            height: 11px;
+            width: 11px;
+            margin: -2px;
+            border-radius: 3px;
+        }
+
+        &:hover {
+        }
+
         cursor: pointer;
 
         /*height: 10px;*/
@@ -130,8 +154,10 @@
         /*border-radius: 20px;*/
 
         $dot-color: dodgerblue;
+
         &.journal-dot-subscribed {
             background: dodgerblue;
+
             &:hover {
                 background: darken($dot-color, 30%);
             }
@@ -141,7 +167,7 @@
         width: 7px;
         border-top: 1px solid #fff;
         border-left: 1px solid #fff;
-        border-radius: 3px;
+        /*border-radius: 3px;*/
 
         /*border-right: 1px solid #fff;*/
         /*border-left: 1px solid #fff;*/

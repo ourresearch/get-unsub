@@ -5,26 +5,22 @@
             Back to your user page
         </router-link>
 
-
         <div class="page-title mt-8 mb-4 d-flex">
             <div class="mt-1 mr-2">
-                <v-avatar tile size="60" v-show="institutionName">
+                <v-avatar tile size="60">
                     <img v-if="institutionIsDemo" src="https://i.imgur.com/oeSIBs7.png" alt="">
                     <v-icon x-large v-if="!institutionIsDemo">mdi-bank</v-icon>
-                </v-avatar>
-                <v-avatar tile size="60" v-show="!institutionName">
-                    <v-progress-circular
-                            size="60"
-                            indeterminate
-                    />
                 </v-avatar>
             </div>
             <div class="text">
                 <div class="body-2">
                     Institution
                 </div>
-                <div class="display-2">
+                <div class="display-2" v-if="!institutionIsLoading">
                     {{ institutionName }}
+                </div>
+                <div class="display-2 text--secondary" v-if="institutionIsLoading">
+                    Loading institution...
                 </div>
             </div>
         </div>

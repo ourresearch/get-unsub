@@ -1,9 +1,7 @@
 <template>
-    <tr @click="openSingleJournal()">
-
-
+    <tr @click="openSingleJournal()" :class="{isSubscribed}">
         <td class="title-column">
-            <v-row class="" style="width:300px;">
+            <v-row v-if="0" class="" style="width:300px;">
                 <v-col style="flex-grow:1;">
                     <v-btn icon text
                            @click.stop="subscribe"
@@ -18,13 +16,12 @@
                 </v-col>
 
                 <v-col style="flex-grow:222;">
-                    <div :style="{'font-weight': journal.subscribed ? 'normal' : 'normal'}"
-                         style="font-size:18px;">{{journal.title}}
-                    </div>
-                    <div class="caption">{{journal.subject}}</div>
 
                 </v-col>
             </v-row>
+            <div class="">{{journal.title}}
+            </div>
+            <div v-if="0" class="caption">{{journal.subject}}</div>
         </td>
 
         <td
@@ -92,8 +89,15 @@
 </script>
 
 <style scoped lang="scss">
+    tr.isSubscribed {
+        background: dodgerblue;
+        color: #fff;
+        &:hover {
+            background: darken(dodgerblue, 10%);
+        }
+    }
     td {
-        padding: 0 10px;
+        padding: 5px 10px;
         text-align: right;
         &.title-column {
             text-align: left;

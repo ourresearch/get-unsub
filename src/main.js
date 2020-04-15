@@ -49,7 +49,7 @@ Vue.use(VueClipboard)
 
 const rounder = function (value, decimals) {
     if (!value) {
-        value = 0
+        return 0
     }
 
     if (!decimals) {

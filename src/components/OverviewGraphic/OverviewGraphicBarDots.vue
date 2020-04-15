@@ -36,26 +36,28 @@
 
         <v-card flat class="mt-5" v-show="journalsWithCpuOutsideBins.length">
             <div class="">
-                Journals with CPU > {{maxBinValue | currency}} <span class="body-">({{journalsWithCpuOutsideBins.length}})</span>
+                <span class="body-">{{journalsWithCpuOutsideBins.length}}</span> Journals with CPU > {{maxBinValue | currency}}
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
                             v-for="item in journalsWithCpuOutsideBins"
                             :key="item.issnl"
                             :journal="item"
+                            v-if="false"
                     />
             </div>
         </v-card>
 
         <v-card flat class="mt-5" v-show="journalsWithNoUsage.length">
             <div class="">
-                Journals with no usage (CPU is undefined) <span class="body-">({{journalsWithNoUsage.length}})</span>
+                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no usage (CPU is undefined)
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
                             v-for="item in journalsWithNoUsage"
                             :key="item.issnl"
                             :journal="item"
+                            v-if="false"
                     />
             </div>
         </v-card>

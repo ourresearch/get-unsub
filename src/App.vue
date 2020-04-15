@@ -38,7 +38,7 @@
 
 <script>
     import StartupTutorial from "./components/StartupTutorial"
-    import SingleJournal from "./components/SingleJournal"
+    import SingleJournal from "./components/SingleJournal/SingleJournal"
     import AppBar from "./components/AppBar"
 
     export default {
