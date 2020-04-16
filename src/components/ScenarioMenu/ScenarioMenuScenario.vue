@@ -16,7 +16,7 @@
                         max-width="400"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-list-item v-on="on" :to="'/a/' + publisherId">
+                        <v-list-item v-on="on" @click="closeScenario">
                             <v-list-item-icon class="mr-2">
                                 <v-icon>mdi-close</v-icon>
                             </v-list-item-icon>
@@ -83,6 +83,7 @@
             ...mapGetters([
                 "publisherName",
                 "publisherId",
+                "institutionId",
                 "scenarioName",
                 "selectedScenario",
                 "publisherScenariosCount",
@@ -96,6 +97,12 @@
                 "openRenameDialog",
                 "openDeleteDialog",
             ]),
+            closeScenario(){
+                const url = `/i/${this.institutionId}/p/${this.publisherId}`
+                this.$router.push(url)
+                this.$store.commit("clearSelectedScenario")
+
+            }
         }
     }
 </script>
