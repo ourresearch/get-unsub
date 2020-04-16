@@ -43,21 +43,19 @@
                             v-for="item in journalsWithCpuOutsideBins"
                             :key="item.issnl"
                             :journal="item"
-                            v-if="false"
                     />
             </div>
         </v-card>
 
         <v-card flat class="mt-5" v-show="journalsWithNoUsage.length">
             <div class="">
-                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no usage (CPU is undefined)
+                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no usage
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
                             v-for="item in journalsWithNoUsage"
                             :key="item.issnl"
                             :journal="item"
-                            v-if="false"
                     />
             </div>
         </v-card>

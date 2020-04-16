@@ -1,6 +1,5 @@
 <template>
     <div
-            @click.shift.stop="subscribeUpToIndex"
             @click.exact="openZoom"
             @click.ctrl="toggleCustomSubscribed"
             @click.meta="toggleCustomSubscribed"
@@ -11,7 +10,7 @@
                 open-delay="0"
                 content-class="dot-tooltip"
                 transition="fade-transition"
-                color="#333"
+                :color="(isSubscribed) ? '#1e90ff' : '#333'"
                 :disabled="journal.isHiddenByFilters"
         >
             <template v-slot:activator="{ on }">
@@ -49,12 +48,12 @@
 
                 <div>
                     <div class="journal-title mb-1 font-weight-bold" style="line-height: 1.1">{{journal.title}}</div>
-                    <div style="color: #64b5f6;" class="caption" v-if="isSubscribed">
-                        <v-icon color="#64b5f6" dark x-small >mdi-cart</v-icon>
+                    <div class="caption" v-if="isSubscribed">
+                        <v-icon dark x-small >mdi-cart</v-icon>
                         Subscribed
                     </div>
-                    <div style="color: #ccc;" class="caption" v-if="!isSubscribed">
-                        <v-icon color="#ccc" dark x-small>mdi-cart-outline</v-icon>
+                    <div class="caption" v-if="!isSubscribed">
+                        <v-icon dark x-small>mdi-cart-outline</v-icon>
                         Not subscribed
                     </div>
                 </div>
@@ -107,7 +106,7 @@
             },
             toggleCustomSubscribed() {
                 console.log("custom subscribe!")
-                if (this.journal.customSubscribed) {
+                if (this.journal.subscribed) {
                     this.$store.dispatch("unsubscribeCustom", this.journal.issn_l)
                 } else {
                     this.$store.dispatch("subscribeCustom", this.journal.issn_l)

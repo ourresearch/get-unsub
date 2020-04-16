@@ -1,6 +1,6 @@
 <template>
     <tr @click="openSingleJournal()" :class="{isSubscribed}">
-        <td class="title-column">
+        <td class="title-column d-flex">
             <v-row v-if="0" class="" style="width:300px;">
                 <v-col style="flex-grow:1;">
                     <v-btn icon text
@@ -19,9 +19,11 @@
 
                 </v-col>
             </v-row>
-            <div class="">{{journal.title}}
+            <div class="icon">
+                <v-icon dark small v-if="isSubscribed">mdi-cart</v-icon>
+                <v-icon color="#ddd" small v-if="!isSubscribed">mdi-cart-outline</v-icon>
             </div>
-            <div v-if="0" class="caption">{{journal.subject}}</div>
+            <div class="ml-2">{{journal.title}}</div>
         </td>
 
         <td

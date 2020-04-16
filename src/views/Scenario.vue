@@ -136,7 +136,8 @@
                                                 Annual cost
                                             </div>
                                             <div class="caption text--secondary">
-                                                {{ (this.subrCostPercent + this.illCostPercent) | percent(1) }} of Big Deal
+                                                {{ (this.subrCostPercent + this.illCostPercent) | percent(1) }} of Big
+                                                Deal
                                             </div>
                                         </div>
                                     </v-col>
@@ -249,6 +250,32 @@
 
 
         </div>
+
+
+        <v-snackbar
+                v-model="scenarioSnackbars.customSubrSuccess"
+                :timeout="3000"
+                color="blue"
+                bottom left
+        >
+            Journal subscribed
+            <v-btn dark icon @click="scenarioSnackbars.customSubrSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+
+        <v-snackbar
+                v-model="scenarioSnackbars.customUnsubrSuccess"
+                :timeout="3000"
+                bottom left
+        >
+            Journal unsubscribed
+            <v-btn dark icon @click="scenarioSnackbars.customUnsubrSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
     </div>
 </template>
 
@@ -325,6 +352,7 @@
                 'journals',
                 'scenarioSubrsAreInCpuOrder',
                 'scenarioIdHash',
+                'scenarioSnackbars',
 
 
                 'menuSettingsView',

@@ -2,13 +2,17 @@
     <v-dialog scrollable max-width="1100" v-model="dialogIsOpen">
         <v-card flat v-if="scenarioZoomedJournal.issn_l">
 
-            <v-toolbar>
-                <v-toolbar-title>
-                    <div>
+            <v-toolbar
+                    flat
+                    dark
+                    :color="(scenarioZoomedJournal.subscribed) ? 'blue' : '#333'"
+            >
+                <v-icon dark v-if="scenarioZoomedJournal.subscribed">mdi-cart</v-icon>
+                <v-icon v-if="!scenarioZoomedJournal.subscribed">mdi-cart-outline</v-icon>
+
+                <v-toolbar-title class="pl-3">
+                    <div class="">
                         {{scenarioZoomedJournal.title}}
-                    </div>
-                    <div class="caption">
-                        {{scenarioZoomedJournal.issn_l}}
                     </div>
                 </v-toolbar-title>
 
@@ -16,128 +20,215 @@
                 <v-btn icon @click="dialogIsOpen = false">
                     <v-icon>mdi-close</v-icon>
                 </v-btn>
+
+                <template v-slot:extension>
+                    <v-tabs
+                            v-model="tab"
+                            align-with-title
+                    >
+                        <v-tabs-slider
+                                :color="(scenarioZoomedJournal.subscribed) ? 'white' : 'white'"
+                        >
+
+                        </v-tabs-slider>
+
+                        <v-tab v-for="item in items" :key="item">
+                            {{ item }}
+                        </v-tab>
+                    </v-tabs>
+                </template>
+
             </v-toolbar>
-            <v-divider />
-            <v-card-text style="color: #333;">
-                <v-row>
-                    <v-col cols="3">
-                        <table>
-                            <tr class="main-row">
-                                <td class="number main-row display-1 foo">
-                                    {{ scenarioZoomedJournal.subscription_minus_ill_cost | currency }}
-                                </td>
-                                <td class="label main-row caption">
-                                    Net subscription cost
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title foo">
-                                    {{ scenarioZoomedJournal.cost_subscription | currency }}
-                                </td>
-                                <td class="label caption">
-                                    Subscription cost
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title foo">
-                                    {{ scenarioZoomedJournal.cost_ill | currency }}
-                                </td>
-                                <td class="label caption">
-                                    ILL cost
-                                </td>
-                            </tr>
-                        </table>
-                    </v-col>
-                    <v-col cols="3">
-                        <table>
-                            <tr class="main-row">
-                                <td class="number main-row display-1 foo">
-                                    {{ scenarioZoomedJournal.usage | round }}
-                                </td>
-                                <td class="label main-row caption">
-                                    Weighted overall uses
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title">
-                                    {{ scenarioZoomedJournal.downloads | round }}
-                                </td>
-                                <td class="label caption">
-                                    Downloads
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title foo">
-                                    {{ scenarioZoomedJournal.citations | round }}
-                                </td>
-                                <td class="label caption">
-                                    Citations
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title foo">
-                                    {{ scenarioZoomedJournal.authorships | round }}
-                                </td>
-                                <td class="label caption">
-                                    Authorships
-                                </td>
-                            </tr>
-                        </table>
-                    </v-col>
-                    <v-col cols="3">
-                        <table>
-                            <tr class="main-row">
-                                <td class="number main-row display-1 foo">
-                                    {{ scenarioZoomedJournal.use_groups_free_instant.backfile + scenarioZoomedJournal.use_groups_free_instant.oa  | round }}
-                                </td>
-                                <td class="label main-row caption">
-                                    Free-to-fulfill uses
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title">
-                                    {{ scenarioZoomedJournal.use_groups_free_instant.backfile | round }}
-                                </td>
-                                <td class="label caption">
-                                    Backfile uses
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="number title foo">
-                                    {{ scenarioZoomedJournal.use_groups_free_instant.oa | round }}
-                                </td>
-                                <td class="label caption">
-                                    OA uses
-                                </td>
-                            </tr>
-                        </table>
-                    </v-col>
-                </v-row>
+            <v-divider/>
+            <v-card-text>
+
+                <v-tabs-items v-model="tab">
+                    <v-tab-item
+                            v-for="item in items"
+                            :key="item"
+                    >
+                        <div flat v-if="item==='overview'">
+                            <v-row class="mt-6">
+                                <v-col cols="4">
+                                    <div>
+                                        <div class="headline mb-3">
+                                            Journal metadata
+                                        </div>
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.subject"
+                                                value-is-string
+                                                label="Subject"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.issn_l"
+                                                value-is-string
+                                                label="ISSN"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="(scenarioZoomedJournal.is_society_journal) ? 'Yes' : 'No'"
+                                                value-is-string
+                                                label="Society journal"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="(scenarioZoomedJournal.oa_embargo_months) ? 'Yes' : 'No'"
+                                                value-is-string
+                                                label="Delayed OA"
+                                                tooltip-text='This is a "Delayed OA" journal, which makes content free to read after an embargo period has passed.'
+                                        />
+                                        <single-journal-key-number-row
+                                                v-if="scenarioZoomedJournal.oa_embargo_months"
+                                                :value="`${scenarioZoomedJournal.oa_embargo_months} months`"
+                                                value-is-string
+                                                label="OA embargo length"
+                                                tooltip-text='Length of the wait, after publication, for Delayed OA content to become free-to-read.'
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="displayPerpetualAccessYears"
+                                                value-is-string
+                                                label="Perpetual access rights (post-2010)"
+                                                tooltip-text="Your perptual access rights to content published since 2010 (rights for earlier content don't affect the model enough to include, since that content is rarely accessed.)"
+                                        />
+                                    </div>
+                                </v-col>
+
+                                <v-col cols="4">
+                                    <div>
+                                        <div class="headline mb-3">
+                                            Annual Usage
+                                        </div>
+
+                                        <single-journal-key-number-row
+                                                overline
+                                                :value="scenarioZoomedJournal.downloads"
+                                                operation="+"
+                                                label="Downloads <br> @ 1x"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.citations"
+                                                operation="+"
+                                                :label="`Citations <br> @ ${citationWeight}x`"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.authorships"
+                                                operation="+"
+                                                :label="`Authorships <br> @ ${authorshipWeight}x`"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.usage"
+                                                operation="="
+                                                overline
+                                                large
+                                                label="Weighted overall uses"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.use_groups_free_instant.oa"
+                                                operation="-"
+                                                :label="`Open Access (${scenarioZoomedJournal.use_oa_percent}%)`"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.use_groups_free_instant.backfile"
+                                                operation="-"
+                                                :label="`Backfile (${scenarioZoomedJournal.use_backfile_percent}%)`"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.use_groups_free_instant.backfile +
+                                            scenarioZoomedJournal.use_groups_free_instant.oa"
+                                                operation="="
+                                                large
+                                                overline
+                                                label="Negotiable uses"
+                                                tooltip-text="text goes here"
+                                        />
+                                    </div>
 
 
-                <pre>{{scenarioZoomedJournal}}</pre>
+                                </v-col>
 
-                <div v-if="loading">loading...</div>
-                <single-journal-by-year-tables :journal="journalDetail" />
+                                <v-col cols="4">
+                                    <div>
+                                        <div class="headline mb-3">
+                                            Annual Cost
+                                        </div>
 
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.cost_subscription"
+                                                is-currency
+                                                overline
+                                                operation="+"
+                                                label="Base subscription cost"
+                                                tooltip-text="A-la-carte cost if you do subscribe."
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.cost_ill"
+                                                is-currency
+                                                operation="-"
+                                                label="ILL cost"
+                                                tooltip-text="Annual ILL costs over the next five years, if you <em>don't</em> subscribe."
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.subscription_minus_ill_cost"
+                                                is-currency
+                                                large
+                                                overline
+                                                operation="="
+                                                label="Net subscription cost"
+                                                tooltip-text="Annual <em>marginal</em> cost of subscribing over the next five years, compared to projected ILL cost."
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.use_groups_free_instant.backfile +
+                                            scenarioZoomedJournal.use_groups_free_instant.oa"
+                                                operation="÷"
+                                                label="Negotiable uses"
+                                                tooltip-text="text goes here"
+                                        />
+                                        <single-journal-key-number-row
+                                                :value="scenarioZoomedJournal.ncppu"
+                                                is-currency
+                                                operation="="
+                                                :round-to-places="2"
+                                                large
+                                                overline
+                                                label="Cost Per Use"
+                                                tooltip-text="Net Cost divided by Negtiable Uses. CPU accounting for alternative access paths, multiple use types (downloads, citations, authorship), and the potential cost of ILL fulfillment."
+                                        />
+                                    </div>
+                                </v-col>
+
+
+                            </v-row>
+                        </div>
+                        <div v-if="item==='timelines'">
+                            <div v-if="loading">loading...</div>
+                            <single-journal-by-year-tables :journal="journalDetail"/>
+                        </div>
+
+
+                    </v-tab-item>
+                </v-tabs-items>
             </v-card-text>
 
 
-
-
-
-
+            <v-divider></v-divider>
             <v-card-actions>
-                <v-spacer />
+                <v-spacer/>
                 <v-btn text @click="dialogIsOpen = false">
                     Close
                 </v-btn>
-                <v-btn dark color="blue" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed">
-                    <v-icon>mdi-cart-outline</v-icon>
+                <v-btn depressed dark color="#555" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed">
+                    <v-icon>mdi-cart-arrow-up</v-icon>
                     Unsubscribe
                 </v-btn>
-                <v-btn dark color="blue" @click="subscribe" v-if="!scenarioZoomedJournal.subscribed">
-                    <v-icon>mdi-cart</v-icon>
+                <v-btn depressed dark color="blue" @click="subscribe" v-if="!scenarioZoomedJournal.subscribed">
+                    <v-icon>mdi-cart-arrow-down</v-icon>
                     Subscribe
                 </v-btn>
             </v-card-actions>
@@ -150,13 +241,14 @@
     import {api} from "../../api";
     import {mapGetters, mapActions} from 'vuex'
     import SingleJournalByYearTables from "./SingleJournalByYearTables";
-
+    import SingleJournalKeyNumberRow from "./SingleJournalKeyNumberRow";
 
 
     export default {
         name: 'SingleJournal',
         components: {
             SingleJournalByYearTables,
+            SingleJournalKeyNumberRow
         },
         data: () => ({
             drawerRight: false,
@@ -165,21 +257,27 @@
             journal: null,
             journalDetail: null,
             loading: false,
+            tab: null,
+            items: [
+                "overview",
+                "timelines"
+            ]
         }),
         computed: {
             ...mapGetters([
                 "scenarioId",
                 "scenarioZoomedJournal",
+                "citationWeight",
+                "authorshipWeight",
             ]),
             dialogIsOpen: {
                 get() {
                     return !!this.$store.getters.zoomIssnl
                 },
-                set(val){
-                    if (!val){
+                set(val) {
+                    if (!val) {
                         this.$store.commit("closeZoom")
-                    }
-                    else {
+                    } else {
                         // pass
                     }
                 }
@@ -194,7 +292,17 @@
             },
             issnl() {
                 return this.$store.getters.zoomIssnl
-            }
+            },
+            displayPerpetualAccessYears(){
+                return this.scenarioZoomedJournal.perpetual_access_years_text
+                    .replace("-", " — ")
+                    .replace("<", "")
+            },
+            displayOaEmbargoMonths(){
+                return this.scenarioZoomedJournal.oa_embargo_months
+                    .replace("-", " — ")
+                    .replace("<", "")
+            },
 
         },
         methods: {
@@ -202,13 +310,15 @@
                 "subscribeCustom",
                 "unsubscribeCustom",
             ]),
-            subscribe(){
+            async subscribe() {
                 this.subscribeCustom(this.issnl)
                 this.$store.commit("closeZoom")
+                this.$store.getters.scenarioSnackbars.customSubrSuccess = true
             },
-            unsubscribe(){
+            async unsubscribe() {
                 this.unsubscribeCustom(this.issnl)
                 this.$store.commit("closeZoom")
+                this.$store.getters.scenarioSnackbars.customUnsubrSuccess = true
             },
             clearSingleJournal() {
                 this.$store.commit('closeZoom')
@@ -238,14 +348,8 @@
 <style scoped lang="scss">
     table {
         width: 100%;
-        td {
-            line-height: 1.1 !important;
-            padding: 5px;
-        }
-        td.number {
-            text-align: right;
-            padding-right: 5px;
-        }
+
+
     }
 
 </style>

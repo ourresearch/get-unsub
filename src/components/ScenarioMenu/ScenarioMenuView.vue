@@ -38,24 +38,25 @@
                         Table
                     </v-list-item-title>
                 </v-list-item>
-                <v-divider></v-divider>
-                <v-subheader>Show bar graphs</v-subheader>
-                <v-list-item @click="menuViewToggleShowCostBar">
-                    <v-list-item-icon class="mr-2">
-                        <v-icon v-if="menuSettingsView.showCostBar">mdi-check</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title class="font-weight-regular">
-                        Costs by type
-                    </v-list-item-title>
-                </v-list-item>
-                <v-list-item @click="menuViewToggleShowUsageBar">
-                    <v-list-item-icon class="mr-2">
-                        <v-icon v-if="menuSettingsView.showUsageBar">mdi-check</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title class="font-weight-regular">
-                        Usage by type
-                    </v-list-item-title>
-                </v-list-item>
+
+<!--                <v-divider></v-divider>-->
+<!--                <v-subheader>Show bar graphs</v-subheader>-->
+<!--                <v-list-item @click="menuViewToggleShowCostBar">-->
+<!--                    <v-list-item-icon class="mr-2">-->
+<!--                        <v-icon v-if="menuSettingsView.showCostBar">mdi-check</v-icon>-->
+<!--                    </v-list-item-icon>-->
+<!--                    <v-list-item-title class="font-weight-regular">-->
+<!--                        Costs by type-->
+<!--                    </v-list-item-title>-->
+<!--                </v-list-item>-->
+<!--                <v-list-item @click="menuViewToggleShowUsageBar">-->
+<!--                    <v-list-item-icon class="mr-2">-->
+<!--                        <v-icon v-if="menuSettingsView.showUsageBar">mdi-check</v-icon>-->
+<!--                    </v-list-item-icon>-->
+<!--                    <v-list-item-title class="font-weight-regular">-->
+<!--                        Usage by type-->
+<!--                    </v-list-item-title>-->
+<!--                </v-list-item>-->
 
 
             </v-list>

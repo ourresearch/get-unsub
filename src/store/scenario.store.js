@@ -36,6 +36,10 @@ export const scenario = {
             "subscription_cost",
             "ncppu",
         ],
+        snackbars: {
+            customSubrSuccess: false,
+            customUnsubrSuccess: false,
+        }
 
     },
     mutations: {
@@ -199,13 +203,15 @@ export const scenario = {
             return await dispatch("updateScenarioSavedSubrs")
         },
 
-        async subscribeCustom({commit, dispatch}, issnl) {
+        async subscribeCustom({commit, dispatch, state}, issnl) {
             commit("subscribeCustom", issnl)
-            return await dispatch("updateScenarioSavedSubrs")
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
         },
-        async unsubscribeCustom({commit, dispatch}, issnl) {
+        async unsubscribeCustom({commit, dispatch, state}, issnl) {
             commit("unsubscribeCustom", issnl)
-            return await dispatch("updateScenarioSavedSubrs")
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
         },
 
 
@@ -268,6 +274,8 @@ export const scenario = {
         config: (state) => (k) => {
             return state.selected.saved.configs[k]
         },
+        citationWeight: (state) => state.selected.saved.configs.weight_citation,
+        authorshipWeight: (state) => state.selected.saved.configs.weight_authorship,
         isSubscribed: (state) => (issnl) => {
             return state.selected.saved.subrs.indexOf(issnl) > -1
         },
@@ -311,6 +319,7 @@ export const scenario = {
         tableColsToShow: (state) => state.tableColsToShow,
         scenarioIdHash: (state) => state.selected.idHash,
         scenarioZoomedJournal: (state) => state.zoomedJournal,
+        scenarioSnackbars: (state) => state.snackbars,
 
 
     }
