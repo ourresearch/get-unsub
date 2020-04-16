@@ -112,7 +112,7 @@
                                     >
                                         <template v-slot:activator="{on}">
                                             <v-btn :to="`/i/${institutionId}/p/${publisherId}/apc`" icon v-on="on">
-                                                <v-icon>mdi-magnify</v-icon>
+                                                <v-icon>mdi-table-eye</v-icon>
                                             </v-btn>
                                         </template>
                                         <div>Explore your {{publisherName}} publication costs.</div>

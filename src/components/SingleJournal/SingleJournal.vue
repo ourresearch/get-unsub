@@ -58,19 +58,19 @@
                                                 :value="scenarioZoomedJournal.subject"
                                                 value-is-string
                                                 label="Subject"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Journal subject, as categorized by the publisher."
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.issn_l"
                                                 value-is-string
                                                 label="ISSN"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Unique ID for this journal"
                                         />
                                         <single-journal-key-number-row
                                                 :value="(scenarioZoomedJournal.is_society_journal) ? 'Yes' : 'No'"
                                                 value-is-string
                                                 label="Society journal"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="This journal is published by a scholarly society (data manually collected)"
                                         />
                                         <single-journal-key-number-row
                                                 :value="(scenarioZoomedJournal.oa_embargo_months) ? 'Yes' : 'No'"
@@ -105,19 +105,19 @@
                                                 :value="scenarioZoomedJournal.downloads"
                                                 operation="+"
                                                 label="Downloads <br> @ 1x"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Projected annual downloads over the next five years."
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.citations"
                                                 operation="+"
                                                 :label="`Citations <br> @ ${citationWeight}x`"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Annual citations to this journal by your faculty, times a weighting factor (the weighting factor can be modified or removed in the Parameters menu)"
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.authorships"
                                                 operation="+"
                                                 :label="`Authorships <br> @ ${authorshipWeight}x`"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Annual authorships in this journal by your faculty, times a weighting factor (the weighting factor can be modified or removed in the Parameters menu)"
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.usage"
@@ -125,27 +125,27 @@
                                                 overline
                                                 large
                                                 label="Weighted overall uses"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Sum of weighted downloads, citations, and authorship."
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.use_groups_free_instant.oa"
                                                 operation="-"
                                                 :label="`Open Access (${scenarioZoomedJournal.use_oa_percent}%)`"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Projected annual uses that can be fulfilled via Open Access. This accounts for readership patterns specific to this journal."
                                         />
                                         <single-journal-key-number-row
                                                 :value="displayBackfile"
                                                 operation="-"
                                                 :label="`Backfile (${displayBackfilePercent}%)`"
-                                                tooltip-text="text goes here"
+                                                tooltip-text="Projected annual uses that can be fulfilled via your perpetual-access rights to backfile content. This accounts for readership patterns specific to this journal."
                                         />
                                         <single-journal-key-number-row
                                                 :value="negotiablUses"
                                                 operation="="
                                                 large
                                                 overline
-                                                label="Negotiable uses"
-                                                tooltip-text="text goes here"
+                                                label="Paywalled uses"
+                                                tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or A-la-carte subscription."
                                         />
                                     </div>
 
@@ -185,8 +185,8 @@
                                         <single-journal-key-number-row
                                                 :value="negotiablUses"
                                                 operation="÷"
-                                                label="Negotiable uses"
-                                                tooltip-text="text goes here"
+                                                label="Paywalled uses"
+                                                tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or A-la-carte subscription."
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.ncppu"
@@ -196,7 +196,7 @@
                                                 large
                                                 overline
                                                 label="Cost Per Use"
-                                                tooltip-text="Net Cost divided by Negtiable Uses. CPU accounting for alternative access paths, multiple use types (downloads, citations, authorship), and the potential cost of ILL fulfillment."
+                                                tooltip-text="Net Cost divided by Paywalled Uses. This version of Cost Per Use accounts for alternative access paths, multiple use types (downloads, citations, authorship), and the potential cost of ILL fulfillment."
                                         />
                                     </div>
                                 </v-col>
