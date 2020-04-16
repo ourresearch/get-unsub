@@ -135,7 +135,7 @@
                     <v-card class="mt-3">
                         <v-card-title class="pr-4">
                             <div>
-                                GRID IDs <span class="body-2">({{institutionGridIds.length}})</span>
+                                ROR IDs <span class="body-2">({{institutionRorIds.length}})</span>
                             </div>
                             <v-spacer></v-spacer>
                             <v-tooltip bottom max-width="300" color="#333">
@@ -143,48 +143,48 @@
                                     <v-icon v-on="on" small>mdi-help-circle-outline</v-icon>
                                 </template>
                                 <div>
-                                    A GRID ID is a unique ID (like an ISSN) for research institutions. Some institution have multiple IDs (eg. one for main campus, one for med school). We base your institutional citation and authorship counts on your GRID ID(s).
+                                    A ROR ID is a unique ID (like an ISSN) for research institutions. We base your institutional citation and authorship counts on your institution's ROR ID(s).
                                 </div>
 
                             </v-tooltip>
                         </v-card-title>
                         <v-divider></v-divider>
 
-                        <v-list :dense="institutionGridIds.length > 1">
+                        <v-list :dense="institutionRorIds.length > 1">
                             <v-list-item
-                                    v-for="gridId in institutionGridIds"
-                                    :key="gridId"
+                                    v-for="rorId in institutionRorIds"
+                                    :key="rorId"
                             >
                                 <v-list-item-avatar>
                                     <v-icon>mdi-map-marker-outline</v-icon>
                                 </v-list-item-avatar>
                                 <v-list-item-content>
-                                    <v-list-item-title class="" style="font-family: Monaco, monospace;" v-html="gridId"/>
+                                    <v-list-item-title class="" style="font-family: Monaco, monospace;" v-html="rorId"/>
 
-                                    <v-list-item-subtitle v-if="/example|424899|433631/.test(gridId)">
-                                        (demo GRID ID)
+                                    <v-list-item-subtitle v-if="rorId === '00xbe3815'">
+                                        (demo ROR ID)
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
                                     <v-tooltip bottom color="#333" max-width="200">
                                         <template v-slot:activator="{on}">
-                                            <v-btn v-on="on" icon :href="`https://www.grid.ac/institutes/${gridId}`" target="_blank">
+                                            <v-btn v-on="on" icon :href="`https://ror.org/${rorId}`" target="_blank">
                                                 <v-icon>mdi-open-in-new</v-icon>
                                             </v-btn>
                                         </template>
                                         <div>
-                                            View institutional metadata on www.grid.ac
+                                            View record on www.ror.org
                                         </div>
 
                                     </v-tooltip>
                                 </v-list-item-action>
                             </v-list-item>
-                            <v-list-item @click="dialogs.addGridId = true">
+                            <v-list-item @click="dialogs.addRorId = true">
                                 <v-list-item-avatar>
                                     <v-icon>mdi-plus</v-icon>
                                 </v-list-item-avatar>
                                 <v-list-item-content class="body-2 text--secondary">
-                                    New GRID ID
+                                    New ROR ID
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
@@ -234,7 +234,7 @@
                             </v-list-item>
 
 
-                            <v-list-item @click="" :disabled="true">
+                            <v-list-item @click="dialogs.addPublisher = true">
                                 <v-list-item-avatar size="50">
                                     <v-btn icon>
                                         <v-icon>mdi-plus</v-icon>
@@ -340,26 +340,41 @@
             </v-card>
         </v-dialog>
 
-        <v-dialog v-model="dialogs.addGridId" max-width="400" persistent>
-            <v-card v-if="dialogs.addGridId">
+        <v-dialog v-model="dialogs.addRorId" max-width="400">
+            <v-card v-if="dialogs.addRorId">
                 <v-card-title class="headline">
-                    Add GRID ID
+                    Add ROR ID
                 </v-card-title>
                 <v-card-text class="pt-4">
-                    Currently you’re limited to just one GRID ID, but we’ll be changing this soon.
+                    Stay tuned...the ability to add new ROR IDs is coming soon.
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
                     <v-btn depressed
-                           @click="dialogs.addGridId = false"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn depressed
-                           @click=""
+                           @click="dialogs.addRorId = false"
                            color="primary"
                     >
-                        Add GRID ID
+                        OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialogs.addPublisher" max-width="400">
+            <v-card>
+                <v-card-title class="headline">
+                    Add Publisher
+                </v-card-title>
+                <v-card-text class="pt-4">
+                    Currently Elsevier is the only supported publisher, but we'll be adding others soon.
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn depressed
+                           @click="dialogs.addPublisher = false"
+                           color="primary"
+                    >
+                        OK
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -394,7 +409,8 @@
                 },
                 dialogs: {
                     createGroupMember: false,
-                    addGridId: false,
+                    addRorId: false,
+                    addPublisher: false,
                 },
 
                 roles,
@@ -416,7 +432,7 @@
         computed: {
             ...mapGetters([
                 "institutionName",
-                "institutionGridIds",
+                "institutionRorIds",
                 "institutionPublishers",
                 "institutionUsersWithRoles",
                 "institutionIsDemo",

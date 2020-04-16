@@ -7,6 +7,7 @@ export const institution = {
     state: {
         institutionId: null,
         institutionGridIds: [],
+        institutionRorIds: [],
         institutionName:"",
         institutionUsers: [],
         institutionPublishers: [],
@@ -16,6 +17,7 @@ export const institution = {
         clearInstitution(state){
             state.institutionId =  null
             state.institutionGridIds =  []
+            state.institutionRorIds =  []
             state.institutionName = ""
             state.institutionUsers =  []
             state.institutionPublishers =  []
@@ -25,6 +27,7 @@ export const institution = {
         setInstitutionFromApiResp(state, apiResp){
             state.institutionId =  apiResp.id
             state.institutionGridIds =  apiResp.grid_ids.filter(g => !!g)
+            state.institutionRorIds =  apiResp.ror_ids.filter(g => !!g)
             state.institutionName = apiResp.name
             state.institutionUsers = apiResp.user_permissions
             state.institutionUsers.forEach(user => {
@@ -86,6 +89,7 @@ export const institution = {
     getters: {
         institutionId: (state) => state.institutionId,
         institutionGridIds: (state) => state.institutionGridIds,
+        institutionRorIds: (state) => state.institutionRorIds,
         institutionName: (state) => state.institutionName,
         institutionUsersWithRoles: (state) => {
             return state.institutionUsers.map(user => {

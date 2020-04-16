@@ -125,6 +125,7 @@
 
 <script>
     import appConfigs from "../../appConfigs";
+    import {urlBase} from "../../api";
 
     export default {
         name: "ScenarioMenuExport",
@@ -138,8 +139,8 @@
         computed: {
             csvUrl() {
                 let scenarioId = this.$store.getters.scenarioId
-                let url = `https://unpaywall-jump-api.herokuapp.com/scenario/${scenarioId}/export.csv`;
-                url += "?jwt=" + this.$store.getters.token
+                let url = `${urlBase}/scenario/${scenarioId}/export.csv`;
+                url += "?jwt=" + localStorage.getItem("token")
                 return url
             }
         }
