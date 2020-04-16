@@ -134,14 +134,13 @@
                                                 tooltip-text="text goes here"
                                         />
                                         <single-journal-key-number-row
-                                                :value="scenarioZoomedJournal.use_groups_free_instant.backfile"
+                                                :value="displayBackfile"
                                                 operation="-"
-                                                :label="`Backfile (${scenarioZoomedJournal.use_backfile_percent}%)`"
+                                                :label="`Backfile (${displayBackfilePercent}%)`"
                                                 tooltip-text="text goes here"
                                         />
                                         <single-journal-key-number-row
-                                                :value="scenarioZoomedJournal.use_groups_free_instant.backfile +
-                                            scenarioZoomedJournal.use_groups_free_instant.oa"
+                                                :value="negotiablUses"
                                                 operation="="
                                                 large
                                                 overline
@@ -184,8 +183,7 @@
                                                 tooltip-text="Annual <em>marginal</em> cost of subscribing over the next five years, compared to projected ILL cost."
                                         />
                                         <single-journal-key-number-row
-                                                :value="scenarioZoomedJournal.use_groups_free_instant.backfile +
-                                            scenarioZoomedJournal.use_groups_free_instant.oa"
+                                                :value="negotiablUses"
                                                 operation="÷"
                                                 label="Negotiable uses"
                                                 tooltip-text="text goes here"
@@ -207,7 +205,12 @@
                             </v-row>
                         </div>
                         <div v-if="item==='timelines'">
-                            <div v-if="loading">loading...</div>
+                            <div v-if="loading" style="height: 300px;" class="d-flex align-center justify-center flex-column">
+                                <v-progress-linear style="width: 300px;" indeterminate />
+                                <div>
+                                    Loading Journal detail
+                                </div>
+                            </div>
                             <single-journal-by-year-tables :journal="journalDetail"/>
                         </div>
 
@@ -298,10 +301,22 @@
                     .replace("-", " — ")
                     .replace("<", "")
             },
-            displayOaEmbargoMonths(){
-                return this.scenarioZoomedJournal.oa_embargo_months
-                    .replace("-", " — ")
-                    .replace("<", "")
+            negotiablUses(){
+                const freeUses = this.scenarioZoomedJournal.use_groups_free_instant.backfile +
+                                    this.scenarioZoomedJournal.use_groups_free_instant.oa
+                return this.scenarioZoomedJournal.usage - freeUses
+            },
+            displayBackfile(){
+                return Math.max(
+                    this.scenarioZoomedJournal.use_groups_free_instant.backfile,
+                    0
+                )
+            },
+            displayBackfilePercent(){
+                return Math.max(
+                    this.scenarioZoomedJournal.use_backfile_percent,
+                    0
+                )
             },
 
         },
@@ -323,6 +338,7 @@
             clearSingleJournal() {
                 this.$store.commit('closeZoom')
                 this.journal = null
+                this.journalDetail = null
             },
             async getData() {
                 this.loading = true

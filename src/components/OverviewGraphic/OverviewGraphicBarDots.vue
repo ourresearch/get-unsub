@@ -214,6 +214,7 @@
                 display: flex;
                 flex-direction: column-reverse;
                 position: relative;
+                width: 7px; // if you change it here you have to also change it in OverviewGraphicSingleDot dot width.
 
                 .bar-label {
                     position: absolute;

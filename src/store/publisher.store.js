@@ -56,6 +56,10 @@ export const publisher = {
                 leftOrStopped: 0
             }
             state.dataFiles = []
+            state.bigDealCost = 0
+
+            state.apcHeader = []
+            state.apcJournals = []
             state.apcPapersCount = 0
             state.apcAuthorsFractionalCount = 0
             state.apcCost = 0
@@ -133,6 +137,7 @@ export const publisher = {
 
 
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
+            console.log("fetchPublisherMainData", getters.publisherBigDealCost)
             if (getters.publisherBigDealCost) return
 
             const url = `publisher/${id}`

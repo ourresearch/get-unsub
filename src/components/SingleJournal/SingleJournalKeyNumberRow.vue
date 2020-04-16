@@ -21,10 +21,14 @@
                         <template v-if="!valueIsString">
                             <div class="operation" v-html="myOperation"></div>
                             <v-spacer />
-                            <template></template>
-                            <span v-if="isCurrency && !roundToPlaces">{{value | currency}}</span>
-                            <span v-if="isCurrency && roundToPlaces">${{value | round(roundToPlaces)}}</span>
-                            <span v-if="!isCurrency">{{value | round}}</span>
+
+                            <span v-if="isNaN(value)" class="nan">—</span>
+                            <template v-if="!isNaN(value)">
+                                <span v-if="isCurrency && !roundToPlaces">{{value | currency}}</span>
+                                <span v-if="isCurrency && roundToPlaces">${{value | round(roundToPlaces)}}</span>
+                                <span v-if="!isCurrency">{{value | round}}</span>
+                            </template>
+
                         </template>
                     </div>
 
@@ -64,7 +68,8 @@
             myOperation(){
                 return (this.operation) ? this.operation : "&nbsp;"
             },
-            myRound(){
+            myValue(){
+                if (isNaN(this.value)) return ""
 
             }
         },
