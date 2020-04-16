@@ -57,7 +57,7 @@
         <v-spacer/>
         <div class="no-highlight">
 
-            <v-btn text color="primary" v-if="isLoggedIn && !$store.getters.isUserSubscribed" to="/purchase">
+            <v-btn text color="primary" v-if="isLoggedIn && $store.getters.userIsDemo" to="/purchase">
                 upgrade
             </v-btn>
             <v-btn text color="primary" v-if="!isLoggedIn" to="/purchase">
