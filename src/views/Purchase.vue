@@ -2,7 +2,9 @@
     <v-container class="purchase">
         <v-card class="pa-6">
             <v-card-title>
-                <h1 class="display-1">Purchase</h1>
+                <h1 class="display-1">
+                    {{ (isLoggedIn) ? 'Upgrade to paid account': 'Purchase'}}
+                </h1>
             </v-card-title>
             <v-card-actions>
                 <div>
@@ -44,7 +46,7 @@
 
                         <v-card flat width="800">
                             <v-card-title>
-                                Your purchase lets you:
+                                Your {{ (isLoggedIn) ? 'upgrade to a paid account' : 'purchase'}} lets you:
                             </v-card-title>
 <v-divider></v-divider>
                             <v-list>
@@ -158,7 +160,9 @@
                                             href="https://ourresearch-admin.s3.amazonaws.com/UnpaywallJournalsTermsAndConditions.pdf" class="ml-1"> Terms and Conditions.</a>
                                     </v-row>
                                     <v-row>
-                                <v-btn :disabled="!agreedToTerms" x-large color="primary" depressed @click="buy">Purchase</v-btn>
+                                <v-btn :disabled="!agreedToTerms" x-large color="primary" depressed @click="buy">
+                                    {{(isLoggedIn) ? "Purchase upgrade" : "Purchase"}}
+                                </v-btn>
 
                                     </v-row>
 
@@ -180,7 +184,7 @@
 </template>
 
 <script>
-
+    import {mapGetters, mapMutations} from 'vuex'
 
     export default {
         name: "Purchase",
@@ -188,6 +192,12 @@
             stripe: null,
             agreedToTerms: false
         }),
+        computed: {
+            ...mapGetters([
+                'isLoggedIn',
+            ]),
+
+        },
         methods: {
             buy() {
                 // real plan
