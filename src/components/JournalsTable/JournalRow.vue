@@ -1,5 +1,10 @@
 <template>
-    <tr @click="openSingleJournal()" :class="{isSubscribed}">
+    <tr
+            :class="{isSubscribed}"
+            @click.exact="openSingleJournal"
+            @click.ctrl="toggleCustomSubscribed"
+            @click.meta="toggleCustomSubscribed"
+    >
         <td class="title-column d-flex">
             <v-row v-if="0" class="" style="width:300px;">
                 <v-col style="flex-grow:1;">
@@ -81,9 +86,17 @@
                 console.log("@click on openSingleJournal()")
                 this.$store.commit('setZoomIssnl', this.journal.issn_l)
             },
+            toggleCustomSubscribed() {
+                console.log("custom subscribe!")
+                if (this.journal.subscribed) {
+                    this.$store.dispatch("unsubscribeCustom", this.journal.issn_l)
+                } else {
+                    this.$store.dispatch("subscribeCustom", this.journal.issn_l)
+                }
+            },
         },
         computed: {
-            isSubscribed(){
+            isSubscribed() {
                 return this.journal.subscribed || this.journal.customSubscribed
             },
         }
@@ -94,13 +107,16 @@
     tr.isSubscribed {
         background: dodgerblue;
         color: #fff;
+
         &:hover {
             background: darken(dodgerblue, 10%);
         }
     }
+
     td {
         padding: 5px 10px;
         text-align: right;
+
         &.title-column {
             text-align: left;
         }

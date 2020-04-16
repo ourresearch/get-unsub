@@ -461,6 +461,9 @@
                     ret.oa += j.use_groups_free_instant.oa
                     ret.backfile += j.use_groups_free_instant.backfile
                 })
+                ret.oa = Math.max(0, ret.oa)
+                ret.backfile = Math.max(0, ret.backfile)
+
                 return ret
             },
 

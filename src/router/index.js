@@ -67,6 +67,7 @@ const routes = [
         path: "/a/:publisherId/:scenarioId",
         component: Scenario,
         name: "publisherScenario",
+
         meta: {requiresAuth: true},
     },
 

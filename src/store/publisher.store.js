@@ -137,7 +137,6 @@ export const publisher = {
 
 
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
-            console.log("fetchPublisherMainData", getters.publisherBigDealCost)
             if (getters.publisherBigDealCost) return
 
             const url = `publisher/${id}`
