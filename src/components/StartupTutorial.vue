@@ -112,7 +112,7 @@
         name: "StartupTutorial",
         props: ["data"],
         data: () => ({
-            step: 0
+            step: 1
         }),
     }
 </script>
