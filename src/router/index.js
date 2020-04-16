@@ -93,7 +93,12 @@ const router = new VueRouter({
 
 router.beforeEach(async (to, from, next) => {
     if (localStorage.getItem("token")) {
-        await store.dispatch("fetchUser")
+        try {
+            await store.dispatch("fetchUser")
+        }
+        catch (e){
+            store.commit("logout")
+        }
     }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
