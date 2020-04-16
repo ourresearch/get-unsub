@@ -71,7 +71,7 @@
     import ClickOutside from 'vue-click-outside'
     import LongPress from 'vue-directive-long-press'
     import {mapGetters, mapMutations} from 'vuex'
-
+    import {journalsAreSubscribedInCpuOrder} from "../../shared/scenario";
 
 
     import OverviewGraphicBarSingleDot from "./OverviewGraphicBarSingleDot";

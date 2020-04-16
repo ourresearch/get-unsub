@@ -21,6 +21,8 @@ const hydrateScenario = function(dehydratedScenario, fullScenarioFromApi){
 
 }
 
+
+
 const newScenario = function (id = "", name="") {
     return {
         id: id,

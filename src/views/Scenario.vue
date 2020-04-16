@@ -350,7 +350,6 @@
                 'publisherName',
                 'publisherId',
                 'journals',
-                'scenarioSubrsAreInCpuOrder',
                 'scenarioIdHash',
                 'scenarioSnackbars',
 
@@ -565,7 +564,15 @@
         destroyed() {
 
         },
-        watch: {}
+        watch: {
+            selectedScenarioIsLoading: {
+                immediate: true,
+                handler: function(to){
+                    if (!to) this.$store.commit("setAllowAutoSubscribeFromCurrentJournalSubrs")
+                }
+
+            }
+        }
     }
 </script>
 

@@ -68,6 +68,36 @@
             </div>
             <div v-if="0" class="mode">Best Deal mode</div>
         </div>
+
+        <v-dialog v-model="dialogs.confirmStomp" max-width="400" persistent>
+            <v-card>
+                <v-card-title class="headline">
+                    Overwrite custom subscription?
+                </v-card-title>
+                <v-card-text class="pt-4">
+                   <div>
+                       This will overwrite your custom a-la-carte journals subscription(s), and automatically subscribe to the {{lastValSet}} journals with the lowest Cost Per Use. Are you sure you want to do that?
+                   </div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn depressed
+                           @click="confirmStomp"
+                           color="primary"
+                    >
+                        Yep, overwrite it.
+                    </v-btn>
+                    <v-btn depressed
+                           @click="dialogs.confirmStomp = false"
+                    >
+                        Cancel
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
+
     </div>
 
 
@@ -85,6 +115,12 @@
         data() {
             return {
                 longPressInterval: null,
+                isOkToStompCustomSubrs: false,
+                allowAutoSubscribed: true,
+                lastValSet: null,
+                dialogs: {
+                    confirmStomp: false,
+                }
             }
         },
         methods: {
@@ -96,6 +132,11 @@
             },
             changeMyCount(amountToChange) {
                 this.myCount += amountToChange
+            },
+            confirmStomp(){
+                this.$store.commit("setAllowAutoSubscribe", true)
+                this.dialogs.confirmStomp = false
+                this.myCount = this.lastValSet
             },
             longPressStart(direction) {
                 const stepSize = 5
@@ -113,7 +154,7 @@
                 "scenarioJournalsAnySubr",
                 "subrIssnls",
                 "scenarioJournals",
-                "scenarioSubrsAreInCpuOrder",
+                "scenarioAllowAutosubscribe",
             ]),
             numJournals() {
                 return this.scenarioJournals.length
@@ -123,12 +164,18 @@
                     return this.$store.getters.subrJournalsCount
                 },
                 set(val) {
+                    this.lastValSet = val
+                    if (!this.scenarioAllowAutosubscribe) {
+                        this.dialogs.confirmStomp = true
+                        return
+                    }
+
                     if (val < 0) return
                     if (val > this.numJournals) return
                     this.$store.dispatch("subscribeUpToIndex", val)
                 }
             }
-        }
+        },
     }
 </script>
 

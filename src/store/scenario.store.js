@@ -10,6 +10,19 @@ function hashCode(str) {
     (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0));
 }
 
+
+function journalsAreSubscribedInCpuOrder(journals) {
+        let lastSubscribedIndex = 0
+        for (let i = 0; i < journals.length; i++) {
+            if (journals[i].subscribed){
+                if (i - lastSubscribedIndex > 1) return false
+                lastSubscribedIndex = i
+            }
+        }
+        return true
+    }
+
+
 export const scenario = {
     state: {
         selected: newScenario(),
@@ -39,7 +52,8 @@ export const scenario = {
         snackbars: {
             customSubrSuccess: false,
             customUnsubrSuccess: false,
-        }
+        },
+        allowAutoSubscribe: true,
 
     },
     mutations: {
@@ -49,9 +63,17 @@ export const scenario = {
         setScenarioFromObject(state, scenarioObject) {
             console.log("setScenarioFromObject", scenarioObject)
             state.selected = scenarioObject
+
         },
         clearSelectedScenario(state) {
             state.selected = newScenario()
+            state.allowAutoSubscribe = true
+        },
+        setAllowAutoSubscribe(state, val) {
+            state.allowAutoSubscribe = !!val
+        },
+        setAllowAutoSubscribeFromCurrentJournalSubrs(state) {
+            state.allowAutoSubscribe = journalsAreSubscribedInCpuOrder(state.selected.journals)
         },
         initSelectedScenario(state, id) {
             state.selected = newScenario(id)
@@ -78,6 +100,7 @@ export const scenario = {
         },
 
         subscribeCustom(state, issnl){
+            state.allowAutoSubscribe = false
             state.selected.saved.subrs.push(issnl)
             state.selected.journals
                 .find(j=>j.issn_l === issnl)
@@ -302,16 +325,7 @@ export const scenario = {
             if (!state.selected.journals.length) return true
             return false
         },
-        scenarioSubrsAreInCpuOrder: (state) => {
-            let lastSubscribedIndex = 0
-            for (let i = 0; i < state.selected.journals.length; i++) {
-                if (state.selected.journals[i].subscribed){
-                    if (i - lastSubscribedIndex > 1) return false
-                    lastSubscribedIndex = i
-                }
-            }
-            return true
-        },
+
 
 
         subrJournalsCount: (state) => state.selected.saved.subrs.length,
@@ -320,6 +334,7 @@ export const scenario = {
         scenarioIdHash: (state) => state.selected.idHash,
         scenarioZoomedJournal: (state) => state.zoomedJournal,
         scenarioSnackbars: (state) => state.snackbars,
+        scenarioAllowAutosubscribe: (state) => state.allowAutoSubscribe,
 
 
     }
