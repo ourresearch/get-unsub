@@ -1,10 +1,12 @@
 <template>
     <v-toolbar color="white">
         <router-link to="/">
-            <img  class="mt-2" src="../assets/unpaywall-journals-logo.png" alt="" />
+            <img  class="mt-2" style="width:150px;" src="../assets/unpaywall-journals-logo.png" alt="" />
         </router-link>
 <!--        <v-toolbar-title class="headline">-->
 <!--        </v-toolbar-title>-->
+
+
 
 
         <v-divider
