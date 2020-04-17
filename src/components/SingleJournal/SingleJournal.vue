@@ -5,7 +5,7 @@
             <v-toolbar
                     flat
                     dark
-                    :color="(scenarioZoomedJournal.subscribed) ? 'blue' : '#333'"
+                    :color="(scenarioZoomedJournal.subscribed) ? 'primary' : 'primary'"
             >
                 <v-icon dark v-if="scenarioZoomedJournal.subscribed">mdi-cart</v-icon>
                 <v-icon v-if="!scenarioZoomedJournal.subscribed">mdi-cart-outline</v-icon>
