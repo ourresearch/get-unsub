@@ -101,20 +101,6 @@ const api = (function () {
             }
             return res
         },
-        changePassword: async function (creds) {
-            const queryStr = `username=${creds.username}&old-password=${creds.oldPassword}&new-password=${creds.newPassword}`
-            const url = urlBase + "admin/change-password?" + queryStr
-            console.log("api CHANGE PASSWORD:", creds, url)
-            let res
-            try {
-                res = await axios.get(url)
-                console.log(`api CHANGE PASSWORD success:`, res.data)
-            } catch (e) {
-                console.log("api CHANGE PASSWORD failure:", e.response)
-                throw e
-            }
-            return res
-        }
 
 
     }

@@ -76,7 +76,6 @@ export const user = {
         userId: (state) => state.id,
         userEmail: (state) => state.email,
         userUsername: (state) => {
-            if (/@/.test(state.username)) return null
             return state.username
         },
         userPasswordIsSet: (state) => state.isPasswordSet,

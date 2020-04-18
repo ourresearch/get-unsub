@@ -1,9 +1,5 @@
 <template>
     <v-container class="institution">
-        <router-link class="text--secondary low-key-link" to="/u">
-            <strong>‹</strong>
-            Back to your user page
-        </router-link>
 
         <div class="page-title mt-8 mb-4 d-flex">
             <div class="mt-1 mr-2">

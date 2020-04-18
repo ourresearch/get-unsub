@@ -99,18 +99,6 @@
                             </v-list-item-action>
                         </v-list-item>
 
-                        <v-divider v-if="userUsername"></v-divider>
-                        <v-list-item v-if="userUsername">
-                            <v-list-item-avatar>
-                                <v-icon>mdi-account-outline</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <v-list-item-title v-html="userUsername" class=""/>
-                                <v-list-item-subtitle>
-                                    Your username
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
 
                         <v-divider></v-divider>
                         <v-list-item>

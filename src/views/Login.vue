@@ -16,11 +16,11 @@
                 <v-card-text>
                     <div>
                         <v-text-field
-                                v-model="usernameOrEmail"
+                                v-model="creds.email"
                                 outlined
                                 autofocus
-                                label="Email or username"
-                                @keydown.enter="setUsernameOrEmail"
+                                label="Email"
+                                @keydown.enter="setEmail"
                                 :error-messages="errorMsg"
 
                         />
@@ -28,7 +28,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn :loading="isLoading" @click="setUsernameOrEmail" large depressed color="primary">
+                    <v-btn :loading="isLoading" @click="setEmail" large depressed color="primary">
                         Next
                     </v-btn>
                 </v-card-actions>
@@ -48,8 +48,8 @@
 
                         <v-text-field
                                 append-icon="mdi-check"
-                                v-model="usernameOrEmail"
-                                label="Email or username"
+                                v-model="creds.email"
+                                label="Email"
                                 readonly
                                 outlined
 
@@ -58,7 +58,7 @@
                                 autofocus
                                 outlined
                                 label="Password"
-                                v-model="password"
+                                v-model="creds.password"
                                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="showPassword ? 'text' : 'password'"
                                 @click:append="showPassword = !showPassword"
@@ -91,12 +91,9 @@
                 creds: {
                     password: "",
                     email: "",
-                    username: ""
                 },
-                usernameOrEmail: "",
-                password: "",
                 showError: false,
-                showPassword: true,
+                showPassword: false,
                 errorMsg: "",
                 loginStep: 0,
                 isLoading: false
@@ -111,17 +108,12 @@
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
                 this.$intercom.boot(data)
             },
-            async setUsernameOrEmail() {
+            async setEmail() {
                 this.isLoading = true
                 this.errorMsg = ""
-                const creds = {
-                    password: "",
-                }
-                if (/@/.test(this.usernameOrEmail)) creds.email = this.usernameOrEmail
-                else creds.username = this.usernameOrEmail
 
                 try {
-                    await this.$store.dispatch("loginFromCreds", creds)
+                    await this.$store.dispatch("loginFromCreds", this.creds)
                 } catch (e) {
                     console.log("login fail", e.response.status)
                     if (e.response.status === 404) {
@@ -144,13 +136,8 @@
             async loginWithPassword(){
                 this.isLoading = true
                 this.errorMsg = ""
-                const creds = {
-                    password: this.password,
-                }
-                if (/@/.test(this.usernameOrEmail)) creds.email = this.usernameOrEmail
-                else creds.username = this.usernameOrEmail
                 try {
-                    await this.$store.dispatch("loginFromCreds", creds)
+                    await this.$store.dispatch("loginFromCreds", this.creds)
                 } catch (e) {
                     console.log("login fail", e.response.status)
                     if (e.response.status === 403) {
