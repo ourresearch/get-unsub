@@ -70,7 +70,7 @@
                         <v-divider></v-divider>
 
                         <v-list two-line>
-                            <v-list-item>
+                            <v-list-item v-if="publisherApcCost === 0 || publisherApcCost > 0">
                                 <v-list-item-avatar>
                                     <v-icon v-if="!publisherApcIsLoading">mdi-pen</v-icon>
                                     <v-progress-circular

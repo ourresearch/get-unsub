@@ -35,9 +35,9 @@ export const publisher = {
         // apc stuff
         apcHeaders: [],
         apcJournals: [],
-        apcPapersCount: 0,
-        apcAuthorsFractionalCount: 0,
-        apcCost: 0,
+        apcPapersCount: null,
+        apcAuthorsFractionalCount: null,
+        apcCost: null,
 
 
     },
@@ -60,9 +60,9 @@ export const publisher = {
 
             state.apcHeader = []
             state.apcJournals = []
-            state.apcPapersCount = 0
-            state.apcAuthorsFractionalCount = 0
-            state.apcCost = 0
+            state.apcPapersCount = null
+            state.apcAuthorsFractionalCount = null
+            state.apcCost = null
         },
         setSelectedPublisher(state, apiPublisher) {
             state.selected = apiPublisher // legacy
@@ -153,18 +153,33 @@ export const publisher = {
 
         async fetchPublisherApcData({commit, state, dispatch, getters}, id) {
             if (getters.publisherApcCost) return
+
             state.apcIsLoading = true
 
             const url = `publisher/${id}/apc`
-            const resp = await api.get(url)
-            state.apcPapersCount = resp.data.headers.find(h=>h.value==="num_apc_papers").raw
-            state.apcAuthorsFractionalCount = resp.data.headers.find(h=>h.value==="fractional_authorship").raw
-            state.apcCost = resp.data.headers.find(h=>h.value==="cost_apc").raw
-            state.apcHeaders = resp.data.headers
-            state.apcJournals = resp.data.journals
-            state.apcIsLoading = false
 
-            return resp
+            let resp
+            try {
+                resp = await api.get(url)
+            }
+            catch (e) {
+                console.log("error loading publisher APC", e.response)
+                resp = null
+            }
+            finally {
+                state.apcIsLoading = false
+            }
+
+            if (resp){
+                state.apcPapersCount = resp.data.headers.find(h=>h.value==="num_apc_papers").raw
+                state.apcAuthorsFractionalCount = resp.data.headers.find(h=>h.value==="fractional_authorship").raw
+                state.apcCost = resp.data.headers.find(h=>h.value==="cost_apc").raw
+                state.apcHeaders = resp.data.headers
+                state.apcJournals = resp.data.journals
+                return resp
+            }
+            return
+
         },
 
         async hydratePublisherScenarios({dispatch, getters}) {
