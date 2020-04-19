@@ -65,9 +65,8 @@
 
                 </v-menu>
 
-                <v-divider/>
-
                 <v-tooltip
+                        v-if="0"
                         right
                         max-width="400"
                 >
@@ -218,11 +217,11 @@
             async saveEdit() {
                 console.log("saving config edit", this.selectedConfigValue)
                 this.savingConfig = true
-                const configKeyValuePair = [
-                    this.selectedConfigName,
-                    this.selectedConfigValue,
-                ]
-                await this.$store.dispatch("setConfig", configKeyValuePair)
+                await this.$store.dispatch("setScenarioConfig", {
+                    scenarioId: this.$store.getters.scenarioId,
+                    key: this.selectedConfigName,
+                    value: this.selectedConfigValue,
+                })
                 this.cancelEdit()
                 this.$store.commit("snackbar", "Setting updated")
             },

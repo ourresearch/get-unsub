@@ -100,6 +100,14 @@ export const publisher = {
                 return s.id === id
             }).saved.name = newName
         },
+        setScenarioConfig(state, {scenarioId, key, value}) {
+            const ret =  state.scenarios.find(s=>{
+                return s.id === scenarioId
+            })
+            ret.saved.configs[key] = value
+            return ret
+
+        },
         copyScenario(state, {id, newName, newId}) {
             const scenarioToCopy = state.scenarios.find(s=>{
                 return s.id === id
@@ -216,6 +224,21 @@ export const publisher = {
             commit("renameScenario", {id, newName})
             const url = `scenario/${id}`
             await api.post(url, getters.publisherScenario(id).saved)
+        },
+        async setScenarioConfig({commit, getters, dispatch}, {scenarioId, key, value}) {
+            // modify the scenario metadata in place...this doesn't actually recalculate anything.
+            commit("setScenarioConfig", {scenarioId, key, value})
+
+            // send the scenario obj, with its new config value, up to the server.
+            // the server will save our new param value.
+            const url = `scenario/${scenarioId}`
+            await api.post(url, getters.publisherScenario(scenarioId).saved)
+
+            // ask the server for the journals data for this scenario,
+            // which will now be calculated using the new param we set a second ago.
+            // overwrite the scenario data.
+            await dispatch("hydratePublisherScenario", scenarioId)
+
         },
         async deleteScenario({commit, getters}, id) {
             commit("deleteScenario", id)

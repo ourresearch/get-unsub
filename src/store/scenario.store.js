@@ -242,28 +242,16 @@ export const scenario = {
 
         // config stuff
 
-        async setConfig({dispatch, state, getters}, keyValuePair) {
-            const scenarioSavedCopy = _.cloneDeep(state.selected.saved)
-            const configName = keyValuePair[0]
-            const configValue = keyValuePair[1]
-            scenarioSavedCopy.configs[configName] = configValue
-
-            const url = "scenario/" + getters.scenarioId;
-            await api.post(url, scenarioSavedCopy)
-            await dispatch("refreshScenario")
-            return true
-        },
-
-        async resetAllConfigs({dispatch, state, getters}) {
-            const postData = {...state.selected.saved}
-            Object.keys(state.selected.saved.configs).map(k=>{
-                postData.configs[k] = appConfigs.scenarioConfigs[k].default
-            })
-            const url = "scenario/" + getters.scenarioId;
-            await api.post(url, postData)
-            await dispatch("refreshScenario")
-            return true
-        },
+        // async resetAllConfigs({dispatch, state, getters}) {
+        //     const postData = {...state.selected.saved}
+        //     Object.keys(state.selected.saved.configs).map(k=>{
+        //         postData.configs[k] = appConfigs.scenarioConfigs[k].default
+        //     })
+        //     const url = "scenario/" + getters.scenarioId;
+        //     await api.post(url, postData)
+        //     await dispatch("refreshScenario")
+        //     return true
+        // },
 
 
 
