@@ -68,7 +68,7 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
-                    <a class="body-2" @click.stop="resetPassword">Reset my password</a>
+                    <a class="body-2 d-none" @click.stop="resetPassword">Reset my password</a>
                     <v-btn v-if="0" text :loading="isLoading" @click="createDemo">Create demo account</v-btn>
                     <v-spacer></v-spacer>
                     <v-btn :loading="isLoading" @click="loginWithPassword" large depressed color="primary">
