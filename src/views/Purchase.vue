@@ -31,12 +31,11 @@
                             customized to your institution. You will be able to upload your own COUNTER stats,
                             subscription history, and price lists. We'll use this information to customize the usage,
                             open access percentages, citations, authorships, and prices for your university.
-                        </p><p>
+                        </p>
+                        <p>
                             If your
                             institution would like to contribute more, we will gladly accept donations and will use that
                             money to continue making tools and data as openly available as possible.
-                        </p><p>
-                            If you need an invoice or to pay by bank transfer, send an email with all data you need to appear on the invoice to team@ourresearch.org (currently no fee for this -- please only choose this option if you are not able to pay by credit card).
                         </p>
 
                     </div>
@@ -48,7 +47,7 @@
                             <v-card-title>
                                 Your {{ (isLoggedIn) ? 'upgrade to a paid account' : 'purchase'}} lets you:
                             </v-card-title>
-<v-divider></v-divider>
+                            <v-divider></v-divider>
                             <v-list>
                                 <v-list-item>
                                     <v-list-item-icon>
@@ -150,19 +149,31 @@
                                 </v-list-item>
 
                             </v-list>
-                                    <v-divider></v-divider>
+                            <v-divider></v-divider>
                             <v-card-actions class="pb-12">
                                 <div>
                                     <v-row class="body-1s" align="center">
-                                            <v-checkbox v-model="agreedToTerms"></v-checkbox>
+                                        <v-checkbox v-model="agreedToTerms"></v-checkbox>
 
-                                        I agree to the  <a
-                                            href="https://ourresearch-admin.s3.amazonaws.com/UnpaywallJournalsTermsAndConditions.pdf" class="ml-1"> Terms and Conditions.</a>
+                                        I agree to the <a
+                                            href="https://ourresearch-admin.s3.amazonaws.com/UnpaywallJournalsTermsAndConditions.pdf"
+                                            class="ml-1"> Terms and Conditions.</a>
                                     </v-row>
                                     <v-row>
-                                <v-btn :disabled="!agreedToTerms" x-large color="primary" depressed @click="buy">
-                                    {{(isLoggedIn) ? "Purchase upgrade" : "Purchase"}}
-                                </v-btn>
+                                        <v-btn :disabled="!agreedToTerms" x-large color="primary" depressed
+                                               @click="buy">
+                                            {{(isLoggedIn) ? "Purchase upgrade" : "Purchase"}}
+                                        </v-btn>
+                                        <v-btn
+                                                class="ml-2"
+                                                :disabled="!agreedToTerms"
+                                                x-large
+                                                text
+                                                target="_blank"
+                                                :href="'mailto:team@ourresearch.org?cc=accounting@ourresearch.org&subject=Invoice%20request&body=' + invoiceRequestBodyText"
+                                        >
+                                            Request invoice
+                                        </v-btn>
 
                                     </v-row>
 
@@ -196,6 +207,19 @@
             ...mapGetters([
                 'isLoggedIn',
             ]),
+            invoiceRequestBodyText() {
+                const ret = `Please send me an invoice for:
+
+Unpaywall Journals Dashboard subscription
+Institution: [YOUR INSTITUTION NAME]
+Billing Email: [YOUR BILLING EMAIL]
+CC Emails: [CC EMAILS (optional)]
+Term: 1 year
+Fee: $1000 USD
+Start date: today
+Other notes: [OTHER NOTES (optional)  ]`
+                return encodeURIComponent(ret)
+            }
 
         },
         methods: {
@@ -220,12 +244,10 @@
                             }
                         })
 
-                }
-                catch {
-                            alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org. Thanks!")
+                } catch {
+                    alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org. Thanks!")
 
                 }
-
 
 
             }
