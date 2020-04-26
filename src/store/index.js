@@ -38,6 +38,7 @@ export default new Vuex.Store({
         colInfo: null,
 
         infoKey: null,
+        isLandingPage: false,
 
 
     },
@@ -53,6 +54,9 @@ export default new Vuex.Store({
     mutations: {
         startLoading(state){
             // state.loading = true
+        },
+        setIsLandingPage(state, val){
+            state.isLandingPage = !!val
         },
         finishLoading(state){
             // state.loading = false
@@ -156,6 +160,7 @@ export default new Vuex.Store({
         loading(state){return state.loading > 0},
         colInfo(state){return state.colInfo},
         infoKey(state){return state.infoKey},
+        isLandingPage(state){return state.isLandingPage},
 
 
 

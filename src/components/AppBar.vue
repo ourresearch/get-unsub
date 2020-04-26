@@ -1,5 +1,8 @@
 <template>
-    <v-toolbar color="white">
+    <v-toolbar
+            color="white"
+            :flat="isLandingPage"
+    >
         <router-link to="/">
             <img  class="mt-2" style="width:150px;" src="../assets/unpaywall-journals-logo.png" alt="" />
         </router-link>
@@ -130,6 +133,7 @@
         },
         computed: {
             ...mapGetters([
+                'isLandingPage',
                 'scenarioId',
                 'scenarioName',
                 'publisherId',
