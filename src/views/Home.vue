@@ -57,7 +57,7 @@
 
             </v-row>
         </v-card>
-        <v-card flat color="#555">
+        <v-card flat tile color="#555">
             <div class="text-center white--text pt-8 pb-4 caption">
                 Trusted by hundreds of acadmic libraries worldwide
             </div>
@@ -77,6 +77,70 @@
                 <img src="../assets/logos/uva.png" style="height: 30px;"  alt="">
                 <img src="../assets/logos/vassar.png" style="height: 30px;"  alt="">
             </v-container>
+        </v-card>
+        <v-card flat tile color="green" class="py-12">
+            <div class="selling-point-container">
+                <div class="selling-point-text">
+                    <h2 class="display-2">
+                        Get all the data you need, in one place
+                    </h2>
+                    <div class="title mt-8">
+                        Upload your COUNTER JR1s and we take care of the rest...for every journal, we gather citations and authorship from your faculty, OA percentages, a-la-carte pricing, and more. Setup takes just a few hours.
+
+                    </div>
+                </div>
+                <div>
+                    <img src="../assets/illustrations/gather.png" style="transform: scaleX(-1);" alt="">
+                </div>
+            </div>
+        </v-card>
+        <v-card flat tile color="green darken-1" class="py-12">
+            <div class="selling-point-container">
+                <div >
+                    <img src="../assets/illustrations/prediction.png"  style="width: 500px;" alt="">
+                </div>
+                <div class="selling-point-text">
+                    <h2 class="display-2">
+                        Forecast with confidence
+                    </h2>
+                    <div class="title mt-8">
+                        Predict your costs and fulfillment in different cancellation scenarios, and find the best value for you. Our forecasting model is trained on data from thousands of universities, then customized using your unique data.
+
+                    </div>
+                </div>
+            </div>
+        </v-card>
+        <v-card flat tile color="green" class="py-12">
+            <div class="selling-point-container">
+                <div class="selling-point-text">
+                    <h2 class="display-2">
+                        Customize everything
+                    </h2>
+                    <div class="title mt-8">
+                        Try out different assumptions to compare best- and worst-case scenarios...everything in the model can be modified, from per-transaction ILL costs, to exclusion of subtypes of Open Access.
+                    </div>
+                </div>
+                <div>
+                    <img src="../assets/illustrations/customize.png"  style="width: 400px;" alt="">
+                </div>
+            </div>
+        </v-card>
+        <v-card flat tile color="green darken-1" class="py-12">
+            <div class="selling-point-container">
+                <div >
+                    <img src="../assets/illustrations/presentation.png"  style="width: 500px;" alt="">
+                </div>
+                <div class="selling-point-text">
+                    <h2 class="display-2">
+                        Communicate your message
+                    </h2>
+                    <div class="title mt-8">
+                        Use our PowerPoint-ready graphics and stats to help you share an optimistic, well-researched message to campus stakeholders.
+
+
+                    </div>
+                </div>
+            </div>
         </v-card>
 
 
@@ -172,5 +236,18 @@
 
         }
     }
+
+    .selling-point-container {
+        display: flex;
+        align-items: center;
+        margin: 30px auto;
+        max-width: 1200px;
+        .selling-point-text {
+            color: #fff;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    }
+
 
 </style>
