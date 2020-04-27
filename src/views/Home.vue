@@ -3,7 +3,8 @@
         <v-card flat class="pa-6">
             <v-row class="top-screen pa-12">
                 <v-col>
-                    <img style="max-width:600px; border:12px solid #eee; border-radius:12px;" src="https://i.imgur.com/ddWJutv.png"
+                    <img style="max-width:600px; border:12px solid #eee; border-radius:12px;"
+                         src="https://i.imgur.com/ddWJutv.png"
                          alt="">
                 </v-col>
                 <v-col>
@@ -15,7 +16,8 @@
                         </div>
                         <div class="about">
                             <p class="title text--secondary">
-                                Our forecast model reveals your best serials value at any price point, considering downloads, citations, Open Access, alacarte pricing, and more.
+                                Our forecast model reveals your best serials value at any price point, considering
+                                downloads, citations, Open Access, alacarte pricing, and more.
                             </p>
 
                         </div>
@@ -33,19 +35,21 @@
                                         type="email"
                                         v-model="userEmail"
                                         :error-messages="errorMsg"
+                                         style="max-width: 350px"
+
                                 />
                                 <v-btn
                                         @click="createDemo"
                                         x-large
                                         :loading="createDemoLoading"
-                                        class="ma-0"
-                                        id="main-cta-button"
-                                        depressed
+                                        class="main-cta-button ma-0 ml-2"
+                                        style="margin-top: 0px !important;"
                                         color="primary">
-                                    Try demo
+                                    Try the demo!
                                 </v-btn>
                             </div>
-                            <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead</router-link>
+                            <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead
+                            </router-link>
 
                         </div>
 
@@ -58,24 +62,24 @@
             </v-row>
         </v-card>
         <v-card flat tile color="#555">
-            <div class="text-center white--text pt-8 pb-4 caption">
+            <div class="text-center trusted-by white--text caption">
                 Trusted by hundreds of acadmic libraries worldwide
             </div>
-            <v-container class="logos">
-<!--                <img src="../assets/logos/antwerp.png" style="height: 30px;" alt="">-->
+            <v-container class="logos" style="border-top: 1px solid #666;">
+                <!--                <img src="../assets/logos/antwerp.png" style="height: 30px;" alt="">-->
                 <img src="../assets/logos/cern.png" style="height: 60px;" alt="">
-                <img src="../assets/logos/cornell.png" style="height: 45px;"  alt="">
-                <img src="../assets/logos/dartmouth.png" style="height: 15px;"  alt="">
-                <img src="../assets/logos/duke.png" style="height: 40px;"  alt="">
-                <img src="../assets/logos/imperial.png"  style="height: 30px;"  alt="">
-                <img src="../assets/logos/michigan.png"  style="height: 30px;"  alt="">
-                <img src="../assets/logos/mit.png" style="height: 35px;"  alt="">
-                <img src="../assets/logos/oregon.png" style="height: 30px;"  alt="">
-                <img src="../assets/logos/pennstate.png" style="height: 40px;"  alt="">
-                <img src="../assets/logos/smithsonian.png" style="height: 25px;"  alt="">
-                <img src="../assets/logos/tamu.png" style="height: 30px;"  alt="">
-                <img src="../assets/logos/uva.png" style="height: 30px;"  alt="">
-                <img src="../assets/logos/vassar.png" style="height: 30px;"  alt="">
+                <img src="../assets/logos/cornell.png" style="height: 45px;" alt="">
+                <img src="../assets/logos/dartmouth.png" style="height: 15px;" alt="">
+                <img src="../assets/logos/duke.png" style="height: 40px;" alt="">
+                <img src="../assets/logos/imperial.png" style="height: 30px;" alt="">
+                <img src="../assets/logos/michigan.png" style="height: 30px;" alt="">
+                <img src="../assets/logos/mit.png" style="height: 35px;" alt="">
+                <img src="../assets/logos/oregon.png" style="height: 30px;" alt="">
+                <img src="../assets/logos/pennstate.png" style="height: 40px;" alt="">
+                <img src="../assets/logos/smithsonian.png" style="height: 25px;" alt="">
+                <img src="../assets/logos/tamu.png" style="height: 30px;" alt="">
+                <img src="../assets/logos/uva.png" style="height: 30px;" alt="">
+                <img src="../assets/logos/vassar.png" style="height: 30px;" alt="">
             </v-container>
         </v-card>
         <v-card flat tile color="green" class="py-12">
@@ -85,26 +89,30 @@
                         Get all the data you need, in one place
                     </h2>
                     <div class="title mt-8">
-                        Upload your COUNTER JR1s and we take care of the rest...for every journal, we gather citations and authorship from your faculty, OA percentages, a-la-carte pricing, and more. Setup takes just a few hours.
+                        Upload your COUNTER JR1s and we take care of the rest...for every journal, we gather citations
+                        and authorship from your faculty, OA percentages, a-la-carte pricing, and more. Setup takes just
+                        a few hours.
 
                     </div>
                 </div>
                 <div>
-                    <img src="../assets/illustrations/gather.png" style="transform: scaleX(-1);" alt="">
+                    <img src="../assets/illustrations/gather.png" style="transform: scaleX(-1); width: 400px;" alt="">
                 </div>
             </div>
         </v-card>
         <v-card flat tile color="green darken-1" class="py-12">
             <div class="selling-point-container">
-                <div >
-                    <img src="../assets/illustrations/prediction.png"  style="width: 500px;" alt="">
+                <div>
+                    <img src="../assets/illustrations/prediction.png" style="width: 500px;" alt="">
                 </div>
                 <div class="selling-point-text">
                     <h2 class="display-2">
                         Forecast with confidence
                     </h2>
                     <div class="title mt-8">
-                        Predict your costs and fulfillment in different cancellation scenarios, and find the best value for you. Our forecasting model is trained on data from thousands of universities, then customized using your unique data.
+                        Predict your costs and fulfillment in different cancellation scenarios, and find the best value
+                        for you. Our forecasting model is trained on data from thousands of universities, then
+                        customized using your unique data.
 
                     </div>
                 </div>
@@ -117,30 +125,67 @@
                         Customize everything
                     </h2>
                     <div class="title mt-8">
-                        Try out different assumptions to compare best- and worst-case scenarios...everything in the model can be modified, from per-transaction ILL costs, to exclusion of subtypes of Open Access.
+                        Try out different assumptions to compare best- and worst-case scenarios...everything in the
+                        model can be modified, from per-transaction ILL costs, to exclusion of subtypes of Open Access.
                     </div>
                 </div>
                 <div>
-                    <img src="../assets/illustrations/customize.png"  style="width: 400px;" alt="">
+                    <img src="../assets/illustrations/customize.png" style="width: 400px;" alt="">
                 </div>
             </div>
         </v-card>
         <v-card flat tile color="green darken-1" class="py-12">
             <div class="selling-point-container">
-                <div >
-                    <img src="../assets/illustrations/presentation.png"  style="width: 500px;" alt="">
+                <div>
+                    <img src="../assets/illustrations/presentation.png" style="width: 500px;" alt="">
                 </div>
                 <div class="selling-point-text">
                     <h2 class="display-2">
                         Communicate your message
                     </h2>
                     <div class="title mt-8">
-                        Use our PowerPoint-ready graphics and stats to help you share an optimistic, well-researched message to campus stakeholders.
+                        Use our PowerPoint-ready graphics and stats to help you share an optimistic, well-researched
+                        message to campus stakeholders.
 
 
                     </div>
                 </div>
             </div>
+        </v-card>
+        <v-card flat tile color="light-blue" style="padding: 80px 0;">
+            <div class="text-center white--text display-2 mb-12">
+                Try the free demo today!
+            </div>
+
+            <div>
+                <div class="d-flex" style="max-width: 500px; margin: 0 auto;">
+                    <v-text-field
+                            label="Your email"
+                            @keydown.enter="createDemo"
+                            :loading="createDemoLoading"
+                            :readonly="createDemoLoading"
+                            type="email"
+                            solo
+                            v-model="userEmail"
+                            :error-messages="errorMsg"
+                    />
+                    <v-btn
+                            @click="createDemo"
+                            large
+                            :loading="createDemoLoading"
+                            class="ma-0 ml-4"
+                            outlined
+                            dark
+                    >
+                        Try demo
+                    </v-btn>
+                </div>
+                <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead</router-link>
+            </div>
+            <div class="white--text text-center">
+                or, go straight to the <router-link class="white--text" to="/purchase">purchase page</router-link>
+            </div>
+
         </v-card>
 
 
@@ -151,7 +196,7 @@
 
 <script>
     // https://www.npmjs.com/package/vue-vimeo-player
-    import { randanimal, randanimalSync } from 'randanimal';
+    import {randanimal, randanimalSync} from 'randanimal';
     import {vueVimeoPlayer} from 'vue-vimeo-player'
 
     export default {
@@ -177,21 +222,17 @@
                         password: "",
                         name: "Anonymous User",
                     })
-                }
-                catch (e){
-                    if (!e.response){
+                } catch (e) {
+                    if (!e.response) {
                         console.log("non-axios error!", e)
                         this.errorMsg = "Sorry, there was an error"
-                    }
-                    else if (e.response.status === 409) {
+                    } else if (e.response.status === 409) {
                         this.errorMsg = "Email already in use"
-                    }
-                    else{
+                    } else {
                         console.log("axios error!", e.response)
                         this.errorMsg = "Sorry, there was an error"
                     }
-                }
-                finally {
+                } finally {
                     this.createDemoLoading = false
                 }
                 const data = {
@@ -218,21 +259,22 @@
 </script>
 
 <style lang="scss">
-    #main-cta-button {
-        height: 56px;
-        position:relative;
-        left: -5px;
-        border-radius: 0 3px 3px 0;
+
+    .trusted-by {
+        opacity: .75;
+        padding: 20px;
     }
     .logos {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
+        padding: 20px 0;
+
         img {
             max-width: 100%;
             margin: 0 20px 40px;
-            opacity: .66;
+            opacity: .75;
 
         }
     }
@@ -242,6 +284,7 @@
         align-items: center;
         margin: 30px auto;
         max-width: 1200px;
+
         .selling-point-text {
             color: #fff;
             max-width: 500px;
