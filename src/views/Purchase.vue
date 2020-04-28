@@ -213,6 +213,7 @@
 Unpaywall Journals Dashboard subscription
 Institution: [YOUR INSTITUTION NAME]
 Billing Email: [YOUR BILLING EMAIL]
+Billing Mailing Address: [YOUR BILLING MAILING ADDRESS]
 CC Emails: [CC EMAILS (optional)]
 Term: 1 year
 Fee: $1000 USD
