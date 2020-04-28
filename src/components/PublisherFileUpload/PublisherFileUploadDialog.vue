@@ -1,27 +1,32 @@
 <template>
     <div>
-
-
-        <v-dialog v-model="isCopyDialogOpen" max-width="400" persistent>
-            <v-card v-if="uploadDialogIsOpen">
+        <v-dialog v-model="isOpen" max-width="400">
+            <v-card v-if="isOpen">
                 <v-card-title class="headline">
                     <div>
                         Upload
-                        <span v-if="uploadFileType==='counter'"> COUNTER file</span>
-                        <span v-if="uploadFileType==='prices'"> Custom journals prices</span>
-                        <span v-if="uploadFileType==='perpetual-access'"> Perpetual access dates</span>
+                        <span v-if="publisherFileUploadDialogFileType==='counter'"> COUNTER file</span>
+                        <span v-if="publisherFileUploadDialogFileType==='prices'"> Custom journals prices</span>
+                        <span v-if="publisherFileUploadDialogFileType==='perpetual-access'"> Perpetual access dates</span>
                     </div>
                 </v-card-title>
                 <v-card-text>
                     <v-alert type="info" text icon="mdi-information-outline">
-                        <div v-if="uploadFileType==='prices'">
-                            We'll be launching self-serve editing of custom pricelists soon. In the meantime, please email us your custom pricelist, in spreadsheet format. The spreadsheet just needs two columns: <code>ISSN</code> and <code>Price</code>.
+                        <div v-if="publisherFileUploadDialogFileType==='prices'">
+                            We'll be launching self-serve editing of custom pricelists soon. In the meantime, please
+                            email us your custom pricelist, in spreadsheet format. The spreadsheet just needs two
+                            columns: <code>ISSN</code> and <code>Price</code>.
                         </div>
-                        <div v-if="uploadFileType==='perpetual-access'">
-                            We'll be launching self-serve editing of custom perpetual access dates soon. In the meantime, please email us your custom perpetual access date ranges, in spreadsheet format. The spreadsheet just needs three columns: <code>ISSN</code>,  <code>Start date</code>, and <code>End date</code>.
+                        <div v-if="publisherFileUploadDialogFileType==='perpetual-access'">
+                            We'll be launching self-serve editing of custom perpetual access dates soon. In the
+                            meantime, please email us your custom perpetual access date ranges, in spreadsheet format.
+                            The spreadsheet just needs three columns: <code>ISSN</code>, <code>Start date</code>, and
+                            <code>End date</code>.
                         </div>
                     </v-alert>
                 </v-card-text>
+
+
                 <v-card-text v-if="0">
                     <v-alert
                             :value="!!errorMsg && !!fileSelected"
@@ -56,8 +61,7 @@
                     <v-btn
                             :disabled="isUploadFileLoading"
                             depressed
-                            @click="closeUploadDialog"
-                            v-if="0"
+                            @click="closePublisherFileUploadDialog"
                     >
                         <v-icon>mdi-close</v-icon>
                         Cancel
@@ -65,7 +69,7 @@
                     <v-btn
                             depressed
                             color="primary"
-                            @click="closeUploadDialog"
+                            @click="closePublisherFileUploadDialog"
                             href="mailto:team@ourresearch.org"
                             target="_blank"
                     >
@@ -75,11 +79,12 @@
 
 
                     <v-btn
+                            v-if="0"
                             depressed
-                           @click="uploadFile"
-                           color="primary"
-                           :loading="isUploadFileLoading"
-                           :disabled="isUploadFileLoading || !fileSelected"
+                            @click="uploadFile"
+                            color="primary"
+                            :loading="isUploadFileLoading"
+                            :disabled="isUploadFileLoading || !fileSelected"
                     >
                         <v-icon>mdi-upload</v-icon>
                         Upload
@@ -115,20 +120,34 @@
     export default {
         name: "PublisherFileUploadDialog",
         props: {
-          isOpen: Boolean,
         },
         data() {
             return {
-
+                isUploadFileLoading: false, // temporary to silence console errors
             }
         },
         computed: {
             ...mapGetters([
+                "publisherFileUploadDialogIsOpen",
+                "publisherFileUploadDialogFileType",
+                "publisherFileUploadDialogFileSelected",
+                "publisherFileUploadDialogIsLoading",
+                "publisherFileUploadDialogErrorMsg",
             ]),
+            isOpen: {
+                get: function(){
+                    return this.$store.getters.publisherFileUploadDialogIsOpen
+                },
+                set: function(){
+                    // from within the component, you can only close, not open, so only need to handle that.
+                    this.$store.commit("closePublisherFileUploadDialog")
+                }
+            }
         },
         methods: {
             ...mapActions([]),
             ...mapMutations([
+                "closePublisherFileUploadDialog",
             ]),
 
         }

@@ -186,7 +186,7 @@
                                 You're using your custom uploaded title-level pricelist, rather than the public list price, to determine the price of each journal.
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn small text @click="openUploadDialog('prices')"> Upload custom data </v-btn>
+                                <v-btn small text @click="openPublisherFileUploadDialog('prices')"> Upload custom data </v-btn>
                             </v-card-actions>
                         </v-card>
                         <v-divider />
@@ -204,7 +204,7 @@
                                 You're using the default, which is to assume full perpetual access for all your {{publisherName}} titles.
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn small text @click="openUploadDialog('perpetual-access')"> Upload custom data </v-btn>
+                                <v-btn small text @click="openPublisherFileUploadDialog('perpetual-access')"> Upload custom data </v-btn>
                             </v-card-actions>
                         </v-card>
 
@@ -228,7 +228,7 @@
                                     </div>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn icon @click="openUploadDialog('counter')"> <v-icon>mdi-pencil</v-icon> </v-btn>
+                                    <v-btn icon @click="openPublisherFileUploadDialog('counter')"> <v-icon>mdi-pencil</v-icon> </v-btn>
                                 </v-list-item-action>
                             </v-list-item>
 
@@ -248,7 +248,7 @@
                                     </div>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn icon @click="openUploadDialog('prices')"> <v-icon>mdi-pencil</v-icon> </v-btn>
+                                    <v-btn icon @click="openPublisherFileUploadDialog('prices')"> <v-icon>mdi-pencil</v-icon> </v-btn>
                                 </v-list-item-action>
                             </v-list-item>
 
@@ -268,7 +268,7 @@
                                     </div>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn icon @click="openUploadDialog('perpetual-access')"> <v-icon>mdi-pencil</v-icon> </v-btn>
+                                    <v-btn icon @click="openPublisherFileUploadDialog('perpetual-access')"> <v-icon>mdi-pencil</v-icon> </v-btn>
                                 </v-list-item-action>
                             </v-list-item>
 
@@ -375,6 +375,9 @@
 
         </v-dialog>
 
+        <publisher-file-upload-dialog
+        />
+
 
         <scenario-edit-dialogs/>
     </v-container>
@@ -384,12 +387,14 @@
     import {api, toBase64} from "../api";
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
+    import PublisherFileUploadDialog from "../components/PublisherFileUpload/PublisherFileUploadDialog";
 
 
     export default {
         name: "Publisher",
         components: {
             ScenarioEditDialogs,
+            PublisherFileUploadDialog,
         },
         data() {
             return {
@@ -439,21 +444,13 @@
                 "openCopyDialog",
                 "openRenameDialog",
                 "openDeleteDialog",
+                "openPublisherFileUploadDialog",
             ]),
             ...mapActions([
+
             ]),
             createScenario(){
                 this.$store.dispatch("createScenario")
-            },
-            openUploadDialog(fileType) {
-                this.uploadDialogIsOpen = true
-                this.uploadFileType = fileType
-            },
-            closeUploadDialog() {
-                this.uploadDialogIsOpen = false
-                this.uploadFileType = ""
-                this.errorMsg = ""
-                this.fileSelected = null
             },
             goToScenario(scenarioId) {
                 const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${scenarioId}`
