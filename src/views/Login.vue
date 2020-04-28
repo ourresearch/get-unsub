@@ -96,7 +96,7 @@
                 usernameOrEmail: "",
                 password: "",
                 showError: false,
-                showPassword: true,
+                showPassword: false,
                 errorMsg: "",
                 loginStep: 0,
                 isLoading: false
