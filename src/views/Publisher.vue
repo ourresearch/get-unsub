@@ -120,7 +120,7 @@
                                 </v-list-item-action>
                             </v-list-item>
 
-                            <v-list-item>
+                            <v-list-item v-if="0">
                                 <v-list-item-avatar>
                                     <v-icon>mdi-book-open</v-icon>
                                 </v-list-item-avatar>
