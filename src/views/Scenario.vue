@@ -71,6 +71,9 @@
                             <v-divider/>
 
                             <v-card-text class="pt-9 pb-0">
+                                <div v-if="0">
+                                    big deal cost: {{$store.getters.costBigdealProjected}}
+                                </div>
                                 <v-row class="">
                                     <!--                                COST -->
                                     <v-col class="py-0" cols="6">

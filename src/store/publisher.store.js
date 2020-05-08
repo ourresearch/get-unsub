@@ -204,7 +204,9 @@ export const publisher = {
             const myScenario = getters.publisherScenario(scenarioId)
             console.log("gonna hydrate this scenario", scenarioId, myScenario)
             Object.keys(hydratedScenario).forEach(k => {
-                myScenario[k] = hydratedScenario[k]
+                if (k !== 'configs') {
+                    myScenario[k] = hydratedScenario[k]
+                }
             })
             myScenario.isLoading = false
         },

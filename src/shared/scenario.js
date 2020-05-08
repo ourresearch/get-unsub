@@ -1,6 +1,7 @@
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
 import {toHexHash} from "./util";
+import {scenarioConfigs}  from "../appConfigs"
 
 const buildScenarioFromApiResp = function (apiResp) {
     apiResp.journals.forEach((myJournal, myIndex) => {
@@ -24,15 +25,23 @@ const hydrateScenario = function(dehydratedScenario, fullScenarioFromApi){
 
 
 const newScenario = function (id = "", name="") {
+
+    const defaultConfigs = {}
+    for (const k in scenarioConfigs) {
+        defaultConfigs[k] = {...scenarioConfigs[k]}
+        defaultConfigs[k].value =  defaultConfigs[k].default
+    }
+
     return {
         id: id,
         idHash: toHexHash(id),
         isLoading: false,
         journals: [],
+        costBigdealProjected: 0,
         saved: {
             subrs: [],
             name: name,
-            configs: {}
+            configs: defaultConfigs,
         }
     }
 }
