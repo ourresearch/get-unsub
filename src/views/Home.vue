@@ -17,7 +17,7 @@
                         <div class="about">
                             <p class="title text--secondary">
                                 Our forecast model reveals your best serials value at any price point, considering
-                                downloads, citations, Open Access, alacarte pricing, and more.
+                                downloads, citations, open access, ala carte pricing, and more.
                             </p>
 
                         </div>
