@@ -68,7 +68,7 @@
             <v-container class="logos" style="border-top: 1px solid #666;">
                 <!--                <img src="../assets/logos/antwerp.png" style="height: 30px;" alt="">-->
                 <img src="../assets/logos/cern.png" style="height: 60px;" alt="">
-                <img src="../assets/logos/cornell.png" style="height: 45px;" alt="">
+                <!--<img src="../assets/logos/cornell.png" style="height: 45px;" alt="">-->
                 <img src="../assets/logos/dartmouth.png" style="height: 15px;" alt="">
                 <img src="../assets/logos/duke.png" style="height: 40px;" alt="">
                 <img src="../assets/logos/imperial.png" style="height: 30px;" alt="">
@@ -76,7 +76,7 @@
                 <img src="../assets/logos/mit.png" style="height: 35px;" alt="">
                 <img src="../assets/logos/oregon.png" style="height: 30px;" alt="">
                 <img src="../assets/logos/pennstate.png" style="height: 40px;" alt="">
-                <img src="../assets/logos/smithsonian.png" style="height: 25px;" alt="">
+                <!--<img src="../assets/logos/smithsonian.png" style="height: 25px;" alt="">-->
                 <img src="../assets/logos/tamu.png" style="height: 30px;" alt="">
                 <img src="../assets/logos/uva.png" style="height: 30px;" alt="">
                 <img src="../assets/logos/vassar.png" style="height: 30px;" alt="">
