@@ -32,7 +32,7 @@ export const institution = {
             state.institutionUsers = apiResp.user_permissions
             state.institutionUsers.forEach(user => {
             });
-            state.institutionPublishers = apiResp.publishers
+            state.institutionPublishers = apiResp.publishers.filter(p => !p.is_deleted)
             state.isDemo = apiResp.is_demo
 
         },
@@ -43,6 +43,12 @@ export const institution = {
         },
         addUserPermission(state, addUserPermission){
             state.institutionUsers.push(addUserPermission)
+        },
+        setPublisherDeleted(state, id){
+            state.institutionPublishers.find(p=> p.id === id).is_deleted = true
+        },
+        addPublisher(state, {id, name}){
+            state.institutionPublishers.push({id, name})
         },
     },
     actions: {
@@ -62,6 +68,28 @@ export const institution = {
             const resp = await  api.post(url, data)
             return resp
         },
+        async deleteInstitutionPublisher({commit, dispatch, getters}, id) {
+            commit("setPublisherDeleted", id)
+
+            const url = `publisher/${id}`
+            const data = {is_deleted: true}
+            console.log("deleteInstitutionPublisher", url, data)
+            const resp = await  api.post(url, data)
+            return resp
+        },
+        async createPublisher({commit, dispatch, getters}, {publisherId, name}) {
+            const url = "/publisher/new"
+            const data = {
+                name,
+                publisher_id: publisherId,
+                institution_id: getters.institutionId,
+            }
+            const resp = await api.post(url, data)
+            console.log("got response from createPublisher call", resp)
+            commit("addPublisher", {id: resp.data.id, name: resp.data.name})
+            return resp
+        },
+
         async createGroupMember({commit, dispatch, getters}, {email, name, password, role}) {
             if (!password) password = ""
             if (!role) role = "Viewer"
@@ -102,8 +130,8 @@ export const institution = {
                 return ret
             })
         },
-        institutionIsLoading: (state) => state.institutionPublishers.length === 0,
-        institutionPublishers: (state) => state.institutionPublishers,
+        institutionIsLoading: (state) => state.institutionUsers.length === 0,
+        institutionPublishers: (state) => state.institutionPublishers.filter(p => !p.is_deleted),
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
     }
