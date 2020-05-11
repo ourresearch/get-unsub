@@ -211,14 +211,14 @@
                 const ret = `Please send me an invoice for:
 
 Unpaywall Journals Dashboard subscription
-Institution: [YOUR INSTITUTION NAME]
-Billing Email: [YOUR BILLING EMAIL]
-Billing Mailing Address: [YOUR BILLING MAILING ADDRESS]
-CC Emails: [CC EMAILS (optional)]
+Institution name: ____________
+Billing Email: ____________
+Billing Mailing Address: ____________
+CC Emails (optional): ____________
 Term: 1 year
 Fee: $1000 USD
 Start date: today
-Other notes: [OTHER NOTES (optional)  ]`
+Other notes (optional): ____________`
                 return encodeURIComponent(ret)
             }
 

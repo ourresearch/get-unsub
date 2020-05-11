@@ -16,6 +16,7 @@ export const publisher = {
         selected: null,
 
         isLoading: false,
+        loadingPercent: 0,
         apcIsLoading: false,
 
         id: null,
@@ -44,6 +45,7 @@ export const publisher = {
     mutations: {
         clearPublisher(state){
             state.isLoading = false
+            state.loadingPercent = 0
             state.id = null
             state.name = ""
             state.isDemo = false
@@ -85,10 +87,12 @@ export const publisher = {
             state.selected = null
         },
         startLoading(state) {
+            state.loadingPercent = 0
             state.isLoading = true
         },
         finishLoading(state) {
             state.isLoading = false
+            state.loadingPercent = 100
         },
         deleteScenario(state, scenarioIdToDelete) {
             state.scenarios = state.scenarios.filter(s=>{
@@ -133,8 +137,31 @@ export const publisher = {
             return
         },
 
-        async fetchPublisherAsync({commit, dispatch, getters}, id) {
+        async reloadPublisher({commit, dispatch, state, getters}) {
+            const myId = getters.publisherId
+            commit("clearPublisher") // clean all cached data
+            await dispatch("fetchPublisherAsync", myId)
+        },
+
+        async fetchPublisherAsync({commit, dispatch, state, getters}, id) {
             commit("startLoading")
+
+            // ticker to estimate loading time
+            const estSecondsToLoad = 25
+            let secondsSincePageLoad = 0
+            const interval = setInterval(function(){
+                if (!state.isLoading) {
+                    state.loadingPercent = 100
+                    setTimeout(()=> clearInterval(interval), 500)
+                    return
+                }
+                secondsSincePageLoad += 1
+                let secondsRemaining = estSecondsToLoad - secondsSincePageLoad
+                if (secondsRemaining < 1) secondsRemaining = 1
+                state.loadingPercent = 100 * secondsSincePageLoad / estSecondsToLoad
+            }, 1000)
+
+            // actually do the loading
             await Promise.all([
                 dispatch("fetchPublisherApcData", id),
                 dispatch("fetchPublisherMainData", id),
@@ -145,7 +172,8 @@ export const publisher = {
 
 
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
-            if (getters.publisherBigDealCost) return
+            if (getters.publisherName) return
+
 
             const url = `publisher/${id}`
             const resp = await api.get(url)
@@ -219,7 +247,7 @@ export const publisher = {
                 name: newName,
                 id: newId,
             }
-            const url = `package/${getters.publisherId}/scenario?copy=${id}`
+            const url = `publisher/${getters.publisherId}/scenario?copy=${id}`
             await api.post(url, data)
         },
         async renameScenario({commit, getters}, {id, newName}) {
@@ -254,7 +282,7 @@ export const publisher = {
                 id: newId,
                 name: newName,
             }
-            const url = `package/${getters.publisherId}/scenario`
+            const url = `publisher/${getters.publisherId}/scenario`
             await api.post(url, data)
             dispatch("hydratePublisherScenario", newId)
 
@@ -265,8 +293,6 @@ export const publisher = {
             return state.selected
         },
         publisherName: (state) => {
-            if (/Elsevier/.test(state.name)) return "Elsevier"
-            if (!state.name) return "Elsevier"
             return state.name
         },
         publisherId: (state)  => state.id,
@@ -283,6 +309,7 @@ export const publisher = {
         isPublisherDemo: (state) =>  state.isDemo,
         publisherBigDealCost: (state) =>  state.bigDealCost,
         publisherIsLoading: (state) =>  state.isLoading,
+        publisherLoadingPercent: (state) =>  state.loadingPercent,
         publisherUploadsDict: (state) =>{
             const ret = {}
             state.dataFiles.forEach(f => {

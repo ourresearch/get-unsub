@@ -217,7 +217,7 @@
         },
         mounted() {
             if (!this.publisherName) {
-                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+                this.$store.dispatch("fetchPublisherAsync", this.$route.params.publisherId)
             }
 
 

@@ -531,7 +531,7 @@
         },
         async mounted() {
             this.$store.commit("setIsLoading", true)
-            await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+            await this.$store.dispatch("fetchPublisherAsync", this.$route.params.publisherId)
             await this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
             this.$store.commit(

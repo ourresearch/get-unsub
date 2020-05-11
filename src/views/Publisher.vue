@@ -8,7 +8,7 @@
         >
                 <div style="width: 300px;">
                     <v-progress-linear
-                            v-model="loadingPercent"
+                            v-model="publisherLoadingPercent"
                     />
 
                 </div>
@@ -163,13 +163,19 @@
                                 <v-icon class="mr-2">mdi-file-eye-outline</v-icon>
                                 Usage data
                             </v-subheader>
-                            <v-card-text class="pt-0">
+                            <v-card-text class="pt-0" v-if="publisherUploadsDict.counter.isUploaded">
                                 You're using the usage data from your uploaded <strong>COUNTER JR1</strong> file.
                                 <div class="mt-2">
                                     This file included {{ publisherJournalCounts.oa | round}} OA journals,  {{ publisherJournalCounts.missingPrices | round}} journals without pricing info, and   {{ publisherJournalCounts.leftOrStopped | round}} journals that left {{publisherName}} or have stopped publishing. Our analysis focuses on the remaining <strong>{{ publisherJournalCounts.analyzed | round }}</strong> journals.
 
                                 </div>
                             </v-card-text>
+                            <v-card-text class="pt-0" v-if="!publisherUploadsDict.counter.isUploaded">
+                                You haven't yet uploaded your COUNTER JR1. You won't be able to create scenarios until you've done this.
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn small text @click="openPublisherFileUploadDialog('counter')"> Upload COUNTER data</v-btn>
+                            </v-card-actions>
                         </v-card>
                         <v-divider />
 
@@ -201,7 +207,7 @@
                                 You're using your custom uploaded title-level perpetual access list, with date ranges for each journal.
                             </v-card-text>
                             <v-card-text class="pt-0" v-if="!publisherUploadsDict['perpetual-access'].isUploaded">
-                                You're using the default, which is to assume full perpetual access for all your {{publisherName}} titles.
+                                You have full perpetual access to all {{publisherName}} titles for the last ten years.
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn small text @click="openPublisherFileUploadDialog('perpetual-access')"> Upload custom data </v-btn>
@@ -404,7 +410,7 @@
                 isUploadFileLoading: false,
                 errorMsg: "",
                 foo: false,
-                loadingPercent: 0,
+                // loadingPercent: 0,
             }
         },
         computed: {
@@ -421,6 +427,7 @@
                 "publisherIsLoading",
                 "publisherUploadsDict",
                 "publisherJournalCounts",
+                "publisherLoadingPercent",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -458,26 +465,7 @@
                 this.$router.push(url)
 
             },
-            async uploadFile() {
-                console.log("uploadFile() file", this.fileSelected)
-                this.isUploadFileLoading = true
-                const path = `package/${this.publisherId}/${this.uploadFileType}`
-                const data = {
-                    file: await toBase64(this.fileSelected),
-                    name: this.fileSelected.name,
-                    type: this.fileSelected.type,
-                    size: this.fileSelected.size,
-                }
-                try {
-                    await api.postFile(path, data)
-                } catch (e) {
-                    this.errorMsg = (e.response && e.response.data) ?
-                        e.response.data.msg :
-                        "Sorry, we encountered an unknown error!"
-                } finally {
-                    this.isUploadFileLoading = false
-                }
-            },
+
         },
 
         created() {
@@ -489,21 +477,21 @@
             this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
 
-            this.loadingPercent = 0
-            const estSecondsToLoad = 25
-            let secondsSincePageLoad = 0
-            const that = this
-            const interval = setInterval(function(){
-                if (!that.publisherIsLoading) {
-                    that.loadingPercent = 100
-                    setTimeout(()=> clearInterval(interval), 500)
-                    return
-                }
-                secondsSincePageLoad += 1
-                let secondsRemaining = estSecondsToLoad - secondsSincePageLoad
-                if (secondsRemaining < 1) secondsRemaining = 1
-                that.loadingPercent = 100 * secondsSincePageLoad / estSecondsToLoad
-            }, 1000)
+            // this.loadingPercent = 0
+            // const estSecondsToLoad = 25
+            // let secondsSincePageLoad = 0
+            // const that = this
+            // const interval = setInterval(function(){
+            //     if (!that.publisherIsLoading) {
+            //         that.loadingPercent = 100
+            //         setTimeout(()=> clearInterval(interval), 500)
+            //         return
+            //     }
+            //     secondsSincePageLoad += 1
+            //     let secondsRemaining = estSecondsToLoad - secondsSincePageLoad
+            //     if (secondsRemaining < 1) secondsRemaining = 1
+            //     that.loadingPercent = 100 * secondsSincePageLoad / estSecondsToLoad
+            // }, 1000)
 
 
         },
