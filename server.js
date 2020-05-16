@@ -22,7 +22,7 @@ app.use(serveStatic(__dirname + "/dist"));
 
 app.get('*', function (req, res) {
 
-    if (req.hostname === "unpaywall") {
+    if (req.hostname === "unpaywall.org") {
         const redirectUrl = "https://get-unsub.org" + req.path
         res.redirect(redirectUrl)
     }
