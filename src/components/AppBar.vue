@@ -104,6 +104,13 @@
                 <v-icon>mdi-help-circle-outline</v-icon>
             </v-btn>
         </div>
+
+        <template v-slot:extension v-if="showBannerContent">
+            Unpaywall is now <strong>Unsub!</strong> Same service, new name!
+            <v-btn @click="showBannerContent=false">hide</v-btn>
+        </template>
+
+
     </v-toolbar>
 </template>
 
@@ -120,6 +127,7 @@
         data() {
             return {
                 thirdBreadcrumb: null,
+                showBannerContent: true,
             }
         },
         methods: {
@@ -176,6 +184,7 @@
     .v-toolbar__extension {
         /*background: #eee;*/
         border-top: 1px solid #ddd;
+        background: blue;
     }
 
 
