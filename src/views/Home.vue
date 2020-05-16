@@ -82,7 +82,7 @@
                 <img src="../assets/logos/vassar.png" style="height: 30px;" alt="">
             </v-container>
         </v-card>
-        <v-card flat tile color="green" class="py-12">
+        <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div class="selling-point-text">
                     <h2 class="display-2">
@@ -96,14 +96,14 @@
                     </div>
                 </div>
                 <div>
-                    <img src="../assets/illustrations/gather.png" style="transform: scaleX(-1); width: 400px;" alt="">
+                    <img src="../assets/illustrations/gather.png" style="transform: scaleX(-1); width: 300px;" alt="">
                 </div>
             </div>
         </v-card>
-        <v-card flat tile color="green darken-1" class="py-12">
+        <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div>
-                    <img src="../assets/illustrations/prediction.png" style="width: 500px;" alt="">
+                    <img src="../assets/illustrations/prediction.png" style="width: 400px;" alt="">
                 </div>
                 <div class="selling-point-text">
                     <h2 class="display-2">
@@ -118,7 +118,7 @@
                 </div>
             </div>
         </v-card>
-        <v-card flat tile color="green" class="py-12">
+        <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div class="selling-point-text">
                     <h2 class="display-2">
@@ -130,14 +130,14 @@
                     </div>
                 </div>
                 <div>
-                    <img src="../assets/illustrations/customize.png" style="width: 400px;" alt="">
+                    <img src="../assets/illustrations/customize.png" style="width: 300px;" alt="">
                 </div>
             </div>
         </v-card>
-        <v-card flat tile color="green darken-1" class="py-12">
+        <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div>
-                    <img src="../assets/illustrations/presentation.png" style="width: 500px;" alt="">
+                    <img src="../assets/illustrations/presentation.png" style="width: 400px;" alt="">
                 </div>
                 <div class="selling-point-text">
                     <h2 class="display-2">
@@ -152,7 +152,7 @@
                 </div>
             </div>
         </v-card>
-        <v-card flat tile color="light-blue" style="padding: 80px 0;">
+        <v-card flat tile color="blue" style="padding: 80px 0;">
             <div class="text-center white--text display-2 mb-12">
                 Try the free demo today!
             </div>
@@ -279,16 +279,23 @@
         }
     }
 
+    .selling-point-card {
+        padding: 0;
+        margin: 0;
+    }
+
     .selling-point-container {
         display: flex;
         align-items: center;
-        margin: 30px auto;
-        max-width: 1200px;
+        justify-content: space-around;
+        margin: 0 auto;
+        padding: 75px 0;
+        max-width: 1100px;
+        border-bottom: 7px solid rgba(255, 255, 255, .15);
 
         .selling-point-text {
             color: #fff;
             max-width: 500px;
-            margin: 0 auto;
         }
     }
 
