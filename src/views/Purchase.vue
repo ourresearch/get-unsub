@@ -18,7 +18,7 @@
                         <p>
                             Unsub is a project from <a href="https://ourresearch.org">Our Research</a>, a
                             501(c)3 nonprofit. Like everything we build, Unsub is built using <a
-                                href="https://github.com/ourresearch/unpaywall-journals">Open Source code</a>, an open
+                                href="https://github.com/ourresearch/get-unsub">Open Source code</a>, an open
                             data API, and an accessible, sustainable pricing model.
 
                         </p>

@@ -27,7 +27,7 @@
                 class="text-right main-footer"
         >
             <div class="text-center" style="width:100%">
-                <a href="https://github.com/ourresearch/unpaywall-journals">Open Source,</a> made with ❤︎ by <a
+                <a href="https://github.com/ourresearch/get-unsub">Open Source,</a> made with ❤︎ by <a
                     href="https://ourresearch.org">Our Research.</a> | <a href="mailto:team@ourresearch.org">Contact</a>
             </div>
         </v-footer>
