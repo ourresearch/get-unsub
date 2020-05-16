@@ -15,22 +15,29 @@ app.use(sslRedirect());
 // https://scotch.io/tutorials/creating-a-single-page-todo-app-with-node-and-angular
 app.use(serveStatic(__dirname + "/dist"));
 
-app.get('*', function(req, res) {
-  res.sendfile('./dist/index.html');
-});
+// app.get('*', function(req, res) {
+//   res.sendfile('./dist/index.html');
+// });
 
 
-
-// redirect to https. untested yet.
 app.get('*', function (req, res) {
 
-    if (req.protocol !== "https") {
-        const redirectUrl =  "https://journals.unpaywall.org" + req.path
+    if (req.hostname === "unpaywall") {
+        const redirectUrl = "https://get-unsub.org" + req.path
         res.redirect(redirectUrl)
     }
     else {
         res.sendfile('./dist/index.html');
     }
+
+
+
+    // // redirect to https. untested yet.
+    // if (req.protocol !== "https") {
+    //     const redirectUrl =  "https://journals.unpaywall.org" + req.path
+    //     res.redirect(redirectUrl)
+    // }
+
 });
 
 const port = process.env.PORT || 5000;
