@@ -16,8 +16,8 @@
 
                     <div>
                         <p>
-                            Unpaywall Journals is a project from <a href="https://ourresearch.org">Our Research</a>, a
-                            501(c)3 nonprofit. Like everything we build, Unpaywall Journals is built using <a
+                            Unsub is a project from <a href="https://ourresearch.org">Our Research</a>, a
+                            501(c)3 nonprofit. Like everything we build, Unsub is built using <a
                                 href="https://github.com/ourresearch/unpaywall-journals">Open Source code</a>, an open
                             data API, and an accessible, sustainable pricing model.
 
@@ -27,7 +27,7 @@
                             We want all institutions to be able to afford this tool. To achieve this, we are setting the
                             introductory price at $1000/year (US dollars) -- less than the price of a single article APC
                             or single journal subscription. In return for this, your institution becomes a supporter of
-                            Open Infrastructure, a partner in Unpaywall Journals, gets an Unpaywall Journals dashboard
+                            Open Infrastructure, a partner in Unsub, gets an Unsub dashboard
                             customized to your institution. You will be able to upload your own COUNTER stats,
                             subscription history, and price lists. We'll use this information to customize the usage,
                             open access percentages, citations, authorships, and prices for your university.
@@ -210,7 +210,7 @@
             invoiceRequestBodyText() {
                 const ret = `Please send me an invoice for:
 
-Unpaywall Journals Dashboard subscription
+Unsub Dashboard subscription
 Institution: [YOUR INSTITUTION NAME]
 Billing Email: [YOUR BILLING EMAIL]
 Billing Mailing Address: [YOUR BILLING MAILING ADDRESS]

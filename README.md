@@ -1,4 +1,4 @@
-The is the source for the UI of Unpaywall Journals.
+The is the source for the UI of Unsub.
 There is a [separate repo](https://github.com/ourresearch/jump-api) for the API and backend.
 
 # unpaywall-journals

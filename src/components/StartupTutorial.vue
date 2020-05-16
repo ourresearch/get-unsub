@@ -20,7 +20,7 @@
 
                         <v-card class="pa-4">
                             <div class="headline">
-                                Welcome to Unpaywall Journals!
+                                Welcome to Unsub!
                             </div>
                             <v-divider class="my-3"></v-divider>
                             <div>
