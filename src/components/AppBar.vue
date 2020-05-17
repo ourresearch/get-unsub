@@ -106,8 +106,18 @@
         </div>
 
         <template v-slot:extension v-if="showBannerContent">
-            Unpaywall is now <strong>Unsub!</strong> Same service, new name!
-            <v-btn @click="showBannerContent=false">hide</v-btn>
+            <div class="text">
+                Unpaywall journals is now <strong> Unsub: </strong> same service, new name!
+            </div>
+            <v-spacer />
+            <v-btn text dark href="https://blog.ourresearch.org/unpaywall-journals-is-now-unsub/" target="_blank">
+                <v-icon small class="mr-2">mdi-open-in-new</v-icon>
+                Read more
+            </v-btn>
+            <v-btn text dark @click="dismissBanner">
+                <v-icon small class="mr-2">mdi-close</v-icon>
+                Dismiss
+            </v-btn>
         </template>
 
 
@@ -127,7 +137,7 @@
         data() {
             return {
                 thirdBreadcrumb: null,
-                showBannerContent: true,
+                showBannerContent: !localStorage.getItem("nameChangeBannerDismissed"),
             }
         },
         methods: {
@@ -137,6 +147,10 @@
                 this.$store.commit("clearInstitution")
                 this.$store.commit("logout")
                 this.$router.push("/")
+            },
+            dismissBanner(){
+                localStorage.setItem("nameChangeBannerDismissed", "true")
+                this.showBannerContent = false
             }
         },
         computed: {
@@ -184,7 +198,11 @@
     .v-toolbar__extension {
         /*background: #eee;*/
         border-top: 1px solid #ddd;
-        background: blue;
+        padding-right: 27px;
+        color: #fff;
+        background: #2196F3;
+        display: flex;
+        justify-content: space-between;
     }
 
 

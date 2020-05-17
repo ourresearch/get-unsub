@@ -1,7 +1,7 @@
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
 import {toHexHash} from "./util";
-import {scenarioConfigs}  from "../appConfigs"
+import scenarioConfigs  from "../appConfigs"
 
 const buildScenarioFromApiResp = function (apiResp) {
     apiResp.journals.forEach((myJournal, myIndex) => {
