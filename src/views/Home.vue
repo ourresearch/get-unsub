@@ -10,14 +10,13 @@
                 <v-col>
                     <div class="main-copy">
                         <div class="tagline">
-                            <h2 class="display-2 mb-6">
-                                Cancel journal subscriptions with confidence.
-                            </h2>
+                            <h1 class="display-2 mb-6">
+                                Unsub helps you cancel Big Deals with confidence.
+                            </h1>
                         </div>
                         <div class="about">
                             <p class="title text--secondary">
-                                Our forecast model reveals your best serials value at any price point, considering
-                                downloads, citations, open access, ala carte pricing, and more.
+                                Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles.
                             </p>
 
                         </div>
