@@ -3,11 +3,11 @@
         <v-card class="pa-3" >
             <h2 class="display-1">Help</h2>
                             <v-alert text type="info">
-                                Our help articles are currently hosted on the Knowledge Base, but will be moved here soon.
+                                Our help articles are currently hosted on the Knowledge Base.
                             </v-alert>
                             <div>
                                 <v-btn depressed
-                                       href="https://support.unpaywall.org/support/solutions/articles/44001822205-getting-started"
+                                       href="https://intercom.help/get-unsub/en"
                                        target="_blank"
                                        color="primary">
                                     visit knowledge base

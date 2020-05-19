@@ -6,7 +6,7 @@
                         <h2 class="display-1">
                             APC costs
                             <v-btn icon
-                                   href="https://support.unpaywall.org/support/solutions/articles/44001822217-page-apc-cost"
+                                   href="https://intercom.help/get-unsub/en/articles/4061189-how-do-we-calculate-your-oa-publish-spend"
                                    target="_blank">
                                 <v-icon>mdi-information-outline</v-icon>
                             </v-btn>

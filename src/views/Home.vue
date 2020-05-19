@@ -63,13 +63,13 @@
         </v-card>
         <v-card flat tile color="#555">
             <div class="text-center trusted-by white--text caption">
-                Trusted by hundreds of acadmic libraries worldwide
+                Used by hundreds of academic libraries worldwide
             </div>
             <v-container class="logos" style="border-top: 1px solid #666;">
                 <!--                <img src="../assets/logos/antwerp.png" style="height: 30px;" alt="">-->
                 <img src="../assets/logos/cern.png" style="height: 60px;" alt="">
                 <!--<img src="../assets/logos/cornell.png" style="height: 45px;" alt="">-->
-                <img src="../assets/logos/dartmouth.png" style="height: 15px;" alt="">
+<!--                <img src="../assets/logos/dartmouth.png" style="height: 15px;" alt="">-->
                 <img src="../assets/logos/duke.png" style="height: 40px;" alt="">
                 <img src="../assets/logos/imperial.png" style="height: 30px;" alt="">
                 <img src="../assets/logos/michigan.png" style="height: 30px;" alt="">
@@ -82,6 +82,17 @@
                 <img src="../assets/logos/vassar.png" style="height: 30px;" alt="">
             </v-container>
         </v-card>
+        <v-card flat tile color="blue" class="selling-point-card">
+            <div class="text-center display-3 py-12 white--text">
+                Take a guided tour
+            </div>
+            <div class="d-flex align-center justify-center">
+                    <vimeo-player ref="player" :video-id="417000352" :player-height="640" :player-width="1280"></vimeo-player>
+
+            </div>
+        </v-card>
+
+
         <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div class="selling-point-text">
@@ -201,7 +212,7 @@
 
     export default {
         name: 'home',
-        components: {vueVimeoPlayer},
+        components: {vimeoPlayer: vueVimeoPlayer},
         data() {
             return {
                 userEmail: "",

@@ -29,6 +29,7 @@
             <div class="text-center" style="width:100%">
                 <a href="https://github.com/ourresearch/get-unsub">Open Source,</a> made with ❤︎ by <a
                     href="https://ourresearch.org">Our Research.</a> | <a href="mailto:team@ourresearch.org">Contact</a>
+                | <a href="https://intercom.help/get-unsub/en" target="_blank">Help</a>
             </div>
         </v-footer>
 

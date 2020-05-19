@@ -100,7 +100,7 @@
                     </v-list-item>
                 </v-list>
             </v-menu>
-            <v-btn icon to="/support">
+            <v-btn icon href="https://intercom.help/get-unsub/en" target="_blank">
                 <v-icon>mdi-help-circle-outline</v-icon>
             </v-btn>
         </div>
