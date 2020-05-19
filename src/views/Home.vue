@@ -82,12 +82,12 @@
                 <img src="../assets/logos/vassar.png" style="height: 30px;" alt="">
             </v-container>
         </v-card>
-        <v-card flat tile color="blue" class="selling-point-card">
-            <div class="text-center display-3 py-12 white--text">
-                Take a guided tour
+        <v-card flat tile color="whites lighten-2" class="selling-point-card pb-12">
+            <div class="text-center display-3 pt-12 pb-8">
+                Take the guided tour:
             </div>
             <div class="d-flex align-center justify-center">
-                    <vimeo-player ref="player" :video-id="417000352" :player-height="640" :player-width="1280"></vimeo-player>
+                    <vimeo-player ref="player" :video-id="420183913" :player-height="640" :player-width="1280" ></vimeo-player>
 
             </div>
         </v-card>
