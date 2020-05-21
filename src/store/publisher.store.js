@@ -126,6 +126,7 @@ export const publisher = {
     },
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
+            if (id == getters.publisherId) return
             commit("startLoading")
             dispatch("fetchPublisherApcData", id),
             await dispatch("fetchPublisherMainData", id),
@@ -134,6 +135,7 @@ export const publisher = {
         },
 
         async fetchPublisherAsync({commit, dispatch, getters}, id) {
+            if (id == getters.publisherId) return
             commit("startLoading")
             await Promise.all([
                 dispatch("fetchPublisherApcData", id),
@@ -145,8 +147,6 @@ export const publisher = {
 
 
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
-            if (getters.publisherBigDealCost) return
-
             const url = `publisher/${id}`
             const resp = await api.get(url)
             resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
@@ -160,8 +160,6 @@ export const publisher = {
         },
 
         async fetchPublisherApcData({commit, state, dispatch, getters}, id) {
-            if (getters.publisherApcCost) return
-
             state.apcIsLoading = true
 
             const url = `publisher/${id}/apc`
