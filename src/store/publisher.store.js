@@ -4,6 +4,8 @@ import Vue from "vue"
 import {api} from "../api"
 import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/scenario";
 import _ from "lodash";
+import appConfigs from "../appConfigs";
+import {publisherLogoFromName} from "../shared/publisher";
 
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
@@ -263,10 +265,12 @@ export const publisher = {
             return state.selected
         },
         publisherName: (state) => {
-            if (/Elsevier/.test(state.name)) return "Elsevier"
-            if (!state.name) return "Elsevier"
             return state.name
         },
+        publisherLogo: (state) => {
+            return publisherLogoFromName(state.name)
+        },
+
         publisherId: (state)  => state.id,
         publisherJournalCounts: (state)  => state.journalCounts,
         publisherScenariosCount: (state) => state.scenarios.length,

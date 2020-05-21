@@ -212,7 +212,7 @@
                             >
                                 <v-list-item-avatar tile size="50">
                                     <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
-                                    <v-img src="https://i.imgur.com/Qt1sOqp.png"></v-img>
+                                    <v-img :src="publisherLogoFromName(pub.name)"></v-img>
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
@@ -392,6 +392,7 @@
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
     const short = require('short-uuid');
+    import {publisherLogoFromName} from "../shared/publisher";
 
     export default {
         name: "Institution",
@@ -444,11 +445,11 @@
                 })
                 return authenticatedUserPermissisonObject && authenticatedUserPermissisonObject.role === "Admin"
             },
-
         },
         methods: {
             ...mapMutations([]),
             ...mapActions([]),
+            publisherLogoFromName,
             async setRole(email, role) {
                 console.log("set role", email, role)
                 this.isRoleUpdating = true
@@ -476,7 +477,8 @@
                 document.execCommand("copy");
                 // await this.$copyText(this.newGroupMember.password)
                 this.snackbars.copySuccess = true
-            }
+            },
+
 
         },
         async mounted() {

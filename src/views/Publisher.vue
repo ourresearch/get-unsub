@@ -13,7 +13,7 @@
 
                 </div>
                 <div class="mt-3">
-                    Loading publisher {{ publisherName }}
+                    Loading publisher
                 </div>
         </div>
 
@@ -32,7 +32,7 @@
             </router-link>
             <div class="page-title mt-8 mb-4 d-flex">
                 <v-avatar tile size="60" class="mt-1 mr-3">
-                    <img height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+                    <img height="60px" :src="publisherLogo">
                 </v-avatar>
                 <div class="text">
                     <div class="body-2">
@@ -421,6 +421,7 @@
                 "publisherIsLoading",
                 "publisherUploadsDict",
                 "publisherJournalCounts",
+                "publisherLogo",
 
                 // apc stuff
                 "publisherApcPapersCount",
