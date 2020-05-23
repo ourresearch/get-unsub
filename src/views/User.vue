@@ -142,9 +142,7 @@
                                 @click="goToInstitution(insti.institution_id)"
                         >
                             <v-list-item-avatar tile>
-                                <v-icon large v-if="!/\bDemo\b/.test(insti.institution_name)">mdi-bank</v-icon>
-                                <v-img src="https://i.imgur.com/oeSIBs7.png"
-                                       v-if="/\bDemo\b/.test(insti.institution_name)"/>
+                                <v-icon large>mdi-bank</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="headline font-weight-bold">

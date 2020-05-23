@@ -57,6 +57,7 @@ export const publisher = {
                 oa: 0,
                 leftOrStopped: 0
             }
+            state.journals = []
             state.dataFiles = []
             state.bigDealCost = 0
 
@@ -80,6 +81,7 @@ export const publisher = {
                 oa: apiPublisher.journal_detail.diff_counts.diff_open_access_journals,
                 leftOrStopped: apiPublisher.journal_detail.diff_counts.diff_not_published_in_2019 + apiPublisher.journal_detail.diff_counts.diff_changed_publisher
             }
+            state.journals = apiPublisher.journals
             state.dataFiles = apiPublisher.data_files
             state.bigDealCost = apiPublisher.cost_bigdeal
         },
@@ -273,6 +275,7 @@ export const publisher = {
 
         publisherId: (state)  => state.id,
         publisherJournalCounts: (state)  => state.journalCounts,
+        publisherJournals: (state)  => state.journals,
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) =>{
             return state.scenarios.find(s => s.id === id)

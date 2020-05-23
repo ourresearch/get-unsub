@@ -30,7 +30,7 @@
                 <div class="page-title mt-8 d-flex">
                     <div class="text">
                         <div class="body-2">
-                            <span>Big Deal cancellation scenario</span>
+                            <span>{{publisherName}} forecast scenario</span>
                         </div>
                         <div class="display-2">
                             {{ scenarioName }}

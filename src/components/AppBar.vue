@@ -24,9 +24,6 @@
                    text
                    :to="`/i/${institutionId}`"
             >
-                <v-avatar tile size="40" class="mr-2" v-if="institutionIsDemo">
-                    <img src="https://i.imgur.com/oeSIBs7.png" alt="">
-                </v-avatar>
                 <span class="title font-weight-regular">
                     {{ institutionName }}
                 </span>

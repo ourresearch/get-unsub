@@ -4,8 +4,7 @@
         <div class="page-title mt-8 mb-4 d-flex">
             <div class="mt-1 mr-2">
                 <v-avatar tile size="60">
-                    <img v-if="institutionIsDemo" src="https://i.imgur.com/oeSIBs7.png" alt="">
-                    <v-icon x-large v-if="!institutionIsDemo">mdi-bank</v-icon>
+                    <v-icon x-large>mdi-bank</v-icon>
                 </v-avatar>
             </div>
             <div class="text">
