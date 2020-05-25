@@ -1,31 +1,27 @@
 <template>
     <tr>
+        <td
+                v-for="col in columns"
+                :key="col.id"
+        >
+            <span class="single-value">
+                {{col.value}}
+            </span>
+        </td>
 
     </tr>
 </template>
 
 <script>
-    import publisherConfigs from "./publisherConfigs";
+    import {makePublisherJournalRow} from "../../shared/publisher";
 
     export default {
         name: "PublisherJournalTableRow",
         props: ["journal"],
         computed: {
-            title(){
-
-            },
-            price(){
-
-            },
-            downloads(){
-
-            },
-            perpetualAccess(){
-
-            },
-            omittedBecause(){
-
-            },
+            columns(){
+                return makePublisherJournalRow(this.journal)
+            }
         },
     }
 </script>

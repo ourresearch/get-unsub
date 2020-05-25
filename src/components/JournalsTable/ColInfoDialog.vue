@@ -37,12 +37,8 @@
             close(){
                 this.$store.commit("clearColInfo")
             },
-            isColShowing(colName) {
-                return this.$store.getters.tableColsToShow.includes(colName)
-            }
         },
         computed: {
-            groupedTableHeaders: () => configs.journalColGroups,
         }
     }
 </script>

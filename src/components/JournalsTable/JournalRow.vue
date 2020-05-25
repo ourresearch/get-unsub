@@ -6,24 +6,6 @@
             @click.meta="toggleCustomSubscribed"
     >
         <td class="title-column d-flex">
-            <v-row v-if="0" class="" style="width:300px;">
-                <v-col style="flex-grow:1;">
-                    <v-btn icon text
-                           @click.stop="subscribe"
-                           v-if="!isSubscribed">
-                        <v-icon>mdi-cart-outline</v-icon>
-                    </v-btn>
-                    <v-btn icon text
-                           @click.stop="unsubscribe"
-                           v-if="isSubscribed">
-                        <v-icon>mdi-cart</v-icon>
-                    </v-btn>
-                </v-col>
-
-                <v-col style="flex-grow:222;">
-
-                </v-col>
-            </v-row>
             <div class="icon">
                 <v-icon dark small v-if="isSubscribed">mdi-cart</v-icon>
                 <v-icon color="#ddd" small v-if="!isSubscribed">mdi-cart-outline</v-icon>

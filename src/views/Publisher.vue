@@ -157,7 +157,6 @@
 
 
                     <v-card v-if="tabSelected===1">
-
                         <v-card-title>
                             <div>
                                 Article Publication Costs last year, by journal
@@ -166,9 +165,14 @@
                         </v-card-title>
                         <v-divider></v-divider>
                         <apc-tab></apc-tab>
+                    </v-card>
 
+                    <v-card v-if="tabSelected===2">
+                        <publisher-setup-tab />
+                    </v-card>
 
-
+                    <v-card v-if="tabSelected===3">
+                        <publisher-journals-tab />
                     </v-card>
 
 
@@ -198,6 +202,9 @@
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
     import PublisherFileUploadDialog from "../components/PublisherFileUpload/PublisherFileUploadDialog";
     import ApcTab from "../components/Publisher/ApcTab";
+    import PublisherJournalsTab from "../components/Publisher/PublisherJournalsTab";
+    import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
+
 
 
     export default {
@@ -206,6 +213,8 @@
             ScenarioEditDialogs,
             PublisherFileUploadDialog,
             ApcTab,
+            PublisherJournalsTab,
+            PublisherSetupTab
         },
         data() {
             return {

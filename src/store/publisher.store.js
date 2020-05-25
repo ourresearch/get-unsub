@@ -3,6 +3,7 @@ import Vue from "vue"
 
 import {api} from "../api"
 import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/scenario";
+import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
 import {publisherLogoFromName} from "../shared/publisher";
@@ -81,7 +82,9 @@ export const publisher = {
                 oa: apiPublisher.journal_detail.diff_counts.diff_open_access_journals,
                 leftOrStopped: apiPublisher.journal_detail.diff_counts.diff_not_published_in_2019 + apiPublisher.journal_detail.diff_counts.diff_changed_publisher
             }
-            state.journals = apiPublisher.journals
+            state.journals = apiPublisher.journals.map(j=>{
+                return makePublisherJournal(j)
+            })
             state.dataFiles = apiPublisher.data_files
             state.bigDealCost = apiPublisher.cost_bigdeal
         },

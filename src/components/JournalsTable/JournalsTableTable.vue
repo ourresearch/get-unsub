@@ -32,13 +32,8 @@
                                                     </v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
-
-
                                         </v-menu>
-
                                     </span>
-
-
                                 </th>
                                 <th v-for="header in tableHeaders" :key="header.value">
                                     <span class="header-width" v-html="header.textWithDownArrow"></span>
