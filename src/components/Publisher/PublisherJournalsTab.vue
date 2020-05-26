@@ -11,7 +11,10 @@
                             Can be forecasted ({{ journals.filter(j=>j.isForecastable).length | round }})
                         </template>
                     </v-checkbox>
-                    <v-checkbox v-model="showJournalsThat.isNotForecastable">
+                    <v-checkbox
+                            :indeterminate="IsNotForecastableIsIndeterminate"
+                            v-model="showJournalsThat.isNotForecastable"
+                    >
                         <template v-slot:label>
                             Cannot be forecasted ({{ journals.filter(j=>!j.isForecastable).length | round }})
                         </template>
@@ -263,6 +266,19 @@
                     return ret
                 })
             },
+            IsNotForecastableIsIndeterminate(){
+                const values = [
+                    this.showJournalsThat.isInactive,
+                    this.showJournalsThat.isMoved,
+                    this.showJournalsThat.isOa,
+                    this.showJournalsThat.isMissingPrice,
+                ]
+                const numTrue = values.filter(x=>x).length
+                console.log("numTrue", numTrue)
+                return (numTrue > 0 && numTrue < values.length)
+
+            },
+
             currentPageOfJournals() {
                 return this.sortedJournalsFiltered.slice(this.pageStartIndex, this.pageEndIndex)
             },
@@ -274,7 +290,22 @@
         },
         mounted() {
         },
-        watch: {}
+        watch: {
+            'showJournalsThat.isNotForecastable': function(to){
+                if (!to){
+                    this.showJournalsThat.isInactive = false
+                    this.showJournalsThat.isMoved = false
+                    this.showJournalsThat.isOa = false
+                    this.showJournalsThat.isMissingPrice = false
+                }
+                else {
+                    this.showJournalsThat.isInactive = true
+                    this.showJournalsThat.isMoved = true
+                    this.showJournalsThat.isOa = true
+                    this.showJournalsThat.isMissingPrice = true
+                }
+            }
+        }
     }
 </script>
 
