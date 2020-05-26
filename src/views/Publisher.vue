@@ -2,27 +2,20 @@
     <v-container class="publisher">
 
         <div
-             style="height: 85vh"
-             class="loading d-flex flex-column align-center justify-center"
-             v-if="publisherIsLoading"
+                style="height: 85vh"
+                class="loading d-flex flex-column align-center justify-center"
+                v-if="publisherIsLoading"
         >
-                <div style="width: 300px;">
-                    <v-progress-linear
-                            v-model="loadingPercent"
-                    />
+            <div style="width: 300px;">
+                <v-progress-linear
+                        v-model="loadingPercent"
+                />
 
-                </div>
-                <div class="mt-3">
-                    Loading publisher
-                </div>
+            </div>
+            <div class="mt-3">
+                Loading publisher
+            </div>
         </div>
-
-
-
-
-
-
-
 
 
         <div class="loaded" v-if="!publisherIsLoading">
@@ -58,130 +51,125 @@
                 </div>
             </v-alert>
 
+            <v-card>
 
-            <v-row v-if="!publisherIsLoading">
-                <v-col cols="2">
-                    <v-card>
-                        <v-tabs vertical v-model="tabSelected">
-                            <v-tab
-                                    v-for="tabName in tabItems"
-                                    :key="tabName"
-                            >
-                                {{tabName}}
-                            </v-tab>
-                        </v-tabs>
-                    </v-card>
-                </v-col>
-
-                <v-col cols="10">
-                    <v-card v-if="tabSelected===0">
-
-                        <v-card-title>
-                            <div>
-                                Forecast scenarios
-                                <span class="body-2">({{publisherScenarios.length}})</span>
-                            </div>
-                        </v-card-title>
-                        <v-divider></v-divider>
+                <v-tabs dark v-model="tabSelected">
+                    <v-tab
+                            v-for="tabName in tabItems"
+                            :key="tabName"
+                    >
+                        {{tabName}}
+                    </v-tab>
+                    <v-tab-item>
+                        <v-card>
+                            <v-card-title>
+                                <div>
+                                    Forecast scenarios
+                                    <span class="body-2">({{publisherScenarios.length}})</span>
+                                </div>
+                            </v-card-title>
+                            <v-divider></v-divider>
 
 
-                        <v-list>
+                            <v-list>
 
-                            <template
-                                    v-for="scenario in publisherScenarios"
-                            >
-
-                                <v-list-item
-                                        two-line
-                                        :key="scenario.id"
-                                        @click="goToScenario(scenario.id)"
-                                        :disabled="scenario.isLoading"
+                                <template
+                                        v-for="scenario in publisherScenarios"
                                 >
 
+                                    <v-list-item
+                                            two-line
+                                            :key="scenario.id"
+                                            @click="goToScenario(scenario.id)"
+                                            :disabled="scenario.isLoading"
+                                    >
 
-                                    <v-list-item-content>
-                                        <v-list-item-title
-                                                class="headline font-weight-bold"
-                                                :class="{'text--secondary': scenario.isLoading}"
-                                                v-text="scenario.saved.name"
-                                        />
-                                        <v-list-item-subtitle>
-                                            <span v-if="scenario.isLoading">Scenario loading...</span>
-                                            <span v-if="!scenario.isLoading">ID: {{scenario.id}}</span>
-                                            <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                    <v-list-item-action v-show="!scenario.isLoading">
-                                        <div>
-                                            <v-btn icon @click.stop="openCopyDialog(scenario)">
-                                                <v-icon>mdi-content-copy</v-icon>
+
+                                        <v-list-item-content>
+                                            <v-list-item-title
+                                                    class="headline font-weight-bold"
+                                                    :class="{'text--secondary': scenario.isLoading}"
+                                                    v-text="scenario.saved.name"
+                                            />
+                                            <v-list-item-subtitle>
+                                                <span v-if="scenario.isLoading">Scenario loading...</span>
+                                                <span v-if="!scenario.isLoading">ID: {{scenario.id}}</span>
+                                                <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
+                                            </v-list-item-subtitle>
+                                        </v-list-item-content>
+                                        <v-list-item-action v-show="!scenario.isLoading">
+                                            <div>
+                                                <v-btn icon @click.stop="openCopyDialog(scenario)">
+                                                    <v-icon>mdi-content-copy</v-icon>
+                                                </v-btn>
+                                                <v-btn icon @click.stop="openRenameDialog(scenario)">
+                                                    <v-icon>mdi-pencil</v-icon>
+                                                </v-btn>
+
+                                                <v-btn icon @click.stop="openDeleteDialog(scenario)">
+                                                    <v-icon>mdi-delete</v-icon>
+                                                </v-btn>
+                                            </div>
+                                        </v-list-item-action>
+                                    </v-list-item>
+
+                                </template>
+
+                                <v-fade-transition>
+                                    <v-list-item
+                                            @click="createScenario"
+                                            key="add-scenario"
+                                            :disabled="!publisherScenariosAreAllLoaded"
+                                    >
+                                        <v-list-item-avatar size="50">
+                                            <v-btn icon>
+                                                <v-icon>mdi-plus</v-icon>
                                             </v-btn>
-                                            <v-btn icon @click.stop="openRenameDialog(scenario)">
-                                                <v-icon>mdi-pencil</v-icon>
-                                            </v-btn>
+                                        </v-list-item-avatar>
 
-                                            <v-btn icon @click.stop="openDeleteDialog(scenario)">
-                                                <v-icon>mdi-delete</v-icon>
-                                            </v-btn>
-                                        </div>
-                                    </v-list-item-action>
-                                </v-list-item>
-
-                            </template>
-
-                            <v-fade-transition>
-                                <v-list-item
-                                         @click="createScenario"
-                                        key="add-scenario"
-                                        :disabled="!publisherScenariosAreAllLoaded"
-                                >
-                                    <v-list-item-avatar size="50">
-                                        <v-btn icon>
-                                            <v-icon>mdi-plus</v-icon>
-                                        </v-btn>
-                                    </v-list-item-avatar>
-
-                                    <v-list-item-content>
-                                        <v-list-item-title class="body-2 text--secondary">
-                                            New scenario
-                                        </v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-fade-transition>
+                                        <v-list-item-content>
+                                            <v-list-item-title class="body-2 text--secondary">
+                                                New scenario
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </v-fade-transition>
 
 
-                        </v-list>
+                            </v-list>
 
 
-                    </v-card>
+                        </v-card>
+                    </v-tab-item>
+
+                    <v-tab-item>
+                        <v-card>
+                            <v-card-title>
+                                <div>
+                                    Article Publication Costs last year, by journal
+                                    <span class="body-2">({{publisherScenarios.length}})</span>
+                                </div>
+                            </v-card-title>
+                            <v-divider></v-divider>
+                            <apc-tab></apc-tab>
+                        </v-card>
+                    </v-tab-item>
+
+                    <v-tab-item>
+                        <publisher-setup-tab/>
+                    </v-tab-item>
+
+                    <v-tab-item>
+                        <publisher-journals-tab/>
+                    </v-tab-item>
+
+                </v-tabs>
 
 
-                    <v-card v-if="tabSelected===1">
-                        <v-card-title>
-                            <div>
-                                Article Publication Costs last year, by journal
-                                <span class="body-2">({{publisherScenarios.length}})</span>
-                            </div>
-                        </v-card-title>
-                        <v-divider></v-divider>
-                        <apc-tab></apc-tab>
-                    </v-card>
-
-                    <v-card v-if="tabSelected===2">
-                        <publisher-setup-tab />
-                    </v-card>
-
-                    <v-card v-if="tabSelected===3">
-                        <publisher-journals-tab />
-                    </v-card>
+            </v-card>
 
 
-                </v-col>
-
-            </v-row>
         </div>
-
-
 
 
         <v-dialog v-model="uploadDialogIsOpen" max-width="500" persistent>
@@ -204,7 +192,6 @@
     import ApcTab from "../components/Publisher/ApcTab";
     import PublisherJournalsTab from "../components/Publisher/PublisherJournalsTab";
     import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
-
 
 
     export default {
@@ -274,10 +261,8 @@
                 "openDeleteDialog",
                 "openPublisherFileUploadDialog",
             ]),
-            ...mapActions([
-
-            ]),
-            createScenario(){
+            ...mapActions([]),
+            createScenario() {
                 this.$store.dispatch("createScenario")
             },
             goToScenario(scenarioId) {
@@ -321,10 +306,10 @@
             const estSecondsToLoad = 25
             let secondsSincePageLoad = 0
             const that = this
-            const interval = setInterval(function(){
+            const interval = setInterval(function () {
                 if (!that.publisherIsLoading) {
                     that.loadingPercent = 100
-                    setTimeout(()=> clearInterval(interval), 500)
+                    setTimeout(() => clearInterval(interval), 500)
                     return
                 }
                 secondsSincePageLoad += 1

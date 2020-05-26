@@ -22,6 +22,7 @@ import 'vue-css-donut-chart/dist/vcdonut.css';
 Vue.use(Donut);
 
 Vue.use(require('vue-shortkey'))
+Vue.use(require('vue-moment'));
 
 
 import VueAnalytics from 'vue-analytics'
@@ -44,6 +45,8 @@ Vue.component('v-gravatar', Gravatar);
 
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
+
+
 
 
 

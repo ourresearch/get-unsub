@@ -1,10 +1,57 @@
 <template>
     <v-card flat class="">
         <v-card-title>
-            {{publisherName}} Journals
+            {{publisherName}} Journals ({{ sortedJournalsFiltered.length }})
         </v-card-title>
+        <v-card flat class="pa-5">
+            <v-row>
+                <v-col cols="3">
+                    <v-checkbox v-model="showJournalsThat.isForecastable">
+                        <template v-slot:label>
+                            Can be forecasted ({{ journals.filter(j=>j.isForecastable).length | round }})
+                        </template>
+                    </v-checkbox>
+                    <v-checkbox v-model="showJournalsThat.isNotForecastable">
+                        <template v-slot:label>
+                            Cannot be forecasted ({{ journals.filter(j=>!j.isForecastable).length | round }})
+                        </template>
+                    </v-checkbox>
+                    <div class="ml-6">
+                        <v-checkbox v-model="showJournalsThat.isOa">
+                            <template v-slot:label>
+                                Not toll-access ({{ journals.filter(j=>j.isOa).length | round }})
+                            </template>
+                        </v-checkbox>
+                        <v-checkbox v-model="showJournalsThat.isInactive">
+                            <template v-slot:label>
+                                Ceased publishing ({{ journals.filter(j=>j.isInactive).length | round }})
+                            </template>
+                        </v-checkbox>
+                        <v-checkbox v-model="showJournalsThat.isMoved">
+                            <template v-slot:label>
+                                Moved publishers ({{ journals.filter(j=>j.isMoved).length | round }})
+                            </template>
+                        </v-checkbox>
+                        <v-checkbox v-model="showJournalsThat.isMissingPrice">
+                            <template v-slot:label>
+                                No price ({{ journals.filter(j=>j.isMissingPrice).length | round }})
+                            </template>
+                        </v-checkbox>
+                    </div>
+                </v-col>
+                <v-col cols="9">
+                    <publisher-journal-tile
+                        v-for="journal in currentPageOfJournals"
+                        :key="journal.issnl"
+                        :journal="journal"
+                    />
+                </v-col>
+            </v-row>
+        </v-card>
+
+
         <v-divider/>
-        <v-card flat class="main-card">
+        <v-card v-if="0" flat class="main-card">
             <div class="table-wrapper">
                 <div class="table-portal">
                     <table>
@@ -57,7 +104,7 @@
             <v-spacer></v-spacer>
             <div>
                 {{pageStartIndex + 1}} &ndash; {{pageEndIndex}}
-                of {{journals.length}}
+                of {{sortedJournalsFiltered.length}}
                 <v-btn icon :disabled="isFirstPage" @click="pageBack">
                     <v-icon>mdi-chevron-left</v-icon>
                 </v-btn>
@@ -76,14 +123,17 @@
     import _ from "lodash"
     import appConfigs from "../../appConfigs";
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {makePublisherJournalRow} from "../../shared/publisher";
     import {publisherJournalColumns} from "../../shared/publisher";
     import PublisherJournalTableRow from "./PublisherJournalTableRow";
+    import PublisherJournalTile from "./PublisherJournalTile";
 
 
     export default {
         name: "PublisherJournalsTab",
-        components: {PublisherJournalTableRow},
+        components: {
+            PublisherJournalTableRow,
+            PublisherJournalTile,
+        },
         props: {
         },
         data() {
@@ -96,6 +146,14 @@
                 sortType: "text",
                 pageSize: 100,
                 showAddColsDialog: false,
+                showJournalsThat: {
+                    isForecastable: true,
+                    isNotForecastable: true,
+                    isInactive: true,
+                    isMoved: true,
+                    isOa: true,
+                    isMissingPrice: true
+                }
 
             }
         },
@@ -184,11 +242,33 @@
                 return [...this.journals].sort(fn)
             },
             sortedJournalsFiltered() {
-                return this.sortedJournals.filter(j => !j.isHiddenByFilters)
+                return this.sortedJournals.filter(j => {
+                    if (!this.showJournalsThat.isInactive && j.isInactive) return false
+                    if (!this.showJournalsThat.isMoved && j.isMoved) return false
+                    if (!this.showJournalsThat.isOa && j.isOa) return false
+                    if (!this.showJournalsThat.isMissingPrice && j.isMissingPrice) return false
+                    if (!this.showJournalsThat.isForecastable && j.isForecastable) return false
+
+                    return true
+
+
+                    let ret = true
+                    // if (j.isInactive)
+
+                    // Object.entries(this.showJournalsThat).forEach(([attr, show]) => {
+                    //     if (j[attr] !== show){
+                    //         ret = false
+                    //     }
+                    // })
+                    return ret
+                })
             },
             currentPageOfJournals() {
                 return this.sortedJournalsFiltered.slice(this.pageStartIndex, this.pageEndIndex)
-            }
+            },
+
+
+
         },
         created() {
         },

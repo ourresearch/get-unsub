@@ -88,7 +88,24 @@ const makePublisherJournalRow = function(publisherJournal) {
 
 const makePublisherJournal = function(apiJournal){
 
-    const price = apiJournal.attributes.public_price || apiJournal.upload_data.price
+    let price
+    let priceSource
+    if (apiJournal.upload_data.price) {
+        price = apiJournal.upload_data.price
+        priceSource = "custom"
+    }
+    else {
+        price = apiJournal.attributes.public_price
+        priceSource = "public"
+    }
+
+    let paSource = "default"
+    const paStart = apiJournal.upload_data.perpetual_access_dates[0]
+    const paEnd = apiJournal.upload_data.perpetual_access_dates[1]
+    if (paStart || paEnd){
+        paSource = "custom"
+    }
+
 
     const omittedBecause = []
     if (apiJournal.attributes.changed_publisher) {
@@ -104,15 +121,32 @@ const makePublisherJournal = function(apiJournal){
         omittedBecause.push("No Price")
     }
 
+    const isInactive = apiJournal.attributes.not_published_in_2019
+    const isMoved = apiJournal.attributes.changed_publisher
+    const isOa = apiJournal.attributes.is_oa
+    const isMissingPrice = !price && !isInactive && !isMoved && !isOa
+    const isForecastable = (!isInactive && !isMoved && !isOa && !isMissingPrice)
+    const isNotForecastable = !!isForecastable
+
+
 
     return {
         issnl: apiJournal.issn_l,
         name: apiJournal.name,
-        price: price,
+        price,
+        priceSource,
         downloads: apiJournal.upload_data.counter_downloads,
-        paStart: apiJournal.upload_data.perpetual_access_dates[0],
-        paEnd: apiJournal.upload_data.perpetual_access_dates[1],
-        omittedBecause: omittedBecause,
+        paStart,
+        paEnd,
+        paSource,
+
+        omittedBecause,
+        isInactive,
+        isMoved,
+        isOa,
+        isMissingPrice,
+        isForecastable,
+        isNotForecastable,
     }
 
 }
