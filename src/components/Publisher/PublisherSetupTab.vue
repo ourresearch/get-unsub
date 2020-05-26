@@ -58,31 +58,29 @@
                 </div>
             </v-col>
             <v-col>
-                <div class="option-row d-flex align-start mb-6">
-                    <v-icon class="pa-2">mdi-radiobox-marked</v-icon>
-                    <div class="text">
-                        <div class="title">
-                            Public pricelist
-                        </div>
-                        <div class="body-2">
-                            Prices from the {{publisherName}} public pricelist, as posted online.
-                        </div>
-                    </div>
-                    <v-spacer></v-spacer>
-                </div>
-                <div class="option-row d-flex align-start">
-                    <v-icon class="pa-2">mdi-radiobox-blank</v-icon>
-                    <div class="text">
-                        <div class="title">
-                            Custom pricelist
-                        </div>
-                        <div class="body-2">
-                            Prices from a spreadsheet you upload.
-                        </div>
-                    </div>
-                    <v-spacer></v-spacer>
-                    <v-btn outlined disabled>Upload</v-btn>
-                </div>
+                <v-radio-group v-model="pricesSource">
+                    <v-radio value="default">
+                        <template v-slot:label>
+                            <div class="title">
+                                Public pricelist
+                            </div>
+                            <div class="body-2">
+                                Prices from the {{publisherName}} public pricelist, as posted online.
+                            </div>
+                        </template>
+                    </v-radio>
+                    <v-radio value="custom">
+                        <template v-slot:label>
+                            <div class="title">
+                                Custom pricelist
+                            </div>
+                            <div class="body-2">
+                                Prices from a spreadsheet you upload.
+                            </div>
+                        </template>
+                    </v-radio>
+                </v-radio-group>
+
             </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -93,35 +91,35 @@
                     Perpetual Access dates
                 </div>
                 <div class="body-2">
-                    Each journal's date ranges for which you have perpetual access to articles. Only dates after 2010 affect forecasting.
+                    Each journal's date ranges for which you have perpetual access to articles. Only dates after 2010
+                    affect forecasting.
                 </div>
             </v-col>
             <v-col>
-                <div class="option-row d-flex align-start mb-6">
-                    <v-icon class="pa-2">mdi-radiobox-marked</v-icon>
-                    <div class="text">
-                        <div class="title">
-                            Full perpetual access
-                        </div>
-                        <div class="body-2">
-                            You have perpetual access to all {{publisherName}} backfile content published since 2010.
-                        </div>
-                    </div>
-                    <v-spacer></v-spacer>
-                </div>
-                <div class="option-row d-flex align-start">
-                    <v-icon class="pa-2">mdi-radiobox-blank</v-icon>
-                    <div class="text">
-                        <div class="title">
-                            Partial perpetual access
-                        </div>
-                        <div class="body-2">
-                            You lack post-2010 perpetual access for some journals. Perpetual access date ranges, by journal, are taken from a spreadsheet you've uploaded.
-                        </div>
-                    </div>
-                    <v-spacer></v-spacer>
-                    <v-btn outlined disabled>Upload</v-btn>
-                </div>
+                <v-radio-group v-model="paSource">
+                    <v-radio value="default">
+                        <template v-slot:label>
+                            <div class="title">
+                                Full perpetual access
+                            </div>
+                            <div class="body-2">
+                                You have perpetual access to all {{publisherName}} backfile content published since
+                                2010.
+                            </div>
+                        </template>
+                    </v-radio>
+                    <v-radio value="custom">
+                        <template v-slot:label>
+                            <div class="title">
+                                Partial perpetual access
+                            </div>
+                            <div class="body-2">
+                                You lack post-2010 perpetual access for some journals. Perpetual access date ranges, by
+                                journal, are taken from a spreadsheet you've uploaded.
+                            </div>
+                        </template>
+                    </v-radio>
+                </v-radio-group>
             </v-col>
         </v-row>
 
@@ -144,7 +142,10 @@
         components: {},
         props: {},
         data() {
-            return {}
+            return {
+                pricesSource: "default",
+                paSource: "default",
+            }
         },
         methods: {},
         computed: {
@@ -161,6 +162,16 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss">
+
+    .v-radio {
+        align-items: flex-start;
+        padding: 0 0 20px 0;
+    }
+
+    .v-input--selection-controls .v-radio > .v-label {
+        display: block;
+        margin-top: -7px;
+    }
 
 </style>
