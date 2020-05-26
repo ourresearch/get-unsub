@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-dialog v-model="isOpen" max-width="400">
+        <v-dialog v-model="isOpen" max-width="600" persistent>
             <v-card v-if="isOpen">
                 <v-card-title class="headline">
                     <div>
@@ -11,36 +11,18 @@
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <v-alert type="info" text icon="mdi-information-outline">
-                        <div v-if="publisherFileUploadDialogFileType==='prices'">
-                            We'll be launching self-serve editing of custom pricelists soon. In the meantime, please
-                            email us your custom pricelist, in spreadsheet format. The spreadsheet just needs two
-                            columns: <code>ISSN</code> and <code>Price</code>.
-                        </div>
-                        <div v-if="publisherFileUploadDialogFileType==='perpetual-access'">
-                            We'll be launching self-serve editing of custom perpetual access dates soon. In the
-                            meantime, please email us your custom perpetual access date ranges, in spreadsheet format.
-                            The spreadsheet just needs three columns: <code>ISSN</code>, <code>Start date</code>, and
-                            <code>End date</code>.
-                        </div>
-                    </v-alert>
-                </v-card-text>
-
-
-                <v-card-text v-if="0">
-                    <v-alert
-                            :value="!!errorMsg && !!fileSelected"
-                            type="error"
-                            icon="mdi-alert"
-                            transition="slide-x-transition"
-                    >
-                        <span class="body-2" v-html="errorMsg"/>
-                    </v-alert>
-                    <div class="descr">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-                        voluptate velit esse cillum dolore eu fugiat nulla pariatur
+                    <div v-if="publisherFileUploadDialogFileType==='prices'">
+                        Upload your title-level pricelist as a spreadsheet with two columns:<code>ISSN</code> and
+                        <code>Price</code>.
+                    </div>
+                    <div v-if="publisherFileUploadDialogFileType==='perpetual-access'">
+                        Upload your perpetual access dates as a spreadsheet with three columns: <code>ISSN</code>,
+                        <code>Start date</code>, and
+                        <code>End date</code>. You can ignore any dates before 10yrs ago, as these are not
+                        considered in the forecasting model.
+                    </div>
+                    <div v-if="publisherFileUploadDialogFileType==='counter'">
+                        Upload your COUNTER JR1 file:
                     </div>
                     <div>
                         <v-file-input
@@ -51,9 +33,12 @@
                                 v-model="fileSelected"
                                 :disabled="isUploadFileLoading"
                                 @change="errorMsg=''"
+                                :error-messages="errorMsg"
                         />
                     </div>
                 </v-card-text>
+
+
 
 
                 <v-card-actions>
@@ -61,15 +46,16 @@
                     <v-btn
                             :disabled="isUploadFileLoading"
                             depressed
-                            @click="closePublisherFileUploadDialog"
+                            @click="close"
                     >
                         <v-icon>mdi-close</v-icon>
                         Cancel
                     </v-btn>
                     <v-btn
+                            v-if="0"
                             depressed
                             color="primary"
-                            @click="closePublisherFileUploadDialog"
+                            @click="close"
                             href="mailto:team@ourresearch.org"
                             target="_blank"
                     >
@@ -79,12 +65,11 @@
 
 
                     <v-btn
-                            v-if="0"
                             depressed
                             @click="uploadFile"
                             color="primary"
                             :loading="isUploadFileLoading"
-                            :disabled="isUploadFileLoading || !fileSelected"
+                            :disabled="!fileSelected"
                     >
                         <v-icon>mdi-upload</v-icon>
                         Upload
@@ -116,14 +101,17 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {api, toBase64} from "../../api";
 
     export default {
         name: "PublisherFileUploadDialog",
-        props: {
-        },
+        props: {},
         data() {
             return {
                 isUploadFileLoading: false, // temporary to silence console errors
+                fileSelected: null,
+                errorMsg: null,
+
             }
         },
         computed: {
@@ -133,22 +121,50 @@
                 "publisherFileUploadDialogFileSelected",
                 "publisherFileUploadDialogIsLoading",
                 "publisherFileUploadDialogErrorMsg",
+
+                "publisherId",
             ]),
             isOpen: {
-                get: function(){
+                get: function () {
                     return this.$store.getters.publisherFileUploadDialogIsOpen
                 },
-                set: function(){
+                set: function () {
                     // from within the component, you can only close, not open, so only need to handle that.
-                    this.$store.commit("closePublisherFileUploadDialog")
+                    this.close()
                 }
             }
         },
         methods: {
             ...mapActions([]),
             ...mapMutations([
-                "closePublisherFileUploadDialog",
             ]),
+            close(){
+                this.$store.commit("closePublisherFileUploadDialog")
+                this.errorMsg = null
+                this.fileSelected = null
+            },
+            async uploadFile() {
+                console.log("uploadFile() file", this.fileSelected)
+                this.isUploadFileLoading = true
+                const path = `publisher/${this.publisherId}/${this.publisherFileUploadDialogFileType}`
+                const data = {
+                    file: await toBase64(this.fileSelected),
+                    name: this.fileSelected.name,
+                    type: this.fileSelected.type,
+                    size: this.fileSelected.size,
+                }
+                try {
+                    await api.postFile(path, data)
+                    this.close()
+                    this.$store.dispatch("reloadPublisher")
+                } catch (e) {
+                    this.errorMsg = (e.response && e.response.data && e.response.data.message) ?
+                        e.response.data.message :
+                        "Sorry, we encountered an unknown error!"
+                } finally {
+                    this.isUploadFileLoading = false
+                }
+            },
 
         }
     }
