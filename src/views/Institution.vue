@@ -448,7 +448,10 @@
         methods: {
             ...mapMutations([]),
             ...mapActions([]),
-            publisherLogoFromName,
+            publisherLogoFromName(name){
+                console.log("publisherLogoFromName")
+                return publisherLogoFromName(name)
+            },
             async setRole(email, role) {
                 console.log("set role", email, role)
                 this.isRoleUpdating = true

@@ -53,7 +53,7 @@
 
             <v-card>
 
-                <v-tabs dark v-model="tabSelected">
+                <v-tabs dark >
                     <v-tab
                             v-for="tabName in tabItems"
                             :key="tabName"
@@ -172,10 +172,6 @@
         </div>
 
 
-        <v-dialog v-model="uploadDialogIsOpen" max-width="500" persistent>
-
-        </v-dialog>
-
         <publisher-file-upload-dialog
         />
 
@@ -205,10 +201,7 @@
         },
         data() {
             return {
-                uploadDialogIsOpen: false,
-                uploadFileType: "",
                 fileSelected: null,
-                isUploadFileLoading: false,
                 errorMsg: "",
                 foo: false,
                 loadingPercent: 0,
@@ -270,26 +263,6 @@
                 console.log("go to scenario!", url)
                 this.$router.push(url)
 
-            },
-            async uploadFile() {
-                console.log("uploadFile() file", this.fileSelected)
-                this.isUploadFileLoading = true
-                const path = `package/${this.publisherId}/${this.uploadFileType}`
-                const data = {
-                    file: await toBase64(this.fileSelected),
-                    name: this.fileSelected.name,
-                    type: this.fileSelected.type,
-                    size: this.fileSelected.size,
-                }
-                try {
-                    await api.postFile(path, data)
-                } catch (e) {
-                    this.errorMsg = (e.response && e.response.data) ?
-                        e.response.data.msg :
-                        "Sorry, we encountered an unknown error!"
-                } finally {
-                    this.isUploadFileLoading = false
-                }
             },
         },
 
