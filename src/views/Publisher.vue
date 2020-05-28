@@ -172,10 +172,6 @@
         </div>
 
 
-        <publisher-file-upload-dialog
-        />
-
-
         <scenario-edit-dialogs/>
     </v-container>
 </template>
@@ -267,6 +263,9 @@
         },
 
         created() {
+        },
+        watch() {
+
         },
         mounted() {
             console.log("publisher: mount up", this.$route.params)

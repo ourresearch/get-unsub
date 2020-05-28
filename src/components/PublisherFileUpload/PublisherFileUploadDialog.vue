@@ -1,27 +1,25 @@
 <template>
-    <div>
-        <v-dialog v-model="isOpen" max-width="600" persistent>
-            <v-card v-if="isOpen">
+            <v-card>
                 <v-card-title class="headline">
                     <div>
                         Upload
-                        <span v-if="publisherFileUploadDialogFileType==='counter'"> COUNTER file</span>
-                        <span v-if="publisherFileUploadDialogFileType==='prices'"> Custom journals prices</span>
-                        <span v-if="publisherFileUploadDialogFileType==='perpetual-access'"> Perpetual access dates</span>
+                        <span v-if="fileType==='counter'"> COUNTER file</span>
+                        <span v-if="fileType==='prices'"> Custom journals prices</span>
+                        <span v-if="fileType==='perpetualAccess'"> Perpetual access dates</span>
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <div v-if="publisherFileUploadDialogFileType==='prices'">
+                    <div v-if="fileType==='prices'">
                         Upload your title-level pricelist as a spreadsheet with two columns:<code>ISSN</code> and
                         <code>Price</code>.
                     </div>
-                    <div v-if="publisherFileUploadDialogFileType==='perpetual-access'">
+                    <div v-if="fileType==='perpetualAccess'">
                         Upload your perpetual access dates as a spreadsheet with three columns: <code>ISSN</code>,
                         <code>Start date</code>, and
                         <code>End date</code>. You can ignore any dates before 10yrs ago, as these are not
                         considered in the forecasting model.
                     </div>
-                    <div v-if="publisherFileUploadDialogFileType==='counter'">
+                    <div v-if="fileType==='counter'">
                         Upload your COUNTER JR1 file:
                     </div>
                     <div>
@@ -46,7 +44,7 @@
                     <v-btn
                             :disabled="isUploadFileLoading"
                             depressed
-                            @click="close"
+                            @click="cancel"
                     >
                         <v-icon>mdi-close</v-icon>
                         Cancel
@@ -80,32 +78,23 @@
             </v-card>
 
 
-        </v-dialog>
 
 
-        <v-snackbar
-                v-if="false"
-                v-model="isDeleteSnackbarOpen"
-                :timeout="3000"
-                bottom left
-        >
-            Scenario deleted
-            <v-btn dark icon @click="isDeleteSnackbarOpen = false">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-        </v-snackbar>
 
 
-    </div>
 </template>
 
 <script>
+    import _ from "lodash"
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {api, toBase64} from "../../api";
 
+
     export default {
         name: "PublisherFileUploadDialog",
-        props: {},
+        props: {
+            "fileType": String,
+        },
         data() {
             return {
                 isUploadFileLoading: false, // temporary to silence console errors
@@ -116,37 +105,30 @@
         },
         computed: {
             ...mapGetters([
-                "publisherFileUploadDialogIsOpen",
-                "publisherFileUploadDialogFileType",
-                "publisherFileUploadDialogFileSelected",
-                "publisherFileUploadDialogIsLoading",
-                "publisherFileUploadDialogErrorMsg",
-
                 "publisherId",
             ]),
-            isOpen: {
-                get: function () {
-                    return this.$store.getters.publisherFileUploadDialogIsOpen
-                },
-                set: function () {
-                    // from within the component, you can only close, not open, so only need to handle that.
-                    this.close()
-                }
-            }
         },
         methods: {
             ...mapActions([]),
             ...mapMutations([
             ]),
             close(){
-                this.$store.commit("closePublisherFileUploadDialog")
                 this.errorMsg = null
                 this.fileSelected = null
+            },
+            cancel(){
+                this.close()
+                this.$emit("cancel")
+            },
+            closeSuccessfully(){
+                this.close()
+                this.$emit("success")
             },
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
                 this.isUploadFileLoading = true
-                const path = `publisher/${this.publisherId}/${this.publisherFileUploadDialogFileType}`
+                const snakeCaseFileType = _.snakeCase(this.fileType)
+                const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
                 const data = {
                     file: await toBase64(this.fileSelected),
                     name: this.fileSelected.name,

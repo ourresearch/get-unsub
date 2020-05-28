@@ -294,12 +294,14 @@ export const publisher = {
         publisherUploadsDict: (state) =>{
             const ret = {}
             state.dataFiles.forEach(f => {
-                ret[f.name] = {
+                const camelCaseName = _.camelCase(f.name)
+                ret[camelCaseName] = {
                     isUploaded: f.uploaded
                 }
             })
             return ret
         },
+        publisherCounterIsUploaded: (state) => state.dataFiles.includes(f => f.name==='counter' && f.uploaded),
 
 
 

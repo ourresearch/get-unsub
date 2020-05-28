@@ -19,112 +19,104 @@
                         {{publisherBigDealCost | currency}}
                     </div>
                     <v-spacer></v-spacer>
-                    <v-btn outlined>Edit</v-btn>
+                    <v-btn text>Edit</v-btn>
                 </div>
             </v-col>
         </v-row>
         <v-divider></v-divider>
-        <v-row class="section py-6">
-            <v-col cols="4">
-                <div class="title">
-                    Download counts
-                </div>
-                <div class="body-2">
-                    Your 2019 COUNTER report
-                </div>
-            </v-col>
-            <v-col>
-                <div class="option-row d-flex">
-                    <v-icon class="px-2 pt-0">mdi-alert</v-icon>
-                    <div class="text">
-                        <div class="title">
-                            Missing
-                        </div>
+
+        <template v-for="fileConfig in fileConfigs">
+            <v-row class="section py-6" :key="fileConfig.id">
+                <v-col cols="4">
+                    <div class="title">
+                        {{fileConfig.displayName}}
                     </div>
-                    <v-spacer></v-spacer>
-                    <v-btn outlined>Upload</v-btn>
-                </div>
-            </v-col>
-        </v-row>
-        <v-divider></v-divider>
+                    <div class="body-2">
+                        {{ fileConfig.descr }}
+                    </div>
+                </v-col>
+                <v-col>
+                    <v-row class="option-row d-flex align-start" v-if="!publisherUploadsDict[fileConfig.id].isUploaded">
+                        <v-icon class="px-2 pt-1">{{fileConfig.options.default.icon}}</v-icon>
+                        <div class="text" style="max-width: 500px;">
+                            <div class="title">
+                                {{fileConfig.options.default.heading}}
+                                <span class="body-2 font-weight-bold">(default)</span>
+                            </div>
+                            <div class="body-2">
+                                {{fileConfig.options.default.body}}
+                            </div>
+                            <div class="body-2">
+                                {{fileConfig.options.default.cta}}
+                            </div>
+                        </div>
+                        <v-spacer />
+                        <div>
+                            <v-btn text @click="uploadFileDialogOpen(fileConfig.id)">Upload</v-btn>
+                        </div>
+                    </v-row>
 
-        <v-row class="section py-6">
-            <v-col cols="4">
-                <div class="title">
-                    A-la-carte prices
-                </div>
-                <div class="body-2">
-                    Each journal's cost of individual subscription.
-                </div>
-            </v-col>
-            <v-col>
-                <v-radio-group v-model="pricesSource">
-                    <v-radio value="default">
-                        <template v-slot:label>
+                    <v-row class="option-row d-flex align-start" v-if="publisherUploadsDict[fileConfig.id].isUploaded">
+                        <v-icon class="px-2 pt-1">{{fileConfig.options.custom.icon}}</v-icon>
+                        <div class="text" style="max-width: 500px;">
                             <div class="title">
-                                Public pricelist
+                                {{fileConfig.options.custom.heading}}
                             </div>
                             <div class="body-2">
-                                Prices from the {{publisherName}} public pricelist, as posted online.
+                                {{fileConfig.options.custom.body}}
                             </div>
-                        </template>
-                    </v-radio>
-                    <v-radio value="custom">
-                        <template v-slot:label>
-                            <div class="title">
-                                Custom pricelist
-                            </div>
-                            <div class="body-2">
-                                Prices from a spreadsheet you upload.
-                            </div>
-                        </template>
-                    </v-radio>
-                </v-radio-group>
+                        </div>
+                        <v-spacer></v-spacer>
+                        <v-btn
+                                icon
+                                :loading="isDeleteFileLoading"
+                                @click="deleteFile(fileConfig.id)"
+                        >
+                            <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                    </v-row>
+                </v-col>
+            </v-row>
+            <v-divider></v-divider>
+        </template>
 
-            </v-col>
-        </v-row>
-        <v-divider></v-divider>
 
-        <v-row class="section py-6">
-            <v-col cols="4">
-                <div class="title">
-                    Perpetual Access dates
-                </div>
-                <div class="body-2">
-                    Each journal's date ranges for which you have perpetual access to articles. Only dates after 2010
-                    affect forecasting.
-                </div>
-            </v-col>
-            <v-col>
-                <v-radio-group v-model="paSource">
-                    <v-radio value="default">
-                        <template v-slot:label>
-                            <div class="title">
-                                Full perpetual access
-                            </div>
-                            <div class="body-2">
-                                You have perpetual access to all {{publisherName}} backfile content published since
-                                2010.
-                            </div>
-                        </template>
-                    </v-radio>
-                    <v-radio value="custom">
-                        <template v-slot:label>
-                            <div class="title">
-                                Partial perpetual access
-                            </div>
-                            <div class="body-2">
-                                You lack post-2010 perpetual access for some journals. Perpetual access date ranges, by
-                                journal, are taken from a spreadsheet you've uploaded.
-                            </div>
-                        </template>
-                    </v-radio>
-                </v-radio-group>
-            </v-col>
-        </v-row>
+        <v-dialog
+                persistent
+                v-model="dialogs.uploadFile"
+                max-width="600"
+        >
+            <publisher-file-upload-dialog
+                    :file-type="uploadFileType"
+                    @cancel="uploadFileDialogCancel"
+                    @success="uploadFileDialogSuccess"
+            />
+        </v-dialog>
+        <v-snackbar
+                v-model="snackbars.uploadSuccess"
+                :timeout="3000"
+                bottom left
+        >
+            File uploaded
+            <v-btn dark icon @click="snackbars.uploadSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+        <v-snackbar
+                v-model="snackbars.deleteSuccess"
+                :timeout="3000"
+                bottom left
+        >
+            File deleted
+            <v-btn dark icon @click="snackbars.deleteSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
 
 
     </v-card>
+
+
 </template>
 
 
@@ -132,26 +124,63 @@
     import _ from "lodash"
     import appConfigs from "../../appConfigs";
     import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {makePublisherJournalRow} from "../../shared/publisher";
-    import {publisherJournalColumns} from "../../shared/publisher";
-    import PublisherJournalTableRow from "./PublisherJournalTableRow";
+    import {api} from "../../api";
+    import PublisherFileUploadDialog from "../PublisherFileUpload/PublisherFileUploadDialog";
+    import publisherFileUploadConfigs from "../PublisherFileUpload/publisherFileUploadConfigs";
 
 
     export default {
         name: "PublisherSetupTab",
-        components: {},
+        components: {
+            PublisherFileUploadDialog,
+        },
         props: {},
         data() {
             return {
-                pricesSource: "default",
-                paSource: "default",
+                dialogs: {
+                    uploadFile: false,
+                },
+                snackbars: {
+                    uploadSuccess: false,
+                    deleteSuccess: false
+                },
+                uploadFileType: null,
+                fileConfigs: publisherFileUploadConfigs,
+
+                isDeleteFileLoading: false,
+
             }
         },
-        methods: {},
+        methods: {
+            uploadFileDialogSuccess() {
+                this.uploadFileType = null
+                this.dialogs.uploadFile = false
+                this.snackbars.uploadSuccess = true
+            },
+            uploadFileDialogCancel() {
+                this.uploadFileType = null
+                this.dialogs.uploadFile = false
+            },
+            uploadFileDialogOpen(fileType, deleteFile) {
+                this.uploadFileType = fileType
+                this.dialogs.uploadFile = true
+            },
+            async deleteFile(fileType) {
+                this.isDeleteFileLoading = true
+                const path = `publisher/${this.publisherId}/${fileType}`
+                console.log("delete, using this page", path, this.publisherId)
+                await api.delete(path)
+                this.isDeleteFileLoading = false
+                this.snackbars.deleteSuccess = true
+
+            },
+        },
         computed: {
             ...mapGetters([
                 "publisherName",
+                "publisherId",
                 "publisherBigDealCost",
+                "publisherUploadsDict",
             ]),
         },
         created() {
