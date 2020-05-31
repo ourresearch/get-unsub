@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 import {publisher} from "./publisher.store.js"
 import {scenario} from "./scenario.store"
 import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEditDialogsStore";
-import {publisherFileUploadDialog} from "../components/PublisherFileUpload/PublisherFileUploadDialog.store";
 import {institution} from "./institution.store";
 import {user} from "./user.store";
 import configs from "../appConfigs"
@@ -45,7 +44,6 @@ export default new Vuex.Store({
     },
     modules: {
         scenarioEditDialogs,
-        publisherFileUploadDialog,
         institution,
         user,
         publisher,

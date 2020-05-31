@@ -1,6 +1,6 @@
 import {api} from "../api";
 import {sleep} from "../shared/util";
-import router from "../router"
+import router from "../components/router"
 
 
 export const user = {

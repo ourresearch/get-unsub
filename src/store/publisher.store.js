@@ -6,6 +6,7 @@ import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/sc
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
+import publisherFileConfigs from "../components/PublisherFile/publisherFileConfigs";
 import {publisherLogoFromName} from "../shared/publisher";
 
 // https://www.npmjs.com/package/short-uuid
@@ -135,17 +136,27 @@ export const publisher = {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (id == getters.publisherId) return
             commit("startLoading")
-            dispatch("fetchPublisherApcData", id),
+            // dispatch("fetchPublisherApcData", id),
             await dispatch("fetchPublisherMainData", id),
             commit("finishLoading")
             return
         },
+        async refreshPublisher({commit, dispatch, getters}) {
+            commit("startLoading")
+            // dispatch("fetchPublisherApcData", getters.publisherId),
+            await dispatch("fetchPublisherMainData", getters.publisherId),
+            commit("finishLoading")
+            return
+        },
+
+
+
 
         async fetchPublisherAsync({commit, dispatch, getters}, id) {
             if (id == getters.publisherId) return
             commit("startLoading")
             await Promise.all([
-                dispatch("fetchPublisherApcData", id),
+                // dispatch("fetchPublisherApcData", id),
                 dispatch("fetchPublisherMainData", id),
             ])
             commit("finishLoading")
@@ -301,6 +312,25 @@ export const publisher = {
             })
             return ret
         },
+
+        publisherFiles: (state) => {
+            return publisherFileConfigs.map(f => {
+                const kebabCaseId = _.kebabCase(f.id)
+                console.log("looking for this?", kebabCaseId, state.dataFiles)
+                const fileState = state.dataFiles.find(df => df.name === kebabCaseId)
+                const ret = {...f}
+                if (fileState.uploaded) {
+                    ret.options[0].isSelected = false
+                    ret.options[1].isSelected = true
+                }
+                else {
+                    ret.options[0].isSelected = true
+                    ret.options[1].isSelected = false
+                }
+                return ret
+            })
+        },
+
         publisherCounterIsUploaded: (state) => state.dataFiles.includes(f => f.name==='counter' && f.uploaded),
 
 

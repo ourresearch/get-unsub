@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Purchase from '../views/Purchase'
-import PurchaseResult from '../views/PurchaseResult'
-import Login from '../views/Login'
-import Support from '../views/Support'
-import Publisher from "../views/Publisher";
-import User from "../views/User"
-import Institution from "../views/Institution";
+import Home from '../../views/Home.vue'
+import Purchase from '../../views/Purchase'
+import PurchaseResult from '../../views/PurchaseResult'
+import Login from '../../views/Login'
+import Support from '../../views/Support'
+import Publisher from "../../views/Publisher";
+import User from "../../views/User"
+import Institution from "../../views/Institution";
 
 
-import Scenario from "../views/Scenario"
-import PublisherApcs from "../views/PublisherApcs";
+import Scenario from "../../views/Scenario"
+import PublisherApcs from "../../views/PublisherApcs";
 
-import store from '../store/index.js'
+import store from '../../store'
 
 Vue.use(VueRouter)
 

@@ -4,7 +4,7 @@
         <div
                 style="height: 85vh"
                 class="loading d-flex flex-column align-center justify-center"
-                v-if="publisherIsLoading"
+                v-if="loadingPercent < 100"
         >
             <div style="width: 300px;">
                 <v-progress-linear
@@ -18,7 +18,7 @@
         </div>
 
 
-        <div class="loaded" v-if="!publisherIsLoading">
+        <div class="loaded" v-if="loadingPercent === 100">
             <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}`">
                 <strong>‹</strong>
                 Back <span v-if="institutionName">to {{institutionName}}</span>
@@ -180,10 +180,10 @@
     import {api, toBase64} from "../api";
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
-    import PublisherFileUploadDialog from "../components/PublisherFileUpload/PublisherFileUploadDialog";
+    import PublisherFileUploadDialog from "../components/PublisherFile/PublisherFileUpload";
     import ApcTab from "../components/Publisher/ApcTab";
     import PublisherJournalsTab from "../components/Publisher/PublisherJournalsTab";
-    import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
+    import PublisherSetupTab from "../components/PublisherSetupTab/PublisherSetupTab";
 
 
     export default {
