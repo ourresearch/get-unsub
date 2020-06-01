@@ -14,6 +14,7 @@
                         class="option-row d-flex align-start pb-5"
                         v-for="option in config.options"
                         @click="clickOption(option)"
+                        style="cursor: pointer;"
                 >
                     <v-icon class="px-2 pt-1">
                         {{(option.isSelected) ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank'}}
