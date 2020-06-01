@@ -131,6 +131,7 @@ export const publisher = {
             myNewScenario.isLoading = true
             state.scenarios.push(myNewScenario)
         },
+
     },
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
@@ -273,7 +274,6 @@ export const publisher = {
             const url = `package/${getters.publisherId}/scenario`
             await api.post(url, data)
             dispatch("hydratePublisherScenario", newId)
-
         },
     },
     getters: {

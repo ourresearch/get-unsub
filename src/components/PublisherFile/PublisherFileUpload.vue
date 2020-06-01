@@ -137,8 +137,8 @@
                 }
                 try {
                     await api.postFile(path, data)
+                    await this.$store.dispatch("refreshPublisher")
                     this.closeSuccessfully()
-                    this.$store.dispatch("refreshPublisher")
                 } catch (e) {
                     this.errorMsg = (e.response && e.response.data && e.response.data.message) ?
                         e.response.data.message :
