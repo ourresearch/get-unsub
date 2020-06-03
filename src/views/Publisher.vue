@@ -160,7 +160,8 @@
                     </v-tab-item>
 
                     <v-tab-item>
-                        <publisher-journals-tab/>
+                        not sure if we want this.
+<!--                        <publisher-journals-tab/>-->
                     </v-tab-item>
 
                 </v-tabs>
@@ -222,7 +223,6 @@
                 "publisherScenariosAreAllLoaded",
                 "publisherBigDealCost",
                 "publisherIsLoading",
-                "publisherUploadsDict",
                 "publisherJournalCounts",
                 "publisherLogo",
 
@@ -264,7 +264,7 @@
 
         created() {
         },
-        watch() {
+        watch:{
 
         },
         mounted() {
@@ -275,7 +275,7 @@
 
 
             this.loadingPercent = 0
-            const estSecondsToLoad = 25
+            const estSecondsToLoad = 10
             let secondsSincePageLoad = 0
             const that = this
             const interval = setInterval(function () {

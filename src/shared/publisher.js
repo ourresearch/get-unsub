@@ -89,24 +89,6 @@ const makePublisherJournalRow = function(publisherJournal) {
 const makePublisherJournal = function(apiJournal){
 
     let price
-    let priceSource
-    if (apiJournal.upload_data.price) {
-        price = apiJournal.upload_data.price
-        priceSource = "custom"
-    }
-    else {
-        price = apiJournal.attributes.public_price
-        priceSource = "public"
-    }
-
-    let paSource = "default"
-    const paStart = apiJournal.upload_data.perpetual_access_dates[0]
-    const paEnd = apiJournal.upload_data.perpetual_access_dates[1]
-    if (paStart || paEnd){
-        paSource = "custom"
-    }
-
-
     const omittedBecause = []
     if (apiJournal.attributes.changed_publisher) {
         omittedBecause.push("New publisher")
@@ -117,36 +99,39 @@ const makePublisherJournal = function(apiJournal){
     if (apiJournal.attributes.not_published_in_2019) {
         omittedBecause.push("Ceased publication")
     }
-    if (!price) {
-        omittedBecause.push("No Price")
+    if (apiJournal.error) {
+        omittedBecause.push("Input error")
     }
 
     const isInactive = apiJournal.attributes.not_published_in_2019
     const isMoved = apiJournal.attributes.changed_publisher
     const isOa = apiJournal.attributes.is_oa
-    const isMissingPrice = !price && !isInactive && !isMoved && !isOa
-    const isForecastable = (!isInactive && !isMoved && !isOa && !isMissingPrice)
-    const isNotForecastable = !!isForecastable
+
+
+    const dataSources = apiJournal.data_sources.map(source => {
+        source.id = _.camelCase(source.id)
+        return source
+    })
+    const isMissingDataFor = dataSources.map(source => {
+        return (!source.source) ?  source.id : null
+    }).filter(Boolean)
+
 
 
 
     return {
         issnl: apiJournal.issn_l,
         name: apiJournal.name,
-        price,
-        priceSource,
-        downloads: apiJournal.upload_data.counter_downloads,
-        paStart,
-        paEnd,
-        paSource,
+        dataSources,
+        isMissingDataFor,
 
         omittedBecause,
         isInactive,
         isMoved,
         isOa,
-        isMissingPrice,
-        isForecastable,
-        isNotForecastable,
+        isError: !!apiJournal.error,
+        isForecastable: !omittedBecause.length,
+        error: apiJournal.error,
     }
 
 }

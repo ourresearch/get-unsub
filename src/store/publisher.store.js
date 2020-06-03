@@ -86,7 +86,10 @@ export const publisher = {
             state.journals = apiPublisher.journals.map(j=>{
                 return makePublisherJournal(j)
             })
-            state.dataFiles = apiPublisher.data_files
+            state.dataFiles = apiPublisher.data_files.map(dataFile => {
+                dataFile.name = dataFile.name.replace("prices", "price")
+                return dataFile
+            })
             state.bigDealCost = apiPublisher.cost_bigdeal
         },
         clearSelectedPublisher(state) {
@@ -302,16 +305,6 @@ export const publisher = {
         isPublisherDemo: (state) =>  state.isDemo,
         publisherBigDealCost: (state) =>  state.bigDealCost,
         publisherIsLoading: (state) =>  state.isLoading,
-        publisherUploadsDict: (state) =>{
-            const ret = {}
-            state.dataFiles.forEach(f => {
-                const camelCaseName = _.camelCase(f.name)
-                ret[camelCaseName] = {
-                    isUploaded: f.uploaded
-                }
-            })
-            return ret
-        },
 
         publisherFiles: (state) => {
             return publisherFileConfigs.map(f => {
@@ -322,6 +315,7 @@ export const publisher = {
                 if (fileState.uploaded) {
                     ret.options[0].isSelected = false
                     ret.options[1].isSelected = true
+
                 }
                 else {
                     ret.options[0].isSelected = true

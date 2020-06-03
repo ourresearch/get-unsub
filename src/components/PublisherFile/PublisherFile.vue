@@ -1,5 +1,6 @@
 <template>
     <v-card flat class="pa-3">
+
         <v-row class="section py-6">
             <v-col cols="4">
                 <div class="title">
@@ -13,41 +14,48 @@
                 <v-row
                         class="option-row d-flex align-start pb-5"
                         v-for="option in config.options"
-                        @click="clickOption(option)"
-                        style="cursor: pointer;"
                 >
                     <v-icon class="px-2 pt-1">
                         {{(option.isSelected) ? 'mdi-radiobox-marked' : 'mdi-radiobox-blank'}}
                     </v-icon>
                     <div class="text">
-                        <div class="title">
+                        <div
+                                class="title"
+                                @click="clickOption(option)"
+                                style="cursor: pointer;"
+                        >
                             {{option.heading}}
                             <span class="body-2 font-weight-bold" v-if="option.isDefault && !option.isProblem">(default)</span>
                         </div>
-                        <div class="body-2">
+                        <div class="">
                             {{(option.isSelected) ? option.selectedText : option.unselectedText}}
                         </div>
-
-                        <div v-if="0">
-                            <v-btn
-                                    outlined
-                                    v-if="!option.isSelected"
-                                    @click="uploadFileDialogOpen(config.id)"
-                            >
-                                Upload
-                            </v-btn>
-                            <div>
-                                <v-btn
-                                        outlined
-                                        v-if="option.isSelected"
-                                        @click="deleteFileDialogOpen(config.id)"
-                                >
-                                    <v-icon>mdi-delete</v-icon>
-                                    Delete
-                                </v-btn>
-                            </div>
-
+                        <div v-if="config.id==='counter'">
+                            {{ forecastableJournals.length }} journals
                         </div>
+                        <div>
+                            File uploaded with {{ publisherJournals.length }} rows. Of these, {{ignoredJournalsSum}} were ignored:
+                            <span
+                                    v-for="ignoredType in ignoredJournals"
+                                    :key="ignoredType.displayName"
+                            >
+                                {{ignoredType.value}} {{ignoredType.displayName}},
+                            </span>
+                        </div>
+
+
+                        <div class="journals" v-if="0 && option.isSelected">
+                            <div v-if="journalsBySource.default && journalsBySource.default.length" @click="showJournalsBySource('default')">
+                                {{journalsBySource.default.length}} journals with default data
+                            </div>
+                            <div v-if="journalsBySource.custom && journalsBySource.custom.length" @click="showJournalsBySource('custom')">
+                                {{journalsBySource.custom.length}} journals with custom data
+                            </div>
+                            <div v-if="journalsBySource.null && journalsBySource.null.length" @click="showJournalsBySource('null')">
+                                {{journalsBySource.null.length}} journals with no data
+                            </div>
+                        </div>
+
                     </div>
                 </v-row>
             </v-col>
@@ -130,17 +138,18 @@
 
 <script>
     import _ from "lodash"
-    import appConfigs from "../../appConfigs";
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {api} from "../../api";
     import PublisherFileUpload from "../PublisherFile/PublisherFileUpload";
     import publisherFileUploadConfigs from "../PublisherFile/publisherFileConfigs";
+    import PublisherFileJournalsList from "./PublisherFileJournalsList";
 
 
     export default {
         name: "PublisherSetupTab",
         components: {
             PublisherFileUpload,
+            PublisherFileJournalsList,
         },
         props: {
             config: Object,
@@ -160,6 +169,56 @@
                 isDeleteFileLoading: false,
 
             }
+        },
+        computed: {
+            ...mapGetters([
+                "publisherName",
+                "publisherId",
+                "publisherBigDealCost",
+                "publisherJournals",
+            ]),
+            journalsBySource(){
+                return _.groupBy(this.forecastableJournals, (j)=> {
+                    return j.dataSources.find(ds => ds.id === this.config.id).source
+                })
+            },
+
+            forecastableJournals(){
+                return this.publisherJournals.filter(j => j.isForecastable)
+            },
+            ignoredJournals(){
+
+                const ret = [
+                    {
+                        id: "isInactive",
+                        displayName: "ceased publication",
+                        value: this.publisherJournals.filter(j => j.isInactive).length,
+                    },
+                    {
+                        id: "isMoved",
+                        displayName: "changed publishers",
+                        value: this.publisherJournals.filter(j => j.isMoved).length,
+                    },
+                    {
+                        id: "isOa",
+                        displayName: "are fully Open Access",
+                        value: this.publisherJournals.filter(j => j.isOa).length,
+                    },
+                    {
+                        id: "isError",
+                        displayName: "have an input error",
+                        value: this.publisherJournals.filter(j => j.isError).length,
+                    },
+                ]
+                return ret.filter(j => !!j.value)
+            },
+            ignoredJournalsSum(){
+                return _.sum(this.ignoredJournals.map(j=>j.value))
+            }
+
+
+
+
         },
         methods: {
             clickOption(option){
@@ -197,14 +256,11 @@
                 this.dialogs.deleteFile = false
                 this.snackbars.deleteSuccess = true
             },
-        },
-        computed: {
-            ...mapGetters([
-                "publisherName",
-                "publisherId",
-                "publisherBigDealCost",
-                "publisherUploadsDict",
-            ]),
+            showJournalsBySource(source){
+                const myJournals = this.journalsBySource[source]
+                console.log("showJournalsBySource", source, myJournals)
+                return false
+            }
         },
         created() {
         },

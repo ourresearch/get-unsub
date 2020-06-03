@@ -113,7 +113,6 @@
                 "publisherName",
                 "publisherId",
                 "publisherBigDealCost",
-                "publisherUploadsDict",
                 "publisherFiles",
             ]),
         },

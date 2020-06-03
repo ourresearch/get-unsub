@@ -536,7 +536,7 @@ const dataFiles = {
         required: false,
     },
     prices: {
-        name: "prices",
+        name: "price",
         displayName: "A-la-carte pricelist",
         dataType: "A-la-carte subscription prices",
         icon: "mdi-cash-multiple",

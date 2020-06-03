@@ -127,7 +127,7 @@
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
                 this.isUploadFileLoading = true
-                const snakeCaseFileType = _.snakeCase(this.fileType)
+                const snakeCaseFileType = _.snakeCase(this.fileType).replace("price", "prices")
                 const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
                 const data = {
                     file: await toBase64(this.fileSelected),
