@@ -312,15 +312,8 @@ export const publisher = {
                 console.log("looking for this?", kebabCaseId, state.dataFiles)
                 const fileState = state.dataFiles.find(df => df.name === kebabCaseId)
                 const ret = {...f}
-                if (fileState.uploaded) {
-                    ret.options[0].isSelected = false
-                    ret.options[1].isSelected = true
-
-                }
-                else {
-                    ret.options[0].isSelected = true
-                    ret.options[1].isSelected = false
-                }
+                ret.options[0].isSelected = true
+                ret.options[1].isSelected = !!fileState.uploaded
                 return ret
             })
         },

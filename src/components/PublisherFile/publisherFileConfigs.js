@@ -6,6 +6,7 @@ export default [
 
         options: [
             {
+                parent: "counter",
                 heading: "None",
                 selectedText: "No download data available. Forecasting disabled.",
                 unselectedText: "Delete your COUNTER data and disable forecasting.",
@@ -13,9 +14,10 @@ export default [
                 isDefault: true,
             },
             {
+                parent: "counter",
                 heading: "COUNTER report",
                 selectedText: "Forecasting is customized based on your 2019 COUNTER downloads by journal.",
-                unselectedText: "Select to upload your 2019 COUNTER report and enable forecasting.",
+                unselectedText: "Upload your 2019 COUNTER report to enable forecasting.",
             }
         ],
     },
@@ -27,15 +29,16 @@ export default [
         descr: "Costs of journal-by-journal subscriptions",
         options: [
             {
+                parent: "price",
                 heading: "Public pricelist",
                 selectedText: "Forecasting is based on prices from this publisher's online public pricelist.",
-                unselectedText: "Delete your custom prices and use this publisher's online public pricelist .",
                 isDefault: true,
             },
             {
+                parent: "price",
                 heading: "Custom pricelist",
                 selectedText: "Prices are customized by journal, based on a spreadsheet you've uploaded.",
-                unselectedText: "Select to upload your own custom prices for journals.",
+                unselectedText: "Upload your own custom prices for journals.",
             }
 
         ],
@@ -46,15 +49,16 @@ export default [
         descr: "Each journal's date ranges for which you have perpetual access to articles. Only dates after 2010 affect forecasting.",
         options: [
             {
+                parent: "perpetualAccess",
                 heading: "Full perpetual access",
                 selectedText: "Forecasting assumes perpetual access to all backfile content published since 2010.",
-                unselectedText: "Delete your perptual access dates and assume perpetual access to all backfile content published since 2010",
                 isDefault: true,
             },
             {
+                parent: "perpetualAccess",
                 heading: "Custom perpetual access dates",
                 selectedText: "Perpetual access dates are customized by journal, based a spreadsheet you've uploaded.",
-                unselectedText: "Select to upload your own custom perpetual access date ranges, by journal",
+                unselectedText: "Upload your own custom perpetual access date ranges, by journal",
             }
 
         ],
