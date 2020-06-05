@@ -5,7 +5,8 @@
             Back <span v-if="publisherName">to {{publisherName}}</span>
         </router-link>
         <div class="page-title mt-8 mb-4 d-flex">
-            <img class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+            <img v-if="publisherName==='Elsevier'" class="mt-1 mr-2" height="60px" src="https://i.imgur.com/Qt1sOqp.png">
+            <img v-if="publisherName==='Wiley'" class="mt-1 mr-2" height="60px" src="https://i.imgur.com/FFfCHXI.png">
             <div class="text">
                 <div class="body-2">
                     Publisher APC costs
