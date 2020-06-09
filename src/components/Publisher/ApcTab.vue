@@ -1,7 +1,13 @@
 <template>
     <div class="publisher">
+        <v-card v-if="publisherApcIsLoading" class="d-flex align-center justify-center" style="height: 200px;">
+            <div>
+                <v-progress-circular size="20" class="mr-4" indeterminate></v-progress-circular>
+                APC data loading...
+            </div>
+        </v-card>
 
-        <v-card class="mb-4">
+        <v-card class="mb-4" v-if="!publisherApcIsLoading">
             <v-card-text>
                 <div class="stat">
                     <span class="k">Total APC cost last year is </span>
@@ -111,6 +117,7 @@
                 "publisherId",
 
                 // apc stuff
+                "publisherApcIsLoading",
                 "publisherApcPapersCount",
                 "publisherApcAuthorsFractionalCount",
                 "publisherApcCost",
@@ -152,8 +159,8 @@
         created() {
         },
         mounted() {
-            if (!this.publisherName) {
-                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+            if (!this.publisherApcHeaders.length) {
+                this.$store.dispatch("fetchPublisherApcData", this.$route.params.publisherId)
             }
 
 

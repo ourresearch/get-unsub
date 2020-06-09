@@ -125,6 +125,8 @@ const makePublisherJournal = function(apiJournal){
         dataSources,
         isMissingDataFor,
 
+        isValid: !omittedBecause.length,
+
         omittedBecause,
         isInactive,
         isMoved,

@@ -293,6 +293,7 @@ export const publisher = {
         publisherId: (state)  => state.id,
         publisherJournalCounts: (state)  => state.journalCounts,
         publisherJournals: (state)  => state.journals,
+        publisherJournalsValid: (state)  => state.journals.filter(j => j.isValid),
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) =>{
             return state.scenarios.find(s => s.id === id)
@@ -307,16 +308,22 @@ export const publisher = {
         publisherIsLoading: (state) =>  state.isLoading,
 
         publisherFiles: (state) => {
-            return publisherFileConfigs.map(f => {
-                const kebabCaseId = _.kebabCase(f.id)
-                console.log("looking for this?", kebabCaseId, state.dataFiles)
-                const fileState = state.dataFiles.find(df => df.name === kebabCaseId)
-                const ret = {...f}
-                ret.options[0].isSelected = true
-                ret.options[1].isSelected = !!fileState.uploaded
-                return ret
+            return state.dataFiles.map(f => {
+                return {
+                    ...f,
+                    id: f.name,
+                }
+
+                // const kebabCaseId = _.kebabCase(f.id)
+                // console.log("looking for this?", kebabCaseId, state.dataFiles)
+                // const fileState = state.dataFiles.find(df => df.name === kebabCaseId)
+                // const ret = {...f}
+                // ret.options[0].isSelected = true
+                // ret.options[1].isSelected = !!fileState.uploaded
+                // return ret
             })
         },
+
 
         publisherCounterIsUploaded: (state) => state.dataFiles.includes(f => f.name==='counter' && f.uploaded),
 

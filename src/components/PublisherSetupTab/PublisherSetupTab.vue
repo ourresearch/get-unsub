@@ -25,11 +25,51 @@
         </v-row>
         <v-divider></v-divider>
 
-        <publisher-file
-                v-for="fileInfo in publisherFiles"
-                :config="fileInfo"
-        />
 
+        <v-row class="section py-6">
+            <v-col cols="4">
+                <div class="title">
+                    Download counts
+                </div>
+                <div class="body-2">
+                    Downloads by journal, last year
+                </div>
+            </v-col>
+            <v-col>
+                <publisher-file-counter />
+            </v-col>
+        </v-row>
+        <v-divider></v-divider>
+
+        <v-row class="section py-6">
+            <v-col cols="4">
+                <div class="title">
+                    A-la-carte prices
+                </div>
+                <div class="body-2">
+                    Costs of journal-by-journal subscriptions
+                </div>
+            </v-col>
+            <v-col>
+                <publisher-file-price />
+            </v-col>
+        </v-row>
+        <v-divider></v-divider>
+
+        <v-row class="section py-6">
+            <v-col cols="4">
+                <div class="title">
+                    Perpetual Access
+                </div>
+                <div class="body-2">
+                    Each journal's date ranges for which you have perpetual access to articles. Only dates after 2010 affect forecasting
+                </div>
+            </v-col>
+            <v-col>
+                <publisher-file-perpetual-access />
+            </v-col>
+        </v-row>
+        <v-divider></v-divider>
 
 
     </v-card>
@@ -47,12 +87,19 @@
     import publisherFileUploadConfigs from "../PublisherFile/publisherFileConfigs";
     import PublisherFile from "../PublisherFile/PublisherFile";
 
+    import PublisherFileCounter from "../PublisherFile/PublisherFileCounter";
+    import PublisherFilePrice from "../PublisherFile/PublisherFilePrice";
+    import PublisherFilePerpetualAccess from "../PublisherFile/PublisherFilePerpetualAccess";
+
 
     export default {
         name: "PublisherSetupTab",
         components: {
             PublisherFileUploadDialog,
-            PublisherFile
+            PublisherFile,
+            PublisherFileCounter,
+            PublisherFilePrice,
+            PublisherFilePerpetualAccess,
         },
         props: {},
         data() {
@@ -88,11 +135,11 @@
                 this.dialogs.uploadFile = true
             },
 
-            deleteFileDialogCancel(){
+            deleteFileDialogCancel() {
                 this.dialogs.deleteFile = false
                 this.deleteFileType = null
             },
-            deleteFileDialogOpen(fileType){
+            deleteFileDialogOpen(fileType) {
                 this.deleteFileType = fileType
                 this.dialogs.deleteFile = true
             },

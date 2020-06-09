@@ -1,15 +1,30 @@
 <template>
+    <div>
+        <v-btn small depressed @click="open">
+            <v-icon>mdi-upload</v-icon>
+<!--            <v-icon>mdi-file-upload-outline</v-icon>-->
+<!--            <v-icon>mdi-table-arrow-up</v-icon>-->
+<!--            <v-icon>mdi-cloud-upload-outline</v-icon>-->
+            Upload
+        </v-btn>
+
+        <v-dialog
+                persistent
+                v-model="dialogIsShowing"
+                max-width="600"
+        >
+
             <v-card>
                 <v-card-title class="headline">
                     <div>
                         Upload
                         <span v-if="fileType==='counter'"> COUNTER file</span>
-                        <span v-if="fileType==='prices'"> Custom journals prices</span>
+                        <span v-if="fileType==='price'"> Custom journals prices</span>
                         <span v-if="fileType==='perpetualAccess'"> Perpetual access dates</span>
                     </div>
                 </v-card-title>
                 <v-card-text>
-                    <div v-if="fileType==='prices'">
+                    <div v-if="fileType==='price'">
                         Upload your title-level pricelist as a spreadsheet with two columns:<code>ISSN</code> and
                         <code>Price</code>.
                     </div>
@@ -76,6 +91,26 @@
                 </v-card-actions>
 
             </v-card>
+        </v-dialog>
+
+
+
+        <v-snackbar
+                v-model="snackbars.success"
+                :timeout="3000"
+                bottom left
+        >
+            File uploaded
+            <v-btn dark icon @click="snackbars.success = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+
+
+    </div>
+
+
 
 
 
@@ -91,15 +126,20 @@
 
 
     export default {
-        name: "PublisherFileUploadDialog",
+        name: "PublisherFileUpload",
         props: {
             "fileType": String,
+            "disabled": Boolean,
         },
         data() {
             return {
                 isUploadFileLoading: false, // temporary to silence console errors
                 fileSelected: null,
                 errorMsg: null,
+                dialogIsShowing: false,
+                snackbars: {
+                    success: false,
+                }
 
             }
         },
@@ -112,22 +152,26 @@
             ...mapActions([]),
             ...mapMutations([
             ]),
+            open(){
+                this.close() // clear everything out
+                this.dialogIsShowing = true
+            },
             close(){
                 this.errorMsg = null
                 this.fileSelected = null
+                this.dialogIsShowing = false
             },
             cancel(){
                 this.close()
-                this.$emit("cancel")
             },
             closeSuccessfully(){
                 this.close()
-                this.$emit("success")
+                this.snackbars.success = true
             },
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
                 this.isUploadFileLoading = true
-                const snakeCaseFileType = _.snakeCase(this.fileType).replace("price", "prices")
+                const snakeCaseFileType = _.snakeCase(this.fileType)
                 const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
                 const data = {
                     file: await toBase64(this.fileSelected),
