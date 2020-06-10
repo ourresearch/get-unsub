@@ -79,14 +79,11 @@
 
             </v-col>
             <v-col cols="2">
-                <div class="text-right">
-                    <div class="title">
-                        {{ myJournals.length }}
-                    </div>
-                    <div class="body-2">
-                        Journals
-                    </div>
-                </div>
+                <publisher-file-journals-list
+                    :rows="myJournals"
+                    success-journals
+                    value-column-label="Downloads"
+                />
 
             </v-col>
 
@@ -143,7 +140,13 @@
                 return this.myFileInfo.uploaded
             },
             myJournals() {
-                return this.publisherJournalsValid
+                return this.publisherJournalsValid.map(j => {
+                    const myDownloadsCount = j.dataSources.find(ds => ds.id==="counter").value
+                    return {
+                        ...j,
+                        value: myDownloadsCount,
+                    }
+                })
             },
             numRowsIgnored() {
                 return this.myFileInfo.rows_count - this.myJournals.length

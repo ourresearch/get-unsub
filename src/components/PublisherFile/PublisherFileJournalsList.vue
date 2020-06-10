@@ -1,11 +1,19 @@
 <template>
-    <span v-if="journals.length">
-        <span style="white-space: nowrap; display:block;">
+    <span v-if="rows.length">
+        <span v-if="!successJournals">
             <a @click="open">
-                {{journals.length}}
+                {{rows.length}}
             </a>
              {{label}}
         </span>
+        <div v-if="successJournals" class="text-right" @click="open">
+            <a class="title">
+                {{ rows.length }}
+            </a>
+            <div class="body-2">
+                Journals
+            </div>
+        </div>
 
         <v-dialog
                 v-model="dialogIsShowing"
@@ -18,7 +26,7 @@
                 <v-toolbar flat dark color="primary">
                     <v-toolbar-title class="d-flex">
                         <div v-if="!errorRows">
-                            {{rows.length}} journals {{ label }}
+                            {{rows.length}} Journals {{ label }}
                         </div>
                         <div v-if="errorRows">
                             {{rows.length}} rows with errors
@@ -76,6 +84,8 @@
             "rows": Array,
             "label": String,
             "errorRows": Boolean,
+            "successJournals": Boolean,
+            "valueColumnLabel": String,
         },
         data() {
             return {
@@ -90,49 +100,35 @@
             headers() {
                 return (this.errorRows) ? this.errorHeaders : this.journalHeaders
             },
-            tableRows(){
-                return (this.errorRows) ? this.errorRows : this.journalRows
+            tableRows() {
+                return this.rows
+                // return (this.errorRows) ? this.errorRows : this.journalRows
             },
 
 
-            journalHeaders(){
-                return [
+            journalHeaders() {
+                const ret = [
                     {text: "issn", value: "issnl"},
                     {text: "name", value: "name"},
                 ]
+                if (this.successJournals) {
+                    ret.push({
+                        text:  this.valueColumnLabel || "value",
+                        value: "value"
+                    })
+                }
+
+                return ret
             },
-            journals(){
-                return this.rows
-            },
-            journalRows() {
-                return this.journals.map(j => {
-                    return {
-                        name: j.name,
-                        issnl: j.issnl,
-                    }
-                })
-            },
-            errorHeaders(){
+            errorHeaders() {
                 return [
                     {text: "Row", value: "row_no"},
                     {text: "Column", value: "column_name"},
                     {text: "Error", value: "message"},
                 ]
             },
-            errorRows() {
-                return this.rows
-
-                // maybe later
-                return this.rows.map(r => {
-                    return {
-                        // stuff
-                    }
-                })
-            },
-            footerProps(){
-                return {
-
-                }
+            footerProps() {
+                return {}
             }
         },
         methods: {
@@ -149,9 +145,9 @@
     }
 </script>
 
-<style  lang="scss">
+<style lang="scss">
     .v-data-footer__select {
-        display:none !important;
+        display: none !important;
     }
 
 </style>
