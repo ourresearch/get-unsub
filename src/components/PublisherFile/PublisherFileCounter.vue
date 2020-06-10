@@ -37,15 +37,38 @@
                     </div>
                 </div>
                 <v-divider class="my-2" />
-                <div class="option-file-info">
-                    <div class="body-2">
-                        {{ myFileInfo.rows_count }} journals uploaded. Of these, {{ numRowsIgnored }} were ignored:
-                        <span>
-                            {{ myFileInfo.error_rows.length }} with input errors,
-                            {{ ignoredOa.length }} fully Open-Access,
-                            {{ ignoredMoved.length }}  no longer published by {{ publisherName }},
-                            {{ ignoredInactive.length }} no longer published at all.
-                        </span>
+                <div class="option-file-info body-2">
+                    <div>
+                        <div>
+                            {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                        </div>
+                        <ul>
+                            <li>
+                                <publisher-file-journals-list
+                                    :rows="myFileInfo.error_rows"
+                                    :error-rows="true"
+                                    label="with input errors"
+                                />
+                            </li>
+                            <li>
+                                <publisher-file-journals-list
+                                    :rows="ignoredOa"
+                                    label="fully Open-Access journals"
+                                />
+                            </li>
+                            <li>
+                                <publisher-file-journals-list
+                                    :rows="ignoredMoved"
+                                    :label="'journals no longer published by ' + publisherName"
+                                />
+                            </li>
+                            <li v-if="ignoredInactive.length">
+                                <publisher-file-journals-list
+                                    :rows="ignoredInactive"
+                                    label="journals no longer published at all"
+                                />
+                            </li>
+                        </ul>
                     </div>
                     <div class="mt-4">
                         <publisher-file-delete file-type="counter"/>
