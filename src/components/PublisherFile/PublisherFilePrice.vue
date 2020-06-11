@@ -7,22 +7,33 @@
                 <v-icon class="mt-1" color="success">mdi-checkbox-marked</v-icon>
             </v-col>
             <v-col cols="9">
-                <div class="title">
-                    Public pricelist
-                </div>
-                <div class="body-2" v-if="isUploaded && myJournalsBySource.default">
-                    Using the publicly-posted a-la-carte prices for {{ myJournalsBySource.default.length}} journals.
-                </div>
-                <div class="body-2" v-if="isUploaded && !myJournalsBySource.default">
-                    Using the publicly-posted a-la-carte prices for 0 journals.
-                </div>
-                <div class="body-2" v-if="!isUploaded">
-                    Using the publicly-posted a-la-carte prices for {{ myJournalsBySource.default.length }} journals.
+                <div class="option-top-content d-flex">
+                    <div class="option-top-content-left">
+                        <div class="title">
+                            Public pricelist
+                        </div>
+                        <div class="body-2" v-if="isUploaded && myJournalsBySource.default">
+                            Using the publicly-posted a-la-carte prices for {{ myJournalsBySource.default.length}}
+                            journals.
+                        </div>
+                        <div class="body-2" v-if="isUploaded && !myJournalsBySource.default">
+                            Using the publicly-posted a-la-carte prices for 0 journals.
+                        </div>
+                        <div class="body-2" v-if="!isUploaded">
+                            Using the publicly-posted a-la-carte prices for {{ myJournalsBySource.default.length }}
+                            journals.
+                        </div>
+                    </div>
                 </div>
             </v-col>
             <v-col cols="2" class="text-right">
-                <div class="title">{{ (myJournalsBySource.default) ? myJournalsBySource.default.length : 0}}</div>
-                <div class="body-2">Journals</div>
+                <publisher-file-journals-list
+                        :rows="myJournalsBySource.default"
+                        :extra-headers="myJournalHeaders"
+                        success-journals
+                />
+
+
             </v-col>
         </v-row>
 
@@ -36,7 +47,8 @@
                     Custom pricelist
                 </div>
                 <div class="body-2">
-                    You can upload custom a-la-carte prices for journals where you want to override the default public list price.
+                    You can upload custom a-la-carte prices for journals where you want to override the default public
+                    list price.
                 </div>
                 <publisher-file-upload class="mt-4" file-type="price"/>
             </v-col>
@@ -51,30 +63,51 @@
             <v-col cols="1" class="option-icon text-right">
                 <v-icon class="mt-1" color="success">mdi-checkbox-marked</v-icon>
             </v-col>
-            <v-col cols="9">
-                <div class="title">
-                    Custom pricelist
+            <v-col cols="9" class="option-content">
+                <div class="option-top-content d-flex">
+                    <div class="option-top-content-left">
+                        <div class="title">
+                            Custom pricelist
+                        </div>
+                        <div class="body-2">
+                            Your uploaded custom prices are overriding the public price for {{
+                            myJournalsBySource.custom.length }} journals.
+                        </div>
+                    </div>
                 </div>
-                <div class="body-2">
-                    Your uploaded custom prices are overriding the public price for {{ myJournalsBySource.custom.length }} journals.
-                </div>
-                <v-divider class="my-2" />
-                <div class="option-file-info">
-                    <div class="body-2">
-                        {{ myFileInfo.rows_count }} journals uploaded. Of these, {{ numRowsIgnored }} were ignored:
-                        <span>
-                            {{ 42 }} with input errors,
-                            {{ 21 }} not found in COUNTER file.
-                        </span>
+
+                <v-divider class="my-2"/>
+
+                <div class="option-file-info body-2">
+                    <div>
+                        <div>
+                            {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                        </div>
+                        <ul>
+                            <li v-if="myFileInfo.error_rows.rows.length">
+                                <publisher-file-journals-list
+                                        :rows="myFileInfo.error_rows.rows"
+                                        :headers="myFileInfo.error_rows.headers"
+                                        :error-rows="true"
+                                        label="with input errors"
+                                />
+                            </li>
+                        </ul>
                     </div>
                     <div class="mt-4">
                         <publisher-file-delete file-type="price"/>
                     </div>
+
                 </div>
+
+
             </v-col>
             <v-col cols="2" class="text-right">
-                <div class="title"> {{ (myJournalsBySource.custom) ? myJournalsBySource.custom.length : 0}}</div>
-                <div class="body-2">Journals</div>
+                <publisher-file-journals-list
+                        :rows="myJournalsBySource.custom"
+                        :extra-headers="myJournalHeaders"
+                        success-journals
+                />
             </v-col>
 
         </v-row>
@@ -90,7 +123,8 @@
                     Missing prices
                 </div>
                 <div class="body-2">
-                    We're missing price data for {{ myJournalsBySource.null.length }} journals; these will not be included in forecasting. You can fix this by uploading custom prices for them.
+                    We're missing price data for {{ myJournalsBySource.null.length }} journals; these will not be
+                    included in forecasting. You can fix this by uploading custom prices for them.
                 </div>
             </v-col>
             <v-col cols="2" class="text-right">
@@ -152,13 +186,26 @@
                 return this.publisherJournalsValid
             },
             myJournalsBySource() {
-                return _.groupBy(this.myJournals, (j) => {
+                const groups = _.groupBy(this.myJournals, (j) => {
                     return j.dataSources.find(ds => ds.id === 'price').source
                 })
+
+                console.log("price groups that are default but have no data", groups.default.filter(x => !x.price))
+
+                return {
+                    null: groups.null || [],
+                    default: groups.default || [],
+                    custom: groups.custom || [],
+                }
+            },
+            myJournalHeaders() {
+                return [
+                    {text: "price", value: "price"},
+                ]
             },
 
             numRowsIgnored() {
-                return 42
+                return 4242
             },
 
 

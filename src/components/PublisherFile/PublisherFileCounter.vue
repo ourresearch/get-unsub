@@ -43,9 +43,10 @@
                             {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
-                            <li>
+                            <li v-if="myFileInfo.error_rows.rows.length">
                                 <publisher-file-journals-list
-                                    :rows="myFileInfo.error_rows"
+                                    :rows="myFileInfo.error_rows.rows"
+                                    :headers="myFileInfo.error_rows.headers"
                                     :error-rows="true"
                                     label="with input errors"
                                 />
@@ -58,13 +59,13 @@
                             </li>
                             <li>
                                 <publisher-file-journals-list
-                                    :rows="ignoredMoved"
+                                    :rows="ignoredInactive"
                                     :label="'journals no longer published by ' + publisherName"
                                 />
                             </li>
                             <li v-if="ignoredInactive.length">
                                 <publisher-file-journals-list
-                                    :rows="ignoredInactive"
+                                    :rows="ignoredMoved"
                                     label="journals no longer published at all"
                                 />
                             </li>
@@ -81,8 +82,8 @@
             <v-col cols="2">
                 <publisher-file-journals-list
                     :rows="myJournals"
+                    :extra-headers="myJournalHeaders"
                     success-journals
-                    value-column-label="Downloads"
                 />
 
             </v-col>
@@ -147,6 +148,11 @@
                         value: myDownloadsCount,
                     }
                 })
+            },
+            myJournalHeaders(){
+                return [
+                    {text: "Downloads", value: "counter"},
+                ]
             },
             numRowsIgnored() {
                 return this.myFileInfo.rows_count - this.myJournals.length

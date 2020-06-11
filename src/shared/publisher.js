@@ -88,7 +88,6 @@ const makePublisherJournalRow = function(publisherJournal) {
 
 const makePublisherJournal = function(apiJournal){
 
-    let price
     const omittedBecause = []
     if (apiJournal.attributes.changed_publisher) {
         omittedBecause.push("New publisher")
@@ -96,14 +95,14 @@ const makePublisherJournal = function(apiJournal){
     if (apiJournal.attributes.is_oa) {
         omittedBecause.push("Fully OA")
     }
-    if (apiJournal.attributes.not_published_in_2019) {
+    if (apiJournal.attributes.not_published_2019) {
         omittedBecause.push("Ceased publication")
     }
     if (apiJournal.error) {
         omittedBecause.push("Input error")
     }
 
-    const isInactive = apiJournal.attributes.not_published_in_2019
+    const isInactive = apiJournal.attributes.not_published_2019
     const isMoved = apiJournal.attributes.changed_publisher
     const isOa = apiJournal.attributes.is_oa
 
@@ -115,6 +114,10 @@ const makePublisherJournal = function(apiJournal){
     const isMissingDataFor = dataSources.map(source => {
         return (!source.source) ?  source.id : null
     }).filter(Boolean)
+
+    const price = dataSources.find(ds => ds.id==='price').value
+    const counter = dataSources.find(ds => ds.id==='counter').value
+
 
 
 
@@ -134,6 +137,9 @@ const makePublisherJournal = function(apiJournal){
         isError: !!apiJournal.error,
         isForecastable: !omittedBecause.length,
         error: apiJournal.error,
+
+        price,
+        counter,
     }
 
 }

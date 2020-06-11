@@ -17,7 +17,7 @@
 
         <v-dialog
                 v-model="dialogIsShowing"
-                max-width="800"
+                max-width="1000"
                 scrollable
                 persistent
         >
@@ -42,18 +42,28 @@
                             hide-details
                             flat
                     ></v-text-field>
+                    <v-btn icon dark class="ml-2" @click="close">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
                 </v-toolbar>
                 <v-data-table
                         height="500"
                         :fixed-header="true"
-                        :headers="headers"
+                        :headers="myHeaders"
                         :items="tableRows"
                         :items-per-page="100"
                         :search="search"
                         :footer-props="footerProps"
-                >
+                        v-if="!errorRows"
+                />
+                <v-card-body v-if="errorRows" height="500">
+                    <pre>
+                        {{errorRows}}
+                    </pre>
 
-                </v-data-table>
+
+                </v-card-body>
+
                 <v-card-actions class="pt-4">
                     <v-spacer></v-spacer>
                     <v-btn depressed @click="">
@@ -81,11 +91,12 @@
     export default {
         name: "PublisherFileJournalsList",
         props: {
-            "rows": Array,
-            "label": String,
-            "errorRows": Boolean,
-            "successJournals": Boolean,
-            "valueColumnLabel": String,
+            rows: Array,
+            extraHeaders: Array,
+            label: String,
+            errorRows: Boolean,
+            successJournals: Boolean,
+            valueColumnLabel: String,
         },
         data() {
             return {
@@ -97,36 +108,17 @@
             ...mapGetters([
                 "publisherId",
             ]),
-            headers() {
-                return (this.errorRows) ? this.errorHeaders : this.journalHeaders
-            },
             tableRows() {
                 return this.rows
-                // return (this.errorRows) ? this.errorRows : this.journalRows
             },
-
-
-            journalHeaders() {
+            myHeaders(){
                 const ret = [
                     {text: "issn", value: "issnl"},
                     {text: "name", value: "name"},
                 ]
-                if (this.successJournals) {
-                    ret.push({
-                        text:  this.valueColumnLabel || "value",
-                        value: "value"
-                    })
-                }
+                return ret.concat(this.extraHeaders || [])
+            },
 
-                return ret
-            },
-            errorHeaders() {
-                return [
-                    {text: "Row", value: "row_no"},
-                    {text: "Column", value: "column_name"},
-                    {text: "Error", value: "message"},
-                ]
-            },
             footerProps() {
                 return {}
             }
