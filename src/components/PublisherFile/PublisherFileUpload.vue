@@ -1,12 +1,18 @@
 <template>
-    <div>
-        <v-btn small depressed @click="open">
+    <span>
+        <v-btn v-if="!linkText" small depressed @click="open">
             <v-icon>mdi-upload</v-icon>
 <!--            <v-icon>mdi-file-upload-outline</v-icon>-->
 <!--            <v-icon>mdi-table-arrow-up</v-icon>-->
 <!--            <v-icon>mdi-cloud-upload-outline</v-icon>-->
             Upload
         </v-btn>
+        <a
+                v-if="linkText"
+                @click="open"
+        >
+            {{linkText}}
+        </a>
 
         <v-dialog
                 persistent
@@ -108,7 +114,7 @@
 
 
 
-    </div>
+    </span>
 
 
 
@@ -130,6 +136,7 @@
         props: {
             "fileType": String,
             "disabled": Boolean,
+            linkText: String,
         },
         data() {
             return {
@@ -171,7 +178,7 @@
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
                 this.isUploadFileLoading = true
-                const snakeCaseFileType = _.snakeCase(this.fileType)
+                const snakeCaseFileType = _.kebabCase(this.fileType)
                 const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
                 const data = {
                     file: await toBase64(this.fileSelected),

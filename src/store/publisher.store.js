@@ -13,8 +13,6 @@ import {publisherLogoFromName} from "../shared/publisher";
 const short = require('short-uuid');
 
 
-
-
 export const publisher = {
     state: {
         selected: null,
@@ -33,6 +31,7 @@ export const publisher = {
             oa: 0,
             leftOrStopped: 0
         },
+        journals: [],
         dataFiles: [],
         bigDealCost: 0,
 
@@ -46,7 +45,7 @@ export const publisher = {
 
     },
     mutations: {
-        clearPublisher(state){
+        clearPublisher(state) {
             state.isLoading = false
             state.id = null
             state.name = ""
@@ -83,7 +82,8 @@ export const publisher = {
                 oa: apiPublisher.journal_detail.diff_counts.diff_open_access_journals,
                 leftOrStopped: apiPublisher.journal_detail.diff_counts.diff_not_published_in_2019 + apiPublisher.journal_detail.diff_counts.diff_changed_publisher
             }
-            state.journals = apiPublisher.journals.map(j=>{
+            state.journals = []
+            state.journals = apiPublisher.journals.map(j => {
                 return makePublisherJournal(j)
             })
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
@@ -102,17 +102,17 @@ export const publisher = {
             state.isLoading = false
         },
         deleteScenario(state, scenarioIdToDelete) {
-            state.scenarios = state.scenarios.filter(s=>{
+            state.scenarios = state.scenarios.filter(s => {
                 return s.id !== scenarioIdToDelete
             })
         },
         renameScenario(state, {id, newName}) {
-            state.scenarios.find(s=>{
+            state.scenarios.find(s => {
                 return s.id === id
             }).saved.name = newName
         },
         setScenarioConfig(state, {scenarioId, key, value}) {
-            const ret =  state.scenarios.find(s=>{
+            const ret = state.scenarios.find(s => {
                 return s.id === scenarioId
             })
             ret.saved.configs[key] = value
@@ -120,7 +120,7 @@ export const publisher = {
 
         },
         copyScenario(state, {id, newName, newId}) {
-            const scenarioToCopy = state.scenarios.find(s=>{
+            const scenarioToCopy = state.scenarios.find(s => {
                 return s.id === id
             })
             const clone = _.cloneDeep(scenarioToCopy)
@@ -142,7 +142,7 @@ export const publisher = {
             commit("startLoading")
             // dispatch("fetchPublisherApcData", id),
             await dispatch("fetchPublisherMainData", id),
-            commit("finishLoading")
+                commit("finishLoading")
             return
         },
         async refreshPublisher({commit, dispatch, getters}) {
@@ -152,8 +152,6 @@ export const publisher = {
             commit("finishLoading")
             return
         },
-
-
 
 
         async fetchPublisherAsync({commit, dispatch, getters}, id) {
@@ -189,19 +187,17 @@ export const publisher = {
             let resp
             try {
                 resp = await api.get(url)
-            }
-            catch (e) {
+            } catch (e) {
                 console.log("error loading publisher APC", e.response)
                 resp = null
-            }
-            finally {
+            } finally {
                 state.apcIsLoading = false
             }
 
-            if (resp){
-                state.apcPapersCount = resp.data.headers.find(h=>h.value==="num_apc_papers").raw
-                state.apcAuthorsFractionalCount = resp.data.headers.find(h=>h.value==="fractional_authorship").raw
-                state.apcCost = resp.data.headers.find(h=>h.value==="cost_apc").raw
+            if (resp) {
+                state.apcPapersCount = resp.data.headers.find(h => h.value === "num_apc_papers").raw
+                state.apcAuthorsFractionalCount = resp.data.headers.find(h => h.value === "fractional_authorship").raw
+                state.apcCost = resp.data.headers.find(h => h.value === "cost_apc").raw
                 state.apcHeaders = resp.data.headers
                 state.apcJournals = resp.data.journals
                 return resp
@@ -290,51 +286,56 @@ export const publisher = {
             return publisherLogoFromName(state.name)
         },
 
-        publisherId: (state)  => state.id,
-        publisherJournalCounts: (state)  => state.journalCounts,
-        publisherJournals: (state)  => state.journals,
-        publisherJournalsValid: (state)  => state.journals.filter(j => j.isValid),
+        publisherId: (state) => state.id,
+        publisherJournalCounts: (state) => state.journalCounts,
+        publisherJournals: (state) => state.journals,
+        publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),
         publisherScenariosCount: (state) => state.scenarios.length,
-        publisherScenario: (state) => (id) =>{
+        publisherScenario: (state) => (id) => {
             return state.scenarios.find(s => s.id === id)
         },
-        publisherScenariosAreAllLoaded: (state) =>{
+        publisherScenariosAreAllLoaded: (state) => {
             return state.scenarios.filter(s => s.isLoading).length === 0
         },
         getScenarios: (state) => state.scenarios,
         publisherScenarios: (state) => state.scenarios,
-        isPublisherDemo: (state) =>  state.isDemo,
-        publisherBigDealCost: (state) =>  state.bigDealCost,
-        publisherIsLoading: (state) =>  state.isLoading,
+        isPublisherDemo: (state) => state.isDemo,
+        publisherBigDealCost: (state) => state.bigDealCost,
+        publisherIsLoading: (state) => state.isLoading,
 
         publisherFiles: (state) => {
             return state.dataFiles.map(f => {
-                return {
+
+                const ret = {
                     ...f,
-                    id: f.name,
+                    id: _.camelCase(f.name),
                 }
 
-                // const kebabCaseId = _.kebabCase(f.id)
-                // console.log("looking for this?", kebabCaseId, state.dataFiles)
-                // const fileState = state.dataFiles.find(df => df.name === kebabCaseId)
-                // const ret = {...f}
-                // ret.options[0].isSelected = true
-                // ret.options[1].isSelected = !!fileState.uploaded
-                // return ret
+                // if (f.error_rows) {
+                //     ret.error_rows = {
+                //         headers: [{name: "Row Number", id: "rowNo"}].concat(f.error_rows.headers),
+                //         rows: f.error_rows.rows.map(row => {
+                //             row.cells.rowNo = {value: row.row_no}
+                //             return row
+                //         })
+                //     }
+                // }
+
+
+                return ret
             })
         },
 
 
-        publisherCounterIsUploaded: (state) => state.dataFiles.includes(f => f.name==='counter' && f.uploaded),
-
+        publisherCounterIsUploaded: (state) => state.dataFiles.includes(f => f.name === 'counter' && f.uploaded),
 
 
         // apc stuff
         publisherApcIsLoading: (state) => state.apcIsLoading,
         publisherApcPapersCount: (state) => state.apcPapersCount,
         publisherApcAuthorsFractionalCount: (state) => state.apcAuthorsFractionalCount,
-        publisherApcCost: (state) =>  state.apcCost,
-        publisherApcJournals: (state) =>  state.apcJournals,
-        publisherApcHeaders: (state) =>  state.apcHeaders,
+        publisherApcCost: (state) => state.apcCost,
+        publisherApcJournals: (state) => state.apcJournals,
+        publisherApcHeaders: (state) => state.apcHeaders,
     }
 }

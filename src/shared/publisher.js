@@ -111,12 +111,22 @@ const makePublisherJournal = function(apiJournal){
         source.id = _.camelCase(source.id)
         return source
     })
+
+    const dataSourcesDict = {}
+    apiJournal.data_sources.forEach(source => {
+        dataSourcesDict[_.camelCase(source.id)] = source
+    })
+
     const isMissingDataFor = dataSources.map(source => {
         return (!source.source) ?  source.id : null
     }).filter(Boolean)
 
-    const price = dataSources.find(ds => ds.id==='price').value
-    const counter = dataSources.find(ds => ds.id==='counter').value
+    const isValid = dataSourcesDict.counter.source && !apiJournal.error
+
+    const price = dataSourcesDict.price.value
+    const counter = dataSourcesDict.counter.value
+    const perpetualAccessStart = dataSourcesDict.perpetualAccess.value[0]
+    const perpetualAccessEnd = dataSourcesDict.perpetualAccess.value[1]
 
 
 
@@ -126,9 +136,10 @@ const makePublisherJournal = function(apiJournal){
         issnl: apiJournal.issn_l,
         name: apiJournal.name,
         dataSources,
+        dataSourcesDict,
         isMissingDataFor,
 
-        isValid: !omittedBecause.length,
+        isValid,
 
         omittedBecause,
         isInactive,
@@ -140,6 +151,8 @@ const makePublisherJournal = function(apiJournal){
 
         price,
         counter,
+        perpetualAccessStart,
+        perpetualAccessEnd,
     }
 
 }

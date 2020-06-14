@@ -1,27 +1,62 @@
 <template>
     <div>
 
+
+        <!-- missing prices -->
+        <v-row class="option-row warn d-flex mb-8" v-if="myJournalsBySource.null">
+            <v-col cols="1" class="option-icon text-right">
+                <v-icon class="mt-4" color="warning">mdi-alert</v-icon>
+            </v-col>
+            <v-col cols="9">
+                <div class="title mb-2">
+                    <div class="caption">Warning</div>
+                    <div style="line-height: 1">
+                        Journals without price data
+                    </div>
+                </div>
+                <div class="body-2">
+                    These journals will <em>not</em> be
+                    included in forecasting. You can fix this by
+                    <span v-if="isUploaded">
+                        <publisher-file-upload
+                                file-type="price"
+                                link-text="uploading a more complete custom pricelist"
+                        /> that includes prices for these journals.
+                    </span>
+                    <span v-if="!isUploaded">
+                        <publisher-file-upload
+                                file-type="price"
+                                link-text="uploading a custom pricelist"
+                        /> with prices for these journals.
+                    </span>
+                </div>
+            </v-col>
+            <v-col cols="2" class="text-right">
+                <publisher-file-journals-list
+                        :rows="myJournalsBySource.null"
+                        success-journals
+                />
+            </v-col>
+
+        </v-row>
+
+
         <!-- default -->
         <v-row class="option-row d-flex mb-8">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-1" color="success">mdi-checkbox-marked</v-icon>
+                <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
             </v-col>
             <v-col cols="9">
                 <div class="option-top-content d-flex">
                     <div class="option-top-content-left">
-                        <div class="title">
-                            Public pricelist
+                        <div class="title mb-2">
+                            <div class="caption">Default</div>
+                            <div style="line-height: 1">
+                                Public pricelist
+                            </div>
                         </div>
-                        <div class="body-2" v-if="isUploaded && myJournalsBySource.default">
-                            Using the publicly-posted a-la-carte prices for {{ myJournalsBySource.default.length}}
-                            journals.
-                        </div>
-                        <div class="body-2" v-if="isUploaded && !myJournalsBySource.default">
-                            Using the publicly-posted a-la-carte prices for 0 journals.
-                        </div>
-                        <div class="body-2" v-if="!isUploaded">
-                            Using the publicly-posted a-la-carte prices for {{ myJournalsBySource.default.length }}
-                            journals.
+                        <div class="body-2">
+                            These journals use the posted a-la-carte list price
                         </div>
                     </div>
                 </div>
@@ -40,15 +75,17 @@
         <!-- custom not uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="!isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-1" v-if="!isUploaded">mdi-checkbox-blank-outline</v-icon>
+                <v-icon class="mt-4" v-if="!isUploaded">mdi-checkbox-blank-outline</v-icon>
             </v-col>
             <v-col cols="9">
-                <div class="title">
-                    Custom pricelist
+                <div class="title mb-2">
+                    <div class="caption">Optional</div>
+                    <div style="line-height: 1">
+                        Custom Pricelist
+                    </div>
                 </div>
                 <div class="body-2">
-                    You can upload custom a-la-carte prices for journals where you want to override the default public
-                    list price.
+                    These journals have custom prices that override and extend the defaults.
                 </div>
                 <publisher-file-upload class="mt-4" file-type="price"/>
             </v-col>
@@ -61,22 +98,23 @@
         <!-- custom has been uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-1" color="success">mdi-checkbox-marked</v-icon>
+                <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
             </v-col>
             <v-col cols="9" class="option-content">
                 <div class="option-top-content d-flex">
                     <div class="option-top-content-left">
-                        <div class="title">
-                            Custom pricelist
+                        <div class="title mb-2">
+                            <div class="caption">Optional</div>
+                            <div style="line-height: 1">
+                                Custom Pricelist
+                            </div>
                         </div>
                         <div class="body-2">
-                            Your uploaded custom prices are overriding the public price for {{
-                            myJournalsBySource.custom.length }} journals.
+                            These journals have custom prices that override and extend the defaults.
                         </div>
                     </div>
                 </div>
 
-                <v-divider class="my-2"/>
 
                 <div class="option-file-info body-2">
                     <div>
@@ -90,6 +128,13 @@
                                         :headers="myFileInfo.error_rows.headers"
                                         :error-rows="true"
                                         label="with input errors"
+                                />
+                            </li>
+                            <li v-if="journalsWithPriceButNoCounter.length">
+                                <publisher-file-journals-list
+                                        :rows="journalsWithPriceButNoCounter"
+                                        :headers="myJournalHeaders"
+                                        label="journals not in your COUNTER report"
                                 />
                             </li>
                         </ul>
@@ -113,27 +158,6 @@
         </v-row>
 
 
-        <!-- missing prices -->
-        <v-row class="option-row d-flex mb-8" v-if="myJournalsBySource.null">
-            <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-1" color="warning">mdi-alert</v-icon>
-            </v-col>
-            <v-col cols="9">
-                <div class="title">
-                    Missing prices
-                </div>
-                <div class="body-2">
-                    We're missing price data for {{ myJournalsBySource.null.length }} journals; these will not be
-                    included in forecasting. You can fix this by uploading custom prices for them.
-                </div>
-            </v-col>
-            <v-col cols="2" class="text-right">
-                <div class="title"> {{ myJournalsBySource.null.length }}</div>
-                <div class="body-2">Journals</div>
-            </v-col>
-
-        </v-row>
-
     </div>
 </template>
 
@@ -156,16 +180,7 @@
         },
         props: {},
         data() {
-            return {
-                dialogs: {
-                    uploadFile: false,
-                    deleteFile: false,
-                },
-                snackbars: {
-                    uploadSuccess: false,
-                    deleteSuccess: false
-                },
-            }
+            return {}
         },
         computed: {
             ...mapGetters([
@@ -190,8 +205,6 @@
                     return j.dataSources.find(ds => ds.id === 'price').source
                 })
 
-                console.log("price groups that are default but have no data", groups.default.filter(x => !x.price))
-
                 return {
                     null: groups.null || [],
                     default: groups.default || [],
@@ -204,20 +217,23 @@
                 ]
             },
 
+
+            journalsWithPriceButNoCounter() {
+                return this.publisherJournals.filter(j => {
+                    return j.dataSourcesDict.price.source && !j.dataSourcesDict.counter.source
+                })
+            },
+
             numRowsIgnored() {
-                return 4242
+                return _.sum([
+                    this.myFileInfo.error_rows.rows.length,
+                    this.journalsWithPriceButNoCounter.length
+                ])
             },
 
 
         },
-        methods: {
-            clickOption(option) {
-                console.log("clickOption", option)
-                if (option.isSelected) return
-                if (option.isDefault) this.dialogs.deleteFile = true
-                else this.dialogs.uploadFile = true
-            },
-        },
+        methods: {},
         created() {
         },
         mounted() {
@@ -227,15 +243,11 @@
 </script>
 
 <style lang="scss">
-
-    .v-radio {
-        align-items: flex-start;
-        padding: 0 0 20px 0;
+    .option-row.warn {
+        background: #FFF0E2;
+        /*color: #ff8002;*/
+        border-radius: 3px;
     }
 
-    .v-input--selection-controls .v-radio > .v-label {
-        display: block;
-        margin-top: -7px;
-    }
 
 </style>

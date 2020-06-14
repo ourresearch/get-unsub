@@ -1,11 +1,11 @@
 <template>
-    <v-card flat class="pa-3">
+    <v-card flat class="pa-10">
         <v-card-title>
             {{publisherName}} Setup
         </v-card-title>
         <v-row class="section py-6">
             <v-col cols="4">
-                <div class="title">
+                <div class="headline">
                     Big Deal Cost
                 </div>
                 <div class="body-2">
@@ -28,7 +28,7 @@
 
         <v-row class="section py-6">
             <v-col cols="4">
-                <div class="title">
+                <div class="headline">
                     Download counts
                 </div>
                 <div class="body-2">
@@ -43,7 +43,7 @@
 
         <v-row class="section py-6">
             <v-col cols="4">
-                <div class="title">
+                <div class="headline">
                     A-la-carte prices
                 </div>
                 <div class="body-2">
@@ -58,7 +58,7 @@
 
         <v-row class="section py-6">
             <v-col cols="4">
-                <div class="title">
+                <div class="headline">
                     Perpetual Access
                 </div>
                 <div class="body-2">
@@ -173,14 +173,5 @@
 
 <style lang="scss">
 
-    .v-radio {
-        align-items: flex-start;
-        padding: 0 0 20px 0;
-    }
-
-    .v-input--selection-controls .v-radio > .v-label {
-        display: block;
-        margin-top: -7px;
-    }
 
 </style>

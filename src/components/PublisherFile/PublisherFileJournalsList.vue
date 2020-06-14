@@ -26,7 +26,9 @@
                 <v-toolbar flat dark color="primary">
                     <v-toolbar-title class="d-flex">
                         <div v-if="!errorRows">
-                            {{rows.length}} Journals {{ label }}
+                            {{rows.length}}
+                            <span v-if="successJournals">Journals</span>
+                            <span v-if="!successJournals">{{label}}</span>
                         </div>
                         <div v-if="errorRows">
                             {{rows.length}} rows with errors
@@ -41,6 +43,7 @@
                             solo-inverted
                             hide-details
                             flat
+                            v-if="!errorRows"
                     ></v-text-field>
                     <v-btn icon dark class="ml-2" @click="close">
                         <v-icon>mdi-close</v-icon>
@@ -54,25 +57,34 @@
                         :items-per-page="100"
                         :search="search"
                         :footer-props="footerProps"
-                        v-if="!errorRows"
-                />
-                <v-card-body v-if="errorRows" height="500">
-                    <pre>
-                        {{errorRows}}
-                    </pre>
+                        :disable-sort="errorRows"
+                >
+                    <template v-slot:item="item">
+                       <publisher-file-journal-row
+                               v-if="!errorRows"
+                               :cells-dict="item.item"
+                               :headers="myHeaders"
+                       />
+                        <publisher-file-error-row
+                               v-if="errorRows"
+                               :cells-dict="item.item"
+                               :headers="myHeaders"
+                       />
+
+                    </template>
+                </v-data-table>
 
 
-                </v-card-body>
 
                 <v-card-actions class="pt-4">
                     <v-spacer></v-spacer>
-                    <v-btn depressed @click="">
-                        <v-icon>mdi-download</v-icon>
-                        Download
-                    </v-btn>
-                    <v-btn depressed color="primary" @click="close">
+                    <v-btn depressed  @click="close">
                         <v-icon>mdi-close</v-icon>
                         Close
+                    </v-btn>
+                    <v-btn depressed color="primary" @click="">
+                        <v-icon>mdi-download</v-icon>
+                        Download
                     </v-btn>
                 </v-card-actions>
 
@@ -85,14 +97,21 @@
 
 <script>
     import {mapActions, mapGetters, mapMutations} from "vuex";
+    import PublisherFileJournalRow from "./PublisherFileJournalRow";
+    import PublisherFileErrorRow from "./PublisherFileErrorRow";
     import _ from "lodash";
     import {api, toBase64} from "../../api";
 
     export default {
         name: "PublisherFileJournalsList",
+        components: {
+            PublisherFileJournalRow,
+            PublisherFileErrorRow
+        },
         props: {
             rows: Array,
             extraHeaders: Array,
+            headers: Array,
             label: String,
             errorRows: Boolean,
             successJournals: Boolean,
@@ -111,12 +130,26 @@
             tableRows() {
                 return this.rows
             },
-            myHeaders(){
-                const ret = [
-                    {text: "issn", value: "issnl"},
-                    {text: "name", value: "name"},
+            baseJournalHeaders(){
+                return [
+                        {text: "issn", value: "issnl"},
+                        {text: "name", value: "name"},
                 ]
-                return ret.concat(this.extraHeaders || [])
+            },
+            myHeaders(){
+                let ret
+                if (this.headers){
+                    console.log("submitted these headers", this.headers)
+                    ret = this.headers.map(h => {
+                        if (h.name) h.text = h.name
+                        if (h.id) h.value = h.id
+                        return h
+                    })
+                }
+                else {
+                    ret = this.baseJournalHeaders.concat(this.extraHeaders || [])
+                }
+                return ret
             },
 
             footerProps() {

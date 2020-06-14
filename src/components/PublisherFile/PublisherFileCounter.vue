@@ -36,7 +36,6 @@
                         </div>
                     </div>
                 </div>
-                <v-divider class="my-2" />
                 <div class="option-file-info body-2">
                     <div>
                         <div>
@@ -187,14 +186,5 @@
 
 <style lang="scss">
 
-    .v-radio {
-        align-items: flex-start;
-        padding: 0 0 20px 0;
-    }
-
-    .v-input--selection-controls .v-radio > .v-label {
-        display: block;
-        margin-top: -7px;
-    }
 
 </style>

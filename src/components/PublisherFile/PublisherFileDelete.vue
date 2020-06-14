@@ -1,14 +1,22 @@
 <template>
-    <div>
+    <span>
         <v-btn
                 depressed
                 small
             @click="open"
             :disabled="disabled"
+                v-if="!linkText"
         >
             <v-icon>mdi-delete-outline</v-icon>
             Delete
         </v-btn>
+
+        <a
+                v-if="linkText"
+                @click="open"
+        >
+            {{linkText}}
+        </a>
 
         <v-dialog
                 persistent
@@ -55,7 +63,7 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
-    </div>
+    </span>
 
 
 
@@ -77,6 +85,7 @@
         props: {
             "fileType": String,
             "disabled": Boolean,
+            linkText: null,
         },
         data() {
             return {
@@ -117,8 +126,8 @@
             },
             async deleteFile() {
                 this.isLoading = true
-                const snakeCaseFileType = _.snakeCase(this.fileType)
-                const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
+                const kebabCaseFileType = _.kebabCase(this.fileType)
+                const path = `publisher/${this.publisherId}/${kebabCaseFileType}`
                 console.log("delete, using this page", path, this.publisherId)
                 await api.delete(path)
                 await this.$store.dispatch("refreshPublisher")
