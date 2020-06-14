@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="body-2">
-                            These journals use a default date range:
+                            These journals use a default date range (note: this control doesn't do anything right now, everything is always default to full PA):
                         </div>
                         <v-radio-group v-model="defaultValue" class="mt-2 pt-0">
                             <v-radio value="full">
