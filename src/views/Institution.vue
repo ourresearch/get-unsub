@@ -370,7 +370,7 @@
                 <v-card-actions>
                     <v-spacer/>
                     <v-btn depressed
-                           @click="dialogs.createPublisher = false"
+                           @click="cancelCreatePublisher"
                     >
                         Cancel
                     </v-btn>
@@ -454,7 +454,7 @@
                     },
                     {
                         name: "Springer Nature",
-                        id: "Springer Nature",
+                        id: "SpringerNature",
                         logo: "https://i.imgur.com/MLtg71P.png",
                     },
                     {
@@ -531,12 +531,17 @@
                 this.newPublisherLoading = true
 
                 const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected.name
-                const publisherId = this.newPublisherItemSelected.name
+                const publisherId = this.newPublisherItemSelected.id
                 await this.$store.dispatch("createPublisher", {publisherId, name})
                 this.newPublisherLoading = false
                 this.snackbars.newPublisherSuccess = true
                 this.dialogs.createPublisher = false
             },
+            cancelCreatePublisher(){
+                this.newPublisherLoading = false
+                this.newPublisherDisplayName = ""
+                this.dialogs.createPublisher = false
+            }
 
 
         },

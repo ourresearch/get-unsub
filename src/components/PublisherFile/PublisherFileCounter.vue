@@ -1,24 +1,32 @@
 <template>
     <div>
         <!-- file not uploaded -->
-        <v-row class="option-row d-flex" v-if="!isUploaded">
+        <v-row class="option-row err d-flex mb-8" v-if="!isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-1" color="error">mdi-alert-circle</v-icon>
+                <v-icon class="mt-4" color="error">mdi-alert-circle</v-icon>
             </v-col>
             <v-col cols="9">
-                <div class="title">
-                    No COUNTER data.
+                <div class="title mb-2">
+                    <div class="caption">Error</div>
+                    <div style="line-height: 1">
+                        No COUNTER data
+                    </div>
                 </div>
                 <div class="body-2">
                     Forecasting is unavailable until you upload your COUNTER report.
                 </div>
-                <publisher-file-upload file-type="counter"/>
+                <publisher-file-upload file-type="counter" color="primary" />
             </v-col>
             <v-col cols="2" class="text-right">
                 <div class="title">0</div>
                 <div class="body-2">Journals</div>
             </v-col>
+
         </v-row>
+
+
+
+
 
         <!-- file uploaded -->
         <v-row class="option-row mb-6" v-if="isUploaded">
@@ -185,6 +193,10 @@
 </script>
 
 <style lang="scss">
-
+    .option-row.err {
+        background: #FED4D3;
+        /*color: #ff8002;*/
+        border-radius: 3px;
+    }
 
 </style>

@@ -1,6 +1,6 @@
 <template>
     <span>
-        <v-btn v-if="!linkText" small depressed @click="open">
+        <v-btn class="mt-4" v-if="!linkText" :color="color" small depressed @click="open">
             <v-icon>mdi-upload</v-icon>
 <!--            <v-icon>mdi-file-upload-outline</v-icon>-->
 <!--            <v-icon>mdi-table-arrow-up</v-icon>-->
@@ -137,6 +137,7 @@
             "fileType": String,
             "disabled": Boolean,
             linkText: String,
+            color: String,
         },
         data() {
             return {

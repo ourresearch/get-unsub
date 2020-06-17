@@ -85,6 +85,19 @@ export const institution = {
             const resp = await  api.post("user/new", newUser)
             return resp
         },
+
+        async createPublisher({commit, dispatch, getters}, {publisherId, name}) {
+            const url = "/publisher/new"
+            const data = {
+                name,
+                publisher: publisherId,
+                institution_id: getters.institutionId,
+            }
+            const resp = await api.post(url, data)
+            console.log("got response from createPublisher call", resp)
+            commit("addPublisher", {id: resp.data.id, name: resp.data.name})
+            return resp
+        },
     },
     getters: {
         institutionId: (state) => state.institutionId,

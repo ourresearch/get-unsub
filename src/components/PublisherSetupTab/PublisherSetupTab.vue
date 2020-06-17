@@ -51,7 +51,10 @@
                 </div>
             </v-col>
             <v-col>
-                <publisher-file-price />
+                <publisher-file-price v-if="counterIsUploaded" />
+                <div v-if="!counterIsUploaded">
+                    Upload your COUNTER report in order to set prices.
+                </div>
             </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -66,7 +69,10 @@
                 </div>
             </v-col>
             <v-col>
-                <publisher-file-perpetual-access />
+                <publisher-file-perpetual-access v-if="counterIsUploaded" />
+                <div v-if="!counterIsUploaded">
+                    Upload your COUNTER report in order to set perpetual access dates.
+                </div>
             </v-col>
         </v-row>
         <v-divider></v-divider>
@@ -162,6 +168,9 @@
                 "publisherBigDealCost",
                 "publisherFiles",
             ]),
+            counterIsUploaded(){
+                return this.publisherFiles.find(f => f.id === "counter").uploaded
+            }
         },
         created() {
         },
