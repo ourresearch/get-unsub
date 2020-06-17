@@ -44,6 +44,12 @@ export const institution = {
         addUserPermission(state, addUserPermission){
             state.institutionUsers.push(addUserPermission)
         },
+        setPublisherDeleted(state, id){
+            state.institutionPublishers.find(p=> p.id === id).is_deleted = true
+        },
+        addPublisher(state, {id, name}){
+            state.institutionPublishers.push({id, name})
+        },
     },
     actions: {
         async fetchInstitution({commit, dispatch, getters}, id) {
@@ -96,6 +102,16 @@ export const institution = {
             const resp = await api.post(url, data)
             console.log("got response from createPublisher call", resp)
             commit("addPublisher", {id: resp.data.id, name: resp.data.name})
+            return resp
+        },
+
+        async deleteInstitutionPublisher({commit, dispatch, getters}, id) {
+            commit("setPublisherDeleted", id)
+
+            const url = `publisher/${id}`
+            const data = {is_deleted: true}
+            console.log("deleteInstitutionPublisher", url, data)
+            const resp = await  api.post(url, data)
             return resp
         },
     },
