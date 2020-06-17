@@ -18,7 +18,7 @@
                             These journals use a default date range (note: this control doesn't do anything right now, everything is always default to full PA):
                         </div>
                         <v-radio-group v-model="defaultValue" class="mt-2 pt-0">
-                            <v-radio value="full">
+                            <v-radio value="full" >
                                 <template v-slot:label>
                                     <div>
                                         <strong>Complete</strong>: full perpetual access rights since 2010.
@@ -131,6 +131,61 @@
 
         </v-row>
 
+
+
+        <v-dialog
+                persistent
+                v-model="dialogIsShowing"
+                max-width="300"
+        >
+            <v-card>
+                <v-card-title>
+                    Change Perpetual Access Defaults
+                </v-card-title>
+                <v-card-text>
+                    Change default perpetual access (since 2010) to
+                    <span v-if="defaultValue==='none'">
+                        <strong>None</strong>?
+                    </span>
+                    <span v-if="defaultValue==='full'">
+                        <strong>Complete</strong>?
+                    </span>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn
+                            depressed
+                            :disabled="isLoading"
+                            @click="cancel"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn
+                            depressed
+                            color="primary"
+                            :loading="isLoading"
+                            @click="changeDefault"
+                    >
+                        Change
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
+
+        <v-snackbar
+                v-model="snackbars.success"
+                :timeout="3000"
+                bottom left
+        >
+            Perpetual access default updated
+            <v-btn dark icon @click="snackbars.success = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+
     </div>
 </template>
 
@@ -156,7 +211,13 @@
         props: {},
         data() {
             return {
-                defaultValue: "full"
+                defaultValue: "full",
+                dialogIsShowing: false,
+                dialogIsLive: false,
+                snackbars: {
+                    success: false,
+                },
+                isLoading: false,
             }
         },
         computed: {
@@ -176,11 +237,6 @@
             },
             myJournals() {
                 return this.publisherJournalsValid
-            },
-            journalsTest(){
-                return this.publisherJournals.filter(j => {
-                    return j.dataSourcesDict.perpetualAccess.source == "custom"
-                }).map(j => j.name)
             },
             myJournalsBySource() {
                 const groups = _.groupBy(this.myJournals, (j) => {
@@ -214,22 +270,51 @@
                 const numCustomRows = (customRows) ? customRows.length : 0
                 return this.myFileInfo.rows_count - numCustomRows
             },
-
-
         },
         methods: {
-            clickOption(option) {
-                console.log("clickOption", option)
-                if (option.isSelected) return
-                if (option.isDefault) this.dialogs.deleteFile = true
-                else this.dialogs.uploadFile = true
+            cancel(){
+                if (this.defaultValue === "full") this.defaultValue = "none"
+                else if (this.defaultValue === "none") this.defaultValue = "full"
+                console.log("changed in cancel", this.dialogIsShowing)
+                this.dialogIsShowing = false
+            },
+            closeSuccessfully() {
+                this.dialogIsShowing = false
+                this.dialogIsLive = false
+                this.snackbars.success = true
+            },
+            showDialog(){
+                this.dialogIsShowing = true
+            },
+            async changeDefault() {
+                this.isLoading = true
+                const path = `publisher/${this.publisherId}/perpetual-access`
+                console.log("perpetual-access changeDefault, using this data", path, this.publisherId)
+                const data = {
+                    default_to_full: this.defaultValue === "full"
+                }
+
+                await api.post(path, data)
+                await this.$store.dispatch("refreshPublisher")
+                this.isLoading = false
+                this.closeSuccessfully()
             },
         },
         created() {
         },
         mounted() {
         },
-        watch: {}
+        watch: {
+            defaultValue: function(to){
+                if (this.dialogIsLive){
+                    this.dialogIsLive = false
+                }
+                else {
+                    this.dialogIsLive = true
+                    this.showDialog()
+                }
+            }
+        }
     }
 </script>
 
