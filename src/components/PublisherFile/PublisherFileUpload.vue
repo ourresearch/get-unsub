@@ -189,7 +189,18 @@
                 }
                 try {
                     await api.postFile(path, data)
+
+                    if (this.fileType === "perpetualAccess") {
+                        const path = `publisher/${this.publisherId}/perpetual-access`
+                        const data = {default_to_full: false}
+                        await api.post(path, data)
+                    }
+
                     await this.$store.dispatch("refreshPublisher")
+
+
+
+
                     this.closeSuccessfully()
                 } catch (e) {
                     this.errorMsg = (e.response && e.response.data && e.response.data.message) ?

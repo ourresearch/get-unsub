@@ -11,28 +11,23 @@
                         <div class="title mb-2">
                             <div class="caption">Default</div>
                             <div style="line-height: 1">
-                                Default dates
+                                <span v-if="defaultToFull">
+                                    Full perpetual access
+                                </span>
+                                <span v-if="!defaultToFull">
+                                    No perpetual access
+                                </span>
                             </div>
                         </div>
                         <div class="body-2">
-                            These journals use a default date range:
+                            <span v-if="defaultToFull">
+                                    These journals have full perpetual access rights since 2010
+                            </span>
+                            <span v-if="!defaultToFull">
+                                    These journals have no perpetual access rights since 2010
+                            </span>
                         </div>
-                        <v-radio-group v-model="defaultValue" class="mt-2 pt-0">
-                            <v-radio value="full" >
-                                <template v-slot:label>
-                                    <div>
-                                        <strong>Complete</strong>: full perpetual access rights since 2010.
-                                    </div>
-                                </template>
-                            </v-radio>
-                            <v-radio value="none">
-                                <template v-slot:label>
-                                    <div>
-                                        <strong>None</strong>: No perpetual access rights since 2010.
-                                    </div>
-                                </template>
-                            </v-radio>
-                        </v-radio-group>
+
                     </div>
                 </div>
             </v-col>
@@ -69,7 +64,7 @@
         </v-row>
 
 
-<!-- custom has been uploaded -->
+        <!-- custom has been uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="isUploaded">
             <v-col cols="1" class="option-icon text-right">
                 <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
@@ -132,7 +127,6 @@
         </v-row>
 
 
-
         <v-dialog
                 persistent
                 v-model="dialogIsShowing"
@@ -171,7 +165,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
 
 
         <v-snackbar
@@ -213,7 +206,6 @@
             return {
                 defaultValue: "full",
                 dialogIsShowing: false,
-                dialogIsLive: false,
                 snackbars: {
                     success: false,
                 },
@@ -257,6 +249,9 @@
                     {text: "Perpetual access end", value: "perpetualAccessEnd"},
                 ]
             },
+            defaultToFull() {
+                return this.myFileInfo.default_to_full
+            },
 
 
             journalsWithPerpetualAccessButNoCounter() {
@@ -273,18 +268,21 @@
             },
         },
         methods: {
-            cancel(){
+            cancel() {
                 if (this.defaultValue === "full") this.defaultValue = "none"
                 else if (this.defaultValue === "none") this.defaultValue = "full"
                 console.log("changed in cancel", this.dialogIsShowing)
-                this.dialogIsShowing = false
+                const that = this
+                setTimeout(function () {
+                    that.dialogIsShowing = false
+                    console.log("close")
+                }, 200)
             },
             closeSuccessfully() {
                 this.dialogIsShowing = false
-                this.dialogIsLive = false
                 this.snackbars.success = true
             },
-            showDialog(){
+            showDialog() {
                 this.dialogIsShowing = true
             },
             async changeDefault() {
@@ -306,13 +304,12 @@
         mounted() {
         },
         watch: {
-            defaultValue: function(to){
-                if (this.dialogIsLive){
-                    this.dialogIsLive = false
-                }
-                else {
-                    this.dialogIsLive = true
+            defaultValue: function (to) {
+                console.log("watch:", this.dialogIsShowing)
+                if (!this.dialogIsShowing) {
                     this.showDialog()
+                } else {
+
                 }
             }
         }
