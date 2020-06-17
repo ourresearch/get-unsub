@@ -31,7 +31,7 @@
         <!-- file uploaded -->
         <v-row class="option-row mb-6" v-if="isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon color="success" class="mt-1">mdi-checkbox-marked</v-icon>
+                <v-icon color="gray" class="mt-1">mdi-checkbox-marked</v-icon>
             </v-col>
             <v-col cols="9" class="option-content">
                 <div class="option-top-content d-flex">
