@@ -131,7 +131,7 @@ export const institution = {
                 return ret
             })
         },
-        institutionIsLoading: (state) => state.institutionPublishers.length === 0,
+        institutionIsLoading: (state) => !state.institutionName,
         institutionPublishers: (state) => state.institutionPublishers,
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
