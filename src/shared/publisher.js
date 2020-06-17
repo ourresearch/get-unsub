@@ -121,7 +121,13 @@ const makePublisherJournal = function(apiJournal){
         return (!source.source) ?  source.id : null
     }).filter(Boolean)
 
-    const isValid = dataSourcesDict.counter.source && !apiJournal.error
+    const isValid = ([
+        dataSourcesDict.counter.source,
+        !apiJournal.error,
+        !isInactive,
+        !isMoved,
+        !isOa,
+    ]).every(x => x)
 
     const price = dataSourcesDict.price.value
     const counter = dataSourcesDict.counter.value

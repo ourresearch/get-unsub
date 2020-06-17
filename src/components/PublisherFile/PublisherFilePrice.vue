@@ -220,7 +220,7 @@
 
             journalsWithPriceButNoCounter() {
                 return this.publisherJournals.filter(j => {
-                    return j.dataSourcesDict.price.source && !j.dataSourcesDict.counter.source
+                    return j.dataSourcesDict.price.source === 'custom' && !j.isValid
                 })
             },
 

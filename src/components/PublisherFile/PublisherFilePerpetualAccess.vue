@@ -15,7 +15,7 @@
                             </div>
                         </div>
                         <div class="body-2">
-                            These journals use a default date range (note: this control doesn't do anything right now, everything is always default to full PA):
+                            These journals use a default date range:
                         </div>
                         <v-radio-group v-model="defaultValue" class="mt-2 pt-0">
                             <v-radio value="full" >
@@ -239,7 +239,7 @@
                 return this.publisherJournalsValid
             },
             myJournalsBySource() {
-                const groups = _.groupBy(this.myJournals, (j) => {
+                const groups = _.groupBy(this.publisherJournalsValid, (j) => {
                     return j.dataSources.find(ds => ds.id === 'perpetualAccess').source
                 })
 
@@ -261,14 +261,15 @@
 
             journalsWithPerpetualAccessButNoCounter() {
                 return this.publisherJournals.filter(j => {
-                    return j.dataSourcesDict.perpetualAccess.source && !j.dataSourcesDict.counter.source
+                    return j.dataSourcesDict.perpetualAccess.source === 'custom' && !j.isValid
                 })
             },
 
             numRowsIgnored() {
-                const customRows = this.myJournalsBySource.custom
-                const numCustomRows = (customRows) ? customRows.length : 0
-                return this.myFileInfo.rows_count - numCustomRows
+                return _.sum([
+                    this.journalsWithPerpetualAccessButNoCounter.length,
+                    this.myFileInfo.error_rows.rows.length,
+                ])
             },
         },
         methods: {

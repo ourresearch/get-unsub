@@ -36,8 +36,8 @@
         <v-row>
             <v-col cols="4">
                 <v-skeleton-loader
-                  :loading="institutionIsLoading"
-                  type="card-heading, list-item-avatar-two-line, list-item"
+                        :loading="institutionIsLoading"
+                        type="card-heading, list-item-avatar-two-line, list-item"
                 >
 
                     <v-card>
@@ -124,8 +124,8 @@
 
 
                 <v-skeleton-loader
-                  :loading="institutionIsLoading"
-                  type="card-heading, list-item-avatar-two-line, list-item"
+                        :loading="institutionIsLoading"
+                        type="card-heading, list-item-avatar-two-line, list-item"
                 >
                     <v-card class="mt-3">
                         <v-card-title class="pr-4">
@@ -138,7 +138,8 @@
                                     <v-icon v-on="on" small>mdi-help-circle-outline</v-icon>
                                 </template>
                                 <div>
-                                    A ROR ID is a unique ID (like an ISSN) for research institutions. We base your institutional citation and authorship counts on your institution's ROR ID(s).
+                                    A ROR ID is a unique ID (like an ISSN) for research institutions. We base your
+                                    institutional citation and authorship counts on your institution's ROR ID(s).
                                 </div>
 
                             </v-tooltip>
@@ -185,15 +186,14 @@
                         </v-list>
 
 
-
                     </v-card>
                 </v-skeleton-loader>
             </v-col>
 
             <v-col cols="8">
                 <v-skeleton-loader
-                  :loading="institutionIsLoading"
-                  type="card-heading, list-item-avatar-two-line, list-item"
+                        :loading="institutionIsLoading"
+                        type="card-heading, list-item-avatar-two-line, list-item"
                 >
                     <v-card>
                         <v-card-title>
@@ -229,7 +229,7 @@
                             </v-list-item>
 
 
-                            <v-list-item @click="dialogs.addPublisher = true">
+                            <v-list-item @click="dialogs.createPublisher = true">
                                 <v-list-item-avatar size="50">
                                     <v-btn icon>
                                         <v-icon>mdi-plus</v-icon>
@@ -245,24 +245,6 @@
 
 
                         </v-list>
-                        <v-card-text
-                                v-if="false"
-                                class="mt-6"
-                                style="height: 100px; position: relative; background: #fff; border-top:1px solid #ddd;"
-                        >
-                            <v-btn
-                                    absolute
-                                    light
-                                    small
-                                    fab
-                                    top
-                                    right
-                                    color="white"
-                                    @click="showSnackbarNoPermissions = true"
-                            >
-                                <v-icon>mdi-plus</v-icon>
-                            </v-btn>
-                        </v-card-text>
 
 
                     </v-card>
@@ -278,7 +260,7 @@
         </v-snackbar>
 
         <v-snackbar v-model="snackbars.newGroupMember" bottom left>
-           User created and welcome email sent.
+            User created and welcome email sent.
             <v-btn dark icon @click="snackbars.newGroupMember = false">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -355,19 +337,47 @@
             </v-card>
         </v-dialog>
 
-        <v-dialog v-model="dialogs.addPublisher" max-width="400">
+        <v-dialog v-model="dialogs.createPublisher" max-width="400">
             <v-card>
                 <v-card-title class="headline">
                     Add Publisher
                 </v-card-title>
                 <v-card-text class="pt-4">
-                    Currently Elsevier is the only supported publisher, but we'll be adding others soon.
+                    <div>
+                        <v-select
+                                outlined
+                                label="Select publisher"
+                                v-model="newPublisherItemSelected"
+                                :items="newPublisherItems"
+                                return-object
+                                item-text="name"
+                                item-value="name"
+                        >
+                            <template v-slot:item="{item}">
+                                <img :src="item.logo" class="mr-3" style="height:30px; width: 30px;">
+                                {{ item.name }}
+                            </template>
+                        </v-select>
+                        <v-text-field
+                                outlined
+                                clearable
+                                label="Publisher display name"
+                                @keydown.enter="createPublisher"
+                                v-model="newPublisherDisplayName"
+                        />
+                    </div>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
                     <v-btn depressed
-                           @click="dialogs.addPublisher = false"
+                           @click="dialogs.createPublisher = false"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn depressed
+                           @click="createPublisher"
                            color="primary"
+                           :loading="newPublisherLoading"
                     >
                         OK
                     </v-btn>
@@ -383,6 +393,13 @@
             </v-btn>
         </v-snackbar>
 
+        <v-snackbar v-model="snackbars.newPublisherSuccess" bottom left>
+            Publisher added
+            <v-btn dark icon @click="snackbars.newPublisherSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
 
     </v-container>
 </template>
@@ -390,6 +407,7 @@
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
+
     const short = require('short-uuid');
     import {publisherLogoFromName} from "../shared/publisher";
 
@@ -402,18 +420,20 @@
                     newGroupMember: false,
                     roleUpdated: false,
                     copySuccess: false,
+                    newPublisherSuccess: false,
                 },
                 dialogs: {
                     createGroupMember: false,
                     addRorId: false,
-                    addPublisher: false,
+                    createPublisher: false,
                 },
 
+
+                // new user
                 roles,
                 roleDescriptions,
                 roleFromPermissions,
                 permissionsFromRole,
-
                 newGroupMember: {
                     name: "",
                     email: "",
@@ -421,8 +441,34 @@
                     role: "Collaborator",
                 },
                 sendNewUserWelcomeEmail: true,
-
                 isRoleUpdating: false,
+
+
+                // new publisher
+                newPublisherDisplayName: "",
+                newPublisherItems: [
+                    {
+                        name: "Elsevier",
+                        id: "Elsevier",
+                        logo: "https://i.imgur.com/Qt1sOqp.png",
+                    },
+                    {
+                        name: "Springer Nature",
+                        id: "Springer Nature",
+                        logo: "https://i.imgur.com/MLtg71P.png",
+                    },
+                    {
+                        name: "Wiley",
+                        id: "Wiley",
+                        logo: "https://i.imgur.com/FFfCHXI.png",
+                    },
+                ],
+                newPublisherItemSelected: {
+                    name: "Elsevier",
+                    id: "Elsevier",
+                    logo: "https://i.imgur.com/Qt1sOqp.png",
+                },
+                newPublisherLoading: false,
             }
         },
         computed: {
@@ -448,7 +494,7 @@
         methods: {
             ...mapMutations([]),
             ...mapActions([]),
-            publisherLogoFromName(name){
+            publisherLogoFromName(name) {
                 console.log("publisherLogoFromName")
                 return publisherLogoFromName(name)
             },
@@ -479,6 +525,17 @@
                 document.execCommand("copy");
                 // await this.$copyText(this.newGroupMember.password)
                 this.snackbars.copySuccess = true
+            },
+            async createPublisher() {
+                console.log("create publisher!")
+                this.newPublisherLoading = true
+
+                const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected.name
+                const publisherId = this.newPublisherItemSelected.name
+                await this.$store.dispatch("createPublisher", {publisherId, name})
+                this.newPublisherLoading = false
+                this.snackbars.newPublisherSuccess = true
+                this.dialogs.createPublisher = false
             },
 
 
