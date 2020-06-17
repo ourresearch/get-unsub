@@ -369,6 +369,7 @@
             }
         },
         mounted() {
+            this.$store.commit("clearInstitution")
         },
     }
 </script>
