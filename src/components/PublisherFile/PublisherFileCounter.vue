@@ -50,7 +50,7 @@
                             {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
-                            <li v-if="myFileInfo.error_rows.rows.length">
+                            <li v-if="myFileInfo.error_rows">
                                 <publisher-file-journals-list
                                     :rows="myFileInfo.error_rows.rows"
                                     :headers="myFileInfo.error_rows.headers"

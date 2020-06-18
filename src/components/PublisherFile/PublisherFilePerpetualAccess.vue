@@ -33,7 +33,14 @@
             </v-col>
             <v-col cols="2" class="text-right mt-3">
                 <publisher-file-journals-list
+                        v-if="defaultToFull"
                         :rows="myJournalsBySource.defaultFull"
+                        :extra-headers="myJournalHeaders"
+                        success-journals
+                />
+                <publisher-file-journals-list
+                        v-if="!defaultToFull"
+                        :rows="myJournalsBySource.defaultNone"
                         :extra-headers="myJournalHeaders"
                         success-journals
                 />
@@ -91,7 +98,7 @@
                             {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
-                            <li v-if="myFileInfo.error_rows.rows.length">
+                            <li v-if="myFileInfo.error_rows && myFileInfo.error_rows.rows.length">
                                 <publisher-file-journals-list
                                         :rows="myFileInfo.error_rows.rows"
                                         :headers="myFileInfo.error_rows.headers"
