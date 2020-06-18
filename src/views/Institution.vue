@@ -548,7 +548,6 @@
         async mounted() {
             console.log("Institution mount up!", this.institutionId)
             await this.$store.dispatch("fetchInstitution", this.institutionId)
-            // await this.$store.dispatch("fetchPublisher", this.institutionPublishers[0].id)
         },
         destroyed() {
             // this.$store.commit("clearInstitution")

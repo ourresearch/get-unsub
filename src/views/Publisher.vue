@@ -264,13 +264,16 @@
 
         created() {
         },
+        destroyed() {
+
+        },
         watch:{
 
         },
         mounted() {
             console.log("publisher: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
-            this.$store.dispatch("fetchPublisherAsync", this.$route.params.publisherId)
+            this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
 

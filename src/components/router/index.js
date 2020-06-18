@@ -11,7 +11,6 @@ import Institution from "../../views/Institution";
 
 
 import Scenario from "../../views/Scenario"
-import PublisherApcs from "../../views/PublisherApcs";
 
 import store from '../../store'
 
@@ -46,11 +45,6 @@ const routes = [
         meta: {requiresAuth: true},
     },
 
-    {
-        path: "/i/:institutionId/p/:publisherId/apc",
-        component: PublisherApcs,
-        meta: {requiresAuth: true},
-    },
 
     {
         path: "/i/:institutionId/p/:publisherId/s/:scenarioId",

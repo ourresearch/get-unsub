@@ -1,9 +1,12 @@
 <template>
-    <v-card flat class="pa-10">
+    <v-card flat class="">
         <v-card-title>
-            {{publisherName}} Setup
+            <div>
+                {{publisherName}} Setup
+            </div>
         </v-card-title>
-        <v-row class="section py-6">
+        <v-divider></v-divider>
+        <v-row class="section pa-6 d-none">
             <v-col cols="4">
                 <div class="headline">
                     Big Deal Cost
@@ -26,7 +29,7 @@
         <v-divider></v-divider>
 
 
-        <v-row class="section py-6">
+        <v-row class="section py-6 pl-4 pr-8">
             <v-col cols="4">
                 <div class="headline">
                     Download counts
@@ -41,7 +44,7 @@
         </v-row>
         <v-divider></v-divider>
 
-        <v-row class="section py-6">
+        <v-row class="section py-6 pl-4 pr-8">
             <v-col cols="4">
                 <div class="headline">
                     A-la-carte prices
@@ -59,7 +62,7 @@
         </v-row>
         <v-divider></v-divider>
 
-        <v-row class="section py-6">
+        <v-row class="section py-6 pl-4 pr-8">
             <v-col cols="4">
                 <div class="headline">
                     Perpetual Access

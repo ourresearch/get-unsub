@@ -158,9 +158,12 @@
 
         created() {
         },
-        mounted() {
+        async mounted() {
+            console.log("mounting ApcTab")
             if (!this.publisherApcHeaders.length) {
-                this.$store.dispatch("fetchPublisherApcData", this.$route.params.publisherId)
+                console.log("ApcTab fetching publisherApcData")
+                await this.$store.dispatch("fetchPublisherApcData", this.$route.params.publisherId)
+                console.log("ApcTab done fetching publisherApcData")
             }
 
 

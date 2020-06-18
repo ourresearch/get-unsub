@@ -62,7 +62,7 @@ export const publisher = {
             state.dataFiles = []
             state.bigDealCost = 0
 
-            state.apcHeader = []
+            state.apcHeaders = []
             state.apcJournals = []
             state.apcPapersCount = null
             state.apcAuthorsFractionalCount = null
@@ -139,29 +139,15 @@ export const publisher = {
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (id == getters.publisherId) return
+            commit("clearPublisher")
             commit("startLoading")
-            // dispatch("fetchPublisherApcData", id),
-            await dispatch("fetchPublisherMainData", id),
-                commit("finishLoading")
+            await dispatch("fetchPublisherMainData", id)
+            commit("finishLoading")
             return
         },
         async refreshPublisher({commit, dispatch, getters}) {
-            commit("startLoading")
-            // dispatch("fetchPublisherApcData", getters.publisherId),
-            await dispatch("fetchPublisherMainData", getters.publisherId),
-            commit("finishLoading")
-            return
-        },
-
-
-        async fetchPublisherAsync({commit, dispatch, getters}, id) {
-            if (id == getters.publisherId) return
-            commit("startLoading")
-            await Promise.all([
-                // dispatch("fetchPublisherApcData", id),
-                dispatch("fetchPublisherMainData", id),
-            ])
-            commit("finishLoading")
+            commit("clearPublisher")
+            await dispatch("fetchPublisher", getters.publisherId)
             return
         },
 
