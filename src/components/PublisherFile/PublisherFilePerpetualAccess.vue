@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div >
         <!-- default -->
         <v-row class="option-row d-flex mb-8">
             <v-col cols="1" class="option-icon text-right">

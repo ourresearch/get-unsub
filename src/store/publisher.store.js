@@ -139,15 +139,15 @@ export const publisher = {
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (id == getters.publisherId) return
-            commit("clearPublisher")
             commit("startLoading")
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")
             return
         },
         async refreshPublisher({commit, dispatch, getters}) {
-            commit("clearPublisher")
-            await dispatch("fetchPublisher", getters.publisherId)
+            commit("startLoading")
+            await dispatch("fetchPublisherMainData", getters.publisherId)
+            commit("finishLoading")
             return
         },
 
