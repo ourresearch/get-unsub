@@ -82,7 +82,7 @@
                         <v-icon>mdi-close</v-icon>
                         Close
                     </v-btn>
-                    <v-btn depressed color="primary" @click="">
+                    <v-btn v-if="false" depressed color="primary" @click="">
                         <v-icon>mdi-download</v-icon>
                         Download
                     </v-btn>

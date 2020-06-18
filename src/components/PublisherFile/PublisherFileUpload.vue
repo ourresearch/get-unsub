@@ -31,17 +31,30 @@
                 </v-card-title>
                 <v-card-text>
                     <div v-if="fileType==='price'">
-                        Upload your title-level pricelist as a spreadsheet with two columns:<code>ISSN</code> and
-                        <code>Price</code>.
+                        Upload your title-level pricelist as a spreadsheet with two columns:<strong>ISSN</strong> and
+                        <strong>Price</strong>.
                     </div>
                     <div v-if="fileType==='perpetualAccess'">
-                        Upload your perpetual access dates as a spreadsheet with three columns: <code>ISSN</code>,
-                        <code>Start date</code>, and
-                        <code>End date</code>. You can ignore any dates before 10yrs ago, as these are not
-                        considered in the forecasting model.
+                        Upload your perpetual access dates as a spreadsheet with three columns: <strong>ISSN</strong>,
+                        <strong>Start date</strong>, and
+                        <strong>End date</strong>.
                     </div>
                     <div v-if="fileType==='counter'">
-                        Upload your COUNTER JR1 file:
+                        Upload your COUNTER JR1 report.
+                    </div>
+                    <div class="caption">
+                        <ul>
+                            <li v-if="fileType==='perpetualAccess'">
+                                You can ignore any dates before 10yrs ago, as these are not
+                        considered in the forecasting model.
+                            </li>
+                            <li>
+                                Accepted formats: .csv, .xlsx, .xls
+                            </li>
+                            <li>
+                                ISSNs must contain dashes, like this: 1234-5678
+                            </li>
+                        </ul>
                     </div>
                     <div>
                         <v-file-input

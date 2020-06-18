@@ -1,8 +1,14 @@
 <template>
-    <tr>
+    <tr >
         <td v-for="header in headers">
-            {{ cellsDict[header.value].value }}
-            {{ cellsDict[header.value].error }}
+            <div>
+                {{ cellsDict[header.value].value }}
+            </div>
+            <div v-if="cellsDict[header.value].error" class="font-weight-bold error--text">
+
+                {{ cellsDict[header.value].error.message }}
+
+            </div>
         </td>
     </tr>
 </template>
