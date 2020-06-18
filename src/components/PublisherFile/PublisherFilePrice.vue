@@ -1,7 +1,5 @@
 <template>
     <div >
-
-
         <!-- missing prices -->
         <v-row class="option-row warn d-flex mb-8" v-if="myJournalsBySource.null">
             <v-col cols="1" class="option-icon text-right">
@@ -119,12 +117,12 @@
                 <div class="option-file-info body-2">
                     <div>
                         <div>
-                            {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                            {{ myUploadedRowsCount }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
-                            <li v-if="myFileInfo.error_rows.rows.length">
+                            <li v-if="errorRows.length">
                                 <publisher-file-journals-list
-                                        :rows="myFileInfo.error_rows.rows"
+                                        :rows="errorRows"
                                         :headers="myFileInfo.error_rows.headers"
                                         :error-rows="true"
                                         label="with input errors"
@@ -194,14 +192,25 @@
             myFileInfo() {
                 return this.publisherFiles.find(f => f.id === "price")
             },
+            errorRows(){
+                return (this.myFileInfo.error_rows) ? this.myFileInfo.error_rows.rows : []
+            },
             isUploaded() {
                 return this.myFileInfo.uploaded
             },
             myJournals() {
                 return this.publisherJournalsValid
             },
+            myCustomJournalsRaw(){ // this includes journals with no counter data
+                return this.publisherJournals.filter(j => {
+                    return j.dataSourcesDict.price.source === "custom"
+                })
+            },
+            myUploadedRowsCount() {
+                return this.myCustomJournalsRaw.length + this.errorRows.length
+            },
             myJournalsBySource() {
-                const groups = _.groupBy(this.myJournals, (j) => {
+                const groups = _.groupBy(this.publisherJournalsValid, (j) => {
                     return j.dataSources.find(ds => ds.id === 'price').source
                 })
 
@@ -226,7 +235,7 @@
 
             numRowsIgnored() {
                 return _.sum([
-                    this.myFileInfo.error_rows.rows.length,
+                    this.errorRows.length,
                     this.journalsWithPriceButNoCounter.length
                 ])
             },

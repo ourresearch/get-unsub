@@ -47,12 +47,12 @@
                 <div class="option-file-info body-2">
                     <div>
                         <div>
-                            {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                            {{ myUploadedRowsCount }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
-                            <li v-if="myFileInfo.error_rows">
+                            <li v-if="errorRows.length">
                                 <publisher-file-journals-list
-                                    :rows="myFileInfo.error_rows.rows"
+                                    :rows="errorRows"
                                     :headers="myFileInfo.error_rows.headers"
                                     :error-rows="true"
                                     label="with input errors"
@@ -156,13 +156,30 @@
                     }
                 })
             },
+            myCustomJournalsRaw(){ // this includes ALL journals
+                return this.publisherJournals.filter(j => {
+                    return j.dataSourcesDict.counter.source === "custom"
+                })
+            },
+
+            myUploadedRowsCount() {
+                return this.myCustomJournalsRaw.length + this.errorRows.length
+            },
+            errorRows(){
+                return (this.myFileInfo.error_rows) ? this.myFileInfo.error_rows.rows : []
+            },
             myJournalHeaders(){
                 return [
                     {text: "Downloads", value: "counter"},
                 ]
             },
             numRowsIgnored() {
-                return this.myFileInfo.rows_count - this.myJournals.length
+                return _.sum([
+                    this.errorRows.length,
+                    this.ignoredOa.length,
+                    this.ignoredMoved.length,
+                    this.ignoredInactive.length,
+                ])
             },
             ignoredOa() {
                 return this.publisherJournals.filter(j => j.isOa)

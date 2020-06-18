@@ -95,7 +95,7 @@
                 <div class="option-file-info body-2">
                     <div>
                         <div>
-                            {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                            {{ myUploadedRowsCount }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
                             <li v-if="errorRows.length">
@@ -237,6 +237,15 @@
             myJournals() {
                 return this.publisherJournalsValid
             },
+            myCustomJournalsRaw(){ // this includes journals with no counter data
+                return this.publisherJournals.filter(j => {
+                    return j.dataSourcesDict.perpetualAccess.source === "custom"
+                })
+            },
+            myUploadedRowsCount() {
+                return this.myCustomJournalsRaw.length + this.errorRows.length
+            },
+
             myJournalsBySource() {
                 const groups = _.groupBy(this.publisherJournalsValid, (j) => {
                     return j.dataSources.find(ds => ds.id === 'perpetualAccess').source
