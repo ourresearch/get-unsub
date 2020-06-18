@@ -44,7 +44,7 @@
         <!-- default -->
         <v-row class="option-row d-flex mb-8">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
+                <v-icon class="mt-4" color="gray">mdi-check</v-icon>
             </v-col>
             <v-col cols="9">
                 <div class="option-top-content d-flex">
@@ -75,7 +75,7 @@
         <!-- custom not uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="!isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" v-if="!isUploaded">mdi-checkbox-blank-outline</v-icon>
+                <v-icon class="mt-4" v-if="!isUploaded">mdi-close</v-icon>
             </v-col>
             <v-col cols="9">
                 <div class="title mb-2">
@@ -98,7 +98,7 @@
         <!-- custom has been uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
+                <v-icon class="mt-4" color="gray">mdi-check</v-icon>
             </v-col>
             <v-col cols="9" class="option-content">
                 <div class="option-top-content d-flex">

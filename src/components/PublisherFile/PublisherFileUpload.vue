@@ -204,7 +204,7 @@
                     this.closeSuccessfully()
                 } catch (e) {
                     this.errorMsg = (e.response && e.response.data && e.response.data.message) ?
-                        e.response.data.message :
+                        e.response.data.message.message :
                         "Sorry, we encountered an unknown error!"
                 } finally {
                     this.isUploadFileLoading = false

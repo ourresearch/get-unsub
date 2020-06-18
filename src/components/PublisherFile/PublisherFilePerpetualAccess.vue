@@ -3,7 +3,7 @@
         <!-- default -->
         <v-row class="option-row d-flex mb-8">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
+                <v-icon class="mt-4" color="gray">mdi-check</v-icon>
             </v-col>
             <v-col cols="9">
                 <div class="option-top-content d-flex">
@@ -50,7 +50,7 @@
         <!-- custom not uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="!isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" v-if="!isUploaded">mdi-checkbox-blank-outline</v-icon>
+                <v-icon class="mt-4" v-if="!isUploaded">mdi-close</v-icon>
             </v-col>
             <v-col cols="9">
                 <div class="title mb-2">
@@ -74,7 +74,7 @@
         <!-- custom has been uploaded -->
         <v-row class="option-row d-flex mb-8" v-if="isUploaded">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" color="gray">mdi-checkbox-marked</v-icon>
+                <v-icon class="mt-4" color="gray">mdi-check</v-icon>
             </v-col>
             <v-col cols="9" class="option-content">
                 <div class="option-top-content d-flex">
@@ -98,9 +98,9 @@
                             {{ myFileInfo.rows_count }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
                         </div>
                         <ul>
-                            <li v-if="myFileInfo.error_rows && myFileInfo.error_rows.rows.length">
+                            <li v-if="errorRows.length">
                                 <publisher-file-journals-list
-                                        :rows="myFileInfo.error_rows.rows"
+                                        :rows="errorRows"
                                         :headers="myFileInfo.error_rows.headers"
                                         :error-rows="true"
                                         label="with input errors"
@@ -266,11 +266,14 @@
                     return j.dataSourcesDict.perpetualAccess.source === 'custom' && !j.isValid
                 })
             },
+            errorRows(){
+                return (this.myFileInfo.error_rows) ? this.myFileInfo.error_rows.rows : []
+            },
 
             numRowsIgnored() {
                 return _.sum([
                     this.journalsWithPerpetualAccessButNoCounter.length,
-                    this.myFileInfo.error_rows.rows.length,
+                    this.errorRows.length,
                 ])
             },
         },
