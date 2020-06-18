@@ -400,7 +400,7 @@
             </v-btn>
         </v-snackbar>
 
-        <v-snackbar v-model="snackbars.demoNewPublisher" top>
+        <v-snackbar v-model="snackbars.demoNewPublisher" bottom>
             Demo accounts can't add new publishers
             <v-btn dark icon @click="snackbars.demoNewPublisher = false">
                 <v-icon>mdi-close</v-icon>

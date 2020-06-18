@@ -63,6 +63,14 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
+
+
+        <v-snackbar v-model="snackbars.demoNotAllowed" bottom>
+            Demo accounts can't delete files
+            <v-btn dark icon @click="snackbars.demoNotAllowed = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
     </span>
 
 
@@ -95,6 +103,7 @@
                 dialogIsShowing: false,
                 snackbars: {
                     success: false,
+                    demoNotAllowed: false,
                 }
 
             }
@@ -102,6 +111,7 @@
         computed: {
             ...mapGetters([
                 "publisherId",
+                "institutionIsDemo"
             ]),
         },
         methods: {
@@ -110,7 +120,12 @@
             ]),
             open(){
                 this.close() // clear everything out
-                this.dialogIsShowing = true
+                if (this.institutionIsDemo){
+                    this.snackbars.demoNotAllowed = true
+                }
+                else {
+                    this.dialogIsShowing = true
+                }
             },
             close(){
                 this.errorMsg = null
