@@ -229,7 +229,7 @@
                             </v-list-item>
 
 
-                            <v-list-item @click="dialogs.createPublisher = true">
+                            <v-list-item @click="openCreatePublisherDialog">
                                 <v-list-item-avatar size="50">
                                     <v-btn icon>
                                         <v-icon>mdi-plus</v-icon>
@@ -400,6 +400,13 @@
             </v-btn>
         </v-snackbar>
 
+        <v-snackbar v-model="snackbars.demoNewPublisher" top>
+            Demo accounts can't add new publishers
+            <v-btn dark icon @click="snackbars.demoNewPublisher = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
 
     </v-container>
 </template>
@@ -421,6 +428,7 @@
                     roleUpdated: false,
                     copySuccess: false,
                     newPublisherSuccess: false,
+                    demoNewPublisher: false,
                 },
                 dialogs: {
                     createGroupMember: false,
@@ -541,6 +549,16 @@
                 this.newPublisherLoading = false
                 this.newPublisherDisplayName = ""
                 this.dialogs.createPublisher = false
+            },
+            openCreatePublisherDialog(){
+                this.cancelCreatePublisher()
+                if (this.institutionIsDemo){
+                    this.snackbars.demoNewPublisher = true
+                }
+                else {
+                    this.dialogs.createPublisher = true
+                }
+
             }
 
 
