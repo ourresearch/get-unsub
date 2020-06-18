@@ -206,7 +206,7 @@
                     "Forecasts",
                     "APCs",
                     "Setup",
-                    "Journals",
+                    // "Journals",
                 ],
                 tabSelected: "Forecasts"
             }
