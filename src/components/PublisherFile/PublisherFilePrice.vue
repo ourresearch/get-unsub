@@ -50,11 +50,11 @@
                         <div class="title mb-2">
                             <div class="caption">Default</div>
                             <div style="line-height: 1">
-                                Public pricelist
+                                Public price
                             </div>
                         </div>
                         <div class="body-2">
-                            These journals use the posted a-la-carte list price
+                            These journals use the publically posted a-la-carte list price
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                 <div class="title mb-2">
                     <div class="caption">Optional</div>
                     <div style="line-height: 1">
-                        Custom Pricelist
+                        Custom price
                     </div>
                 </div>
                 <div class="body-2">

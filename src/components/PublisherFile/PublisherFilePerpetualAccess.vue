@@ -56,7 +56,7 @@
                 <div class="title mb-2">
                     <div class="caption">Optional</div>
                     <div style="line-height: 1">
-                        Custom perpetual access dates
+                        Perpetual access between given dates
                     </div>
                 </div>
                 <div class="body-2">

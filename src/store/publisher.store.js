@@ -68,6 +68,14 @@ export const publisher = {
             state.apcAuthorsFractionalCount = null
             state.apcCost = null
         },
+        clearApcData(state){
+            state.apcHeaders = []
+            state.apcJournals = []
+            state.apcPapersCount = null
+            state.apcAuthorsFractionalCount = null
+            state.apcCost = null
+        },
+
         setSelectedPublisher(state, apiPublisher) {
             state.selected = apiPublisher // legacy
 
