@@ -42,21 +42,26 @@
                     <div v-if="fileType==='counter'">
                         Upload your COUNTER JR1 report.
                     </div>
-                    <div class="caption" v-if="fileType==='!perpetualAccess'">
+                    <div class="caption" v-if="fileType !== 'perpetualAccess'">
                                 Accepted formats: .csv, .xlsx, .xls
                     </div>
-                    <ul v-if="fileType==='perpetualAccess'">
-                        <li>
-                                Accepted formats: .csv, .xlsx, .xls
-                        </li>
-                        <li>
-                             You can ignore any dates before 10yrs ago, as these are not
-                        considered in the forecasting model.
-                        </li>
-                        <li>
-                            Leave end_date blank for journals where perpetual access is ongoing
-                        </li>
-                    </ul>
+                    <div v-if="fileType==='perpetualAccess'">
+                        <div class="body-2 mt-4">
+                            Tips:
+                        </div>
+                        <ul>
+                            <li>
+                                    Accepted formats: .csv, .xlsx, .xls
+                            </li>
+                            <li>
+                                 You can ignore any dates before 10yrs ago, as these are not
+                            considered in the forecasting model.
+                            </li>
+                            <li>
+                                Leave end_date blank for journals where perpetual access is ongoing
+                            </li>
+                        </ul>
+                    </div>
                     <div>
                         <v-file-input
                                 class="my-5"
