@@ -7,7 +7,7 @@ import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
 import publisherFileConfigs from "../components/PublisherFile/publisherFileConfigs";
-import {publisherLogoFromName} from "../shared/publisher";
+import {publisherLogoFromId} from "../shared/publisher";
 
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
@@ -21,6 +21,7 @@ export const publisher = {
         apcIsLoading: false,
 
         id: null,
+        publisher: "",
         name: "",
         isDemo: false,
         scenarios: [],
@@ -48,6 +49,7 @@ export const publisher = {
         clearPublisher(state) {
             state.isLoading = false
             state.id = null
+            state.publisher = ""
             state.name = ""
             state.isDemo = false
             state.scenarios = []
@@ -80,6 +82,7 @@ export const publisher = {
             state.selected = apiPublisher // legacy
 
             state.id = apiPublisher.id
+            state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
             state.isDemo = apiPublisher.is_demo
             state.scenarios = apiPublisher.scenarios
@@ -277,7 +280,7 @@ export const publisher = {
             return state.name
         },
         publisherLogo: (state) => {
-            return publisherLogoFromName(state.name)
+            return publisherLogoFromId(state.publisher)
         },
 
         publisherId: (state) => state.id,

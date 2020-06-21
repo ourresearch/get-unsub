@@ -2,19 +2,19 @@ import appConfigs from "../appConfigs";
 
 
 const config = {
-    elsevier: {
+    Elsevier: {
         name: "Elsevier",
-        id: "elsevier",
+        id: "Elsevier",
         logo: "https://i.imgur.com/Qt1sOqp.png",
     },
-    springer_nature: {
+    SpringerNature: {
         name: "Springer Nature",
-        id: "springer_nature",
+        id: "SpringerNature",
         logo: "https://i.imgur.com/MLtg71P.png",
     },
-    wiley: {
+    Wiley: {
         name: "Wiley",
-        id: "wiley",
+        id: "Wiley",
         logo: "https://i.imgur.com/FFfCHXI.png",
     },
 }
@@ -28,6 +28,15 @@ const publisherLogoFromName = function(name){
 
         if (config[myPublisherIdReal]) {
             return config[myPublisherIdReal].logo
+        }
+        else {
+            return "https://i.imgur.com/PN3ya57.png"
+        }
+}
+
+const publisherLogoFromId = function(id){
+    if (config[id]) {
+            return config[id].logo
         }
         else {
             return "https://i.imgur.com/PN3ya57.png"
@@ -165,7 +174,7 @@ const makePublisherJournal = function(apiJournal){
 
 
 export  {
-    publisherLogoFromName,
+    publisherLogoFromId,
     publisherJournalColumns,
     makePublisherJournal,
     makePublisherJournalRow,

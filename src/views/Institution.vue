@@ -211,7 +211,7 @@
                             >
                                 <v-list-item-avatar tile size="50">
                                     <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
-                                    <v-img :src="publisherLogoFromName(pub.name)"></v-img>
+                                    <v-img :src="publisherLogoFromId(pub.publisher)"></v-img>
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
@@ -416,7 +416,7 @@
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
 
     const short = require('short-uuid');
-    import {publisherLogoFromName} from "../shared/publisher";
+    import {publisherLogoFromId} from "../shared/publisher";
 
     export default {
         name: "Institution",
@@ -502,9 +502,9 @@
         methods: {
             ...mapMutations([]),
             ...mapActions([]),
-            publisherLogoFromName(name) {
-                console.log("publisherLogoFromName")
-                return publisherLogoFromName(name)
+            publisherLogoFromId(id) {
+                console.log("publisherLogoFromId")
+                return publisherLogoFromId(id)
             },
             async setRole(email, role) {
                 console.log("set role", email, role)
