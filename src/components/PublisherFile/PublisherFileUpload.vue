@@ -37,15 +37,26 @@
                     <div v-if="fileType==='perpetualAccess'">
                         Upload your perpetual access dates as a spreadsheet with three columns: <strong>ISSN</strong>,
                         <strong>Start date</strong>, and
-                        <strong>End date</strong>. You can ignore any dates before 10yrs ago, as these are not
-                        considered in the forecasting model.
+                        <strong>End date</strong>.
                     </div>
                     <div v-if="fileType==='counter'">
                         Upload your COUNTER JR1 report.
                     </div>
-                    <div class="caption">
+                    <div class="caption" v-if="fileType==='!perpetualAccess'">
                                 Accepted formats: .csv, .xlsx, .xls
                     </div>
+                    <ul v-if="fileType==='perpetualAccess'">
+                        <li>
+                                Accepted formats: .csv, .xlsx, .xls
+                        </li>
+                        <li>
+                             You can ignore any dates before 10yrs ago, as these are not
+                        considered in the forecasting model.
+                        </li>
+                        <li>
+                            Leave end_date blank for journals where perpetual access is ongoing
+                        </li>
+                    </ul>
                     <div>
                         <v-file-input
                                 class="my-5"
