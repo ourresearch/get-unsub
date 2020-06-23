@@ -284,6 +284,7 @@ export const publisher = {
         },
 
         publisherId: (state) => state.id,
+        publisherPublisher: (state) => state.publisher,
         publisherJournalCounts: (state) => state.journalCounts,
         publisherJournals: (state) => state.journals,
         publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),

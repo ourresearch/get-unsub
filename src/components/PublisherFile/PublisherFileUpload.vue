@@ -24,7 +24,11 @@
                 <v-card-title class="headline">
                     <div>
                         Upload
-                        <span v-if="fileType==='counter'"> COUNTER file</span>
+                        <span v-if="fileType==='counter'">
+                            <span class="date" v-if="publisherPublisher === 'Wiley'">2018</span>
+                            <span class="date" v-if="publisherPublisher === 'Elsevier'">2019</span>
+                            COUNTER JR1 Report
+                        </span>
                         <span v-if="fileType==='price'"> Custom journals prices</span>
                         <span v-if="fileType==='perpetualAccess'"> Perpetual access dates</span>
                     </div>
@@ -33,19 +37,21 @@
                     <div v-if="fileType==='price'">
                         Upload your title-level pricelist as a spreadsheet with two columns:<strong>ISSN</strong> and
                         <strong>Price</strong>.
+
+
                     </div>
                     <div v-if="fileType==='perpetualAccess'">
                         Upload your perpetual access dates as a spreadsheet with three columns: <strong>ISSN</strong>,
                         <strong>Start date</strong>, and
                         <strong>End date</strong>.
                     </div>
-                    <div v-if="fileType==='counter'">
-                        Upload your COUNTER JR1 report.
+                    <div v-if="0 && fileType==='counter'">
+                        Upload your
+                        <span class="date" v-if="publisherPublisher === 'Wiley'">2018</span>
+                        <span class="date" v-if="publisherPublisher === 'Elsevier'">2019</span>
+                        COUNTER JR1 report.
                     </div>
-                    <div class="caption" v-if="fileType !== 'perpetualAccess'">
-                                Accepted formats: .csv, .xlsx, .xls
-                    </div>
-                    <div v-if="fileType==='perpetualAccess'">
+                    <div>
                         <div class="body-2 mt-4">
                             Tips:
                         </div>
@@ -53,12 +59,18 @@
                             <li>
                                     Accepted formats: .csv, .xlsx, .xls
                             </li>
-                            <li>
+                            <li v-if="fileType === 'perpetualAccess'">
                                  You can ignore any dates before 10yrs ago, as these are not
                             considered in the forecasting model.
                             </li>
-                            <li>
+                            <li v-if="fileType === 'perpetualAccess'">
                                 Leave end_date blank for journals where perpetual access is ongoing
+                            </li>
+                            <li v-if="fileType === 'counter'">
+                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches summer 2020.
+                            </li>
+                            <li v-if="fileType === 'counter' && publisherPublisher === 'Wiley'">
+                                    Unfortunately Wiley doesn't generate COUNTER 4 JR1s for 2019 data, so we need to use 2018 for now. However, forecast results are generally about the same.
                             </li>
                         </ul>
                     </div>
@@ -181,8 +193,10 @@
         computed: {
             ...mapGetters([
                 "publisherId",
-                "institutionIsDemo"
+                "institutionIsDemo",
+                "publisherPublisher"
             ]),
+
         },
         methods: {
             ...mapActions([]),
