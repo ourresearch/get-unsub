@@ -59,18 +59,21 @@
                             <li>
                                     Accepted formats: .csv, .xlsx, .xls
                             </li>
+                            <li v-if="fileType === 'counter'">
+                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches summer 2020.
+                            </li>
+                            <li v-if="fileType === 'counter' && publisherPublisher === 'Wiley'">
+                                    Unfortunately Wiley doesn't generate COUNTER 4 JR1s for 2019 data, so we need to use 2018 for now. However, forecast results are generally about the same.
+                            </li>
+                            <li v-if="fileType === 'price'">
+                                 Prices must be in USD.
+                            </li>
                             <li v-if="fileType === 'perpetualAccess'">
                                  You can ignore any dates before 10yrs ago, as these are not
                             considered in the forecasting model.
                             </li>
                             <li v-if="fileType === 'perpetualAccess'">
                                 Leave end_date blank for journals where perpetual access is ongoing
-                            </li>
-                            <li v-if="fileType === 'counter'">
-                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches summer 2020.
-                            </li>
-                            <li v-if="fileType === 'counter' && publisherPublisher === 'Wiley'">
-                                    Unfortunately Wiley doesn't generate COUNTER 4 JR1s for 2019 data, so we need to use 2018 for now. However, forecast results are generally about the same.
                             </li>
                         </ul>
                     </div>

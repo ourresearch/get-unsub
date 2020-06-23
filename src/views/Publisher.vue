@@ -64,8 +64,11 @@
                         <v-card>
                             <v-card-title>
                                 <div>
-                                    Forecast scenarios
-                                    <span class="body-2">({{publisherScenarios.length}})</span>
+                                    <div>
+                                        Forecast scenarios
+                                        <span class="body-2">({{publisherScenarios.length}})</span>
+                                    </div>
+                                    <div class="body-2">Model and explore the impact of Big Deal cancellation under different assumptions and with different a-la-carte subscriptions.</div>
                                 </div>
                             </v-card-title>
                             <v-divider></v-divider>
