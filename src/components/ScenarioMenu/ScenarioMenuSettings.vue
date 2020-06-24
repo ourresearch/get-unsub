@@ -47,6 +47,7 @@
                                         class="body-2"
                                         @click="startEdit(config.name)"
                                         v-on="on"
+                                        :disabled="config.name === 'backfile_contribution' && publisherFilesDict.perpetualAccess.uploaded"
                                 >
                                     <v-list-item-content>
                                         {{config.displayName}}
@@ -179,7 +180,7 @@
 </template>
 
 <script>
-    import {mapActions} from "vuex"
+    import {mapActions, mapGetters} from "vuex"
     import SettingsItem from "../Settings/SettingsItem";
     import appConfigs from "../../appConfigs";
     import SettingsItemValue from "../Settings/SettingsItemValue";
@@ -199,6 +200,9 @@
             savingReset: false,
         }),
         computed: {
+            ...mapGetters([
+                "publisherFilesDict",
+            ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
             selectedConfigData() {
                 return appConfigs.scenarioConfigs[this.selectedConfigName]

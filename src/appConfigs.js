@@ -290,6 +290,7 @@ const scenarioConfigs = {
     },
     include_backfile: {
         name: "include_backfile",
+        isBackfile: true,
         default: true,
         value: null,
         display: "boolean",
@@ -298,6 +299,7 @@ const scenarioConfigs = {
     },
     backfile_contribution: {
         name: "backfile_contribution",
+        isBackfile: true,
         default: 100,
         value: null,
         display: "percent",

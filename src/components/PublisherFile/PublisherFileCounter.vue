@@ -47,7 +47,12 @@
                 <div class="option-file-info body-2">
                     <div>
                         <div>
-                            {{ myUploadedRowsCount }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                            <span v-if="numRowsIgnored.length">
+                                {{ myUploadedRowsCount }} rows uploaded, with {{ numRowsIgnored }} rows ignored:
+                            </span>
+                            <span v-if="!numRowsIgnored.length">
+                                {{ myUploadedRowsCount }} rows uploaded.
+                            </span>
                         </div>
                         <ul>
                             <li v-if="errorRows.length">
@@ -58,13 +63,13 @@
                                     label="with input errors"
                                 />
                             </li>
-                            <li>
+                            <li v-if="ignoredOa.length">
                                 <publisher-file-journals-list
                                     :rows="ignoredOa"
                                     label="fully Open-Access journals"
                                 />
                             </li>
-                            <li>
+                            <li v-if="ignoredInactive.length">
                                 <publisher-file-journals-list
                                     :rows="ignoredInactive"
                                     :label="'journals no longer published by ' + publisherName"

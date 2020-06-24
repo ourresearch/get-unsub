@@ -301,6 +301,18 @@ export const publisher = {
         publisherBigDealCost: (state) => state.bigDealCost,
         publisherIsLoading: (state) => state.isLoading,
 
+        publisherFilesDict: (state) => {
+            const ret = {}
+            state.dataFiles.forEach(f => {
+                const val = {
+                    ...f,
+                    id: _.camelCase(f.name),
+                }
+                ret[val.id] = val
+            })
+            return ret
+        },
+
         publisherFiles: (state) => {
             return state.dataFiles.map(f => {
 
