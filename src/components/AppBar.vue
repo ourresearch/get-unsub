@@ -107,12 +107,12 @@
 
         <template v-slot:extension v-if="showBannerContent">
             <div class="text">
-                Unpaywall journals is now <strong> Unsub: </strong> same service, new name!
+                Are you a librarian? Take our 5-minute pricing survey!
             </div>
             <v-spacer />
-            <v-btn text dark href="https://blog.ourresearch.org/unpaywall-journals-is-now-unsub/" target="_blank">
+            <v-btn text dark href="https://docs.google.com/forms/d/e/1FAIpQLSce71D0KwMF3Utmkt5qbVWtdfAmHFPE2Y8nlqbBZfXb26JkbQ/viewform?usp=send_form" target="_blank">
                 <v-icon small class="mr-2">mdi-open-in-new</v-icon>
-                Read more
+                Take survey
             </v-btn>
             <v-btn text dark @click="dismissBanner">
                 <v-icon small class="mr-2">mdi-close</v-icon>
@@ -137,7 +137,7 @@
         data() {
             return {
                 thirdBreadcrumb: null,
-                showBannerContent: !localStorage.getItem("nameChangeBannerDismissed"),
+                showBannerContent: !localStorage.getItem("surveyBannerDismissed"),
             }
         },
         methods: {
@@ -149,7 +149,7 @@
                 this.$router.push("/")
             },
             dismissBanner(){
-                localStorage.setItem("nameChangeBannerDismissed", "true")
+                localStorage.setItem("surveyBannerDismissed", "true")
                 this.showBannerContent = false
             }
         },
