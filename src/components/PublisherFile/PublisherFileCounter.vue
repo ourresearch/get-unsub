@@ -72,7 +72,7 @@
                             <li v-if="ignoredInactive.length">
                                 <publisher-file-journals-list
                                     :rows="ignoredInactive"
-                                    :label="'journals no longer published by ' + publisherName"
+                                    :label="'journals no longer published by ' + publisherPublisher"
                                 />
                             </li>
                             <li v-if="ignoredInactive.length">
@@ -140,6 +140,7 @@
         computed: {
             ...mapGetters([
                 "publisherName",
+                "publisherPublisher",
                 "publisherId",
                 "publisherBigDealCost",
                 "publisherJournals",
