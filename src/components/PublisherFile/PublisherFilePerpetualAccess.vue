@@ -134,57 +134,6 @@
         </v-row>
 
 
-        <v-dialog
-                persistent
-                v-model="dialogIsShowing"
-                max-width="300"
-        >
-            <v-card>
-                <v-card-title>
-                    Change Perpetual Access Defaults
-                </v-card-title>
-                <v-card-text>
-                    Change default perpetual access (since 2010) to
-                    <span v-if="defaultValue==='none'">
-                        <strong>None</strong>?
-                    </span>
-                    <span v-if="defaultValue==='full'">
-                        <strong>Complete</strong>?
-                    </span>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn
-                            depressed
-                            :disabled="isLoading"
-                            @click="cancel"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn
-                            depressed
-                            color="primary"
-                            :loading="isLoading"
-                            @click="changeDefault"
-                    >
-                        Change
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-
-        <v-snackbar
-                v-model="snackbars.success"
-                :timeout="3000"
-                bottom left
-        >
-            Perpetual access default updated
-            <v-btn dark icon @click="snackbars.success = false">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-        </v-snackbar>
-
 
     </div>
 </template>
@@ -211,11 +160,6 @@
         props: {},
         data() {
             return {
-                defaultValue: "full",
-                dialogIsShowing: false,
-                snackbars: {
-                    success: false,
-                },
                 isLoading: false,
             }
         },
@@ -250,8 +194,6 @@
                 const groups = _.groupBy(this.publisherJournalsValid, (j) => {
                     return j.dataSources.find(ds => ds.id === 'perpetualAccess').source
                 })
-
-
                 return {
                     null: groups.null || [],
                     defaultFull: groups.default_full || [],
@@ -266,7 +208,7 @@
                 ]
             },
             defaultToFull() {
-                return this.myFileInfo.default_to_full
+                return !this.myFileInfo.uploaded
             },
 
 
@@ -287,50 +229,12 @@
             },
         },
         methods: {
-            cancel() {
-                if (this.defaultValue === "full") this.defaultValue = "none"
-                else if (this.defaultValue === "none") this.defaultValue = "full"
-                console.log("changed in cancel", this.dialogIsShowing)
-                const that = this
-                setTimeout(function () {
-                    that.dialogIsShowing = false
-                    console.log("close")
-                }, 200)
-            },
-            closeSuccessfully() {
-                this.dialogIsShowing = false
-                this.snackbars.success = true
-            },
-            showDialog() {
-                this.dialogIsShowing = true
-            },
-            async changeDefault() {
-                this.isLoading = true
-                const path = `publisher/${this.publisherId}/perpetual-access`
-                console.log("perpetual-access changeDefault, using this data", path, this.publisherId)
-                const data = {
-                    default_to_full: this.defaultValue === "full"
-                }
-
-                await api.post(path, data)
-                await this.$store.dispatch("refreshPublisher")
-                this.isLoading = false
-                this.closeSuccessfully()
-            },
         },
         created() {
         },
         mounted() {
         },
         watch: {
-            defaultValue: function (to) {
-                console.log("watch:", this.dialogIsShowing)
-                if (!this.dialogIsShowing) {
-                    this.showDialog()
-                } else {
-
-                }
-            }
         }
     }
 </script>

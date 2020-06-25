@@ -146,13 +146,6 @@
                 console.log("delete, using this page", path, this.publisherId)
                 await api.delete(path)
 
-                if (this.fileType === "perpetualAccess") {
-                    const path = `publisher/${this.publisherId}/perpetual-access`
-                    const data = {default_to_full: true}
-                    await api.post(path, data)
-                }
-
-
                 await this.$store.dispatch("refreshPublisher")
                 this.isLoading = false
                 this.closeSuccessfully()
