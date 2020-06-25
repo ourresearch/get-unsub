@@ -17,7 +17,7 @@
                                             <v-list dense>
                                                 <v-list-item @click="sortTable('title', true)">
                                                     <v-list-item-icon>
-                                                        <v-icon>mdi-sort-ascending</v-icon>
+                                                        <v-icon>mdi-sort-descending</v-icon>
                                                     </v-list-item-icon>
                                                     <v-list-item-title>
                                                         Sort Asc
@@ -25,7 +25,7 @@
                                                 </v-list-item>
                                                 <v-list-item @click="sortTable('title', false)">
                                                     <v-list-item-icon>
-                                                        <v-icon>mdi-sort-descending</v-icon>
+                                                        <v-icon>mdi-sort-ascending</v-icon>
                                                     </v-list-item-icon>
                                                     <v-list-item-title>
                                                         Sort Desc
@@ -47,7 +47,7 @@
                                             <v-list dense>
                                                 <v-list-item @click="sortTable(header.value, true)">
                                                     <v-list-item-icon>
-                                                        <v-icon>mdi-sort-ascending</v-icon>
+                                                        <v-icon>mdi-sort-descending</v-icon>
                                                     </v-list-item-icon>
                                                     <v-list-item-title>
                                                         Sort Asc
@@ -55,7 +55,7 @@
                                                 </v-list-item>
                                                 <v-list-item @click="sortTable(header.value, false)">
                                                     <v-list-item-icon>
-                                                        <v-icon>mdi-sort-descending</v-icon>
+                                                        <v-icon>mdi-sort-ascending</v-icon>
                                                     </v-list-item-icon>
                                                     <v-list-item-title>
                                                         Sort Desc
