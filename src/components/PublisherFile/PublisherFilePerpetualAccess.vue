@@ -179,7 +179,18 @@
                 return this.myFileInfo.uploaded
             },
             myJournals() {
-                return this.publisherJournalsValid
+                return this.publisherJournalsValid.map(j => {
+
+                    const ret = {...j}
+                    const paDataSource = ret.dataSources.find(ds => ds.id === 'perpetualAccess')
+
+                    // hack around an API error...
+                    if (!this.defaultToFull && /default/.test(paDataSource.source)) {
+                        paDataSource.source = "default_none"
+                        paDataSource.value[0] = null
+                    }
+                    return ret
+                })
             },
             myCustomJournalsRaw(){ // this includes journals with no counter data
                 return this.publisherJournals.filter(j => {
@@ -191,7 +202,7 @@
             },
 
             myJournalsBySource() {
-                const groups = _.groupBy(this.publisherJournalsValid, (j) => {
+                const groups = _.groupBy(this.myJournals, (j) => {
                     return j.dataSources.find(ds => ds.id === 'perpetualAccess').source
                 })
                 return {
