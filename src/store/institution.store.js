@@ -47,8 +47,8 @@ export const institution = {
         setPublisherDeleted(state, id){
             state.institutionPublishers.find(p=> p.id === id).is_deleted = true
         },
-        addPublisher(state, {id, name}){
-            state.institutionPublishers.push({id, name})
+        addPublisher(state, publisherObject){
+            state.institutionPublishers.push(publisherObject)
         },
     },
     actions: {
@@ -92,16 +92,16 @@ export const institution = {
             return resp
         },
 
-        async createPublisher({commit, dispatch, getters}, {publisherId, name}) {
+        async createPublisher({commit, dispatch, getters}, {publisher, name}) {
             const url = "/publisher/new"
             const data = {
                 name,
-                publisher: publisherId,
+                publisher,
                 institution_id: getters.institutionId,
             }
             const resp = await api.post(url, data)
             console.log("got response from createPublisher call", resp)
-            commit("addPublisher", {id: resp.data.id, name: resp.data.name})
+            commit("addPublisher", {id: resp.data.id, publisher, name: resp.data.name})
             return resp
         },
 

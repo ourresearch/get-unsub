@@ -503,7 +503,7 @@
             ...mapMutations([]),
             ...mapActions([]),
             publisherLogoFromId(id) {
-                console.log("publisherLogoFromId")
+                console.log("publisherLogoFromId", id)
                 return publisherLogoFromId(id)
             },
             async setRole(email, role) {
@@ -540,7 +540,8 @@
 
                 const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected.name
                 const publisherId = this.newPublisherItemSelected.id
-                await this.$store.dispatch("createPublisher", {publisherId, name})
+                const publisher = this.newPublisherItemSelected.id
+                await this.$store.dispatch("createPublisher", {publisher, name})
                 this.newPublisherLoading = false
                 this.snackbars.newPublisherSuccess = true
                 this.dialogs.createPublisher = false
