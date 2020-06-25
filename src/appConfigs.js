@@ -228,16 +228,16 @@ const scenarioConfigs = {
         default: 2100000,
         value: null,
         display: "dollars",
-        displayName: "Base cost",
-        descr: "The base cost of your package right now -- either your Big Deal cost or the sum of subscriptions you are currently paying."
+        displayName: "Big Deal cost",
+        descr: "The cost of your Big Deal right now (or of the bundle of a-la-carte subscriptions, if you don't have a Big Deal)."
     },
     cost_bigdeal_increase: {
         name: "cost_bigdeal_increase",
         default: 5,
         value: null,
         display: "percent",
-        displayName: "Base cost growth",
-        descr: "The annual percent increase you expect in your package price (literature suggests 5% if a Big Deal, 8% if individual subscriptions)."
+        displayName: "Big Deal growth",
+        descr: "The annual percent increase in your Big Deal price (literature suggests average is 5% if a Big Deal, 8% if individual subscriptions)."
 
     },
     cost_content_fee_percent: {
