@@ -13,12 +13,12 @@
                     </div>
                 </div>
                 <div class="body-2">
-                    These journals will <em>not</em> be
-                    included in forecasting. You can fix this by
+                    These journals have no public list price, and no custom price uploaded. They will not be
+                    included in forecasting. You can set a price for them by
                     <span v-if="isUploaded">
                         <publisher-file-upload
                                 file-type="price"
-                                link-text="uploading a more complete custom pricelist"
+                                link-text="uploading a new custom pricelist"
                         /> that includes prices for these journals.
                     </span>
                     <span v-if="!isUploaded">
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <div class="body-2">
-                            These journals use the publically posted a-la-carte list price
+                            These journals use the publicly posted a-la-carte list price
                         </div>
                     </div>
                 </div>

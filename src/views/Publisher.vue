@@ -211,7 +211,6 @@
                     "Setup",
                     // "Journals",
                 ],
-                tabSelected: "Forecasts"
             }
         },
         computed: {
@@ -228,6 +227,7 @@
                 "publisherIsLoading",
                 "publisherJournalCounts",
                 "publisherLogo",
+                "publisherCounterIsUploaded",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -236,9 +236,6 @@
                 "publisherApcIsLoading",
 
             ]),
-            // fileSelected() {
-            //     return !!this.$refs.fileSelected.files && this.$refs.fileSelected.files.length[0]
-            // },
             account() {
                 return this.$store.state.user
             },
@@ -273,10 +270,9 @@
         watch:{
 
         },
-        mounted() {
+        async mounted() {
             console.log("publisher: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
-            this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
 
@@ -297,6 +293,11 @@
             }, 1000)
 
 
+            await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+            console.log("publisher done loading", this.publisherCounterIsUploaded)
+            if (!this.publisherCounterIsUploaded){
+                console.log("no counter!")
+            }
         },
     }
 </script>

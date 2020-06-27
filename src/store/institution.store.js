@@ -11,6 +11,7 @@ export const institution = {
         institutionName:"",
         institutionUsers: [],
         institutionPublishers: [],
+        institutionPublishersLive: [],
         isDemo: false,
     },
     mutations: {
@@ -32,7 +33,10 @@ export const institution = {
             state.institutionUsers = apiResp.user_permissions
             state.institutionUsers.forEach(user => {
             });
-            state.institutionPublishers = apiResp.publishers
+            apiResp.publishers.forEach(p => {
+                state.institutionPublishers.push(p)
+                if (!p.is_deleted) state.institutionPublishersLive.push(p)
+            })
             state.isDemo = apiResp.is_demo
 
         },
@@ -45,10 +49,14 @@ export const institution = {
             state.institutionUsers.push(addUserPermission)
         },
         setPublisherDeleted(state, id){
-            state.institutionPublishers.find(p=> p.id === id).is_deleted = true
+            console.log("setPublisherDeleted", id)
+            const myIndex = state.institutionPublishersLive.findIndex(p => p.id === id)
+            if (myIndex < 0) return
+            state.institutionPublishersLive.splice(myIndex, 1)
         },
         addPublisher(state, publisherObject){
             state.institutionPublishers.push(publisherObject)
+            state.institutionPublishersLive.push(publisherObject)
         },
     },
     actions: {
@@ -105,14 +113,15 @@ export const institution = {
             return resp
         },
 
-        async deleteInstitutionPublisher({commit, dispatch, getters}, id) {
-            commit("setPublisherDeleted", id)
-
+        async deletePublisher({commit, dispatch, getters}, id) {
             const url = `publisher/${id}`
             const data = {is_deleted: true}
-            console.log("deleteInstitutionPublisher", url, data)
+            console.log("deletePublisher", url, data)
             const resp = await  api.post(url, data)
+            commit("setPublisherDeleted", id)
             return resp
+
+
         },
     },
     getters: {
@@ -132,7 +141,7 @@ export const institution = {
             })
         },
         institutionIsLoading: (state) => !state.institutionName,
-        institutionPublishers: (state) => state.institutionPublishers,
+        institutionPublishers: (state) => state.institutionPublishersLive,
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
     }

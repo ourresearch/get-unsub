@@ -187,6 +187,7 @@
                     // hack around an API error...
                     if (!this.defaultToFull && /default/.test(paDataSource.source)) {
                         paDataSource.source = "default_none"
+                         ret.perpetualAccessStart = null
                         paDataSource.value[0] = null
                     }
                     return ret

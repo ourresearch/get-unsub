@@ -61,6 +61,7 @@
                             <v-list-item
                                     v-for="person in institutionUsersWithRoles"
                                     :key="person.email"
+
                             >
                                 <v-list-item-avatar>
                                     <v-icon>mdi-account-outline</v-icon>
@@ -207,7 +208,6 @@
                             <v-list-item
                                     v-for="pub in institutionPublishers"
                                     :key="pub.id"
-                                    :to="`/i/${institutionId}/p/${pub.id}`"
                             >
                                 <v-list-item-avatar tile size="50">
                                     <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
@@ -224,7 +224,20 @@
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn text>view</v-btn>
+                                    <v-btn
+                                            text
+                                            :to="`/i/${institutionId}/p/${pub.id}`"
+                                    >
+                                        view
+                                    </v-btn>
+                                </v-list-item-action>
+                                <v-list-item-action>
+                                    <v-btn
+                                            icon
+                                            @click="openDeletePublisherDialog(pub.id)"
+                                    >
+                                        <v-icon>mdi-delete-outline</v-icon>
+                                    </v-btn>
                                 </v-list-item-action>
                             </v-list-item>
 
@@ -337,6 +350,33 @@
             </v-card>
         </v-dialog>
 
+        <v-dialog v-model="dialogs.deletePublisher" max-width="400">
+            <v-card v-if="dialogs.deletePublisher">
+                <v-card-title class="headline">
+                    Delete Publisher
+                </v-card-title>
+                <v-card-text class="pt-4">
+                    Are you sure you want to delete this publisher?
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn text
+                           @click="closeDeletePublisherDialog"
+                           :disabled="deletePublisherLoading"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn depressed
+                           @click="deletePublisher"
+                           :loading="deletePublisherLoading"
+                           color="primary"
+                    >
+                        Yes, delete it
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
         <v-dialog v-model="dialogs.createPublisher" max-width="400">
             <v-card>
                 <v-card-title class="headline">
@@ -406,6 +446,12 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
+        <v-snackbar v-model="snackbars.deletePublisherSuccess" bottom>
+            Publisher deleted
+            <v-btn dark icon @click="snackbars.deletePublisherSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
 
 
     </v-container>
@@ -429,11 +475,13 @@
                     copySuccess: false,
                     newPublisherSuccess: false,
                     demoNewPublisher: false,
+                    deletePublisherSuccess: false,
                 },
                 dialogs: {
                     createGroupMember: false,
                     addRorId: false,
                     createPublisher: false,
+                    deletePublisher: false,
                 },
 
 
@@ -450,6 +498,12 @@
                 },
                 sendNewUserWelcomeEmail: true,
                 isRoleUpdating: false,
+
+
+
+                // delete publisher
+                deletePublisherLoading: false,
+                deletePublisherId: null,
 
 
                 // new publisher
@@ -527,6 +581,8 @@
                 this.newGroupMember.password = short.generate().slice(0, 8)
                 this.dialogs.createGroupMember = true
             },
+
+
             async copyPassword() {
                 const copyText = document.querySelector("#pw");
                 copyText.select();
@@ -546,17 +602,41 @@
                 this.snackbars.newPublisherSuccess = true
                 this.dialogs.createPublisher = false
             },
-            cancelCreatePublisher(){
+
+            openDeletePublisherDialog(id){
+                this.deletePublisherId = id
+                this.dialogs.deletePublisher = true
+
+            },
+            closeDeletePublisherDialog(){
+                this.deletePublisherId = null
+                this.dialogs.deletePublisher = false
+            },
+            async deletePublisher() {
+                console.log("delete publisher", this.deletePublisherId)
+                this.deletePublisherLoading = true
+                await this.$store.dispatch("deletePublisher", this.deletePublisherId)
+                this.deletePublisherLoading = false
+                this.snackbars.deletePublisherSuccess = true
+                this.closeDeletePublisherDialog()
+
+                // const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected.name
+                // const publisherId = this.newPublisherItemSelected.id
+                // const publisher = this.newPublisherItemSelected.id
+                // this.newPublisherLoading = false
+                // this.snackbars.newPublisherSuccess = true
+                // this.dialogs.createPublisher = false
+            },
+            cancelCreatePublisher() {
                 this.newPublisherLoading = false
                 this.newPublisherDisplayName = ""
                 this.dialogs.createPublisher = false
             },
-            openCreatePublisherDialog(){
+            openCreatePublisherDialog() {
                 this.cancelCreatePublisher()
-                if (this.institutionIsDemo){
+                if (this.institutionIsDemo) {
                     this.snackbars.demoNewPublisher = true
-                }
-                else {
+                } else {
                     this.dialogs.createPublisher = true
                 }
 
