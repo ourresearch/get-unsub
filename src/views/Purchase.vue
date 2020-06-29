@@ -156,7 +156,8 @@
                                         <v-checkbox v-model="agreedToTerms"></v-checkbox>
 
                                         I agree to the <a
-                                            href="https://ourresearch-admin.s3.amazonaws.com/UnpaywallJournalsTermsAndConditions.pdf"
+                                            href="./unsub-toc.pdf"
+                                            target="_blank"
                                             class="ml-1"> Terms and Conditions.</a>
                                     </v-row>
                                     <v-row>
