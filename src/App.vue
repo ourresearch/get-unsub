@@ -81,12 +81,12 @@
                 this.$store.dispatch("openWizard")
             },
             bootIntercom() {
-                if (!this.$store.getters.userId) return
                 const data = {
                     user_id: this.$store.getters.userId,
                     name: this.$store.getters.userName,
                 }
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
+                console.log("bootIntercom() sending this data", data)
                 this.$intercom.boot(data)
             }
         },
@@ -96,17 +96,13 @@
         },
         watch: {
             "$route": {
-                immediate: true,
+                immediate: false,
                 handler: function (val) {
-                    try {
-                        this.$intercom.update()
-                    } catch (e) {
-                        // it seems like right when the page loads, it throws this error. i can silence it by setting "immediate: false" but i'm afraid that will cause the initial pageload to not be logged to Intercom.
-                        const expectedError = "Cannot read property 'apply' of undefined"
-                        if (e.message !== expectedError) {
-                            throw e
-                        }
-                    }
+                    const that = this
+                    setTimeout(function(){
+                        console.log("running intercom.update()  ")
+                        that.$intercom.update()
+                    }, 500)
                 }
             }
         },
