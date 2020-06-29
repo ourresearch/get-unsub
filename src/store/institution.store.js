@@ -101,7 +101,7 @@ export const institution = {
         },
 
         async createPublisher({commit, dispatch, getters}, {publisher, name}) {
-            const url = "/publisher/new"
+            const url = "publisher/new"
             const data = {
                 name,
                 publisher,

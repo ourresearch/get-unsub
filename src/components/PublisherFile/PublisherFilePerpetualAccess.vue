@@ -34,16 +34,17 @@
             <v-col cols="2" class="text-right mt-3">
                 <publisher-file-journals-list
                         v-if="defaultToFull"
-                        :rows="myJournalsBySource.defaultFull"
+                        :rows="myJournalsBySource.default"
                         :extra-headers="myJournalHeaders"
                         success-journals
                 />
                 <publisher-file-journals-list
                         v-if="!defaultToFull"
-                        :rows="myJournalsBySource.defaultNone"
+                        :rows="myJournalsBySource.null"
                         :extra-headers="myJournalHeaders"
                         success-journals
                 />
+
             </v-col>
         </v-row>
 
@@ -178,21 +179,21 @@
             isUploaded() {
                 return this.myFileInfo.uploaded
             },
-            myJournals() {
-                return this.publisherJournalsValid.map(j => {
-
-                    const ret = {...j}
-                    const paDataSource = ret.dataSources.find(ds => ds.id === 'perpetualAccess')
-
-                    // hack around an API error...
-                    if (!this.defaultToFull && /default/.test(paDataSource.source)) {
-                        paDataSource.source = "default_none"
-                         ret.perpetualAccessStart = null
-                        paDataSource.value[0] = null
-                    }
-                    return ret
-                })
-            },
+            // myJournals() {
+            //     return this.publisherJournalsValid.map(j => {
+            //
+            //         const ret = {...j}
+            //         const paDataSource = ret.dataSources.find(ds => ds.id === 'perpetualAccess')
+            //
+            //         // hack around an API error...
+            //         // if (!this.defaultToFull && /default/.test(paDataSource.source)) {
+            //         //     paDataSource.source = "default_none"
+            //         //      ret.perpetualAccessStart = null
+            //         //     paDataSource.value[0] = null
+            //         // }
+            //         return ret
+            //     })
+            // },
             myCustomJournalsRaw(){ // this includes journals with no counter data
                 return this.publisherJournals.filter(j => {
                     return j.dataSourcesDict.perpetualAccess.source === "custom"
@@ -203,13 +204,17 @@
             },
 
             myJournalsBySource() {
-                const groups = _.groupBy(this.myJournals, (j) => {
+                const groups = _.groupBy(this.publisherJournalsValid, (j) => {
                     return j.dataSources.find(ds => ds.id === 'perpetualAccess').source
                 })
+
+                console.log("myJournalsBySource groups", groups)
+
                 return {
                     null: groups.null || [],
-                    defaultFull: groups.default_full || [],
-                    defaultNone: groups.default_none || [],
+                    // defaultFull: groups.default_full || [],
+                    // defaultNone: groups.default_none || [],
+                    default: groups.default || [],
                     custom: groups.custom || [],
                 }
             },

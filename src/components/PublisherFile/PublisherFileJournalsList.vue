@@ -1,5 +1,5 @@
 <template>
-    <span v-if="rows.length">
+    <span v-if="rows && rows.length">
         <span v-if="!successJournals">
             <a @click="open">
                 {{rows.length}}
