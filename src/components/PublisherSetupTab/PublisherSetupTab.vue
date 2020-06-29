@@ -6,28 +6,6 @@
             </div>
         </v-card-title>
         <v-divider></v-divider>
-        <v-row class="section pa-6 d-none">
-            <v-col cols="4">
-                <div class="headline">
-                    Big Deal Cost
-                </div>
-                <div class="body-2">
-                    The annual cost of your <em>current</em> {{publisherName}} Big Deal. This is used as the default for
-                    new Forecast Scenarios.
-                </div>
-            </v-col>
-            <v-col>
-                <div class="option-row d-flex">
-                    <div class="title pl-7">
-                        {{publisherBigDealCost | currency}}
-                    </div>
-                    <v-spacer></v-spacer>
-                    <v-btn text>Edit</v-btn>
-                </div>
-            </v-col>
-        </v-row>
-        <v-divider></v-divider>
-
 
         <v-row class="section py-6 pl-4 pr-8">
             <v-col cols="4">
@@ -36,6 +14,12 @@
                 </div>
                 <div class="body-2">
                     Downloads by journal, last year
+                </div>
+                <div class="body-2">
+                    <v-icon color="primary" small>mdi-information-outline</v-icon>
+                    <a target="_blank" href="https://intercom.help/get-unsub/en/articles/4202521-how-do-i-upload-my-counter-usage-data">
+                        Knowledge base
+                    </a>
                 </div>
             </v-col>
             <v-col>
@@ -51,6 +35,13 @@
                 </div>
                 <div class="body-2">
                     Costs of journal-by-journal subscriptions
+                </div>
+
+                <div class="body-2">
+                    <v-icon color="primary" small>mdi-information-outline</v-icon>
+                    <a target="_blank" href="https://intercom.help/get-unsub/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices">
+                        Knowledge base
+                    </a>
                 </div>
             </v-col>
             <v-col>
@@ -69,6 +60,13 @@
                 </div>
                 <div class="body-2">
                     Each journal's date ranges for which you have perpetual access to articles. Only dates after 2010 affect forecasting
+                </div>
+
+                <div class="body-2">
+                    <v-icon color="primary" small>mdi-information-outline</v-icon>
+                    <a target="_blank" href="https://intercom.help/get-unsub/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates">
+                        Knowledge base
+                    </a>
                 </div>
             </v-col>
             <v-col>
