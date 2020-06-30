@@ -34,6 +34,7 @@ export const publisher = {
         },
         journals: [],
         dataFiles: [],
+        counterIsUploaded: false,
         bigDealCost: 0,
 
         // apc stuff
@@ -62,6 +63,7 @@ export const publisher = {
             }
             state.journals = []
             state.dataFiles = []
+            state.counterIsUploaded = false
             state.bigDealCost = 0
 
             state.apcHeaders = []
@@ -101,6 +103,7 @@ export const publisher = {
                 dataFile.name = dataFile.name.replace("prices", "price")
                 return dataFile
             })
+            state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
         },
         clearSelectedPublisher(state) {
@@ -337,7 +340,7 @@ export const publisher = {
         },
 
 
-        publisherCounterIsUploaded: (state) => state.dataFiles.includes(f => f.name === 'counter' && f.uploaded),
+        publisherCounterIsUploaded: (state) => state.counterIsUploaded,
 
 
         // apc stuff

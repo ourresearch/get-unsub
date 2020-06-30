@@ -1,6 +1,5 @@
 <template>
     <v-container class="publisher">
-
         <div
                 style="height: 85vh"
                 class="loading d-flex flex-column align-center justify-center"
@@ -52,11 +51,11 @@
             </v-alert>
 
             <v-card>
-
-                <v-tabs dark >
+                <v-tabs dark v-model="tabModel">
                     <v-tab
                             v-for="tabName in tabItems"
                             :key="tabName"
+                            :disabled="tabName==='Forecasts' && !publisherCounterIsUploaded"
                     >
                         {{tabName}}
                     </v-tab>
@@ -203,7 +202,7 @@
             return {
                 fileSelected: null,
                 errorMsg: "",
-                foo: false,
+                tabModel: 0,
                 loadingPercent: 0,
                 tabItems: [
                     "Forecasts",
@@ -296,7 +295,7 @@
             await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             console.log("publisher done loading", this.publisherCounterIsUploaded)
             if (!this.publisherCounterIsUploaded){
-                console.log("no counter!")
+                this.tabModel = 2
             }
         },
     }
