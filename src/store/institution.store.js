@@ -22,6 +22,7 @@ export const institution = {
             state.institutionName = ""
             state.institutionUsers =  []
             state.institutionPublishers =  []
+            state.institutionPublishersLive = []
             state.userIsAdmin = false
             state.isDemo = false
         },
