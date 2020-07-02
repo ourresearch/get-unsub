@@ -619,13 +619,6 @@
                 this.deletePublisherLoading = false
                 this.snackbars.deletePublisherSuccess = true
                 this.closeDeletePublisherDialog()
-
-                // const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected.name
-                // const publisherId = this.newPublisherItemSelected.id
-                // const publisher = this.newPublisherItemSelected.id
-                // this.newPublisherLoading = false
-                // this.snackbars.newPublisherSuccess = true
-                // this.dialogs.createPublisher = false
             },
             cancelCreatePublisher() {
                 this.newPublisherLoading = false

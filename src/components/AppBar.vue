@@ -102,20 +102,20 @@
             </v-btn>
         </div>
 
-        <template v-slot:extension v-if="showBannerContent">
-            <div class="text">
-                Are you a librarian? Take our 5-minute pricing survey!
-            </div>
-            <v-spacer />
-            <v-btn text dark href="https://docs.google.com/forms/d/e/1FAIpQLSce71D0KwMF3Utmkt5qbVWtdfAmHFPE2Y8nlqbBZfXb26JkbQ/viewform?usp=send_form" target="_blank">
-                <v-icon small class="mr-2">mdi-open-in-new</v-icon>
-                Take survey
-            </v-btn>
-            <v-btn text dark @click="dismissBanner">
-                <v-icon small class="mr-2">mdi-close</v-icon>
-                Dismiss
-            </v-btn>
-        </template>
+<!--        <template v-slot:extension v-if="showBannerContent">-->
+<!--            <div class="text">-->
+<!--                Are you a librarian? Take our 5-minute pricing survey!-->
+<!--            </div>-->
+<!--            <v-spacer />-->
+<!--            <v-btn text dark href="https://docs.google.com/forms/d/e/1FAIpQLSce71D0KwMF3Utmkt5qbVWtdfAmHFPE2Y8nlqbBZfXb26JkbQ/viewform?usp=send_form" target="_blank">-->
+<!--                <v-icon small class="mr-2">mdi-open-in-new</v-icon>-->
+<!--                Take survey-->
+<!--            </v-btn>-->
+<!--            <v-btn text dark @click="dismissBanner">-->
+<!--                <v-icon small class="mr-2">mdi-close</v-icon>-->
+<!--                Dismiss-->
+<!--            </v-btn>-->
+<!--        </template>-->
 
 
     </v-toolbar>
