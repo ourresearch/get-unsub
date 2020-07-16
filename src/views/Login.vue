@@ -22,13 +22,21 @@
                                 label="Email or username"
                                 @keydown.enter="setUsernameOrEmail"
                                 :error-messages="errorMsg"
+                                id="input-email-or-username"
 
                         />
                     </div>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn :loading="isLoading" @click="setUsernameOrEmail" large depressed color="primary">
+                    <v-btn
+                            :loading="isLoading"
+                            @click="setUsernameOrEmail"
+                            large
+                            depressed
+                            color="primary"
+                            id="button-go-to-next-login-step"
+                    >
                         Next
                     </v-btn>
                 </v-card-actions>
@@ -52,7 +60,7 @@
                                 label="Email or username"
                                 readonly
                                 outlined
-
+                                id="input-email-or-username"
                         />
                         <v-text-field
                                 autofocus
@@ -64,13 +72,21 @@
                                 @click:append="showPassword = !showPassword"
                                 @keydown.enter="loginWithPassword"
                                 :error-messages="errorMsg"
+                                id="input-password"
                         />
                     </div>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn v-if="0" text :loading="isLoading" @click="createDemo">Create demo account</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn :loading="isLoading" @click="loginWithPassword" large depressed color="primary">
+                    <v-btn
+                            :loading="isLoading"
+                            @click="loginWithPassword"
+                            large
+                            depressed
+                            color="primary"
+                            id="button-login-go"
+                    >
                         Log in
                     </v-btn>
                 </v-card-actions>

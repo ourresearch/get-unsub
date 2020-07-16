@@ -204,7 +204,7 @@
                             </div>
                         </v-card-title>
                         <v-divider></v-divider>
-                        <v-list>
+                        <v-list id="publishers-list">
                             <v-list-item
                                     v-for="pub in institutionPublishers"
                                     :key="pub.id"

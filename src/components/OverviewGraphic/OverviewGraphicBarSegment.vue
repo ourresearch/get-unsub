@@ -13,11 +13,14 @@
 
                 <span class="segment-label d-flex px-2" v-if="percentage > 5">
                     <span>
-                        {{configObj.displayName}}
+                        {{configObj.displayName}} foo
                     </span>
                     <v-spacer />
-                    <span class="number" v-if="!configObj.isCurrency">{{percentage | round}}%</span>
-                    <span class="number" v-if="configObj.isCurrency">{{count | currency}}</span>
+
+                    <span class="bar-value" :id="`bar-value-${configObj.name}`">
+                        <template v-if="!configObj.isCurrency">{{percentage | round}}%</template>
+                        <template v-if="configObj.isCurrency">{{count | currency}}</template>
+                    </span>
                 </span>
 
             </div>

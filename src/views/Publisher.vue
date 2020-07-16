@@ -73,7 +73,7 @@
                             <v-divider></v-divider>
 
 
-                            <v-list>
+                            <v-list id="scenarios-list">
 
                                 <template
                                         v-for="scenario in publisherScenarios"
@@ -122,6 +122,7 @@
                                             @click="createScenario"
                                             key="add-scenario"
                                             :disabled="!publisherScenariosAreAllLoaded"
+                                            id="new-scenario-button"
                                     >
                                         <v-list-item-avatar size="50">
                                             <v-btn icon>

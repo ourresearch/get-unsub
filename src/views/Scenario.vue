@@ -78,7 +78,7 @@
                                     <!--                                COST -->
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
-                                            <div class="headline font-weight-bold">
+                                            <div class="headline font-weight-bold" id="annual-cost-value">
                                                 {{ subrCost + illCost | currency }}
                                             </div>
                                             <div class="caption">
@@ -101,7 +101,7 @@
                                     <!--                                FULFILLMENT -->
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
-                                            <div class="headline font-weight-bold">
+                                            <div class="headline font-weight-bold" id="instant-fulfillment-value">
                                                 {{ instantUsagePercent | percent }}
                                             </div>
                                             <div class="caption">

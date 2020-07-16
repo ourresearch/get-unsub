@@ -66,7 +66,15 @@
 
 
 
-            <v-btn class="breadcrumbs" text to="/login" v-if="!isLoggedIn">Log in</v-btn>
+            <v-btn
+                    class="breadcrumbs"
+                    text
+                    to="/login"
+                    v-if="!isLoggedIn"
+                    id="header-login-link"
+            >
+                Log in
+            </v-btn>
             <v-menu offset-y v-if="isLoggedIn">
                 <template
                         v-slot:activator="{ on }">
