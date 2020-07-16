@@ -13,7 +13,7 @@
 
                 <span class="segment-label d-flex px-2" v-if="percentage > 5">
                     <span>
-                        {{configObj.displayName}} foo
+                        {{configObj.displayName}}
                     </span>
                     <v-spacer />
 
