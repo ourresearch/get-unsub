@@ -69,15 +69,15 @@
                                     label="fully Open-Access journals"
                                 />
                             </li>
-                            <li v-if="ignoredInactive.length">
+                            <li v-if="ignoredMoved.length">
                                 <publisher-file-journals-list
-                                    :rows="ignoredInactive"
+                                    :rows="ignoredMoved"
                                     :label="'journals no longer published by ' + publisherPublisher"
                                 />
                             </li>
                             <li v-if="ignoredInactive.length">
                                 <publisher-file-journals-list
-                                    :rows="ignoredMoved"
+                                    :rows="ignoredInactive"
                                     label="journals no longer published at all"
                                 />
                             </li>
