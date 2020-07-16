@@ -19,7 +19,6 @@
                 v-model="dialogIsShowing"
                 max-width="1000"
                 scrollable
-                persistent
         >
 
             <v-card flat>
@@ -66,10 +65,10 @@
                                :headers="myHeaders"
                        />
                         <publisher-file-error-row
-                               v-if="errorRows"
-                               :cells-dict="item.item"
-                               :headers="myHeaders"
-                       />
+                                v-if="errorRows"
+                                :cells-dict="item.item"
+                                :headers="myHeaders"
+                        />
 
                     </template>
                 </v-data-table>
@@ -78,14 +77,19 @@
 
                 <v-card-actions class="pt-4">
                     <v-spacer></v-spacer>
-                    <v-btn depressed  @click="close">
+                    <v-btn depressed @click="close">
                         <v-icon>mdi-close</v-icon>
                         Close
                     </v-btn>
-                    <v-btn v-if="false" depressed color="primary" @click="">
-                        <v-icon>mdi-download</v-icon>
-                        Download
-                    </v-btn>
+
+                        <v-btn depressed color="primary" @click="">
+                            <download-csv
+                                    :data="rowsForDownload"
+                            >
+                                <v-icon>mdi-download</v-icon>
+                                Download
+                            </download-csv>
+                        </v-btn>
                 </v-card-actions>
 
             </v-card>
@@ -130,23 +134,31 @@
             tableRows() {
                 return this.rows
             },
-            baseJournalHeaders(){
+            rowsForDownload(){
+                return this.rows.map(row => {
+                    const ret = {}
+                    this.myHeaders.forEach(myHeader => {
+                        ret[myHeader.value] = row[myHeader.value]
+                    })
+                    return ret
+                })
+            },
+            baseJournalHeaders() {
                 return [
-                        {text: "issn", value: "issnl"},
-                        {text: "name", value: "name"},
+                    {text: "issn", value: "issnl"},
+                    {text: "name", value: "name"},
                 ]
             },
-            myHeaders(){
+            myHeaders() {
                 let ret
-                if (this.headers){
+                if (this.headers) {
                     console.log("submitted these headers", this.headers)
                     ret = this.headers.map(h => {
                         if (h.name) h.text = h.name
                         if (h.id) h.value = h.id
                         return h
                     })
-                }
-                else {
+                } else {
                     ret = this.baseJournalHeaders.concat(this.extraHeaders || [])
                 }
                 return ret

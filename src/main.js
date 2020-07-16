@@ -46,6 +46,10 @@ Vue.component('v-gravatar', Gravatar);
 import VueClipboard from 'vue-clipboard2'
 Vue.use(VueClipboard)
 
+import JsonCSV from 'vue-json-csv'
+Vue.component('downloadCsv', JsonCSV)
+
+
 
 
 
