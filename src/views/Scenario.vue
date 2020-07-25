@@ -516,9 +516,10 @@
             },
             setJournalsFilterStatus: _.debounce(
                 function () {
-                    console.log("setJournalsFilterStatus", this.search)
+                    console.log("setJournalsFilterStatus is: ", this.search)
                     // needed because clearing the field sets it to NULL and we want ""
-                    const searchStr = (this.search) ? this.search : ""
+                    let searchStr = (this.search) ? this.search : ""
+                    searchStr = searchStr.toLowerCase()
 
                     const isHiddenByFilters = function (journal) {
                         if (!journal.title) return false
