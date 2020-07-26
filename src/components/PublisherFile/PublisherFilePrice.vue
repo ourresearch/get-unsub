@@ -131,7 +131,7 @@
                             <li v-if="journalsWithPriceButNoCounter.length">
                                 <publisher-file-journals-list
                                         :rows="journalsWithPriceButNoCounter"
-                                        :headers="myJournalHeaders"
+                                        :extra-headers="myJournalHeaders"
                                         label="journals not in your COUNTER report"
                                 />
                             </li>
