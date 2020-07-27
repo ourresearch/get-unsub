@@ -198,6 +198,10 @@
 <script>
     import {mapGetters, mapMutations} from 'vuex'
 
+    const tiers = [
+
+    ]
+
     export default {
         name: "Purchase",
         data: () => ({
@@ -209,9 +213,7 @@
                 'isLoggedIn',
             ]),
             invoiceRequestBodyText() {
-                const ret = `Please send me an invoice for:
-
-Unsub Dashboard subscription
+                const ret = `Please send me an invoice for: Unsub Dashboard subscription
 Institution: [YOUR INSTITUTION NAME]
 Billing Email: [YOUR BILLING EMAIL]
 Billing Mailing Address: [YOUR BILLING MAILING ADDRESS]
@@ -227,15 +229,17 @@ Other notes: [OTHER NOTES (optional)  ]`
         methods: {
             buy() {
                 // real plan
-                const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
+                // const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
 
                 // test plan
-                // const items = [{plan: 'plan_G7bKcaYos2it45', quantity: 1}]
+                const items = [{price: 'plan_G7bKcaYos2it45', quantity: 1}]
+                // const items = [{price: 'price_1H8zabBHnOim7SiPC6te592L', quantity: 1}]
 
                 console.log("buy!")
                 try {
                     this.stripe.redirectToCheckout({
-                        items: items,
+                        lineItems: items,
+                        mode: "subscription",
                         successUrl: 'https://journals.unpaywall.org/purchase/success',
                         cancelUrl: 'https://journals.unpaywall.org/purchase/cancelled',
                         billingAddressCollection: 'auto',
@@ -256,10 +260,10 @@ Other notes: [OTHER NOTES (optional)  ]`
         },
         mounted() {
             console.log("purchase page mounted")
-            this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
+            // this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
 
             // test account
-            // this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
+            this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
         }
     }
 </script>
