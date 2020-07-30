@@ -13,6 +13,7 @@ export const institution = {
         institutionPublishers: [],
         institutionPublishersLive: [],
         isDemo: false,
+        isConsortium: false,
     },
     mutations: {
         clearInstitution(state){
@@ -25,6 +26,7 @@ export const institution = {
             state.institutionPublishersLive = []
             state.userIsAdmin = false
             state.isDemo = false
+            state.isConsortium = false
         },
         setInstitutionFromApiResp(state, apiResp){
             state.institutionId =  apiResp.id
@@ -39,6 +41,7 @@ export const institution = {
                 if (!p.is_deleted) state.institutionPublishersLive.push(p)
             })
             state.isDemo = apiResp.is_demo
+            state.isConsortium = apiResp.is_consortium
 
         },
         setUserPermissions(state, {email, permissions}) {
@@ -145,6 +148,7 @@ export const institution = {
         institutionPublishers: (state) => state.institutionPublishersLive,
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
+        institutionIsConsortium: (state) => state.isConsortium,
     }
 }
 
