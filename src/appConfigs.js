@@ -324,23 +324,6 @@ const scenarioConfigs = {
         displayName: "Institutional citation weight",
         descr: "A citation from someone in your institution contributes this many download-equivalent points to the Usage of the journal.  A common value is 10 -- in this case a citation from your institution to this journal is modelled as the equivalent of 10 downloads of this journal.",
     },
-    min_bundle_size: {
-        name: "min_bundle_size",
-        default: 5,
-        value: null,
-        display: "number",
-        displayName: "Minimum Bundle Size",
-        descr: "The minimum bundle size"
-    },
-    consortium_name: {
-        name: "consortium_name",
-        default: "purdue",
-        value: null,
-        display: "text",
-        displayName: "Consortium name",
-        descr: "Consortium name"
-    },
-
 }
 
 const scenarioConfigGroups = [
@@ -379,14 +362,6 @@ const scenarioConfigGroups = [
         contents: [
             scenarioConfigs.weight_citation,
             scenarioConfigs.weight_authorship,
-        ],
-    },
-    {
-        name: "consortia",
-        displayName: "Consortia",
-        contents: [
-            scenarioConfigs.min_bundle_size,
-            scenarioConfigs.consortium_name,
         ],
     },
 ]
