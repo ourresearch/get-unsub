@@ -446,7 +446,7 @@
             },
             usageTotal() {
                 return this.journals
-                    .map(j => j.use_total)
+                    .map(j => j.usage)
                     .reduce((a, b) => a + b, 0)
             },
             subrColor() {

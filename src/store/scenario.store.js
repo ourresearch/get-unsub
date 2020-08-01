@@ -46,7 +46,7 @@ export const scenario = {
         },
         tableColsToShow: [
             "usage",
-            "subscription_cost",
+            "cost_subscription",
             "ncppu",
         ],
         snackbars: {
@@ -324,6 +324,7 @@ export const scenario = {
         scenarioSnackbars: (state) => state.snackbars,
         scenarioAllowAutosubscribe: (state) => state.allowAutoSubscribe,
 
+        bundleSize: (state) => state.selected.saved.bundle_size,
 
     }
 }
