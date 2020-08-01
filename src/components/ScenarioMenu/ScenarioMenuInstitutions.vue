@@ -42,6 +42,7 @@
                                         value
                                         v-model="multiSelect"
                                         :indeterminate="someSelected"
+                                        :disabled="isSaving"
                                         class="py-0 my-0 mr-6 ml-2"
                                 />
                                 <span class="">
@@ -68,8 +69,9 @@
                                     <v-checkbox
                                             hide-details
                                             class="my-1 py-0 mr-6"
-                                            v-model="includedInstitutionIds"
-                                            :value="institution.institution_id"
+                                            v-model="includedIds"
+                                            :value="institution.package_id"
+                                            :disabled="isSaving"
                                     />
                                     <span class="title">
                                         {{institution.institution_name}}
@@ -90,11 +92,29 @@
                 <v-divider/>
                 <v-card-actions>
                     <v-spacer/>
-                    <v-btn @click="closeDialog" color="primary" depressed>Save</v-btn>
+                    <v-btn
+                            @click="saveDialog"
+                            color="primary"
+                            depressed
+                            :loading="isSaving"
+                    >
+                        Save
+                    </v-btn>
                     <v-btn @click="closeDialog" depressed>Cancel</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <v-snackbar
+                v-model="snackbars.saveSuccess"
+                :timeout="3000"
+                bottom
+        >
+            Institutions updated
+            <v-btn dark icon @click="snackbars.saveSuccess = false">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
 
 
     </div>
@@ -113,10 +133,14 @@
                 dialogs: {
                     institutionList: false
                 },
+                snackbars: {
+                    saveSuccess: false
+                },
                 isLoading: false,
+                isSaving: false,
                 institutions: [],
                 search: "",
-                includedInstitutionIds: [],
+                includedIds: [],
                 multiSelectState: "none",
                 multiSelect: false,
                 someSelected: false,
@@ -132,25 +156,27 @@
                 url += "?jwt=" + localStorage.getItem("token")
                 return url
             },
+            apiUrl(){
+                return `scenario/${this.scenarioId}/member-institutions`
+            }
         },
         methods: {
             multiSelectClick() {
-                if (this.includedInstitutionIds.length) { // anything is selected
-                    this.includedInstitutionIds = []
+                if (this.includedIds.length) { // anything is selected
+                    this.includedIds = []
                 } else { // nothing is selected
-                    this.includedInstitutionIds = this.institutions.map(i => i.institution_id)
+                    this.includedIds = this.institutions.map(i => i.package_id)
                 }
             },
             async openDialog() {
                 this.isLoading = true
                 this.dialogs.institutionList = true
-                const url = `scenario/${this.scenarioId}/member-institutions`
-                console.log("openDialog getting this url", url)
-                const resp = await api.get(url)
+                console.log("openDialog getting this url", this.apiUrl)
+                const resp = await api.get(this.apiUrl)
                 console.log("api get member institutions resp", resp)
                 this.institutions = resp.data.institutions
-                this.includedInstitutionIds = this.institutions.filter(i => i.included).map(i => i.institution_id)
-                if (this.includedInstitutionIds.length) {
+                this.includedIds = this.institutions.filter(i => i.included).map(i => i.package_id)
+                if (this.includedIds.length) {
                     this.multiSelect = true
                 }
                 this.isLoading = false
@@ -159,11 +185,22 @@
                 this.dialogs.institutionList = false
                 this.isLoading = false
                 this.institutions = []
+                this.includedIds = []
+            },
+            async saveDialog(){
+                this.isSaving = true
+                const postData = {member_institutions: this.includedIds}
+                console.log("POSTing institution IDs to server", postData)
+                const resp = await api.post(this.apiUrl, postData)
+                console.log("institution IDs POSTed successfully", resp)
+                this.isSaving = false
+                this.closeDialog()
+                this.snackbars.saveSuccess = true
             },
         },
         watch: {
-            includedInstitutionIds: function(to){
-                console.log("change in includedInstitutionIds", to)
+            includedIds: function(to){
+                console.log("change in includedIds", to)
                 if (to.length === 0) { // none selected
                     this.someSelected = false
                     this.multiSelect = false
