@@ -161,6 +161,9 @@
             }
         },
         methods: {
+            ...mapActions([
+                "hydratePublisherScenario",
+            ]),
             multiSelectClick() {
                 if (this.includedIds.length) { // anything is selected
                     this.includedIds = []
@@ -192,7 +195,10 @@
                 const postData = {member_institutions: this.includedIds}
                 console.log("POSTing institution IDs to server", postData)
                 const resp = await api.post(this.apiUrl, postData)
-                console.log("institution IDs POSTed successfully", resp)
+                console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
+                await this.hydratePublisherScenario(this.scenarioId) // refresh this specific scenario
+                console.log("scenario updated. closing institutions dialog.", resp)
+
                 this.isSaving = false
                 this.closeDialog()
                 this.snackbars.saveSuccess = true
@@ -200,7 +206,6 @@
         },
         watch: {
             includedIds: function(to){
-                console.log("change in includedIds", to)
                 if (to.length === 0) { // none selected
                     this.someSelected = false
                     this.multiSelect = false
