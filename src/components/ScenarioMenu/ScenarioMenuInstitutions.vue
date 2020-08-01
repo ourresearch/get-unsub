@@ -10,10 +10,13 @@
 
 
         <v-dialog scrollable fullscreen v-model="dialogs.institutionList">
-            <v-card flat class="pb-4">
+            <v-card flat class="">
                 <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
-                        <v-icon>mdi-bank</v-icon>
+                        <v-btn icon @click="closeDialog" class="mr-2">
+                            <v-icon>mdi-arrow-left</v-icon>
+
+                        </v-btn>
                         Your member institutions
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
@@ -24,7 +27,6 @@
                                 outlined
                                 dense
                                 label="Search institutions"
-                                autocomplete="false"
                                 v-model="search"
                                 append-icon="mdi-magnify"
                                 full-width
@@ -64,7 +66,7 @@
                         style="height: 100vh;"
                 >
                     <div v-if="!isLoading">
-                        <v-row v-for="institution in institutions" class="">
+                        <v-row v-for="institution in sortedInstitutions" class="">
                                 <v-col cols="5" class="d-flex">
                                     <v-checkbox
                                             hide-details
@@ -90,17 +92,34 @@
                     </div>
                 </v-card-text>
                 <v-divider/>
-                <v-card-actions>
+                <v-divider/>
+                <v-card-actions class="py-6 px-6" style="background: #2196F3;">
+                    <div class="text" v-if="includedIds.length > 0">
+                        <span class="title white--text">
+                            <span class="font-weight-bold">
+                                {{includedIds.length}}
+                            </span>
+                            institutions selected
+                        </span>
+                    </div>
+                    <div class="text" v-if="!isLoading && includedIds.length === 0">
+                        <span class="subtitle-1 white--text">
+                            <v-icon  dark>mdi-alert</v-icon>
+                            You must select at least one institution
+                        </span>
+                    </div>
                     <v-spacer/>
+                    <v-btn @click="closeDialog" large dark text>Cancel</v-btn>
                     <v-btn
                             @click="saveDialog"
-                            color="primary"
-                            depressed
+                            large
+                            dark
+                            outlined
                             :loading="isSaving"
+                            :disabled="!includedIds.length"
                     >
                         Save
                     </v-btn>
-                    <v-btn @click="closeDialog" depressed>Cancel</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -158,7 +177,13 @@
             },
             apiUrl(){
                 return `scenario/${this.scenarioId}/member-institutions`
-            }
+            },
+            sortedInstitutions(){
+                let searchStr = (this.search) ? this.search : ""
+                return this.institutions.filter(i => {
+                    return i.institution_name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1
+                })
+            },
         },
         methods: {
             ...mapActions([
