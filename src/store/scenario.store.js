@@ -57,9 +57,6 @@ export const scenario = {
 
     },
     mutations: {
-        setScenarioFromApiResp(state, scenarioApiResp) {
-            state.selected = buildScenarioFromApiResp(scenarioApiResp)
-        },
         setScenarioFromObject(state, scenarioObject) {
             console.log("setScenarioFromObject", scenarioObject)
             state.selected = scenarioObject
@@ -189,18 +186,7 @@ export const scenario = {
     },
     actions: {
 
-        // scenario stuff
 
-        async fetchScenario({commit, dispatch, getters}, id) {
-            const path = `scenario/${id}/journals`
-            const resp = await api.get(path)
-            commit("setScenarioFromApiResp", resp.data)
-            return true
-        },
-
-        async refreshScenario({commit, dispatch, getters}) {
-            return await dispatch("fetchScenario", getters.scenarioId)
-        },
 
 
         // subscription stuff
