@@ -3,7 +3,8 @@ const short = require('short-uuid');
 import {toHexHash} from "./util";
 import scenarioConfigs  from "../appConfigs"
 
-const buildScenarioFromApiResp = function (apiResp) {
+const buildScenarioFromApiResp = function (apiRespRaw) {
+    const apiResp = {...apiRespRaw}
     apiResp.journals.forEach((myJournal, myIndex) => {
         myJournal.cpuIndex = myIndex
         myJournal.subscribed = apiResp.saved.subrs.includes(myJournal.issn_l)
@@ -11,16 +12,13 @@ const buildScenarioFromApiResp = function (apiResp) {
     })
     apiResp.id = apiResp.meta.scenario_id
 
-    apiResp.costBigdealProjected = setCostBigdealProjected(apiResp)
-
+    apiResp.costBigdealProjected = setCostBigdealProjected(
+        parseInt(apiResp.saved.configs.cost_bigdeal),
+            parseInt(apiResp.saved.configs.cost_bigdeal_increase) * 0.01,
+    )
     return apiResp
 }
 
-
-const hydrateScenario = function(dehydratedScenario, fullScenarioFromApi){
-    const hydratingScenario = buildScenarioFromApiResp(fullScenarioFromApi)
-
-}
 
 
 
@@ -52,11 +50,9 @@ const newScenarioId = function(isDemo){
     return id
 }
 
-const setCostBigdealProjected = function (scenario) {
+const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
     let totalCost = 0
     let numYears = 5
-    let costThisYear = scenario.saved.configs.cost_bigdeal
-    let yearlyIncrease = scenario.saved.configs.cost_bigdeal_increase * 0.01
     for (let i = 1; i <= numYears; i++) {
         totalCost += costThisYear
         costThisYear = costThisYear * (1 + yearlyIncrease)

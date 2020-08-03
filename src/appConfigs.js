@@ -13,8 +13,8 @@ const journalColGroups = [
         name: "costs",
         colNames: [
             "cost",
-            "subscription_cost",
-            "ill_cost",
+            "cost_subscription",
+            "cost_ill",
             "subscription_minus_ill_cost",
         ]
     },
@@ -59,7 +59,6 @@ const journalColGroups = [
             "authorships",
         ]
     },
-
 ]
 
 
@@ -102,13 +101,13 @@ const journalCols = [
     },
     {
         text: "Subscription Cost",
-        value: "subscription_cost",
+        value: "cost_subscription",
         display: "currency_int",
         descr: "The ala carte subscription cost of this journal.  It includes a 'content fee' based on your settings, and annual price increases over the next five years (the cost shown is the average cost over the next five years).  This data is based on public price lists unless you've uploaded a custom price list (available in a purchased account).",
     },
     {
         text: "ILL Cost",
-        value: "ill_cost",
+        value: "cost_ill",
         display: "currency_int",
         descr: "The ILL subscription cost of this journal.  It is based on the ILL transaction cost from the settings, and an ILL request rate (adjustable in the settings, though the default is based on an extensive literature search of other institution's experiences).",
     },
@@ -208,7 +207,7 @@ const journalCols = [
         value: "baseline_access_text",
         display: "text",
         descr: "The method by which you access this title currently.  Provided for reference: this information is not used in the model.",
-    }
+    },
 ]
 
 

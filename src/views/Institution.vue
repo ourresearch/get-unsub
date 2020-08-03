@@ -9,7 +9,7 @@
             </div>
             <div class="text">
                 <div class="body-2">
-                    Institution
+                    {{ institutionIsConsortium ? "Consortium" : "Institution" }}
                 </div>
                 <div class="display-2" v-if="!institutionIsLoading">
                     {{ institutionName }}
@@ -542,6 +542,7 @@
                 "institutionIsDemo",
                 "userId",
                 "institutionIsLoading",
+                "institutionIsConsortium",
             ]),
             institutionId() {
                 return this.$route.params.institutionId

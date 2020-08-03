@@ -46,6 +46,7 @@
                     <scenario-menu-columns key="columns"/>
                     <scenario-menu-settings key="settings"/>
                     <scenario-menu-export key="export"/>
+                    <scenario-menu-institutions key="institutions" v-if="institutionIsConsortium" />
                     <scenario-menu-help key="help"/>
                 </div>
             </v-container>
@@ -304,6 +305,7 @@
     import ScenarioMenuColumns from "../components/ScenarioMenu/ScenarioMenuColumns";
     import ScenarioMenuSettings from "../components/ScenarioMenu/ScenarioMenuSettings";
     import ScenarioMenuExport from "../components/ScenarioMenu/ScenarioMenuExport";
+    import ScenarioMenuInstitutions from "../components/ScenarioMenu/ScenarioMenuInstitutions";
     import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
     import {sleep} from "../shared/util";
 
@@ -323,6 +325,7 @@
             ScenarioMenuColumns,
             ScenarioMenuExport,
             ScenarioMenuSettings,
+            ScenarioMenuInstitutions,
             ScenarioMenuHelp,
         },
         directives: {
@@ -348,6 +351,7 @@
                 'menuSettingsView',
                 'selectedScenarioIsLoading',
                 'institutionId',
+                'institutionIsConsortium',
                 'scenarioName',
                 'scenarioId',
                 'publisherName',
@@ -355,8 +359,6 @@
                 'journals',
                 'scenarioIdHash',
                 'scenarioSnackbars',
-
-
                 'menuSettingsView',
             ]),
 
@@ -444,7 +446,7 @@
             },
             usageTotal() {
                 return this.journals
-                    .map(j => j.use_total)
+                    .map(j => j.usage)
                     .reduce((a, b) => a + b, 0)
             },
             subrColor() {
