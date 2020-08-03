@@ -6,12 +6,11 @@
                     {{ (isLoggedIn) ? 'Upgrade to paid account': 'Purchase'}}
                 </h1>
             </v-card-title>
-            <v-card-actions>
-                <div>
-                    <div class="display-2" v-if="false">
+            <v-row>
+                <v-col cols="6">
+                    <div class="">
                         Combine journal-level citations, downloads, Open Access statistics and more, to confidently
                         manage your serials collections.
-
                     </div>
 
                     <div>
@@ -39,156 +38,57 @@
                         </p>
 
                     </div>
+                </v-col>
+                <v-col cols="6">
+                    <v-card outlined>
+                        <v-card-text class="headline">
+                            Select your price tier:
+                        </v-card-text>
+                        <v-data-table
+                                v-model="planSelected"
+                                :headers="headers"
+                                :items="plans"
+                                :single-select="true"
+                                item-key="tier"
+                                show-select
+                                :hide-default-footer="true"
 
+                        />
+                        <v-divider></v-divider>
 
-                    <v-row justify="center">
+                        <v-card-text
+                                class="d-flex align-center justify-end pb-0 pt-6"
+                        >
+                            <v-checkbox v-model="agreedToTerms" :disabled="!myPlanId"></v-checkbox>
+                            <span>
+                                I agree to the <a
+                                    href="./unsub-toc.pdf"
+                                    target="_blank"
+                                    class="ml-1"> Terms and Conditions.</a>
+                            </span>
+                        </v-card-text>
+                        <v-card-actions class="pt-0">
+                            <v-spacer />
+                            <v-btn
+                                    class="ml-2"
+                                    :disabled="!(agreedToTerms && myPlanId)"
+                                    x-large
+                                    text
+                                    target="_blank"
+                                    :href="'mailto:team@ourresearch.org?cc=accounting@ourresearch.org&subject=Invoice%20request&body=' + invoiceRequestBodyText"
+                            >
+                                Request invoice
+                            </v-btn>
+                            <v-btn :disabled="!(agreedToTerms && myPlanId)" x-large color="primary" depressed
+                                   @click="buy">
+                                purchase now
+                            </v-btn>
 
-                        <v-card flat width="800">
-                            <v-card-title>
-                                Your {{ (isLoggedIn) ? 'upgrade to a paid account' : 'purchase'}} lets you:
-                            </v-card-title>
-                            <v-divider></v-divider>
-                            <v-list>
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Customize usage stats
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Calculate usage based on your own uploaded COUNTER files.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
+                        </v-card-actions>
 
-
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Customize authorship and citation stats
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Automatically gather authorship and citation data for your institution.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            View Open Access statistics
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Understand OA at the journal level.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Stop paying for free content
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Calculate cost per paid use, given your institution's data.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Customize with your values and assumptions
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Weigh citations, authorships, and speed of access.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Look ahead
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Project Costs and Usage for the next five years.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-
-                                <v-list-item>
-                                    <v-list-item-icon>
-                                        <v-icon>mdi-checkbox-marked-outline</v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title>
-                                            Share the data
-                                        </v-list-item-title>
-                                        <v-list-item-subtitle>
-                                            Export as Report to share with administration and faculty.
-                                        </v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-
-                            </v-list>
-                            <v-divider></v-divider>
-                            <v-card-actions class="pb-12">
-                                <div>
-                                    <v-row class="body-1s" align="center">
-                                        <v-checkbox v-model="agreedToTerms"></v-checkbox>
-
-                                        I agree to the <a
-                                            href="./unsub-toc.pdf"
-                                            target="_blank"
-                                            class="ml-1"> Terms and Conditions.</a>
-                                    </v-row>
-                                    <v-row>
-                                        <v-btn :disabled="!agreedToTerms" x-large color="primary" depressed
-                                               @click="buy">
-                                            {{(isLoggedIn) ? "Purchase upgrade" : "Purchase"}}
-                                        </v-btn>
-                                        <v-btn
-                                                class="ml-2"
-                                                :disabled="!agreedToTerms"
-                                                x-large
-                                                text
-                                                target="_blank"
-                                                :href="'mailto:team@ourresearch.org?cc=accounting@ourresearch.org&subject=Invoice%20request&body=' + invoiceRequestBodyText"
-                                        >
-                                            Request invoice
-                                        </v-btn>
-
-                                    </v-row>
-
-                                </div>
-
-                            </v-card-actions>
-                        </v-card>
-                    </v-row>
-
-
-                </div>
-            </v-card-actions>
-
-
+                    </v-card>
+                </v-col>
+            </v-row>
         </v-card>
 
 
@@ -196,22 +96,39 @@
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex'
-
-    const tiers = [
-
-    ]
+    import {mapGetters, mapMutations} from 'vuex';
+    import {tiers} from "../shared/myStripe";
 
     export default {
         name: "Purchase",
         data: () => ({
             stripe: null,
-            agreedToTerms: false
+            agreedToTerms: false,
+            planSelected: [],
+            headers: [
+                {
+                    text: "Library materials budget (USD)",
+                    value: "descr",
+                },
+                {
+                    text: "Unsub cost",
+                    value: "costStr",
+                },
+            ]
         }),
         computed: {
             ...mapGetters([
                 'isLoggedIn',
             ]),
+            plans(){
+                return tiers
+            },
+            myPlanCost(){
+                return (this.planSelected.length) ? this.planSelected[0].costStr : undefined
+            },
+            myPlanId(){
+                return (this.planSelected.length) ? this.planSelected[0].testPlanId : undefined
+            },
             invoiceRequestBodyText() {
                 const ret = `Please send me an invoice for: Unsub Dashboard subscription
 Institution: [YOUR INSTITUTION NAME]
@@ -219,7 +136,7 @@ Billing Email: [YOUR BILLING EMAIL]
 Billing Mailing Address: [YOUR BILLING MAILING ADDRESS]
 CC Emails: [CC EMAILS (optional)]
 Term: 1 year
-Fee: $1000 USD
+Fee: ${this.myPlanCost} USD
 Start date: today
 Other notes: [OTHER NOTES (optional)  ]`
                 return encodeURIComponent(ret)
@@ -232,7 +149,7 @@ Other notes: [OTHER NOTES (optional)  ]`
                 // const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
 
                 // test plan
-                const items = [{price: 'plan_G7bKcaYos2it45', quantity: 1}]
+                const items = [{price: this.myPlanId, quantity: 1}]
                 // const items = [{price: 'price_1H8zabBHnOim7SiPC6te592L', quantity: 1}]
 
                 console.log("buy!")
