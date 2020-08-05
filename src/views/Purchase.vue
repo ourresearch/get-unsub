@@ -1,13 +1,13 @@
 <template>
     <v-container class="purchase">
         <v-card class="pa-6">
-            <v-card-title>
-                <h1 class="display-1">
-                    {{ (isLoggedIn) ? 'Upgrade to paid account': 'Purchase'}}
+            <v-card-title class="mb-8">
+                <h1 class="display-2">
+                    Purchase an account
                 </h1>
             </v-card-title>
             <v-row>
-                <v-col cols="6">
+                <v-col cols="6" class="pr-8">
                     <div class="">
                         <p class="title">
                             Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles--so you can <em>cancel with confidence</em>
@@ -47,7 +47,7 @@
                         </p>
                         <p>
                             If you'd like to use Unsub in consortium-level decision making, <a
-                                href="mailto:team@ourresearch.org">drop us a line</a> and we can help get you set up with a consortium dashboard.
+                                href="mailto:team@ourresearch.org" target="_blank">drop us a line</a> and we can help get you set up with a consortium dashboard.
                         </p>
                     </div>
 
@@ -167,7 +167,7 @@ Other notes: [OTHER NOTES (optional)  ]`
             buy() {
                 const items = [{price: this.myPlanId, quantity: 1}]
 
-                console.log("buy!")
+                console.log("buy!", items)
                 try {
                     this.stripe.redirectToCheckout({
                         lineItems: items,
@@ -192,11 +192,12 @@ Other notes: [OTHER NOTES (optional)  ]`
         },
         mounted() {
             console.log("purchase page mounted")
-            if (this.test)
-            // this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
-
-            // test account
-            this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
+            if (this.testMode) {
+                this.stripe = Stripe('pk_test_S6h1hrajCcR8tskZ0uayuI9m');
+            }
+            else {
+                this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
+            }
         }
     }
 </script>
