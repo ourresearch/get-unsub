@@ -7,7 +7,7 @@
                 </h1>
             </v-card-title>
             <v-row>
-                <v-col cols="6" class="pr-8">
+                <v-col cols="6">
                     <div class="">
                         <p class="title">
                             Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles--so you can <em>cancel with confidence</em>
@@ -52,7 +52,8 @@
                     </div>
 
                 </v-col>
-                <v-col cols="6">
+                <v-spacer></v-spacer>
+                <v-col cols="5">
                     <v-card outlined>
                         <v-card-text class="headline">
                             Select your price tier:
@@ -86,7 +87,7 @@
                                     class="ml-2"
                                     :disabled="!(agreedToTerms && myPlanId)"
                                     x-large
-                                    text
+                                    outlined
                                     target="_blank"
                                     :href="'mailto:team@ourresearch.org?cc=accounting@ourresearch.org&subject=Invoice%20request&body=' + invoiceRequestBodyText"
                             >
