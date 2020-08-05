@@ -9,35 +9,48 @@
             <v-row>
                 <v-col cols="6">
                     <div class="">
-                        Combine journal-level citations, downloads, Open Access statistics and more, to confidently
-                        manage your serials collections.
-                    </div>
-
-                    <div>
-                        <p>
-                            Unsub is a project from <a href="https://ourresearch.org">Our Research</a>, a
-                            501(c)3 nonprofit. Like everything we build, Unsub is built using <a
-                                href="https://github.com/ourresearch/get-unsub">Open Source code</a>, an open
-                            data API, and an accessible, sustainable pricing model.
-
+                        <p class="title">
+                            Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles--so you can <em>cancel with confidence</em>
                         </p>
                         <p>
-
-                            We want all institutions to be able to afford this tool. To achieve this, we are setting the
-                            introductory price at $1000/year (US dollars) -- less than the price of a single article APC
-                            or single journal subscription. In return for this, your institution becomes a supporter of
-                            Open Infrastructure, a partner in Unsub, gets an Unsub dashboard
+                            Your purchase of an Unsub account lets you create an Unsub dashboard
                             customized to your institution. You will be able to upload your own COUNTER stats,
                             subscription history, and price lists. We'll use this information to customize the usage,
                             open access percentages, citations, authorships, and prices for your university.
+
+                        </p>
+                    </div>
+                    <v-divider />
+                    <v-card flat class="py-4 my-4">
+                        <div class="d-flex">
+                            <v-avatar class="mr-4">
+                                <v-img src="https://i.imgur.com/09uGrea.png"></v-img>
+                            </v-avatar>
+                            <div>
+                                <div class="title">
+                                    "Unsub is a game changer."  
+                                </div>
+                                <div class="body-2">
+                                    Mark McBride, SUNY library senior strategist; quoted in <a
+                                        href="https://www.sciencemag.org/news/2020/07/tool-saving-universities-millions-dollars-journal-subscriptions"><em>Science</em></a>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </v-card>
+                    <v-divider />
+
+                    <div class="mt-4">
+                        <p>
+                            Our pricing is tiered, based on your library's current-year materials budget. (If you're not able to determine your library materials budget, use your best estimate).
                         </p>
                         <p>
-                            If your
-                            institution would like to contribute more, we will gladly accept donations and will use that
-                            money to continue making tools and data as openly available as possible.
+                            If you'd like to use Unsub in consortium-level decision making, <a
+                                href="mailto:team@ourresearch.org">drop us a line</a> and we can help get you set up with a consortium dashboard.
                         </p>
-
                     </div>
+
                 </v-col>
                 <v-col cols="6">
                     <v-card outlined>
@@ -105,13 +118,14 @@
             stripe: null,
             agreedToTerms: false,
             planSelected: [],
+            testMode: true,
             headers: [
                 {
                     text: "Library materials budget (USD)",
                     value: "descr",
                 },
                 {
-                    text: "Unsub cost",
+                    text: "Unsub yearly cost (USD)",
                     value: "costStr",
                 },
             ]
@@ -127,7 +141,13 @@
                 return (this.planSelected.length) ? this.planSelected[0].costStr : undefined
             },
             myPlanId(){
-                return (this.planSelected.length) ? this.planSelected[0].testPlanId : undefined
+                if (!this.planSelected.length) return undefined
+                if (this.testMode) {
+                    return this.planSelected[0].testPlanId
+                }
+                else {
+                    return this.planSelected[0].planId
+                }
             },
             invoiceRequestBodyText() {
                 const ret = `Please send me an invoice for: Unsub Dashboard subscription
@@ -145,12 +165,7 @@ Other notes: [OTHER NOTES (optional)  ]`
         },
         methods: {
             buy() {
-                // real plan
-                // const items = [{plan: 'plan_G7NhsHeygR4RyZ', quantity: 1}]
-
-                // test plan
                 const items = [{price: this.myPlanId, quantity: 1}]
-                // const items = [{price: 'price_1H8zabBHnOim7SiPC6te592L', quantity: 1}]
 
                 console.log("buy!")
                 try {
@@ -177,6 +192,7 @@ Other notes: [OTHER NOTES (optional)  ]`
         },
         mounted() {
             console.log("purchase page mounted")
+            if (this.test)
             // this.stripe = Stripe('pk_live_Tddf5sFepB22pgOBTUpVKE53');
 
             // test account

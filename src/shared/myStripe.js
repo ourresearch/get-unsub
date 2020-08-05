@@ -6,7 +6,7 @@ const tiers = [
         descr: "$0 - 500,000",
         cost: 500,
         costStr: "$500",
-        planId: "",
+        planId: "price_1H8zRsBHnOim7SiPAzs8fLag",
         testPlanId: "price_1H8zabBHnOim7SiPC6te592L",
     },
     {
@@ -16,7 +16,7 @@ const tiers = [
         descr: "$500,000 - 1,000,000",
         cost: 1000,
         costStr: "$1,000",
-        planId: "",
+        planId: "plan_G7NhsHeygR4RyZ",
         testPlanId: "plan_G7bKcaYos2it45",
     },
     {
@@ -26,7 +26,7 @@ const tiers = [
         descr: "$1,000,000 - 1,500,000",
         cost: 1500,
         costStr: "$1,500",
-        planId: "",
+        planId: "price_1HCVJiBHnOim7SiPpeWLtEQc",
         testPlanId: "price_1HBr98BHnOim7SiPwVZhn5Vv",
     },
     {
@@ -36,7 +36,7 @@ const tiers = [
         descr: "$1,500,000 - 2,000,000",
         cost: 2000,
         costStr: "$2,000",
-        planId: "",
+        planId: "price_1HCVK1BHnOim7SiPnk4zyuau",
         testPlanId: "price_1HBr9OBHnOim7SiPMQIePQnq",
     },
     {
@@ -46,7 +46,7 @@ const tiers = [
         descr: "$2,000,000 - 2,500,000",
         cost: 2500,
         costStr: "$2,500",
-        planId: "",
+        planId: "price_1HCVKABHnOim7SiPCyKacUgF",
         testPlanId: "price_1HBr9bBHnOim7SiP2NRKv9so",
     },
     {
@@ -56,7 +56,7 @@ const tiers = [
         descr: "$2,500,000 and above",
         cost: 3000,
         costStr: "$3,000",
-        planId: "",
+        planId: "price_1HCVKJBHnOim7SiPxMzxvy0X",
         testPlanId: "price_1HBr9lBHnOim7SiP7iQqUui9",
     },
 
