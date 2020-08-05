@@ -24,11 +24,11 @@
         <v-alert v-if="institutionIsDemo" color="info" text dense icon="mdi-information-outline">
             <div class="d-flex align-center">
                 <div>
-                    This is a demo institution; the data is real, but some functionality is restricted.
+                    This is a demo institution; some functionality is restricted.
                 </div>
                 <v-spacer></v-spacer>
                 <div>
-                    <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                    <v-btn color="info" text small to="/purchase">Purchase full account</v-btn>
                 </div>
             </div>
         </v-alert>

@@ -40,12 +40,11 @@
             <v-alert v-if="isPublisherDemo" color="info" text dense icon="mdi-information-outline">
                 <div class="d-flex align-center">
                     <div>
-                        This publisher belongs to a demo institution; the data is real, but some functionality is
-                        restricted.
+                        This publisher belongs to a demo institution; some functionality is restricted.
                     </div>
                     <v-spacer></v-spacer>
                     <div>
-                        <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                        <v-btn color="info" text small to="/purchase">Purchase full account</v-btn>
                     </div>
                 </div>
             </v-alert>

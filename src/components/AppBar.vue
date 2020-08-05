@@ -58,7 +58,7 @@
         <div class="no-highlight">
 
             <v-btn text color="primary" v-if="isLoggedIn && $store.getters.userIsDemo" to="/purchase">
-                upgrade
+                Purchase
             </v-btn>
             <v-btn text color="primary" v-if="!isLoggedIn" to="/purchase">
                 <span>Purchase</span>

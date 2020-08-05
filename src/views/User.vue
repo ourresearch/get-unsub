@@ -30,7 +30,7 @@
                 </div>
                 <v-spacer></v-spacer>
                 <div>
-                    <v-btn color="info" text small to="/purchase">upgrade</v-btn>
+                    <v-btn color="info" text small to="/purchase">Purchase full account</v-btn>
                 </div>
             </div>
         </v-alert>

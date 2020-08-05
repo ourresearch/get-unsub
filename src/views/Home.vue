@@ -24,7 +24,6 @@
                         <div class="cta">
                             <div class="mt-5 mr-6 d-flex">
 
-                                <!--                                <v-btn to="/purchase" class="mr-3" depressed large color="primary">Purchase</v-btn>-->
                                 <v-text-field
                                         label="Your email"
                                         @keydown.enter="createDemo"
