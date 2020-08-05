@@ -119,7 +119,7 @@
             stripe: null,
             agreedToTerms: false,
             planSelected: [],
-            testMode: true,
+            testMode: false,
             headers: [
                 {
                     text: "Library materials budget (USD)",
