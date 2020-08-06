@@ -518,15 +518,21 @@
             },
             setJournalsFilterStatus: _.debounce(
                 function () {
-                    console.log("setJournalsFilterStatus is: ", this.search)
                     // needed because clearing the field sets it to NULL and we want ""
                     let searchStr = (this.search) ? this.search : ""
                     searchStr = searchStr.toLowerCase()
+                    console.log("journal search is: ", searchStr)
 
                     const isHiddenByFilters = function (journal) {
-                        if (!journal.title) return false
-                        return journal.title.toLowerCase().indexOf(searchStr) === -1
+                        const myTitle = journal.title || ""
+                        const titleMatch = myTitle.toLowerCase().indexOf(searchStr) > -1
+                        // const issnMatch = journal.issn_l.indexOf(searchStr) > -1
+                        const issnMatch = searchStr.indexOf(journal.issn_l) > -1
+                        return !titleMatch && !issnMatch
                     }
+
+                    // 0190-9622, 0142-0615
+
                     this.journals.forEach(j => {
                         j.isHiddenByFilters = isHiddenByFilters(j)
                     })
