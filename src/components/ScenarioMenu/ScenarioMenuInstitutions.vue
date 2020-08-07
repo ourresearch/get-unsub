@@ -22,6 +22,7 @@
                     <v-spacer></v-spacer>
                     <div class="mr-3">
                         <v-text-field
+                                class="d-none"
                                 hide-details
                                 clearable
                                 outlined
@@ -65,6 +66,7 @@
                         class="pt-8"
                         style="height: 100vh;"
                 >
+                    <pre>{{ includedIds }}</pre>
                     <div v-if="!isLoading">
                         <v-row v-for="institution in sortedInstitutions" class="">
                                 <v-col cols="5" class="d-flex">
@@ -78,6 +80,7 @@
                                     <span class="title">
                                         {{institution.institution_name}}
                                     </span>
+
                                 </v-col>
                                 <v-col cols="2">
                                     {{institution.usage | round}}
@@ -193,7 +196,7 @@
                 if (this.includedIds.length) { // anything is selected
                     this.includedIds = []
                 } else { // nothing is selected
-                    this.includedIds = this.institutions.map(i => i.package_id)
+                    this.includedIds = this.sortedInstitutions.map(i => i.package_id)
                 }
             },
             async openDialog() {
