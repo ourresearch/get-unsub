@@ -521,14 +521,21 @@
                     // needed because clearing the field sets it to NULL and we want ""
                     let searchStr = (this.search) ? this.search : ""
                     searchStr = searchStr.toLowerCase()
+                    const splitSearchTerms = searchStr.split(",").map(term => {
+                        return _.trim(term)
+                    })
                     console.log("journal search is: ", searchStr)
+                    console.log("splitSearchTerms is: ", splitSearchTerms)
+
 
                     const isHiddenByFilters = function (journal) {
                         const myTitle = journal.title || ""
                         const titleMatch = myTitle.toLowerCase().indexOf(searchStr) > -1
-                        // const issnMatch = journal.issn_l.indexOf(searchStr) > -1
-                        const issnMatch = searchStr.indexOf(journal.issn_l) > -1
-                        return !titleMatch && !issnMatch
+                        const issnMatches = _.intersection(
+                            splitSearchTerms,
+                            journal.issns
+                        )
+                        return !titleMatch && !issnMatches.length
                     }
 
                     // 0190-9622, 0142-0615
