@@ -12,7 +12,7 @@
 
             </div>
             <div class="mt-3">
-                Loading publisher
+                Loading package
             </div>
         </div>
 
@@ -28,7 +28,8 @@
                 </v-avatar>
                 <div class="text">
                     <div class="body-2">
-                        Publisher
+                        <span v-if="publisherIsOwnedByConsortium">Consortium Data</span>
+                        Package
                     </div>
                     <div class="display-2">
                         {{ publisherName }}
@@ -37,10 +38,18 @@
             </div>
 
 
+
+            <v-alert v-if="publisherIsOwnedByConsortium" color="warning" text icon="mdi-alert">
+                <div class="d-flex align-center">
+                    <div>
+                        This package exists <em>only</em> to feed data into your consortium's global forecasting model. Only consortial admins can modify it.
+                    </div>
+                </div>
+            </v-alert>
             <v-alert v-if="isPublisherDemo" color="info" text dense icon="mdi-information-outline">
                 <div class="d-flex align-center">
                     <div>
-                        This publisher belongs to a demo institution; some functionality is restricted.
+                        This package belongs to a demo institution; some functionality is restricted.
                     </div>
                     <v-spacer></v-spacer>
                     <div>
@@ -50,7 +59,11 @@
             </v-alert>
 
             <v-card>
-                <v-tabs dark v-model="tabModel">
+                <div v-if="publisherIsOwnedByConsortium">
+                    <publisher-setup-tab/>
+                </div>
+
+                <v-tabs v-if="!publisherIsOwnedByConsortium" dark v-model="tabModel">
                     <v-tab
                             v-for="tabName in tabItems"
                             :key="tabName"
@@ -227,6 +240,7 @@
                 "publisherJournalCounts",
                 "publisherLogo",
                 "publisherCounterIsUploaded",
+                "publisherIsOwnedByConsortium",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -240,7 +254,7 @@
             },
             pkg() {
                 return this.$store.getters.selectedPublisher
-            }
+            },
         },
         methods: {
             ...mapMutations([

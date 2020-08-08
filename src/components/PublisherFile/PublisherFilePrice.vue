@@ -1,9 +1,12 @@
 <template>
     <div >
         <!-- missing prices -->
-        <v-row class="option-row warn d-flex mb-8" v-if="myJournalsBySource.null">
+        <v-row class="option-row d-flex mb-8" v-if="myJournalsBySource.null">
             <v-col cols="1" class="option-icon text-right">
-                <v-icon class="mt-4" color="warning">mdi-alert</v-icon>
+                <v-icon
+                        class="mt-4"
+                        color="gray"
+                >mdi-alert</v-icon>
             </v-col>
             <v-col cols="9">
                 <div class="title mb-2">
@@ -14,19 +17,24 @@
                 </div>
                 <div class="body-2">
                     These journals have no public list price, and no custom price uploaded. They will not be
-                    included in forecasting. You can set a price for them by
-                    <span v-if="isUploaded">
-                        <publisher-file-upload
-                                file-type="price"
-                                link-text="uploading a new custom pricelist"
-                        /> that includes prices for these journals.
+                    included in forecasting.
+                    <span v-if="!publisherIsOwnedByConsortium">
+                        You can set a price for them by
+                        <span v-if="isUploaded">
+                            <publisher-file-upload
+                                    file-type="price"
+                                    link-text="uploading a new custom pricelist"
+                            /> that includes prices for these journals.
+                        </span>
+                        <span v-if="!isUploaded">
+                            <publisher-file-upload
+                                    file-type="price"
+                                    link-text="uploading a custom pricelist"
+                            /> with prices for these journals.
+                        </span>
+
                     </span>
-                    <span v-if="!isUploaded">
-                        <publisher-file-upload
-                                file-type="price"
-                                link-text="uploading a custom pricelist"
-                        /> with prices for these journals.
-                    </span>
+
                 </div>
             </v-col>
             <v-col cols="2" class="text-right">
@@ -85,7 +93,7 @@
                 <div class="body-2">
                     These journals have custom prices that override and extend the defaults.
                 </div>
-                <publisher-file-upload class="mt-4" file-type="price"/>
+                <publisher-file-upload v-if="!publisherIsOwnedByConsortium" class="mt-4" file-type="price"/>
             </v-col>
             <v-col cols="2" class="text-right">
                 <div class="title">0</div>
@@ -138,7 +146,7 @@
                         </ul>
                     </div>
                     <div class="mt-4">
-                        <publisher-file-delete file-type="price"/>
+                        <publisher-file-delete v-if="!publisherIsOwnedByConsortium" file-type="price"/>
                     </div>
 
                 </div>
@@ -188,6 +196,7 @@
                 "publisherJournals",
                 "publisherJournalsValid",
                 "publisherFiles",
+                "publisherIsOwnedByConsortium",
             ]),
             myFileInfo() {
                 return this.publisherFiles.find(f => f.id === "price")
