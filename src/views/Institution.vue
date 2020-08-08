@@ -43,7 +43,7 @@
                     <v-card>
                         <v-card-title class="pr-4 align-baseline">
                             <div>
-                                Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>
+                                Group members <span class="body-2">({{myGroupMembers.length}})</span>
                             </div>
                             <v-spacer></v-spacer>
                             <v-tooltip bottom max-width="200" color="#333">
@@ -59,7 +59,7 @@
                         <v-divider></v-divider>
                         <v-list>
                             <v-list-item
-                                    v-for="person in institutionUsersWithRoles"
+                                    v-for="person in myGroupMembers"
                                     :key="person.email"
 
                             >
@@ -73,12 +73,12 @@
                                     </v-list-item-title>
                                     <v-list-item-subtitle>
                                         <span class="font-weight-bold">
-                                            {{ roleFromPermissions(person.permissions) }}
+                                            {{ person.role }}
                                         </span>
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
 
-                                <v-list-item-action v-if="userIsAdmin && person.user_id !== userId">
+                                <v-list-item-action v-if="person.iCanEdit">
                                     <v-menu>
                                         <template v-slot:activator="{ on }">
                                             <v-btn
@@ -91,7 +91,7 @@
                                         <v-list dense>
                                             <v-subheader class="body-2 text--secondary pa-1">Select role</v-subheader>
                                             <v-list-item
-                                                    v-for="role in roles"
+                                                    v-for="role in rolesICanAssign"
                                                     :key="role"
                                                     @click="setRole(person.user_email, role)"
                                             >
@@ -109,7 +109,7 @@
                                     <!--                                </v-btn>-->
                                 </v-list-item-action>
                             </v-list-item>
-                            <v-list-item v-if="userIsAdmin" @click="openCreateGroupMemberDialog">
+                            <v-list-item v-if="iCanAddGroupMembers" @click="openCreateGroupMemberDialog">
                                 <v-list-item-avatar>
                                     <v-icon>mdi-plus</v-icon>
                                 </v-list-item-avatar>
@@ -199,7 +199,7 @@
                     <v-card>
                         <v-card-title>
                             <div>
-                                Publishers
+                                Packages
                                 <span class="body-2">({{institutionPublishers.length}})</span>
                             </div>
                         </v-card-title>
@@ -215,12 +215,18 @@
                                 </v-list-item-avatar>
 
                                 <v-list-item-content>
-                                    <v-list-item-title class="headline font-weight-bold">
+                                    <v-list-item-title
+                                            class="headline font-weight-bold"
+                                            :class="{'text--secondary': pub.is_owned_by_consortium}"
+                                    >
                                         {{pub.name}}
                                     </v-list-item-title>
 
                                     <v-list-item-subtitle v-if="pub.is_demo">
-                                        Demo publisher; some functionality restricted
+                                        Demo package; some functionality restricted
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle v-if="pub.is_owned_by_consortium">
+                                        Consortium data package (read-only)
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
@@ -233,10 +239,14 @@
                                 </v-list-item-action>
                                 <v-list-item-action>
                                     <v-btn
+                                            v-if="!pub.is_owned_by_consortium"
                                             icon
                                             @click="openDeletePublisherDialog(pub.id)"
                                     >
                                         <v-icon>mdi-delete-outline</v-icon>
+                                    </v-btn>
+                                    <v-btn disabled icon v-if="pub.is_owned_by_consortium" >
+                                        <v-icon>mdi-lock-outline</v-icon>
                                     </v-btn>
                                 </v-list-item-action>
                             </v-list-item>
@@ -251,7 +261,7 @@
 
                                 <v-list-item-content>
                                     <v-list-item-title class="body-2 text--secondary">
-                                        New publisher
+                                        New package
                                     </v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
@@ -301,7 +311,7 @@
                                 outlined
                                 label="Role"
                                 v-model="newGroupMember.role"
-                                :items="roles"
+                                :items="rolesICanAssign"
                                 prepend-icon="mdi-account-key-outline"
                                 :hint="roleDescriptions[newGroupMember.role]"
                                 persistent-hint
@@ -353,10 +363,10 @@
         <v-dialog v-model="dialogs.deletePublisher" max-width="400">
             <v-card v-if="dialogs.deletePublisher">
                 <v-card-title class="headline">
-                    Delete Publisher
+                    Delete Package
                 </v-card-title>
                 <v-card-text class="pt-4">
-                    Are you sure you want to delete this publisher?
+                    Are you sure you want to delete this package?
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>
@@ -380,7 +390,7 @@
         <v-dialog v-model="dialogs.createPublisher" max-width="400">
             <v-card>
                 <v-card-title class="headline">
-                    Add Publisher
+                    Add Package
                 </v-card-title>
                 <v-card-text class="pt-4">
                     <div>
@@ -401,7 +411,7 @@
                         <v-text-field
                                 outlined
                                 clearable
-                                label="Publisher display name"
+                                label="Package display name"
                                 @keydown.enter="createPublisher"
                                 v-model="newPublisherDisplayName"
                         />
@@ -434,20 +444,20 @@
         </v-snackbar>
 
         <v-snackbar v-model="snackbars.newPublisherSuccess" bottom left>
-            Publisher added
+            Package added
             <v-btn dark icon @click="snackbars.newPublisherSuccess = false">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
 
         <v-snackbar v-model="snackbars.demoNewPublisher" bottom>
-            Demo accounts can't add new publishers
+            Demo accounts can't add new packages
             <v-btn dark icon @click="snackbars.demoNewPublisher = false">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
         <v-snackbar v-model="snackbars.deletePublisherSuccess" bottom>
-            Publisher deleted
+            Package deleted
             <v-btn dark icon @click="snackbars.deletePublisherSuccess = false">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
@@ -547,12 +557,54 @@
             institutionId() {
                 return this.$route.params.institutionId
             },
-            userIsAdmin() {
+            myGroupMembers(){
+                return this.institutionUsersWithRoles.map(member => {
+
+                    // some roles are not allowed to edit anyone
+                    let iCanEdit = false
+
+                    // admins can edit people
+                    if (this.myRole === "ConsortiumAdmin") iCanEdit = true
+                    else if (this.myRole === "Admin" && member.role !== "ConsortiumAdmin") iCanEdit = true
+
+                    // you can't edit your own role
+                    if (member.user_id === this.userId) iCanEdit = false
+
+                    return {
+                        ...member,
+                        iCanEdit,
+                    }
+                })
+            },
+            myRole(){
+                console.log("this.institutionUsersWithRoles", this.institutionUsersWithRoles)
                 const authenticatedUserPermissisonObject = this.institutionUsersWithRoles.find(u => {
                     return u.user_id === this.userId
                 })
-                return authenticatedUserPermissisonObject && authenticatedUserPermissisonObject.role === "Admin"
+
+                if (authenticatedUserPermissisonObject) {
+                    return authenticatedUserPermissisonObject.role
+                }
+                else {
+                    return "viewer"
+                }
             },
+            iCanAddGroupMembers(){
+                return ['ConsortiumAdmin', 'Admin'].includes(this.myRole)
+            },
+            rolesICanAssign(){
+                if (this.myRole === "ConsortiumAdmin") {
+                    return this.roles  // everything
+                }
+                else if (this.myRole === "Admin") {
+                    return this.roles.filter(roleName => {
+                        return roleName !== "ConsortiumAdmin" // everything EXCEPT ConsortiumAdmin
+                    })
+                }
+                else {
+                    return [] // only admins can assign roles.
+                }
+            }
         },
         methods: {
             ...mapMutations([]),
@@ -572,6 +624,9 @@
                 }
                 this.isRoleUpdating = false
                 this.snackbars.roleUpdated = true
+            },
+            canIeditThisGroupMember(groupMember) {
+
             },
             async createGroupMember() {
                 this.snackbars.newGroupMember = true

@@ -1,10 +1,12 @@
 <template>
     <v-toolbar
-            color="white"
+            :color="backgroundColor"
+            :dark="institutionIsConsortium"
             :flat="isLandingPage"
     >
         <router-link to="/">
-            <img  class="mt-2" style="width:130px;" src="../assets/unsub-logo.png" alt="" />
+            <img v-if="!institutionIsConsortium"  class="mt-2" style="width:130px;" src="../assets/unsub-logo.png" alt="" />
+            <img v-if="institutionIsConsortium"  class="mt-2" style="width:130px;" src="../assets/unsub-logo-white.png" alt="" />
         </router-link>
 <!--        <v-toolbar-title class="headline">-->
 <!--        </v-toolbar-title>-->
@@ -23,10 +25,17 @@
                    class="px-5"
                    text
                    :to="`/i/${institutionId}`"
+                   style="text-transform: capitalize"
+                   active-class="no-active"
             >
-                <span class="title font-weight-regular">
-                    {{ institutionName }}
-                </span>
+                <div>
+                    <div v-if="institutionIsConsortium" class="body-2 font-weight-bold">
+                        Consortium:
+                    </div>
+                    <div class="title font-weight-regular">
+                        {{ institutionName }}
+                    </div>
+                </div>
             </v-btn>
 
 
@@ -172,6 +181,7 @@
                 'institutionIsDemo',
                 'foo',
                 "userName",
+                "institutionIsConsortium",
             ]),
             isApcPage(){
                 // hack for now
@@ -182,6 +192,9 @@
             },
             selectedScenario() {
                 return this.$store.getters.selectedScenario
+            },
+            backgroundColor(){
+                return (this.institutionIsConsortium) ? "primary" : "white"
             },
         },
         created() {

@@ -28,7 +28,8 @@
         >
             <div class="text-center" style="width:100%">
                 <a href="https://github.com/ourresearch/get-unsub">Open Source,</a> made with ❤︎ by <a
-                    href="https://ourresearch.org">Our Research, a 501(c)3 nonprofit.</a> | <a href="mailto:team@ourresearch.org">Contact</a>
+                    href="https://ourresearch.org">Our Research, a 501(c)3 nonprofit.</a> | <a
+                    href="mailto:team@ourresearch.org">Contact</a>
                 | <a href="https://intercom.help/get-unsub/en" target="_blank">Help</a>
             </div>
         </v-footer>
@@ -99,7 +100,7 @@
                 immediate: false,
                 handler: function (val) {
                     const that = this
-                    setTimeout(function(){
+                    setTimeout(function () {
                         console.log("running intercom.update()  ")
                         that.$intercom.update()
                     }, 500)
@@ -212,8 +213,19 @@
             text-decoration: underline;
         }
     }
+
     img.gravatar {
         border-radius: 60px;
+    }
+
+    // hack to get rid of vue's active class on buttons, which makes them display different
+    // when they are linking to the page you're on right now.
+    // https://github.com/vuetifyjs/vuetify/issues/8172#issuecomment-596935920
+    // you have to also add this to the button:
+    // <v-btn active-class="no-active"></v-btn>
+
+    .v-btn--active.no-active::before {
+        opacity: 0 !important;
     }
 
 
