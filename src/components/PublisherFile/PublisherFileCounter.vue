@@ -15,7 +15,7 @@
                 <div class="body-2">
                     Forecasting is unavailable until you upload your COUNTER report.
                 </div>
-                <publisher-file-upload v-if="!publisherIsOwnedByConsortium" file-type="counter" color="primary" />
+                <publisher-file-upload v-if="userCanEditActivePublisher" file-type="counter" color="primary" />
             </v-col>
             <v-col cols="2" class="text-right">
                 <div class="title">0</div>
@@ -84,7 +84,7 @@
                         </ul>
                     </div>
                     <div class="mt-4">
-                        <publisher-file-delete v-if="!publisherIsOwnedByConsortium" file-type="counter"/>
+                        <publisher-file-delete v-if="userCanEditActivePublisher" file-type="counter"/>
                     </div>
 
                 </div>
@@ -146,7 +146,7 @@
                 "publisherJournals",
                 "publisherJournalsValid",
                 "publisherFiles",
-                "publisherIsOwnedByConsortium",
+                "userCanEditActivePublisher",
             ]),
             myFileInfo() {
                 return this.publisherFiles.find(f => f.id === "counter")

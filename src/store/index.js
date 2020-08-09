@@ -7,6 +7,7 @@ import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEdi
 import {institution} from "./institution.store";
 import {user} from "./user.store";
 import configs from "../appConfigs"
+import {roleFromPermissions} from "../shared/userPermissions";
 
 
 Vue.use(Vuex)
@@ -161,6 +162,35 @@ export default new Vuex.Store({
         colInfo(state){return state.colInfo},
         infoKey(state){return state.infoKey},
         isLandingPage(state){return state.isLandingPage},
+        userCanEditActivePublisher: (state) => {
+
+            const activeInstitution = state.institution
+            const activePublisher = state.publisher
+
+            const myUserInstitutionData = activeInstitution.institutionUsers.find(iu => {
+                return iu.is_authenticated_user
+            })
+            console.log("myUserInstitutionData", myUserInstitutionData)
+            if (!myUserInstitutionData) return
+
+            const userRole = roleFromPermissions(myUserInstitutionData.permissions)
+            console.log("const userRole", userRole)
+            console.log("activePublisher", activePublisher)
+
+
+            // ConsortiumAdmins can edit everything
+            if (userRole === "ConsortiumAdmin") return true
+
+            // regular admin can edit anyone EXCEPT ones the consortium owns
+            else if (userRole === "Admin" && !activePublisher.isOwnedByConsortium) return true
+
+            // same for Collaborators
+            else if (userRole === "Collaborator" && !activePublisher.isOwnedByConsortium) return true
+
+            return false
+
+
+        },
 
 
 

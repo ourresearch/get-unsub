@@ -94,6 +94,6 @@ export const user = {
         userPrimaryInstitutionId: (state) => {
             if (!state.institutions.length) return
             return state.institutions[0].institution_id // temp hack way of doing it for now.
-        }
+        },
     }
 }

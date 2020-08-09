@@ -63,7 +63,7 @@
                 <div class="body-2">
                     These journals have custom dates that override the defaults.
                 </div>
-                <publisher-file-upload v-if="!publisherIsOwnedByConsortium" class="mt-4" file-type="perpetualAccess"/>
+                <publisher-file-upload v-if="userCanEditActivePublisher" class="mt-4" file-type="perpetualAccess"/>
             </v-col>
             <v-col cols="2" class="text-right mt-3">
                 <div class="title">0</div>
@@ -117,7 +117,7 @@
                         </ul>
                     </div>
                     <div class="mt-4">
-                        <publisher-file-delete v-if="!publisherIsOwnedByConsortium" file-type="perpetualAccess"/>
+                        <publisher-file-delete v-if="userCanEditActivePublisher" file-type="perpetualAccess"/>
                     </div>
 
                 </div>
@@ -172,7 +172,7 @@
                 "publisherJournals",
                 "publisherJournalsValid",
                 "publisherFiles",
-                "publisherIsOwnedByConsortium",
+                "userCanEditActivePublisher",
             ]),
             myFileInfo() {
                 return this.publisherFiles.find(f => f.id === "perpetualAccess")

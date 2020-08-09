@@ -28,21 +28,30 @@
                 </v-avatar>
                 <div class="text">
                     <div class="body-2">
-                        <span v-if="publisherIsOwnedByConsortium">Consortium Data</span>
+                        <span v-if="publisherIsOwnedByConsortium">Consortial Data</span>
                         Package
                     </div>
                     <div class="display-2">
                         {{ publisherName }}
+                        <span v-if="publisherIsOwnedByConsortium" class="font-weight-light">(consortial)</span>
                     </div>
                 </div>
             </div>
 
 
+            <v-alert v-if="publisherIsOwnedByConsortium"
+                     :color="(userCanEditActivePublisher) ? 'info' : 'warning'"
+                     prominent
+                     dark
 
-            <v-alert v-if="publisherIsOwnedByConsortium" color="warning" text icon="mdi-alert">
+                     :icon="(userCanEditActivePublisher) ?  'mdi-information-outline' : 'mdi-alert'"
+            >
                 <div class="d-flex align-center">
                     <div>
-                        This package exists <em>only</em> to feed data into your consortium's global forecasting model. Only consortial admins can modify it.
+                        This <strong>Consortial Data Package</strong> exists only to feed data into your consortium's global forecasting model. Only
+                        consortial admins
+                        <span v-if="userCanEditActivePublisher">(like you)</span>
+                        can modify it.
                     </div>
                 </div>
             </v-alert>
@@ -176,7 +185,7 @@
 
                     <v-tab-item>
                         not sure if we want this.
-<!--                        <publisher-journals-tab/>-->
+                        <!--                        <publisher-journals-tab/>-->
                     </v-tab-item>
 
                 </v-tabs>
@@ -241,6 +250,7 @@
                 "publisherLogo",
                 "publisherCounterIsUploaded",
                 "publisherIsOwnedByConsortium",
+                "userCanEditActivePublisher",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -280,9 +290,7 @@
         destroyed() {
 
         },
-        watch:{
-
-        },
+        watch: {},
         async mounted() {
             console.log("publisher: mount up", this.$route.params)
             this.$store.commit("clearSelectedScenario")
@@ -308,7 +316,7 @@
 
             await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             console.log("publisher done loading", this.publisherCounterIsUploaded)
-            if (!this.publisherCounterIsUploaded){
+            if (!this.publisherCounterIsUploaded) {
                 this.tabModel = 2
             }
         },

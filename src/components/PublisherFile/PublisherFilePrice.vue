@@ -18,7 +18,7 @@
                 <div class="body-2">
                     These journals have no public list price, and no custom price uploaded. They will not be
                     included in forecasting.
-                    <span v-if="!publisherIsOwnedByConsortium">
+                    <span v-if="userCanEditActivePublisher">
                         You can set a price for them by
                         <span v-if="isUploaded">
                             <publisher-file-upload
@@ -93,7 +93,7 @@
                 <div class="body-2">
                     These journals have custom prices that override and extend the defaults.
                 </div>
-                <publisher-file-upload v-if="!publisherIsOwnedByConsortium" class="mt-4" file-type="price"/>
+                <publisher-file-upload v-if="userCanEditActivePublisher" class="mt-4" file-type="price"/>
             </v-col>
             <v-col cols="2" class="text-right">
                 <div class="title">0</div>
@@ -146,7 +146,7 @@
                         </ul>
                     </div>
                     <div class="mt-4">
-                        <publisher-file-delete v-if="!publisherIsOwnedByConsortium" file-type="price"/>
+                        <publisher-file-delete v-if="userCanEditActivePublisher" file-type="price"/>
                     </div>
 
                 </div>
@@ -196,7 +196,7 @@
                 "publisherJournals",
                 "publisherJournalsValid",
                 "publisherFiles",
-                "publisherIsOwnedByConsortium",
+                "userCanEditActivePublisher",
             ]),
             myFileInfo() {
                 return this.publisherFiles.find(f => f.id === "price")

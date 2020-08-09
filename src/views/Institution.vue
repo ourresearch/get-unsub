@@ -200,13 +200,13 @@
                         <v-card-title>
                             <div>
                                 Packages
-                                <span class="body-2">({{institutionPublishers.length}})</span>
+                                <span class="body-2">({{myInstitutionPublishers.length}})</span>
                             </div>
                         </v-card-title>
                         <v-divider></v-divider>
                         <v-list id="publishers-list">
                             <v-list-item
-                                    v-for="pub in institutionPublishers"
+                                    v-for="pub in myInstitutionPublishers"
                                     :key="pub.id"
                             >
                                 <v-list-item-avatar tile size="50">
@@ -217,16 +217,20 @@
                                 <v-list-item-content>
                                     <v-list-item-title
                                             class="headline font-weight-bold"
-                                            :class="{'text--secondary': pub.is_owned_by_consortium}"
                                     >
                                         {{pub.name}}
+                                        <span class="font-weight-light" v-if="pub.is_owned_by_consortium">(consortial)</span>
                                     </v-list-item-title>
 
                                     <v-list-item-subtitle v-if="pub.is_demo">
                                         Demo package; some functionality restricted
                                     </v-list-item-subtitle>
                                     <v-list-item-subtitle v-if="pub.is_owned_by_consortium">
-                                        Consortium data package (read-only)
+                                        Consortium data package
+                                        <span v-if="!pub.iCanEdit">(read-only)</span>
+                                    </v-list-item-subtitle>
+                                    <v-list-item-subtitle v-if="!pub.is_owned_by_consortium && !pub.iCanEdit">
+                                        read-only
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
@@ -239,13 +243,13 @@
                                 </v-list-item-action>
                                 <v-list-item-action>
                                     <v-btn
-                                            v-if="!pub.is_owned_by_consortium"
+                                            v-if="pub.iCanEdit"
                                             icon
                                             @click="openDeletePublisherDialog(pub.id)"
                                     >
                                         <v-icon>mdi-delete-outline</v-icon>
                                     </v-btn>
-                                    <v-btn disabled icon v-if="pub.is_owned_by_consortium" >
+                                    <v-btn disabled icon v-if="!pub.iCanEdit" >
                                         <v-icon>mdi-lock-outline</v-icon>
                                     </v-btn>
                                 </v-list-item-action>
@@ -557,6 +561,27 @@
             institutionId() {
                 return this.$route.params.institutionId
             },
+            myInstitutionPublishers() {
+                return this.institutionPublishers.map(p => {
+                    // some roles are not allowed to edit anyone
+                    let iCanEdit = false
+
+                    // admins can edit packages
+                    // ConsortiumAdmin can edit all packages
+                    if (this.myRole === "ConsortiumAdmin") iCanEdit = true
+
+                    // regular admin can edit anyone EXCEPT ones the consortium owns
+                    else if (this.myRole === "Admin" && !p.is_owned_by_consortium) iCanEdit = true
+
+                    // same for Collaborators
+                    else if (this.myRole === "Collaborator" && !p.is_owned_by_consortium) iCanEdit = true
+
+                    return {
+                        ...p,
+                        iCanEdit
+                    }
+                })
+            },
             myGroupMembers(){
                 return this.institutionUsersWithRoles.map(member => {
 
@@ -564,7 +589,10 @@
                     let iCanEdit = false
 
                     // admins can edit people
+                    // ConsortiumAdmin can edit anyone
                     if (this.myRole === "ConsortiumAdmin") iCanEdit = true
+
+                    // regular admin can edit anyone EXCEPT ConsortiumAdmins
                     else if (this.myRole === "Admin" && member.role !== "ConsortiumAdmin") iCanEdit = true
 
                     // you can't edit your own role
