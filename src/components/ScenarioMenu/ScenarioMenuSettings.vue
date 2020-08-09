@@ -99,6 +99,24 @@
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar>
+
+                <div v-if="institutionIsConsortium">
+                    <v-alert
+                            color="warning"
+                            text
+                            icon="mdi-alert"
+                    >
+                            <p class="font-weight-bold">This could take a while...</p>
+                            <p>
+                                Changing this parameter will trigger a forecast update, which can take up to 60 minutes.
+                            </p>
+                            <p>
+                                You won't be able to view or edit this scenario during that time.
+                            </p>
+                    </v-alert>
+
+                </div>
+
                 <v-card-text class="pt-4">
                     <div>
                         <v-text-field
@@ -139,16 +157,18 @@
                         {{selectedConfigData.descr}}
                     </div>
                 </v-card-text>
+
                 <v-card-actions>
+                    <v-spacer />
+                    <v-btn depressed @click="cancelEdit">Cancel</v-btn>
                     <v-btn
                             depressed
                             @click="saveEdit"
                             :loading="savingConfig"
                             color="primary"
                     >
-                        Save
+                        {{ (institutionIsConsortium) ? 'Save and wait' : 'Save' }}
                     </v-btn>
-                    <v-btn depressed @click="cancelEdit">Cancel</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -181,14 +201,12 @@
 
 <script>
     import {mapActions, mapGetters} from "vuex"
-    import SettingsItem from "../Settings/SettingsItem";
     import appConfigs from "../../appConfigs";
     import SettingsItemValue from "../Settings/SettingsItemValue";
 
     export default {
         name: "ScenarioMenuSettings",
         components: {
-            SettingsItem,
             SettingsItemValue,
         },
         data: () => ({
@@ -198,10 +216,12 @@
             selectedConfigName: null,
             savingConfig: false,
             savingReset: false,
+            showSaveEditConfirmation: false,
         }),
         computed: {
             ...mapGetters([
                 "publisherFilesDict",
+                "institutionIsConsortium",
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
             selectedConfigData() {
@@ -218,8 +238,25 @@
                 this.selectedConfigName = configName
                 this.selectedConfigValue = this.$store.getters.config(configName)
             },
+            async saveEditHandler(){
+                if (this.institutionIsConsortium){
+                    if (this.showSaveEditConfirmation) {
+                        return this.saveEdit()
+                    }
+                    else {
+                        this.showSaveEditConfirmation = true
+                        return
+                    }
+                }
+                else {
+                    return this.saveEdit()
+                }
+
+            },
             async saveEdit() {
                 console.log("saving config edit", this.selectedConfigValue)
+                return
+
                 this.savingConfig = true
                 await this.$store.dispatch("setScenarioConfig", {
                     scenarioId: this.$store.getters.scenarioId,
@@ -234,6 +271,7 @@
                 this.selectedConfigValue = null
                 this.showDialog = false
                 this.savingConfig = false
+                this.showSaveEditConfirmation = false
             },
             async openResetConfirmation() {
                 this.$refs.settingsMenu.isActive = false

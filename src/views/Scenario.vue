@@ -13,7 +13,7 @@
 
             </div>
             <div class="mt-3">
-                Loading scenario
+                Loading <span v-if="institutionIsConsortium">consortial</span> scenario
             </div>
         </div>
 
@@ -30,7 +30,11 @@
                 <div class="page-title mt-8 d-flex">
                     <div class="text">
                         <div class="body-2">
-                            <span>{{publisherName}} forecast scenario</span>
+                            <span>
+                                {{publisherName}}
+                                <span v-if="institutionIsConsortium">consortial</span>
+                                forecast scenario
+                            </span>
                         </div>
                         <div class="display-2">
                             {{ scenarioName }}
@@ -360,6 +364,7 @@
                 'scenarioIdHash',
                 'scenarioSnackbars',
                 'menuSettingsView',
+                'institutionIsConsortium',
             ]),
 
 

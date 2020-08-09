@@ -66,7 +66,7 @@
                         class="pt-8"
                         style="height: 100vh;"
                 >
-                    <pre>{{ includedIds }}</pre>
+<!--                    <pre>{{ includedIds }}</pre>-->
                     <div v-if="!isLoading">
                         <v-row v-for="institution in sortedInstitutions" class="">
                                 <v-col cols="5" class="d-flex">
