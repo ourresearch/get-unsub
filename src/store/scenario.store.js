@@ -309,6 +309,8 @@ export const scenario = {
         scenarioZoomedJournal: (state) => state.zoomedJournal,
         scenarioSnackbars: (state) => state.snackbars,
         scenarioAllowAutosubscribe: (state) => state.allowAutoSubscribe,
+        scenarioIsLockedPendingUpdate: (state) => state.selected.isLockedPendingUpdate,
+        scenarioUpdatePercentComplete: (state) => state.selected.updatePercentComplete,
 
         bundleSize: (state) => state.selected.saved.bundle_size,
 

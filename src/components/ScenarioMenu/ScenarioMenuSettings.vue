@@ -108,11 +108,10 @@
                     >
                             <p class="font-weight-bold">This could take a while...</p>
                             <p>
-                                Changing this parameter will trigger a forecast update, which can take up to 60 minutes.
-                            </p>
-                            <p>
+                                Changing this parameter will recalculate the forecast, which can take up to 60 minutes.
                                 You won't be able to view or edit this scenario during that time.
                             </p>
+                        <p>We'll send an email to <strong>{{ userEmail }} </strong> when we're done (don't forget to check your spam).</p>
                     </v-alert>
 
                 </div>
@@ -222,6 +221,7 @@
             ...mapGetters([
                 "publisherFilesDict",
                 "institutionIsConsortium",
+                "userEmail",
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
             selectedConfigData() {
@@ -255,8 +255,6 @@
             },
             async saveEdit() {
                 console.log("saving config edit", this.selectedConfigValue)
-                return
-
                 this.savingConfig = true
                 await this.$store.dispatch("setScenarioConfig", {
                     scenarioId: this.$store.getters.scenarioId,
@@ -264,7 +262,9 @@
                     value: this.selectedConfigValue,
                 })
                 this.cancelEdit()
-                this.$store.commit("snackbar", "Setting updated")
+                if (!this.institutionIsConsortium) {
+                    this.$store.commit("snackbar", "Setting updated")
+                }
             },
             cancelEdit() {
                 this.selectedConfigName = null

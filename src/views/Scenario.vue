@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <v-divider></v-divider>
-                <div class="d-flex pa-1">
+                <div class="d-flex pa-1" v-if="!scenarioIsLockedPendingUpdate">
                     <scenario-menu-scenario key="scenario"/>
                     <scenario-menu-view key="view"/>
                     <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
@@ -56,7 +56,34 @@
             </v-container>
 
 
-            <v-container>
+            <v-container v-if="scenarioIsLockedPendingUpdate">
+                <v-row>
+                    <v-col cols="12">
+                    <v-card  class="d-flex justify-center align-center"  style="height: 50vh">
+                        <div class="d-flex align-start">
+                            <v-icon x-large class="pr-6 pt-2">mdi-timer-sand</v-icon>
+                            <div>
+                                <div class="headline">Scenario recalculating...</div>
+                                <div>
+                                    <p>
+                                        This consortial scenerio is currently locked while we recalculate the forecast. This can take up to one hour.
+                                    </p>
+                                    <p>
+                                        We'll send an email to <strong>{{userEmail}}</strong> when the update is complete (don't forget to check your spam folder).
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </v-card>
+
+                    </v-col>
+                </v-row>
+            </v-container>
+
+
+            <v-container v-if="!scenarioIsLockedPendingUpdate">
                 <v-row>
                     <v-col cols="4">
                         <v-card style="position: sticky; top: 0px;">
@@ -365,6 +392,9 @@
                 'scenarioSnackbars',
                 'menuSettingsView',
                 'institutionIsConsortium',
+                'scenarioIsLockedPendingUpdate',
+                'scenarioUpdatePercentComplete',
+                'userEmail',
             ]),
 
 

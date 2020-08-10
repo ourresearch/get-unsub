@@ -11,6 +11,8 @@ const buildScenarioFromApiResp = function (apiRespRaw) {
         myJournal.isHiddenByFilters = false
     })
     apiResp.id = apiResp.meta.scenario_id
+    apiResp.isLockedPendingUpdate = apiResp.is_locked_pending_update
+    apiResp.updatePercentComplete = apiResp.update_percent_complete
 
     apiResp.costBigdealProjected = setCostBigdealProjected(
         parseInt(apiResp.saved.configs.cost_bigdeal),
@@ -36,6 +38,8 @@ const newScenario = function (id = "", name="") {
         isLoading: false,
         journals: [],
         costBigdealProjected: 0,
+        isLockedPendingUpdate: false,
+        updatePercentComplete: 100,
         saved: {
             subrs: [],
             name: name,

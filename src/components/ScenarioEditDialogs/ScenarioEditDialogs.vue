@@ -19,16 +19,17 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
+                    <v-spacer />
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                    >
+                        Cancel
+                    </v-btn>
                     <v-btn depressed
                            @click="confirmCopyScenario"
                            color="primary"
                     >
                         Copy
-                    </v-btn>
-                    <v-btn depressed
-                           @click="setScenarioEditDialogsAllClosed"
-                    >
-                        Cancel
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -52,16 +53,17 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
+                    <v-spacer />
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                    >
+                        Cancel
+                    </v-btn>
                     <v-btn depressed
                            @click="confirmRenameScenario"
                            color="primary"
                     >
                         Rename
-                    </v-btn>
-                    <v-btn depressed
-                           @click="setScenarioEditDialogsAllClosed"
-                    >
-                        Cancel
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -149,6 +151,8 @@
             ...mapGetters([
                 "scenarioEditDialogIsSaving",
                 "scenarioToEdit",
+                "userEmail",
+                "institutionIsConsortium",
             ]),
             isCopyDialogOpen: {
                 get() {
