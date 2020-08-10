@@ -214,6 +214,23 @@
                             <single-journal-by-year-tables :journal="journalDetail"/>
                         </div>
 
+                        <div v-if="item==='institutions'">
+                            <div v-if="loading" style="height: 300px;" class="d-flex align-center justify-center flex-column">
+                                <v-progress-linear style="width: 300px;" indeterminate />
+                                <div>
+                                    Loading Institution detail
+                                </div>
+                            </div>
+                            <v-data-table
+                                v-if="!loading"
+                                :headers="institutionsTableHeaders"
+                                :items="institutions"
+                                :hide-default-footer="true"
+                                must-sort
+
+                        />
+                        </div>
+
 
                     </v-tab-item>
                 </v-tabs-items>
@@ -261,9 +278,19 @@
             journalDetail: null,
             loading: false,
             tab: null,
-            items: [
-                "overview",
-                "timelines"
+            institutionsTableHeaders: [
+                {
+                    text: "Name",
+                    value: "institution_name",
+                },
+                {
+                    text: "Cost Per Use",
+                    value: "cpu",
+                },
+                {
+                    text: "Usage (weighted)",
+                    value: "usage",
+                },
             ]
         }),
         computed: {
@@ -272,7 +299,26 @@
                 "scenarioZoomedJournal",
                 "citationWeight",
                 "authorshipWeight",
+                "institutionIsConsortium",
             ]),
+            items(){
+                if (this.institutionIsConsortium){
+                    return [
+                        "overview",
+                        "institutions",
+                    ]
+                }
+                else {
+                    return [
+                        "overview",
+                        "timelines",
+                    ]
+                }
+            },
+            institutions(){
+                if (!(this.journalDetail && this.journalDetail.member_institutions)) return []
+                return this.journalDetail.member_institutions
+            },
             dialogIsOpen: {
                 get() {
                     return !!this.$store.getters.zoomIssnl
@@ -356,6 +402,7 @@
                 console.log("zoom issnl has changed", this.issnl)
                 if (!this.issnl) return
                 this.getData()
+                this.tab = null
             }
         }
     };
