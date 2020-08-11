@@ -137,7 +137,7 @@
 
                                 <v-fade-transition>
                                     <v-list-item
-                                            @click="createScenario"
+                                            @click="createScenarioHandler"
                                             key="add-scenario"
                                             :disabled="!publisherScenariosAreAllLoaded"
                                             id="new-scenario-button"
@@ -194,6 +194,41 @@
         </div>
 
 
+        <v-dialog v-model="dialogs.confirmCreateScenario" max-width="400" >
+            <v-card>
+                <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-timer-sand</v-icon>
+                        Confirm slow operation
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="dialogs.confirmCreateScenario = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text class="pt-4">
+                    <p>
+                        Blank-slate scenarios are created quickly, but it takes a long time before they are fully calculated and ready for use -- up to an hour.
+                    </p>
+                     <p>We'll send an email to <strong>{{ userEmail }} </strong> when the scenario is ready to use (don't forget to check your spam).</p>
+                    <p>If you're feeling impatient, you can copy an existing scenario...that only takes a few seconds.</p>
+
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn depressed @click="dialogs.confirmCreateScenario = false">Cancel</v-btn>
+                    <v-btn
+                            depressed
+                            @click="createScenario"
+                            color="primary"
+                    >
+                        Create
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
         <scenario-edit-dialogs/>
     </v-container>
 </template>
@@ -223,6 +258,9 @@
                 errorMsg: "",
                 tabModel: 0,
                 loadingPercent: 0,
+                dialogs: {
+                    confirmCreateScenario: false
+                },
                 // tabItems: [
                 //     "Forecasts",
                 //     "APCs",
@@ -249,6 +287,7 @@
                 "publisherIsOwnedByConsortium",
                 "userCanEditActivePublisher",
                 "institutionIsConsortium",
+                "userEmail",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -284,8 +323,17 @@
                 "openPublisherFileUploadDialog",
             ]),
             ...mapActions([]),
+            createScenarioHandler(){
+                if (this.institutionIsConsortium){
+                    this.dialogs.confirmCreateScenario = true
+                }
+                else {
+                    this.createScenario()
+                }
+            },
             createScenario() {
                 this.$store.dispatch("createScenario")
+                this.dialogs.confirmCreateScenario = false
             },
             goToScenario(scenarioId) {
                 const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${scenarioId}`
