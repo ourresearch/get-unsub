@@ -40,18 +40,15 @@
 
 
             <v-alert v-if="publisherIsOwnedByConsortium"
-                     :color="(userCanEditActivePublisher) ? 'info' : 'warning'"
+                     color="warning"
                      prominent
                      dark
-
-                     :icon="(userCanEditActivePublisher) ?  'mdi-information-outline' : 'mdi-alert'"
+                     icon="mdi-alert"
             >
                 <div class="d-flex align-center">
                     <div>
-                        This <strong>Consortial Data Package</strong> exists only to feed data into your consortium's global forecasting model. Only
-                        consortial admins
-                        <span v-if="userCanEditActivePublisher">(like you)</span>
-                        can modify it.
+                        This <strong>Consortial Data Package</strong> feeds data into your consortium's global
+                        forecasting model. Please don't edit it without permission of consortium staff!
                     </div>
                 </div>
             </v-alert>
@@ -226,12 +223,12 @@
                 errorMsg: "",
                 tabModel: 0,
                 loadingPercent: 0,
-                tabItems: [
-                    "Forecasts",
-                    "APCs",
-                    "Setup",
-                    // "Journals",
-                ],
+                // tabItems: [
+                //     "Forecasts",
+                //     "APCs",
+                //     "Setup",
+                //     // "Journals",
+                // ],
             }
         },
         computed: {
@@ -251,6 +248,7 @@
                 "publisherCounterIsUploaded",
                 "publisherIsOwnedByConsortium",
                 "userCanEditActivePublisher",
+                "institutionIsConsortium",
 
                 // apc stuff
                 "publisherApcPapersCount",
@@ -259,6 +257,18 @@
                 "publisherApcIsLoading",
 
             ]),
+            tabItems() {
+                if (this.institutionIsConsortium) {
+                    return ["Forecasts"]
+                } else {
+                    return [
+                        "Forecasts",
+                        "APCs",
+                        "Setup",
+                        // "Journals",
+                    ]
+                }
+            },
             account() {
                 return this.$store.state.user
             },

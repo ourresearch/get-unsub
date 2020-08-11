@@ -170,23 +170,13 @@ export default new Vuex.Store({
             const myUserInstitutionData = activeInstitution.institutionUsers.find(iu => {
                 return iu.is_authenticated_user
             })
-            console.log("myUserInstitutionData", myUserInstitutionData)
             if (!myUserInstitutionData) return
 
             const userRole = roleFromPermissions(myUserInstitutionData.permissions)
-            console.log("const userRole", userRole)
-            console.log("activePublisher", activePublisher)
 
 
-            // ConsortiumAdmins can edit everything
-            if (userRole === "ConsortiumAdmin") return true
-
-            // regular admin can edit anyone EXCEPT ones the consortium owns
-            else if (userRole === "Admin" && !activePublisher.isOwnedByConsortium) return true
-
-            // same for Collaborators
-            else if (userRole === "Collaborator" && !activePublisher.isOwnedByConsortium) return true
-
+            if (userRole === "Admin") return true
+            if (userRole === "Collaborator") return true
             return false
 
 

@@ -226,8 +226,7 @@
                                         Demo package; some functionality restricted
                                     </v-list-item-subtitle>
                                     <v-list-item-subtitle v-if="pub.is_owned_by_consortium">
-                                        Consortium data package
-                                        <span v-if="!pub.iCanEdit">(read-only)</span>
+                                        Consortial data package; only edit if you know what you're doing
                                     </v-list-item-subtitle>
                                     <v-list-item-subtitle v-if="!pub.is_owned_by_consortium && !pub.iCanEdit">
                                         read-only

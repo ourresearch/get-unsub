@@ -1,8 +1,8 @@
 
 
-const roles = ["ConsortiumAdmin", "Admin", "Collaborator", "Viewer", "Unaffiliated"]
+const roles = ["Admin", "Collaborator", "Viewer", "Unaffiliated"]
 const roleDescriptions = {
-    ConsortiumAdmin: "Can view and modify data and users at both consortium and institution level.",
+    // ConsortiumAdmin: "Can view and modify data and users at both consortium and institution level.",
     Admin: "Can view and modify data and users at institution level",
     Collaborator: "Can view and modify data",
     Viewer: "Can view data only",
@@ -11,8 +11,7 @@ const roleDescriptions = {
 
 const roleFromPermissions = function (permissions) {
     let ret
-    if (permissions.includes("consortium_admin")) ret = "ConsortiumAdmin"
-    else if (permissions.includes("admin")) ret = "Admin"
+    if (permissions.includes("admin")) ret = "Admin"
     else if (permissions.includes("modify")) ret = "Collaborator"
     else if (permissions.includes("view")) ret = "Viewer"
     else ret = "Unaffiliated"
@@ -23,7 +22,7 @@ const roleFromPermissions = function (permissions) {
 
 const permissionsFromRole = function (role) {
     let ret = []
-    if (role === "ConsortiumAdmin") ret = ["consortium_admin", "admin", "modify", "view"]
+    if (role === "ConsortiumAdmin") ret = ["admin", "modify", "view"]
     else if (role === "Admin") ret = ["admin", "modify", "view"]
     else if (role === "Collaborator") ret = ["modify", "view"]
     else if (role === "Viewer") ret = ["view"]

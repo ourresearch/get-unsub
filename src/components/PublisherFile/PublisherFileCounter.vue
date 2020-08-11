@@ -147,6 +147,7 @@
                 "publisherJournalsValid",
                 "publisherFiles",
                 "userCanEditActivePublisher",
+                "userCanEditActivePublisher",
             ]),
             myFileInfo() {
                 return this.publisherFiles.find(f => f.id === "counter")
