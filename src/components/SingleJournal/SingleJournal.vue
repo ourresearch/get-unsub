@@ -284,12 +284,14 @@
                     value: "institution_name",
                 },
                 {
-                    text: "Cost Per Use",
+                    text: "Cost Per Use ($)",
                     value: "cpu",
+                    align: "end",
                 },
                 {
                     text: "Usage (weighted)",
                     value: "usage",
+                    align: "end",
                 },
             ]
         }),
@@ -317,7 +319,11 @@
             },
             institutions(){
                 if (!(this.journalDetail && this.journalDetail.member_institutions)) return []
-                return this.journalDetail.member_institutions
+                return this.journalDetail.member_institutions.map(i => {
+                    const ret = {...i}
+                    if (i.cpu) i.cpu = i.cpu.toFixed(2)
+                    return i
+                })
             },
             dialogIsOpen: {
                 get() {
