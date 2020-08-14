@@ -227,7 +227,7 @@
                                 :items="institutions"
                                 :hide-default-footer="true"
                                 must-sort
-
+                                :items-per-page="500"
                         />
                         </div>
 

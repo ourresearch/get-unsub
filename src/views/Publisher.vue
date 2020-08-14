@@ -213,6 +213,7 @@
                      <p>We'll send an email to <strong>{{ userEmail }} </strong> when the scenario is ready to use (don't forget to check your spam).</p>
                     <p>If you're feeling impatient, you can copy an existing scenario...that only takes a few seconds.</p>
 
+
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
