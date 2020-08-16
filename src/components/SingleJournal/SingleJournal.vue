@@ -237,11 +237,12 @@
             </v-card-text>
 
 
+
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer/>
                 <v-btn text @click="dialogIsOpen = false">
-                    Close
+                    Close 
                 </v-btn>
                 <v-btn depressed dark color="#555" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed">
                     <v-icon>mdi-cart-arrow-up</v-icon>

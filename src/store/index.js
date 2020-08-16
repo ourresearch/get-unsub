@@ -70,7 +70,7 @@ export default new Vuex.Store({
             state.showColInfo = true
         },
         clearColInfo(state){
-            state.colInfo = false
+            state.showColInfo = false
             state.colInfo = null
         },
 
