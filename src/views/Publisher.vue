@@ -361,15 +361,23 @@
             let secondsSincePageLoad = 0
             const that = this
             const interval = setInterval(function () {
+                console.log("publisher loading bar: tick", that.loadingPercent)
                 if (!that.publisherIsLoading) {
+                    console.log("publisher loading bar: publisher is done loading")
                     that.loadingPercent = 100
                     setTimeout(() => clearInterval(interval), 500)
                     return
                 }
                 secondsSincePageLoad += 1
-                let secondsRemaining = estSecondsToLoad - secondsSincePageLoad
-                if (secondsRemaining < 1) secondsRemaining = 1
-                that.loadingPercent = 100 * secondsSincePageLoad / estSecondsToLoad
+                let loadingPercent = 100 * secondsSincePageLoad / estSecondsToLoad
+
+                if (loadingPercent >= 100) {
+                    // based on our time estimate, we should be done. but unfortunately, we haven't broken out of the loop
+                    // yet, which means that actually the publisher is still loading.
+                    // so, set the progress bar to "nearly done!"
+                    loadingPercent = 95
+                }
+                that.loadingPercent = loadingPercent
             }, 1000)
 
 

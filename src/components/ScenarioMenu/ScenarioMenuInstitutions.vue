@@ -68,7 +68,11 @@
                 >
 <!--                    <pre>{{ includedIds }}</pre>-->
                     <div v-if="!isLoading">
-                        <v-row v-for="institution in sortedInstitutions" class="">
+                        <v-row
+                                v-for="institution in sortedInstitutions"
+                                class=""
+                                :key="institution.package_id"
+                        >
                                 <v-col cols="5" class="d-flex">
                                     <v-checkbox
                                             hide-details
