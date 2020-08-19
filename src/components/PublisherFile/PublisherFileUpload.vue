@@ -60,7 +60,7 @@
                                     Accepted formats: .csv, .xlsx, .xls
                             </li>
                             <li v-if="fileType === 'counter'">
-                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches summer 2020.
+                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches September 2020.
                             </li>
                             <li v-if="fileType === 'counter' && publisherPublisher === 'Wiley'">
                                     Unfortunately Wiley doesn't generate COUNTER 4 JR1s for 2019 data, so we need to use 2018 for now. However, forecast results are generally about the same.

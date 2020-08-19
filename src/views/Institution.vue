@@ -527,11 +527,11 @@
                         id: "Elsevier",
                         logo: "https://i.imgur.com/Qt1sOqp.png",
                     },
-                    // {
-                    //     name: "Springer Nature",
-                    //     id: "SpringerNature",
-                    //     logo: "https://i.imgur.com/MLtg71P.png",
-                    // },
+                    {
+                        name: "Springer Nature",
+                        id: "SpringerNature",
+                        logo: "https://i.imgur.com/MLtg71P.png",
+                    },
                     {
                         name: "Wiley",
                         id: "Wiley",
