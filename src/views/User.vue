@@ -310,6 +310,7 @@
         },
         computed: {
             ...mapGetters([
+                "userId",
                 "userEmail",
                 "userUsername",
                 "userName",
@@ -321,7 +322,7 @@
                 "gravatarStr",
             ]),
             isLoading(){
-                return this.userInstitutions.length + this.userConsortia.length === 0
+                return !this.userId
             }
         },
         methods: {

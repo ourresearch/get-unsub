@@ -220,7 +220,8 @@
                                             class="headline font-weight-bold"
                                     >
                                         {{pub.name}}
-                                        <span class="font-weight-light" v-if="pub.is_owned_by_consortium">(consortial)</span>
+                                        <span class="font-weight-light"
+                                              v-if="pub.is_owned_by_consortium">(consortial)</span>
                                     </v-list-item-title>
 
                                     <v-list-item-subtitle v-if="pub.is_demo">
@@ -249,7 +250,7 @@
                                     >
                                         <v-icon>mdi-delete-outline</v-icon>
                                     </v-btn>
-                                    <v-btn disabled icon v-if="!pub.iCanEdit" >
+                                    <v-btn disabled icon v-if="!pub.iCanEdit">
                                         <v-icon>mdi-lock-outline</v-icon>
                                     </v-btn>
                                 </v-list-item-action>
@@ -300,7 +301,10 @@
                     Add group member
                 </v-card-title>
                 <v-card-text class="pt-4">
-                    <div>
+                    <v-form
+                            ref="newGroupMemberForm"
+                            v-model="newGroupMemberFormIsValid"
+                    >
                         <v-text-field
                                 autofocus
                                 outlined
@@ -310,6 +314,7 @@
                                 @keydown.enter="createGroupMember"
                                 v-model="newGroupMember.email"
                                 prepend-icon="mdi-email-outline"
+                                :rules="emailRules"
                         />
                         <v-select
                                 outlined
@@ -320,14 +325,13 @@
                                 :hint="roleDescriptions[newGroupMember.role]"
                                 persistent-hint
                         />
-                        <v-checkbox
-                                v-model="sendNewUserWelcomeEmail"
-                                label="Send automated welcome email"
-                                readonly
-                        />
-                    </div>
+                        <div class="mt-6 d-flex">
+                            <v-icon class="mr-3">mdi-email-send-outline</v-icon>
+                            When you create this user, we'll send them an automated welcome email.
+                        </div>
+                    </v-form>
                 </v-card-text>
-                <v-card-actions class="mt-6">
+                <v-card-actions class="">
                     <v-spacer/>
                     <v-btn depressed
                            @click="dialogs.createGroupMember = false"
@@ -337,6 +341,7 @@
                     <v-btn depressed
                            @click="createGroupMember"
                            color="primary"
+                           :disabled="!newGroupMemberFormIsValid"
                     >
                         Create group member
                     </v-btn>
@@ -510,9 +515,12 @@
                     password: "",
                     role: "Collaborator",
                 },
-                sendNewUserWelcomeEmail: true,
+                newGroupMemberFormIsValid: true,
+                emailRules: [
+                    v => !!v || 'E-mail is required',
+                    v => /^\S+@\S+\.\S+$/.test(v) || 'E-mail must be valid',
+                ],
                 isRoleUpdating: false,
-
 
 
                 // delete publisher
@@ -582,7 +590,7 @@
                     }
                 })
             },
-            myGroupMembers(){
+            myGroupMembers() {
                 return this.institutionUsersWithRoles.map(member => {
 
                     // some roles are not allowed to edit anyone
@@ -604,7 +612,7 @@
                     }
                 })
             },
-            myRole(){
+            myRole() {
                 console.log("this.institutionUsersWithRoles", this.institutionUsersWithRoles)
                 const authenticatedUserPermissisonObject = this.institutionUsersWithRoles.find(u => {
                     return u.user_id === this.userId
@@ -612,24 +620,21 @@
 
                 if (authenticatedUserPermissisonObject) {
                     return authenticatedUserPermissisonObject.role
-                }
-                else {
+                } else {
                     return "viewer"
                 }
             },
-            iCanAddGroupMembers(){
+            iCanAddGroupMembers() {
                 return ['ConsortiumAdmin', 'Admin'].includes(this.myRole)
             },
-            rolesICanAssign(){
+            rolesICanAssign() {
                 if (this.myRole === "ConsortiumAdmin") {
                     return this.roles  // everything
-                }
-                else if (this.myRole === "Admin") {
+                } else if (this.myRole === "Admin") {
                     return this.roles.filter(roleName => {
                         return roleName !== "ConsortiumAdmin" // everything EXCEPT ConsortiumAdmin
                     })
-                }
-                else {
+                } else {
                     return [] // only admins can assign roles.
                 }
             }
@@ -687,12 +692,12 @@
                 this.dialogs.createPublisher = false
             },
 
-            openDeletePublisherDialog(id){
+            openDeletePublisherDialog(id) {
                 this.deletePublisherId = id
                 this.dialogs.deletePublisher = true
 
             },
-            closeDeletePublisherDialog(){
+            closeDeletePublisherDialog() {
                 this.deletePublisherId = null
                 this.dialogs.deletePublisher = false
             },
