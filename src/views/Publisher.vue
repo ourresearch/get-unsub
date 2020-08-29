@@ -104,7 +104,6 @@
                                             :disabled="scenario.isLoading"
                                     >
 
-
                                         <v-list-item-content>
                                             <v-list-item-title
                                                     class="headline font-weight-bold"
@@ -175,6 +174,11 @@
                             <apc-tab></apc-tab>
                         </v-card>
                     </v-tab-item>
+
+
+
+
+
 
                     <v-tab-item>
                         <publisher-setup-tab/>
@@ -361,9 +365,7 @@
             let secondsSincePageLoad = 0
             const that = this
             const interval = setInterval(function () {
-                console.log("publisher loading bar: tick", that.loadingPercent)
                 if (!that.publisherIsLoading) {
-                    console.log("publisher loading bar: publisher is done loading")
                     that.loadingPercent = 100
                     setTimeout(() => clearInterval(interval), 500)
                     return

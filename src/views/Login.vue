@@ -76,8 +76,17 @@
                         />
                     </div>
                 </v-card-text>
+
                 <v-card-actions>
-                    <v-btn v-if="0" text :loading="isLoading" @click="createDemo">Create demo account</v-btn>
+                    <a
+                            :href="`mailto:team+passwordreset@ourresearch.org?subject=${passwordResetEmailSubject}&body=${passwordResetEmailBody}`"
+                            class="ml-2"
+                            style="text-decoration: none;"
+                            target="_blank"
+                    >
+                        Forgot password?
+                    </a>
+                    <span v-if="0">this is a test of git.</span>
                     <v-spacer></v-spacer>
                     <v-btn
                             :loading="isLoading"
@@ -116,6 +125,19 @@
                 errorMsg: "",
                 loginStep: 0,
                 isLoading: false
+            }
+        },
+        computed: {
+            passwordResetEmailSubject(){
+                let ret = "Password reset request"
+                return encodeURIComponent(ret)
+            },
+            passwordResetEmailBody(){
+                let ret = `Please reset my password.
+
+(Note: Password reset may take up to two days; sorry for the wait! We're still working on the automated reset. --Mgmt.)
+                `
+                return encodeURIComponent(ret)
             }
         },
         methods: {
