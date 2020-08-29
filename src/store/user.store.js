@@ -39,8 +39,10 @@ export const user = {
             const resp = await api.post("user/login", creds)
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
-            await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
-            await router.push(`i/${getters.userPrimaryInstitutionId}`)
+            await router.push("a")
+
+            // await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
+            // await router.push(`i/${getters.userPrimaryInstitutionId}`)
         },
         async createDemo({commit, dispatch, getters}, {email, password, name}) {
             const resp = await api.post("user/demo", {email, password, name})
