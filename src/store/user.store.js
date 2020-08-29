@@ -11,6 +11,7 @@ export const user = {
         email: "",
         isPasswordSet: "",
         institutions: [],
+        consortia: [],
     },
     mutations: {
         setToken(state, token){
@@ -23,6 +24,7 @@ export const user = {
             state.username = ""
             state.isPasswordSet = ""
             state.institutions = []
+            state.consortia = []
             localStorage.removeItem("token")
         },
         setFromApiResp(state, apiResp){
@@ -31,7 +33,8 @@ export const user = {
             state.email = apiResp.email
             state.username = apiResp.username
             state.isPasswordSet = apiResp.is_password_set
-            state.institutions = apiResp.user_permissions
+            state.institutions = apiResp.institutions
+            state.consortia = apiResp.consortia
         },
     },
     actions: {
@@ -82,6 +85,7 @@ export const user = {
         },
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
+        userConsortia: (state) => state.consortia,
         userIsDemo: (state) => {
             return state.institutions.length === 1 &&  /\bDemo\b/.test(state.institutions[0].institution_name)
         },

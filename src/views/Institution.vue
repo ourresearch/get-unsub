@@ -4,7 +4,8 @@
         <div class="page-title mt-8 mb-4 d-flex">
             <div class="mt-1 mr-2">
                 <v-avatar tile size="60">
-                    <v-icon x-large>mdi-bank</v-icon>
+                    <v-icon v-if="!institutionIsConsortium" x-large>mdi-bank-outline</v-icon>
+                    <v-icon v-if="institutionIsConsortium" x-large>mdi-lan</v-icon>
                 </v-avatar>
             </div>
             <div class="text">

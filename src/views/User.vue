@@ -125,8 +125,41 @@
                 </v-card>
             </v-col>
             <v-col cols="8">
-                <v-card>
+                <v-card v-if="userConsortia.length" class="mb-8">
+                    <v-card-title>
+                        <div>
+                            Your Consortia
+                            <span class="body-2">({{userConsortia.length}})</span>
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
 
+                    <v-list>
+                        <v-list-item
+                                v-for="insti in userConsortia"
+                                :key="insti.institution_id"
+                                @click="goToInstitution(insti.institution_id)"
+                        >
+                            <v-list-item-avatar tile>
+                                <v-icon large>mdi-lan</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <div class="headline font-weight-bold">
+                                    {{ insti.institution_name}}
+                                </div>
+
+                                <v-list-item-subtitle>
+                                    <span>
+                                        Your're a<template
+                                            v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this consortium
+                                    </span>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+
+                <v-card v-if="userInstitutions.length" class="mb-8">
                     <v-card-title>
                         <div>
                             Your Institutions
@@ -142,7 +175,7 @@
                                 @click="goToInstitution(insti.institution_id)"
                         >
                             <v-list-item-avatar tile>
-                                <v-icon large>mdi-bank</v-icon>
+                                <v-icon large>mdi-bank-outline</v-icon>
                             </v-list-item-avatar>
                             <v-list-item-content>
                                 <div class="headline font-weight-bold">
@@ -150,54 +183,14 @@
                                 </div>
 
                                 <v-list-item-subtitle>
-                                    <!--                                    <span v-if="/\bdemo\b|\bDemo\b/.test(insti.institution_name)">-->
-                                    <!--                                        Demo institution, some functionality restricted-->
-                                    <!--                                    </span>-->
-
                                     <span>
                                         Your're a<template
                                             v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this institution
                                     </span>
                                 </v-list-item-subtitle>
                             </v-list-item-content>
-
-                            <v-list-item-action v-if="0">
-                                <div
-                                        v-if="insti.institution_id === institutionId"
-                                        class="primary--text font-weight-bold"
-                                >
-                                    <v-icon color="primary">mdi-check</v-icon>
-                                    Selected
-                                </div>
-                                <div
-                                        v-if="insti.institution_id === institutionId"
-                                        class="primary--text font-weight-bold"
-                                >
-                                    <v-icon color="primary">mdi-check</v-icon>
-                                    <v-btn text>
-                                        Select
-                                    </v-btn>
-                                </div>
-                            </v-list-item-action>
-
-
-                        </v-list-item>
-                        <v-list-item v-if="false" @click="" :disabled="true">
-                            <v-list-item-avatar size="50">
-                                <v-btn icon>
-                                    <v-icon>mdi-plus</v-icon>
-                                </v-btn>
-                            </v-list-item-avatar>
-
-                            <v-list-item-content>
-                                <v-list-item-title class="body-2 text--secondary">
-                                    New institution
-                                </v-list-item-title>
-                            </v-list-item-content>
                         </v-list-item>
                     </v-list>
-
-
                 </v-card>
             </v-col>
         </v-row>
@@ -322,12 +315,13 @@
                 "userName",
                 "userPasswordIsSet",
                 "userInstitutions",
+                "userConsortia",
                 "institutionId",
                 "userIsDemo",
                 "gravatarStr",
             ]),
             isLoading(){
-                return this.$store.getters.userInstitutions.length === 0
+                return this.userInstitutions.length + this.userConsortia.length === 0
             }
         },
         methods: {
