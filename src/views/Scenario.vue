@@ -50,7 +50,7 @@
                     <scenario-menu-columns key="columns"/>
                     <scenario-menu-settings key="settings"/>
                     <scenario-menu-export key="export"/>
-                    <scenario-menu-institutions key="institutions" v-if="institutionIsConsortium" />
+                    <scenario-menu-institutions key="institutions" v-if="institutionIsConsortium"/>
                     <scenario-menu-help key="help"/>
                 </div>
             </v-container>
@@ -59,24 +59,26 @@
             <v-container v-if="scenarioIsLockedPendingUpdate">
                 <v-row>
                     <v-col cols="12">
-                    <v-card  class="d-flex justify-center align-center"  style="height: 50vh">
-                        <div class="d-flex align-start">
-                            <v-icon x-large class="pr-6 pt-2">mdi-timer-sand</v-icon>
-                            <div>
-                                <div class="headline">Scenario recalculating...</div>
+                        <v-card class="d-flex justify-center align-center" style="height: 50vh">
+                            <div class="d-flex align-start">
+                                <v-icon x-large class="pr-6 pt-2">mdi-timer-sand</v-icon>
                                 <div>
-                                    <p>
-                                        This consortial scenerio is currently locked while we recalculate the forecast. This can take up to one hour.
-                                    </p>
-                                    <p>
-                                        We'll send an email to <strong>{{userEmail}}</strong> when the update is complete (don't forget to check your spam folder).
-                                    </p>
+                                    <div class="headline">Scenario recalculating...</div>
+                                    <div>
+                                        <p>
+                                            This consortial scenerio is currently locked while we recalculate the
+                                            forecast. This can take up to one hour.
+                                        </p>
+                                        <p>
+                                            We'll send an email to <strong>{{userEmail}}</strong> when the update is
+                                            complete (don't forget to check your spam folder).
+                                        </p>
+                                    </div>
+
                                 </div>
-
                             </div>
-                        </div>
 
-                    </v-card>
+                        </v-card>
 
                     </v-col>
                 </v-row>
@@ -579,44 +581,41 @@
                         j.isHiddenByFilters = isHiddenByFilters(j)
                     })
                 }, 300),
+            async loadPage() {
+                this.$store.commit("setIsLoading", true)
+                await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+                await this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
+
+                this.$store.commit(
+                    "setScenarioFromObject",
+                    this.$store.getters.publisherScenario(this.$route.params.scenarioId)
+                )
+
+                console.log("scenario selected:", this.$store.getters.selectedScenario)
+
+                // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
+                // this.$nextTick(()=>{
+                //     this.showSlowRenderingThings = true
+                //
+                // })
+
+                const that = this
+
+
+                this.loadingPercent = 0
+                await sleep(500)
+
+                this.loadingPercent = 33
+                await sleep(800)
+
+                this.loadingPercent = 66
+                await sleep(500)
+
+                that.$store.commit("setIsLoading", false)
+            }
         },
         async mounted() {
-            this.$store.commit("setIsLoading", true)
-            await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-            await this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
-
-            this.$store.commit(
-                "setScenarioFromObject",
-                this.$store.getters.publisherScenario(this.$route.params.scenarioId)
-            )
-
-            console.log("scenario selected:", this.$store.getters.selectedScenario)
-
-            // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
-            // this.$nextTick(()=>{
-            //     this.showSlowRenderingThings = true
-            //
-            // })
-
-            const that = this
-
-
-            this.loadingPercent = 0
-            await sleep(500)
-
-            this.loadingPercent = 33
-            await sleep(800)
-
-            this.loadingPercent = 66
-            await sleep(500)
-
-            that.$store.commit("setIsLoading", false)
-
-
-            // setTimeout(function () {
-            //     that.$store.commit("setIsLoading", false)
-            //     // that.showSlowRenderingThings = true
-            // }, 3000)
+            this.loadPage()
         },
         destroyed() {
 
@@ -624,10 +623,13 @@
         watch: {
             selectedScenarioIsLoading: {
                 immediate: true,
-                handler: function(to){
+                handler: function (to) {
                     if (!to) this.$store.commit("setAllowAutoSubscribeFromCurrentJournalSubrs")
                 }
-
+            },
+            $route: function(to){
+                console.log("scenario page route change", to)
+                this.loadPage()
             }
         }
     }

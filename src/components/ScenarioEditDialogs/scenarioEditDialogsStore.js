@@ -4,6 +4,7 @@ export const scenarioEditDialogs = {
         isCopyDialogOpen: false,
         isRenameDialogOpen: false,
         isDeleteDialogOpen: false,
+        isOpenScenarioDialogOpen: false,
 
         scenarioToEdit: null,
         scenarioEditNewName: "",
@@ -17,6 +18,9 @@ export const scenarioEditDialogs = {
         },
         setDeleteDialog(state, newVal){
             state.isDeleteDialogOpen = newVal
+        },
+        setOpenScenarioDialog(state, newVal){
+            state.isOpenScenarioDialogOpen = newVal
         },
 
 
@@ -34,6 +38,10 @@ export const scenarioEditDialogs = {
             state.scenarioToEdit = scenario
             state.isDeleteDialogOpen = true
         },
+        openOpenScenarioDialog(state){
+            state.scenarioToEdit = null
+            state.isOpenScenarioDialogOpen = true
+        },
 
         setScenarioEditNewName(state, newName){
             state.scenarioEditNewName = newName
@@ -45,6 +53,7 @@ export const scenarioEditDialogs = {
             state.isDeleteDialogOpen = false
             state.isCopyDialogOpen = false
             state.isRenameDialogOpen = false
+            state.isOpenScenarioDialogOpen = false
         },
     },
     actions: {
@@ -55,6 +64,7 @@ export const scenarioEditDialogs = {
         isCopyDialogOpen: (state) => state.isCopyDialogOpen,
         isRenameDialogOpen: (state) => state.isRenameDialogOpen,
         isDeleteDialogOpen: (state) => state.isDeleteDialogOpen,
+        isOpenScenarioDialogOpen: (state) => state.isOpenScenarioDialogOpen,
 
         scenarioEditNewName: (state) => state.scenarioEditNewName,
 

@@ -4,10 +4,17 @@
 
         <v-dialog v-model="isCopyDialogOpen" max-width="400" persistent>
             <v-card v-if="isCopyDialogOpen">
-                <v-card-title class="headline">
-                    Copy scenario
-                </v-card-title>
-                <v-card-text class="pt-4">
+                <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-content-copy</v-icon>
+                        Copy this scenario
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text class="pt-8">
                     <div>
                         <v-text-field
                                 outlined
@@ -19,7 +26,7 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer />
+                    <v-spacer/>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
                     >
@@ -38,10 +45,17 @@
 
         <v-dialog v-model="isRenameDialogOpen" max-width="400" persistent>
             <v-card v-if="isRenameDialogOpen">
-                <v-card-title class="headline">
-                    Rename scenario
-                </v-card-title>
-                <v-card-text class="pt-4">
+                 <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-pencil</v-icon>
+                        Rename this scenario
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text class="pt-8">
                     <div>
                         <v-text-field
                                 outlined
@@ -53,7 +67,7 @@
                     </div>
                 </v-card-text>
                 <v-card-actions>
-                    <v-spacer />
+                    <v-spacer/>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
                     >
@@ -72,25 +86,91 @@
 
         <v-dialog v-model="isDeleteDialogOpen" max-width="400">
             <v-card v-if="isDeleteDialogOpen">
-                <v-card-title class="headline">
-                    Delete scenario
-                </v-card-title>
-                <v-card-text class="pt-4">
+                 <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-content-copy</v-icon>
+                        Delete this scenario
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text class="pt-8">
                     <div>
                         Are you sure you want to delete this scenario? This can't be undone.
                     </div>
                 </v-card-text>
                 <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                    >
+                        Cancel
+                    </v-btn>
                     <v-btn depressed
                            @click="confirmDeleteScenario"
                            color="primary"
                     >
                         Delete scenario
                     </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
+        <v-dialog v-model="isOpenScenarioDialogOpen" max-width="600">
+            <v-card v-if="isOpenScenarioDialogOpen">
+                 <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-folder-open-outline</v-icon>
+                        Open scenario
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="cancelOpenScenario">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <div class="mt-1" style="min-height: 300px;">
+                    <v-list-item-group v-model="scenarioIndexToOpen">
+                        <v-list-item
+                                two-line
+                                :key="scenario.id"
+                                v-for="scenario in publisherScenarios"
+                                :disabled="scenario.isLoading"
+                                v-show="scenario.id !== scenarioId"
+                        >
+
+                            <v-list-item-content>
+                                <v-list-item-title
+                                        class="headline font-weight-bold"
+                                        :class="{'text--secondary': scenario.isLoading}"
+                                >
+                                    {{scenario.saved.name}}
+                                </v-list-item-title>
+                                <v-list-item-subtitle>
+                                    <span v-if="scenario.isLoading">Scenario loading...</span>
+                                    <span v-if="!scenario.isLoading">ID: {{scenario.id}}</span>
+                                    <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                    </v-list-item-group>
+                </div>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
                     <v-btn depressed
-                           @click="setScenarioEditDialogsAllClosed"
+                           @click="cancelOpenScenario"
                     >
                         Cancel
+                    </v-btn>
+                    <v-btn depressed
+                           @click="openNewScenario"
+                           color="primary"
+                           :disabled="scenarioIndexToOpen === null"
+                    >
+                        Open scenario
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -145,6 +225,7 @@
                 isCopySnackbarOpen: false,
                 isRenameSnackbarOpen: false,
                 isDeleteSnackbarOpen: false,
+                scenarioIndexToOpen: null,
             }
         },
         computed: {
@@ -153,6 +234,10 @@
                 "scenarioToEdit",
                 "userEmail",
                 "institutionIsConsortium",
+                "publisherScenarios",
+                "institutionId",
+                "selectedPublisher",
+                "scenarioId",
             ]),
             isCopyDialogOpen: {
                 get() {
@@ -176,6 +261,14 @@
                 },
                 set(newVal) {
                     this.$store.commit("setDeleteDialog", newVal)
+                },
+            },
+            isOpenScenarioDialogOpen: {
+                get() {
+                    return this.$store.getters.isOpenScenarioDialogOpen
+                },
+                set(newVal) {
+                    this.$store.commit("isOpenScenarioDialogOpen", newVal)
                 },
             },
             scenarioEditNewName: {
@@ -214,6 +307,19 @@
                 this.$store.commit("setScenarioEditDialogsAllClosed")
                 this.isDeleteSnackbarOpen = true
             },
+            cancelOpenScenario(){
+                this.scenarioIndexToOpen = null
+                this.setScenarioEditDialogsAllClosed()
+            },
+            openNewScenario(){
+                if (this.scenarioIndexToOpen === null) return
+                const scenarioId = this.publisherScenarios[this.scenarioIndexToOpen].id
+                this.cancelOpenScenario()
+
+                const url = `/i/${this.institutionId}/p/${this.selectedPublisher.id}/s/${scenarioId}`
+                console.log("go to scenario!", url)
+                this.$router.push(url)
+            }
         }
     }
 </script>
