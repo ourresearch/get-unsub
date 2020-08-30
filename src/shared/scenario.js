@@ -13,6 +13,7 @@ const buildScenarioFromApiResp = function (apiRespRaw) {
     apiResp.id = apiResp.meta.scenario_id
     apiResp.isLockedPendingUpdate = apiResp.is_locked_pending_update
     apiResp.updatePercentComplete = apiResp.update_percent_complete
+    apiResp.memberInstitutions = apiResp.member_institutions
 
     apiResp.costBigdealProjected = setCostBigdealProjected(
         parseInt(apiResp.saved.configs.cost_bigdeal),
@@ -40,6 +41,7 @@ const newScenario = function (id = "", name="") {
         costBigdealProjected: 0,
         isLockedPendingUpdate: false,
         updatePercentComplete: 100,
+        memberInstitutions: [],
         saved: {
             subrs: [],
             name: name,

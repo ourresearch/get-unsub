@@ -16,7 +16,7 @@
                     {{ institutionName }}
                 </div>
                 <div class="display-2 text--secondary" v-if="institutionIsLoading">
-                    Loading {{ institutionIsConsortium ? "Consortium" : "Institution" }}...
+                    Loading...
                 </div>
             </div>
         </div>

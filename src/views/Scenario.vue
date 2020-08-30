@@ -52,6 +52,10 @@
                     <scenario-menu-export key="export"/>
                     <scenario-menu-institutions key="institutions" v-if="institutionIsConsortium"/>
                     <scenario-menu-help key="help"/>
+                    <v-spacer />
+                    <div class="pt-2"  v-if="institutionIsConsortium">
+                        <scenario-edit-dialogs-institutions />
+                    </div>
                 </div>
             </v-container>
 
@@ -340,6 +344,8 @@
     import ScenarioMenuExport from "../components/ScenarioMenu/ScenarioMenuExport";
     import ScenarioMenuInstitutions from "../components/ScenarioMenu/ScenarioMenuInstitutions";
     import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
+
+    import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
     import {sleep} from "../shared/util";
 
 
@@ -360,6 +366,8 @@
             ScenarioMenuSettings,
             ScenarioMenuInstitutions,
             ScenarioMenuHelp,
+
+            ScenarioEditDialogsInstitutions,
         },
         directives: {
             "long-press": LongPress,
@@ -386,6 +394,7 @@
                 'institutionId',
                 'institutionIsConsortium',
                 'scenarioName',
+                'scenarioMemberInstitutions',
                 'scenarioId',
                 'publisherName',
                 'publisherId',

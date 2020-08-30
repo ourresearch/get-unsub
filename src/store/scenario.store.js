@@ -286,6 +286,9 @@ export const scenario = {
         scenarioId(state){
             if (state.selected) return state.selected.id
         },
+        scenarioMemberInstitutions(state){
+            if (state.selected) return state.selected.memberInstitutions
+        },
         scenarioName(state){
             if (state.selected && state.selected.saved) return state.selected.saved.name
         },
