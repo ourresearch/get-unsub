@@ -49,6 +49,9 @@
                             If you'd like to use Unsub in consortium-level decision making, <a
                                 href="mailto:team@ourresearch.org" target="_blank">drop us a line</a> and we can help get you set up with a consortium dashboard.
                         </p>
+                        <p>Also feel free to <a
+                                href="mailto:team@ourresearch.org" target="_blank">get in touch</a> if you'd like to schedule a live product demo with us.</p>
+
                     </div>
 
                 </v-col>

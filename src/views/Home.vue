@@ -192,7 +192,13 @@
                 <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead</router-link>
             </div>
             <div class="white--text text-center">
-                or, go straight to the <router-link class="white--text" to="/purchase">purchase page</router-link>
+                you can also <router-link class="white--text" to="/purchase">purchase an account now,</router-link> or
+                <a
+                        :href="`mailto:team@ourresearch.org?subject=${productTourEmailSubject}&body=${productTourEmailSubject}`"
+                        style="color: white; text-decoration: underline;"
+                >
+                    schedule a product tour.
+                </a>
             </div>
 
         </v-card>
@@ -217,6 +223,14 @@
                 createDemoLoading: false,
                 errorMsg: ""
             }
+        },
+        computed: {
+            count() {
+                return this.$store.getters.count
+            },
+            productTourEmailSubject(){
+                return encodeURIComponent("I'd like to schedule an Unsub product tour")
+            },
         },
         methods: {
             async createDemo() {
@@ -250,11 +264,6 @@
                 }
                 if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
                 this.$intercom.boot(data)
-            }
-        },
-        computed: {
-            count() {
-                return this.$store.getters.count
             }
         },
         mounted() {
