@@ -174,6 +174,7 @@
             },
             sortTable(colname, asc = true) {
                 console.log("sort table", colname, asc)
+                this.pageStartIndex = 0
                 this.sortKey = colname
                 this.sortDesc = !asc
             },

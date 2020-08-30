@@ -35,6 +35,11 @@ export const user = {
             state.isPasswordSet = apiResp.is_password_set
             state.institutions = apiResp.institutions
             state.consortia = apiResp.consortia
+
+            // hack to fix API bug that exists in demo profiles
+            if (!state.institutions.length && !state.consortia.length && apiResp.user_permissions.length){
+                state.institutions = apiResp.user_permissions
+            }
         },
     },
     actions: {
@@ -51,8 +56,7 @@ export const user = {
             const resp = await api.post("user/demo", {email, password, name})
             commit("setToken", resp.data.access_token)
             await dispatch("fetchUser")
-            await dispatch("fetchInstitution", getters.userPrimaryInstitutionId)
-            await router.push(`i/${getters.userPrimaryInstitutionId}`)
+            await router.push(`a`)
         },
         async fetchUser({commit, dispatch, getters}) {
             if (getters.userInstitutions.length) return
