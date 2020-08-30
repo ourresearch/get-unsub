@@ -138,7 +138,15 @@
                 return this.rows.map(row => {
                     const ret = {}
                     this.myHeaders.forEach(myHeader => {
-                        ret[myHeader.value] = row[myHeader.value]
+                        const cellContents = row[myHeader.value]
+                        ret[myHeader.value] = cellContents
+
+                        if (cellContents && cellContents.hasOwnProperty("value")){
+                            ret[myHeader.value] = cellContents.value
+                        }
+                        if (cellContents && cellContents.error){
+                            ret[myHeader.value] += ` (${cellContents.error.message})`
+                        }
                     })
                     return ret
                 })
