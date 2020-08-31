@@ -200,7 +200,7 @@
                     <v-card>
                         <v-card-title>
                             <div>
-                                Packages
+                                Subscription packages
                                 <span class="body-2">({{myInstitutionPublishers.length}})</span>
                             </div>
                         </v-card-title>
@@ -398,9 +398,22 @@
 
         <v-dialog v-model="dialogs.createPublisher" max-width="400">
             <v-card>
-                <v-card-title class="headline">
-                    Add Package
-                </v-card-title>
+                <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-bookshelf</v-icon>
+                        Add subscription package
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="cancelCreatePublisher">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text>
+                    <v-alert text type="warning" class="mt-8" rounded="0" v-if="institutionIsDemo">
+                        Demo profiles can't add packages.
+                    </v-alert>
+                </v-card-text>
+
                 <v-card-text class="pt-4">
                     <div>
                         <v-select
@@ -437,6 +450,8 @@
                            @click="createPublisher"
                            color="primary"
                            :loading="newPublisherLoading"
+                           :disabled="institutionIsDemo"
+
                     >
                         OK
                     </v-btn>
@@ -716,11 +731,13 @@
             },
             openCreatePublisherDialog() {
                 this.cancelCreatePublisher()
-                if (this.institutionIsDemo) {
-                    this.snackbars.demoNewPublisher = true
-                } else {
-                    this.dialogs.createPublisher = true
-                }
+                this.dialogs.createPublisher = true
+
+                // if (this.institutionIsDemo) {
+                //     this.snackbars.demoNewPublisher = true
+                // } else {
+                //     this.dialogs.createPublisher = true
+                // }
 
             }
 
