@@ -50,7 +50,6 @@
                     <scenario-menu-columns key="columns"/>
                     <scenario-menu-settings key="settings"/>
                     <scenario-menu-export key="export"/>
-                    <scenario-menu-institutions key="institutions" v-if="institutionIsConsortium"/>
                     <scenario-menu-help key="help"/>
                     <v-spacer />
                     <div class="pt-2"  v-if="institutionIsConsortium">
@@ -342,7 +341,6 @@
     import ScenarioMenuColumns from "../components/ScenarioMenu/ScenarioMenuColumns";
     import ScenarioMenuSettings from "../components/ScenarioMenu/ScenarioMenuSettings";
     import ScenarioMenuExport from "../components/ScenarioMenu/ScenarioMenuExport";
-    import ScenarioMenuInstitutions from "../components/ScenarioMenu/ScenarioMenuInstitutions";
     import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
 
     import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
@@ -364,7 +362,6 @@
             ScenarioMenuColumns,
             ScenarioMenuExport,
             ScenarioMenuSettings,
-            ScenarioMenuInstitutions,
             ScenarioMenuHelp,
 
             ScenarioEditDialogsInstitutions,
