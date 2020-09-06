@@ -70,6 +70,7 @@
                     <v-spacer/>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
+                           :disabled="isScenarioEditDialogLoading"
                     >
                         Cancel
                     </v-btn>
@@ -106,12 +107,14 @@
                     <v-spacer></v-spacer>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
+                           :disabled="isScenarioEditDialogLoading"
                     >
                         Cancel
                     </v-btn>
                     <v-btn depressed
                            @click="confirmDeleteScenario"
                            color="primary"
+                           :loading="isScenarioEditDialogLoading"
                     >
                         Delete scenario
                     </v-btn>
@@ -285,10 +288,10 @@
         },
         methods: {
             ...mapActions([
-                "scenarioEditDialogLoadingStart",
-                "scenarioEditDialogLoadingFinish",
             ]),
             ...mapMutations([
+                "scenarioEditDialogLoadingStart",
+                "scenarioEditDialogLoadingFinish",
                 "setScenarioEditDialogsAllClosed",
             ]),
             confirmCopyScenario() {
@@ -297,22 +300,24 @@
                     newName: this.scenarioEditNewName,
                 })
                 this.isCopySnackbarOpen = true
-                this.$store.commit("setScenarioEditDialogsAllClosed")
+                this.setScenarioEditDialogsAllClosed()
             },
             async confirmRenameScenario() {
-                this.$store.commit("scenarioEditDialogLoadingStart")
+                this.scenarioEditDialogLoadingStart()
                 await this.$store.dispatch("renameScenario", {
                     id: this.scenarioToEdit.id,
                     newName: this.scenarioEditNewName,
                 })
 
-                this.$store.commit("scenarioEditDialogLoadingFinish")
+                this.scenarioEditDialogLoadingFinish()
                 this.isRenameSnackbarOpen = true
-                this.$store.commit("setScenarioEditDialogsAllClosed")
+                this.setScenarioEditDialogsAllClosed()
             },
-            confirmDeleteScenario() {
-                this.$store.dispatch("deleteScenario", this.scenarioToEdit.id)
-                this.$store.commit("setScenarioEditDialogsAllClosed")
+            async confirmDeleteScenario() {
+                this.scenarioEditDialogLoadingStart()
+                await this.$store.dispatch("deleteScenario", this.scenarioToEdit.id)
+                this.scenarioEditDialogLoadingFinish()
+                this.setScenarioEditDialogsAllClosed()
                 this.isDeleteSnackbarOpen = true
             },
             cancelOpenScenario(){

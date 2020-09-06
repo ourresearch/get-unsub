@@ -143,11 +143,17 @@
                                             @click="createScenarioHandler"
                                             key="add-scenario"
                                             id="new-scenario-button"
+                                            :disabled="isCreateScenarioLoading"
                                     >
                                         <v-list-item-avatar size="50">
-                                            <v-btn icon>
+                                            <v-btn icon v-if="!isCreateScenarioLoading">
                                                 <v-icon>mdi-plus</v-icon>
                                             </v-btn>
+                                            <v-progress-circular
+                                                    :size="30"
+                                                    v-if="isCreateScenarioLoading"
+                                                    indeterminate
+                                            />
                                         </v-list-item-avatar>
 
                                         <v-list-item-content>
@@ -266,6 +272,7 @@
                 errorMsg: "",
                 tabModel: 0,
                 loadingPercent: 0,
+                isCreateScenarioLoading: false,
                 dialogs: {
                     confirmCreateScenario: false
                 },
@@ -339,9 +346,11 @@
                     this.createScenario()
                 }
             },
-            createScenario() {
-                this.$store.dispatch("createScenario")
+            async createScenario() {
+                this.isCreateScenarioLoading = true
+                await this.$store.dispatch("createScenario")
                 this.dialogs.confirmCreateScenario = false
+                this.isCreateScenarioLoading = false
             },
             goToScenario(scenarioId) {
                 const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${scenarioId}`
@@ -364,7 +373,7 @@
 
 
             this.loadingPercent = 0
-            const estSecondsToLoad = 10
+            const estSecondsToLoad = 20
             let secondsSincePageLoad = 0
             const that = this
             const interval = setInterval(function () {

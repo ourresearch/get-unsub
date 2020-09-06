@@ -7,9 +7,19 @@ import {api} from "../api";
 const fetchScenario = async function (scenarioId) {
     const path = `scenario/${scenarioId}/journals`
     const apiResp = await api.get(path)
-    const apiData = apiResp.data
+    return newScenarioObjectFromApiData(apiResp.data)
+}
 
-    const ret = newScenario(scenarioId)
+const createScenario = async function(packageId){
+    const path = `package/${packageId}/scenario`
+    const data = {}
+    const apiResp = await api.post(path, data)
+    return newScenarioObjectFromApiData(apiResp.data)
+}
+
+
+const newScenarioObjectFromApiData = function(apiData) {
+    const ret = newScenario(apiData.meta.scenario_id)
     ret.journals = apiData.journals.map((myJournal, myIndex) => {
         const ret = {...myJournal}
         ret.cpuIndex = myIndex
@@ -29,14 +39,13 @@ const fetchScenario = async function (scenarioId) {
     return ret
 }
 
-const newScenario = function (id = "") {
 
+const newScenario = function (id = "") {
     const defaultConfigs = {}
     for (const k in scenarioConfigs) {
         defaultConfigs[k] = {...scenarioConfigs[k]}
         defaultConfigs[k].value =  defaultConfigs[k].default
     }
-
     return {
         id: id,
         idHash: toHexHash(id),
@@ -72,6 +81,7 @@ const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
 
 export {
     fetchScenario,
+    createScenario,
     newScenarioId,
     newScenario,
 }

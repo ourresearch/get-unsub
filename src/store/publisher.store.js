@@ -2,7 +2,7 @@ import axios from "axios";
 import Vue from "vue"
 
 import {api} from "../api"
-import {fetchScenario, newScenario, newScenarioId} from "../shared/scenario";
+import {fetchScenario, newScenario, newScenarioId, createScenario} from "../shared/scenario";
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
@@ -119,23 +119,15 @@ export const publisher = {
             state.isLoading = false
         },
         replaceScenario(state, newScenario) {
-            console.log("replace scenario", newScenario)
             const index = state.scenarios.findIndex(s => s.id === newScenario.id)
-            console.log("gonna replace this index", index)
             state.scenarios.splice(index, 1, newScenario)
-            // state.scenarios[index] = newScenario
         },
 
-        deleteScenario(state, scenarioIdToDelete) {
-            state.scenarios = state.scenarios.filter(s => {
-                return s.id !== scenarioIdToDelete
-            })
+        deleteScenario(state, id) {
+            const index = state.scenarios.findIndex(s => s.id === newScenario.id)
+            state.scenarios.splice(index, 1)
         },
-        renameScenario(state, {id, newName}) {
-            state.scenarios.find(s => {
-                return s.id === id
-            }).saved.name = newName
-        },
+
         setScenarioConfig(state, {scenarioId, key, value}) {
             const ret = state.scenarios.find(s => {
                 return s.id === scenarioId
@@ -152,12 +144,6 @@ export const publisher = {
             clone.saved.name = newName
             clone.id = newId
             state.scenarios.push(clone)
-        },
-        createScenario(state, {newName, newId}) {
-            const myNewScenario = newScenario(newId)
-            myNewScenario.saved.name = newName
-            myNewScenario.isLoading = true
-            state.scenarios.push(myNewScenario)
         },
 
     },
@@ -273,20 +259,13 @@ export const publisher = {
 
         },
         async deleteScenario({commit, getters}, id) {
-            commit("deleteScenario", id)
             await api.delete(`scenario/${id}`)
+            commit("deleteScenario", id)
         },
-        async createScenario({commit, dispatch, getters}) {
-            const newId = newScenarioId(getters.isPublisherDemo)
-            const newName = "New Scenario"
-            commit("createScenario", {newName, newId})
-            const data = {
-                id: newId,
-                name: newName,
-            }
-            const url = `package/${getters.publisherId}/scenario`
-            await api.post(url, data)
-            dispatch("hydratePublisherScenario", newId)
+
+        async createScenario({state, getters}) {
+            const newScenario = await createScenario(getters.publisherId)
+            state.scenarios.push(newScenario)
         },
     },
     getters: {
