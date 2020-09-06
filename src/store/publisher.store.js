@@ -2,7 +2,7 @@ import axios from "axios";
 import Vue from "vue"
 
 import {api} from "../api"
-import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/scenario";
+import {fetchScenario, newScenario, newScenarioId} from "../shared/scenario";
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
@@ -74,7 +74,7 @@ export const publisher = {
             state.apcCost = null
             state.isOwnedByConsortium = false
         },
-        clearApcData(state){
+        clearApcData(state) {
             state.apcHeaders = []
             state.apcJournals = []
             state.apcPapersCount = null
@@ -118,6 +118,14 @@ export const publisher = {
         finishLoading(state) {
             state.isLoading = false
         },
+        replaceScenario(state, newScenario) {
+            console.log("replace scenario", newScenario)
+            const index = state.scenarios.findIndex(s => s.id === newScenario.id)
+            console.log("gonna replace this index", index)
+            state.scenarios.splice(index, 1, newScenario)
+            // state.scenarios[index] = newScenario
+        },
+
         deleteScenario(state, scenarioIdToDelete) {
             state.scenarios = state.scenarios.filter(s => {
                 return s.id !== scenarioIdToDelete
@@ -172,13 +180,16 @@ export const publisher = {
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
             const url = `publisher/${id}`
             const resp = await api.get(url)
-            resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
-                const scenario = newScenario(apiScenario.id, apiScenario.name)
-                scenario.isLoading = true
-                return scenario
+            const pubData = resp.data
+
+            console.log("got publisher back. hydrating scenarios")
+            const myScenarioPromises = pubData.scenarios.map(apiScenario => {
+                return fetchScenario(apiScenario.id)
             });
-            commit("setSelectedPublisher", resp.data)
-            await dispatch("hydratePublisherScenarios")
+            pubData.scenarios = await Promise.all(myScenarioPromises)
+            console.log("done hydrating all the scenarios")
+
+            commit("setSelectedPublisher", pubData)
             return resp
         },
 
@@ -209,16 +220,15 @@ export const publisher = {
 
         },
 
-        async hydratePublisherScenarios({dispatch, getters}) {
-            getters.getScenarios.forEach(s => {
-                dispatch("hydratePublisherScenario", s.id)
-            })
+        async refreshPublisherScenario({dispatch, commit}, scenarioId){
+            const newScenario = await fetchScenario(scenarioId)
+            commit("replaceScenario", newScenario)
         },
 
         async hydratePublisherScenario({dispatch, getters}, scenarioId) {
             const path = `scenario/${scenarioId}/journals`
             const resp = await api.get(path)
-            const hydratedScenario = buildScenarioFromApiResp(resp.data)
+            const hydratedScenario = fetchScenario(resp.data)
 
             const myScenario = getters.publisherScenario(scenarioId)
             console.log("gonna hydrate this scenario", scenarioId, myScenario)
@@ -241,10 +251,11 @@ export const publisher = {
             const url = `package/${getters.publisherId}/scenario?copy=${id}`
             await api.post(url, data)
         },
-        async renameScenario({commit, getters}, {id, newName}) {
-            commit("renameScenario", {id, newName})
-            const url = `scenario/${id}`
-            await api.post(url, getters.publisherScenario(id).saved)
+        async renameScenario({commit, dispatch, getters}, {id, newName}) {
+            const payload = _.cloneDeep(getters.publisherScenario(id).saved)
+            payload.name = newName
+            await api.post(`scenario/${id}`, payload) // set it on the server
+            await dispatch("refreshPublisherScenario", id) // ask for the new, renamed scenario
         },
         async setScenarioConfig({commit, getters, dispatch}, {scenarioId, key, value}) {
             // modify the scenario metadata in place...this doesn't actually recalculate anything.
@@ -297,6 +308,9 @@ export const publisher = {
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) => {
             return state.scenarios.find(s => s.id === id)
+        },
+        publisherScenarioIndex: (state) => (id) => {
+            return state.scenarios.findIndex(s => s.id === id)
         },
         publisherScenariosAreAllLoaded: (state) => {
             return state.scenarios.filter(s => s.isLoading).length === 0

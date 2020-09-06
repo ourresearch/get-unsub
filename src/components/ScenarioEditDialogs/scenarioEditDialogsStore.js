@@ -8,6 +8,7 @@ export const scenarioEditDialogs = {
 
         scenarioToEdit: null,
         scenarioEditNewName: "",
+        isLoading: false,
     },
     mutations: {
         setCopyDialog(state, newVal){
@@ -18,6 +19,12 @@ export const scenarioEditDialogs = {
         },
         setDeleteDialog(state, newVal){
             state.isDeleteDialogOpen = newVal
+        },
+        scenarioEditDialogLoadingStart(state){
+            state.isLoading = true
+        },
+        scenarioEditDialogLoadingFinish(state){
+            state.isLoading = false
         },
         setOpenScenarioDialog(state, newVal){
             state.isOpenScenarioDialogOpen = newVal
@@ -65,8 +72,10 @@ export const scenarioEditDialogs = {
         isRenameDialogOpen: (state) => state.isRenameDialogOpen,
         isDeleteDialogOpen: (state) => state.isDeleteDialogOpen,
         isOpenScenarioDialogOpen: (state) => state.isOpenScenarioDialogOpen,
+        isScenarioEditDialogLoading: (state) => state.isLoading,
 
         scenarioEditNewName: (state) => state.scenarioEditNewName,
+
 
     }
 }

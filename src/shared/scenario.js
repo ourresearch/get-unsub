@@ -2,30 +2,34 @@
 const short = require('short-uuid');
 import {toHexHash} from "./util";
 import scenarioConfigs  from "../appConfigs"
+import {api} from "../api";
 
-const buildScenarioFromApiResp = function (apiRespRaw) {
-    const apiResp = {...apiRespRaw}
-    apiResp.journals.forEach((myJournal, myIndex) => {
-        myJournal.cpuIndex = myIndex
-        myJournal.subscribed = apiResp.saved.subrs.includes(myJournal.issn_l)
-        myJournal.isHiddenByFilters = false
+const fetchScenario = async function (scenarioId) {
+    const path = `scenario/${scenarioId}/journals`
+    const apiResp = await api.get(path)
+    const apiData = apiResp.data
+
+    const ret = newScenario(scenarioId)
+    ret.journals = apiData.journals.map((myJournal, myIndex) => {
+        const ret = {...myJournal}
+        ret.cpuIndex = myIndex
+        ret.subscribed = apiData.saved.subrs.includes(myJournal.issn_l)
+        ret.isHiddenByFilters = false
+        return ret
     })
-    apiResp.id = apiResp.meta.scenario_id
-    apiResp.isLockedPendingUpdate = apiResp.is_locked_pending_update
-    apiResp.updatePercentComplete = apiResp.update_percent_complete
-    apiResp.memberInstitutions = apiResp.member_institutions
+    ret.isLockedPendingUpdate = apiData.is_locked_pending_update
+    ret.updatePercentComplete = apiData.update_percent_complete
+    ret.memberInstitutions = apiData.member_institutions
+    ret.saved = apiData.saved
 
-    apiResp.costBigdealProjected = setCostBigdealProjected(
-        parseInt(apiResp.saved.configs.cost_bigdeal),
-            parseInt(apiResp.saved.configs.cost_bigdeal_increase) * 0.01,
+    ret.costBigdealProjected = setCostBigdealProjected(
+        parseInt(apiData.saved.configs.cost_bigdeal),
+            parseInt(apiData.saved.configs.cost_bigdeal_increase) * 0.01,
     )
-    return apiResp
+    return ret
 }
 
-
-
-
-const newScenario = function (id = "", name="") {
+const newScenario = function (id = "") {
 
     const defaultConfigs = {}
     for (const k in scenarioConfigs) {
@@ -36,7 +40,6 @@ const newScenario = function (id = "", name="") {
     return {
         id: id,
         idHash: toHexHash(id),
-        isLoading: false,
         journals: [],
         costBigdealProjected: 0,
         isLockedPendingUpdate: false,
@@ -44,7 +47,7 @@ const newScenario = function (id = "", name="") {
         memberInstitutions: [],
         saved: {
             subrs: [],
-            name: name,
+            name: "",
             configs: defaultConfigs,
         }
     }
@@ -68,7 +71,7 @@ const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
 
 
 export {
-    buildScenarioFromApiResp,
+    fetchScenario,
     newScenarioId,
     newScenario,
 }

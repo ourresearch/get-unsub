@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import {api, apiPostUnbounced} from "../api.js"
 import appConfigs from "../appConfigs"
-import {buildScenarioFromApiResp, newScenario} from "../shared/scenario";
+import {newScenario} from "../shared/scenario";
 
 
 function hashCode(str) {

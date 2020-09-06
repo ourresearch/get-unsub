@@ -76,6 +76,7 @@
                     <v-btn depressed
                            @click="confirmRenameScenario"
                            color="primary"
+                           :loading="isScenarioEditDialogLoading"
                     >
                         Rename
                     </v-btn>
@@ -231,6 +232,7 @@
         computed: {
             ...mapGetters([
                 "scenarioEditDialogIsSaving",
+                "isScenarioEditDialogLoading",
                 "scenarioToEdit",
                 "userEmail",
                 "institutionIsConsortium",
@@ -282,7 +284,10 @@
             }
         },
         methods: {
-            ...mapActions([]),
+            ...mapActions([
+                "scenarioEditDialogLoadingStart",
+                "scenarioEditDialogLoadingFinish",
+            ]),
             ...mapMutations([
                 "setScenarioEditDialogsAllClosed",
             ]),
@@ -294,11 +299,14 @@
                 this.isCopySnackbarOpen = true
                 this.$store.commit("setScenarioEditDialogsAllClosed")
             },
-            confirmRenameScenario() {
-                this.$store.dispatch("renameScenario", {
+            async confirmRenameScenario() {
+                this.$store.commit("scenarioEditDialogLoadingStart")
+                await this.$store.dispatch("renameScenario", {
                     id: this.scenarioToEdit.id,
                     newName: this.scenarioEditNewName,
                 })
+
+                this.$store.commit("scenarioEditDialogLoadingFinish")
                 this.isRenameSnackbarOpen = true
                 this.$store.commit("setScenarioEditDialogsAllClosed")
             },

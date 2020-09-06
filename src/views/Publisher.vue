@@ -78,7 +78,14 @@
                         {{tabName}}
                     </v-tab>
                     <v-tab-item>
-                        <v-card>
+                        <v-card v-if="!publisherScenariosAreAllLoaded">
+                            <v-card-text class="py-12 d-flex align-center justify-center">
+                                <div>
+                                    Loading forecast scenarios...
+                                </div>
+                            </v-card-text>
+                        </v-card>
+                        <v-card v-if="publisherScenariosAreAllLoaded">
                             <v-card-title>
                                 <div>
                                     <div>
@@ -91,7 +98,7 @@
                             <v-divider></v-divider>
 
 
-                            <v-list id="scenarios-list">
+                            <v-list id="scenarios-list" v-if="publisherScenariosAreAllLoaded">
 
                                 <template
                                         v-for="scenario in publisherScenarios"
@@ -99,24 +106,21 @@
 
                                     <v-list-item
                                             two-line
-                                            :key="scenario.id"
+                                            :key="scenario.id + scenario.saved.name"
                                             @click="goToScenario(scenario.id)"
-                                            :disabled="scenario.isLoading"
                                     >
 
                                         <v-list-item-content>
                                             <v-list-item-title
                                                     class="headline font-weight-bold"
-                                                    :class="{'text--secondary': scenario.isLoading}"
                                                     v-text="scenario.saved.name"
                                             />
                                             <v-list-item-subtitle>
-                                                <span v-if="scenario.isLoading">Scenario loading...</span>
-                                                <span v-if="!scenario.isLoading">ID: {{scenario.id}}</span>
+                                                <span>ID: {{scenario.id}}</span>
                                                 <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
                                             </v-list-item-subtitle>
                                         </v-list-item-content>
-                                        <v-list-item-action v-show="!scenario.isLoading">
+                                        <v-list-item-action >
                                             <div>
                                                 <v-btn icon @click.stop="openCopyDialog(scenario)">
                                                     <v-icon>mdi-content-copy</v-icon>
@@ -138,7 +142,6 @@
                                     <v-list-item
                                             @click="createScenarioHandler"
                                             key="add-scenario"
-                                            :disabled="!publisherScenariosAreAllLoaded"
                                             id="new-scenario-button"
                                     >
                                         <v-list-item-avatar size="50">
