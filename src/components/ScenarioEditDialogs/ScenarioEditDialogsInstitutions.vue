@@ -180,7 +180,6 @@
                 "scenarioMemberInstitutions",
             ]),
             csvUrl() {
-                let scenarioId = this.$store.getters.scenarioId
                 let url = `${urlBase}/scenario/${this.scenarioId}/export.csv`;
                 url += "?jwt=" + localStorage.getItem("token")
                 return url
@@ -197,7 +196,7 @@
         },
         methods: {
             ...mapActions([
-                "hydratePublisherScenario",
+                "refreshPublisherScenario",
             ]),
             multiSelectClick() {
                 if (this.includedIds.length) { // anything is selected
@@ -231,7 +230,7 @@
                 console.log("POSTing institution IDs to server", postData)
                 const resp = await api.post(this.apiUrl, postData)
                 console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
-                await this.hydratePublisherScenario(this.scenarioId) // refresh this specific scenario
+                await this.refreshPublisherScenario(this.scenarioId) // refresh this specific scenario
                 console.log("scenario updated. closing institutions dialog.", resp)
 
                 this.isSaving = false

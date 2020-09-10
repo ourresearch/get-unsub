@@ -256,8 +256,7 @@
             async saveEdit() {
                 console.log("saving config edit", this.selectedConfigValue)
                 this.savingConfig = true
-                await this.$store.dispatch("setScenarioConfig", {
-                    scenarioId: this.$store.getters.scenarioId,
+                await this.$store.dispatch("setSelectedScenarioConfig", {
                     key: this.selectedConfigName,
                     value: this.selectedConfigValue,
                 })

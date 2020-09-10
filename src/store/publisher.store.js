@@ -2,7 +2,14 @@ import axios from "axios";
 import Vue from "vue"
 
 import {api} from "../api"
-import {fetchScenario, newScenario, newScenarioId, createScenario} from "../shared/scenario";
+import {
+    fetchScenario,
+    newScenario,
+    createScenario,
+    copyScenario,
+    saveScenario,
+    deleteScenario,
+} from "../shared/scenario";
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
@@ -128,23 +135,6 @@ export const publisher = {
             state.scenarios.splice(index, 1)
         },
 
-        setScenarioConfig(state, {scenarioId, key, value}) {
-            const ret = state.scenarios.find(s => {
-                return s.id === scenarioId
-            })
-            ret.saved.configs[key] = value
-            return ret
-
-        },
-        copyScenario(state, {id, newName, newId}) {
-            const scenarioToCopy = state.scenarios.find(s => {
-                return s.id === id
-            })
-            const clone = _.cloneDeep(scenarioToCopy)
-            clone.saved.name = newName
-            clone.id = newId
-            state.scenarios.push(clone)
-        },
 
     },
     actions: {
@@ -211,61 +201,22 @@ export const publisher = {
             commit("replaceScenario", newScenario)
         },
 
-        async hydratePublisherScenario({dispatch, getters}, scenarioId) {
-            const path = `scenario/${scenarioId}/journals`
-            const resp = await api.get(path)
-            const hydratedScenario = fetchScenario(resp.data)
 
-            const myScenario = getters.publisherScenario(scenarioId)
-            console.log("gonna hydrate this scenario", scenarioId, myScenario)
-            Object.keys(hydratedScenario).forEach(k => {
-                if (k !== 'configs') {
-                    myScenario[k] = hydratedScenario[k]
-                }
-            })
-            myScenario.isLoading = false
-        },
-
-
-        async copyScenario({commit, getters}, {id, newName}) {
-            let newId = newScenarioId(getters.isPublisherDemo)
-            commit("copyScenario", {id, newName, newId})
-            const data = {
-                name: newName,
-                id: newId,
-            }
-            const url = `package/${getters.publisherId}/scenario?copy=${id}`
-            await api.post(url, data)
-        },
         async renameScenario({commit, dispatch, getters}, {id, newName}) {
             const payload = _.cloneDeep(getters.publisherScenario(id).saved)
             payload.name = newName
             await api.post(`scenario/${id}`, payload) // set it on the server
             await dispatch("refreshPublisherScenario", id) // ask for the new, renamed scenario
         },
-        async setScenarioConfig({commit, getters, dispatch}, {scenarioId, key, value}) {
-            // modify the scenario metadata in place...this doesn't actually recalculate anything.
-            commit("setScenarioConfig", {scenarioId, key, value})
-
-            // send the scenario obj, with its new config value, up to the server.
-            // the server will save our new param value.
-            const url = `scenario/${scenarioId}`
-            await api.post(url, getters.publisherScenario(scenarioId).saved)
-
-            // ask the server for the journals data for this scenario,
-            // which will now be calculated using the new param we set a second ago.
-            // overwrite the scenario data.
-            await dispatch("hydratePublisherScenario", scenarioId)
-
-        },
-        async deleteScenario({commit, getters}, id) {
-            await api.delete(`scenario/${id}`)
-            commit("deleteScenario", id)
-        },
-
-        async createScenario({state, getters}) {
-            const newScenario = await createScenario(getters.publisherId)
+        async createScenario({state, getters}, {name}) {
+            const newScenario = await createScenario(getters.publisherId, name)
             state.scenarios.push(newScenario)
+            return newScenario
+        },
+        async copyScenario({commit, getters, state}, {id, newName}) {
+            const newScenario = await copyScenario(getters.publisherId, id, newName)
+            state.scenarios.push(newScenario)
+            return newScenario
         },
     },
     getters: {

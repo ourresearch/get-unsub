@@ -1,20 +1,63 @@
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
+import _ from "lodash"
 import {toHexHash} from "./util";
 import scenarioConfigs  from "../appConfigs"
-import {api} from "../api";
+import {api, apiPostUnbounced} from "../api";
 
-const fetchScenario = async function (scenarioId) {
-    const path = `scenario/${scenarioId}/journals`
-    const apiResp = await api.get(path)
-    return newScenarioObjectFromApiData(apiResp.data)
+const cache = {}
+const getFromCache = function(id) {
+    if (!cache[id]) return
+    return _.cloneDeep(cache[id])
 }
 
-const createScenario = async function(packageId){
+const fetchScenario = async function (scenarioId) {
+    const cachedToReturn = getFromCache(scenarioId)
+    if (cachedToReturn) {
+        console.log("serving cached scenario", cachedToReturn)
+        return cachedToReturn
+    }
+
+    const path = `scenario/${scenarioId}/journals`
+    const apiResp = await api.get(path)
+    const ret = newScenarioObjectFromApiData(apiResp.data)
+    cache[ret.id] = ret
+    return ret
+}
+
+const saveScenarioSubscriptions = async function(scenario) {
+    cache[scenario.id] = null
+    const url = `scenario/${scenario.id}/subscriptions`
+    const ret = await apiPostUnbounced( url, scenario.saved )
+    return ret
+}
+const saveScenario = async function(scenario) {
+    cache[scenario.id] = null
+    const url = `scenario/${scenario.id}`
+    const ret = await api.post( url, scenario.saved )
+    return ret
+}
+
+
+const createScenario = async function(packageId, name){
     const path = `package/${packageId}/scenario`
-    const data = {}
-    const apiResp = await api.post(path, data)
-    return newScenarioObjectFromApiData(apiResp.data)
+    const apiResp = await api.post(path, {name})
+    const ret = newScenarioObjectFromApiData(apiResp.data)
+    cache[ret.id] = ret
+    return ret
+}
+
+const copyScenario = async function(packageId, scenarioToCopyId, newScenarioName){
+    const path = `package/${packageId}/scenario?copy=${scenarioToCopyId}`
+    const apiResp = await api.post(path, {name: newScenarioName})
+    const ret = newScenarioObjectFromApiData(apiResp.data)
+    cache[ret.id] = ret
+    return ret
+}
+const deleteScenario = async function(scenarioId){
+    cache[scenarioId] = null
+    const url = `scenario/${scenarioId}`
+    return await api.delete( url)
 }
 
 
@@ -81,8 +124,12 @@ const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
 
 export {
     fetchScenario,
+    saveScenarioSubscriptions,
+    saveScenario,
     createScenario,
+    copyScenario,
     newScenarioId,
     newScenario,
+    deleteScenario,
 }
 

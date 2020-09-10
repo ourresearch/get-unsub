@@ -29,18 +29,68 @@
                     <v-spacer/>
                     <v-btn depressed
                            @click="setScenarioEditDialogsAllClosed"
+                           :disabled="isScenarioEditDialogLoading"
                     >
                         Cancel
                     </v-btn>
                     <v-btn depressed
                            @click="confirmCopyScenario"
                            color="primary"
+                           :loading="isScenarioEditDialogLoading"
                     >
                         Copy
                     </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+
+
+
+        <v-dialog v-model="isCreateDialogOpen" max-width="400" persistent>
+            <v-card v-if="isCreateDialogOpen">
+                <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-content-copy</v-icon>
+                        Create new scenario
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                <v-card-text class="pt-8">
+                    <div>
+                        <v-text-field
+                                outlined
+                                label="Name for the new scenario:"
+                                type="text"
+                                @keydown.enter="confirmCreateScenario"
+                                v-model="scenarioEditNewName"
+                        />
+                    </div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn depressed
+                           @click="setScenarioEditDialogsAllClosed"
+                           :disabled="isScenarioEditDialogLoading"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn depressed
+                           @click="confirmCreateScenario"
+                           color="primary"
+                           :loading="isScenarioEditDialogLoading"
+                    >
+                        Create
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
+
 
 
         <v-dialog v-model="isRenameDialogOpen" max-width="400" persistent>
@@ -86,6 +136,9 @@
         </v-dialog>
 
 
+
+
+
         <v-dialog v-model="isDeleteDialogOpen" max-width="400">
             <v-card v-if="isDeleteDialogOpen">
                  <v-toolbar dark flat color="primary">
@@ -121,6 +174,9 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+
+
 
 
         <v-dialog v-model="isOpenScenarioDialogOpen" max-width="600">
@@ -181,6 +237,9 @@
         </v-dialog>
 
 
+
+
+
         <v-snackbar
                 v-model="isCopySnackbarOpen"
                 :timeout="3000"
@@ -191,6 +250,7 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
+
 
 
         <v-snackbar
@@ -221,6 +281,7 @@
 
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {newScenario, deleteScenario, saveScenario} from "../../shared/scenario";
 
     export default {
         name: "ScenarioEditDialogs",
@@ -252,6 +313,14 @@
                     this.$store.commit("setCopyDialog", newVal)
                 },
             },
+            isCreateDialogOpen: {
+                get() {
+                    return this.$store.getters.isCreateDialogOpen
+                },
+                set(newVal) {
+                    this.$store.commit("setCreateDialog", newVal)
+                },
+            },
             isRenameDialogOpen: {
                 get() {
                     return this.$store.getters.isRenameDialogOpen
@@ -273,10 +342,10 @@
                     return this.$store.getters.isOpenScenarioDialogOpen
                 },
                 set(newVal) {
-                    this.$store.commit("isOpenScenarioDialogOpen", newVal)
+                    this.$store.commit("setOpenScenarioDialog", newVal)
                 },
             },
-            scenarioEditNewName: {
+            scenarioEditNewName: { // contents of the "new name"  field for copy, create, rename
                 get() {
                     return this.$store.getters.scenarioEditNewName
                 },
@@ -294,20 +363,37 @@
                 "scenarioEditDialogLoadingFinish",
                 "setScenarioEditDialogsAllClosed",
             ]),
-            confirmCopyScenario() {
-                this.$store.dispatch("copyScenario", {
+            async goToScenario(id){
+                this.scenarioEditDialogLoadingFinish()
+                this.setScenarioEditDialogsAllClosed()
+
+                const url = `/i/${this.institutionId}/p/${this.selectedPublisher.id}/s/${id}`
+                console.log("go to new scenario!", url)
+                await this.$router.push(url)
+            },
+            async confirmCopyScenario() {
+                this.scenarioEditDialogLoadingStart()
+                const myNewScenario = await  this.$store.dispatch("copyScenario", {
                     id: this.scenarioToEdit.id,
                     newName: this.scenarioEditNewName,
                 })
-                this.isCopySnackbarOpen = true
-                this.setScenarioEditDialogsAllClosed()
+                await this.goToScenario(myNewScenario.id)
+            },
+            async confirmCreateScenario() {
+                this.scenarioEditDialogLoadingStart()
+                const myNewScenario = await this.$store.dispatch(
+                    "createScenario",
+                    {name: this.scenarioEditNewName}
+                )
+                await this.goToScenario(myNewScenario.id)
             },
             async confirmRenameScenario() {
                 this.scenarioEditDialogLoadingStart()
-                await this.$store.dispatch("renameScenario", {
-                    id: this.scenarioToEdit.id,
-                    newName: this.scenarioEditNewName,
-                })
+                const payload = _.cloneDeep(this.scenarioToEdit)
+                payload.saved.name = this.scenarioEditNewName
+                await saveScenario(payload)
+                await this.$store.dispatch("refreshSelectedScenario")
+                await this.$store.dispatch("refreshPublisherScenario", this.scenarioToEdit.id)
 
                 this.scenarioEditDialogLoadingFinish()
                 this.isRenameSnackbarOpen = true
@@ -315,23 +401,29 @@
             },
             async confirmDeleteScenario() {
                 this.scenarioEditDialogLoadingStart()
-                await this.$store.dispatch("deleteScenario", this.scenarioToEdit.id)
+                await deleteScenario(this.scenarioToEdit.id)
+                this.$store.commit("deleteScenario", this.scenarioToEdit.id)
+
                 this.scenarioEditDialogLoadingFinish()
                 this.setScenarioEditDialogsAllClosed()
                 this.isDeleteSnackbarOpen = true
+
+                // if there is a selectedScenario, you are there right now, and you are clicking delete on yourself.
+                if (this.$store.getters.scenarioId){
+                    this.$store.commit("clearSelectedScenario")
+                    const url = `/i/${this.institutionId}/p/${this.selectedPublisher.id}`
+                    await this.$router.push(url)
+                }
             },
             cancelOpenScenario(){
                 this.scenarioIndexToOpen = null
                 this.setScenarioEditDialogsAllClosed()
             },
-            openNewScenario(){
+            async openNewScenario(){
                 if (this.scenarioIndexToOpen === null) return
                 const scenarioId = this.publisherScenarios[this.scenarioIndexToOpen].id
                 this.cancelOpenScenario()
-
-                const url = `/i/${this.institutionId}/p/${this.selectedPublisher.id}/s/${scenarioId}`
-                console.log("go to scenario!", url)
-                this.$router.push(url)
+                await this.goToScenario(scenarioId)
             }
         }
     }

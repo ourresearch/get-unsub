@@ -325,6 +325,7 @@
     import LongPress from 'vue-directive-long-press'
 
     import appConfigs from "../appConfigs";
+    import {fetchScenario} from "../shared/scenario";
 
 
     import OverviewGraphicBarSegment from "../components/OverviewGraphic/OverviewGraphicBarSegment";
@@ -589,15 +590,11 @@
                 }, 300),
             async loadPage() {
                 this.$store.commit("setIsLoading", true)
-                await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-                await this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
+                this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
 
-                this.$store.commit(
-                    "setScenarioFromObject",
-                    this.$store.getters.publisherScenario(this.$route.params.scenarioId)
-                )
 
-                console.log("scenario selected:", this.$store.getters.selectedScenario)
+                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+                this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
                 // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
                 // this.$nextTick(()=>{
@@ -605,19 +602,18 @@
                 //
                 // })
 
-                const that = this
+                // const that = this
+                //
+                // this.loadingPercent = 0
+                // await sleep(500)
+                //
+                // this.loadingPercent = 33
+                // await sleep(800)
+                //
+                // this.loadingPercent = 66
+                await sleep(5)
 
-
-                this.loadingPercent = 0
-                await sleep(500)
-
-                this.loadingPercent = 33
-                await sleep(800)
-
-                this.loadingPercent = 66
-                await sleep(500)
-
-                that.$store.commit("setIsLoading", false)
+                this.$store.commit("setIsLoading", false)
             }
         },
         async mounted() {

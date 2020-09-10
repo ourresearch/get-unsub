@@ -140,7 +140,7 @@
 
                                 <v-fade-transition>
                                     <v-list-item
-                                            @click="createScenarioHandler"
+                                            @click="openCreateDialog"
                                             key="add-scenario"
                                             id="new-scenario-button"
                                             :disabled="isCreateScenarioLoading"
@@ -333,6 +333,7 @@
         methods: {
             ...mapMutations([
                 "openCopyDialog",
+                "openCreateDialog",
                 "openRenameDialog",
                 "openDeleteDialog",
                 "openPublisherFileUploadDialog",
@@ -352,10 +353,10 @@
                 this.dialogs.confirmCreateScenario = false
                 this.isCreateScenarioLoading = false
             },
-            goToScenario(scenarioId) {
+            async goToScenario(scenarioId) {
                 const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${scenarioId}`
                 console.log("go to scenario!", url)
-                this.$router.push(url)
+                await this.$router.push(url)
 
             },
         },

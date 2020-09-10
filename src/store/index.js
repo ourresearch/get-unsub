@@ -8,6 +8,7 @@ import {institution} from "./institution.store";
 import {user} from "./user.store";
 import configs from "../appConfigs"
 import {roleFromPermissions} from "../shared/userPermissions";
+import {saveScenario} from "../shared/scenario";
 
 
 Vue.use(Vuex)
@@ -138,9 +139,7 @@ export default new Vuex.Store({
                     // return
                 }
                 state.configsOpen = true
-
             }
-
         },
 
 
