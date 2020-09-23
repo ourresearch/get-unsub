@@ -2,11 +2,11 @@
 const short = require('short-uuid');
 import _ from "lodash"
 import {toHexHash} from "./util";
-import scenarioConfigs  from "../appConfigs"
+import scenarioConfigs from "../appConfigs"
 import {api, apiPostUnbounced} from "../api";
 
 const cache = {}
-const getFromCache = function(id) {
+const getFromCache = function (id) {
     if (!cache[id]) return
     return _.cloneDeep(cache[id])
 }
@@ -25,21 +25,31 @@ const fetchScenario = async function (scenarioId) {
     return ret
 }
 
-const saveScenarioSubscriptions = async function(scenario) {
+const saveScenarioSubscriptions = async function (scenario) {
     cache[scenario.id] = null
     const url = `scenario/${scenario.id}/subscriptions`
-    const ret = await apiPostUnbounced( url, scenario.saved )
+    const ret = await apiPostUnbounced(url, scenario.saved)
     return ret
 }
-const saveScenario = async function(scenario) {
+
+const saveScenarioInstitutions = async function (scenarioId, institutionIds) {
+    cache[scenarioId] = null
+    const postData = {member_institutions: institutionIds}
+    const url = `scenario/${scenarioId}/member-institutions`
+    const ret = await api.post(url, postData)
+    return ret
+}
+
+
+const saveScenario = async function (scenario) {
     cache[scenario.id] = null
     const url = `scenario/${scenario.id}`
-    const ret = await api.post( url, scenario.saved )
+    const ret = await api.post(url, scenario.saved)
     return ret
 }
 
 
-const createScenario = async function(packageId, name){
+const createScenario = async function (packageId, name) {
     const path = `package/${packageId}/scenario`
     const apiResp = await api.post(path, {name})
     const ret = newScenarioObjectFromApiData(apiResp.data)
@@ -47,21 +57,21 @@ const createScenario = async function(packageId, name){
     return ret
 }
 
-const copyScenario = async function(packageId, scenarioToCopyId, newScenarioName){
+const copyScenario = async function (packageId, scenarioToCopyId, newScenarioName) {
     const path = `package/${packageId}/scenario?copy=${scenarioToCopyId}`
     const apiResp = await api.post(path, {name: newScenarioName})
     const ret = newScenarioObjectFromApiData(apiResp.data)
     cache[ret.id] = ret
     return ret
 }
-const deleteScenario = async function(scenarioId){
+const deleteScenario = async function (scenarioId) {
     cache[scenarioId] = null
     const url = `scenario/${scenarioId}`
-    return await api.delete( url)
+    return await api.delete(url)
 }
 
 
-const newScenarioObjectFromApiData = function(apiData) {
+const newScenarioObjectFromApiData = function (apiData) {
     const ret = newScenario(apiData.meta.scenario_id)
     ret.journals = apiData.journals.map((myJournal, myIndex) => {
         const ret = {...myJournal}
@@ -77,7 +87,7 @@ const newScenarioObjectFromApiData = function(apiData) {
 
     ret.costBigdealProjected = setCostBigdealProjected(
         parseInt(apiData.saved.configs.cost_bigdeal),
-            parseInt(apiData.saved.configs.cost_bigdeal_increase) * 0.01,
+        parseInt(apiData.saved.configs.cost_bigdeal_increase) * 0.01,
     )
     return ret
 }
@@ -87,7 +97,7 @@ const newScenario = function (id = "") {
     const defaultConfigs = {}
     for (const k in scenarioConfigs) {
         defaultConfigs[k] = {...scenarioConfigs[k]}
-        defaultConfigs[k].value =  defaultConfigs[k].default
+        defaultConfigs[k].value = defaultConfigs[k].default
     }
     return {
         id: id,
@@ -105,7 +115,15 @@ const newScenario = function (id = "") {
     }
 }
 
-const newScenarioId = function(isDemo){
+
+const scenarioCost = function (scenario) {
+    return {
+        costSegments: null
+    }
+}
+
+
+const newScenarioId = function (isDemo) {
     let id = "scenario-" + short.generate().slice(0, 8)
     if (isDemo) id = "demo-" + id
     return id
@@ -122,14 +140,22 @@ const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
 }
 
 
+
+
+
+
+
+
 export {
     fetchScenario,
     saveScenarioSubscriptions,
+    saveScenarioInstitutions,
     saveScenario,
     createScenario,
     copyScenario,
     newScenarioId,
     newScenario,
     deleteScenario,
+
 }
 

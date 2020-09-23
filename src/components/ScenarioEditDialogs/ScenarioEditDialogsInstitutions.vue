@@ -150,9 +150,10 @@
 
 <script>
     import appConfigs from "../../appConfigs";
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {urlBase} from "../../api";
     import {api} from "../../api";
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {saveScenarioInstitutions} from "../../shared/scenario";
 
     export default {
         name: "ScenarioMenuInstitutions",
@@ -196,7 +197,7 @@
         },
         methods: {
             ...mapActions([
-                "refreshPublisherScenario",
+                "refreshSelectedScenario",
             ]),
             multiSelectClick() {
                 if (this.includedIds.length) { // anything is selected
@@ -226,11 +227,13 @@
             },
             async saveDialog(){
                 this.isSaving = true
-                const postData = {member_institutions: this.includedIds}
-                console.log("POSTing institution IDs to server", postData)
-                const resp = await api.post(this.apiUrl, postData)
+
+                console.log("POSTing institution IDs to server", this.includedIds)
+                const resp = await saveScenarioInstitutions(this.scenarioId, this.includedIds)
+
                 console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
-                await this.refreshPublisherScenario(this.scenarioId) // refresh this specific scenario
+                await this.refreshSelectedScenario() // refresh this specific scenario
+
                 console.log("scenario updated. closing institutions dialog.", resp)
 
                 this.isSaving = false

@@ -116,7 +116,7 @@
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
                                             <div class="headline font-weight-bold" id="annual-cost-value">
-                                                {{ subrCost + illCost | currency }}
+                                                {{ costTotal | currency }}
                                             </div>
                                             <div class="caption">
                                                 <v-tooltip bottom max-width="400" color="#333">
@@ -176,7 +176,7 @@
                                                 Annual cost
                                             </div>
                                             <div class="caption text--secondary">
-                                                {{ (this.subrCostPercent + this.illCostPercent) | percent(1) }} of Big
+                                                {{ (this.costPercent) | percent(1) }} of Big
                                                 Deal
                                             </div>
                                         </div>
@@ -326,6 +326,12 @@
 
     import appConfigs from "../appConfigs";
     import {fetchScenario} from "../shared/scenario";
+    import {
+        usageList,
+        instantUsagePercent,
+        costList,
+        costTotal,
+    } from "../shared/scenarioSummary";
 
 
     import OverviewGraphicBarSegment from "../components/OverviewGraphic/OverviewGraphicBarSegment";
@@ -416,82 +422,23 @@
             subrJournalsCount() {
                 return this.$store.getters.subrJournalsCount
             },
-            cost() {
-                return .01 * (this.subrCostPercent + this.illCostPercent) * this.$store.getters.costBigdealProjected
+            costPercent() {
+                return 100 * this.costTotal / this.$store.getters.costBigdealProjected
             },
-            costPerUse() {
-                return (this.subrCost + this.illCost) / this.usageRawPaid.subr
-            },
-            subrCostPercent() {
-                return 100 * this.subrCost / this.$store.getters.costBigdealProjected
-            },
-            illCostPercent() {
-                return 100 * this.illCost / this.$store.getters.costBigdealProjected
-            },
-
-            subrCost() {
-                return this.journals
-                    .filter(j => j.subscribed || j.customSubscribed)
-                    // .filter(j => this.$store.getters.isSubscribed(j.issn_l))
-                    .map(j => j.cost_subscription)
-                    .reduce((a, b) => a + b, 0)
-            },
-            illCost() {
-                return this.journals
-                    .filter(j => !j.subscribed || j.customSubscribed)
-                    // .filter(j => !this.$store.getters.isSubscribed(j.issn_l))
-                    .map(j => j.cost_ill)
-                    .reduce((a, b) => a + b, 0)
-            },
-
             subscribedJournals() {
                 return this.journals.filter(j => !!j.subscribed || j.customSubscribed)
             },
-
-
+            costTotal() {
+                return costTotal(this.journals)
+            },
             costSegments() {
-                const mySavings = this.$store.getters.costBigdealProjected - (this.illCost + this.subrCost)
-                const ret = {
-                    ill: {
-                        value: this.illCost,
-                        key: "ill",
-                    },
-                    subr: {
-                        value: this.subrCost,
-                        key: "subr",
-                    },
-                    savings: {
-                        value: Math.max(mySavings, 0),
-                        key: "savings",
-                        colorIsLight: true,
-                    }
-                }
-                return [
-                    ret.savings,
-                    ret.ill,
-                    ret.subr,
-                ]
+                return costList(
+                    this.journals,
+                    this.$store.getters.costBigdealProjected,
+                )
             },
-
             usageSegments() {
-                const ret = {}
-                Object.entries(this.usageRaw).forEach(([k, v]) => {
-                    ret[k] = {
-                        value: v,
-                        key: k
-                    }
-                })
-                return [
-                    ret.delayed,
-                    ret.subr,
-                    ret.backfile,
-                    ret.oa,
-                ]
-            },
-            usageTotal() {
-                return this.journals
-                    .map(j => j.usage)
-                    .reduce((a, b) => a + b, 0)
+                return usageList(this.journals)
             },
             subrColor() {
                 return appConfigs.barSegments.usage.subr.color
@@ -499,49 +446,8 @@
             illColor() {
                 return appConfigs.barSegments.usage.delayed.color
             },
-
-            // splitting this out so that vue can cache it
-            usageRawFree() {
-                const ret = {
-                    oa: 0,
-                    backfile: 0,
-                }
-                this.journals.forEach(j => {
-                    ret.oa += j.use_groups_free_instant.oa
-                    ret.backfile += j.use_groups_free_instant.backfile
-                })
-                ret.oa = Math.max(0, ret.oa)
-                ret.backfile = Math.max(0, ret.backfile)
-
-                return ret
-            },
-
-            usageRawPaid() {
-                const ret = {
-                    delayed: 0,
-                    subr: 0,
-                }
-                this.journals.forEach(j => {
-                    // if (this.$store.getters.isSubscribed(j.issn_l)) {
-                    if (j.subscribed || j.customSubscribed) {
-                        ret.subr += j.use_groups_if_subscribed.subscription
-                    } else {
-                        ret.delayed += (j.use_groups_if_not_subscribed.ill + j.use_groups_if_not_subscribed.other_delayed)
-                    }
-                })
-                return ret
-            },
-
-            usageRaw() {
-                return {
-                    ...this.usageRawFree,
-                    ...this.usageRawPaid
-                }
-            },
-
             instantUsagePercent() {
-                const instant = this.usageRaw.oa + this.usageRaw.backfile + this.usageRaw.subr
-                return 100 * instant / this.usageTotal
+                return instantUsagePercent(this.journals)
             },
             numJournals() {
                 return this.journals.length
