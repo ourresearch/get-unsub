@@ -96,78 +96,7 @@
                                 </div>
                             </v-card-title>
                             <v-divider></v-divider>
-
-
-                            <v-list id="scenarios-list" v-if="publisherScenariosAreAllLoaded">
-
-                                <template
-                                        v-for="scenario in publisherScenarios"
-                                >
-
-                                    <v-list-item
-                                            two-line
-                                            :key="scenario.id + scenario.saved.name"
-                                            @click="goToScenario(scenario.id)"
-                                    >
-
-                                        <v-list-item-content>
-                                            <v-list-item-title
-                                                    class="headline font-weight-bold"
-                                                    v-text="scenario.saved.name"
-                                            />
-                                            <v-list-item-subtitle>
-                                                <span>ID: {{scenario.id}}</span>
-                                                <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
-                                            </v-list-item-subtitle>
-                                        </v-list-item-content>
-                                        <v-list-item-action >
-                                            <div>
-                                                <v-btn icon @click.stop="openCopyDialog(scenario)">
-                                                    <v-icon>mdi-content-copy</v-icon>
-                                                </v-btn>
-                                                <v-btn icon @click.stop="openRenameDialog(scenario)">
-                                                    <v-icon>mdi-pencil</v-icon>
-                                                </v-btn>
-
-                                                <v-btn icon @click.stop="openDeleteDialog(scenario)">
-                                                    <v-icon>mdi-delete</v-icon>
-                                                </v-btn>
-                                            </div>
-                                        </v-list-item-action>
-                                    </v-list-item>
-
-                                </template>
-
-                                <v-fade-transition>
-                                    <v-list-item
-                                            @click="openCreateDialog"
-                                            key="add-scenario"
-                                            id="new-scenario-button"
-                                            :disabled="isCreateScenarioLoading"
-                                    >
-                                        <v-list-item-avatar size="50">
-                                            <v-btn icon v-if="!isCreateScenarioLoading">
-                                                <v-icon>mdi-plus</v-icon>
-                                            </v-btn>
-                                            <v-progress-circular
-                                                    :size="30"
-                                                    v-if="isCreateScenarioLoading"
-                                                    indeterminate
-                                            />
-                                        </v-list-item-avatar>
-
-                                        <v-list-item-content>
-                                            <v-list-item-title class="body-2 text--secondary">
-                                                New scenario
-                                            </v-list-item-title>
-                                        </v-list-item-content>
-                                    </v-list-item>
-                                </v-fade-transition>
-
-
-                            </v-list>
-
-
+                            <publisher-scenarios-tab />
                         </v-card>
                     </v-tab-item>
 
@@ -193,10 +122,6 @@
                         <publisher-setup-tab/>
                     </v-tab-item>
 
-                    <v-tab-item>
-                        not sure if we want this.
-                        <!--                        <publisher-journals-tab/>-->
-                    </v-tab-item>
 
                 </v-tabs>
 
@@ -253,9 +178,8 @@
     import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
     import PublisherFileUploadDialog from "../components/PublisherFile/PublisherFileUpload";
     import ApcTab from "../components/Publisher/ApcTab";
-    import PublisherJournalsTab from "../components/Publisher/PublisherJournalsTab";
-    import PublisherSetupTab from "../components/PublisherSetupTab/PublisherSetupTab";
-
+    import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
+    import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
 
     export default {
         name: "Publisher",
@@ -263,8 +187,8 @@
             ScenarioEditDialogs,
             PublisherFileUploadDialog,
             ApcTab,
-            PublisherJournalsTab,
-            PublisherSetupTab
+            PublisherSetupTab,
+            PublisherScenariosTab,
         },
         data() {
             return {
@@ -353,12 +277,7 @@
                 this.dialogs.confirmCreateScenario = false
                 this.isCreateScenarioLoading = false
             },
-            async goToScenario(scenarioId) {
-                const url = `/i/${this.institutionId}/p/${this.pkg.id}/s/${scenarioId}`
-                console.log("go to scenario!", url)
-                await this.$router.push(url)
 
-            },
         },
 
         created() {
