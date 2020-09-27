@@ -232,7 +232,10 @@
                 const resp = await saveScenarioInstitutions(this.scenarioId, this.includedIds)
 
                 console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
-                await this.refreshSelectedScenario() // refresh this specific scenario
+
+                 // refresh our current scenario, and also refresh this row on the publisher page
+                await this.refreshSelectedScenario()
+                await this.$store.dispatch("refreshPublisherScenario", this.scenarioId)
 
                 console.log("scenario updated. closing institutions dialog.", resp)
 

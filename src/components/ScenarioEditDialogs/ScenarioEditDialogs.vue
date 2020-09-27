@@ -2,7 +2,7 @@
     <div>
 
 
-        <v-dialog v-model="isCopyDialogOpen" max-width="400" persistent>
+        <v-dialog v-model="isCopyDialogOpen" max-width="500" persistent>
             <v-card v-if="isCopyDialogOpen">
                 <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
@@ -47,7 +47,7 @@
 
 
 
-        <v-dialog v-model="isCreateDialogOpen" max-width="400" persistent>
+        <v-dialog v-model="isCreateDialogOpen" max-width="500" persistent>
             <v-card v-if="isCreateDialogOpen">
                 <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
@@ -59,6 +59,19 @@
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar>
+
+                <v-alert type="warning" v-if="institutionIsConsortium">
+                    <div>
+                        <p>
+                            New scenarios are created quickly, but it takes <strong>up to one hour</strong> before they are fully provisioned and ready for use.
+                        </p>
+                         <p>We'll send an email to <strong>{{ userEmail }} </strong> when the scenario is ready to use (don't forget to check your spam).</p>
+                        <p>If don't want to wait, you can copy an existing scenario instead...that only takes a few seconds.</p>
+
+                    </div>
+
+                </v-alert>
+
                 <v-card-text class="pt-8">
                     <div>
                         <v-text-field
@@ -93,7 +106,7 @@
 
 
 
-        <v-dialog v-model="isRenameDialogOpen" max-width="400" persistent>
+        <v-dialog v-model="isRenameDialogOpen" max-width="500" persistent>
             <v-card v-if="isRenameDialogOpen">
                  <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
@@ -113,6 +126,13 @@
                                 label="New name:"
                                 @keydown.enter="confirmRenameScenario"
                                 v-model="scenarioEditNewName"
+                        />
+                        <v-textarea
+                                v-if="false"
+                                outlined
+                                label="Description:"
+                                @keydown.enter="confirmRenameScenario"
+                                v-model="scenarioEditNewDescription"
                         />
                     </div>
                 </v-card-text>
@@ -139,7 +159,7 @@
 
 
 
-        <v-dialog v-model="isDeleteDialogOpen" max-width="400">
+        <v-dialog v-model="isDeleteDialogOpen" max-width="500">
             <v-card v-if="isDeleteDialogOpen">
                  <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
@@ -345,15 +365,22 @@
                     this.$store.commit("setOpenScenarioDialog", newVal)
                 },
             },
-            scenarioEditNewName: { // contents of the "new name"  field for copy, create, rename
+            scenarioEditNewName: { // contents of the "name"  field for copy, create, rename
                 get() {
                     return this.$store.getters.scenarioEditNewName
                 },
                 set(newVal) {
                     this.$store.commit("setScenarioEditNewName", newVal)
                 },
-
-            }
+            },
+            scenarioEditNewDescription: { // contents of the "description"  field for copy, create, rename
+                get() {
+                    return this.$store.getters.scenarioEditNewDescription
+                },
+                set(newVal) {
+                    this.$store.commit("setScenarioEditNewDescription", newVal)
+                },
+            },
         },
         methods: {
             ...mapActions([
@@ -391,6 +418,7 @@
                 this.scenarioEditDialogLoadingStart()
                 const payload = _.cloneDeep(this.scenarioToEdit)
                 payload.saved.name = this.scenarioEditNewName
+                // payload.saved.description = this.scenarioEditNewDescription
                 await saveScenario(payload)
                 await this.$store.dispatch("refreshSelectedScenario")
                 await this.$store.dispatch("refreshPublisherScenario", this.scenarioToEdit.id)

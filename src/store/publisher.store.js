@@ -33,12 +33,6 @@ export const publisher = {
         isDemo: false,
         scenarios: [],
         journalDetail: {},
-        journalCounts: {
-            analyzed: 0,
-            missingPrices: 0,
-            oa: 0,
-            leftOrStopped: 0
-        },
         journals: [],
         dataFiles: [],
         counterIsUploaded: false,
@@ -63,12 +57,6 @@ export const publisher = {
             state.isDemo = false
             state.scenarios = []
             state.journalDetail = {}
-            state.journalCounts = {
-                analyzed: 0,
-                missingPrices: 0,
-                oa: 0,
-                leftOrStopped: 0
-            }
             state.journals = []
             state.dataFiles = []
             state.counterIsUploaded = false
@@ -96,14 +84,15 @@ export const publisher = {
             state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
             state.isDemo = apiPublisher.is_demo
-            state.scenarios = apiPublisher.scenarios
+            state.scenarios = apiPublisher.scenarios.map(s => {
+                const ret = s
+                if (s.saved){
+                    s.saved.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                }
+                return ret
+            })
+
             state.journalDetail = apiPublisher.journal_detail
-            state.journalCounts = {
-                analyzed: apiPublisher.journal_detail.counts.in_scenario,
-                missingPrices: apiPublisher.journal_detail.diff_counts.diff_no_price,
-                oa: apiPublisher.journal_detail.diff_counts.diff_open_access_journals,
-                leftOrStopped: apiPublisher.journal_detail.diff_counts.diff_not_published_in_2019 + apiPublisher.journal_detail.diff_counts.diff_changed_publisher
-            }
             state.journals = []
             state.journals = apiPublisher.journals.map(j => {
                 return makePublisherJournal(j)
@@ -143,13 +132,20 @@ export const publisher = {
             commit("startLoading")
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")
-            return
+        },
+
+        async fetchPublisherLazy({commit, dispatch, getters}, id) {
+            commit("startLoading")
+            const url = `publisher/${id}`
+            const resp = await api.get(url)
+            const pubData = resp.data
+            commit("setSelectedPublisher", pubData)
+            commit("finishLoading")
         },
         async refreshPublisher({commit, dispatch, getters}) {
             commit("startLoading")
             await dispatch("fetchPublisherMainData", getters.publisherId)
             commit("finishLoading")
-            return
         },
 
 
@@ -158,6 +154,11 @@ export const publisher = {
             const resp = await api.get(url)
             const pubData = resp.data
 
+            // this sets everything, but the scenarios aren't hydrated yet.
+            // it's a hacky way to be able to show the publisher name without having to wait
+            // for (up to) dozens of scenarios to finish hydrating.
+            commit("setSelectedPublisher", pubData)
+
             console.log("got publisher back. hydrating scenarios")
             const myScenarioPromises = pubData.scenarios.map(apiScenario => {
                 return fetchScenario(apiScenario.id)
@@ -165,7 +166,7 @@ export const publisher = {
             pubData.scenarios = await Promise.all(myScenarioPromises)
             console.log("done hydrating all the scenarios")
 
-            commit("setSelectedPublisher", pubData)
+            commit("setSelectedPublisher", pubData) // set everything AGAIN now that scenarios are hydrated.
             return resp
         },
 
@@ -201,13 +202,6 @@ export const publisher = {
             commit("replaceScenario", newScenario)
         },
 
-
-        async renameScenario({commit, dispatch, getters}, {id, newName}) {
-            const payload = _.cloneDeep(getters.publisherScenario(id).saved)
-            payload.name = newName
-            await api.post(`scenario/${id}`, payload) // set it on the server
-            await dispatch("refreshPublisherScenario", id) // ask for the new, renamed scenario
-        },
         async createScenario({state, getters}, {name}) {
             const newScenario = await createScenario(getters.publisherId, name)
             state.scenarios.push(newScenario)
@@ -232,20 +226,16 @@ export const publisher = {
 
         publisherId: (state) => state.id,
         publisherPublisher: (state) => state.publisher,
-        publisherJournalCounts: (state) => state.journalCounts,
         publisherJournals: (state) => state.journals,
         publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) => {
             return state.scenarios.find(s => s.id === id)
         },
-        publisherScenarioIndex: (state) => (id) => {
-            return state.scenarios.findIndex(s => s.id === id)
-        },
         publisherScenariosAreAllLoaded: (state) => {
-            return state.scenarios.filter(s => s.isLoading).length === 0
+            // make sure we don't have any scenarios that are still dehydrated:
+            return state.scenarios.filter(s => s.saved).length === state.scenarios.length
         },
-        getScenarios: (state) => state.scenarios,
         publisherScenarios: (state) => state.scenarios,
         isPublisherDemo: (state) => state.isDemo,
         publisherBigDealCost: (state) => state.bigDealCost,
@@ -264,26 +254,7 @@ export const publisher = {
         },
 
         publisherFiles: (state) => {
-            return state.dataFiles.map(f => {
-
-                const ret = {
-                    ...f,
-                    id: _.camelCase(f.name),
-                }
-
-                // if (f.error_rows) {
-                //     ret.error_rows = {
-                //         headers: [{name: "Row Number", id: "rowNo"}].concat(f.error_rows.headers),
-                //         rows: f.error_rows.rows.map(row => {
-                //             row.cells.rowNo = {value: row.row_no}
-                //             return row
-                //         })
-                //     }
-                // }
-
-
-                return ret
-            })
+            return state.dataFiles
         },
 
 

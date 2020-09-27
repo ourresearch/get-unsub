@@ -31,9 +31,8 @@
                     <div class="text">
                         <div class="body-2">
                             <span>
-                                {{publisherName}}
-                                <span v-if="institutionIsConsortium">consortial</span>
-                                forecast scenario
+                                <span v-if="institutionIsConsortium">Consortial</span>
+                                Forecast scenario
                             </span>
                         </div>
                         <div class="display-2">
@@ -499,7 +498,12 @@
                 this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
 
 
-                this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+                if (typeof this.$route.query.lazy !== "undefined") {
+                    this.$store.dispatch("fetchPublisherLazy", this.$route.params.publisherId)
+                }
+                else {
+                    this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+                }
                 this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
                 // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)

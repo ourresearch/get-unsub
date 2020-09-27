@@ -78,14 +78,7 @@
                         {{tabName}}
                     </v-tab>
                     <v-tab-item>
-                        <v-card v-if="!publisherScenariosAreAllLoaded">
-                            <v-card-text class="py-12 d-flex align-center justify-center">
-                                <div>
-                                    Loading forecast scenarios...
-                                </div>
-                            </v-card-text>
-                        </v-card>
-                        <v-card v-if="publisherScenariosAreAllLoaded">
+                        <v-card>
                             <v-card-title>
                                 <div>
                                     <div>
@@ -131,43 +124,6 @@
 
         </div>
 
-
-        <v-dialog v-model="dialogs.confirmCreateScenario" max-width="400" >
-            <v-card>
-                <v-toolbar dark flat color="primary">
-                    <v-toolbar-title>
-                        <v-icon>mdi-timer-sand</v-icon>
-                        Confirm slow operation
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon text @click="dialogs.confirmCreateScenario = false">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
-                <v-card-text class="pt-4">
-                    <p>
-                        Blank-slate scenarios are created quickly, but it takes a long time before they are fully calculated and ready for use -- up to an hour.
-                    </p>
-                     <p>We'll send an email to <strong>{{ userEmail }} </strong> when the scenario is ready to use (don't forget to check your spam).</p>
-                    <p>If you're feeling impatient, you can copy an existing scenario...that only takes a few seconds.</p>
-
-
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn depressed @click="dialogs.confirmCreateScenario = false">Cancel</v-btn>
-                    <v-btn
-                            depressed
-                            @click="createScenario"
-                            color="primary"
-                    >
-                        Create
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-
         <scenario-edit-dialogs/>
     </v-container>
 </template>
@@ -196,16 +152,8 @@
                 errorMsg: "",
                 tabModel: 0,
                 loadingPercent: 0,
-                isCreateScenarioLoading: false,
                 dialogs: {
-                    confirmCreateScenario: false
                 },
-                // tabItems: [
-                //     "Forecasts",
-                //     "APCs",
-                //     "Setup",
-                //     // "Journals",
-                // ],
             }
         },
         computed: {
@@ -220,7 +168,6 @@
                 "publisherScenariosAreAllLoaded",
                 "publisherBigDealCost",
                 "publisherIsLoading",
-                "publisherJournalCounts",
                 "publisherLogo",
                 "publisherCounterIsUploaded",
                 "publisherIsOwnedByConsortium",
@@ -261,22 +208,9 @@
                 "openRenameDialog",
                 "openDeleteDialog",
                 "openPublisherFileUploadDialog",
+                "clearPublisher",
             ]),
             ...mapActions([]),
-            createScenarioHandler(){
-                if (this.institutionIsConsortium){
-                    this.dialogs.confirmCreateScenario = true
-                }
-                else {
-                    this.createScenario()
-                }
-            },
-            async createScenario() {
-                this.isCreateScenarioLoading = true
-                await this.$store.dispatch("createScenario")
-                this.dialogs.confirmCreateScenario = false
-                this.isCreateScenarioLoading = false
-            },
 
         },
 
@@ -314,6 +248,9 @@
                 that.loadingPercent = loadingPercent
             }, 1000)
 
+
+            // if we have any dehydrated scenarios, then clear the publisher; we'll update the whole thing.
+            if (!this.publisherScenariosAreAllLoaded) this.clearPublisher()
 
             await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
             console.log("publisher done loading", this.publisherCounterIsUploaded)

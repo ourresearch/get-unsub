@@ -6,14 +6,41 @@
     >
 
         <v-list-item-content>
-            <v-list-item-title
-                    class="title font-weight-bold"
-                    v-text="scenario.saved.name"
-            />
-            <v-list-item-subtitle>
-                <span>ID: {{scenario.id}}</span>
-                <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
-            </v-list-item-subtitle>
+            <v-row align="center">
+                <v-col cols="6">
+                    <div class="title font-weight-bold">
+                        {{ scenario.saved.name}}
+                    </div>
+                    <div class="body-2">
+                        {{ scenario.saved.description}}
+                    </div>
+                    <div class="body-2" v-if="institutionIsConsortium">
+                        <v-icon small>mdi-bank-outline</v-icon>
+                        {{ scenario.memberInstitutions.length }} institutions
+                    </div>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col cols="2" class="text-right">
+                    {{ costTotal | currency}}
+                </v-col>
+                <v-col cols="1" class="text-right">
+                    {{instantUsagePercent | percent(0)}}
+                </v-col>
+                <v-col cols="1" class="text-right">
+                    {{ scenario.saved.subrs.length }}
+                </v-col>
+                <v-col cols="1"></v-col>
+            </v-row>
+
+
+            <!--            <v-list-item-title-->
+            <!--                    class="title font-weight-bold"-->
+            <!--                    v-text="scenario.saved.name"-->
+            <!--            />-->
+            <!--            <v-list-item-subtitle>-->
+            <!--                <span>ID: {{scenario.id}}</span>-->
+            <!--                &lt;!&ndash;                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions&ndash;&gt;-->
+            <!--            </v-list-item-subtitle>-->
         </v-list-item-content>
 
         <v-list-item-action>
@@ -59,18 +86,16 @@
 
 <script>
     import {mapGetters, mapMutations} from "vuex";
+    import {costTotal, instantUsagePercent} from "../../shared/scenarioSummary";
 
     export default {
         name: "PublisherScenarioRow",
-        components: {
-        },
+        components: {},
         props: {
             scenario: Object,
         },
         data() {
-            return {
-
-            }
+            return {}
         },
         methods: {
             ...mapMutations([
@@ -80,15 +105,16 @@
                 "openDeleteDialog",
                 "openPublisherFileUploadDialog",
             ]),
+
             async goToScenario() {
                 const url = `/i/${this.institutionId}/p/${this.publisherId}/s/${this.scenario.id}`
                 await this.$router.push(url)
-
             },
         },
         computed: {
             ...mapGetters([
                 "institutionId",
+                "institutionIsConsortium",
 
                 "publisherName",
                 "publisherScenarios",
@@ -97,6 +123,12 @@
                 "publisherBigDealCost",
                 "publisherFiles",
             ]),
+            costTotal() {
+                return costTotal(this.scenario.journals)
+            },
+            instantUsagePercent() {
+                return instantUsagePercent(this.scenario.journals)
+            },
         },
         created() {
         },
