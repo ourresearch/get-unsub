@@ -5,7 +5,6 @@
                 <v-list-item-content class="pb-0">
                     <v-row align="end" class="caption font-weight-bold" style="cursor: default;">
                         <v-col cols="6" class="pb-0">
-                            Name
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col cols="2" class="text-right pr-5 pb-0">
