@@ -209,6 +209,7 @@
                             <v-list-item
                                     v-for="pub in myInstitutionPublishers"
                                     :key="pub.id"
+                                    @click="goToPackage(pub.id)"
                             >
                                 <v-list-item-avatar tile size="50">
                                     <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
@@ -235,24 +236,36 @@
                                     </v-list-item-subtitle>
                                 </v-list-item-content>
                                 <v-list-item-action>
-                                    <v-btn
-                                            text
-                                            :to="`/i/${institutionId}/p/${pub.id}`"
+                                    <v-menu
+                                            offset-y
                                     >
-                                        view
-                                    </v-btn>
-                                </v-list-item-action>
-                                <v-list-item-action>
-                                    <v-btn
-                                            v-if="pub.iCanEdit"
-                                            icon
-                                            @click="openDeletePublisherDialog(pub.id)"
-                                    >
-                                        <v-icon>mdi-delete-outline</v-icon>
-                                    </v-btn>
-                                    <v-btn disabled icon v-if="!pub.iCanEdit">
-                                        <v-icon>mdi-lock-outline</v-icon>
-                                    </v-btn>
+                                        <template v-slot:activator="{ on }">
+                                            <v-btn icon v-on="on">
+                                                <v-icon>mdi-dots-vertical</v-icon>
+                                            </v-btn>
+                                        </template>
+                                        <v-list>
+                                            <v-list-item disabled>
+                                                <v-list-item-icon>
+                                                    <v-icon>mdi-pencil</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-title>
+                                                    Rename
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item
+                                                    @click.stop="openDeletePublisherDialog(pub.id)"
+                                                    :disabled="!pub.iCanEdit"
+                                            >
+                                                <v-list-item-icon>
+                                                    <v-icon>mdi-delete</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-title>
+                                                    Delete
+                                                </v-list-item-title>
+                                            </v-list-item>
+                                        </v-list>
+                                    </v-menu>
                                 </v-list-item-action>
                             </v-list-item>
 
@@ -660,6 +673,10 @@
             publisherLogoFromId(id) {
                 console.log("publisherLogoFromId", id)
                 return publisherLogoFromId(id)
+            },
+            async goToPackage(packageId){
+                const url = `/i/${this.institutionId}/p/${packageId}`
+                await this.$router.push(url)
             },
             async setRole(email, role) {
                 console.log("set role", email, role)
