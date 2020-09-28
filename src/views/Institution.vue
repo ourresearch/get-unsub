@@ -255,7 +255,7 @@
                                             </v-list-item>
                                             <v-list-item
                                                     @click.stop="openDeletePublisherDialog(pub.id)"
-                                                    :disabled="!pub.iCanEdit"
+                                                    :disabled="!pub.iCanEdit || institutionIsConsortium"
                                             >
                                                 <v-list-item-icon>
                                                     <v-icon>mdi-delete</v-icon>
@@ -270,7 +270,7 @@
                             </v-list-item>
 
 
-                            <v-list-item @click="openCreatePublisherDialog">
+                            <v-list-item v-if="!institutionIsConsortium" @click="openCreatePublisherDialog">
                                 <v-list-item-avatar size="50">
                                     <v-btn icon>
                                         <v-icon>mdi-plus</v-icon>
