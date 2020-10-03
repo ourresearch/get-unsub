@@ -15,7 +15,7 @@
 
                 <v-list-item @click="openCreateDialog">
                     <v-list-item-icon class="mr-2">
-                        <v-icon>mdi-file-document-outline</v-icon>
+                        <v-icon>mdi-chart-box-plus-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
                         New

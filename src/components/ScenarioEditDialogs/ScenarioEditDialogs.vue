@@ -51,7 +51,7 @@
             <v-card v-if="isCreateDialogOpen">
                 <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
-                        <v-icon>mdi-content-copy</v-icon>
+                        <v-icon>mdi-chart-box-plus-outline</v-icon>
                         Create new scenario
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
