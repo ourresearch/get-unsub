@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import {api, apiPostUnbounced} from "../api.js"
 import appConfigs from "../appConfigs"
-import {buildScenarioFromApiResp, newScenario} from "../shared/scenario";
+import {newScenario, fetchScenario, saveScenarioSubscriptions, saveScenario} from "../shared/scenario";
 
 
 function hashCode(str) {
@@ -185,15 +185,23 @@ export const scenario = {
         },
     },
     actions: {
+        async fetchScenario({commit, dispatch, state}, scenarioId) {
+            state.selected = await fetchScenario(scenarioId)
+        },
 
-
-
+        async refreshSelectedScenario({commit, dispatch, getters}) {
+            if (!getters.scenarioId) return false
+            return await dispatch("fetchScenario", getters.scenarioId)
+        },
 
         // subscription stuff
-        async updateScenarioSavedSubrs({getters}) {
-            const url = `scenario/${getters.scenarioId}/subscriptions`
-            const ret = await apiPostUnbounced( url, getters.scenarioSaved )
+        async updateScenarioSavedSubrs({getters, dispatch}) {
+            const ret = await saveScenarioSubscriptions(getters.selectedScenario)
             console.log("finished updating scenario subscriptions")
+
+            // refresh this scenario in the list of publisher scenarios.
+            // no need to wait, it can happen in background.
+            dispatch("refreshPublisherScenario", getters.scenarioId)
             return ret
         },
 
@@ -223,27 +231,22 @@ export const scenario = {
             return ret
         },
 
+        async setSelectedScenarioConfig({commit, getters, dispatch, state}, {key, value}) {
+            // prepare the set of configs with the new value
+            const payload = _.cloneDeep(state.selected)
+            payload.saved.configs[key] = value
 
+            // save the new configs on the server
+            await saveScenario(payload)
 
+            // refresh this scenario in the list of publisher scenarios.
+            // no need to wait, it can happen in background.
+            dispatch("refreshPublisherScenario", state.selected.id)
 
-        // config stuff
+            // reload this scenario with its new, recalculated, journals data
+            await dispatch("fetchScenario", state.selected.id)
 
-        // async resetAllConfigs({dispatch, state, getters}) {
-        //     const postData = {...state.selected.saved}
-        //     Object.keys(state.selected.saved.configs).map(k=>{
-        //         postData.configs[k] = appConfigs.scenarioConfigs[k].default
-        //     })
-        //     const url = "scenario/" + getters.scenarioId;
-        //     await api.post(url, postData)
-        //     await dispatch("refreshScenario")
-        //     return true
-        // },
-
-
-
-
-
-
+        },
     },
     getters: {
         selectedScenario(state) {
@@ -292,6 +295,9 @@ export const scenario = {
         scenarioName(state){
             if (state.selected && state.selected.saved) return state.selected.saved.name
         },
+        scenarioUpdateNotificationEmail(state){
+            if (state.selected ) return state.selected.updateNotificationEmail
+        },
         scenarioSaved:  (state) => {
             if (state.selected && state.selected.saved) return state.selected.saved
         },
@@ -299,7 +305,9 @@ export const scenario = {
             if (!state.selected) return true
             if (state.isLoading) return true
             if (!state.selected.saved.name) return true
-            if (!state.selected.journals.length) return true
+            if (state.selected.updatePercentComplete && !state.selected.journals.length) {
+                return true
+            }
             return false
         },
 

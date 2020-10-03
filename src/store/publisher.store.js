@@ -2,7 +2,14 @@ import axios from "axios";
 import Vue from "vue"
 
 import {api} from "../api"
-import {buildScenarioFromApiResp, newScenario, newScenarioId} from "../shared/scenario";
+import {
+    fetchScenario,
+    newScenario,
+    createScenario,
+    copyScenario,
+    saveScenario,
+    deleteScenario,
+} from "../shared/scenario";
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
@@ -26,12 +33,6 @@ export const publisher = {
         isDemo: false,
         scenarios: [],
         journalDetail: {},
-        journalCounts: {
-            analyzed: 0,
-            missingPrices: 0,
-            oa: 0,
-            leftOrStopped: 0
-        },
         journals: [],
         dataFiles: [],
         counterIsUploaded: false,
@@ -56,12 +57,6 @@ export const publisher = {
             state.isDemo = false
             state.scenarios = []
             state.journalDetail = {}
-            state.journalCounts = {
-                analyzed: 0,
-                missingPrices: 0,
-                oa: 0,
-                leftOrStopped: 0
-            }
             state.journals = []
             state.dataFiles = []
             state.counterIsUploaded = false
@@ -74,7 +69,7 @@ export const publisher = {
             state.apcCost = null
             state.isOwnedByConsortium = false
         },
-        clearApcData(state){
+        clearApcData(state) {
             state.apcHeaders = []
             state.apcJournals = []
             state.apcPapersCount = null
@@ -89,14 +84,15 @@ export const publisher = {
             state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
             state.isDemo = apiPublisher.is_demo
-            state.scenarios = apiPublisher.scenarios
+            state.scenarios = apiPublisher.scenarios.map(s => {
+                const ret = s
+                // if (s.saved){
+                    // s.saved.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                // }
+                return ret
+            })
+
             state.journalDetail = apiPublisher.journal_detail
-            state.journalCounts = {
-                analyzed: apiPublisher.journal_detail.counts.in_scenario,
-                missingPrices: apiPublisher.journal_detail.diff_counts.diff_no_price,
-                oa: apiPublisher.journal_detail.diff_counts.diff_open_access_journals,
-                leftOrStopped: apiPublisher.journal_detail.diff_counts.diff_not_published_in_2019 + apiPublisher.journal_detail.diff_counts.diff_changed_publisher
-            }
             state.journals = []
             state.journals = apiPublisher.journals.map(j => {
                 return makePublisherJournal(j)
@@ -118,39 +114,16 @@ export const publisher = {
         finishLoading(state) {
             state.isLoading = false
         },
-        deleteScenario(state, scenarioIdToDelete) {
-            state.scenarios = state.scenarios.filter(s => {
-                return s.id !== scenarioIdToDelete
-            })
+        replaceScenario(state, newScenario) {
+            const index = state.scenarios.findIndex(s => s.id === newScenario.id)
+            state.scenarios.splice(index, 1, newScenario)
         },
-        renameScenario(state, {id, newName}) {
-            state.scenarios.find(s => {
-                return s.id === id
-            }).saved.name = newName
-        },
-        setScenarioConfig(state, {scenarioId, key, value}) {
-            const ret = state.scenarios.find(s => {
-                return s.id === scenarioId
-            })
-            ret.saved.configs[key] = value
-            return ret
 
+        deleteScenario(state, id) {
+            const index = state.scenarios.findIndex(s => s.id === newScenario.id)
+            state.scenarios.splice(index, 1)
         },
-        copyScenario(state, {id, newName, newId}) {
-            const scenarioToCopy = state.scenarios.find(s => {
-                return s.id === id
-            })
-            const clone = _.cloneDeep(scenarioToCopy)
-            clone.saved.name = newName
-            clone.id = newId
-            state.scenarios.push(clone)
-        },
-        createScenario(state, {newName, newId}) {
-            const myNewScenario = newScenario(newId)
-            myNewScenario.saved.name = newName
-            myNewScenario.isLoading = true
-            state.scenarios.push(myNewScenario)
-        },
+
 
     },
     actions: {
@@ -159,26 +132,41 @@ export const publisher = {
             commit("startLoading")
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")
-            return
+        },
+
+        async fetchPublisherLazy({commit, dispatch, getters}, id) {
+            commit("startLoading")
+            const url = `publisher/${id}`
+            const resp = await api.get(url)
+            const pubData = resp.data
+            commit("setSelectedPublisher", pubData)
+            commit("finishLoading")
         },
         async refreshPublisher({commit, dispatch, getters}) {
             commit("startLoading")
             await dispatch("fetchPublisherMainData", getters.publisherId)
             commit("finishLoading")
-            return
         },
 
 
         async fetchPublisherMainData({commit, dispatch, getters}, id) {
             const url = `publisher/${id}`
             const resp = await api.get(url)
-            resp.data.scenarios = resp.data.scenarios.map(apiScenario => {
-                const scenario = newScenario(apiScenario.id, apiScenario.name)
-                scenario.isLoading = true
-                return scenario
+            const pubData = resp.data
+
+            // this sets everything, but the scenarios aren't hydrated yet.
+            // it's a hacky way to be able to show the publisher name without having to wait
+            // for (up to) dozens of scenarios to finish hydrating.
+            commit("setSelectedPublisher", pubData)
+
+            console.log("got publisher back. hydrating scenarios")
+            const myScenarioPromises = pubData.scenarios.map(apiScenario => {
+                return fetchScenario(apiScenario.id)
             });
-            commit("setSelectedPublisher", resp.data)
-            await dispatch("hydratePublisherScenarios")
+            pubData.scenarios = await Promise.all(myScenarioPromises)
+            console.log("done hydrating all the scenarios")
+
+            commit("setSelectedPublisher", pubData) // set everything AGAIN now that scenarios are hydrated.
             return resp
         },
 
@@ -209,73 +197,20 @@ export const publisher = {
 
         },
 
-        async hydratePublisherScenarios({dispatch, getters}) {
-            getters.getScenarios.forEach(s => {
-                dispatch("hydratePublisherScenario", s.id)
-            })
+        async refreshPublisherScenario({dispatch, commit}, scenarioId){
+            const newScenario = await fetchScenario(scenarioId)
+            commit("replaceScenario", newScenario)
         },
 
-        async hydratePublisherScenario({dispatch, getters}, scenarioId) {
-            const path = `scenario/${scenarioId}/journals`
-            const resp = await api.get(path)
-            const hydratedScenario = buildScenarioFromApiResp(resp.data)
-
-            const myScenario = getters.publisherScenario(scenarioId)
-            console.log("gonna hydrate this scenario", scenarioId, myScenario)
-            Object.keys(hydratedScenario).forEach(k => {
-                if (k !== 'configs') {
-                    myScenario[k] = hydratedScenario[k]
-                }
-            })
-            myScenario.isLoading = false
+        async createScenario({state, getters}, {name}) {
+            const newScenario = await createScenario(getters.publisherId, name)
+            state.scenarios.push(newScenario)
+            return newScenario
         },
-
-
-        async copyScenario({commit, getters}, {id, newName}) {
-            let newId = newScenarioId(getters.isPublisherDemo)
-            commit("copyScenario", {id, newName, newId})
-            const data = {
-                name: newName,
-                id: newId,
-            }
-            const url = `package/${getters.publisherId}/scenario?copy=${id}`
-            await api.post(url, data)
-        },
-        async renameScenario({commit, getters}, {id, newName}) {
-            commit("renameScenario", {id, newName})
-            const url = `scenario/${id}`
-            await api.post(url, getters.publisherScenario(id).saved)
-        },
-        async setScenarioConfig({commit, getters, dispatch}, {scenarioId, key, value}) {
-            // modify the scenario metadata in place...this doesn't actually recalculate anything.
-            commit("setScenarioConfig", {scenarioId, key, value})
-
-            // send the scenario obj, with its new config value, up to the server.
-            // the server will save our new param value.
-            const url = `scenario/${scenarioId}`
-            await api.post(url, getters.publisherScenario(scenarioId).saved)
-
-            // ask the server for the journals data for this scenario,
-            // which will now be calculated using the new param we set a second ago.
-            // overwrite the scenario data.
-            await dispatch("hydratePublisherScenario", scenarioId)
-
-        },
-        async deleteScenario({commit, getters}, id) {
-            commit("deleteScenario", id)
-            await api.delete(`scenario/${id}`)
-        },
-        async createScenario({commit, dispatch, getters}) {
-            const newId = newScenarioId(getters.isPublisherDemo)
-            const newName = "New Scenario"
-            commit("createScenario", {newName, newId})
-            const data = {
-                id: newId,
-                name: newName,
-            }
-            const url = `package/${getters.publisherId}/scenario`
-            await api.post(url, data)
-            dispatch("hydratePublisherScenario", newId)
+        async copyScenario({commit, getters, state}, {id, newName}) {
+            const newScenario = await copyScenario(getters.publisherId, id, newName)
+            state.scenarios.push(newScenario)
+            return newScenario
         },
     },
     getters: {
@@ -291,7 +226,6 @@ export const publisher = {
 
         publisherId: (state) => state.id,
         publisherPublisher: (state) => state.publisher,
-        publisherJournalCounts: (state) => state.journalCounts,
         publisherJournals: (state) => state.journals,
         publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),
         publisherScenariosCount: (state) => state.scenarios.length,
@@ -299,9 +233,9 @@ export const publisher = {
             return state.scenarios.find(s => s.id === id)
         },
         publisherScenariosAreAllLoaded: (state) => {
-            return state.scenarios.filter(s => s.isLoading).length === 0
+            // make sure we don't have any scenarios that are still dehydrated:
+            return state.scenarios.filter(s => s.saved).length === state.scenarios.length
         },
-        getScenarios: (state) => state.scenarios,
         publisherScenarios: (state) => state.scenarios,
         isPublisherDemo: (state) => state.isDemo,
         publisherBigDealCost: (state) => state.bigDealCost,
@@ -320,26 +254,7 @@ export const publisher = {
         },
 
         publisherFiles: (state) => {
-            return state.dataFiles.map(f => {
-
-                const ret = {
-                    ...f,
-                    id: _.camelCase(f.name),
-                }
-
-                // if (f.error_rows) {
-                //     ret.error_rows = {
-                //         headers: [{name: "Row Number", id: "rowNo"}].concat(f.error_rows.headers),
-                //         rows: f.error_rows.rows.map(row => {
-                //             row.cells.rowNo = {value: row.row_no}
-                //             return row
-                //         })
-                //     }
-                // }
-
-
-                return ret
-            })
+            return state.dataFiles
         },
 
 

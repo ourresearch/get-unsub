@@ -11,6 +11,17 @@
                 </v-btn>
             </template>
             <v-list dense>
+
+
+                <v-list-item @click="openCreateDialog">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-file-document-outline</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title class="font-weight-regular">
+                        New
+                    </v-list-item-title>
+                </v-list-item>
+
                 <v-list-item
                         @click="openOpenScenarioDialog"
                         v-if="publisherScenariosCount > 1"
@@ -19,40 +30,39 @@
                         <v-icon>mdi-folder-open-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
-                        Open another scenario
+                        Open
                     </v-list-item-title>
                 </v-list-item>
-
 
                 <v-list-item @click="openCopyDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-content-copy</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
-                        Make a copy of this scenario
+                        Make a copy
                     </v-list-item-title>
                 </v-list-item>
 
+
+                <v-divider />
+
+                <v-list-item   @click="closeScenario">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-close</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title class="font-weight-regular">
+                        Close
+                    </v-list-item-title>
+                </v-list-item>
 
                 <v-list-item @click="openRenameDialog(selectedScenario)">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-pencil</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
-                        Rename scenario
+                        Rename
                     </v-list-item-title>
                 </v-list-item>
-
-
-                <v-list-item v-if="0"  @click="closeScenario">
-                    <v-list-item-icon class="mr-2">
-                        <v-icon>mdi-close</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title class="font-weight-regular">
-                        Close scenario
-                    </v-list-item-title>
-                </v-list-item>
-
 
                 <v-list-item
                         v-if="publisherScenariosCount > 1"
@@ -62,7 +72,7 @@
                         <v-icon>mdi-delete</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
-                        Delete scenario
+                        Delete
                     </v-list-item-title>
                 </v-list-item>
 
@@ -108,6 +118,7 @@
             ]),
             ...mapMutations([
                 "openCopyDialog",
+                "openCreateDialog",
                 "openRenameDialog",
                 "openDeleteDialog",
                 "openOpenScenarioDialog",

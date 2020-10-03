@@ -150,9 +150,10 @@
 
 <script>
     import appConfigs from "../../appConfigs";
+    import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {urlBase} from "../../api";
     import {api} from "../../api";
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
+    import {saveScenarioInstitutions} from "../../shared/scenario";
 
     export default {
         name: "ScenarioMenuInstitutions",
@@ -180,7 +181,6 @@
                 "scenarioMemberInstitutions",
             ]),
             csvUrl() {
-                let scenarioId = this.$store.getters.scenarioId
                 let url = `${urlBase}/scenario/${this.scenarioId}/export.csv`;
                 url += "?jwt=" + localStorage.getItem("token")
                 return url
@@ -197,7 +197,7 @@
         },
         methods: {
             ...mapActions([
-                "hydratePublisherScenario",
+                "refreshSelectedScenario",
             ]),
             multiSelectClick() {
                 if (this.includedIds.length) { // anything is selected
@@ -227,11 +227,16 @@
             },
             async saveDialog(){
                 this.isSaving = true
-                const postData = {member_institutions: this.includedIds}
-                console.log("POSTing institution IDs to server", postData)
-                const resp = await api.post(this.apiUrl, postData)
+
+                console.log("POSTing institution IDs to server", this.includedIds)
+                const resp = await saveScenarioInstitutions(this.scenarioId, this.includedIds)
+
                 console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
-                await this.hydratePublisherScenario(this.scenarioId) // refresh this specific scenario
+
+                 // refresh our current scenario, and also refresh this row on the publisher page
+                await this.refreshSelectedScenario()
+                await this.$store.dispatch("refreshPublisherScenario", this.scenarioId)
+
                 console.log("scenario updated. closing institutions dialog.", resp)
 
                 this.isSaving = false
