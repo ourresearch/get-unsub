@@ -86,9 +86,9 @@ export const publisher = {
             state.isDemo = apiPublisher.is_demo
             state.scenarios = apiPublisher.scenarios.map(s => {
                 const ret = s
-                if (s.saved){
-                    s.saved.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                }
+                // if (s.saved){
+                    // s.saved.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                // }
                 return ret
             })
 

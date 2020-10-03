@@ -72,7 +72,7 @@
                                             forecast. This can take up to one hour.
                                         </p>
                                         <p>
-                                            We'll send an email to <strong>{{userEmail}}</strong> when the update is
+                                            We'll send an email to <strong>{{scenarioUpdateNotificationEmail}}</strong> when the update is
                                             complete (don't forget to check your spam folder).
                                         </p>
                                     </div>
@@ -409,8 +409,11 @@
                 'scenarioIsLockedPendingUpdate',
                 'scenarioUpdatePercentComplete',
                 'userEmail',
+                'scenarioUpdateNotificationEmail',
             ]),
 
+            readyStatus(){
+            },
 
             account() {
                 return this.$store.state.account

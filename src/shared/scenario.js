@@ -50,11 +50,14 @@ const saveScenario = async function (scenario) {
 
 
 const createScenario = async function (packageId, name) {
+    console.log(`createScenario(): creating new scenario "${name}"`)
     const path = `package/${packageId}/scenario`
     const apiResp = await api.post(path, {name})
-    const ret = newScenarioObjectFromApiData(apiResp.data)
-    cache[ret.id] = ret
-    return ret
+
+    console.log(`createScenario(): scenario created. Loading scenario.`)
+    const newScenarioId = apiResp.data.meta.scenario_id
+    const newScenario = await fetchScenario(newScenarioId)
+    return newScenario
 }
 
 const copyScenario = async function (packageId, scenarioToCopyId, newScenarioName) {
@@ -82,6 +85,7 @@ const newScenarioObjectFromApiData = function (apiData) {
     })
     ret.isLockedPendingUpdate = apiData.is_locked_pending_update
     ret.updatePercentComplete = apiData.update_percent_complete
+    ret.updateNotificationEmail = apiData.update_notification_email
     ret.memberInstitutions = apiData.member_institutions
     ret.saved = apiData.saved
 

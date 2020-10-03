@@ -295,6 +295,9 @@ export const scenario = {
         scenarioName(state){
             if (state.selected && state.selected.saved) return state.selected.saved.name
         },
+        scenarioUpdateNotificationEmail(state){
+            if (state.selected ) return state.selected.updateNotificationEmail
+        },
         scenarioSaved:  (state) => {
             if (state.selected && state.selected.saved) return state.selected.saved
         },
@@ -302,7 +305,9 @@ export const scenario = {
             if (!state.selected) return true
             if (state.isLoading) return true
             if (!state.selected.saved.name) return true
-            if (!state.selected.journals.length) return true
+            if (state.selected.updatePercentComplete && !state.selected.journals.length) {
+                return true
+            }
             return false
         },
 
