@@ -78,6 +78,7 @@ export const publisher = {
         },
 
         setSelectedPublisher(state, apiPublisher) {
+            console.log("setSelectedPublisher", apiPublisher)
             state.selected = apiPublisher // legacy
 
             state.id = apiPublisher.id
@@ -254,7 +255,12 @@ export const publisher = {
         },
 
         publisherFiles: (state) => {
-            return state.dataFiles
+            return state.dataFiles.map(f => {
+                return {
+                    ...f,
+                    id: _.camelCase(f.name),
+                }
+            })
         },
 
 
