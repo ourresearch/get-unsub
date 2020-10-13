@@ -63,9 +63,11 @@ const createScenario = async function (packageId, name) {
 const copyScenario = async function (packageId, scenarioToCopyId, newScenarioName) {
     const path = `package/${packageId}/scenario?copy=${scenarioToCopyId}`
     const apiResp = await api.post(path, {name: newScenarioName})
-    const ret = newScenarioObjectFromApiData(apiResp.data)
-    cache[ret.id] = ret
-    return ret
+
+    console.log(`copyScenario(): scenario created. Loading scenario.`)
+    const newScenarioId = apiResp.data.meta.scenario_id
+    const newScenario = await fetchScenario(newScenarioId)
+    return newScenario
 }
 const deleteScenario = async function (scenarioId) {
     cache[scenarioId] = null
