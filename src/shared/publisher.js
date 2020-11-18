@@ -1,7 +1,7 @@
 import appConfigs from "../appConfigs";
 
 
-const config = {
+const publisherConfig = {
     Elsevier: {
         name: "Elsevier",
         id: "Elsevier",
@@ -17,30 +17,26 @@ const config = {
         id: "Wiley",
         logo: "https://i.imgur.com/FFfCHXI.png",
     },
+    // Sage: {
+    //     name: "SAGE",
+    //     id: "Sage",
+    //     logo: "https://i.imgur.com/vJdKg2j.png",
+    // },
+    // TaylorFrancis: {
+    //     name: "Taylor & Francis",
+    //     id: "TaylorFrancis",
+    //     logo: "https://i.imgur.com/WazWt35.png",
+    // },
 }
 
 
-const publisherLogoFromName = function(name){
-        let myPublisherIdReal
-        if (/elsevier/i.test(name)) myPublisherIdReal = "elsevier"
-        else if (/springer/i.test(name)) myPublisherIdReal = "springer_nature"
-        else if (/wiley/i.test(name)) myPublisherIdReal = "wiley"
 
-        if (config[myPublisherIdReal]) {
-            return config[myPublisherIdReal].logo
-        }
-        else {
-            return "https://i.imgur.com/PN3ya57.png"
-        }
-}
-
-const publisherLogoFromId = function(id){
-    if (config[id]) {
-            return config[id].logo
-        }
-        else {
-            return "https://i.imgur.com/PN3ya57.png"
-        }
+const publisherLogoFromId = function (id) {
+    if (publisherConfig[id]) {
+        return publisherConfig[id].logo
+    } else {
+        return "https://i.imgur.com/PN3ya57.png"
+    }
 }
 
 const publisherJournalColumns = [
@@ -82,20 +78,7 @@ const publisherJournalColumns = [
     },
 ]
 
-const makePublisherJournalRow = function(publisherJournal) {
-    return publisherJournalColumns.map(col => {
-        return {
-            ...
-            col,
-            value: publisherJournal[col.id]
-        }
-    })
-}
-
-
-
-
-const makePublisherJournal = function(apiJournal){
+const makePublisherJournal = function (apiJournal) {
 
     const omittedBecause = []
     if (apiJournal.attributes.changed_publisher) {
@@ -127,7 +110,7 @@ const makePublisherJournal = function(apiJournal){
     })
 
     const isMissingDataFor = dataSources.map(source => {
-        return (!source.source) ?  source.id : null
+        return (!source.source) ? source.id : null
     }).filter(Boolean)
 
     const isValid = ([
@@ -142,9 +125,6 @@ const makePublisherJournal = function(apiJournal){
     const counter = dataSourcesDict.counter.value
     const perpetualAccessStart = dataSourcesDict.perpetualAccess.value[0]
     const perpetualAccessEnd = dataSourcesDict.perpetualAccess.value[1]
-
-
-
 
 
     return {
@@ -173,9 +153,8 @@ const makePublisherJournal = function(apiJournal){
 }
 
 
-export  {
+export {
     publisherLogoFromId,
-    publisherJournalColumns,
     makePublisherJournal,
-    makePublisherJournalRow,
+    publisherConfig,
 }

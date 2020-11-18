@@ -509,7 +509,7 @@
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
 
     const short = require('short-uuid');
-    import {publisherLogoFromId} from "../shared/publisher";
+    import {publisherLogoFromId, publisherConfig} from "../shared/publisher";
 
     export default {
         name: "Institution",
@@ -558,28 +558,8 @@
 
                 // new publisher
                 newPublisherDisplayName: "",
-                newPublisherItems: [
-                    {
-                        name: "Elsevier",
-                        id: "Elsevier",
-                        logo: "https://i.imgur.com/Qt1sOqp.png",
-                    },
-                    {
-                        name: "Springer Nature",
-                        id: "SpringerNature",
-                        logo: "https://i.imgur.com/MLtg71P.png",
-                    },
-                    {
-                        name: "Wiley",
-                        id: "Wiley",
-                        logo: "https://i.imgur.com/FFfCHXI.png",
-                    },
-                ],
-                newPublisherItemSelected: {
-                    name: "Elsevier",
-                    id: "Elsevier",
-                    logo: "https://i.imgur.com/Qt1sOqp.png",
-                },
+                newPublisherItems: Object.values(_.cloneDeep(publisherConfig)),
+                newPublisherItemSelected: _.cloneDeep(publisherConfig.Elsevier),
                 newPublisherLoading: false,
             }
         },
@@ -671,7 +651,6 @@
             ...mapMutations([]),
             ...mapActions([]),
             publisherLogoFromId(id) {
-                console.log("publisherLogoFromId", id)
                 return publisherLogoFromId(id)
             },
             async goToPackage(packageId){
