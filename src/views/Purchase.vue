@@ -155,14 +155,14 @@
             },
             invoiceRequestBodyText() {
                 const ret = `Please send me an invoice for: Unsub Dashboard subscription
-Institution: [YOUR INSTITUTION NAME]
-Billing Email: [YOUR BILLING EMAIL]
-Billing Mailing Address: [YOUR BILLING MAILING ADDRESS]
-CC Emails: [CC EMAILS (optional)]
+Institution: ________________
+Billing Email: ________________
+Billing Mailing Address: ________________
+CC Emails (optional): ________________
 Term: 1 year
 Fee: ${this.myPlanCost} USD
 Start date: today
-Other notes: [OTHER NOTES (optional)  ]`
+Other notes (optional): ________________`
                 return encodeURIComponent(ret)
             }
 
