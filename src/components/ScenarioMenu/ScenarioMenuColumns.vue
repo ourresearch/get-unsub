@@ -2,6 +2,8 @@
     <div v-if="showMe">
         <v-menu
                 offset-y
+                :left="unfoldLeft"
+                :right="unfoldRight"
                 :close-on-content-click="false"
                 ref="columnsMenu"
         >
@@ -22,6 +24,8 @@
                         v-for="group in groupedTableHeaders"
                         :key="'groupMenu'+group.name"
                         offset-x
+                        :left="unfoldLeft"
+                        :right="unfoldRight"
                         :open-on-hover="true"
                 >
                     <template v-slot:activator="{ on }">
@@ -44,6 +48,8 @@
                                 :key="group.name+col.value"
                                 max-width="400"
                                 open-delay="500"
+                                :left="unfoldLeft"
+                                :right="unfoldRight"
                         >
                             <template v-slot:activator="{ on }">
                                 <v-list-item
@@ -79,12 +85,21 @@
 
     export default {
         name: "ScenarioMenuColumns",
-        props: ["icon"],
+        props: {
+            icon: Boolean,
+            direction: String,
+        },
         computed: {
             groupedTableHeaders: () => appConfigs.journalColGroups,
             showMe(){
                 return this.$store.getters.menuSettingsShowAsTable
-            }
+            },
+            unfoldLeft(){
+                return this.direction === "left"
+            },
+            unfoldRight(){
+                return !this.unfoldLeft
+            },
         },
         methods: {
             toggleCol(colName) {

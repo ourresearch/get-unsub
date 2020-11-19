@@ -227,7 +227,7 @@
 
                                     />
                                 </div>
-                                <scenario-menu-columns :icon="true"/>
+                                <scenario-menu-columns :icon="true" direction="left" />
                                 <v-menu>
                                     <template v-slot:activator="{on}">
                                         <v-btn
