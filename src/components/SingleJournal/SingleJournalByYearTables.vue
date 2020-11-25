@@ -27,10 +27,10 @@
             <v-card-title>
                 <div>
                     <div>Open Access</div>
-                    <div class="body-1" v-if="journal.oa.oa_embargo_months">
-                        <strong>Delayed OA ({{journal.oa.oa_embargo_months}}mo):</strong> this
+                    <div class="body-1" v-if="journal.oa.bronze_oa_embargo_months">
+                        <strong>Delayed OA ({{journal.oa.bronze_oa_embargo_months}}mo):</strong> this
                         journal makes
-                        back content available after an embargo of {{journal.oa.oa_embargo_months}}
+                        back content available after an embargo of {{journal.oa.bronze_oa_embargo_months}}
                         months.
                     </div>
 
@@ -78,7 +78,7 @@
                 <span v-if="!journal.cost.subscribed">You are currently <em>not</em> subscribed to this journal.</span>
             </v-card-text>
             <v-card-text>
-                <span>NCPPU: {{ journal.top.ncppu }} </span>
+                <span>cpu: {{ journal.top.cpu }} </span>
             </v-card-text>
 
             <v-data-table

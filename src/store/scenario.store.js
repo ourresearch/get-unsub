@@ -46,8 +46,8 @@ export const scenario = {
         },
         tableColsToShow: [
             "usage",
-            "cost_subscription",
-            "ncppu",
+            "subscription_cost",
+            "cpu",
         ],
         snackbars: {
             customSubrSuccess: false,

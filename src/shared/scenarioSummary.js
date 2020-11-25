@@ -72,13 +72,13 @@ const instantUsagePercent = function (journals) {
 const subrCost = function (journals) {
     return journals
         .filter(j => j.subscribed || j.customSubscribed)
-        .map(j => j.cost_subscription)
+        .map(j => j.subscription_cost)
         .reduce((a, b) => a + b, 0)
 }
 const illCost = function (journals) {
     return journals
         .filter(j => !j.subscribed || j.customSubscribed)
-        .map(j => j.cost_ill)
+        .map(j => j.ill_cost)
         .reduce((a, b) => a + b, 0)
 }
 

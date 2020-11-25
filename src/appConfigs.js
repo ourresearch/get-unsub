@@ -3,8 +3,8 @@ const journalColGroups = [
         displayName: "Cost Effectiveness",
         name: "keyStats",
         colNames: [
-            "ncppu",
-            "ncppu_rank",
+            "cpu",
+            "cpu_rank",
         ]
     },
 
@@ -13,8 +13,8 @@ const journalColGroups = [
         name: "costs",
         colNames: [
             "cost",
-            "cost_subscription",
-            "cost_ill",
+            "subscription_cost",
+            "ill_cost",
             "subscription_minus_ill_cost",
         ]
     },
@@ -42,7 +42,7 @@ const journalColGroups = [
             "baseline_access_text",
             "use_oa_percent",
             "use_backfile_percent",
-            "use_asns_percent",
+            "use_social_networks_percent",
             "use_subscription_percent",
             "use_ill_percent",
             "use_other_delayed_percent",
@@ -65,13 +65,13 @@ const journalColGroups = [
 const journalCols = [
     {
         text: "Cost per use",
-        value: "ncppu",
+        value: "cpu",
         display: "currency",
         descr: "Cost per use (CPU) is the <strong>net cost</strong> (subscription minus ILL), divided by <strong>Paid Use</strong> (Usage that can't be met with free sources). This measures the real value you're getting for your subscription dollar.",
     },
     {
         text: "Rank by CPU",
-        value: "ncppu_rank",
+        value: "cpu_rank",
         display: "number",
         descr: "The journal's rank by Cost Per Use (CPU) relative to other journals in this dataset. The most cost-effective journal has a rank of 1.",
     },
@@ -101,13 +101,13 @@ const journalCols = [
     },
     {
         text: "Subscription Cost",
-        value: "cost_subscription",
+        value: "subscription_cost",
         display: "currency_int",
         descr: "The ala carte subscription cost of this journal.  It includes a 'content fee' based on your settings, and annual price increases over the next five years (the cost shown is the average cost over the next five years).  This data is based on public price lists unless you've uploaded a custom price list (available in a purchased account).",
     },
     {
         text: "ILL Cost",
-        value: "cost_ill",
+        value: "ill_cost",
         display: "currency_int",
         descr: "The ILL subscription cost of this journal.  It is based on the ILL transaction cost from the settings, and an ILL request rate (adjustable in the settings, though the default is based on an extensive literature search of other institution's experiences).",
     },
@@ -119,7 +119,7 @@ const journalCols = [
     },
     {
         text: "% usage from ResearchGate",
-        value: "use_asns_percent",
+        value: "use_social_networks_percent",
         display: "number",
         descr: "The percent of Usage that can be fulfilled by ResearchGate and other Academic Social Networks. This can be excluded in the settings.",
     },
@@ -247,7 +247,7 @@ const scenarioConfigs = {
         displayName: "A la carte 'content fee'",
         descr: "A content fee charged by publishers when buying subscriptions ala cart, above whatever is included in your current package price (literature suggests 5.7% for subscriptions)."
     },
-    cost_ill: {
+    cost_ill_transaction: {
         name: "cost_ill",
         default: 17,
         value: null,
@@ -341,7 +341,7 @@ const scenarioConfigGroups = [
         name: "ill",
         displayName: "ILL",
         contents: [
-            scenarioConfigs.cost_ill,
+            scenarioConfigs.cost_ill_transaction,
             scenarioConfigs.ill_request_percent_of_delayed,
         ],
     },

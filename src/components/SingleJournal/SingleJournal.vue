@@ -73,14 +73,14 @@
                                                 tooltip-text="This journal is published by a scholarly society (data manually collected)"
                                         />
                                         <single-journal-key-number-row
-                                                :value="(scenarioZoomedJournal.oa_embargo_months) ? 'Yes' : 'No'"
+                                                :value="(scenarioZoomedJournal.bronze_oa_embargo_months) ? 'Yes' : 'No'"
                                                 value-is-string
                                                 label="Delayed OA"
                                                 tooltip-text='This is a "Delayed OA" journal, which makes content free to read after an embargo period has passed.'
                                         />
                                         <single-journal-key-number-row
-                                                v-if="scenarioZoomedJournal.oa_embargo_months"
-                                                :value="`${scenarioZoomedJournal.oa_embargo_months} months`"
+                                                v-if="scenarioZoomedJournal.bronze_oa_embargo_months"
+                                                :value="`${scenarioZoomedJournal.bronze_oa_embargo_months} months`"
                                                 value-is-string
                                                 label="OA embargo length"
                                                 tooltip-text='Length of the wait, after publication, for Delayed OA content to become free-to-read.'
@@ -159,7 +159,7 @@
                                         </div>
 
                                         <single-journal-key-number-row
-                                                :value="scenarioZoomedJournal.cost_subscription"
+                                                :value="scenarioZoomedJournal.subscription_cost"
                                                 is-currency
                                                 overline
                                                 operation="+"
@@ -167,7 +167,7 @@
                                                 tooltip-text="A-la-carte cost if you do subscribe."
                                         />
                                         <single-journal-key-number-row
-                                                :value="scenarioZoomedJournal.cost_ill"
+                                                :value="scenarioZoomedJournal.ill_cost"
                                                 is-currency
                                                 operation="-"
                                                 label="ILL cost"
@@ -189,7 +189,7 @@
                                                 tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or A-la-carte subscription."
                                         />
                                         <single-journal-key-number-row
-                                                :value="scenarioZoomedJournal.ncppu"
+                                                :value="scenarioZoomedJournal.cpu"
                                                 is-currency
                                                 operation="="
                                                 :round-to-places="2"

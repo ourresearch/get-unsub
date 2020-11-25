@@ -20,6 +20,8 @@ const fetchScenario = async function (scenarioId) {
 
     const path = `scenario/${scenarioId}/journals`
     const apiResp = await api.get(path)
+    console.log("here with", apiResp.data)
+    console.log("here with meta", apiResp.data.meta)
     const ret = newScenarioObjectFromApiData(apiResp.data)
     cache[ret.id] = ret
     return ret

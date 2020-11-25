@@ -139,7 +139,7 @@
         computed: {
             csvUrl() {
                 let scenarioId = this.$store.getters.scenarioId
-                let url = `${urlBase}/scenario/${scenarioId}/export.csv`;
+                let url = `${urlBase}scenario/${scenarioId}/export.csv`; // urlBase ends with a slash
                 url += "?jwt=" + localStorage.getItem("token")
                 return url
             }

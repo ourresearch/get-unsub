@@ -31,14 +31,14 @@
                     class="d-flex align-center tooltip-contents"
             >
                 <div
-                        v-if="!isNaN(journal.ncppu)"
+                        v-if="!isNaN(journal.cpu)"
                         class="pr-2 mr-2 text-right cpu-section"
                         style="border-right: 1px solid #ddd;"
                 >
                     <div class="">
                         <strong
-                                v-if="journal.ncppu !== null">
-                            ${{journal.ncppu | round(2)}}
+                                v-if="journal.cpu !== null">
+                            ${{journal.cpu | round(2)}}
                         </strong>
                     </div>
                     <div

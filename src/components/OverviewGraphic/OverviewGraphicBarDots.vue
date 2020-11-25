@@ -128,7 +128,7 @@
 
                 this.journals.forEach(myJournal => {
                     const myBin = bins.find(bin => {
-                        return bin.start <= myJournal.ncppu && bin.end > myJournal.ncppu
+                        return bin.start <= myJournal.cpu && bin.end > myJournal.cpu
                     })
                     if (myBin) {
                         myBin.journals.push(myJournal)
@@ -139,10 +139,10 @@
 
             },
             journalsWithCpuOutsideBins(){
-                return this.journals.filter(j => j.ncppu > this.maxBinValue)
+                return this.journals.filter(j => j.cpu > this.maxBinValue)
             },
             journalsWithNoUsage(){
-                return this.journals.filter(j => isNaN(j.ncppu) )
+                return this.journals.filter(j => isNaN(j.cpu) )
             },
 
             subrJournalsCount() {

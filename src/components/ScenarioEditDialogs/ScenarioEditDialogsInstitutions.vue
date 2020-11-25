@@ -181,7 +181,7 @@
                 "scenarioMemberInstitutions",
             ]),
             csvUrl() {
-                let url = `${urlBase}/scenario/${this.scenarioId}/export.csv`;
+                let url = `${urlBase}scenario/${this.scenarioId}/export.csv`; // urlBase ends with a slash
                 url += "?jwt=" + localStorage.getItem("token")
                 return url
             },
