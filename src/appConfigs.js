@@ -247,7 +247,7 @@ const scenarioConfigs = {
         displayName: "A la carte 'content fee'",
         descr: "A content fee charged by publishers when buying subscriptions ala cart, above whatever is included in your current package price (literature suggests 5.7% for subscriptions)."
     },
-    cost_ill_transaction: {
+    cost_ill: {
         name: "cost_ill",
         default: 17,
         value: null,
@@ -341,7 +341,7 @@ const scenarioConfigGroups = [
         name: "ill",
         displayName: "ILL",
         contents: [
-            scenarioConfigs.cost_ill_transaction,
+            scenarioConfigs.cost_ill,
             scenarioConfigs.ill_request_percent_of_delayed,
         ],
     },
