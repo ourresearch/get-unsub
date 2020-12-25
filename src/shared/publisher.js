@@ -17,16 +17,16 @@ const publisherConfig = {
         id: "Wiley",
         logo: "https://i.imgur.com/FFfCHXI.png",
     },
-    // Sage: {
-    //     name: "SAGE",
-    //     id: "Sage",
-    //     logo: "https://i.imgur.com/vJdKg2j.png",
-    // },
-    // TaylorFrancis: {
-    //     name: "Taylor & Francis",
-    //     id: "TaylorFrancis",
-    //     logo: "https://i.imgur.com/WazWt35.png",
-    // },
+    Sage: {
+        name: "SAGE",
+        id: "Sage",
+        logo: "https://i.imgur.com/vJdKg2j.png",
+    },
+    TaylorFrancis: {
+        name: "Taylor & Francis",
+        id: "TaylorFrancis",
+        logo: "https://i.imgur.com/WazWt35.png",
+    },
 }
 
 
