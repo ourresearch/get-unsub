@@ -8,7 +8,9 @@ const serveStatic = require('serve-static');
 let app = express();
 
 // https://medium.com/@thiscodeworks.com/how-to-redirect-your-node-js-app-hosted-on-heroku-from-http-to-https-50ef80130bff
-app.use(sslRedirect());
+// https://www.npmjs.com/package/heroku-ssl-redirect
+app.use(sslRedirect(['production'], 301));
+
 
 
 // this was helpful for configs:

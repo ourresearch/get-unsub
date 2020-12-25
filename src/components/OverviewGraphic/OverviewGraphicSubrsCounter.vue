@@ -159,6 +159,9 @@
             numJournals() {
                 return this.scenarioJournals.length
             },
+            countIsTooHigh(){
+
+            },
             myCount: {
                 get() {
                     return this.$store.getters.subrJournalsCount
@@ -176,6 +179,7 @@
                 }
             }
         },
+
     }
 </script>
 
