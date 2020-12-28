@@ -207,7 +207,7 @@
                             <v-toolbar flat
                                        style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
                                 <v-toolbar-title>
-                                    A-la-carte journals
+                                    À la carte journals
                                     <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>
                                 </v-toolbar-title>
                                 <v-spacer></v-spacer>

@@ -55,7 +55,7 @@ const publisherJournalColumns = [
     {
         id: "price",
         name: "Price",
-        descr: "Your a-la-carte subscription cost for the journal. Default: public list price.",
+        descr: "Your à la carte subscription cost for the journal. Default: public list price.",
         displayAs: "currency"
     },
     {

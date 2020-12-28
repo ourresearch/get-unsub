@@ -99,7 +99,7 @@
                     </h2>
                     <div class="title mt-8">
                         Upload your COUNTER JR1s and we take care of the rest...for every journal, we gather citations
-                        and authorship from your faculty, OA percentages, a-la-carte pricing, and more. Setup takes just
+                        and authorship from your faculty, OA percentages, à la carte pricing, and more. Setup takes just
                         a few hours.
 
                     </div>

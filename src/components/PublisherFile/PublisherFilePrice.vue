@@ -62,7 +62,7 @@
                             </div>
                         </div>
                         <div class="body-2">
-                            These journals use the publicly posted a-la-carte list price
+                            These journals use the publicly posted à la carte list price
                         </div>
                     </div>
                 </div>

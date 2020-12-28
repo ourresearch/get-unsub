@@ -145,7 +145,7 @@
                                                 large
                                                 overline
                                                 label="Paywalled uses"
-                                                tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or A-la-carte subscription."
+                                                tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or à la carte subscription."
                                         />
                                     </div>
 
@@ -164,7 +164,7 @@
                                                 overline
                                                 operation="+"
                                                 label="Base subscription cost"
-                                                tooltip-text="A-la-carte cost if you do subscribe."
+                                                tooltip-text="À la carte cost if you do subscribe."
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.ill_cost"
@@ -186,7 +186,7 @@
                                                 :value="negotiablUses"
                                                 operation="÷"
                                                 label="Paywalled uses"
-                                                tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or A-la-carte subscription."
+                                                tooltip-text="Projected annual uses of paywalled content that lacks any free alternative source. These can be fulfilled via ILL or à la carte subscription."
                                         />
                                         <single-journal-key-number-row
                                                 :value="scenarioZoomedJournal.cpu"
@@ -242,7 +242,7 @@
             <v-card-actions>
                 <v-spacer/>
                 <v-btn text @click="dialogIsOpen = false">
-                    Close 
+                    Close
                 </v-btn>
                 <v-btn depressed dark color="#555" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed">
                     <v-icon>mdi-cart-arrow-up</v-icon>

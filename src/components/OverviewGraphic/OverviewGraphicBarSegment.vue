@@ -68,7 +68,7 @@
                  can't be fulfilled by any free source or subscription, and will generate an ILL request
             </span>
             <span v-if="configObj.name=='usageSubr'">
-                can't be fulfilled by any free source, but can be fulfilled by one of your a-la-carte subscriptions
+                can't be fulfilled by any free source, but can be fulfilled by one of your à la carte subscriptions
             </span>
             <span v-if="configObj.name=='usageBackfile'">
                 can't be fulfilled by Open Access, but can be fulfilled by your already-purchased backfile
@@ -98,7 +98,7 @@
                     </p>
                 </div>
                 <div v-if="configObj.name=='costSubr'">
-                    <p>In this scenario, after cancelling your Big Deal you <color-highlighted-phrase color-key="subr" text="subscribe a la carte" /> to {{numJournalsSubscribed | round}} individual journals, paying list price for each one. We forecast this particular set of {{numJournalsSubscribed | round }} journals will cost on average <strong>{{count | currency}}/yr</strong> over the next five years.
+                    <p>In this scenario, after cancelling your Big Deal you <color-highlighted-phrase color-key="subr" text="subscribe à la carte" /> to {{numJournalsSubscribed | round}} individual journals, paying list price for each one. We forecast this particular set of {{numJournalsSubscribed | round }} journals will cost on average <strong>{{count | currency}}/yr</strong> over the next five years.
                     </p>
                     <p>
                         This projection includes an estimated <strong>{{settings.cost_alacart_increase}}%</strong> annual increase in journal list price, based on historical pricing data. You can modify this number in settings.
