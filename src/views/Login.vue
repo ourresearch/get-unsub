@@ -19,7 +19,7 @@
                                 v-model="usernameOrEmail"
                                 outlined
                                 autofocus
-                                label="Email or username"
+                                label="Email"
                                 @keydown.enter="setUsernameOrEmail"
                                 :error-messages="errorMsg"
                                 id="input-email-or-username"
@@ -57,7 +57,7 @@
                         <v-text-field
                                 append-icon="mdi-check"
                                 v-model="usernameOrEmail"
-                                label="Email or username"
+                                label="Email"
                                 readonly
                                 outlined
                                 id="input-email-or-username"
