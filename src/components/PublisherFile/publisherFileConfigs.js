@@ -25,7 +25,7 @@ export default [
 
     {
         id: "price",
-        displayName: "A-la-carte prices",
+        displayName: "À la carte prices",
         descr: "Costs of journal-by-journal subscriptions",
         options: [
             {
