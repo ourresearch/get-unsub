@@ -28,7 +28,7 @@
                             </v-avatar>
                             <div>
                                 <div class="title">
-                                    "Unsub is a game changer."  
+                                    "Unsub is a game changer."
                                 </div>
                                 <div class="body-2">
                                     Mark McBride, SUNY library senior strategist; quoted in <a
@@ -76,7 +76,7 @@
                         <v-card-text
                                 class="d-flex align-center justify-end pb-0 pt-6"
                         >
-                            <v-checkbox v-model="agreedToTerms" :disabled="!myPlanId"></v-checkbox>
+                            <v-checkbox v-model="agreedToTerms"></v-checkbox>
                             <span>
                                 I agree to the <a
                                     href="./unsub-toc.pdf"
@@ -84,23 +84,27 @@
                                     class="ml-1"> Terms and Conditions.</a>
                             </span>
                         </v-card-text>
+                        <v-alert v-if="errorMsg"
+                            class="d-flex ma-2"
+                            prominent
+                            type="error"
+                        >
+                            {{errorMsg}}
+                        </v-alert>
                         <v-card-actions class="pt-0">
                             <v-spacer />
                             <v-btn
                                     class="ml-2"
-                                    :disabled="!(agreedToTerms && myPlanId)"
                                     x-large
                                     outlined
-                                    target="_blank"
-                                    :href="'mailto:team@ourresearch.org?cc=accounting@ourresearch.org&subject=Invoice%20request&body=' + invoiceRequestBodyText"
+                                    @click="requestInvoice"
                             >
                                 Request invoice
                             </v-btn>
-                            <v-btn :disabled="!(agreedToTerms && myPlanId)" x-large color="primary" depressed
+                            <v-btn x-large color="primary" depressed
                                    @click="buy">
                                 purchase now
                             </v-btn>
-
                         </v-card-actions>
 
                     </v-card>
@@ -122,6 +126,7 @@
             stripe: null,
             agreedToTerms: false,
             planSelected: [],
+            errorMsg: "",
             testMode: false,
             headers: [
                 {
@@ -167,31 +172,59 @@ Other notes (optional): ________________`
             }
 
         },
+        watch: {
+            agreedToTerms: function (val) {
+                this.errorMsg=""
+            },
+            planSelected: function (val) {
+                this.errorMsg=""
+            }
+        },
         methods: {
             buy() {
-                const items = [{price: this.myPlanId, quantity: 1}]
+                this.errorMsg = ""
 
-                console.log("buy!", items)
-                try {
-                    this.stripe.redirectToCheckout({
-                        lineItems: items,
-                        mode: "subscription",
-                        successUrl: 'https://journals.unpaywall.org/purchase/success',
-                        cancelUrl: 'https://journals.unpaywall.org/purchase/cancelled',
-                        billingAddressCollection: 'auto',
-                    })
-                        .then(function (result) {
-                            if (result.error) {
-                                alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org")
-                            }
+                if (this.agreedToTerms && this.myPlanId) {
+                    const items = [{price: this.myPlanId, quantity: 1}]
+
+                    console.log("buy!", items)
+                    try {
+                        this.stripe.redirectToCheckout({
+                            lineItems: items,
+                            mode: "subscription",
+                            successUrl: 'https://journals.unpaywall.org/purchase/success',
+                            cancelUrl: 'https://journals.unpaywall.org/purchase/cancelled',
+                            billingAddressCollection: 'auto',
                         })
+                            .then(function (result) {
+                                if (result.error) {
+                                    alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org")
+                                }
+                            })
 
-                } catch {
-                    alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org. Thanks!")
+                    } catch {
+                        alert("We're sorry, but something went wrong! Please let us know at team@ourresearch.org. Thanks!")
 
+                    }
+                } else {
+                    this.setErrorMessage()
                 }
-
-
+            },
+            requestInvoice() {
+                if (this.agreedToTerms && this.myPlanId) {
+                    window.location.href="mailto:team@ourresearch.org?cc=accounting@ourresearch.org&subject=Invoice%20request&body=" + this.invoiceRequestBodyText
+                } else {
+                    this.setErrorMessage()
+                }
+            },
+            setErrorMessage() {
+                if (this.agreedToTerms && !this.myPlanId)  {
+                    this.errorMsg = "Please choose a plan."
+                } else if (this.myPlanId && !this.agreedToTerms)  {
+                    this.errorMsg = "Please agree to the terms and conditions."
+                } else {
+                    this.errorMsg = "Please choose a plan and agree to the terms and conditions."
+                }
             }
         },
         mounted() {
