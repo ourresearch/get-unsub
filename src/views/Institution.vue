@@ -513,6 +513,11 @@
 
     export default {
         name: "Institution",
+        metaInfo() {
+            return {
+                title: `${this.institutionName}`
+            }
+        },
         components: {},
         data() {
             return {

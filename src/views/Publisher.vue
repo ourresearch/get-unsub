@@ -89,7 +89,7 @@
                                 </div>
                             </v-card-title>
                             <v-divider></v-divider>
-                            <publisher-scenarios-tab />
+                            <publisher-scenarios-tab/>
                         </v-card>
                     </v-tab-item>
 
@@ -105,10 +105,6 @@
                             <apc-tab></apc-tab>
                         </v-card>
                     </v-tab-item>
-
-
-
-
 
 
                     <v-tab-item>
@@ -139,6 +135,11 @@
 
     export default {
         name: "Publisher",
+        metaInfo() {
+            return {
+                title: `${this.publisherName}`
+            }
+        },
         components: {
             ScenarioEditDialogs,
             PublisherFileUploadDialog,
@@ -152,8 +153,7 @@
                 errorMsg: "",
                 tabModel: 0,
                 loadingPercent: 0,
-                dialogs: {
-                },
+                dialogs: {},
             }
         },
         computed: {

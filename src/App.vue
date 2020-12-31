@@ -50,6 +50,21 @@
             StartupTutorial,
             AppBar,
         },
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Unsub',
+            titleTemplate: '%s | Unsub',
+            link: [
+                // copied over from unpaywall
+                // {rel: 'favicon', href: 'favicon.png'},
+                // {
+                //     rel: 'chrome-webstore-item',
+                //     href: 'https://chrome.google.com/webstore/detail/iplffkdpngmdjhlpjmppncnlhomiipha'
+                // },
+            ],
+
+            meta: []
+        },
         data: () => ({
             drawerRight: false,
             activeViewIndex: 0,

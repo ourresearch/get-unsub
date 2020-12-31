@@ -287,6 +287,12 @@
 
     export default {
         name: "User",
+
+        metaInfo() {
+            return {
+                title: "My Account"
+            }
+        },
         components: {},
         data() {
             return {

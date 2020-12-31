@@ -49,6 +49,9 @@ Vue.use(VueClipboard)
 import JsonCSV from 'vue-json-csv'
 Vue.component('downloadCsv', JsonCSV)
 
+import Meta from 'vue-meta';
+Vue.use(Meta);
+
 
 
 

@@ -59,6 +59,10 @@
 
     export default {
         name: "PurchaseResult",
+
+        metaInfo: {
+            title: "Thanks for your purchase! | Unsub"
+        },
         data: () => ({
             stripe: null
         }),

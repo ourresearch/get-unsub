@@ -376,6 +376,11 @@
             "long-press": LongPress,
         },
         name: "ScenarioPage",
+        metaInfo() {
+            return {
+                title: `${this.scenarioName}`
+            }
+        },
         data() {
             return {
                 barHeight: 500,

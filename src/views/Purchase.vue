@@ -122,6 +122,9 @@
 
     export default {
         name: "Purchase",
+        metaInfo: {
+            title: "Purchase | Unsub"
+        },
         data: () => ({
             stripe: null,
             agreedToTerms: false,

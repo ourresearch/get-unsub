@@ -217,6 +217,12 @@
     export default {
         name: 'home',
         components: {vimeoPlayer: vueVimeoPlayer},
+        metaInfo: {
+            // title: "Unsub: Get the data you need to reassess your library's Big Deal",
+            // title: "Unsub: Library journals assessment dashboard for your Big Deal.",
+            title: "Unsub: The data dashboard to reassess your library's Big Deal",
+            titleTemplate: undefined, // have to override this or it'll get the site title template
+        },
         data() {
             return {
                 userEmail: "",
