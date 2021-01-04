@@ -73,8 +73,6 @@
                 <span>Purchase</span>
             </v-btn>
 
-
-
             <v-btn
                     class="breadcrumbs"
                     text
@@ -84,36 +82,29 @@
             >
                 Log in
             </v-btn>
-            <v-menu offset-y v-if="isLoggedIn">
-                <template
-                        v-slot:activator="{ on }">
-                    <v-btn icon
-                           class="px-2"
-                           v-on="on"
-                    >
+
+            <v-tooltip v-if="isLoggedIn" bottom color="#333" max-width="200">
+                <template v-slot:activator="{on}">
+                    <v-btn icon v-on="on" icon to="/u">
                         <v-icon>mdi-account-outline</v-icon>
                     </v-btn>
                 </template>
-                <v-list subheader>
-                    <v-subheader>Hi, {{ userName }}!</v-subheader>
-                    <v-list-item to="/u">
-                        <v-list-item-icon>
-                            <v-icon>mdi-account-outline</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                            My account info
-                        </v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="logout">
-                        <v-list-item-icon>
-                            <v-icon>mdi-logout</v-icon>
-                        </v-list-item-icon>
-                        <v-list-item-title>
-                            Log out
-                        </v-list-item-title>
-                    </v-list-item>
-                </v-list>
-            </v-menu>
+                <div>
+                    Manage your account info
+                </div>
+            </v-tooltip>
+
+            <v-tooltip v-if="isLoggedIn" bottom color="#333" max-width="200">
+                <template v-slot:activator="{on}">
+                    <v-btn icon v-on="on" @click="logout">
+                        <v-icon>mdi-logout</v-icon>
+                    </v-btn>
+                </template>
+                <div>
+                    Logout
+                </div>
+            </v-tooltip>
+
             <v-btn icon href="https://intercom.help/get-unsub/en" target="_blank">
                 <v-icon>mdi-help-circle-outline</v-icon>
             </v-btn>
