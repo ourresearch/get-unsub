@@ -1,12 +1,10 @@
 <template>
     <v-toolbar
-            :color="backgroundColor"
-            :dark="institutionIsConsortium"
+            color="white"
             :flat="isLandingPage"
     >
         <router-link to="/">
-            <img v-if="!institutionIsConsortium"  class="mt-2" style="width:130px;" src="../assets/unsub-logo.png" alt="" />
-            <img v-if="institutionIsConsortium"  class="mt-2" style="width:130px;" src="../assets/unsub-logo-white.png" alt="" />
+            <img class="mt-2" style="width:130px;" src="../assets/unsub-logo.png" alt="" />
         </router-link>
 <!--        <v-toolbar-title class="headline">-->
 <!--        </v-toolbar-title>-->
@@ -29,38 +27,31 @@
                    active-class="no-active"
             >
                 <div>
-                    <div v-if="institutionIsConsortium" class="body-2 font-weight-bold">
-                        Consortium:
+                    <v-chip
+                        v-if="institutionIsConsortium"
+                        x-small
+                        color="primary"
+                    >
+                        Consortium
+                    </v-chip>
+                    <v-chip
+                        x-small
+                        v-if="!institutionIsConsortium"
+                        outlined
+                    >
+                        Institution
+                    </v-chip>
+                    <!--<div v-if="institutionIsConsortium" class="body-2 font-weight-bold" style="line-height:initial">
+                        Consortium
                     </div>
-                    <div class="title font-weight-regular">
+                    <div v-if="!institutionIsConsortium" class="body-2 font-weight-bold line-height-reset" style="line-height:initial">
+                        Institution
+                    </div>-->
+                    <div class="title font-weight-regular line-height-reset" style="line-height:initial">
                         {{ institutionName }}
                     </div>
                 </div>
             </v-btn>
-
-
-<!--            not using breadcrumbs right now. -->
-            <div class="d-none">
-                <v-btn v-if="institutionName"
-                       class="px-3"
-                       :class="{'pr-0': !!publisherName}"
-                       text
-                       :to="`/i/${institutionId}`"
-                >
-                    <span class="title font-weight-regular">
-                        {{ institutionName }}
-                    </span>
-                    <v-icon color="grey" v-if="publisherName"  class="pl-2">mdi-chevron-right</v-icon>
-                </v-btn>
-                <v-btn v-if="publisherName" class="px-2" text :to="`/i/${institutionId}/p/${publisherId}`">
-    <!--                <v-icon color="grey"  class="pr-2">mdi-bank</v-icon>-->
-                    <span class="title font-weight-regular">
-                        {{ publisherName }}
-
-                    </span>
-                </v-btn>
-
-            </div>
         </v-toolbar-items>
 
         <v-spacer/>
@@ -183,10 +174,7 @@
             },
             selectedScenario() {
                 return this.$store.getters.selectedScenario
-            },
-            backgroundColor(){
-                return (this.institutionIsConsortium) ? "primary" : "white"
-            },
+            }
         },
         created() {
         },
@@ -213,6 +201,4 @@
         display: flex;
         justify-content: space-between;
     }
-
-
 </style>
