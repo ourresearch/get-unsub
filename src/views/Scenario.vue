@@ -19,15 +19,12 @@
 
         <div v-if="!selectedScenarioIsLoading">
             <v-container>
-
-                <router-link
-                        v-if="publisherId && institutionId"
-                        class="text--secondary low-key-link"
-                        :to="`/i/${institutionId}/p/${publisherId}`">
-                    <strong>‹</strong>
-                    Back <span v-if="publisherName">to {{publisherName}}</span>
-                </router-link>
-                <div class="page-title mt-8 d-flex">
+                <v-breadcrumbs
+                    class="pl-0"
+                    :items="breadcrumbs"
+                >
+                </v-breadcrumbs>
+                <div class="page-title mt-4 d-flex">
                     <div class="text">
                         <div class="body-2">
                             <span>
@@ -401,6 +398,7 @@
                 'selectedScenarioIsLoading',
                 'institutionId',
                 'institutionIsConsortium',
+                'institutionName',
                 'scenarioName',
                 'scenarioMemberInstitutions',
                 'scenarioId',
@@ -419,7 +417,29 @@
 
             readyStatus(){
             },
-
+            breadcrumbs () {
+                if(this.institutionName && this.publisherName){
+                    return [
+                        {
+                            text: this.institutionName,
+                            disabled: false,
+                            href: '/i/' + this.institutionId
+                        },
+                        {
+                            text: this.publisherName,
+                            disabled: false,
+                            href: '/i/' + this.institutionId + '/p/' + this.publisherId
+                        },
+                        {
+                            text: this.scenarioName,
+                            disabled: true,
+                            href: '/i/' + this.institutionId + '/p/' + this.publisherId + '/s' + this.scenarioId
+                        }
+                    ]
+                } else {
+                    return []
+                }
+            },
             account() {
                 return this.$store.state.account
             },

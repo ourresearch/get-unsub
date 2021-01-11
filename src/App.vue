@@ -164,6 +164,10 @@
 
     }
 
+    .v-breadcrumbs {
+        padding-left: 0;
+    }
+
 
     .toolbar-summary {
         display: inline-flex;

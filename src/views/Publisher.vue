@@ -18,11 +18,11 @@
 
 
         <div class="loaded" v-if="loadingPercent === 100">
-            <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}`">
-                <strong>‹</strong>
-                Back <span v-if="institutionName">to {{institutionName}}</span>
-            </router-link>
-            <div class="page-title mt-8 mb-4 d-flex">
+            <v-breadcrumbs
+                class="pl-0"
+                :items="breadcrumbs"
+            ></v-breadcrumbs>
+            <div class="page-title mt-4 mb-4 d-flex">
                 <v-avatar tile size="60" class="mt-1 mr-3">
                     <img height="60px" :src="publisherLogo">
                 </v-avatar>
@@ -182,6 +182,24 @@
                 "publisherApcIsLoading",
 
             ]),
+            breadcrumbs () {
+                if(this.institutionName && this.publisherName){
+                    return [
+                        {
+                            text: this.institutionName,
+                            disabled: false,
+                            href: '/i/' + this.institutionId
+                        },
+                        {
+                            text: this.publisherName,
+                            disabled: true,
+                            href: '/i/' + this.institutionId + '/p/' + this.publisherId
+                        }
+                    ]
+                } else {
+                    return []
+                }
+            },
             tabItems() {
                 if (this.institutionIsConsortium) {
                     return ["Forecasts"]
