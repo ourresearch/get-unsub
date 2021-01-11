@@ -20,6 +20,7 @@
         <div v-if="!selectedScenarioIsLoading">
             <v-container>
                 <v-breadcrumbs
+                    v-if="breadcrumbs.length > 0"
                     class="pl-0"
                     :items="breadcrumbs"
                 >
