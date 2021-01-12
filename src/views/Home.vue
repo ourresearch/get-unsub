@@ -16,7 +16,8 @@
                         </div>
                         <div class="about">
                             <p class="title text--secondary">
-                                Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles.
+                                Get the data to forecast, explore, and optimize your alternatives to expensive journal
+                                bundles.
                             </p>
 
                         </div>
@@ -33,7 +34,7 @@
                                         type="email"
                                         v-model="userEmail"
                                         :error-messages="errorMsg"
-                                         style="max-width: 350px"
+                                        style="max-width: 350px"
 
                                 />
                                 <v-btn
@@ -67,7 +68,7 @@
                 <!--                <img src="../assets/logos/antwerp.png" style="height: 30px;" alt="">-->
                 <img src="../assets/logos/cern.png" style="height: 60px;" alt="">
                 <!--<img src="../assets/logos/cornell.png" style="height: 45px;" alt="">-->
-<!--                <img src="../assets/logos/dartmouth.png" style="height: 15px;" alt="">-->
+                <!--                <img src="../assets/logos/dartmouth.png" style="height: 15px;" alt="">-->
                 <img src="../assets/logos/duke.png" style="height: 40px;" alt="">
                 <img src="../assets/logos/imperial.png" style="height: 30px;" alt="">
                 <img src="../assets/logos/michigan.png" style="height: 30px;" alt="">
@@ -81,11 +82,11 @@
             </v-container>
         </v-card>
         <v-card flat tile color="whites lighten-2" class="selling-point-card pb-12">
-            <div class="text-center display-3 pt-12 pb-8">
+            <div class="text-center text-display-3 pt-12 pb-8">
                 Take the guided tour:
             </div>
-            <div class="d-flex align-center justify-center">
-                    <vimeo-player ref="player" :video-id="420183913" :player-height="640" :player-width="1280" ></vimeo-player>
+            <div class="" style="width: 100% !important; max-width: 1280px; margin: 20px auto;">
+                <vimeo-player ref="player" :video-id="420183913" :options="{'responsive':true}"></vimeo-player>
 
             </div>
         </v-card>
@@ -192,7 +193,9 @@
                 <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead</router-link>
             </div>
             <div class="white--text text-center">
-                you can also <router-link class="white--text" to="/purchase">purchase an account now,</router-link> or
+                you can also
+                <router-link class="white--text" to="/purchase">purchase an account now,</router-link>
+                or
                 <a
                         :href="`mailto:team@ourresearch.org?subject=${productTourEmailSubject}&body=${productTourEmailSubject}`"
                         style="color: white; text-decoration: underline;"
@@ -220,7 +223,7 @@
         metaInfo: {
             // title: "Unsub: Get the data you need to reassess your library's Big Deal",
             // title: "Unsub: Library journals assessment dashboard for your Big Deal.",
-            title: "Unsub: Library Big Deal assessment dashboard",
+            title: "Unsub: Library journals assessment tool for your Big Deal",
             titleTemplate: undefined, // have to override this or it'll get the site title template
         },
         data() {
@@ -234,7 +237,7 @@
             count() {
                 return this.$store.getters.count
             },
-            productTourEmailSubject(){
+            productTourEmailSubject() {
                 return encodeURIComponent("I'd like to schedule an Unsub product tour")
             },
         },
@@ -288,6 +291,7 @@
         opacity: .75;
         padding: 20px;
     }
+
     .logos {
         display: flex;
         flex-wrap: wrap;
