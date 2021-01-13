@@ -131,7 +131,7 @@
     }
 
     .v-tooltip__content {
-        opacity: 1 !important;
+        /*opacity: 1 !important;*/
     }
 
     .dot-tooltip-edit-mode-true {

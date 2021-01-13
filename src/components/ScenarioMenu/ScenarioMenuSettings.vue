@@ -41,6 +41,7 @@
                                 v-for="config in group.contents"
                                 :key="group.name+config.name"
                                 max-width="400"
+                                color="#333"
                         >
                             <template v-slot:activator="{ on }">
                                 <v-list-item

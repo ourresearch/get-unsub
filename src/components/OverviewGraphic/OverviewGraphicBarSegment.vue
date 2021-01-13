@@ -1,12 +1,14 @@
 <template>
     <v-tooltip
             max-width="400"
+            close-delay="0"
             right
             color="#333"
     >
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ on, attrs }">
             <div class="bar-segment"
                  v-on="on"
+                 v-bind="attrs"
                  :class="{light: configObj.isLeftover}"
                  :style="{height: percentage+'%', background: configObj.color, color: configObj.barTextColor}">
 
