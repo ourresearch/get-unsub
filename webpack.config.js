@@ -1,4 +1,4 @@
-// added to chase down a sass compile error, as recommended in the
+// added to solve a sass compile error, as recommended in the
 // docs here: https://vuetifyjs.com/en/getting-started/frequently-asked-questions/#questions
 module.exports = {
   rules: [
