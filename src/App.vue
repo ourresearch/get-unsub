@@ -21,7 +21,15 @@
                 :color="$store.state.snackbarColor"
                 v-model="$store.state.snackbarIsOpen">
             {{$store.state.snackbarMsg}}
-            <v-btn text @click="$store.commit('closeSnackbar')">close</v-btn>
+            <template v-slot:action="{ attrs }">
+                <v-btn
+                        text
+                        v-bind="attrs"
+                        @click="$store.commit('closeSnackbar')"
+                >
+                    Close
+                </v-btn>
+            </template>
         </v-snackbar>
         <v-footer
                 class="text-right main-footer"
