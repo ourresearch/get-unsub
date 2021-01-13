@@ -82,7 +82,7 @@
             </v-container>
         </v-card>
         <v-card flat tile color="whites lighten-2" class="selling-point-card pb-12">
-            <div class="text-center text-display-3 pt-12 pb-8">
+            <div class="text-center text-h3 pt-12 pb-8">
                 Take the guided tour:
             </div>
             <div class="" style="width: 100% !important; max-width: 1280px; margin: 20px auto;">
