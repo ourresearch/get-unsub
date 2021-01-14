@@ -7,7 +7,7 @@
                 </h1>
             </v-card-title>
             <v-row>
-                <v-col cols="6">
+                <v-col cols="12">
                     <div class="">
                         <p class="title">
                             Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles--so you can <em>cancel with confidence</em>
@@ -56,7 +56,7 @@
 
                 </v-col>
                 <v-spacer></v-spacer>
-                <v-col cols="5">
+                <v-col cols="12">
                     <v-card outlined>
                         <v-card-text class="headline">
                             Select your price tier:
@@ -69,6 +69,7 @@
                                 item-key="tier"
                                 show-select
                                 :hide-default-footer="true"
+                                disable-sort
 
                         />
                         <v-divider></v-divider>

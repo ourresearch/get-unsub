@@ -1,13 +1,14 @@
 <template>
     <div class="home">
         <v-card flat class="pa-6">
-            <v-row class="top-screen pa-12">
-                <v-col>
-                    <img style="max-width:600px; border:12px solid #eee; border-radius:12px;"
-                         src="https://i.imgur.com/ddWJutv.png"
-                         alt="">
+            <v-row class="top-screen py-10 justify-center">
+                <v-col cols="12" md="6">
+                    <v-img style="border:12px solid #eee; border-radius:12px;"
+                           src="https://i.imgur.com/ddWJutv.png"
+                           width="100%"
+                           alt=""></v-img>
                 </v-col>
-                <v-col>
+                <v-col cols="12" md="6">
                     <div class="main-copy">
                         <div class="tagline">
                             <h1 class="display-2 mb-6">
@@ -81,11 +82,12 @@
                 <img src="../assets/logos/vassar.png" style="height: 30px;" alt="">
             </v-container>
         </v-card>
-        <v-card flat tile color="whites lighten-2" class="selling-point-card pb-12">
-            <div class="text-center text-h3 pt-12 pb-8">
+        <v-card flat tile color="blue" class="selling-point-card pb-12">
+            <div class="text-center text-h4 text-sm-h3 white--text pt-12">
                 Take the guided tour:
             </div>
-            <div class="" style="width: 100% !important; max-width: 1280px; margin: 20px auto;">
+            <div class=""
+                 style="width: 100% !important; max-width: 1280px; margin: 20px auto; background: #fff; border: 3px solid #444;">
                 <vimeo-player ref="player" :video-id="420183913" :options="{'responsive':true}"></vimeo-player>
 
             </div>
@@ -95,31 +97,31 @@
         <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div class="selling-point-text">
-                    <h2 class="display-2">
+                    <h2 class="text-h4 text-sm-h3">
                         Get all the data you need, in one place
                     </h2>
-                    <div class="title mt-8">
+                    <div class="text-sm-h6  mt-8">
                         Upload your COUNTER JR1s and we take care of the rest...for every journal, we gather citations
                         and authorship from your faculty, OA percentages, à la carte pricing, and more. Setup takes just
                         a few hours.
 
                     </div>
                 </div>
-                <div>
+                <div class="d-none d-sm-block">
                     <img src="../assets/illustrations/gather.png" style="transform: scaleX(-1); width: 300px;" alt="">
                 </div>
             </div>
         </v-card>
         <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
-                <div>
+                <div class="d-none d-sm-block">
                     <img src="../assets/illustrations/prediction.png" style="width: 400px;" alt="">
                 </div>
                 <div class="selling-point-text">
-                    <h2 class="display-2">
+                    <h2 class="text-h4 text-sm-h3">
                         Forecast with confidence
                     </h2>
-                    <div class="title mt-8">
+                    <div class="text-sm-h6 mt-8">
                         Predict your costs and fulfillment in different cancellation scenarios, and find the best value
                         for you. Our forecasting model is trained on data from thousands of universities, then
                         customized using your unique data.
@@ -131,29 +133,29 @@
         <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
                 <div class="selling-point-text">
-                    <h2 class="display-2">
+                    <h2 class="text-h4 text-sm-h3">
                         Customize everything
                     </h2>
-                    <div class="title mt-8">
+                    <div class="text-sm-h6 mt-8">
                         Try out different assumptions to compare best- and worst-case scenarios...everything in the
                         model can be modified, from per-transaction ILL costs, to exclusion of subtypes of Open Access.
                     </div>
                 </div>
-                <div>
+                <div class="d-none d-sm-block">
                     <img src="../assets/illustrations/customize.png" style="width: 300px;" alt="">
                 </div>
             </div>
         </v-card>
         <v-card flat tile color="blue" class="selling-point-card">
             <div class="selling-point-container">
-                <div>
+                <div class="d-none d-sm-block">
                     <img src="../assets/illustrations/presentation.png" style="width: 400px;" alt="">
                 </div>
                 <div class="selling-point-text">
-                    <h2 class="display-2">
+                    <h2 class="text-h4 text-sm-h3">
                         Communicate your message
                     </h2>
-                    <div class="title mt-8">
+                    <div class="text-sm-h6 mt-8">
                         Use our PowerPoint-ready graphics and stats to help you share an optimistic, well-researched
                         message to campus stakeholders.
 
@@ -207,6 +209,36 @@
         </v-card>
 
 
+        <v-dialog max-width="400" v-model="mobileCreateDemoDialogIsShowing">
+            <v-card>
+                <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-desktop-mac</v-icon>
+                        Desktop required
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="mobileCreateDemoDialogIsShowing = false">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+                    <div class="pa-6">
+                        Sorry, but we can't currently create demo accounts from mobile devices. Please try again
+                        later from a desktop computer.
+                    </div>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                            depressed
+                            color="primary"
+                            @click="mobileCreateDemoDialogIsShowing = false"
+                    >
+                        OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
     </div>
 
 
@@ -230,6 +262,7 @@
             return {
                 userEmail: "",
                 createDemoLoading: false,
+                mobileCreateDemoDialogIsShowing: false,
                 errorMsg: ""
             }
         },
@@ -243,6 +276,11 @@
         },
         methods: {
             async createDemo() {
+                if (this.$vuetify.breakpoint.mdAndDown) {
+                    this.mobileCreateDemoDialogIsShowing = true
+                    return
+                }
+
                 this.errorMsg = ""
                 this.createDemoLoading = true
                 const adjectiveAnimal = randanimalSync()
@@ -324,6 +362,7 @@
         .selling-point-text {
             color: #fff;
             max-width: 500px;
+            padding: 0 10px;;
         }
     }
 
