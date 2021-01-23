@@ -304,6 +304,11 @@ const scenarioConfigs = {
         display: "percent",
         displayName: "Backfile available as perpetual access",
         descr: "Percent of backfile available as perpetual access.  If you estimate that you have perpetual access to 90% of your content, set this to 90%.",
+
+        // We are discontinuing this parameter. Most users aren't using it. BUT there might be some users who actually
+        // are using this now in production, and for them it will be super weird if it just disappears. So we will
+        // hide it for everyone UNLESS you have set it to something other than the default.
+        hideIfDefault: true,
     },
     package: {
         display: false

@@ -105,7 +105,7 @@
                 </div>
             </v-tooltip>
 
-            <v-btn icon href="https://intercom.help/get-unsub/en" target="_blank">
+            <v-btn icon href="http://help.unsub.org/en/" target="_blank">
                 <v-icon>mdi-help-circle-outline</v-icon>
             </v-btn>
         </div>

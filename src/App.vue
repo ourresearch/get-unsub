@@ -38,7 +38,7 @@
                 <a href="https://github.com/ourresearch/get-unsub">Open Source,</a> made with ❤︎ by <a
                     href="https://ourresearch.org">Our Research, a 501(c)3 nonprofit.</a> | <a
                     href="mailto:team@ourresearch.org">Contact</a>
-                | <a href="https://intercom.help/get-unsub/en" target="_blank">Help</a>
+                | <a href="http://help.unsub.org/en" target="_blank">Help</a>
             </div>
         </v-footer>
 

@@ -17,7 +17,7 @@
                 </div>
                 <div class="body-2">
                     <v-icon color="primary" small>mdi-information-outline</v-icon>
-                    <a target="_blank" href="https://intercom.help/get-unsub/en/articles/4202521-how-do-i-upload-my-counter-usage-data">
+                    <a target="_blank" href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data">
                         Knowledge base
                     </a>
                 </div>
@@ -39,7 +39,7 @@
 
                 <div class="body-2">
                     <v-icon color="primary" small>mdi-information-outline</v-icon>
-                    <a target="_blank" href="https://intercom.help/get-unsub/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices">
+                    <a target="_blank" href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices">
                         Knowledge base
                     </a>
                 </div>
@@ -64,7 +64,7 @@
 
                 <div class="body-2">
                     <v-icon color="primary" small>mdi-information-outline</v-icon>
-                    <a target="_blank" href="https://intercom.help/get-unsub/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates">
+                    <a target="_blank" href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates">
                         Knowledge base
                     </a>
                 </div>

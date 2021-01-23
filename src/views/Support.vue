@@ -15,7 +15,7 @@ PRETTY SURE THIS PAGE IS COMPLETELY UNUSED.
                             </v-alert>
                             <div>
                                 <v-btn depressed
-                                       href="https://intercom.help/get-unsub/en"
+                                       href="http://help.unsub.org/en"
                                        target="_blank"
                                        color="primary">
                                     visit knowledge base

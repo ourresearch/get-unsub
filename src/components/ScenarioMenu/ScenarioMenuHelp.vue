@@ -11,7 +11,7 @@
                 </v-btn>
             </template>
             <v-list dense>
-                <v-list-item @click="" href="https://intercom.help/get-unsub/en?reload" target="_blank">
+                <v-list-item @click="" href="http://help.unsub.org/en/" target="_blank">
                     <v-list-item-icon class="mr-2">
                         <v-icon >mdi-help-circle-outline</v-icon>
                     </v-list-item-icon>
