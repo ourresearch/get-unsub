@@ -318,7 +318,6 @@
             ...mapGetters([
                 "userId",
                 "userEmail",
-                "userUsername",
                 "userName",
                 "userPasswordIsSet",
                 "userInstitutions",

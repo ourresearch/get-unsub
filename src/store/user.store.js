@@ -84,9 +84,6 @@ export const user = {
         userName: (state) => state.name,
         userId: (state) => state.id,
         userEmail: (state) => state.email,
-        userUsername: (state) => {
-            return state.username
-        },
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
         userConsortia: (state) => state.consortia,
