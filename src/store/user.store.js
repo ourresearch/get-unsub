@@ -7,7 +7,6 @@ export const user = {
     state: {
         id: "",
         name: "",
-        username: "",
         email: "",
         isPasswordSet: "",
         institutions: [],
@@ -21,7 +20,6 @@ export const user = {
             state.id = ""
             state.name = ""
             state.email = ""
-            state.username = ""
             state.isPasswordSet = ""
             state.institutions = []
             state.consortia = []
@@ -31,7 +29,6 @@ export const user = {
             state.id = apiResp.id
             state.name = apiResp.name
             state.email = apiResp.email
-            state.username = apiResp.username
             state.isPasswordSet = apiResp.is_password_set
             state.institutions = apiResp.institutions
             state.consortia = apiResp.consortia
