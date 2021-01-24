@@ -104,29 +104,21 @@
             openWizard() {
                 this.$store.dispatch("openWizard")
             },
-            bootIntercom() {
-                const data = {
-                    user_id: this.$store.getters.userId,
-                    name: this.$store.getters.userName,
-                }
-                if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
-                console.log("bootIntercom() sending this data", data)
-                this.$intercom.boot(data)
-            }
         },
 
         async mounted() {
-            this.bootIntercom()
         },
         watch: {
             "$route": {
                 immediate: false,
                 handler: function (val) {
-                    const that = this
-                    setTimeout(function () {
-                        console.log("running intercom.update()  ")
-                        that.$intercom.update()
-                    }, 500)
+                    window.Intercom('update')
+
+                    // const that = this
+                    // setTimeout(function () {
+                    //     console.log("running intercom.update()  ")
+                    //     that.$intercom.update()
+                    // }, 500)
                 }
             }
         },

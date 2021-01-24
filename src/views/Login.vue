@@ -147,14 +147,6 @@
             }
         },
         methods: {
-            bootIntercom() {
-                const data = {
-                    user_id: this.$store.getters.userId,
-                    name: this.$store.getters.userName,
-                }
-                if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
-                this.$intercom.boot(data)
-            },
             async setUsernameOrEmail() {
                 this.isLoading = true
                 this.errorMsg = ""
@@ -183,7 +175,6 @@
                 finally {
                     this.isLoading = false
                 }
-                this.bootIntercom()
             },
             async loginWithPassword(){
                 this.isLoading = true
@@ -208,7 +199,6 @@
                 finally {
                     this.isLoading = false
                 }
-                this.bootIntercom()
             },
         }
     }

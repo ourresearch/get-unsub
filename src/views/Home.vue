@@ -305,12 +305,6 @@
                 } finally {
                     this.createDemoLoading = false
                 }
-                const data = {
-                    user_id: this.$store.getters.userId,
-                    name: this.$store.getters.userName,
-                }
-                if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
-                this.$intercom.boot(data)
             }
         },
         mounted() {
