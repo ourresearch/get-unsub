@@ -60,7 +60,7 @@
                                     Accepted formats: .csv, .xlsx, .xls
                             </li>
                             <li v-if="fileType === 'counter'">
-                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches in January 2021.
+                                Only COUNTER 4 JR1 reports are supported; COUNTER 5 support launches in Spring 2021.
                             </li>
                             <li v-if="fileType === 'counter' && publisherPublisher === 'Wiley'">
                                     Unfortunately Wiley doesn't generate COUNTER 4 JR1s for 2019 data, so we need to use 2018 for now. However, forecast results are generally about the same.
@@ -228,9 +228,11 @@
             },
             async uploadFile() {
                 console.log("uploadFile() file", this.fileSelected)
+                // console.log("HI HEATHER :)")
                 this.isUploadFileLoading = true
                 const snakeCaseFileType = _.kebabCase(this.fileType)
                 const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
+                // const path = `publisher/${this.publisherId}/counter5_trj1`
                 const data = {
                     file: await toBase64(this.fileSelected),
                     name: this.fileSelected.name,
