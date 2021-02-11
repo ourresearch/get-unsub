@@ -36,14 +36,10 @@
         >
             <div class="text-center" style="width:100%">
                 <a style="text-decoration: underline;" href="https://github.com/ourresearch/get-unsub">Open Source</a>
-
                 |
-
                 Made with ❤︎ by <a  style="text-decoration: underline;" href="https://ourresearch.org">Our Research</a>
-
                 |
                 Supported by  <a  style="text-decoration: underline;" href="https://www.arcadiafund.org.uk/">Arcadia, </a> a charitable fund of Lisbet Rausing and Peter Baldwin
-
                 |
                 <a  style="text-decoration: underline;"  href="mailto:team@ourresearch.org">Contact</a>
                 |

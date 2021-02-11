@@ -53,10 +53,6 @@ import Meta from 'vue-meta';
 Vue.use(Meta);
 
 
-
-
-
-
 const rounder = function (value, decimals) {
     if (!value) {
         return 0

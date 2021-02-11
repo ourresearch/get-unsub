@@ -137,7 +137,7 @@
                         Customize everything
                     </h2>
                     <div class="text-sm-h6 mt-8">
-                        Try out different assumptions to compare best- and worst-case scenarios...everything in the
+                        Try out different assumptions to compare best-case and worst-case scenarios...everything in the
                         model can be modified, from per-transaction ILL costs, to exclusion of subtypes of Open Access.
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                         Communicate your message
                     </h2>
                     <div class="text-sm-h6 mt-8">
-                        Use our PowerPoint-ready graphics and stats to help you share an optimistic, well-researched
+                        Use our PowerPoint-ready graphics and stats to help you share a positive, well-researched
                         message to campus stakeholders.
 
 
