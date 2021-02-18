@@ -182,7 +182,8 @@
             ]),
             csvUrl() {
                 let url = `${urlBase}scenario/${this.scenarioId}/export.csv`; // urlBase ends with a slash
-                url += "?jwt=" + localStorage.getItem("token")
+                url += "?timestamp=" + `${new Date().getTime()}`
+                url += "&jwt=" + localStorage.getItem("token")
                 return url
             },
             apiUrl(){
