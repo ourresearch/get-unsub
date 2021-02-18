@@ -13,10 +13,10 @@ export const user = {
         consortia: [],
     },
     mutations: {
-        setToken(state, token){
+        setToken(state, token) {
             localStorage.setItem("token", token)
         },
-        logout(state){
+        logout(state) {
             state.id = ""
             state.name = ""
             state.email = ""
@@ -24,8 +24,9 @@ export const user = {
             state.institutions = []
             state.consortia = []
             localStorage.removeItem("token")
+            this._vm.$intercom.shutdown()
         },
-        setFromApiResp(state, apiResp){
+        setFromApiResp(state, apiResp) {
             state.id = apiResp.id
             state.name = apiResp.name
             state.email = apiResp.email
@@ -34,7 +35,7 @@ export const user = {
             state.consortia = apiResp.consortia
 
             // hack to fix API bug that exists in demo profiles
-            if (!state.institutions.length && !state.consortia.length && apiResp.user_permissions.length){
+            if (!state.institutions.length && !state.consortia.length && apiResp.user_permissions.length) {
                 state.institutions = apiResp.user_permissions
             }
         },
@@ -59,18 +60,28 @@ export const user = {
             if (getters.userInstitutions.length) return
             const resp = await api.get("user/me")
             commit("setFromApiResp", resp.data)
+
+            const data = {
+                user_id: getters.userId,
+                name: getters.userName,
+                email: getters.userEmail,
+                primary_organization: getters.userPrimaryOrganizationName,
+                is_in_consortium: getters.userIsInConsortium,
+            }
+            console.log("user.store fetchUser() sending this to Intercom:", data)
+            this._vm.$intercom.boot(data)
         },
-        async changeName({commit, state}, name){
+        async changeName({commit, state}, name) {
             const resp = await api.post("user/me", {name})
             state.name = name
             return resp
         },
-        async changeEmail({commit, state}, email){
+        async changeEmail({commit, state}, email) {
             const resp = await api.post("user/me", {email})
             state.email = email
             return resp
         },
-        async changePassword({commit, state}, password){
+        async changePassword({commit, state}, password) {
             const resp = await api.post("user/me", {password})
             state.isPasswordSet = true
             return resp
@@ -85,19 +96,36 @@ export const user = {
         userInstitutions: (state) => state.institutions,
         userConsortia: (state) => state.consortia,
         userIsDemo: (state) => {
-            return state.institutions.length === 1 &&  /\bDemo\b/.test(state.institutions[0].institution_name)
+            return state.institutions.length === 1 && /\bDemo\b/.test(state.institutions[0].institution_name)
         },
         gravatarStr: (state) => {
             if (state.email) return state.email
             else return "placeholder@example.com"
         },
         isLoggedIn: (state) => !!state.id,
-        isUserSubscribed(state){
-            return state.password
-        },
-        userPrimaryInstitutionId: (state) => {
+        userPrimaryInstitutionName: (state) => {
             if (!state.institutions.length) return
-            return state.institutions[0].institution_id // temp hack way of doing it for now.
+            return state.institutions[0].institution_name // first one is probably your "main" one.
+        },
+        userPrimaryOrganizationName: (state) => {
+            // if you're a collab or admin of a consortium, that's your primary
+            const firstConsortiumUserCanModify = state.consortia.find(c => {
+                return c.permissions.includes("modify")
+            })
+            if (firstConsortiumUserCanModify) return firstConsortiumUserCanModify.institution_name
+
+            // if you're not a consortium bigwig, your primary org is your first first real institution.
+            const firstNonDemoInstitution = state.institutions.find(i => {
+                return !/\bDemo\b/.test(i.institution_name) // "Demo" is NOT in the name
+            })
+            if (firstNonDemoInstitution) return firstNonDemoInstitution.institution_name
+
+            if (state.institutions.length > 0) return state.institutions[0].institution_name
+            return null
+
+        },
+        userIsInConsortium: (state) => {
+            return state.consortia.length > 0
         },
     }
 }

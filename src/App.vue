@@ -35,10 +35,15 @@
                 class="text-right main-footer"
         >
             <div class="text-center" style="width:100%">
-                <a href="https://github.com/ourresearch/get-unsub">Open Source,</a> made with ❤︎ by <a
-                    href="https://ourresearch.org">Our Research, a 501(c)3 nonprofit.</a> | <a
-                    href="mailto:team@ourresearch.org">Contact</a>
-                | <a href="http://help.unsub.org/en" target="_blank">Help</a>
+                <a style="text-decoration: underline;" href="https://github.com/ourresearch/get-unsub">Open Source</a>
+                |
+                Made with ❤︎ by <a  style="text-decoration: underline;" href="https://ourresearch.org">Our Research</a>
+                |
+                Supported by  <a  style="text-decoration: underline;" href="https://www.arcadiafund.org.uk/">Arcadia</a>, a charitable fund of Lisbet Rausing and Peter Baldwin
+                |
+                <a  style="text-decoration: underline;"  href="mailto:team@ourresearch.org">Contact</a>
+                |
+                <a  style="text-decoration: underline;"  href="http://help.unsub.org/en" target="_blank">Help</a>
             </div>
         </v-footer>
 
@@ -104,29 +109,21 @@
             openWizard() {
                 this.$store.dispatch("openWizard")
             },
-            bootIntercom() {
-                const data = {
-                    user_id: this.$store.getters.userId,
-                    name: this.$store.getters.userName,
-                }
-                if (this.$store.getters.userEmail) data.email = this.$store.getters.userEmail
-                console.log("bootIntercom() sending this data", data)
-                this.$intercom.boot(data)
-            }
         },
 
         async mounted() {
-            this.bootIntercom()
         },
         watch: {
             "$route": {
                 immediate: false,
                 handler: function (val) {
-                    const that = this
-                    setTimeout(function () {
-                        console.log("running intercom.update()  ")
-                        that.$intercom.update()
-                    }, 500)
+                    window.Intercom('update')
+
+                    // const that = this
+                    // setTimeout(function () {
+                    //     console.log("running intercom.update()  ")
+                    //     that.$intercom.update()
+                    // }, 500)
                 }
             }
         },
