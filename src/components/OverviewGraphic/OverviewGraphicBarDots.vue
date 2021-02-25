@@ -49,7 +49,7 @@
 
         <v-card flat class="mt-5" v-show="journalsWithNoUsage.length">
             <div class="">
-                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no usage
+                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no paywalled usage
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
