@@ -16,14 +16,18 @@ const usageDictFree = function (journals) {
 }
 const usageDictPaid = function (journals) {
     const ret = {
-        delayed: 0,
+        // delayed: 0,
+        turnaway: 0,
+        ill: 0,
         subr: 0,
     }
     journals.forEach(j => {
         if (j.subscribed || j.customSubscribed) {
             ret.subr += j.use_groups_if_subscribed.subscription
         } else {
-            ret.delayed += (j.use_groups_if_not_subscribed.ill + j.use_groups_if_not_subscribed.other_delayed)
+            // ret.delayed += (j.use_groups_if_not_subscribed.ill + j.use_groups_if_not_subscribed.other_delayed)
+            ret.turnaway += j.use_groups_if_not_subscribed.other_delayed
+            ret.ill += j.use_groups_if_not_subscribed.ill
         }
     })
     return ret
@@ -45,8 +49,13 @@ const usageList = function (journals) {
             key: k
         }
     })
+
+    console.log("creating usageList", myUsageDict)
+
     return [
-        ret.delayed,
+        // ret.delayed,
+        ret.turnaway,
+        ret.ill,
         ret.subr,
         ret.backfile,
         ret.oa,

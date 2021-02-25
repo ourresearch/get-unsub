@@ -12,7 +12,7 @@
                  :class="{light: configObj.isLeftover}"
                  :style="{height: percentage+'%', background: configObj.color, color: configObj.barTextColor}">
 
-                <span class="segment-label d-flex px-2" v-if="percentage > 5">
+                <span class="segment-label d-flex px-2"  v-if="percentage > 5">
                     <span>
                         {{configObj.displayName}}
                     </span>
@@ -108,6 +108,9 @@
         computed: {
             percentage() {
                 return 100 * this.count / this.countTotal
+            },
+            height() {
+                return Math.max(this.percentage, 5)
             },
             settings() {
                 return this.$store.getters.configs

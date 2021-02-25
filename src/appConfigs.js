@@ -412,11 +412,38 @@ const colors = {
 }
 
 const usageSegments = {
-    delayed: {
-        name: "usageDelayed",
+    // delayed: {
+    //     name: "usageDelayed",
+    //     segmentType: "usage",
+    //     displayName: "ILL/delayed",
+    //     displayNameLong: "ILL, Document Delivery, and other delayed access",
+    //     isFree: false,
+    //     lightColor: colors.delayed.light,
+    //     // color: colors.delayed.normal,
+    //     color: colors.light,
+    //     barTextColor: colors.dark,
+    //     darkColor: colors.delayed.dark,
+    //     isLeftover: true,
+    // },
+
+    turnaway: {
+        name: "usageTurnaway",
         segmentType: "usage",
-        displayName: "ILL/delayed",
-        displayNameLong: "ILL, Document Delivery, and other delayed access",
+        displayName: "Unfulfilled",
+        displayNameLong: "Usage not fulfilled by library",
+        isFree: false,
+        lightColor: colors.delayed.light,
+        // color: colors.delayed.normal,
+        color: colors.light,
+        barTextColor: colors.dark,
+        darkColor: colors.delayed.dark,
+        isLeftover: true,
+    },
+    ill: {
+        name: "usageIll",
+        segmentType: "usage",
+        displayName: "ILL",
+        displayNameLong: "Interlibrary Loand and Document Delivery",
         isFree: false,
         lightColor: colors.delayed.light,
         // color: colors.delayed.normal,
