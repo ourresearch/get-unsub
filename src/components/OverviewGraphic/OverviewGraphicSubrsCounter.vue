@@ -28,14 +28,14 @@
         <div v-if="1" class="best-deal-mode d-flex">
             <div class="number-and-controls d-flex align-center pt-2">
                 <div class="input-container mx-2 d-flex align-center">
-                    <v-icon color="blue" class="mr-2">mdi-cart</v-icon>
+                    <v-icon :color="subrColor" class="mr-2">mdi-cart</v-icon>
                     <v-text-field
                             v-model="myCount"
                             label="Subscriptions"
                             dense
                             hide-details
                             outlined
-                            color="blue"
+                            :color="subrColor"
                     />
 
                 </div>
@@ -106,6 +106,7 @@
 <script>
     import LongPress from 'vue-directive-long-press'
     import {mapGetters, mapMutations, mapActions} from "vuex"
+    import appConfigs from "../../appConfigs";
 
     export default {
         name: "OverviewGraphicSubrsCounter",
@@ -159,6 +160,9 @@
             numJournals() {
                 return this.scenarioJournals.length
             },
+            subrColor(){
+                return appConfigs.colors.subr.normal
+            },
             countIsTooHigh(){
 
             },
@@ -184,14 +188,16 @@
 </script>
 
 <style lang="scss">
+    @import "./_variables.scss";
+
     .subr-count {
         width: 180px;
     }
     .button {
         cursor: pointer;
-        background: dodgerblue;
+        background: $subr-color;
         &:hover {
-            background: darken(dodgerblue, 20%);
+            background: darken($subr-color, 20%);
         }
         &.top {
             border-bottom: 1px solid #fff;
@@ -214,20 +220,20 @@
 
         }
         .v-text-field--outlined fieldset {
-            border-color: dodgerblue !important;
+            border-color: $subr-color !important;
             border-radius: 4px;
 
         }
 
         .v-text-field input {
-            color: dodgerblue;
+            color: $subr-color;
             font-size: 30px;
             text-align: right;
             padding-top: 4px;
             padding-bottom: 2px;
         }
         .theme--light.v-label {
-            color: dodgerblue;
+            color: $subr-color;
         }
 
     }

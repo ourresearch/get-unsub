@@ -131,6 +131,8 @@
 </script>
 
 <style lang="scss">
+    $foo: rebeccapurple;
+
     .v-content {
         background: #fafafa;
     }

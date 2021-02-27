@@ -98,8 +98,8 @@
                 illConfigs: appConfigs.costSegments.ill,
                 subrConfigs: appConfigs.costSegments.subr,
                 savingSliderChoice: false,
-                subrColor: appConfigs.costSegments.subr.color,
-                illColor: appConfigs.costSegments.ill.lightColor,
+                subrColor: appConfigs.costSegments.subr.color.normal,
+                illColor: appConfigs.costSegments.ill.color.light,
                 colors: appConfigs.colors,
                 maxBinValue: 100,
 

@@ -18,10 +18,10 @@
         computed:{
             myColor(){
                 return {
-                    freeInstant: appConfigs.barSegments.usage.oa.lightColor,
-                    ill: appConfigs.barSegments.usage.delayed.lightColor,
-                    subr: appConfigs.barSegments.usage.subr.lightColor,
-                    savings: appConfigs.barSegments.cost.savings.lightColor,
+                    freeInstant: appConfigs.barSegments.usage.oa.color.light,
+                    ill: appConfigs.barSegments.usage.delayed.color.light,
+                    subr: appConfigs.barSegments.usage.subr.color.light,
+                    savings: appConfigs.barSegments.cost.savings.color.light,
                 }[this.colorKey]
             }
         },

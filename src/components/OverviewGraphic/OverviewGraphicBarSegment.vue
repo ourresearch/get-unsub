@@ -3,14 +3,14 @@
             max-width="400"
             close-delay="0"
             right
-            color="#333"
+            :color="configObj.color.normal"
     >
         <template v-slot:activator="{ on, attrs }">
             <div class="bar-segment"
                  v-on="on"
                  v-bind="attrs"
                  :class="{light: configObj.isLeftover}"
-                 :style="{height: percentage+'%', background: configObj.color, color: configObj.barTextColor}">
+                 :style="{height: percentage+'%', background: configObj.color.normal, color: textColor}">
 
                 <span class="segment-label d-flex px-2"  v-if="percentage > 5">
                     <span>
@@ -117,6 +117,12 @@
             height() {
                 return Math.max(this.percentage, 5)
             },
+            textColor(){
+                return (this.configObj.isLeftover) ? "#000" : "#fff"
+            },
+            subrColor(){
+                return appConfigs.colors.subr.nomal
+            },
             settings() {
                 return this.$store.getters.configs
             },
@@ -130,9 +136,9 @@
         border-top: 1px solid rgba(255, 255, 255, 0.2);
         font-size: 11px;
         color: #333;
-        opacity: .8;
+        /*opacity: .9;*/
         &.light {
-            opacity: .5;
+            opacity: .8;
         }
         span {
             cursor: default;
@@ -141,7 +147,7 @@
         &:hover {
             /*background: #333 !important;*/
             /*color: #fff !important;*/
-            opacity: 1;
+            /*opacity: 1;*/
         }
     }
 </style>

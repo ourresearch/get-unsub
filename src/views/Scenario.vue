@@ -449,10 +449,10 @@
                 return usageList(this.journals)
             },
             subrColor() {
-                return appConfigs.barSegments.usage.subr.color
+                return appConfigs.barSegments.usage.subr.color.normal
             },
             illColor() {
-                return appConfigs.barSegments.usage.delayed.color
+                return appConfigs.barSegments.usage.delayed.color.normal
             },
             instantUsagePercent() {
                 return instantUsagePercent(this.journals)

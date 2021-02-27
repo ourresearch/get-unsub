@@ -12,7 +12,7 @@
                 open-delay="0"
                 content-class="dot-tooltip"
                 transition="fade-transition"
-                :color="(isSubscribed) ? '#1e90ff' : '#333'"
+                :color="(isSubscribed) ? subrColor : '#333'"
                 :disabled="journal.isHiddenByFilters"
         >
             <template v-slot:activator="{ on }">
@@ -77,8 +77,8 @@
         },
         data() {
             return {
-                subrColor: appConfigs.costSegments.subr.color,
-                subrColorLight: appConfigs.costSegments.subr.lightColor,
+                subrColor: appConfigs.costSegments.subr.color.normal,
+                subrColorLight: appConfigs.costSegments.subr.color.light,
                 illColor: "#cccccc",
                 // illColor: appConfigs.costSegments.ill.lightColor
             }
@@ -89,6 +89,9 @@
             ]),
             isSubscribed() {
                 return this.journal.subscribed
+            },
+            subrColor(){
+                return appConfigs.colors.subr.normal
             },
             myOpacity() {
                 return (this.journal.isHiddenByFilters) ? 0.1 : 1
@@ -124,6 +127,7 @@
 </script>
 
 <style scoped lang="scss">
+    @import "./_variables.scss";
     .journal-dot-container {
 
     }
@@ -159,13 +163,12 @@
         /*border: 1px solid #fff;*/
         /*border-radius: 20px;*/
 
-        $dot-color: dodgerblue;
 
         &.journal-dot-subscribed {
-            background: dodgerblue;
+            background: $subr-color;
 
             &:hover {
-                background: darken($dot-color, 30%);
+                background: darken($subr-color, 30%);
             }
         }
 
