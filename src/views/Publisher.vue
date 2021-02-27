@@ -97,12 +97,16 @@
                         <v-card>
                             <v-card-title>
                                 <div>
-                                    Article Publication Costs last year, by journal
-                                    <span class="body-2">({{publisherScenarios.length}})</span>
+                                    Article Publication Costs last year <span v-if="!isJisc">, by journal <span class="body-2">({{publisherScenarios.length}})</span></span>
+
                                 </div>
                             </v-card-title>
                             <v-divider></v-divider>
-                            <apc-tab></apc-tab>
+                            <apc-tab v-if="!isJisc"></apc-tab>
+                            <v-card v-if="isJisc" class="pa-5">
+                                <div class="text-h1">£7,125,925</div>
+                                <div>Total APC expenditure, Gold and Hybrid</div>
+                            </v-card>
                         </v-card>
                     </v-tab-item>
 
@@ -183,6 +187,10 @@
 
             ]),
             tabItems() {
+                if (this.isJisc) {
+                    return ["Forecasts", "APCs"]
+                }
+
                 if (this.institutionIsConsortium) {
                     return ["Forecasts"]
                 } else {
@@ -199,6 +207,9 @@
             },
             pkg() {
                 return this.$store.getters.selectedPublisher
+            },
+            isJisc(){
+                return this.institutionName === "Jisc"
             },
         },
         methods: {
