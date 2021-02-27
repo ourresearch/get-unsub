@@ -38,7 +38,7 @@
                     <div class="">
                         <strong
                                 v-if="journal.cpu !== null">
-                            ${{journal.cpu | round(2)}}
+                            {{journal.cpu | currency({symbol: publisherCurrencySymbol, fractionCount: 2})}}
                         </strong>
                     </div>
                     <div
@@ -67,6 +67,8 @@
 
 <script>
     import appConfigs from "../../appConfigs";
+    import {mapGetters, mapMutations} from 'vuex'
+
 
     export default {
         name: "OverviewGraphicBarSingleDot",
@@ -82,6 +84,9 @@
             }
         },
         computed: {
+            ...mapGetters([
+                "publisherCurrencySymbol"
+            ]),
             isSubscribed() {
                 return this.journal.subscribed
             },

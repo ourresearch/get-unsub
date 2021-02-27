@@ -12,7 +12,7 @@
 
                 <div class="bar-label" v-if="myBin.end % 10 === 0">
                     <div class="number">
-                        {{myBin.end | currency}}
+                        {{myBin.end | currency(publisherCurrencySymbol)}}
                     </div>
                 </div>
                 <overview-graphic-bar-single-dot
@@ -36,7 +36,7 @@
 
         <v-card flat class="mt-5" v-show="journalsWithCpuOutsideBins.length">
             <div class="">
-                <span class="body-">{{journalsWithCpuOutsideBins.length}}</span> Journals with CPU > {{maxBinValue | currency}}
+                <span class="body-">{{journalsWithCpuOutsideBins.length}}</span> Journals with CPU > {{maxBinValue | currency(publisherCurrencySymbol)}}
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
@@ -49,7 +49,7 @@
 
         <v-card flat class="mt-5" v-show="journalsWithNoUsage.length">
             <div class="">
-                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no usage
+                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no paywalled usage
             </div>
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
@@ -108,6 +108,7 @@
         computed: {
             ...mapGetters([
                 'publisherName',
+                'publisherCurrencySymbol',
             ]),
             myJournals() {
                 return this.$store.getters.journals

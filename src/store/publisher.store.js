@@ -38,6 +38,7 @@ export const publisher = {
         counterIsUploaded: false,
         bigDealCost: 0,
         isOwnedByConsortium: false,
+        currency: "USD",
 
         // apc stuff
         apcHeaders: [],
@@ -68,6 +69,8 @@ export const publisher = {
             state.apcAuthorsFractionalCount = null
             state.apcCost = null
             state.isOwnedByConsortium = false
+            state.currency = "USD"
+
         },
         clearApcData(state) {
             state.apcHeaders = []
@@ -105,6 +108,7 @@ export const publisher = {
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
             state.isOwnedByConsortium = apiPublisher.is_owned_by_consortium
+            state.currency = apiPublisher.currency
         },
         clearSelectedPublisher(state) {
             state.selected = null
@@ -266,6 +270,19 @@ export const publisher = {
 
         publisherCounterIsUploaded: (state) => state.counterIsUploaded,
         publisherIsOwnedByConsortium: (state) => state.isOwnedByConsortium,
+        publisherCurrency: (state) => state.currency,
+        publisherCurrencySymbol: (state) => {
+            const symbols = {
+                USD: "$",
+                CAD: "$",
+                AUS: "$",
+                NZD: "$",
+                HKD: "$",
+                GBP: "£",
+                EUR: "€",
+            }
+            return symbols[state.currency]
+        },
 
 
         // apc stuff
