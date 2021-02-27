@@ -115,7 +115,7 @@
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
                                             <div class="headline font-weight-bold" id="annual-cost-value">
-                                                {{ costTotal | currency }}
+                                                {{ costTotal | currency(publisherCurrencySymbol) }}
                                             </div>
                                             <div class="caption">
                                                 <v-tooltip bottom max-width="400" color="#333">
@@ -406,6 +406,7 @@
                 'scenarioId',
                 'publisherName',
                 'publisherId',
+                'publisherCurrencySymbol',
                 'journals',
                 'scenarioIdHash',
                 'scenarioSnackbars',

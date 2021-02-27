@@ -21,7 +21,7 @@
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="2" class="text-right">
-                    {{ costTotal | currency}}
+                    {{ costTotal | currency(publisherCurrencySymbol)}}
                 </v-col>
                 <v-col cols="1" class="text-right">
                     {{instantUsagePercent | percent(0)}}
@@ -122,6 +122,7 @@
                 "publisherId",
                 "publisherBigDealCost",
                 "publisherFiles",
+                "publisherCurrencySymbol",
             ]),
             costTotal() {
                 return costTotal(this.scenario.journals)

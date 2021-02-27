@@ -25,14 +25,14 @@
             </span>
             <span v-if="header.display==='currency'">
                 <template v-if="typeof journal[header.value] === 'number'">
-                    {{ journal[header.value] | currency({fractionCount:2}) }}
+                    {{ journal[header.value] | currency({symbol: publisherCurrencySymbol, fractionCount:2}) }}
                 </template>
                 <template v-if="typeof journal[header.value] !== 'number'">
                     &mdash;
                 </template>
             </span>
             <span v-if="header.display==='currency_int'">
-                {{ journal[header.value] | currency }}
+                {{ journal[header.value] | currency(publisherCurrencySymbol) }}
             </span>
             <span v-if="header.display==='text'">
                 {{ journal[header.value] }}
@@ -52,9 +52,12 @@
 </template>
 
 <script>
+    import {mapGetters} from "vuex";
+
     export default {
         props: ["journal", "headers"],
         name: "JournalRow",
+
         methods: {
             subscribe() {
                 console.log("subscribe!")
@@ -78,6 +81,9 @@
             },
         },
         computed: {
+            ...mapGetters([
+                'publisherCurrencySymbol',
+            ]),
             isSubscribed() {
                 return this.journal.subscribed || this.journal.customSubscribed
             },

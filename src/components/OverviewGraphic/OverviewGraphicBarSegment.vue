@@ -20,7 +20,7 @@
 
                     <span class="bar-value" :id="`bar-value-${configObj.name}`">
                         <template v-if="!configObj.isCurrency">{{percentage | round}}%</template>
-                        <template v-if="configObj.isCurrency">{{count | currency}}</template>
+                        <template v-if="configObj.isCurrency">{{count | currency(publisherCurrencySymbol)}}</template>
                     </span>
                 </span>
 
@@ -33,7 +33,7 @@
                 </span>
                 <v-spacer />
                 <span class="number pl-3">
-                    {{count | currency}}
+                    {{count | currency(publisherCurrencySymbol)}}
                 </span>
             </div>
             <v-divider class="my-2" dark />
@@ -86,6 +86,8 @@
 
 <script>
     import colorHighlightedPhrase from "../colorHighlightedPhrase";
+    import {mapGetters, mapMutations} from 'vuex'
+
     export default {
         components: {
             colorHighlightedPhrase,
@@ -106,6 +108,9 @@
             }
         },
         computed: {
+            ...mapGetters([
+                'publisherCurrencySymbol',
+            ]),
             percentage() {
                 return 100 * this.count / this.countTotal
             },
