@@ -97,7 +97,7 @@
                         <v-card>
                             <v-card-title>
                                 <div>
-                                    Article Publication Costs last year <span v-if="!isJisc">, by journal <span class="body-2">({{publisherScenarios.length}})</span></span>
+                                    Article Publication Costs last year <span v-if="!isJisc">, by journal</span>
 
                                 </div>
                             </v-card-title>
