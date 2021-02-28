@@ -125,7 +125,7 @@
                                 type="number"
                                 :disabled="savingConfig"
                                 @keydown.enter="saveEdit"
-                                prefix="$"
+                                :prefix="publisherCurrencySymbol"
                                 v-model="selectedConfigValue"
                         />
                         <v-text-field
@@ -222,6 +222,7 @@
             ...mapGetters([
                 "publisherFilesDict",
                 "institutionIsConsortium",
+                "publisherCurrencySymbol",
                 "userEmail",
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,

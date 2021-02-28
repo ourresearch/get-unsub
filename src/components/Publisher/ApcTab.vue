@@ -11,7 +11,7 @@
             <v-card-text>
                 <div class="stat">
                     <span class="k">Total APC cost last year is </span>
-                    <span class="v">{{ publisherApcCost | currency }}</span>
+                    <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
                     <span class="k"> (estimated). </span>
                     This includes all journals published by {{publisherName}} where authors from your institution have paid APCs for gold or hybrid open access.
                 </div>
@@ -69,10 +69,10 @@
                                             {{ v | round }}%
                                         </span>
                                 <span v-if="getColDisplayType(k)==='currency'">
-                                            {{ v | currency({fractionCount:2}) }}
+                                            {{ v | currency({symbol:publisherCurrencySymbol, fractionCount:2}) }}
                                         </span>
                                 <span v-if="getColDisplayType(k)==='currency_int'">
-                                            {{ v | currency }}
+                                            {{ v | currency(publisherCurrencySymbol) }}
                                         </span>
                                 <span v-if="getColDisplayType(k)==='text'">
                                             {{ v }}
@@ -115,6 +115,7 @@
             ...mapGetters([
                 "publisherName",
                 "publisherId",
+                "publisherCurrencySymbol",
 
                 // apc stuff
                 "publisherApcIsLoading",

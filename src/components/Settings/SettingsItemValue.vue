@@ -22,7 +22,7 @@
                 class="dollars"
                 v-if="displayFormat==='dollars'"
         >
-            {{myValue | currency}}
+            {{myValue | currency(publisherCurrencySymbol)}}
         </span>
         <span
                 class="boolean"
@@ -45,6 +45,7 @@
         computed: {
             ...mapGetters([
                 "publisherFilesDict",
+                "publisherCurrencySymbol",
             ]),
             displayFormat(){
                 const myParam = appConfigs.scenarioConfigs[this.configName]
