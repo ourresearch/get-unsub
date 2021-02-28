@@ -92,7 +92,7 @@
                                     {{institution.usage | round}}
                                 </v-col>
                                 <v-col cols="4">
-
+                                    {{institution.tags}}
                                 </v-col>
                         </v-row>
                     </div>
