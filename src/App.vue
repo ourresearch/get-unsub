@@ -131,7 +131,12 @@
 </script>
 
 <style lang="scss">
-    $foo: rebeccapurple;
+
+    @media (min-width: 1264px) {
+        .container {
+            max-width: 1264px;
+        }
+    }
 
     .v-content {
         background: #fafafa;

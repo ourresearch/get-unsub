@@ -77,7 +77,7 @@
         },
         data() {
             return {
-                subrColor: appConfigs.costSegments.subr.color.normal,
+                subrColor: appConfigs.colors.subr.normal,
                 subrColorLight: appConfigs.costSegments.subr.color.light,
                 illColor: "#cccccc",
                 // illColor: appConfigs.costSegments.ill.lightColor
@@ -89,9 +89,6 @@
             ]),
             isSubscribed() {
                 return this.journal.subscribed
-            },
-            subrColor(){
-                return appConfigs.colors.subr.normal
             },
             myOpacity() {
                 return (this.journal.isHiddenByFilters) ? 0.1 : 1

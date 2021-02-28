@@ -18,7 +18,7 @@
         </div>
 
         <div v-if="!selectedScenarioIsLoading">
-            <v-container>
+            <v-container class="pb-0">
 
                 <router-link
                         v-if="publisherId && institutionId"
@@ -32,10 +32,10 @@
                         <div class="body-2">
                             <span>
                                 <span v-if="institutionIsConsortium">Consortial</span>
-                                Forecast scenario
+                                5-year forecast
                             </span>
                         </div>
-                        <div class="display-2">
+                        <div class="text-h4">
                             {{ scenarioName }}
                         </div>
 
@@ -91,20 +91,13 @@
                 <v-row>
                     <v-col cols="4">
                         <v-card style="position: sticky; top: 0px;">
-                            <v-toolbar flat>
-                                <v-toolbar-title>
-                                    5yr forecast overview
-                                </v-toolbar-title>
-                            </v-toolbar>
-                            <v-divider/>
-                            <v-card-text>
-                                <v-row>
-                                    <v-spacer/>
-                                    <overview-graphic-subrs-counter/>
-                                    <v-spacer/>
-                                </v-row>
-                            </v-card-text>
-                            <v-divider/>
+<!--                            <v-toolbar flat>-->
+<!--                                <v-toolbar-title>-->
+<!--                                    5yr forecast overview-->
+<!--                                </v-toolbar-title>-->
+<!--                            </v-toolbar>-->
+<!--                            <v-divider/>-->
+
 
                             <v-card-text class="pt-9 pb-0">
                                 <div v-if="0">
@@ -269,6 +262,14 @@
                                     </v-list>
                                 </v-menu>
                             </v-toolbar>
+                            <v-card-text>
+                                <v-row>
+                                    <v-spacer/>
+                                    <overview-graphic-subrs-counter/>
+                                    <v-spacer/>
+                                </v-row>
+                            </v-card-text>
+                            <v-divider/>
                             <v-card-text class="px-0">
                                 <overview-graphic-bar-dots
                                         class="pa-3"

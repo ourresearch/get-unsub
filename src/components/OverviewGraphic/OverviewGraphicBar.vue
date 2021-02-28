@@ -71,7 +71,7 @@
 </script>
 
 <style scoped lang="scss">
-    $bar-height: 350px;
+    $bar-height: 450px;
     .bar-wrapper {
         height: $bar-height;
         display: flex;
