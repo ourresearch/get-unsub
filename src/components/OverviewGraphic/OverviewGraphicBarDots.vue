@@ -29,12 +29,12 @@
 
 
 
-        <div class="x-axis-label text-center">
+        <div class="x-axis-label text-center text-h6">
             {{ publisherName }} journals, by cost per use
         </div>
 
 
-        <v-card flat class="mt-5" v-show="journalsWithCpuOutsideBins.length">
+        <v-card flat class="mt-10" v-show="journalsWithCpuOutsideBins.length">
             <div class="">
                 <span class="body-">{{journalsWithCpuOutsideBins.length}}</span> Journals with CPU > {{maxBinValue | currency(publisherCurrencySymbol)}}
             </div>

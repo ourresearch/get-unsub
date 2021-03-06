@@ -2,36 +2,70 @@
 
 
     <div>
-        <div v-if="0" class="individual-mode d-flex">
-            <div class="text-right subr-count" style="">
-                <div class="headline">
-                    {{ myCount | round }}
-                </div>
-                <div class="caption">
-                    <v-tooltip bottom max-width="400" color="#333">
-                        <template v-slot:activator="{ on }">
-                                                            <span v-on="on">
-                                                                Subscriptions
-                                                                <v-icon small>mdi-information-outline</v-icon>
-                                                            </span>
-                        </template>
-                        <div>
-                            This is the percentage of content requests that your library will fulfill <em>instantly</em>
-                            over the next five years (either via subscription, backfile, or OA).
-                        </div>
-                    </v-tooltip>
-                </div>
-            </div>
-            <div class="mode">Individual mode</div>
-        </div>
 
-        <div v-if="1" class="best-deal-mode d-flex">
-            <div class="number-and-controls d-flex align-center pt-2">
-                <div class="input-container mx-2 d-flex align-center">
-                    <v-icon :color="subrColor" class="mr-2">mdi-cart</v-icon>
+        <div class="best-deal-mode d-flex">
+            <div class="number-and-controls  d-flex align-center pt-2">
+
+
+                <v-btn
+                        fab
+                        color="#777"
+                        dark
+                        x-small
+                        v-long-press="300"
+
+                        @long-press-start="longPressStart(-1)"
+                        @long-press-stop="longPressStop"
+                        @click="changeMyCount(-1)"
+                >
+                    <v-icon>mdi-minus</v-icon>
+                </v-btn>
+
+
+
+
+<!--                <div class="buttons">-->
+
+<!--                    <div-->
+<!--                            class="button top d-block"-->
+<!--                            v-long-press="300"-->
+<!--                            :disabled="(myCount > numJournals)"-->
+<!--                            @long-press-start="longPressStart(1)"-->
+<!--                            @long-press-stop="longPressStop"-->
+<!--                            @click="changeMyCount(1)"-->
+<!--                            v-ripple-->
+
+<!--                    >-->
+<!--                        <v-icon dark>mdi-chevron-up</v-icon>-->
+<!--                    </div>-->
+<!--                    <div-->
+<!--                            class="button bottom d-block"-->
+<!--                            v-long-press="300"-->
+<!--                            :disabled="(myCount <= 0)"-->
+<!--                            @long-press-start="longPressStart(-1)"-->
+<!--                            @long-press-stop="longPressStop"-->
+<!--                            @click="changeMyCount(-1)"-->
+<!--                            v-ripple-->
+<!--                    >-->
+<!--                        <v-icon dark>mdi-chevron-down</v-icon>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="input-container unsubscribed mx-2 d-flex align-center">
+                    <v-text-field
+                            v-model="myUnsubscribedCount"
+                            label="Unubscribed journals"
+                            disabled
+                            dense
+                            hide-details
+                            outlined
+                            :color="subrColor"
+                    />
+                </div>
+
+                <div class="input-container subscribed mx-2 d-flex align-center">
                     <v-text-field
                             v-model="myCount"
-                            label="Subscriptions"
+                            label="Subscribed journals"
                             dense
                             hide-details
                             outlined
@@ -39,34 +73,24 @@
                     />
 
                 </div>
-                <div class="buttons">
 
-                    <div
-                            class="button top d-block"
-                            v-long-press="300"
-                            :disabled="(myCount > numJournals)"
-                            @long-press-start="longPressStart(1)"
-                            @long-press-stop="longPressStop"
-                            @click="changeMyCount(1)"
-                            v-ripple
+                <v-btn
+                        fab
+                        :color="subrColor"
+                        dark
+                        x-small
+                        v-long-press="300"
+                        :disabled="(myCount > numJournals)"
+                        @long-press-start="longPressStart(1)"
+                        @long-press-stop="longPressStop"
+                        @click="changeMyCount(1)"
+                >
+                    <v-icon>mdi-plus</v-icon>
+                </v-btn>
 
-                    >
-                        <v-icon  dark>mdi-chevron-up</v-icon>
-                    </div>
-                    <div
-                            class="button bottom d-block"
-                            v-long-press="300"
-                            :disabled="(myCount <= 0)"
-                            @long-press-start="longPressStart(-1)"
-                            @long-press-stop="longPressStop"
-                            @click="changeMyCount(-1)"
-                            v-ripple
-                    >
-                        <v-icon dark>mdi-chevron-down</v-icon>
-                    </div>
-                </div>
+
+
             </div>
-            <div v-if="0" class="mode">Best Deal mode</div>
         </div>
 
         <v-dialog v-model="dialogs.confirmStomp" max-width="400" persistent>
@@ -75,9 +99,10 @@
                     Overwrite custom subscription?
                 </v-card-title>
                 <v-card-text class="pt-4">
-                   <div>
-                       This will overwrite your custom à la carte journals subscription(s), and automatically subscribe to the {{lastValSet}} journals with the lowest Cost Per Use. Are you sure you want to do that?
-                   </div>
+                    <div>
+                        This will overwrite your custom à la carte journals subscription(s), and automatically subscribe
+                        to the {{lastValSet}} journals with the lowest Cost Per Use. Are you sure you want to do that?
+                    </div>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -95,7 +120,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-
 
 
     </div>
@@ -134,7 +158,7 @@
             changeMyCount(amountToChange) {
                 this.myCount += amountToChange
             },
-            confirmStomp(){
+            confirmStomp() {
                 this.$store.commit("setAllowAutoSubscribe", true)
                 this.dialogs.confirmStomp = false
                 this.myCount = this.lastValSet
@@ -160,10 +184,10 @@
             numJournals() {
                 return this.scenarioJournals.length
             },
-            subrColor(){
+            subrColor() {
                 return appConfigs.colors.subr.normal
             },
-            countIsTooHigh(){
+            countIsTooHigh() {
 
             },
             myCount: {
@@ -181,6 +205,9 @@
                     if (val > this.numJournals) return
                     this.$store.dispatch("subscribeUpToIndex", val)
                 }
+            },
+            myUnsubscribedCount() {
+                return this.numJournals - this.$store.getters.subrJournalsCount
             }
         },
 
@@ -193,16 +220,20 @@
     .subr-count {
         width: 180px;
     }
+
     .button {
         cursor: pointer;
         background: $subr-color;
+
         &:hover {
             background: darken($subr-color, 20%);
         }
+
         &.top {
             border-bottom: 1px solid #fff;
             border-radius: 5px 5px 0 0;
         }
+
         &.bottom {
             border-radius: 0 0 5px 5px;
         }
@@ -210,31 +241,54 @@
 
     .number-and-controls {
         .input-container {
-            width: 160px;
+            width: 140px;
+
+            .v-input input {
+                max-height: none;
+            }
+
+            .v-input {
+
+            }
+
+            .v-text-field--outlined fieldset {
+                border-radius: 4px;
+            }
+
+            .v-text-field input {
+                font-size: 30px;
+                text-align: right;
+                padding-top: 4px;
+                padding-bottom: 2px;
+            }
+
+
+            &.subscribed {
+                .v-text-field--outlined fieldset {
+                    border-color: $subr-color !important;
+                }
+
+                .v-text-field input {
+                    color: $subr-color;
+                }
+
+                .theme--light.v-label {
+                    color: $subr-color;
+                }
+            }
+
+            &.unsubscribed {
+                .v-text-field input {
+                    color: #777;
+                }
+
+                .theme--light.v-label {
+                    color: #555;
+                }
+            }
+
         }
 
-        .v-input input {
-            max-height: none;
-        }
-        .v-input {
-
-        }
-        .v-text-field--outlined fieldset {
-            border-color: $subr-color !important;
-            border-radius: 4px;
-
-        }
-
-        .v-text-field input {
-            color: $subr-color;
-            font-size: 30px;
-            text-align: right;
-            padding-top: 4px;
-            padding-bottom: 2px;
-        }
-        .theme--light.v-label {
-            color: $subr-color;
-        }
 
     }
 </style>

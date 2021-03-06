@@ -50,9 +50,9 @@
                     <scenario-menu-settings key="settings"/>
                     <scenario-menu-export key="export"/>
                     <scenario-menu-help key="help"/>
-                    <v-spacer />
-                    <div class="pt-2"  v-if="institutionIsConsortium">
-                        <scenario-edit-dialogs-institutions />
+                    <v-spacer/>
+                    <div class="pt-2" v-if="institutionIsConsortium">
+                        <scenario-edit-dialogs-institutions/>
                     </div>
                 </div>
             </v-container>
@@ -72,7 +72,8 @@
                                             forecast. This can take up to one hour.
                                         </p>
                                         <p>
-                                            We'll send an email to <strong>{{scenarioUpdateNotificationEmail}}</strong> when the update is
+                                            We'll send an email to <strong>{{scenarioUpdateNotificationEmail}}</strong>
+                                            when the update is
                                             complete (don't forget to check your spam folder).
                                         </p>
                                     </div>
@@ -91,12 +92,12 @@
                 <v-row>
                     <v-col cols="4">
                         <v-card style="position: sticky; top: 0px;">
-<!--                            <v-toolbar flat>-->
-<!--                                <v-toolbar-title>-->
-<!--                                    5yr forecast overview-->
-<!--                                </v-toolbar-title>-->
-<!--                            </v-toolbar>-->
-<!--                            <v-divider/>-->
+                            <!--                            <v-toolbar flat>-->
+                            <!--                                <v-toolbar-title>-->
+                            <!--                                    5yr forecast overview-->
+                            <!--                                </v-toolbar-title>-->
+                            <!--                            </v-toolbar>-->
+                            <!--                            <v-divider/>-->
 
 
                             <v-card-text class="pt-9 pb-0">
@@ -199,28 +200,20 @@
                         <v-card>
                             <v-toolbar flat
                                        style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
-                                <v-toolbar-title>
-                                    À la carte journals
-                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>
-                                </v-toolbar-title>
+
+                                <overview-graphic-subrs-counter/>
+<!--                                <v-toolbar-title>-->
+<!--                                    À la carte journals-->
+<!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
+<!--                                </v-toolbar-title>-->
                                 <v-spacer></v-spacer>
 
-                                <div class="mr-3">
-                                    <v-text-field
-                                            hide-details
-                                            clearable
-                                            outlined
-                                            dense
-                                            label="Search journals"
-                                            autocomplete="false"
-                                            v-model="search"
-                                            v-on:input="setJournalsFilterStatus"
-                                            append-icon="mdi-magnify"
-                                            full-width
 
-                                    />
-                                </div>
-                                <scenario-menu-columns :icon="true" direction="left" />
+                                <v-btn icon class="mr-2 ml-4" @click="showSearchBox=!showSearchBox">
+                                    <v-icon>mdi-magnify</v-icon>
+                                </v-btn>
+
+                                <scenario-menu-columns :icon="true" direction="left"/>
                                 <v-menu>
                                     <template v-slot:activator="{on}">
                                         <v-btn
@@ -230,12 +223,6 @@
 
                                         >
                                             <v-icon>mdi-eye</v-icon>
-                                            <!--                                        <v-icon v-if="'histogram' === menuSettingsView.displayJournalsAsSelected">-->
-                                            <!--                                            mdi-poll-box-->
-                                            <!--                                        </v-icon>-->
-                                            <!--                                        <v-icon v-if="'table' === menuSettingsView.displayJournalsAsSelected">-->
-                                            <!--                                            mdi-table-large-->
-                                            <!--                                        </v-icon>-->
                                         </v-btn>
                                     </template>
                                     <v-list dense subheader>
@@ -261,12 +248,32 @@
                                         </v-list-item>
                                     </v-list>
                                 </v-menu>
+
+
+<!--                                <template v-slot:extension color="red">-->
+<!--                                    <overview-graphic-subrs-counter/>-->
+<!--                                </template>-->
+
                             </v-toolbar>
-                            <v-card-text>
+                            <v-card-text v-if="showSearchBox">
                                 <v-row>
-                                    <v-spacer/>
-                                    <overview-graphic-subrs-counter/>
-                                    <v-spacer/>
+                                        <v-text-field
+                                                hide-details
+                                                clearable
+                                                outlined
+                                                dense
+                                                label="Search journals"
+                                                autocomplete="false"
+                                                v-model="search"
+                                                v-on:input="setJournalsFilterStatus"
+                                                append-icon="mdi-magnify"
+                                                full-width
+
+                                        />
+                                    <v-btn icon @click="showSearchBox=false" class="mr-2 ml-0">
+                                        <v-icon>mdi-close</v-icon>
+                                    </v-btn>
+
                                 </v-row>
                             </v-card-text>
                             <v-divider/>
@@ -392,6 +399,7 @@
                 stickyToolbarIsAtTopOfWindow: false,
                 search: "",
                 loadingPercent: 0,
+                showSearchBox: false,
 
                 showSlowRenderingThings: false,
             }
@@ -419,7 +427,7 @@
                 'scenarioUpdateNotificationEmail',
             ]),
 
-            readyStatus(){
+            readyStatus() {
             },
 
             account() {
@@ -510,8 +518,7 @@
 
                 if (typeof this.$route.query.lazy !== "undefined") {
                     this.$store.dispatch("fetchPublisherLazy", this.$route.params.publisherId)
-                }
-                else {
+                } else {
                     this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
                 }
                 this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
@@ -549,7 +556,7 @@
                     if (!to) this.$store.commit("setAllowAutoSubscribeFromCurrentJournalSubrs")
                 }
             },
-            $route: function(to){
+            $route: function (to) {
                 console.log("scenario page route change", to)
                 this.loadPage()
             }
