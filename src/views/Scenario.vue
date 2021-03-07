@@ -202,14 +202,14 @@
                                        style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
 
                                 <overview-graphic-subrs-counter/>
-<!--                                <v-toolbar-title>-->
-<!--                                    À la carte journals-->
-<!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
-<!--                                </v-toolbar-title>-->
+                                <!--                                <v-toolbar-title>-->
+                                <!--                                    À la carte journals-->
+                                <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
+                                <!--                                </v-toolbar-title>-->
                                 <v-spacer></v-spacer>
 
 
-                                <v-btn icon class="mr-2 ml-4" @click="showSearchBox=!showSearchBox">
+                                <v-btn icon class="mr-2 ml-4" @click="toggleSearchBox">
                                     <v-icon>mdi-magnify</v-icon>
                                 </v-btn>
 
@@ -250,27 +250,27 @@
                                 </v-menu>
 
 
-<!--                                <template v-slot:extension color="red">-->
-<!--                                    <overview-graphic-subrs-counter/>-->
-<!--                                </template>-->
+                                <!--                                <template v-slot:extension color="red">-->
+                                <!--                                    <overview-graphic-subrs-counter/>-->
+                                <!--                                </template>-->
 
                             </v-toolbar>
                             <v-card-text v-if="showSearchBox">
                                 <v-row>
-                                        <v-text-field
-                                                hide-details
-                                                clearable
-                                                outlined
-                                                dense
-                                                label="Search journals"
-                                                autocomplete="false"
-                                                v-model="search"
-                                                v-on:input="setJournalsFilterStatus"
-                                                append-icon="mdi-magnify"
-                                                full-width
+                                    <v-text-field
+                                            hide-details
+                                            ref="searchBox"
+                                            outlined
+                                            dense
+                                            label="Search journals"
+                                            autocomplete="false"
+                                            v-model="search"
+                                            v-on:input="setJournalsFilterStatus"
+                                            append-icon="mdi-magnify"
+                                            full-width
 
-                                        />
-                                    <v-btn icon @click="showSearchBox=false" class="mr-2 ml-0">
+                                    />
+                                    <v-btn icon @click="toggleSearchBox" class="mr-2 ml-0">
                                         <v-icon>mdi-close</v-icon>
                                     </v-btn>
 
@@ -482,6 +482,27 @@
                 const stickyToolbar = document.getElementById("sticky-toolbar")
                 const distanceToTopOfWindow = stickyToolbar.getBoundingClientRect().top
                 this.stickyToolbarIsAtTopOfWindow = (distanceToTopOfWindow === 0) ? true : false
+            },
+            toggleSearchBox() {
+                console.log("toggle search box", this.search)
+
+                // clear the text
+                this.search = ""
+                this.setJournalsFilterStatus()
+                console.log("toggle search box", this.search)
+
+                // show/hide the box
+                this.showSearchBox = !this.showSearchBox
+
+                // if we are showing the box
+                if (this.showSearchBox) {
+                    this.$nextTick(() => {
+                        this.focusOnSearchBox();
+                    });
+                }
+            },
+            focusOnSearchBox() {
+                this.$refs.searchBox.focus()
             },
             setJournalsFilterStatus: _.debounce(
                 function () {

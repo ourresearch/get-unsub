@@ -133,8 +133,9 @@
 <style scoped lang="scss">
     .bar-segment {
         padding-left: 3px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-        font-size: 11px;
+        /*border-top: 1px solid rgba(255, 255, 255, 0.2);*/
+        border-top: 1px solid #fff;
+        font-size: 13px;
         color: #333;
         /*opacity: .9;*/
         &.light {

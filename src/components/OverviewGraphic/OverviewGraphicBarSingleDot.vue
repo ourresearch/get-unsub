@@ -173,7 +173,7 @@
         width: 7px; // if you change it here you have to also change it in OverviewGraphicDots hist bar width.
         border-top: 1px solid #fff;
         border-left: 1px solid #fff;
-        /*border-radius: 3px;*/
+        border-radius: 3px;
 
         /*border-right: 1px solid #fff;*/
         /*border-left: 1px solid #fff;*/
