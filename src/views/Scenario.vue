@@ -100,55 +100,51 @@
                             <!--                            <v-divider/>-->
 
 
-                            <v-card-text class="pt-9 pb-0">
-                                <div v-if="0">
-                                    big deal cost: {{$store.getters.costBigdealProjected}}
-                                </div>
-                                <v-row class="">
+                            <v-card-text class="pt-10 pb-0 black--text">
+                                <v-row class="mb-4 ">
                                     <!--                                COST -->
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
-                                            <div class="headline font-weight-bold" id="annual-cost-value">
-                                                {{ costTotal | currency(publisherCurrencySymbol) }}
-                                            </div>
-                                            <div class="caption">
                                                 <v-tooltip bottom max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
-                                                                <span v-on="on">
-                                                                    Annual cost
-                                                                    <v-icon small>mdi-information-outline</v-icon>
-                                                                </span>
+                                                        <div v-on="on">
+<!--                                                            <div class="caption">Cost</div>-->
+                                                            <div class="text-h5 font-weight-bold" id="annual-cost-value">
+                                                                {{ costTotal | currency(publisherCurrencySymbol) }}
+                                                            </div>
+                                                            <div class="caption">
+                                                                Cost ({{ costPercent | percent }} of Big Deal)
+
+                                                            </div>
+
+                                                        </div>
                                                     </template>
                                                     <div>
                                                         This is the average annual cost to the library over the next
                                                         five years, based on your selected settings and subscriptions.
                                                     </div>
                                                 </v-tooltip>
-                                            </div>
                                         </div>
                                     </v-col>
 
                                     <!--                                FULFILLMENT -->
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
-                                            <div class="headline font-weight-bold" id="instant-fulfillment-value">
-                                                {{ instantUsagePercent | percent }}
-                                            </div>
-                                            <div class="caption">
                                                 <v-tooltip bottom max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
-                                                                <span v-on="on">
-                                                                    Instant fulfillment
-                                                                    <v-icon small>mdi-information-outline</v-icon>
-                                                                </span>
+                                                        <div>
+                                                            <div class="text-h5 font-weight-bold" id="instant-fulfillment-value">
+                                                                {{ libraryFulfillmentPercent | percent(0) }}
+                                                            </div>
+                                                            <div class="caption">Library fulfillment</div>
+                                                        </div>
                                                     </template>
                                                     <div>
                                                         This is the percentage of content requests that your library
-                                                        will fulfill <em>instantly</em> over the next five
-                                                        years (either via subscription, backfile, or OA).
+                                                        will fulfill over the next five
+                                                        years (via backfile, OA, à la carte subscription, or ILL).
                                                     </div>
                                                 </v-tooltip>
-                                            </div>
                                         </div>
                                     </v-col>
                                 </v-row>
@@ -164,14 +160,11 @@
                                                 :num-journals="journals.length"
                                                 :num-journals-subscribed="subscribedJournals.length"
                                         />
-                                        <div class="text-center mt-2">
+                                        <div class="text-center mt-2 text-h6">
                                             <div class="">
                                                 Annual cost
                                             </div>
-                                            <div class="caption text--secondary">
-                                                {{ (this.costPercent) | percent(1) }} of Big
-                                                Deal
-                                            </div>
+
                                         </div>
                                     </v-col>
                                     <v-col cols="6">
@@ -181,9 +174,9 @@
                                                 :num-journals="journals.length"
                                                 :num-journals-subscribed="subscribedJournals.length"
                                         />
-                                        <div class="text-center mt-2">
+                                        <div class="text-center mt-2 text-h6">
                                             <div class="">
-                                                Instant fulfillment
+                                                Fulfillment
                                             </div>
                                         </div>
                                     </v-col>
@@ -198,7 +191,7 @@
 
                     <v-col cols="8">
                         <v-card>
-                            <v-toolbar flat
+                            <v-toolbar flat height="80px"
                                        style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
 
                                 <overview-graphic-subrs-counter/>
@@ -336,6 +329,7 @@
     import {
         usageList,
         instantUsagePercent,
+        libraryFulfillmentPercent,
         costList,
         costTotal,
     } from "../shared/scenarioSummary";
@@ -465,6 +459,9 @@
             },
             instantUsagePercent() {
                 return instantUsagePercent(this.journals)
+            },
+            libraryFulfillmentPercent() {
+                return libraryFulfillmentPercent(this.journals)
             },
             numJournals() {
                 return this.journals.length

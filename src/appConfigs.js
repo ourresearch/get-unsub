@@ -394,8 +394,8 @@ const colors = {
     },
     ill: {
         light: "#ff5c8d",
-        normal: "#512DA8",
-        // normal: "#283593",
+        normal: "#3F51B5",
+        // normal: "#512DA8",
         dark: "#a00037",
     },
     subr: {

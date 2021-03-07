@@ -30,7 +30,7 @@
 
 
         <div class="x-axis-label text-center text-h6">
-            {{ publisherName }} journals, by cost per use
+            {{ publisherName }} journals, by Cost Per Use (CPU)
         </div>
 
 

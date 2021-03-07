@@ -256,7 +256,8 @@
             }
 
             .v-text-field input {
-                font-size: 30px;
+                font-size: 25px;
+                font-weight: bold;
                 text-align: right;
                 padding-top: 4px;
                 padding-bottom: 2px;
@@ -279,7 +280,7 @@
 
             &.unsubscribed {
                 .v-text-field input {
-                    color: #777;
+                    color: #333;
                 }
 
                 .theme--light.v-label {

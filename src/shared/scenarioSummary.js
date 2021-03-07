@@ -72,7 +72,11 @@ const instantUsagePercent = function (journals) {
     const myUsageDict = usageDict(journals)
     const instant = myUsageDict.oa + myUsageDict.backfile + myUsageDict.subr
     return 100 * instant / usageTotal(journals)
-
+}
+const libraryFulfillmentPercent = function (journals) {
+    const myUsageDict = usageDict(journals)
+    const instant = myUsageDict.oa + myUsageDict.backfile + myUsageDict.subr + myUsageDict.ill
+    return 100 * instant / usageTotal(journals)
 }
 
 
@@ -127,6 +131,7 @@ export {
     usageDict,
     usageList,
     instantUsagePercent,
+    libraryFulfillmentPercent,
 
     costList,
     costTotal,
