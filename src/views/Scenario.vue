@@ -109,11 +109,11 @@
                                                     <template v-slot:activator="{ on }">
                                                         <div v-on="on">
 <!--                                                            <div class="caption">Cost</div>-->
-                                                            <div class="text-h5 font-weight-bold" id="annual-cost-value">
+                                                            <div class="text-h4" id="annual-cost-value">
                                                                 {{ costTotal | currency(publisherCurrencySymbol) }}
                                                             </div>
-                                                            <div class="caption">
-                                                                Cost ({{ costPercent | percent }} of Big Deal)
+                                                            <div class="">
+                                                                Annual Cost <br> ({{ costPercent | percent }} of Big Deal)
 
                                                             </div>
 
@@ -133,10 +133,10 @@
                                                 <v-tooltip bottom max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
                                                         <div>
-                                                            <div class="text-h5 font-weight-bold" id="instant-fulfillment-value">
+                                                            <div class="text-h4" id="instant-fulfillment-value">
                                                                 {{ libraryFulfillmentPercent | percent(0) }}
                                                             </div>
-                                                            <div class="caption">Library fulfillment</div>
+                                                            <div class="">Library<br>fulfillment</div>
                                                         </div>
                                                     </template>
                                                     <div>
@@ -174,9 +174,9 @@
                                                 :num-journals="journals.length"
                                                 :num-journals-subscribed="subscribedJournals.length"
                                         />
-                                        <div class="text-center mt-2 text-h6">
-                                            <div class="">
-                                                Fulfillment
+                                        <div class="text-center mt-2 text-h">
+                                            <div class="text-h6">
+                                                Usage fulfillment
                                             </div>
                                         </div>
                                     </v-col>
@@ -191,7 +191,7 @@
 
                     <v-col cols="8">
                         <v-card>
-                            <v-toolbar flat height="80px"
+                            <v-toolbar flat height="120px" class="align-top"
                                        style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
 
                                 <overview-graphic-subrs-counter/>

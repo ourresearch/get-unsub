@@ -2,17 +2,15 @@
 
 
     <div>
-
         <div class="best-deal-mode d-flex">
-            <div class="number-and-controls  d-flex align-center pt-2">
-
-
+            <div class="number-and-controls  d-flex align-top pt-2">
                 <v-btn
                         fab
-                        color="#777"
+                        :color="subrColor"
                         dark
                         x-small
                         v-long-press="300"
+                        class="mt-1"
 
                         @long-press-start="longPressStart(-1)"
                         @long-press-stop="longPressStop"
@@ -50,27 +48,26 @@
 <!--                        <v-icon dark>mdi-chevron-down</v-icon>-->
 <!--                    </div>-->
 <!--                </div>-->
-                <div class="input-container unsubscribed mx-2 d-flex align-center">
-                    <v-text-field
-                            v-model="myUnsubscribedCount"
-                            label="Unubscribed journals"
-                            disabled
-                            dense
-                            hide-details
-                            outlined
-                            :color="subrColor"
-                    />
+                <div v-if="0" class="input-container unsubscribed mr-9 text-right">
+                    <div class="text-h4">
+                        {{ myUnsubscribedCount }}
+                    </div>
+                    <div class="main-number-label">
+                        Unubscribed<br>Journals
+                    </div>
                 </div>
 
-                <div class="input-container subscribed mx-2 d-flex align-center">
-                    <v-text-field
-                            v-model="myCount"
-                            label="Subscribed journals"
-                            dense
-                            hide-details
-                            outlined
-                            :color="subrColor"
-                    />
+                <div class="input-container subscribed mx-2 text-right">
+                        <v-text-field
+                                v-model="myCount"
+                                dense
+                                hide-details
+                                outlined
+                                :color="subrColor"
+                        />
+                    <div class="main-number-label pr-3">
+                        Subscribed<br>Journals
+                    </div>
 
                 </div>
 
@@ -79,6 +76,7 @@
                         :color="subrColor"
                         dark
                         x-small
+                        class="mt-1"
                         v-long-press="300"
                         :disabled="(myCount > numJournals)"
                         @long-press-start="longPressStart(1)"
@@ -240,8 +238,12 @@
     }
 
     .number-and-controls {
+        .main-number-label {
+            line-height: 1.3;
+            font-size: 14px;
+        }
         .input-container {
-            width: 140px;
+            width: 100px;
 
             .v-input input {
                 max-height: none;
@@ -256,11 +258,11 @@
             }
 
             .v-text-field input {
-                font-size: 25px;
-                font-weight: bold;
+                font-size: 34px;
+                /*font-weight: bold;*/
                 text-align: right;
-                padding-top: 4px;
-                padding-bottom: 2px;
+                padding-top: 0;
+                padding-bottom: 0;
             }
 
 
@@ -280,7 +282,7 @@
 
             &.unsubscribed {
                 .v-text-field input {
-                    color: #333;
+                    color: #777;
                 }
 
                 .theme--light.v-label {
