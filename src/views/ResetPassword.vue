@@ -6,7 +6,7 @@
             <v-card width="400" :loading="isLoading" v-show="requestState === 'ready'">
                 <v-card-title>
                     <div>
-                        Reset Password
+                        Change Password
                     </div>
                     <v-spacer></v-spacer>
                 </v-card-title>
@@ -36,7 +36,7 @@
                             color="primary"
                             id="button-go-to-next-login-step"
                     >
-                        Save password
+                        Change password
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -44,13 +44,13 @@
             <v-card width="400" v-show="requestState === 'success'">
                 <v-card-title>
                     <div>
-                        Password Updated
+                        Password Changed!
                     </div>
                     <v-spacer></v-spacer>
                 </v-card-title>
                 <v-card-actions>
                     <div class="mb-10 pa-4">
-                        Your password has been successfully updated.
+                        Your password has been successfully updated, and now you can log in! Nice job 👍
                     </div>
                 </v-card-actions>
                 <v-card-actions>
@@ -151,7 +151,7 @@
         },
         created(){
             if (!this.$route.query.token){
-                // this.$router.push("/recover-password")
+                this.$router.push("/recover-password")
             }
         }
     }

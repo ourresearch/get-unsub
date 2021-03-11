@@ -79,13 +79,12 @@
 
                 <v-card-actions>
                     <router-link
-                            to="/recover-password"
+                            :to="`/recover-password?email=${usernameOrEmail}`"
                             class="ml-2"
                             style="text-decoration: none;"
                     >
                         Forgot password?
                     </router-link>
-                    <span v-if="0">this is a test of git.</span>
                     <v-spacer></v-spacer>
                     <v-btn
                             :loading="isLoading"
