@@ -97,35 +97,22 @@
                 console.log("send the reset email")
                 const postData = {email: this.email}
                 this.isLoading = true
-                await api.post("password/request-reset", postData)
-                this.requestState = "success"
-            },
-            async setUsernameOrEmail() {
-                this.isLoading = true
-                this.errorMsg = ""
-                const creds = {
-                    password: "",
-                }
-                if (/@/.test(this.usernameOrEmail)) creds.email = this.usernameOrEmail
-                else creds.username = this.usernameOrEmail
-
                 try {
-                    await this.$store.dispatch("loginFromCreds", creds)
-                } catch (e) {
-                    console.log("login fail", e.response.status)
+                    await api.post("password/request-reset", postData)
+                }
+                catch(e) {
                     if (e.response.status === 404) {
                         this.errorMsg = "Sorry, we couldn't find that account."
                         return
                     }
-                    if (e.response.status === 403) {
-                        this.loginStep = 1
-                        return
-                    } else {
+                    else {
                         this.errorMsg = "Sorry, something went wrong"
                     }
-                } finally {
+                }
+                finally {
                     this.isLoading = false
                 }
+                this.requestState = "success"
             },
         }
     }
