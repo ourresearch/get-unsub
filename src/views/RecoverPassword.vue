@@ -12,7 +12,7 @@
                 </v-card-title>
                 <v-card-text>
                     <div class="mb-10 body-1">
-                        Don't worry, happens to the best of us.
+                        Don't worry, happens to the best of us. We can send you an email with a link allowing you to reset your password.
                     </div>
                     <div>
                         <v-text-field
