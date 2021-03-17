@@ -3,51 +3,79 @@
 
     <div>
         <div class="best-deal-mode d-flex">
-            <div class="number-and-controls  d-flex align-top pt-2">
-                <v-btn
-                        fab
-                        :color="subrColor"
-                        dark
-                        x-small
-                        v-long-press="300"
-                        class="mt-1"
+            <div class="number-and-controls">
+                <div class="d-flex align-top">
+                    <v-btn
+                            fab
+                            :color="subrColor"
+                            dark
+                            x-small
+                            v-long-press="300"
+                            class="mt-1"
 
-                        @long-press-start="longPressStart(-1)"
-                        @long-press-stop="longPressStop"
-                        @click="changeMyCount(-1)"
-                >
-                    <v-icon>mdi-minus</v-icon>
-                </v-btn>
+                            @long-press-start="longPressStart(-1)"
+                            @long-press-stop="longPressStop"
+                            @click="changeMyCount(-1)"
+                    >
+                        <v-icon>mdi-minus</v-icon>
+                    </v-btn>
+                    <div class="input-container subscribed mx-2 text-right">
+                        <v-text-field
+                                v-model="myCount"
+                                dense
+                                hide-details
+                                outlined
+                                :color="subrColor"
+                        />
+
+                    </div>
+
+                    <v-btn
+                            fab
+                            :color="subrColor"
+                            dark
+                            x-small
+                            class="mt-1"
+                            v-long-press="300"
+                            :disabled="(myCount > numJournals)"
+                            @long-press-start="longPressStart(1)"
+                            @long-press-stop="longPressStop"
+                            @click="changeMyCount(1)"
+                    >
+                        <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                </div>
+                <div class="text-center">
+                    Subscribed Journals
+                </div>
 
 
+                <!--                <div class="buttons">-->
 
+                <!--                    <div-->
+                <!--                            class="button top d-block"-->
+                <!--                            v-long-press="300"-->
+                <!--                            :disabled="(myCount > numJournals)"-->
+                <!--                            @long-press-start="longPressStart(1)"-->
+                <!--                            @long-press-stop="longPressStop"-->
+                <!--                            @click="changeMyCount(1)"-->
+                <!--                            v-ripple-->
 
-<!--                <div class="buttons">-->
-
-<!--                    <div-->
-<!--                            class="button top d-block"-->
-<!--                            v-long-press="300"-->
-<!--                            :disabled="(myCount > numJournals)"-->
-<!--                            @long-press-start="longPressStart(1)"-->
-<!--                            @long-press-stop="longPressStop"-->
-<!--                            @click="changeMyCount(1)"-->
-<!--                            v-ripple-->
-
-<!--                    >-->
-<!--                        <v-icon dark>mdi-chevron-up</v-icon>-->
-<!--                    </div>-->
-<!--                    <div-->
-<!--                            class="button bottom d-block"-->
-<!--                            v-long-press="300"-->
-<!--                            :disabled="(myCount <= 0)"-->
-<!--                            @long-press-start="longPressStart(-1)"-->
-<!--                            @long-press-stop="longPressStop"-->
-<!--                            @click="changeMyCount(-1)"-->
-<!--                            v-ripple-->
-<!--                    >-->
-<!--                        <v-icon dark>mdi-chevron-down</v-icon>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                    >-->
+                <!--                        <v-icon dark>mdi-chevron-up</v-icon>-->
+                <!--                    </div>-->
+                <!--                    <div-->
+                <!--                            class="button bottom d-block"-->
+                <!--                            v-long-press="300"-->
+                <!--                            :disabled="(myCount <= 0)"-->
+                <!--                            @long-press-start="longPressStart(-1)"-->
+                <!--                            @long-press-stop="longPressStop"-->
+                <!--                            @click="changeMyCount(-1)"-->
+                <!--                            v-ripple-->
+                <!--                    >-->
+                <!--                        <v-icon dark>mdi-chevron-down</v-icon>-->
+                <!--                    </div>-->
+                <!--                </div>-->
                 <div v-if="0" class="input-container unsubscribed mr-9 text-right">
                     <div class="text-h4">
                         {{ myUnsubscribedCount }}
@@ -56,36 +84,6 @@
                         Unubscribed<br>Journals
                     </div>
                 </div>
-
-                <div class="input-container subscribed mx-2 text-right">
-                        <v-text-field
-                                v-model="myCount"
-                                dense
-                                hide-details
-                                outlined
-                                :color="subrColor"
-                        />
-                    <div class="main-number-label pr-3">
-                        Subscribed<br>Journals
-                    </div>
-
-                </div>
-
-                <v-btn
-                        fab
-                        :color="subrColor"
-                        dark
-                        x-small
-                        class="mt-1"
-                        v-long-press="300"
-                        :disabled="(myCount > numJournals)"
-                        @long-press-start="longPressStart(1)"
-                        @long-press-stop="longPressStop"
-                        @click="changeMyCount(1)"
-                >
-                    <v-icon>mdi-plus</v-icon>
-                </v-btn>
-
 
 
             </div>
@@ -239,9 +237,8 @@
 
     .number-and-controls {
         .main-number-label {
-            line-height: 1.3;
-            font-size: 14px;
         }
+
         .input-container {
             width: 100px;
 

@@ -100,29 +100,44 @@
                             <!--                            <v-divider/>-->
 
 
-                            <v-card-text class="pt-10 pb-0 black--text">
+                            <div class="pt-10 pb-0 px-3 black--text">
                                 <v-row class="mb-4 ">
                                     <!--                                COST -->
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
-                                                <v-tooltip bottom max-width="400" color="#333">
+                                                <v-tooltip right max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
                                                         <div v-on="on">
-<!--                                                            <div class="caption">Cost</div>-->
                                                             <div class="text-h4" id="annual-cost-value">
                                                                 {{ costTotal | currency(publisherCurrencySymbol) }}
+
                                                             </div>
                                                             <div class="">
-                                                                Annual Cost <br> ({{ costPercent | percent }} of Big Deal)
+                                                                Annual Cost ({{ costPercent | percent }})
 
                                                             </div>
 
                                                         </div>
                                                     </template>
-                                                    <div>
-                                                        This is the average annual cost to the library over the next
-                                                        five years, based on your selected settings and subscriptions.
+                                                    <div class="pa-3 pt-1">
+                                                        <div class="d-flex subtitle-1 align-center">
+                                                            <span class="name font-weight-bold">
+                                                                Projected annual cost
+                                                            </span>
+                                                            <v-spacer />
+                                                            <span class="number pl-3">
+                                                                {{ costTotal | currency(publisherCurrencySymbol) }}
+                                                                ({{ costPercent | percent }})
+                                                            </span>
+                                                        </div>
+                                                        <v-divider class="my-2" dark />
+
+                                                        Your average annual cost over the next
+                                                        five years. That comes to <strong>{{ costPercent | percent }}</strong> of what you'd pay if you kept your Big Deal.
                                                     </div>
+
+
+
                                                 </v-tooltip>
                                         </div>
                                     </v-col>
@@ -130,26 +145,36 @@
                                     <!--                                FULFILLMENT -->
                                     <v-col class="py-0" cols="6">
                                         <div class="text-right">
-                                                <v-tooltip bottom max-width="400" color="#333">
+                                                <v-tooltip right max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
-                                                        <div>
+                                                        <div v-on="on">
                                                             <div class="text-h4" id="instant-fulfillment-value">
-                                                                {{ libraryFulfillmentPercent | percent(0) }}
+                                                                {{ instantUsagePercent | percent(0) }}
                                                             </div>
-                                                            <div class="">Library<br>fulfillment</div>
+                                                            <div class="">Instant access</div>
                                                         </div>
                                                     </template>
-                                                    <div>
-                                                        This is the percentage of content requests that your library
-                                                        will fulfill over the next five
-                                                        years (via backfile, OA, à la carte subscription, or ILL).
+                                                    <div class="pa-3 pt-1">
+                                                        <div class="d-flex subtitle-1 align-center">
+                                                            <span class="name font-weight-bold">
+                                                                Projected % instant access
+                                                            </span>
+                                                            <v-spacer />
+                                                            <span class="number pl-3">
+                                                                {{ costTotal | currency(publisherCurrencySymbol) }}
+                                                            </span>
+                                                        </div>
+                                                        <v-divider class="my-2" dark />
+                                                        The percentage of content requests that your library
+                                                        will fulfill <em>instantly</em> over the next five
+                                                        years (via backfile, OA, or à la carte subscription).
                                                     </div>
                                                 </v-tooltip>
                                         </div>
                                     </v-col>
                                 </v-row>
 
-                            </v-card-text>
+                            </div>
 
                             <v-card-text class="pt-0">
                                 <v-row>
