@@ -1,66 +1,40 @@
 <template>
     <div class="home">
-        <v-card flat class="pa-6">
-            <v-row class="top-screen py-10 justify-center">
-                <v-col cols="12" md="6">
-                    <v-img style="border:12px solid #eee; border-radius:12px;"
-                           src="https://i.imgur.com/ddWJutv.png"
-                           width="100%"
-                           alt=""></v-img>
-                </v-col>
-                <v-col cols="12" md="6">
-                    <div class="main-copy">
-                        <div class="tagline">
-                            <h1 class="display-2 mb-6">
-                                Unsub helps you cancel Big Deals with confidence.
-                            </h1>
-                        </div>
-                        <div class="about">
-                            <p class="title text--secondary">
-                                Get the data to forecast, explore, and optimize your alternatives to expensive journal
-                                bundles.
-                            </p>
+        <v-card flat class="pt-10">
+            <v-container class="text-center mt-10">
+                <div class="tagline mt-10">
+                    <h1 class="text-h2 mb-6 font-weight-bold">
+                        A better way to analyze your Big Deal.
+                    </h1>
+                </div>
+                <div class="text-h5 d-flex justify-center">
+                    <p  style="max-width: 600px;">
+                    Unsub gives you the data to reevaluate your deal's value, and understand your cancellation
+                    options.
 
-                        </div>
+                    </p>
 
-                        <div class="cta">
-                            <div class="mt-5 mr-6 d-flex">
+                </div>
+                <div class="mb-10 ">
+                    <v-btn
+                            x-large
+                            class=""
+                            color="primary">
+                        Get demo
+                    </v-btn>
 
-                                <v-text-field
-                                        label="Your email"
-                                        @keydown.enter="createDemo"
-                                        :loading="createDemoLoading"
-                                        :readonly="createDemoLoading"
-                                        outlined
-                                        type="email"
-                                        v-model="userEmail"
-                                        :error-messages="errorMsg"
-                                        style="max-width: 350px"
+                </div>
 
-                                />
-                                <v-btn
-                                        @click="createDemo"
-                                        x-large
-                                        :loading="createDemoLoading"
-                                        class="main-cta-button ma-0 ml-2"
-                                        style="margin-top: 0px !important;"
-                                        color="primary">
-                                    Try the demo!
-                                </v-btn>
-                            </div>
-                            <router-link v-if="errorMsg" to="/login">Log in to an existing account, instead
-                            </router-link>
+<!--                       src="https://i.imgur.com/ddWJutv.png"-->
+                <v-img
+                       src="../assets/screenshot-in-frame.png"
+                       width="100%"
+                       alt=""></v-img>
+            </v-container>
 
-                        </div>
-
-
-                    </div>
-
-                </v-col>
-
-
-            </v-row>
         </v-card>
+
+
         <v-card flat tile color="#555">
             <div class="text-center trusted-by white--text caption">
                 Used by hundreds of academic libraries worldwide
@@ -221,10 +195,10 @@
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar>
-                    <div class="pa-6">
-                        Sorry, but we can't currently create demo accounts from mobile devices. Please try again
-                        later from a desktop computer.
-                    </div>
+                <div class="pa-6">
+                    Sorry, but we can't currently create demo accounts from mobile devices. Please try again
+                    later from a desktop computer.
+                </div>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn
