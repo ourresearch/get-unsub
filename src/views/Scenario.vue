@@ -161,7 +161,7 @@
                                                             </span>
                                                             <v-spacer />
                                                             <span class="number pl-3">
-                                                                {{ costTotal | currency(publisherCurrencySymbol) }}
+                                                                {{ instantUsagePercent | percent(0) }}
                                                             </span>
                                                         </div>
                                                         <v-divider class="my-2" dark />
