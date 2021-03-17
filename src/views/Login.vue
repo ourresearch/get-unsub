@@ -78,15 +78,13 @@
                 </v-card-text>
 
                 <v-card-actions>
-                    <a
-                            :href="`mailto:team+passwordreset@ourresearch.org?subject=${passwordResetEmailSubject}&body=${passwordResetEmailBody}`"
+                    <router-link
+                            :to="`/recover-password?email=${usernameOrEmail}`"
                             class="ml-2"
                             style="text-decoration: none;"
-                            target="_blank"
                     >
                         Forgot password?
-                    </a>
-                    <span v-if="0">this is a test of git.</span>
+                    </router-link>
                     <v-spacer></v-spacer>
                     <v-btn
                             :loading="isLoading"

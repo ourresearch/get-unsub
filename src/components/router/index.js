@@ -8,6 +8,8 @@ import Support from '../../views/Support'
 import Publisher from "../../views/Publisher";
 import User from "../../views/User"
 import Institution from "../../views/Institution";
+import RecoverPassword from "../../views/RecoverPassword";
+import ResetPassword from "../../views/ResetPassword";
 
 
 import Scenario from "../../views/Scenario"
@@ -19,6 +21,8 @@ Vue.use(VueRouter)
 const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
+    {path: '/recover-password', component: RecoverPassword},
+    {path: '/reset-password', component: ResetPassword},
     {path: '/purchase/:result', component: PurchaseResult},
     {path: '/support', component: Support},
     {path: '/login', component: Login},
