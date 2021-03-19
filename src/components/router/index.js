@@ -10,6 +10,7 @@ import User from "../../views/User"
 import Institution from "../../views/Institution";
 import RecoverPassword from "../../views/RecoverPassword";
 import ResetPassword from "../../views/ResetPassword";
+import RequestDemo from "../../views/RequestDemo";
 
 
 import Scenario from "../../views/Scenario"
@@ -22,6 +23,7 @@ const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
     {path: '/recover-password', component: RecoverPassword},
+    {path: '/request-demo', component: RequestDemo},
     {path: '/reset-password', component: ResetPassword},
     {path: '/purchase/:result', component: PurchaseResult},
     {path: '/support', component: Support},

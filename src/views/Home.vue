@@ -17,6 +17,7 @@
                 </div>
                 <div class="mb-10 ">
                     <v-btn
+                            to="./request-demo"
                             x-large
                             class=""
                             color="primary">
@@ -26,6 +27,7 @@
                 </div>
 
 <!--                       src="https://i.imgur.com/ddWJutv.png"-->
+<!--                this thing is handy: https://browserframe.com/-->
                 <v-img
                        src="../assets/screenshot-in-frame.png"
                        width="100%"
