@@ -563,6 +563,49 @@ const dataFiles = {
 
 
 
+const testimonials = [
+    {
+        name: "Mark McBride",
+        job: "Library Senior Strategist",
+        institution: "SUNY",
+        quote: "Unsub is a <strong>game-changer.</strong>",
+        img: "https://i.imgur.com/09uGrea.png",
+        displayOnPage: ["demo"]
+    },
+    {
+        name: "Elizabeth Grace",
+        job: "Head of Collections & Systems",
+        institution: "University of Rochester",
+        quote: "It's so helpful to have <strong>an accurate picture</strong> moving forward.",
+        img: "https://i.imgur.com/uSPKsPS.png",
+        displayOnPage: ["demo"]
+    },
+    {
+        name: "Nathan Mealey",
+        job: "AUL for Discovery and Access",
+        institution: "Wesleyan University",
+        quote: "<strong>Unsub has been invaluable</strong>...and has demonstrated that it has the interests of the library community squarely at heart.",
+        img: "https://i.imgur.com/B2OHNXo.png",
+        displayOnPage: []
+    },
+    {
+        name: "Hannah McKelvey",
+        job: "Head of Electronic Resources & Discovery Services",
+        institution: "Montana State University",
+        quote: "<strong>It's so incredibly easy</strong> to upload your report, and the tool does the rest!",
+        img: "https://i.imgur.com/stGlyU8.png",
+        displayOnPage: ["demo"]
+    },
+    {
+        name: "Elizabeth Grace",
+        job: "Head of Collections & Systems",
+        institution: "The Claremont Colleges",
+        quote: "Heather and Jason deserve a medal for Unsub!",
+        img: "https://i.imgur.com/p7OkrM0.png",
+        displayOnPage: ["demo"]
+    },
+]
+
 
 
 
@@ -576,4 +619,5 @@ export default {
     barSegments,
     colors,
     dataFiles,
+    testimonials,
 }
