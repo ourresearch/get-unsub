@@ -9,7 +9,7 @@
                     <div class="pa-3">
                         <div class="py-5">
                             Want to see how Unsub can help your library analyze your Big Deal more comprehensively, with
-                            less work? Schedule a live demo to see Unsub in action, and see if it's right for you.
+                            less work? Schedule a live demo to see Unsub in action!
                         </div>
 
                         <template
