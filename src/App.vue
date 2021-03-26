@@ -1,12 +1,12 @@
 <template>
     <v-app>
 
-        <v-content style="margin-bottom: 0">
+        <v-main style="margin-bottom: 0">
             <app-bar></app-bar>
             <router-view></router-view>
             <single-journal></single-journal>
             <startup-tutorial></startup-tutorial>
-        </v-content>
+        </v-main>
 
         <v-snackbar
                 color="warning"
@@ -131,7 +131,7 @@
 </script>
 
 <style lang="scss">
-    .v-content {
+    .v-main {
         background: #fafafa;
     }
 
