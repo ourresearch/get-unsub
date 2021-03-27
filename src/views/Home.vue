@@ -40,7 +40,7 @@
         <user-logos />
 
 
-        <v-card flat tile class="pt-10">
+        <v-card v-if="0" flat tile class="pt-10">
             <v-container>
                 <v-row>
                     <v-col cols="4">
