@@ -48,16 +48,16 @@
                         </div>
                         <v-row align="center">
                             <v-col cols="3">
-                                <v-img src="../assets/logos/black/cambridge.png" contain/>
+                                <v-img src="../assets/logos/cambridge.png" contain/>
                             </v-col>
                             <v-col cols="3">
-                                <v-img src="../assets/logos/black/cern.png" height="55px" contain/>
+                                <v-img src="../assets/logos/cern.png" height="55px" contain/>
                             </v-col>
                             <v-col cols="3">
-                                <v-img src="../assets/logos/black/cornell.png" contain/>
+                                <v-img src="../assets/logos/cornell.png" contain/>
                             </v-col>
                             <v-col cols="3">
-                                <v-img src="../assets/logos/black/hopkins.png" contain/>
+                                <v-img src="../assets/logos/hopkins.png" contain/>
                             </v-col>
                         </v-row>
 

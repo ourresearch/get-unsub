@@ -609,6 +609,7 @@ const testimonials = [
 
 
 
+
 export default {
     journalColGroups: hydratedJournalColGroups(),
     journalCols,
