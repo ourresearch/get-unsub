@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../../views/Home.vue'
+import Home from '../Homepage/Homepage.vue'
 import Purchase from '../../views/Purchase'
 import PurchaseResult from '../../views/PurchaseResult'
 import Login from '../../views/Login'

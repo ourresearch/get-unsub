@@ -5,12 +5,9 @@
                 Used in <strong>300+ libraries</strong> large and small, including:
             </div>
             <v-row class="logo-images">
-                <div class="img-container cambridge"><img src="../../assets/logos/cambridge.png"></div>
-                <div class="img-container cern"><img src="../../assets/logos/cern.png"></div>
-                <div class="img-container cornell"><img src="../../assets/logos/cornell.png"></div>
-                <div class="img-container lanl"><img src="../../assets/logos/lanl.png"></div>
-                <div class="img-container duke"><img src="../../assets/logos/duke.png"></div>
-                <div class="img-container hopkins"><img src="../../assets/logos/hopkins.png"></div>
+                <div :class="`img-container ${logo.name}`" v-for="logo in logos">
+                    <img :src="require(`../../assets/logos/${logo.name}.png`)">
+                </div>
             </v-row>
 
         </v-container>
@@ -19,34 +16,20 @@
 
 <script>
     const logos = [
-        {name: "imperial",},
-        {name: "michigan",},
-        {name: "oregon",},
-        {name: "pennstate",},
-        {name: "tamu",},
-        {name: "vassar",},
-
-
-        {name: "cern", height: 55},
-        {name: "hopkins",},
         {name: "cambridge",},
+        {name: "cern", height: 55},
         {name: "cornell",},
         {name: "lanl",},
         {name: "duke",},
-
-
-        {name: "uva",},
-        {name: "dartmouth",},
-        {name: "unc-chapel-hill",},
+        {name: "hopkins",},
     ]
 
 
     export default {
-        name: "UserLogos",
+        name: "HomepageUserLogos",
         data() {
             return {
                 logos,
-
             }
         }
     }
