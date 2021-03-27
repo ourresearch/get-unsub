@@ -4,7 +4,7 @@
     <v-card flat tile class="pt-10 selling-points-card">
         <v-container>
             <v-row>
-                <v-col cols="4" v-for="sellingPoint in sellingPoints">
+                <v-col cols="12" sm="4" v-for="sellingPoint in sellingPoints">
                     <v-card flat tile class="pa-3">
                         <div class="text-center">
                             <img :src="require(`../../assets/illustrations/${sellingPoint.img}.png`)" alt="">
@@ -66,7 +66,7 @@
 
     .selling-points-card {
         img {
-            height: 200px;
+            height: 160px;
         }
     }
 
