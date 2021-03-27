@@ -62,10 +62,9 @@
                     <v-btn
                             href="https://vimeo.com/420183913"
                             target="_blank"
-                            x-large
+                            large
                             dark
-                            depressed
-                            color="blue"
+                            outlined
                             class="ma-4">
                         Watch video
                         <v-icon small class="ml-2">mdi-open-in-new</v-icon>
