@@ -59,10 +59,6 @@ const routes = [
     },
 
 
-
-
-
-
     {
         path: "/a/:publisherId/:scenarioId",
         component: Scenario,
@@ -89,29 +85,33 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return {x: 0, y: 0}
+        }
+    }
 })
 
 router.beforeEach(async (to, from, next) => {
     if (localStorage.getItem("token")) {
         try {
             await store.dispatch("fetchUser")
-        }
-        catch (e){
+        } catch (e) {
             store.commit("logout")
         }
     }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this page requires authentication
-        if (store.getters.isLoggedIn)  {  // you're logged in great. proceed.
+        if (store.getters.isLoggedIn) {  // you're logged in great. proceed.
             next()
-        }
-        else { // sorry, you can't view this page. go log in.
+        } else { // sorry, you can't view this page. go log in.
             next("/login")
         }
-    }
-    else { //  no auth required. proceed.
+    } else { //  no auth required. proceed.
         next()
     }
 })

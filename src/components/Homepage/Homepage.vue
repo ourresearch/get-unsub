@@ -41,6 +41,41 @@
 
         <homepage-selling-points />
 
+        <v-card flat tile class="py-12" color="blue" dark style="margin-bottom: -50px;">
+            <v-container class="text-center my-12 py-6">
+                <div class="text-h4 py-2">
+                    Want to learn more?
+                </div>
+                <div class="text-h5">
+                    Schedule a free custom demo, or watch our video guided tour.
+                </div>
+                <div class="mt-4">
+                    <v-btn
+                            to="./request-demo"
+                            x-large
+                            class="ma-4"
+                            dark
+                            outlined
+                    >
+                        Get your demo
+                    </v-btn>
+                    <v-btn
+                            href="https://vimeo.com/420183913"
+                            target="_blank"
+                            x-large
+                            dark
+                            depressed
+                            color="blue"
+                            class="ma-4">
+                        Watch video
+                        <v-icon small class="ml-2">mdi-open-in-new</v-icon>
+                    </v-btn>
+
+                </div>
+            </v-container>
+
+        </v-card>
+
 
         <v-card v-if="0" flat tile color="blue" class="selling-point-card pb-12">
             <div class="text-center text-h4 text-sm-h3 white--text pt-12">
@@ -54,85 +89,6 @@
         </v-card>
 
 
-        <div v-if="0" class="old-selling-points">
-
-            <v-card flat tile color="blue" class="selling-point-card">
-                <div class="selling-point-container">
-                    <div class="selling-point-text">
-                        <h2 class="text-h4 text-sm-h3">
-                            Get all the data you need, in one place
-                        </h2>
-                        <div class="text-sm-h6  mt-8">
-                            Upload your COUNTER JR1s and we take care of the rest...for every journal, we gather
-                            citations
-                            and authorship from your faculty, OA percentages, à la carte pricing, and more. Setup takes
-                            just
-                            a few hours.
-
-                        </div>
-                    </div>
-                    <div class="d-none d-sm-block">
-                        <img src="../../assets/illustrations/gather.png" style="transform: scaleX(-1); width: 300px;"
-                             alt="">
-                    </div>
-                </div>
-            </v-card>
-            <v-card flat tile color="blue" class="selling-point-card">
-                <div class="selling-point-container">
-                    <div class="d-none d-sm-block">
-                        <img src="../../assets/illustrations/prediction.png" style="width: 400px;" alt="">
-                    </div>
-                    <div class="selling-point-text">
-                        <h2 class="text-h4 text-sm-h3">
-                            Forecast with confidence
-                        </h2>
-                        <div class="text-sm-h6 mt-8">
-                            Predict your costs and fulfillment in different cancellation scenarios, and find the best
-                            value
-                            for you. Our forecasting model is trained on data from thousands of universities, then
-                            customized using your unique data.
-
-                        </div>
-                    </div>
-                </div>
-            </v-card>
-            <v-card flat tile color="blue" class="selling-point-card">
-                <div class="selling-point-container">
-                    <div class="selling-point-text">
-                        <h2 class="text-h4 text-sm-h3">
-                            Customize everything
-                        </h2>
-                        <div class="text-sm-h6 mt-8">
-                            Try out different assumptions to compare best-case and worst-case scenarios...everything in
-                            the
-                            model can be modified, from per-transaction ILL costs, to exclusion of subtypes of Open
-                            Access.
-                        </div>
-                    </div>
-                    <div class="d-none d-sm-block">
-                        <img src="../../assets/illustrations/customize.png" style="width: 300px;" alt="">
-                    </div>
-                </div>
-            </v-card>
-            <v-card flat tile color="blue" class="selling-point-card">
-                <div class="selling-point-container">
-                    <div class="d-none d-sm-block">
-                        <img src="../../assets/illustrations/presentation.png" style="width: 400px;" alt="">
-                    </div>
-                    <div class="selling-point-text">
-                        <h2 class="text-h4 text-sm-h3">
-                            Communicate your message
-                        </h2>
-                        <div class="text-sm-h6 mt-8">
-                            Use our PowerPoint-ready graphics and stats to help you share a positive, well-researched
-                            message to campus stakeholders.
-
-
-                        </div>
-                    </div>
-                </div>
-            </v-card>
-        </div>
 
 
     </div>

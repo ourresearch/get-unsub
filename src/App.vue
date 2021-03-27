@@ -1,7 +1,7 @@
 <template>
     <v-app>
 
-        <v-main style="margin-bottom: 0">
+        <v-main style="margin-bottom: 0; padding-bottom: 50px;">
             <app-bar></app-bar>
             <router-view></router-view>
             <single-journal></single-journal>
@@ -32,17 +32,19 @@
             </template>
         </v-snackbar>
         <v-footer
-                class="text-right main-footer"
+                class="text-right main-footer py-6"
+                dark
+                color="#555"
         >
             <div class="text-center" style="width:100%">
                 <a style="text-decoration: underline;" href="https://github.com/ourresearch/get-unsub">Open Source</a>
-                |
+                <span class="px-3">|</span>
                 Made with ❤︎ by <a  style="text-decoration: underline;" href="https://ourresearch.org">Our Research</a>
-                |
+                <span class="px-3">|</span>
                 Supported by  <a  style="text-decoration: underline;" href="https://www.arcadiafund.org.uk/">Arcadia</a>, a charitable fund of Lisbet Rausing and Peter Baldwin
-                |
+                <span class="px-3">|</span>
                 <a  style="text-decoration: underline;"  href="mailto:team@ourresearch.org">Contact</a>
-                |
+                <span class="px-3">|</span>
                 <a  style="text-decoration: underline;"  href="http://help.unsub.org/en" target="_blank">Help</a>
             </div>
         </v-footer>
@@ -216,7 +218,7 @@
         font-size: 14px;
 
         a {
-            color: #333 !important;
+            color: #fff !important;
             text-decoration: none;
 
             &:hover {

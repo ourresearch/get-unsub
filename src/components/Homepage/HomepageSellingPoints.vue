@@ -1,8 +1,8 @@
 <template>
 
 
-    <v-card flat tile class="pt-10 selling-points-card">
-        <v-container>
+    <v-card flat tile class="py-12 selling-points-card">
+        <v-container class="my-5">
             <v-row>
                 <v-col cols="12" sm="4" v-for="sellingPoint in sellingPoints">
                     <v-card flat tile class="pa-3">
