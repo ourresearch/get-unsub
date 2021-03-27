@@ -40,6 +40,48 @@
         <user-logos />
 
 
+        <v-card flat tile class="pt-10">
+            <v-container>
+                <v-row>
+                    <v-col cols="4">
+                        <v-card flat tile class="pa-3">
+                            <div class="text-h4">
+                                Get the full picture
+                            </div>
+                            <div>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </div>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="4">
+                        <v-card flat tile class="pa-3">
+                            <div class="text-h4">
+                                Understand your options
+                            </div>
+                            <div>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </div>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="4">
+                        <v-card flat tile class="pa-3">
+                            <div class="text-h4">
+                                Save time
+                            </div>
+                            <div>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                            </div>
+                        </v-card>
+                    </v-col>
+
+
+                </v-row>
+            </v-container>
+
+
+        </v-card>
+
+
         <v-card v-if="0" flat tile color="blue" class="selling-point-card pb-12">
             <div class="text-center text-h4 text-sm-h3 white--text pt-12">
                 Take the guided tour:
@@ -180,8 +222,9 @@
 <style lang="scss">
 
     .above-the-fold {
- background: rgb(238,238,238);
-background: linear-gradient(0deg, rgba(230,230,230,1) 0%, rgba(255,255,255,1) 15%, rgba(255,255,255,1) 100%);
+        /*background: linear-gradient(0deg, rgba(230,230,230,1) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%);*/
+
+        background: linear-gradient(0deg,  #eee 20%,  #fff 20%,);
 
     }
 

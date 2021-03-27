@@ -132,7 +132,7 @@
                                 x-large
                                 :loading="formIsLoading"
                         >
-                            Claim your free demo
+                            Request your demo
                         </v-btn>
                     </v-form>
                     <div v-if="formIsSubmitted" class="pa-3 ">

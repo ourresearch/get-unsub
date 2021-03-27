@@ -1,5 +1,5 @@
 <template>
-    <v-card flat tile color="rgba(230,230,230,1)" class="logos-card">
+    <v-card flat tile color="#eee" class="logos-card">
         <v-container class="py-10">
             <div class="text-center mb-6">
                 Used in <strong>300+ libraries</strong> large and small, including:
