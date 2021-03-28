@@ -202,6 +202,12 @@
                 emailRules: [
                     v => !!v || "This field is required.",
                     v => /.+@.+/.test(v) || 'This email isn\'t valid.',
+                    v => {
+                        if (/gmail|hotmail|yahoo/.test(v)) {
+                            return 'This looks like a personal address.'
+                        }
+                        else return true
+                    }
                 ],
                 formIsValid: false,
                 formIsLoading: false,
