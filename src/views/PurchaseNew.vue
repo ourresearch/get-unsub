@@ -131,7 +131,7 @@
                         />
 
                         <v-row>
-                            <v-col cols="12" sm="8" class="">
+                            <v-col cols="12" sm="7" class="">
                                 <v-select
                                         v-model="formData.cost"
                                         :items="plans"
@@ -149,6 +149,11 @@
                                         outlined
                                 />
 
+                            </v-col>
+                            <v-col cols="1" class="pl-0">
+                                <v-btn icon href="http://help.unsub.org/en/articles/5104889-how-is-pricing-for-unsub-set" target="_blank" class="mt-3 ml-0 pl-0">
+                                    <v-icon>mdi-help-circle-outline</v-icon>
+                                </v-btn>
                             </v-col>
                         </v-row>
                         <v-checkbox
