@@ -87,13 +87,12 @@
                     <v-form
                             v-model="formIsValid"
                             ref="form"
-                            class="pa-3 pt-9"
+                            class="pa-3 pt-12"
                             :disabled="formIsLoading"
                             v-if="!formIsSubmitted"
                     >
 
-                        <div class="text-h6 ">Required info</div>
-                        <v-divider class="mb-8" color="#333"/>
+                        <div class="text-h5 mb-8">1. Required info</div>
 
                         <v-text-field
                                 v-model="formData.institution"
@@ -173,8 +172,7 @@
                         </v-checkbox>
 
 
-                        <div class="text-h6 mt-12">Optional info</div>
-                        <v-divider class="mb-8" color="#333"/>
+                        <div class="text-h5 mb-8 mt-12">2. Optional info</div>
 
                         <v-text-field
                                 v-model="formData.ccEmails"
@@ -192,8 +190,7 @@
                         />
 
                         <div v-if="formIsValid" class="lets-do-this mb-3">
-                            <div class="text-h6 mt-12">We're ready to roll</div>
-                            <v-divider class="mb-4" color="#333"/>
+                            <div class="text-h5 mb-4 mt-12">3. We're ready to roll</div>
 
                             <div class="">
                                 <p>
