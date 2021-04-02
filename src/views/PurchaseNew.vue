@@ -60,24 +60,24 @@
                         </v-card>
 
 
-<!--                        <v-divider class="my-10"/>-->
-<!--                        <div class="text-h6 primary&#45;&#45;text mb-6">-->
-<!--                            Join 300+ forward-thinking libraries worldwide:-->
-<!--                        </div>-->
-<!--                        <v-row align="center">-->
-<!--                            <v-col cols="3">-->
-<!--                                <v-img src="../assets/logos/cambridge.png" contain/>-->
-<!--                            </v-col>-->
-<!--                            <v-col cols="3">-->
-<!--                                <v-img src="../assets/logos/cern.png" height="55px" contain/>-->
-<!--                            </v-col>-->
-<!--                            <v-col cols="3">-->
-<!--                                <v-img src="../assets/logos/cornell.png" contain/>-->
-<!--                            </v-col>-->
-<!--                            <v-col cols="3">-->
-<!--                                <v-img src="../assets/logos/hopkins.png" contain/>-->
-<!--                            </v-col>-->
-<!--                        </v-row>-->
+                        <!--                        <v-divider class="my-10"/>-->
+                        <!--                        <div class="text-h6 primary&#45;&#45;text mb-6">-->
+                        <!--                            Join 300+ forward-thinking libraries worldwide:-->
+                        <!--                        </div>-->
+                        <!--                        <v-row align="center">-->
+                        <!--                            <v-col cols="3">-->
+                        <!--                                <v-img src="../assets/logos/cambridge.png" contain/>-->
+                        <!--                            </v-col>-->
+                        <!--                            <v-col cols="3">-->
+                        <!--                                <v-img src="../assets/logos/cern.png" height="55px" contain/>-->
+                        <!--                            </v-col>-->
+                        <!--                            <v-col cols="3">-->
+                        <!--                                <v-img src="../assets/logos/cornell.png" contain/>-->
+                        <!--                            </v-col>-->
+                        <!--                            <v-col cols="3">-->
+                        <!--                                <v-img src="../assets/logos/hopkins.png" contain/>-->
+                        <!--                            </v-col>-->
+                        <!--                        </v-row>-->
 
                     </div>
                 </v-card>
@@ -194,7 +194,7 @@
 
                             <div class="">
                                 <p>
-                                When you click the button, within a few days we'll:
+                                    When you click the button, within a few days we'll:
 
                                 </p>
                                 <ul>
@@ -231,23 +231,35 @@
                                 prominent
                         >
                             <div class="text-h5 mb-4">Account created!</div>
-                            <div>You'll be hearing from us soon....</div>
+                            <div>You'll be hearing from us soon!</div>
                         </v-alert>
 
-                        <p class="my-8">
+                        <p class="mt-5">
+                            Within a few days we'll:
+                        </p>
+                        <ul class="pb-4">
+                            <li>
+                                send an invoice for <strong>{{formData.cost}}</strong>
+                                to <strong>{{formData.billingEmail}}</strong>
+                                <span v-if="formData.ccEmails"> (we'll also CC {{formData.ccEmails}})</span>.
+                            </li>
+                            <li>
+                                start creating your custom Unsub dashboard, which generally takes a week or
+                                two
+                                to finish; we'll send updates and requests related to that process to
+                                <strong>{{formData.accountOwnerEmail}}</strong>.
+                            </li>
+                        </ul>
                         <p>
-                            We'll start setting up your Unsub dashboard right away; it should be ready to use in a few
-                            days. We'll be getting in touch soon to request data we'll need in the setup process, and
-                            we'll also
-                            get an invoice sent out to you.
+                            If you want to learn more about Unsub in the meantime, you can check out our <a
+                                href="https://vimeo.com/420183913" target="_blank">Getting Started video,</a> or read the
+                            documentation in our
+                            <a href="http://help.unsub.org" target="_blank">help center</a>.
                         </p>
                         <p>
                             Thanks for supporting Unsub, and we're looking forward to working with you!
+
                         </p>
-                        If you want to learn more about Unsub in the meantime, you can check out our <a
-                            href="https://vimeo.com/420183913" target="_blank">Getting Started video,</a> or read the
-                        documentation in our
-                        <a href="http://help.unsub.org" target="_blank">help center</a>.
                         <div v-if="1" class="mt-12">
                             <v-btn class="mr-4" href="https://vimeo.com/433448412" target="_blank">
                                 video
