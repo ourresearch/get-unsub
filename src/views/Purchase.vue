@@ -9,9 +9,6 @@
             <v-row>
                 <v-col cols="12">
                     <div class="">
-                        <p class="title">
-                            Get the data to forecast, explore, and optimize your alternatives to expensive journal bundles--so you can <em>cancel with confidence</em>
-                        </p>
                         <p>
                             Your purchase of an Unsub account lets you create an Unsub dashboard
                             customized to your institution. You will be able to upload your own COUNTER stats,
