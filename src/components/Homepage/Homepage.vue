@@ -9,7 +9,7 @@
                 </div>
                 <div class="text-h5 d-flex justify-center">
                     <p style="max-width: 600px;">
-                        Unsub gives you the data to reevaluate your deal's value, and understand your cancellation
+                        The Unsub dashboard helps you reevaluate your deal's value, and understand your cancellation
                         options.
 
                     </p>
@@ -62,7 +62,7 @@
                     <v-btn
                             href="https://vimeo.com/420183913"
                             target="_blank"
-                            large
+                            x-large
                             dark
                             outlined
                             class="ma-4">
