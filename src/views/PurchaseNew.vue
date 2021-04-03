@@ -3,15 +3,12 @@
         <v-row>
             <v-col cols="6" class="hidden-xs-only">
                 <v-card class="py-10 px-10">
-                    <div class="text-h3 font-weight-bold">
-                        Subscribe to Unsub
+                    <div class="text-h3 font-weight-bold mb-6">
+                        Get Unsub for your library
                     </div>
-                    <div class="pa-3">
+                    <div class="">
                         <p class="my-3">
-                            Unsub is a fully <a href="https://github.com/ourresearch/get-unsub">open source</a> project
-                            from the nonprofit <a href="https://ourresearch.org">Our Research.</a> To keep our servers
-                            humming, we count on support from Librarians Like You, in the form of one-year subscriptions
-                            to Unsub.
+                            The Unsub dashboard is a subscription service. Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee helps <a href="https://ourresearch.org">our nonprofit</a> offset that cost, and keeps us sustainable.
                         </p>
                         <ul>
                             <li>
@@ -137,14 +134,14 @@
                                         :items="plans"
                                         item-text="descr"
                                         item-value="costStr"
-                                        label="Library materials budget"
+                                        label="Library materials budget (USD)"
                                         outlined
                                 />
                             </v-col>
                             <v-col cols="12" sm="4" class="pb-0">
                                 <v-text-field
                                         v-model="formData.cost"
-                                        label="Your cost"
+                                        label="Your annual cost"
                                         readonly
                                         outlined
                                 />
@@ -182,7 +179,7 @@
                         <v-text-field
                                 v-model="formData.ccEmails"
                                 type="email"
-                                label="CC emails"
+                                label="Billing CC emails"
                                 placeholder="éowyn@gondor.edu, aragorn@gondor.edu"
                                 outlined
                         />
@@ -227,7 +224,7 @@
                                 x-large
                                 :loading="formIsLoading"
                         >
-                            Subscribe to Unsub
+                            Get Unsub
                         </v-btn>
                     </v-form>
                     <div v-if="formIsSubmitted" class="pa-3 ">
