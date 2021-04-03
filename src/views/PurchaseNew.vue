@@ -206,7 +206,7 @@
                                         <span v-if="formData.ccEmails"> (we'll also CC {{formData.ccEmails}})</span>.
                                     </li>
                                     <li>
-                                        start creating your custom Unsub dashboard, which generally takes a week or
+                                        start creating your custom Unsub dashboard, which generally takes a day or
                                         two
                                         to finish; we'll send updates and requests related to that process to
                                         <strong>{{formData.accountOwnerEmail}}</strong>.
@@ -246,7 +246,7 @@
                                 <span v-if="formData.ccEmails"> (we'll also CC {{formData.ccEmails}})</span>.
                             </li>
                             <li>
-                                start creating your custom Unsub dashboard, which generally takes a week or
+                                start creating your custom Unsub dashboard, which generally takes a day or
                                 two
                                 to finish; we'll send updates and requests related to that process to
                                 <strong>{{formData.accountOwnerEmail}}</strong>.

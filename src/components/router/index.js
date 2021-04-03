@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../Homepage/Homepage.vue'
 import Purchase from '../../views/Purchase'
-import PurchaseNew from "../../views/PurchaseNew";
 import PurchaseResult from '../../views/PurchaseResult'
 import Login from '../../views/Login'
 import Support from '../../views/Support'
@@ -22,7 +21,7 @@ Vue.use(VueRouter)
 
 const routes = [
     {path: '/', component: Home},
-    {path: '/purchase', component: PurchaseNew},
+    {path: '/purchase', component: Purchase},
     {path: '/recover-password', component: RecoverPassword},
     {path: '/request-demo', component: RequestDemo},
     {path: '/reset-password', component: ResetPassword},
