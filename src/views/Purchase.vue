@@ -244,8 +244,8 @@
                                 <span v-if="formData.ccEmails"> (we'll also CC {{formData.ccEmails}})</span>.
                             </li>
                             <li>
-                                start creating your custom Unsub dashboard; we'll send updates and requests related to that process to
-                                <strong>{{formData.accountOwnerEmail}}</strong>.
+                                start creating your custom Unsub dashboard; we'll be emailing
+                                <strong>{{formData.accountOwnerEmail}}</strong> with updates and notifications, including account login information, when that is ready.
                             </li>
                         </ul>
                         <p>
