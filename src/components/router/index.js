@@ -11,6 +11,7 @@ import Institution from "../../views/Institution";
 import RecoverPassword from "../../views/RecoverPassword";
 import ResetPassword from "../../views/ResetPassword";
 import RequestDemo from "../../views/RequestDemo";
+import Team from "../../views/Team";
 
 
 import Scenario from "../../views/Scenario"
@@ -22,6 +23,9 @@ Vue.use(VueRouter)
 const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
+    {path: '/team', component: Team},
+
+
     {path: '/recover-password', component: RecoverPassword},
     {path: '/request-demo', component: RequestDemo},
     {path: '/reset-password', component: ResetPassword},
