@@ -12,6 +12,8 @@ import RecoverPassword from "../../views/RecoverPassword";
 import ResetPassword from "../../views/ResetPassword";
 import RequestDemo from "../../views/RequestDemo";
 import Team from "../../views/Team";
+import Press from "../../views/Press";
+import Contact from "../../views/Contact";
 
 
 import Scenario from "../../views/Scenario"
@@ -24,6 +26,8 @@ const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
     {path: '/team', component: Team},
+    {path: '/press', component: Press},
+    {path: '/contact', component: Contact},
 
 
     {path: '/recover-password', component: RecoverPassword},

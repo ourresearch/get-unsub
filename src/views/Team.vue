@@ -58,7 +58,12 @@
 
 <script>
     export default {
-        name: "Team"
+        name: "Team",
+        metaInfo() {
+            return {
+                title: `Team`
+            }
+        },
     }
 </script>
 
