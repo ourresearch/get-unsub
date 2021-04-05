@@ -64,17 +64,46 @@
         </v-toolbar-items>
 
         <v-spacer/>
+
+
         <div class="no-highlight">
 
-            <v-btn text color="primary" v-if="isLoggedIn && $store.getters.userIsDemo" to="/purchase">
+            <v-btn text color="" v-if="!isLoggedIn" to="/purchase">
                 Purchase
             </v-btn>
-            <v-btn text color="primary" v-if="!isLoggedIn" to="/purchase">
-                <span>Purchase</span>
+            <v-btn text color="" v-if="!isLoggedIn" to="/request-demo">
+                Get Demo
             </v-btn>
 
+            <v-menu offset-y>
+                <template v-slot:activator="{on}">
+                    <v-btn text color="" v-on="on">
+                        About
+                        <v-icon class="">mdi-menu-down</v-icon>
+                    </v-btn>
+                </template>
+                <v-list>
+                    <v-list-item to="/team">
+                        Team
+                    </v-list-item>
+                    <v-list-item to="/press">
+                        Press
+                    </v-list-item>
+                    <v-list-item to="/contact">
+                        Contact
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+
+
+            <v-btn text href="http://help.unsub.org/en/" target="_blank">
+                Help
+<!--                <v-icon small class="ml-1">mdi-open-in-new</v-icon>-->
+            </v-btn>
+
+
+
             <v-btn
-                    class="breadcrumbs"
                     text
                     to="/login"
                     v-if="!isLoggedIn"
@@ -83,49 +112,48 @@
                 Log in
             </v-btn>
 
-            <v-tooltip v-if="isLoggedIn" bottom color="#333" max-width="200">
-                <template v-slot:activator="{on}">
-                    <v-btn icon v-on="on" icon to="/u">
-                        <v-icon>mdi-account-outline</v-icon>
-                    </v-btn>
-                </template>
-                <div>
-                    Manage your account info
-                </div>
-            </v-tooltip>
-
-            <v-tooltip v-if="isLoggedIn" bottom color="#333" max-width="200">
-                <template v-slot:activator="{on}">
-                    <v-btn icon v-on="on" @click="logout">
-                        <v-icon>mdi-logout</v-icon>
-                    </v-btn>
-                </template>
-                <div>
-                    Logout
-                </div>
-            </v-tooltip>
-
-            <v-btn icon href="http://help.unsub.org/en/" target="_blank">
-                <v-icon>mdi-help-circle-outline</v-icon>
+            <v-btn
+                    text
+                    to="/u"
+                    v-if="isLoggedIn"
+            >
+                Account
             </v-btn>
+
+            <v-btn
+                    text
+                    @click="logout"
+                    v-if="isLoggedIn"
+            >
+                Log out
+            </v-btn>
+
+
+
+
+<!--            <v-tooltip v-if="isLoggedIn" bottom color="#333" max-width="200">-->
+<!--                <template v-slot:activator="{on}">-->
+<!--                    <v-btn icon v-on="on" icon to="/u">-->
+<!--                        <v-icon>mdi-account-outline</v-icon>-->
+<!--                    </v-btn>-->
+<!--                </template>-->
+<!--                <div>-->
+<!--                    Manage your account info-->
+<!--                </div>-->
+<!--            </v-tooltip>-->
+
+<!--            <v-tooltip v-if="isLoggedIn" bottom color="#333" max-width="200">-->
+<!--                <template v-slot:activator="{on}">-->
+<!--                    <v-btn icon v-on="on" @click="logout">-->
+<!--                        <v-icon>mdi-logout</v-icon>-->
+<!--                    </v-btn>-->
+<!--                </template>-->
+<!--                <div>-->
+<!--                    Log out-->
+<!--                </div>-->
+<!--            </v-tooltip>-->
+
         </div>
-
-<!--        <template v-slot:extension v-if="showBannerContent">-->
-<!--            <div class="text">-->
-<!--                Are you a librarian? Take our 5-minute pricing survey!-->
-<!--            </div>-->
-<!--            <v-spacer />-->
-<!--            <v-btn text dark href="https://docs.google.com/forms/d/e/1FAIpQLSce71D0KwMF3Utmkt5qbVWtdfAmHFPE2Y8nlqbBZfXb26JkbQ/viewform?usp=send_form" target="_blank">-->
-<!--                <v-icon small class="mr-2">mdi-open-in-new</v-icon>-->
-<!--                Take survey-->
-<!--            </v-btn>-->
-<!--            <v-btn text dark @click="dismissBanner">-->
-<!--                <v-icon small class="mr-2">mdi-close</v-icon>-->
-<!--                Dismiss-->
-<!--            </v-btn>-->
-<!--        </template>-->
-
-
     </v-toolbar>
 </template>
 

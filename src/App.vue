@@ -1,12 +1,12 @@
 <template>
     <v-app>
 
-        <v-main style="margin-bottom: 0; padding-bottom: 50px;">
-            <app-bar></app-bar>
-            <router-view></router-view>
-            <single-journal></single-journal>
-            <startup-tutorial></startup-tutorial>
+        <v-main>
+            <app-bar />
+            <router-view class="mb-12" />
+            <single-journal />
         </v-main>
+        <site-footer />
 
         <v-snackbar
                 color="warning"
@@ -31,39 +31,24 @@
                 </v-btn>
             </template>
         </v-snackbar>
-        <v-footer
-                class="text-right main-footer py-6"
-                dark
-                color="#555"
-        >
-            <div class="text-center" style="width:100%">
-                <a style="text-decoration: underline;" href="https://github.com/ourresearch/get-unsub">Open Source</a>
-                <span class="px-3">|</span>
-                Made with ❤︎ by <a  style="text-decoration: underline;" href="https://ourresearch.org">Our Research</a>
-                <span class="px-3">|</span>
-                Supported by  <a  style="text-decoration: underline;" href="https://www.arcadiafund.org.uk/">Arcadia</a>, a charitable fund of Lisbet Rausing and Peter Baldwin
-                <span class="px-3">|</span>
-                <a  style="text-decoration: underline;"  href="mailto:team@ourresearch.org">Contact</a>
-                <span class="px-3">|</span>
-                <a  style="text-decoration: underline;"  href="http://help.unsub.org/en" target="_blank">Help</a>
-            </div>
-        </v-footer>
+
+
 
 
     </v-app>
 </template>
 
 <script>
-    import StartupTutorial from "./components/StartupTutorial"
     import SingleJournal from "./components/SingleJournal/SingleJournal"
     import AppBar from "./components/AppBar"
+    import SiteFooter from "./components/SiteFooter";
 
     export default {
         name: 'App',
         components: {
             SingleJournal,
-            StartupTutorial,
             AppBar,
+            SiteFooter,
         },
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
