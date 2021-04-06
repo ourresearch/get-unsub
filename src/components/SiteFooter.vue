@@ -40,7 +40,7 @@
                         <img class="site-footer-logo" src="../assets/unsub-logo-white.png" alt=""/>
                     </router-link>
                 </v-col>
-                <v-col cols="12" sm="4">
+                <v-col cols="12" sm="4" class="body-2">
                     Unsub is made with ❤︎ by <a style="text-decoration: underline;" href="https://ourresearch.org">Our
                     Research,</a> with generous support from <a style="text-decoration: underline;"
                                                                 href="https://www.arcadiafund.org.uk/">Arcadia&mdash;a
@@ -71,7 +71,7 @@
     }
 
     img.site-footer-logo {
-        width: 120px;
+        width: 100px;
 
     }
 

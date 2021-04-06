@@ -2,11 +2,11 @@
     <v-app>
 
         <v-main>
-            <app-bar />
-            <router-view class="mb-12" />
-            <single-journal />
+            <app-bar/>
+            <router-view class="mb-12"/>
+            <single-journal/>
         </v-main>
-        <site-footer />
+        <site-footer/>
 
         <v-snackbar
                 color="warning"
@@ -31,8 +31,6 @@
                 </v-btn>
             </template>
         </v-snackbar>
-
-
 
 
     </v-app>
@@ -134,10 +132,18 @@
         .theme--light.v-btn--active::before {
             opacity: 0;
         }
-
         .theme--light.v-btn--active:hover::before {
             opacity: .05;
         }
+
+        .theme--light.v-list-item--active::before {
+            opacity: 0;
+        }
+
+        .theme--light.v-list-item--active:hover::before,{
+            opacity: .05;
+        }
+
     }
 
     .breadcrumbs {
