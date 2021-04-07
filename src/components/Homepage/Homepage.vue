@@ -41,7 +41,9 @@
 
         <homepage-selling-points />
 
-        <v-card flat tile class="py-12" color="blue" dark style="margin-bottom: -50px;">
+        <homepage-testimonials />
+
+        <v-card flat tile class=""  style="margin-bottom: -50px; padding: 150px 0;">
             <v-container class="text-center my-12 py-6">
                 <div class="text-h4 py-2">
                     Want to learn more?
@@ -55,7 +57,7 @@
                             x-large
                             class="ma-4"
                             dark
-                            outlined
+                            color="primary"
                     >
                         Get your demo
                     </v-btn>
@@ -63,8 +65,6 @@
                             href="https://vimeo.com/420183913"
                             target="_blank"
                             x-large
-                            dark
-                            outlined
                             class="ma-4">
                         Watch video
                         <v-icon small class="ml-2">mdi-open-in-new</v-icon>
@@ -98,6 +98,7 @@
 <script>
     import HomepageUserLogos from "./HomepageUserLogos";
     import HomepageSellingPoints from "./HomepageSellingPoints";
+    import HomepageTestimonials from "./HomepageTestimonials";
 
     // https://www.npmjs.com/package/vue-vimeo-player
     import {vueVimeoPlayer} from 'vue-vimeo-player'
@@ -109,6 +110,7 @@
             vimeoPlayer: vueVimeoPlayer,
             HomepageUserLogos,
             HomepageSellingPoints,
+            HomepageTestimonials,
         },
         metaInfo: {
             // title: "Unsub: Get the data you need to reassess your library's Big Deal",

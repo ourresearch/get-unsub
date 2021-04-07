@@ -243,24 +243,6 @@
                 this.formIsSubmitted = true
                 console.log("got response back", resp)
             },
-            async sendResetEmail() {
-                console.log("send the reset email")
-                const postData = {email: this.email}
-                this.isLoading = true
-                try {
-                    await api.post("password/request-reset", postData)
-                } catch (e) {
-                    if (e.response.status === 404) {
-                        this.errorMsg = "Sorry, we couldn't find that account."
-                        return
-                    } else {
-                        this.errorMsg = "Sorry, something went wrong"
-                    }
-                } finally {
-                    this.isLoading = false
-                }
-                this.requestState = "success"
-            },
         },
         mounted() {
             if (this.$route.query.email) {
