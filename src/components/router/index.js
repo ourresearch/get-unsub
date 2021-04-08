@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../../views/Home.vue'
+import Home from '../Homepage/Homepage.vue'
 import Purchase from '../../views/Purchase'
 import PurchaseResult from '../../views/PurchaseResult'
 import Login from '../../views/Login'
@@ -10,6 +10,10 @@ import User from "../../views/User"
 import Institution from "../../views/Institution";
 import RecoverPassword from "../../views/RecoverPassword";
 import ResetPassword from "../../views/ResetPassword";
+import RequestDemo from "../../views/RequestDemo";
+import Team from "../../views/Team";
+import Press from "../../views/Press";
+import Contact from "../../views/Contact";
 
 
 import Scenario from "../../views/Scenario"
@@ -21,7 +25,13 @@ Vue.use(VueRouter)
 const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
+    {path: '/team', component: Team},
+    {path: '/press', component: Press},
+    {path: '/contact', component: Contact},
+
+
     {path: '/recover-password', component: RecoverPassword},
+    {path: '/request-demo', component: RequestDemo},
     {path: '/reset-password', component: ResetPassword},
     {path: '/purchase/:result', component: PurchaseResult},
     {path: '/support', component: Support},
@@ -57,10 +67,6 @@ const routes = [
     },
 
 
-
-
-
-
     {
         path: "/a/:publisherId/:scenarioId",
         component: Scenario,
@@ -87,29 +93,33 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        } else {
+            return {x: 0, y: 0}
+        }
+    }
 })
 
 router.beforeEach(async (to, from, next) => {
     if (localStorage.getItem("token")) {
         try {
             await store.dispatch("fetchUser")
-        }
-        catch (e){
+        } catch (e) {
             store.commit("logout")
         }
     }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this page requires authentication
-        if (store.getters.isLoggedIn)  {  // you're logged in great. proceed.
+        if (store.getters.isLoggedIn) {  // you're logged in great. proceed.
             next()
-        }
-        else { // sorry, you can't view this page. go log in.
+        } else { // sorry, you can't view this page. go log in.
             next("/login")
         }
-    }
-    else { //  no auth required. proceed.
+    } else { //  no auth required. proceed.
         next()
     }
 })

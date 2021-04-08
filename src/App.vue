@@ -1,12 +1,12 @@
 <template>
     <v-app>
 
-        <v-content style="margin-bottom: 0">
-            <app-bar></app-bar>
-            <router-view></router-view>
-            <single-journal></single-journal>
-            <startup-tutorial></startup-tutorial>
-        </v-content>
+        <v-main>
+            <app-bar/>
+            <router-view class="mb-12" :key="$route.fullPath"/>
+            <single-journal/>
+        </v-main>
+        <site-footer/>
 
         <v-snackbar
                 color="warning"
@@ -31,37 +31,22 @@
                 </v-btn>
             </template>
         </v-snackbar>
-        <v-footer
-                class="text-right main-footer"
-        >
-            <div class="text-center" style="width:100%">
-                <a style="text-decoration: underline;" href="https://github.com/ourresearch/get-unsub">Open Source</a>
-                |
-                Made with ❤︎ by <a  style="text-decoration: underline;" href="https://ourresearch.org">Our Research</a>
-                |
-                Supported by  <a  style="text-decoration: underline;" href="https://www.arcadiafund.org.uk/">Arcadia</a>, a charitable fund of Lisbet Rausing and Peter Baldwin
-                |
-                <a  style="text-decoration: underline;"  href="mailto:team@ourresearch.org">Contact</a>
-                |
-                <a  style="text-decoration: underline;"  href="http://help.unsub.org/en" target="_blank">Help</a>
-            </div>
-        </v-footer>
 
 
     </v-app>
 </template>
 
 <script>
-    import StartupTutorial from "./components/StartupTutorial"
     import SingleJournal from "./components/SingleJournal/SingleJournal"
-    import AppBar from "./components/AppBar"
+    import AppBar from "./components/AppBar/AppBar"
+    import SiteFooter from "./components/SiteFooter";
 
     export default {
         name: 'App',
         components: {
             SingleJournal,
-            StartupTutorial,
             AppBar,
+            SiteFooter,
         },
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
@@ -146,18 +131,39 @@
         /*opacity: 1 !important;*/
     }
 
+    .low-key-button {
+        text-transform: none !important;
+        font-weight: normal !important;
+        letter-spacing: 0 !important;
+    }
+
     .dot-tooltip-edit-mode-true {
         display: none !important;
     }
 
     .no-highlight {
+        &::before {
+            opacity: 0 !important;
+        }
+        &:hover::before {
+            opacity: .05 !important;
+        }
+
         .theme--light.v-btn--active::before {
             opacity: 0;
         }
-
         .theme--light.v-btn--active:hover::before {
             opacity: .05;
         }
+
+        .theme--light.v-list-item--active::before {
+            opacity: 0;
+        }
+
+        .theme--light.v-list-item--active:hover::before,{
+            opacity: .05;
+        }
+
     }
 
     .breadcrumbs {
@@ -223,7 +229,7 @@
         font-size: 14px;
 
         a {
-            color: #333 !important;
+            color: #fff !important;
             text-decoration: none;
 
             &:hover {

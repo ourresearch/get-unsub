@@ -133,7 +133,7 @@ export const publisher = {
     },
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
-            if (id == getters.publisherId) return
+            if (id === getters.publisherId) return
             commit("startLoading")
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")

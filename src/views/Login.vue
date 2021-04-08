@@ -1,7 +1,32 @@
 <template>
-    <v-container style="height: 100vh; margin-top: -100px;" class="login">
+    <v-container style="margin-top: 10vh;" class="login">
 
-        <v-row style="height: 100%;" class="pt-10" align="center" justify="center">
+        <v-row class="hidden-md-and-up" align="center" justify="center">
+            <v-col>
+                <v-card>
+                    <v-card-title>
+                        <v-icon left>mdi-alert-circle-outline</v-icon>
+                        Not supported on mobile
+                    </v-card-title>
+                    <div class="pa-3">
+                            <div>
+                                Sorry, login is not currently support on mobile devices. Please log in using your desktop or laptop.
+                            </div>
+
+                    </div>
+
+                </v-card>
+
+            </v-col>
+
+        </v-row>
+
+        <v-row
+                style="height: 100%;"
+                class="pt-10 hidden-sm-and-down"
+                align="center"
+                justify="center"
+        >
 
 
             <v-card width="400" :loading="isLoading"  v-show="loginStep === 0">

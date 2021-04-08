@@ -25,12 +25,28 @@ Vue.use(require('vue-shortkey'))
 Vue.use(require('vue-moment'));
 
 
-import VueAnalytics from 'vue-analytics'
+// import VueAnalytics from 'vue-analytics'
+// Vue.use(VueAnalytics, {
+//     id: "UA-23384030-10",
+//     router
+// })
 
-Vue.use(VueAnalytics, {
-    id: "UA-23384030-10",
+import VueGtag from "vue-gtag";
+
+Vue.use(
+    VueGtag,
+    {
+        config: {
+            id: "UA-23384030-10",
+            params: {
+                send_page_view: true,
+            }
+        },
+        onReady() {
+        },
+    },
     router
-})
+    );
 
 
 import VueIntercom from 'vue-intercom';
@@ -38,18 +54,23 @@ import VueIntercom from 'vue-intercom';
 Vue.use(VueIntercom, {appId: 'dc7bcjeo'});
 
 import Jazzicon from 'vue-jazzicon';
+
 Vue.component('jazzicon', Jazzicon);
 
 import Gravatar from 'vue-gravatar';
+
 Vue.component('v-gravatar', Gravatar);
 
 import VueClipboard from 'vue-clipboard2'
+
 Vue.use(VueClipboard)
 
 import JsonCSV from 'vue-json-csv'
+
 Vue.component('downloadCsv', JsonCSV)
 
 import Meta from 'vue-meta';
+
 Vue.use(Meta);
 
 
@@ -70,19 +91,19 @@ const rounder = function (value, decimals) {
 
     // https://stackoverflow.com/a/43539443/226013
     const localStrOpts = {
-            minimumFractionDigits: decimals,
-            maximumFractionDigits: decimals,
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
     }
     return value.toLocaleString(undefined, localStrOpts)
 }
 
 Vue.config.productionTip = false
 Vue.filter('round', function (value, decimals) {
-  return rounder(value, decimals)
+    return rounder(value, decimals)
 })
 
 Vue.filter('percent', function (value, decimals) {
-  return rounder(value, decimals) + "%"
+    return rounder(value, decimals) + "%"
 })
 
 

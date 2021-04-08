@@ -65,7 +65,8 @@ export const institution = {
     },
     actions: {
         async fetchInstitution({commit, dispatch, getters}, id) {
-            if (getters.institutionName) return
+            if (getters.institutionId === id) return
+            commit("clearInstitution")
             const resp = await  api.get(`institution/${id}`)
             commit("setInstitutionFromApiResp", resp.data)
         },
