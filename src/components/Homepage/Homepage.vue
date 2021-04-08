@@ -147,7 +147,7 @@
 
     .above-the-fold {
         /*background: linear-gradient(0deg, rgba(230,230,230,1) 0%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 100%);*/
-        background: linear-gradient(0deg, #eee 20%, #fff 20%,);
+        background: linear-gradient(0deg, #eee 20%, #fff 20%);
     }
 
 

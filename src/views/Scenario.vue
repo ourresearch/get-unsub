@@ -30,6 +30,7 @@
                 <div class="page-title mt-8 d-flex">
                     <div class="text">
                         <div class="body-2">
+                            <v-icon small>mdi-chart-box-outline</v-icon>
                             <span>
                                 <span v-if="institutionIsConsortium">Consortial</span>
                                 Forecast scenario
@@ -539,7 +540,7 @@
             this.loadPage()
         },
         destroyed() {
-
+            this.$store.commit("clearSelectedScenario")
         },
         watch: {
             selectedScenarioIsLoading: {

@@ -28,6 +28,7 @@
                 </v-avatar>
                 <div class="text">
                     <div class="body-2">
+                        <v-icon small>mdi-package-variant</v-icon>
                         <span v-if="publisherIsOwnedByConsortium">Consortial Data</span>
                         Package
                     </div>
@@ -233,7 +234,6 @@
         watch: {},
         async mounted() {
             console.log("publisher: mount up", this.$route.params)
-            this.$store.commit("clearSelectedScenario")
             this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
 

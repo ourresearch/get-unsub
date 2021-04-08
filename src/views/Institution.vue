@@ -2,14 +2,15 @@
     <v-container class="institution">
 
         <div class="page-title mt-8 mb-4 d-flex">
-            <div class="mt-1 mr-2">
-                <v-avatar tile size="60">
-                    <v-icon v-if="!institutionIsConsortium" x-large>mdi-bank-outline</v-icon>
-                    <v-icon v-if="institutionIsConsortium" x-large>mdi-lan</v-icon>
-                </v-avatar>
-            </div>
+<!--            <div class="mt-1 mr-2">-->
+<!--                <v-avatar tile size="60">-->
+<!--                    <v-icon v-if="!institutionIsConsortium" x-large>mdi-bank-outline</v-icon>-->
+<!--                    <v-icon v-if="institutionIsConsortium" x-large>mdi-lan</v-icon>-->
+<!--                </v-avatar>-->
+<!--            </div>-->
             <div class="text">
                 <div class="body-2">
+                    <v-icon small>{{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline"}}</v-icon>
                     {{ institutionIsConsortium ? "Consortium" : "Institution" }}
                 </div>
                 <div class="display-2" v-if="!institutionIsLoading">
@@ -746,6 +747,7 @@
         },
         async mounted() {
             console.log("Institution mount up!", this.institutionId)
+            this.$store.commit("clearPublisher")
             await this.$store.dispatch("fetchInstitution", this.institutionId)
         },
         destroyed() {

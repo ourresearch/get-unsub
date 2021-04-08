@@ -3,7 +3,7 @@
 
         <v-main>
             <app-bar/>
-            <router-view class="mb-12"/>
+            <router-view class="mb-12" :key="$route.fullPath"/>
             <single-journal/>
         </v-main>
         <site-footer/>
@@ -38,7 +38,7 @@
 
 <script>
     import SingleJournal from "./components/SingleJournal/SingleJournal"
-    import AppBar from "./components/AppBar"
+    import AppBar from "./components/AppBar/AppBar"
     import SiteFooter from "./components/SiteFooter";
 
     export default {
@@ -124,11 +124,24 @@
         /*opacity: 1 !important;*/
     }
 
+    .low-key-button {
+        text-transform: none !important;
+        font-weight: normal !important;
+        letter-spacing: 0 !important;
+    }
+
     .dot-tooltip-edit-mode-true {
         display: none !important;
     }
 
     .no-highlight {
+        &::before {
+            opacity: 0 !important;
+        }
+        &:hover::before {
+            opacity: .05 !important;
+        }
+
         .theme--light.v-btn--active::before {
             opacity: 0;
         }

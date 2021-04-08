@@ -1,5 +1,5 @@
 <template>
-    <v-card color="blue" style="padding: 150px 0;">
+    <v-card color="blue" style="padding: 100px 0;">
         <v-container fluid style="max-width: 1500px;">
             <div class="text-h3 text-center white--text ">Users ❤︎ Unsub</div>
             <div class="white--text text-center mb-6 text-body-1" >
