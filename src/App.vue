@@ -134,6 +134,10 @@
         display: none !important;
     }
 
+    /*.container {*/
+    /*    max-width: 1280px;*/
+    /*}*/
+
     .no-highlight {
         &::before {
             opacity: 0 !important;

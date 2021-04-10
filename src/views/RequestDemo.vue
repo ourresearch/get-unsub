@@ -27,10 +27,10 @@
                                     <div>
                                         <div class="" v-html='`<q>${testimonial.quote}</q>`'>
                                         </div>
-                                        <div class="body-2">
+                                        <div class="body-2 mt-1">
                                             <em>
 
-                                                &mdash;{{testimonial.name}}, {{testimonial.job}} at
+                                                &ndash;{{testimonial.name}}, {{testimonial.job}} at
                                                 {{testimonial.institution}}
                                             </em>
                                         </div>
@@ -203,8 +203,8 @@
                     v => !!v || "This field is required.",
                     v => /.+@.+/.test(v) || 'This email isn\'t valid.',
                     v => {
-                        if (/gmail|hotmail|yahoo/.test(v)) {
-                            return 'This looks like a personal address.'
+                        if (/gmail|hotmail|yahoo|inbox\.ru/.test(v)) {
+                            return 'This looks like a personal email address.'
                         }
                         else return true
                     }
