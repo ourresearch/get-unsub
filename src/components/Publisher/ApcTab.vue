@@ -8,21 +8,31 @@
         </v-card>
 
         <v-card class="mb-4" v-if="!publisherApcIsLoading">
-            <v-card-text>
+            <v-card-text class="d-none">
                 <div class="stat">
                     <span class="k">Total APC cost last year is </span>
                     <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
                     <span class="k"> (estimated). </span>
-                    This includes all journals published by {{publisherName}} where authors from your institution have paid APCs for gold or hybrid open access.
+                    This includes all journals published by {{publisherName}} where authors from your institution have
+                    paid APCs for gold or hybrid open access.
                 </div>
                 <div>
                 </div>
             </v-card-text>
 
-            <v-card-title class="d-flex">
-                <v-row>
+                <v-row class="pa-3">
+                    <v-col cols="6" class="pt-0">
+                        <div class="stat body-2">
+                            <span class="k">Total APC cost last year is </span>
+                            <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
+                            <span class="k"> (estimated). </span>
+                            This includes all journals published by {{publisherName}} where authors from your
+                            institution have paid APCs for gold or hybrid open access.
+                        </div>
+                    </v-col>
                     <v-spacer></v-spacer>
-                    <v-col cols="6">
+                    <v-col cols="5" class="mt-0">
+                        <v-row>
                         <v-text-field
                                 hide-details
                                 outlined
@@ -32,9 +42,22 @@
                                 append-icon="mdi-magnify"
                                 full-width
                         />
+                        <v-btn @click="" class="mx-2">
+                            <download-csv
+                                    :data="rowsForDownload"
+                                    :labels="findKey"
+                            >
+                                <v-icon>mdi-download</v-icon>
+                                Download
+                            </download-csv>
+                        </v-btn>
+
+                        </v-row>
+
+                    </v-col>
+                    <v-col cols="4">
                     </v-col>
                 </v-row>
-            </v-card-title>
             <v-divider></v-divider>
             <v-card flat>
                 <v-data-table
@@ -104,8 +127,7 @@
 
     export default {
         name: "PublisherApc",
-        components: {
-        },
+        components: {},
         data() {
             return {
                 search: "",
@@ -141,12 +163,13 @@
                 ]
                 return [...metaHeaders, ...this.publisherApcHeaders]
             },
+            rowsForDownload() {
+                return this.tableRows
+            }
         },
         methods: {
-            ...mapMutations([
-            ]),
-            ...mapActions([
-            ]),
+            ...mapMutations([]),
+            ...mapActions([]),
             getColDisplayType(colName) {
                 const myHeader = this.publisherApcHeaders.find(h => h.value === colName)
                 if (myHeader) {
@@ -155,6 +178,16 @@
                     return "number"
                 }
             },
+            findKey(v, k){
+                // get the friendly human-readable version of the table for download
+                let ret = k
+                this.publisherApcHeaders.forEach(header => {
+                    if (header.value === k){
+                        ret = header.text
+                    }
+                })
+                return ret
+            }
         },
 
         created() {
@@ -164,7 +197,6 @@
             this.$store.commit("clearApcData")
             await this.$store.dispatch("fetchPublisherApcData", this.$route.params.publisherId)
             console.log("ApcTab done fetching publisherApcData")
-
 
 
         },
