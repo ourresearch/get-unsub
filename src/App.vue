@@ -117,7 +117,7 @@
 
 <style lang="scss">
     .v-main {
-        /*background: #fafafa;*/
+        background: #fafafa;
     }
 
     .v-tooltip__content {
