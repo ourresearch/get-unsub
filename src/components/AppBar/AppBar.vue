@@ -10,8 +10,229 @@
         <!--        </v-toolbar-title>-->
 
 
-        <app-bar-breadcrumbs v-if="isLoggedIn" />
+        <v-toolbar-items v-if="isLoggedIn" class="pl-4">
 
+            <!--            INSTITUTION                                          -->
+            <!--*****************************************************************-->
+
+            <v-menu v-if="institutionId" open-on-hover offset-y content-class="no-highlight">
+                <template v-slot:activator="{on}">
+                    <v-btn
+                            text
+                            class="low-key-button no-highlight breadcrumb-button"
+                            style="min-width: 0;"
+                            v-on="on"
+                            :to="`/i/${institutionId}`"
+                    >
+                        <v-icon color="#777">
+                            {{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline"}}
+                        </v-icon>
+                        <template v-if="publisherName">
+                            <v-icon color="#777" small>mdi-chevron-right</v-icon>
+                        </template>
+                        <span v-if="!publisherName" class="pl-2 pr-5">
+                            {{ institutionName }}
+                        </span>
+                    </v-btn>
+                </template>
+                <div v-if="institutionName">
+                    <v-list dense class="pb-0">
+                        <v-list-item :to="`/i/${institutionId}`">
+                            <v-list-item-icon>
+                                <v-icon class="mt-4">
+                                    {{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline"}}
+                                </v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content class="font-weight-bold">
+                                <div>
+                                    <div class="body-2 mb-1">
+                                        Current {{ institutionIsConsortium ? "consortium" : "institution" }}:
+                                    </div>
+                                    <div>
+                                        {{institutionName}}
+                                    </div>
+                                </div>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <template v-if="orgsOtherThanCurrent.length">
+                            <v-subheader class="body-2 mt-2">
+                                Other
+                                {{ userHasAConsortium ? "organizations" : "institutions"}}
+
+                                ({{ orgsOtherThanCurrent.length
+                                }}):
+                            </v-subheader>
+                            <v-divider></v-divider>
+                        </template>
+                    </v-list>
+                    <div style="overflow: scroll; max-height: 500px;">
+                        <v-list dense v-if="orgsOtherThanCurrent.length">
+
+                            <v-list-item
+                                    v-for="org in orgsOtherThanCurrent"
+                                    :key="org.id"
+                                    :to="`/i/${org.institution_id}`"
+                            >
+                                <v-list-item-icon>
+                                    <v-icon>
+                                        {{ org.is_consortium ? "mdi-lan" : "mdi-bank-outline"}}
+                                    </v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <div>
+                                        {{org.institution_name}}
+                                    </div>
+                                    <div v-if="org.is_consortium" class="caption">
+                                        consortium
+                                    </div>
+                                </v-list-item-content>
+                            </v-list-item>
+
+                        </v-list>
+
+                    </div>
+
+                </div>
+            </v-menu>
+
+
+            <!--            PUBLISHER                                            -->
+            <!--*****************************************************************-->
+            <v-menu v-if="publisherId" open-on-hover offset-y content-class="no-highlight">
+                <template v-slot:activator="{on}">
+                    <v-btn
+                            text
+                            class="low-key-button no-highlight breadcrumb-button"
+                            v-on="on"
+                            :to="`/i/${institutionId}/p/${publisherId}`"
+                    >
+                        <v-icon color="#777">
+                            mdi-package-variant
+                        </v-icon>
+                        <template v-if="scenarioName">
+                            <v-icon color="#777" small>mdi-chevron-right</v-icon>
+                        </template>
+                        <span v-if="!scenarioName" class="pl-2 pr-5">
+                            {{ publisherName }} <span v-if="publisherIsOwnedByConsortium">(consortial feeder)</span>
+                        </span>
+                    </v-btn>
+                </template>
+                <div v-if="publisherName">
+                    <v-list class="pb-0" dense>
+                        <v-list-item :to="`/i/${institutionId}/p/${publisherId}`">
+                            <v-list-item-icon>
+                                <v-icon class="mt-4">mdi-package-variant</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content class="font-weight-bold">
+                                <div>
+                                    <div class="body-2 mb-1">
+                                        Current package:
+                                    </div>
+                                    <div>
+                                        {{publisherName}}
+                                        <s1pan v-if="publisherIsOwnedByConsortium">(consortial)</s1pan>
+                                    </div>
+                                </div>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <template v-if="publishersOtherThanCurrent.length">
+                            <v-subheader class="body-2 mt-2">Other packages ({{publishersOtherThanCurrent.length}}):
+                            </v-subheader>
+                            <v-divider></v-divider>
+                        </template>
+                    </v-list>
+                    <div style="overflow: scroll; max-height: 500px;">
+                        <v-list dense>
+                            <v-list-item
+                                    v-for="pub in publishersOtherThanCurrent"
+                                    :key="pub.id"
+                                    :to="`/i/${institutionId}/p/${pub.id}`"
+                            >
+                                <v-list-item-icon>
+                                    <v-icon>mdi-package-variant</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    {{pub.name}}
+                                    <template v-if="pub.is_owned_by_consortium">(consortial)</template>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </div>
+
+                </div>
+            </v-menu>
+
+
+            <!--            SCENARIO                                          -->
+            <!--*****************************************************************-->
+            <v-menu v-if="scenarioId" open-on-hover max-height="500" offset-y content-class="no-highlight">
+                <template v-slot:activator="{on}">
+                    <v-btn
+                            text
+                            class="low-key-button no-highlight breadcrumb-button"
+                            v-on="on"
+                    >
+                        <v-icon color="#777">
+                            mdi-chart-box-outline
+                        </v-icon>
+                        <span class="pl-2 pr-5">
+                            {{ scenarioName }}
+                        </span>
+                    </v-btn>
+                </template>
+                <div v-if="scenarioName">
+                    <v-list class="pb-0" dense>
+                        <v-list-item :to="`./${scenarioId}`">
+                            <v-list-item-icon>
+                                <v-icon class="mt-4">mdi-chart-box-outline</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content class="font-weight-bold">
+                                <div>
+                                    <div class="body-2 mb-1">
+                                        Current scenario:
+                                    </div>
+                                    <div>
+                                        {{scenarioName}}
+
+                                    </div>
+
+                                </div>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                        <template v-if="scenariosOtherThanCurrent.length">
+                            <v-subheader class="body-2 mt-2">Other scenarios ({{ scenariosOtherThanCurrent.length }}):
+                            </v-subheader>
+                            <v-divider></v-divider>
+                        </template>
+                    </v-list>
+                    <div style="overflow: scroll; max-height: 500px;">
+                        <v-list dense>
+                            <v-list-item
+                                    v-for="scenario in scenariosOtherThanCurrent"
+                                    :key="scenario.id"
+                                    :to="`/i/${institutionId}/p/${publisherId}/s/${scenario.id}`"
+                            >
+                                <v-list-item-icon>
+                                    <v-icon>mdi-chart-box-outline</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content>
+                                    <span v-if="scenario.saved">
+                                        {{scenario.saved.name}}
+                                    </span>
+                                    <span v-if="!scenario.saved">
+                                        Loading scenario...
+                                    </span>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
+                    </div>
+
+                </div>
+            </v-menu>
+
+
+        </v-toolbar-items>
 
 
 
@@ -86,7 +307,7 @@
         </div>
 
         <div class="no-highlight hidden-sm-and-down" v-if="!isLoggedIn">
-            <v-btn outlined color="primary"  to="/request-demo">
+            <v-btn outlined color="primary" to="/request-demo">
                 Get Demo
             </v-btn>
             <v-btn
@@ -134,19 +355,16 @@
         </div>
 
 
-
     </v-toolbar>
 </template>
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
-    import AppBarBreadcrumbs from "./AppBarBreadcrumbs";
 
 
     export default {
         name: "AppBar",
         components: {
-            AppBarBreadcrumbs
         },
         data() {
             return {
@@ -170,19 +388,29 @@
         computed: {
             ...mapGetters([
                 'isLandingPage',
-                'scenarioId',
-                'scenarioName',
-                'publisherId',
-                'publisherName',
-                'selectedScenarioIsLoading',
                 'isLoggedIn',
-                'institutionName',
-                'institutionId',
-                'institutionIsDemo',
-                'foo',
+
                 "userName",
                 "userEmail",
+
+                'institutionId',
+                'institutionName',
+                'institutionIsDemo',
                 "institutionIsConsortium",
+                'userConsortia',
+                'userInstitutions',
+
+                'publisherId',
+                'publisherName',
+                'institutionPublishers',
+                'publisherPublisher',
+                'publisherIsOwnedByConsortium',
+
+                'scenarioId',
+                'scenarioName',
+                'publisherScenarios',
+                'selectedScenarioIsLoading',
+
             ]),
             isApcPage() {
                 // hack for now
@@ -197,6 +425,29 @@
             backgroundColor() {
                 return (this.institutionIsConsortium) ? "primary" : "white"
             },
+            orgs() {
+                return this.userConsortia.concat(this.userInstitutions)
+            },
+            orgsOtherThanCurrent() {
+                return this.orgs.filter(i => {
+                    return i.institution_id !== this.institutionId
+                })
+            },
+            userHasAConsortium() {
+                return this.orgs.find(org => {
+                    return org.is_consortium
+                })
+            },
+            publishersOtherThanCurrent() {
+                return this.institutionPublishers.filter(p => {
+                    return p.id !== this.publisherId
+                })
+            },
+            scenariosOtherThanCurrent() {
+                return this.publisherScenarios.filter(s => {
+                    return s.id !== this.scenarioId
+                })
+            }
         },
         created() {
         },
@@ -214,6 +465,16 @@
 </script>
 
 <style lang="scss">
+    .breadcrumb-button {
+        min-width: 0 !important;
+        padding: 0 2px 0 7px !important;
+        span {
+            font-weight: bold;
+            font-size: 18px;
+        }
+    }
+
+
     .v-toolbar__extension {
         /*background: #eee;*/
         border-top: 1px solid #ddd;
