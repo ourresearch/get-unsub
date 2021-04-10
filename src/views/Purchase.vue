@@ -8,7 +8,7 @@
                     </div>
                     <div class="">
                         <p class="my-3">
-                            The Unsub dashboard is a subscription service. Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee helps <a href="https://ourresearch.org">our nonprofit</a> offset that cost, and keeps us sustainable.
+                            The Unsub dashboard requires a subscription. Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee offsets that cost, keeping <a href="https://ourresearch.org">our nonprofit</a> sustainable.
                         </p>
                         <ul>
                             <li>
@@ -30,7 +30,7 @@
                         </ul>
 
                         <p class="mt-8">
-                            Thanks a lot for supporting our work!
+                            Thanks a lot for your subscription!
                         </p>
                         <p>
                             Best,
