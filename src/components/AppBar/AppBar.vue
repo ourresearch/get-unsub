@@ -1,5 +1,8 @@
 <template>
-    <v-toolbar
+    <v-app-bar
+            color="white"
+            app
+            absolute
             :flat="isLandingPage"
     >
         <router-link to="/">
@@ -236,10 +239,10 @@
 
 
 
-        <div class="no-highlight ml-12 pl-6 hidden-sm-and-down" v-if="!isLoggedIn">
+        <div class="no-highlight ml-8 hidden-sm-and-down" v-if="!isLoggedIn">
             <v-menu offset-y content-class="no-highlight">
                 <template v-slot:activator="{on}">
-                    <v-btn text color="" v-on="on">
+                    <v-btn text color="" v-on="on" class="">
                         About
                         <v-icon class="">mdi-menu-down</v-icon>
                     </v-btn>
@@ -260,7 +263,7 @@
                 </v-list>
             </v-menu>
 
-            <v-btn text href="http://help.unsub.org/en/" target="_blank" class="mx-4">
+            <v-btn text href="http://help.unsub.org/en/" target="_blank" class="mx-1">
                 Help
             </v-btn>
 
@@ -355,7 +358,7 @@
         </div>
 
 
-    </v-toolbar>
+    </v-app-bar>
 </template>
 
 <script>

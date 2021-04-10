@@ -1,8 +1,8 @@
 <template>
     <v-app>
 
+        <app-bar/>
         <v-main>
-            <app-bar/>
             <router-view class="mb-12" :key="$route.fullPath"/>
             <single-journal/>
         </v-main>
@@ -117,7 +117,7 @@
 
 <style lang="scss">
     .v-main {
-        background: #fafafa;
+        /*background: #fafafa;*/
     }
 
     .v-tooltip__content {
