@@ -2,7 +2,7 @@
     <div>
         <v-menu open-on-hover max-height="500" offset-y content-class="no-highlight">
             <template v-slot:activator="{on}">
-                <v-btn text class="low-key-button" v-on="on">
+                <v-btn text class="low-key-button font-weight-bold" style="font-size:18px;" v-on="on">
                     <v-icon color="#777" left>mdi-chart-box-outline</v-icon>
                     {{ scenarioName }}
                 </v-btn>

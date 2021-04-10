@@ -18,7 +18,7 @@
         </div>
 
         <div v-if="!selectedScenarioIsLoading">
-            <v-container class="pb-0">
+            <v-container v-if="0" class="pb-0">
 
                 <router-link
                         v-if="publisherId && institutionId"
@@ -89,10 +89,11 @@
             </v-container>
 
 
-            <v-container v-if="!scenarioIsLockedPendingUpdate">
+            <v-container class="mt-9" v-if="!scenarioIsLockedPendingUpdate">
                 <v-row>
                     <v-col cols="4">
-                        <v-card style="position: sticky; top: 0px;">
+<!--                        <v-card flat style="position: sticky; top: 0px;">-->
+                        <v-card flat>
                             <!--                            <v-toolbar flat>-->
                             <!--                                <v-toolbar-title>-->
                             <!--                                    5yr forecast overview-->
@@ -109,11 +110,11 @@
                                                 <v-tooltip right max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
                                                         <div v-on="on">
-                                                            <div class="text-h4" id="annual-cost-value">
+                                                            <div class="text-h5" id="annual-cost-value">
                                                                 {{ costTotal | currency(publisherCurrencySymbol) }}
 
                                                             </div>
-                                                            <div class="">
+                                                            <div class="body-2">
                                                                 Annual Cost ({{ costPercent | percent }})
 
                                                             </div>
@@ -149,10 +150,10 @@
                                                 <v-tooltip right max-width="400" color="#333">
                                                     <template v-slot:activator="{ on }">
                                                         <div v-on="on">
-                                                            <div class="text-h4" id="instant-fulfillment-value">
+                                                            <div class="text-h5" id="instant-fulfillment-value">
                                                                 {{ instantUsagePercent | percent(0) }}
                                                             </div>
-                                                            <div class="">Instant access</div>
+                                                            <div class="body-2">Instant access</div>
                                                         </div>
                                                     </template>
                                                     <div class="pa-3 pt-1">
@@ -187,7 +188,7 @@
                                                 :num-journals-subscribed="subscribedJournals.length"
                                         />
                                         <div class="text-center mt-2 text-h6">
-                                            <div class="">
+                                            <div class="body-1">
                                                 Annual cost
                                             </div>
 
@@ -201,7 +202,7 @@
                                                 :num-journals-subscribed="subscribedJournals.length"
                                         />
                                         <div class="text-center mt-2 text-h">
-                                            <div class="text-h6">
+                                            <div class="body-1">
                                                 Usage fulfillment
                                             </div>
                                         </div>
@@ -216,9 +217,9 @@
                     </v-col>
 
                     <v-col cols="8">
-                        <v-card>
-                            <v-toolbar flat height="120px" class="align-top"
-                                       style="position: sticky; top: 0px; z-index: 8; border-bottom: 1px solid rgba(0, 0, 0, 0.12)">
+                        <v-card flat>
+<!--                            <v-toolbar flat height="120px" class="align-top" style="position: sticky; top: 0px; z-index: 8;">-->
+                            <v-toolbar flat height="120px" class="align-top">
 
                                 <overview-graphic-subrs-counter/>
                                 <!--                                <v-toolbar-title>-->
@@ -295,7 +296,7 @@
 
                                 </v-row>
                             </v-card-text>
-                            <v-divider/>
+<!--                            <v-divider/>-->
                             <v-card-text class="px-0">
                                 <overview-graphic-bar-dots
                                         class="pa-3"

@@ -1,8 +1,8 @@
 <template>
     <v-app>
 
+        <app-bar/>
         <v-main>
-            <app-bar/>
             <router-view class="mb-12" :key="$route.fullPath"/>
             <single-journal/>
         </v-main>

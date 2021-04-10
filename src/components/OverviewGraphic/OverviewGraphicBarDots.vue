@@ -29,8 +29,9 @@
 
 
 
-        <div class="x-axis-label text-center text-h6">
-            {{ publisherName }} journals, by Cost Per Use (CPU)
+        <div class="x-axis-label text-center body-1 pt-4">
+<!--            {{ publisherName }} journals, by Cost Per Use (CPU)-->
+            Package journals, arranged by Cost Per Use (CPU)
         </div>
 
 
@@ -197,6 +198,7 @@
 
 
         .histogram-bars {
+            min-height: 398px;
             width: 100%;
             display: flex;
             align-items: stretch;

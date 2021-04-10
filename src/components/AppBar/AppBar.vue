@@ -1,6 +1,9 @@
 <template>
-    <v-toolbar
+    <v-app-bar
             :flat="isLandingPage"
+            :extended="!!scenarioId"
+            color="#fff"
+            app
     >
         <router-link to="/">
             <img class="mt-2" style="width:130px;" src="../../assets/unsub-logo.png"
@@ -10,9 +13,7 @@
         <!--        </v-toolbar-title>-->
 
 
-        <app-bar-breadcrumbs v-if="isLoggedIn" />
-
-
+        <app-bar-breadcrumbs v-if="isLoggedIn"/>
 
 
         <div class="no-highlight ml-12 pl-6 hidden-sm-and-down" v-if="!isLoggedIn">
@@ -86,7 +87,7 @@
         </div>
 
         <div class="no-highlight hidden-sm-and-down" v-if="!isLoggedIn">
-            <v-btn outlined color="primary"  to="/request-demo">
+            <v-btn outlined color="primary" to="/request-demo">
                 Get Demo
             </v-btn>
             <v-btn
@@ -133,20 +134,49 @@
             </v-menu>
         </div>
 
+        <template v-slot:extension>
+                <v-row style="margin-left:150px;">
+                    <scenario-menu-scenario key="scenario"/>
+                    <scenario-menu-view key="view"/>
+                    <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
+                    <scenario-menu-columns key="columns"/>
+                    <scenario-menu-settings key="settings"/>
+                    <scenario-menu-export key="export"/>
+                    <scenario-menu-help key="help"/>
+                    <v-spacer/>
+                    <div class="pt-2" v-if="institutionIsConsortium">
+                        <scenario-edit-dialogs-institutions/>
+                    </div>
+                </v-row>
+        </template>
 
 
-    </v-toolbar>
+    </v-app-bar>
 </template>
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
     import AppBarBreadcrumbs from "./AppBarBreadcrumbs";
-
+    import ScenarioMenuScenario from "../ScenarioMenu/ScenarioMenuScenario";
+    import ScenarioMenuSubscriptions from "../ScenarioMenu/ScenarioMenuSubscriptions";
+    import ScenarioMenuView from "../ScenarioMenu/ScenarioMenuView";
+    import ScenarioMenuColumns from "../ScenarioMenu/ScenarioMenuColumns";
+    import ScenarioMenuSettings from "../ScenarioMenu/ScenarioMenuSettings";
+    import ScenarioMenuExport from "../ScenarioMenu/ScenarioMenuExport";
+    import ScenarioMenuHelp from "../ScenarioMenu/ScenarioMenuHelp";
 
     export default {
         name: "AppBar",
         components: {
-            AppBarBreadcrumbs
+            AppBarBreadcrumbs,
+
+            ScenarioMenuScenario,
+            ScenarioMenuView,
+            ScenarioMenuSubscriptions,
+            ScenarioMenuColumns,
+            ScenarioMenuExport,
+            ScenarioMenuSettings,
+            ScenarioMenuHelp,
         },
         data() {
             return {
@@ -216,12 +246,14 @@
 <style lang="scss">
     .v-toolbar__extension {
         /*background: #eee;*/
-        border-top: 1px solid #ddd;
-        padding-right: 27px;
-        color: #fff;
-        background: #2196F3;
-        display: flex;
-        justify-content: space-between;
+
+
+        /*border-top: 1px solid #ddd;*/
+        /*padding-right: 27px;*/
+        /*color: #fff;*/
+        /*background: #2196F3;*/
+        /*display: flex;*/
+        /*justify-content: space-between;*/
     }
 
 
