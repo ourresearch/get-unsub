@@ -8,7 +8,10 @@
                     </div>
                     <div class="">
                         <p class="my-3">
-                            The Unsub dashboard requires a subscription. Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee offsets that cost, keeping <a href="https://ourresearch.org">our nonprofit</a> sustainable.
+                            The Unsub dashboard requires a subscription.
+                        </p>
+                        <p>
+                            Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee offsets that cost, keeping <a href="https://ourresearch.org">our nonprofit</a> sustainable.
                         </p>
                         <ul>
                             <li>
@@ -29,32 +32,35 @@
                             </li>
                         </ul>
 
-                        <p class="mt-8">
-                            Thanks a lot for your subscription!
-                        </p>
-                        <p>
-                            Best,
-                        </p>
+                        <div v-if="0">
+                            <p class="mt-8">
+                                Thanks a lot for your subscription!
+                            </p>
+                            <p>
+                                Best,
+                            </p>
 
 
-                        <v-card
-                                flat
-                                class="my-2 py-2"
-                        >
-                            <div class="d-flex">
-                                <v-avatar class="mr-4">
-                                    <v-img src="https://i.imgur.com/i1JCjuf.jpg"></v-img>
-                                </v-avatar>
-                                <div>
-                                    <div>Heather Piwowar and Jason Priem</div>
-                                    <div class="body-2">
-                                        Unsub Co-founders
+                            <v-card
+                                    flat
+                                    class="my-2 py-2"
+                            >
+                                <div class="d-flex">
+                                    <v-avatar class="mr-4">
+                                        <v-img src="https://i.imgur.com/i1JCjuf.jpg"></v-img>
+                                    </v-avatar>
+                                    <div>
+                                        <div>Heather Piwowar and Jason Priem</div>
+                                        <div class="body-2">
+                                            Unsub Co-founders
+                                        </div>
                                     </div>
+
                                 </div>
 
-                            </div>
+                            </v-card>
 
-                        </v-card>
+                        </div>
 
 
                         <!--                        <v-divider class="my-10"/>-->
