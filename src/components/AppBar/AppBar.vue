@@ -133,7 +133,7 @@
                                     </div>
                                     <div>
                                         {{publisherName}}
-                                        <s1pan v-if="publisherIsOwnedByConsortium">(consortial)</s1pan>
+                                        <s1pan v-if="publisherIsOwnedByConsortium">(consortial feeder)</s1pan>
                                     </div>
                                 </div>
                             </v-list-item-content>
@@ -156,7 +156,7 @@
                                 </v-list-item-icon>
                                 <v-list-item-content>
                                     {{pub.name}}
-                                    <template v-if="pub.is_owned_by_consortium">(consortial)</template>
+                                    <template v-if="pub.is_owned_by_consortium">(consortial feeder)</template>
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>

@@ -223,7 +223,7 @@
                                     >
                                         {{pub.name}}
                                         <span class="font-weight-light"
-                                              v-if="pub.is_owned_by_consortium">(consortial)</span>
+                                              v-if="pub.is_owned_by_consortium">(consortial feeder)</span>
                                     </v-list-item-title>
 
                                     <v-list-item-subtitle v-if="pub.is_demo">
