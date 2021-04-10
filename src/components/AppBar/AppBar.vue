@@ -469,7 +469,7 @@
         min-width: 0 !important;
         padding: 0 2px 0 7px !important;
         span {
-            font-weight: bold;
+            /*font-weight: bold;*/
             font-size: 18px;
         }
     }

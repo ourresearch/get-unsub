@@ -368,8 +368,9 @@
                 this.closeEditUserInfo()
             }
         },
-        mounted() {
+        created() {
             this.$store.commit("clearInstitution")
+            this.$store.commit("clearPublisher")
         },
     }
 </script>
