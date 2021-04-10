@@ -11,6 +11,10 @@
                             The Unsub dashboard requires a subscription.
                         </p>
                         <p>
+                            To get an Unsub dashboard for your library, please submit this form; we'll send you an invoice, and get started creating your custom dashboard.
+                        </p>
+
+                        <p v-if="0">
                             Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee offsets that cost, keeping <a href="https://ourresearch.org">our nonprofit</a> sustainable.
                         </p>
                         <ul>
@@ -31,6 +35,8 @@
                                 the lower-right of your screen.
                             </li>
                         </ul>
+
+
 
                         <div v-if="0">
                             <p class="mt-8">
@@ -63,24 +69,26 @@
                         </div>
 
 
-                        <!--                        <v-divider class="my-10"/>-->
-                        <!--                        <div class="text-h6 primary&#45;&#45;text mb-6">-->
-                        <!--                            Join 300+ forward-thinking libraries worldwide:-->
-                        <!--                        </div>-->
-                        <!--                        <v-row align="center">-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/cambridge.png" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/cern.png" height="55px" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/cornell.png" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/hopkins.png" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                        </v-row>-->
+
+
+                                                <v-divider class="my-10"/>
+                                                <div class="text-h6 mb-6">
+                                                    Join 300+ forward-thinking libraries worldwide:
+                                                </div>
+                                                <v-row align="center">
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/cambridge.png" contain/>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/cern.png" height="50px" contain/>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/cornell.png" contain/>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/hopkins.png" contain/>
+                                                    </v-col>
+                                                </v-row>
 
                     </div>
                 </v-card>
