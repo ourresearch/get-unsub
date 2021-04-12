@@ -22,10 +22,10 @@
                 <v-col cols="12" sm="2">
                     <div><a href="http://help.unsub.org" target="_blank">Support</a></div>
                     <div>
-                        <router-link to="/contact">Get a demo</router-link>
+                        <router-link to="/request-demo">Get a demo</router-link>
                     </div>
                     <div>
-                        <router-link to="/contact">Purchase</router-link>
+                        <router-link to="/purchase">Purchase</router-link>
                     </div>
                     <div>
                         <router-link to="/login">Log in</router-link>

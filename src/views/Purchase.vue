@@ -8,7 +8,14 @@
                     </div>
                     <div class="">
                         <p class="my-3">
-                            The Unsub dashboard is a subscription service. Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee helps <a href="https://ourresearch.org">our nonprofit</a> offset that cost, and keeps us sustainable.
+                            The Unsub dashboard requires a subscription.
+                        </p>
+                        <p>
+                            To get an Unsub dashboard for your library, please submit this form; we'll send you an invoice, and get started creating your custom dashboard.
+                        </p>
+
+                        <p v-if="0">
+                            Although our code is <a href="https://github.com/ourresearch/get-unsub">open source</a>, it costs money for us to maintain and operate the service; the subscription fee offsets that cost, keeping <a href="https://ourresearch.org">our nonprofit</a> sustainable.
                         </p>
                         <ul>
                             <li>
@@ -29,52 +36,59 @@
                             </li>
                         </ul>
 
-                        <p class="mt-8">
-                            Thanks a lot for supporting our work!
-                        </p>
-                        <p>
-                            Best,
-                        </p>
 
 
-                        <v-card
-                                flat
-                                class="my-2 py-2"
-                        >
-                            <div class="d-flex">
-                                <v-avatar class="mr-4">
-                                    <v-img src="https://i.imgur.com/i1JCjuf.jpg"></v-img>
-                                </v-avatar>
-                                <div>
-                                    <div>Heather Piwowar and Jason Priem</div>
-                                    <div class="body-2">
-                                        Unsub Co-founders
+                        <div v-if="0">
+                            <p class="mt-8">
+                                Thanks a lot for your subscription!
+                            </p>
+                            <p>
+                                Best,
+                            </p>
+
+
+                            <v-card
+                                    flat
+                                    class="my-2 py-2"
+                            >
+                                <div class="d-flex">
+                                    <v-avatar class="mr-4">
+                                        <v-img src="https://i.imgur.com/i1JCjuf.jpg"></v-img>
+                                    </v-avatar>
+                                    <div>
+                                        <div>Heather Piwowar and Jason Priem</div>
+                                        <div class="body-2">
+                                            Unsub Co-founders
+                                        </div>
                                     </div>
+
                                 </div>
 
-                            </div>
+                            </v-card>
 
-                        </v-card>
+                        </div>
 
 
-                        <!--                        <v-divider class="my-10"/>-->
-                        <!--                        <div class="text-h6 primary&#45;&#45;text mb-6">-->
-                        <!--                            Join 300+ forward-thinking libraries worldwide:-->
-                        <!--                        </div>-->
-                        <!--                        <v-row align="center">-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/cambridge.png" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/cern.png" height="55px" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/cornell.png" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                            <v-col cols="3">-->
-                        <!--                                <v-img src="../assets/logos/hopkins.png" contain/>-->
-                        <!--                            </v-col>-->
-                        <!--                        </v-row>-->
+
+
+                                                <v-divider class="my-10"/>
+                                                <div class="text-h6 mb-6">
+                                                    Join 300+ forward-thinking libraries worldwide:
+                                                </div>
+                                                <v-row align="center">
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/cambridge.png" contain/>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/cern.png" height="50px" contain/>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/cornell.png" contain/>
+                                                    </v-col>
+                                                    <v-col cols="3">
+                                                        <v-img src="../assets/logos/hopkins.png" contain/>
+                                                    </v-col>
+                                                </v-row>
 
                     </div>
                 </v-card>

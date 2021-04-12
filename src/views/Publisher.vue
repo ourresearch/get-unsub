@@ -34,7 +34,7 @@
                     </div>
                     <div class="display-2">
                         {{ publisherName }}
-                        <span v-if="publisherIsOwnedByConsortium" class="font-weight-light">(consortial)</span>
+                        <span v-if="publisherIsOwnedByConsortium" class="font-weight-light">(consortial feeder)</span>
                     </div>
                 </div>
             </div>
