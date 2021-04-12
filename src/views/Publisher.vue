@@ -28,13 +28,16 @@
                 </v-avatar>
                 <div class="text">
                     <div class="body-2">
-                        <v-icon small>mdi-package-variant</v-icon>
-                        <span v-if="publisherIsOwnedByConsortium">Consortial Data</span>
-                        Package
+                        <v-icon small>
+                            {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+                        </v-icon>
+                        {{publisherPublisher}}
+                        package
                     </div>
                     <div class="display-2">
                         {{ publisherName }}
-                        <span v-if="publisherIsOwnedByConsortium" class="font-weight-light">(consortial feeder)</span>
+
+                        <v-chip v-if="publisherIsOwnedByConsortium" class="">consortial feeder</v-chip>
                     </div>
                 </div>
             </div>
@@ -165,6 +168,7 @@
                 "publisherName",
                 "publisherId",
                 "publisherScenarios",
+                "publisherPublisher",
                 "publisherScenariosCount",
                 "isPublisherDemo",
                 "institutionId",

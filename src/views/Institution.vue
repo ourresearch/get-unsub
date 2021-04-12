@@ -229,11 +229,7 @@
                     </v-card>
                 </v-skeleton-loader>
 
-                <v-skeleton-loader
-                        :loading="institutionIsLoading"
-                        type="card-heading, list-item-avatar-two-line, list-item"
-                >
-                    <v-card class="my-4">
+                    <v-card class="my-4" v-if="institutionConsortialFeederPublishers.length">
                         <div class="pa-3">
                             <div class="text-h6">
                                 Consortial feeder packages
@@ -253,7 +249,6 @@
                             />
                         </v-list>
                     </v-card>
-                </v-skeleton-loader>
 
             </v-col>
         </v-row>
