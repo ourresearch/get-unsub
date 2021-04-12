@@ -1,9 +1,9 @@
 <template>
     <v-app-bar
-            :flat="isLandingPage"
             :extended="!!scenarioId"
             color="#fff"
             app
+            elevate-on-scroll
     >
         <router-link to="/">
             <img class="mt-2" style="width:130px;" src="../../assets/unsub-logo.png"
@@ -358,7 +358,7 @@
         </div>
 
         <template v-slot:extension>
-                <v-row style="margin-left:150px;">
+                <v-row style="margin-left:0px; border-top:1px solid #eee;">
                     <scenario-menu-scenario key="scenario"/>
                     <scenario-menu-view key="view"/>
                     <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
@@ -379,7 +379,6 @@
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
-    import AppBarBreadcrumbs from "./AppBarBreadcrumbs";
     import ScenarioMenuScenario from "../ScenarioMenu/ScenarioMenuScenario";
     import ScenarioMenuSubscriptions from "../ScenarioMenu/ScenarioMenuSubscriptions";
     import ScenarioMenuView from "../ScenarioMenu/ScenarioMenuView";
@@ -391,7 +390,6 @@
     export default {
         name: "AppBar",
         components: {
-            AppBarBreadcrumbs,
 
             ScenarioMenuScenario,
             ScenarioMenuView,
