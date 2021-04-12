@@ -147,6 +147,8 @@ export const institution = {
         },
         institutionIsLoading: (state) => !state.institutionName,
         institutionPublishers: (state) => state.institutionPublishersLive,
+        institutionOwnPublishers: (state) => state.institutionPublishersLive.filter(p => !p.is_owned_by_consortium),
+        institutionConsortialFeederPublishers: (state) => state.institutionPublishersLive.filter(p => p.is_owned_by_consortium),
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
         institutionIsConsortium: (state) => state.isConsortium,
