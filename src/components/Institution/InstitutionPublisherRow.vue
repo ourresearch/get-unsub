@@ -16,7 +16,6 @@
                 {{pub.name}}
                 <v-chip
                         small
-                        outlined
                         v-if="isConsortialFeeder"
                         class="font-weight-regular"
                 >

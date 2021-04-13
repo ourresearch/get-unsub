@@ -120,7 +120,6 @@
                         </span>
                         <v-chip
                                 small
-                                outlined
                                 v-if="publisherIsOwnedByConsortium"
                         >
                             consortial feeder
@@ -144,7 +143,6 @@
                                     <div  class="d-flex justify-space-between">
                                         {{publisherName}}
                                         <v-chip
-                                                outlined
                                                 x-small
                                                 v-if="publisherIsOwnedByConsortium"
                                                 class="font-weight-regular ml-2"
@@ -177,7 +175,6 @@
                                     <div  class="d-flex justify-space-between">
                                     {{pub.name}}
                                         <v-chip
-                                                outlined
                                                 x-small
                                                 v-if="pub.is_owned_by_consortium"
                                                 class="font-weight-regular ml-2"
