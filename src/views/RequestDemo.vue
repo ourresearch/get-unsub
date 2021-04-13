@@ -203,7 +203,7 @@
                     v => !!v || "This field is required.",
                     v => /.+@.+/.test(v) || 'This email isn\'t valid.',
                     v => {
-                        if (/gmail|hotmail|yahoo|inbox\.ru/.test(v)) {
+                        if (/gmail|hotmail|yahoo|inbox\.ru|qq\.com/.test(v)) {
                             return 'This looks like a personal email address.'
                         }
                         else return true
