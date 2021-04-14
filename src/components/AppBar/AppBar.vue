@@ -1,6 +1,6 @@
 <template>
     <v-app-bar
-            :extended="!!scenarioId"
+            :extended="!!isLoggedIn"
             color="#fff"
             app
             elevate-on-scroll
@@ -358,19 +358,10 @@
         </div>
 
         <template v-slot:extension>
-                <v-row style="margin-left:0px; border-top:1px solid #eee;">
-                    <scenario-menu-scenario key="scenario"/>
-                    <scenario-menu-view key="view"/>
-                    <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
-                    <scenario-menu-columns key="columns"/>
-                    <scenario-menu-settings key="settings"/>
-                    <scenario-menu-export key="export"/>
-                    <scenario-menu-help key="help"/>
-                    <v-spacer/>
-                    <div class="pt-2" v-if="institutionIsConsortium">
-                        <scenario-edit-dialogs-institutions/>
-                    </div>
-                </v-row>
+            <app-bar-ext-scenario v-if="scenarioName" />
+
+<!--            <app-bar-ext-publisher />-->
+            <app-bar-ext-institution />
         </template>
 
 
@@ -379,6 +370,10 @@
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
+    import AppBarExtScenario from "./AppBarExtScenario";
+    import AppBarExtPublisher from "./AppBarExtPublisher";
+    import AppBarExtInstitution from "./AppBarExtInstitution";
+
     import ScenarioMenuScenario from "../ScenarioMenu/ScenarioMenuScenario";
     import ScenarioMenuSubscriptions from "../ScenarioMenu/ScenarioMenuSubscriptions";
     import ScenarioMenuView from "../ScenarioMenu/ScenarioMenuView";
@@ -390,6 +385,9 @@
     export default {
         name: "AppBar",
         components: {
+            AppBarExtScenario,
+            AppBarExtPublisher,
+            AppBarExtInstitution,
 
             ScenarioMenuScenario,
             ScenarioMenuView,
