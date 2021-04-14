@@ -10,24 +10,25 @@
 
         <v-snackbar
                 color="warning"
-                top
+                bottom
                 v-model="$store.state.notSupportedMsgOpen">
             Sorry, that's not supported yet. Contact team@ourresearch.org for more info.
             <v-btn text @click="$store.commit('closeNotSupportedMsg')">close</v-btn>
         </v-snackbar>
 
         <v-snackbar
-                top
+                bottom
                 :color="$store.state.snackbarColor"
                 v-model="$store.state.snackbarIsOpen">
             {{$store.state.snackbarMsg}}
+
             <template v-slot:action="{ attrs }">
                 <v-btn
-                        text
+                        icon
                         v-bind="attrs"
                         @click="$store.commit('closeSnackbar')"
                 >
-                    Close
+                    <v-icon>mdi-close</v-icon>
                 </v-btn>
             </template>
         </v-snackbar>

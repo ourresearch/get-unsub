@@ -26,7 +26,7 @@ export default new Vuex.Store({
         notSupportedMsgOpen: false,
         snackbarMsg: "",
         snackbarIsOpen: false,
-        snackbarColor: "success",
+        snackbarColor: null,
 
         editMode: false,
 

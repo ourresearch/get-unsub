@@ -1,8 +1,9 @@
 <template>
-    <v-tabs align-with-title>
-        <v-tab>Tab 1</v-tab>
-        <v-tab>Tab 2</v-tab>
-        <v-tab>Tab 3</v-tab>
+    <v-tabs class="ml-1" v-model="currentTab">
+        <v-tab class="low-key-button">Packages</v-tab>
+        <v-tab class="low-key-button">Users</v-tab>
+        <v-tab class="low-key-button">ROR ID</v-tab>
+        <v-tab class="low-key-button">Consortial</v-tab>
     </v-tabs>
 </template>
 
@@ -14,7 +15,7 @@
         components: {},
         data() {
             return {
-                foo: 42
+                foo: 42,
             }
         },
         methods: {},
@@ -45,16 +46,27 @@
                 'selectedScenarioIsLoading',
 
             ]),
+            currentTab: {
+                get() {
+                    console.log("get currentTab")
+                    return this.$store.getters.institutionTabShowing
+                },
+                set(newVal) {
+                    this.$store.commit("setInstitutionTabShowing", newVal)
+                }
+            }
         },
         created() {
+            this.currentTab = 0
         },
         mounted() {
         },
         watch: {
-            "$route": {
+            "currentTab": {
                 immediate: true,
                 handler: function (to, from) {
-
+                    console.log("AppBar: currentTab changd", to)
+                    // this.$store.commit("setInstitutionTabShowing", to)
                 }
             }
         }

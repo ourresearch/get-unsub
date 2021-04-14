@@ -14,6 +14,7 @@ export const institution = {
         institutionPublishersLive: [],
         isDemo: false,
         isConsortium: false,
+        tabShowing: 1,
     },
     mutations: {
         clearInstitution(state){
@@ -61,6 +62,9 @@ export const institution = {
         addPublisher(state, publisherObject){
             state.institutionPublishers.push(publisherObject)
             state.institutionPublishersLive.push(publisherObject)
+        },
+        setInstitutionTabShowing(state, newTab){
+            state.tabShowing = newTab
         },
     },
     actions: {
@@ -152,6 +156,7 @@ export const institution = {
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
         institutionIsConsortium: (state) => state.isConsortium,
+        institutionTabShowing: (state) => state.tabShowing,
     }
 }
 

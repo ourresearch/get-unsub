@@ -128,6 +128,9 @@
             }
         },
         methods: {
+            ...mapMutations([
+                "snackbar",
+            ]),
             async goToPackage(packageId) {
                 const url = `/i/${this.institutionId}/p/${packageId}`
                 await this.$router.push(url)
@@ -147,7 +150,7 @@
                 await this.$store.dispatch("deletePublisher", this.deletePublisherId)
                 this.deletePublisherLoading = false
                 this.closeDeletePublisherDialog()
-                this.snackbars.deletePublisherSuccess = true
+                this.snackbar("Package deleted.")
             },
         },
         computed: {

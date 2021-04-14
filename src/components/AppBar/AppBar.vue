@@ -511,7 +511,12 @@
                 return this.publisherScenarios.filter(s => {
                     return s.id !== this.scenarioId
                 })
-            }
+            },
+            currentEntityPage() {
+                if (!this.isLoggedIn) return
+                if (this.institutionName) return "user"
+                if (this.publisherName) return "institution"
+            },
         },
         created() {
         },
@@ -543,7 +548,7 @@
         /*background: #eee;*/
 
 
-        /*border-top: 1px solid #ddd;*/
+        border-top: 1px solid #eee !important;
         /*padding-right: 27px;*/
         /*color: #fff;*/
         /*background: #2196F3;*/
