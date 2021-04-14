@@ -182,6 +182,9 @@
                                             consortial feeder
                                         </v-chip>
                                     </div>
+<!--                                    <div class="caption">-->
+<!--                                        {{pub.publisher}}-->
+<!--                                    </div>-->
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>

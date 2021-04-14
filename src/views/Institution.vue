@@ -208,6 +208,7 @@
                         <v-list>
                             <institution-publisher-row
                                 v-for="pub in institutionOwnPublishers"
+                                :key="pub.id"
                                 :pub="pub"
                                 :my-role="myRole"
                                 :is-consortial-feeder="false"

@@ -32,6 +32,7 @@
                             {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
                         </v-icon>
                         {{publisherPublisher}}
+                        <template v-if="publisherIsOwnedByConsortium">consortial feeder</template>
                         package
                     </div>
                     <div class="display-2">
