@@ -33,7 +33,7 @@
                         <template v-if="publisherName">
                             <v-icon color="#777" small>mdi-chevron-right</v-icon>
                         </template>
-                        <span v-if="!publisherName" class="pl-2 pr-5">
+                        <span v-if="!publisherName" class="pl-2 pr-5 text-h6">
                             {{ institutionName }}
                         </span>
                     </v-btn>
@@ -110,30 +110,45 @@
                             :to="`/i/${institutionId}/p/${publisherId}`"
                     >
                         <v-icon color="#777">
-                            mdi-package-variant
+                            {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
                         </v-icon>
                         <template v-if="scenarioName">
                             <v-icon color="#777" small>mdi-chevron-right</v-icon>
                         </template>
-                        <span v-if="!scenarioName" class="pl-2 pr-5">
-                            {{ publisherName }} <span v-if="publisherIsOwnedByConsortium">(consortial feeder)</span>
+                        <span v-if="!scenarioName" class="pl-2 pr-2 text-h6">
+                            {{ publisherName }}
                         </span>
+                        <v-chip
+                                small
+                                v-if="publisherIsOwnedByConsortium"
+                        >
+                            consortial feeder
+                        </v-chip>
+                        <span outlined class="pr-5" v-if="!scenarioName"></span>
                     </v-btn>
                 </template>
                 <div v-if="publisherName">
                     <v-list class="pb-0" dense>
                         <v-list-item :to="`/i/${institutionId}/p/${publisherId}`">
                             <v-list-item-icon>
-                                <v-icon class="mt-4">mdi-package-variant</v-icon>
+                                <v-icon class="mt-4">
+                                    {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+                                </v-icon>
                             </v-list-item-icon>
                             <v-list-item-content class="font-weight-bold">
                                 <div>
                                     <div class="body-2 mb-1">
                                         Current package:
                                     </div>
-                                    <div>
+                                    <div  class="d-flex justify-space-between">
                                         {{publisherName}}
-                                        <s1pan v-if="publisherIsOwnedByConsortium">(consortial feeder)</s1pan>
+                                        <v-chip
+                                                x-small
+                                                v-if="publisherIsOwnedByConsortium"
+                                                class="font-weight-regular ml-2"
+                                        >
+                                            consortial feeder
+                                        </v-chip>
                                     </div>
                                 </div>
                             </v-list-item-content>
@@ -152,11 +167,24 @@
                                     :to="`/i/${institutionId}/p/${pub.id}`"
                             >
                                 <v-list-item-icon>
-                                    <v-icon>mdi-package-variant</v-icon>
+                                    <v-icon>
+                                        {{(pub.is_owned_by_consortium) ? "mdi-package-up" : "mdi-package-variant" }}
+                                    </v-icon>
                                 </v-list-item-icon>
                                 <v-list-item-content>
+                                    <div  class="d-flex justify-space-between">
                                     {{pub.name}}
-                                    <template v-if="pub.is_owned_by_consortium">(consortial feeder)</template>
+                                        <v-chip
+                                                x-small
+                                                v-if="pub.is_owned_by_consortium"
+                                                class="font-weight-regular ml-2"
+                                        >
+                                            consortial feeder
+                                        </v-chip>
+                                    </div>
+<!--                                    <div class="caption">-->
+<!--                                        {{pub.publisher}}-->
+<!--                                    </div>-->
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
@@ -178,7 +206,7 @@
                         <v-icon color="#777">
                             mdi-chart-box-outline
                         </v-icon>
-                        <span class="pl-2 pr-5">
+                        <span class="pl-2 pr-5 text-h6">
                             {{ scenarioName }}
                         </span>
                     </v-btn>
@@ -236,7 +264,6 @@
 
 
         </v-toolbar-items>
-
 
 
         <div class="no-highlight ml-8 hidden-sm-and-down" v-if="!isLoggedIn">
@@ -470,9 +497,15 @@
                 })
             },
             publishersOtherThanCurrent() {
-                return this.institutionPublishers.filter(p => {
+                const ret = this.institutionPublishers.filter(p => {
                     return p.id !== this.publisherId
+                }).sort((a, b) => {
+                    console.log("sorting", a, b)
+                    return a.is_owned_by_consortium - b.is_owned_by_consortium
                 })
+
+                console.log("publishersOtherThanCurrent", ret)
+                return ret
             },
             scenariosOtherThanCurrent() {
                 return this.publisherScenarios.filter(s => {
@@ -499,10 +532,10 @@
     .breadcrumb-button {
         min-width: 0 !important;
         padding: 0 2px 0 7px !important;
-        span {
-            /*font-weight: bold;*/
-            font-size: 18px;
-        }
+        /*span.big-text {*/
+        /*    !*font-weight: bold;*!*/
+        /*    font-size: 18px;*/
+        /*}*/
     }
 
 

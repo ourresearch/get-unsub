@@ -1,6 +1,5 @@
 <template>
     <v-container class="institution">
-
         <div class="page-title mt-8 mb-4 d-flex">
 <!--            <div class="mt-1 mr-2">-->
 <!--                <v-avatar tile size="60">-->
@@ -206,71 +205,14 @@
                             </div>
                         </v-card-title>
                         <v-divider></v-divider>
-                        <v-list id="publishers-list">
-                            <v-list-item
-                                    v-for="pub in myInstitutionPublishers"
-                                    :key="pub.id"
-                                    @click="goToPackage(pub.id)"
-                            >
-                                <v-list-item-avatar tile size="50">
-                                    <!--                                <v-icon class="mr-2">mdi-book-multiple</v-icon>-->
-                                    <v-img :src="publisherLogoFromId(pub.publisher)"></v-img>
-                                </v-list-item-avatar>
-
-                                <v-list-item-content>
-                                    <v-list-item-title
-                                            class="headline font-weight-bold"
-                                    >
-                                        {{pub.name}}
-                                        <span class="font-weight-light"
-                                              v-if="pub.is_owned_by_consortium">(consortial feeder)</span>
-                                    </v-list-item-title>
-
-                                    <v-list-item-subtitle v-if="pub.is_demo">
-                                        Demo package; some functionality restricted
-                                    </v-list-item-subtitle>
-                                    <v-list-item-subtitle v-if="pub.is_owned_by_consortium">
-                                        Consortial data package; only edit if you know what you're doing
-                                    </v-list-item-subtitle>
-                                    <v-list-item-subtitle v-if="!pub.is_owned_by_consortium && !pub.iCanEdit">
-                                        read-only
-                                    </v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-action>
-                                    <v-menu
-                                            offset-y
-                                    >
-                                        <template v-slot:activator="{ on }">
-                                            <v-btn icon v-on="on">
-                                                <v-icon>mdi-dots-vertical</v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <v-list>
-                                            <v-list-item disabled>
-                                                <v-list-item-icon>
-                                                    <v-icon>mdi-pencil</v-icon>
-                                                </v-list-item-icon>
-                                                <v-list-item-title>
-                                                    Rename
-                                                </v-list-item-title>
-                                            </v-list-item>
-                                            <v-list-item
-                                                    @click.stop="openDeletePublisherDialog(pub.id)"
-                                                    :disabled="!pub.iCanEdit || institutionIsConsortium"
-                                            >
-                                                <v-list-item-icon>
-                                                    <v-icon>mdi-delete</v-icon>
-                                                </v-list-item-icon>
-                                                <v-list-item-title>
-                                                    Delete
-                                                </v-list-item-title>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                </v-list-item-action>
-                            </v-list-item>
-
-
+                        <v-list>
+                            <institution-publisher-row
+                                v-for="pub in institutionOwnPublishers"
+                                :key="pub.id"
+                                :pub="pub"
+                                :my-role="myRole"
+                                :is-consortial-feeder="false"
+                            />
                             <v-list-item v-if="!institutionIsConsortium" @click="openCreatePublisherDialog">
                                 <v-list-item-avatar size="50">
                                     <v-btn icon>
@@ -284,13 +226,31 @@
                                     </v-list-item-title>
                                 </v-list-item-content>
                             </v-list-item>
-
-
                         </v-list>
-
-
                     </v-card>
                 </v-skeleton-loader>
+
+                    <v-card class="my-4" v-if="institutionConsortialFeederPublishers.length">
+                        <div class="pa-3">
+                            <div class="text-h6">
+                                Consortial feeder packages
+                                <span class="body-2">({{institutionConsortialFeederPublishers.length}})</span>
+                            </div>
+                            <div class="body-2">
+                                These function exclusively as a <em>data source</em> for your consortium's central Unsub dashboard.
+                            </div>
+                        </div>
+                        <v-divider></v-divider>
+                        <v-list>
+                            <institution-publisher-row
+                                v-for="pub in institutionConsortialFeederPublishers"
+                                :pub="pub"
+                                :my-role="myRole"
+                                :is-consortial-feeder="true"
+                            />
+                        </v-list>
+                    </v-card>
+
             </v-col>
         </v-row>
 
@@ -383,38 +343,11 @@
             </v-card>
         </v-dialog>
 
-        <v-dialog v-model="dialogs.deletePublisher" max-width="400">
-            <v-card v-if="dialogs.deletePublisher">
-                <v-card-title class="headline">
-                    Delete Package
-                </v-card-title>
-                <v-card-text class="pt-4">
-                    Are you sure you want to delete this package?
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn text
-                           @click="closeDeletePublisherDialog"
-                           :disabled="deletePublisherLoading"
-                    >
-                        Cancel
-                    </v-btn>
-                    <v-btn depressed
-                           @click="deletePublisher"
-                           :loading="deletePublisherLoading"
-                           color="primary"
-                    >
-                        Yes, delete it
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
         <v-dialog v-model="dialogs.createPublisher" max-width="400">
             <v-card>
                 <v-toolbar dark flat color="primary">
                     <v-toolbar-title>
-                        <v-icon>mdi-bookshelf</v-icon>
+                        <v-icon>mdi-package-variant</v-icon>
                         Add subscription package
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
@@ -494,12 +427,6 @@
                 <v-icon>mdi-close</v-icon>
             </v-btn>
         </v-snackbar>
-        <v-snackbar v-model="snackbars.deletePublisherSuccess" bottom>
-            Package deleted
-            <v-btn dark icon @click="snackbars.deletePublisherSuccess = false">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-        </v-snackbar>
 
 
     </v-container>
@@ -508,6 +435,7 @@
 <script>
     import {mapGetters, mapMutations, mapActions} from 'vuex'
     import {roleFromPermissions, permissionsFromRole, roleDescriptions, roles} from "../shared/userPermissions";
+    import InstitutionPublisherRow from "../components/Institution/InstitutionPublisherRow";
 
     const short = require('short-uuid');
     import {publisherLogoFromId, publisherConfig} from "../shared/publisher";
@@ -519,7 +447,9 @@
                 title: `${this.institutionName}`
             }
         },
-        components: {},
+        components: {
+            InstitutionPublisherRow,
+        },
         data() {
             return {
                 snackbars: {
@@ -528,13 +458,11 @@
                     copySuccess: false,
                     newPublisherSuccess: false,
                     demoNewPublisher: false,
-                    deletePublisherSuccess: false,
                 },
                 dialogs: {
                     createGroupMember: false,
                     addRorId: false,
                     createPublisher: false,
-                    deletePublisher: false,
                 },
 
 
@@ -557,9 +485,6 @@
                 isRoleUpdating: false,
 
 
-                // delete publisher
-                deletePublisherLoading: false,
-                deletePublisherId: null,
 
 
                 // new publisher
@@ -574,6 +499,9 @@
                 "institutionName",
                 "institutionRorIds",
                 "institutionPublishers",
+                "institutionOwnPublishers",
+                "institutionConsortialFeederPublishers",
+
                 "institutionUsersWithRoles",
                 "institutionIsDemo",
                 "userId",
@@ -584,23 +512,22 @@
                 return this.$route.params.institutionId
             },
             myInstitutionPublishers() {
-                return this.institutionPublishers.map(p => {
-                    // some roles are not allowed to edit anyone
-                    let iCanEdit = false
-
-                    // admins can edit packages
-                    // ConsortiumAdmin can edit all packages
-                    if (this.myRole === "ConsortiumAdmin") iCanEdit = true
-
-                    // regular admin can edit anyone EXCEPT ones the consortium owns
-                    else if (this.myRole === "Admin" && !p.is_owned_by_consortium) iCanEdit = true
-
-                    // same for Collaborators
-                    else if (this.myRole === "Collaborator" && !p.is_owned_by_consortium) iCanEdit = true
-
+                return this.institutionOwnPublishers.map(p => {
+                    // These rows are allowed to edit any institution-owned publisher
+                    const iCanEdit = ["ConsortiumAdmin", "Admin", "Collaborator"].includes(this.myRole)
                     return {
                         ...p,
                         iCanEdit
+                    }
+                })
+            },
+            myInstitutionConsortialFeederPublishers() {
+                return this.institutionConsortialFeederPublishers.map(p => {
+                    // only ConsortiumAdmin can edit these kinds
+                    let iCanEdit = (this.myRole === "ConsortiumAdmin")
+                    return {
+                        ...p,
+                        iCanEdit,
                     }
                 })
             },
@@ -709,23 +636,6 @@
                 this.dialogs.createPublisher = false
             },
 
-            openDeletePublisherDialog(id) {
-                this.deletePublisherId = id
-                this.dialogs.deletePublisher = true
-
-            },
-            closeDeletePublisherDialog() {
-                this.deletePublisherId = null
-                this.dialogs.deletePublisher = false
-            },
-            async deletePublisher() {
-                console.log("delete publisher", this.deletePublisherId)
-                this.deletePublisherLoading = true
-                await this.$store.dispatch("deletePublisher", this.deletePublisherId)
-                this.deletePublisherLoading = false
-                this.snackbars.deletePublisherSuccess = true
-                this.closeDeletePublisherDialog()
-            },
             cancelCreatePublisher() {
                 this.newPublisherLoading = false
                 this.newPublisherDisplayName = ""

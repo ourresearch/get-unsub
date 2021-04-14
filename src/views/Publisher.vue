@@ -28,13 +28,17 @@
                 </v-avatar>
                 <div class="text">
                     <div class="body-2">
-                        <v-icon small>mdi-package-variant</v-icon>
-                        <span v-if="publisherIsOwnedByConsortium">Consortial Data</span>
-                        Package
+                        <v-icon small>
+                            {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+                        </v-icon>
+                        {{publisherPublisher}}
+                        <template v-if="publisherIsOwnedByConsortium">consortial feeder</template>
+                        package
                     </div>
                     <div class="display-2">
                         {{ publisherName }}
-                        <span v-if="publisherIsOwnedByConsortium" class="font-weight-light">(consortial feeder)</span>
+
+                        <v-chip v-if="publisherIsOwnedByConsortium" class="">consortial feeder</v-chip>
                     </div>
                 </div>
             </div>
@@ -48,8 +52,7 @@
             >
                 <div class="d-flex align-center">
                     <div>
-                        This <strong>Consortial Data Package</strong> feeds data into your consortium's global
-                        forecasting model. Please don't edit it without permission of consortium staff!
+                        This <strong>Consortial Feeder Package</strong> function exclusively as a <em>data source</em> for your consortium's central Unsub dashboard. Please don't edit it without permission of consortium staff!
                     </div>
                 </div>
             </v-alert>
@@ -166,6 +169,7 @@
                 "publisherName",
                 "publisherId",
                 "publisherScenarios",
+                "publisherPublisher",
                 "publisherScenariosCount",
                 "isPublisherDemo",
                 "institutionId",
