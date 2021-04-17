@@ -278,6 +278,7 @@ export const publisher = {
 
         publisherCounterIsUploaded: (state) => state.counterIsUploaded,
         publisherIsOwnedByConsortium: (state) => state.isOwnedByConsortium,
+        publisherIsFeeder: (state) => state.isOwnedByConsortium, // new terminology for above
         publisherCurrency: (state) => state.currency,
         publisherCurrencySymbol: (state) => {
             const symbols = {

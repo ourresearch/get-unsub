@@ -20,6 +20,7 @@
         methods: {},
         computed: {
             ...mapGetters([
+                "userEmail"
             ]),
             currentTab: {
                 get() {

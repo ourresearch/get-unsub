@@ -1,9 +1,26 @@
 <template>
-    <v-tabs class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button">Forecast scenarios</v-tab>
-        <v-tab class="low-key-button">APCs</v-tab>
-        <v-tab class="low-key-button">Setup</v-tab>
+    <div>
+    <v-tabs v-if="publisherName && !publisherIsLoading" class="" v-model="currentTab">
+<!--        <v-btn class="" icon><v-icon>mdi-chevron-left</v-icon></v-btn>-->
+        <v-tab
+                class="low-key-button"
+                :disabled="publisherIsFeeder || !publisherCounterIsUploaded"
+        >
+            Forecast scenarios
+        </v-tab>
+        <v-tab
+                class="low-key-button"
+                :disabled="publisherIsFeeder || !publisherCounterIsUploaded"
+        >
+            APCs
+        </v-tab>
+        <v-tab
+                class="low-key-button"
+        >
+            Setup
+        </v-tab>
     </v-tabs>
+    </div>
 </template>
 
 <script>
@@ -20,6 +37,10 @@
         methods: {},
         computed: {
             ...mapGetters([
+                "publisherIsFeeder",
+                "publisherCounterIsUploaded",
+                "publisherName",
+                "publisherIsLoading",
             ]),
             currentTab: {
                 get() {

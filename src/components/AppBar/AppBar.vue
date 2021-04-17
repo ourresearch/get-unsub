@@ -547,6 +547,8 @@
 
     .v-toolbar__extension {
         /*background: #eee;*/
+        padding-left: 10px;
+        padding-right: 10px;
 
 
         border-top: 1px solid #eee !important;

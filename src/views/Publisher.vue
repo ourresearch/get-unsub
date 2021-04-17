@@ -18,30 +18,6 @@
 
 
         <div class="loaded" v-if="loadingPercent === 100">
-            <router-link class="text--secondary low-key-link" :to="`/i/${institutionId}`">
-                <strong>‹</strong>
-                Back <span v-if="institutionName">to {{institutionName}}</span>
-            </router-link>
-            <div class="page-title mt-8 mb-4 d-flex">
-                <v-avatar tile size="60" class="mt-1 mr-3">
-                    <img height="60px" :src="publisherLogo">
-                </v-avatar>
-                <div class="text">
-                    <div class="body-2">
-                        <v-icon small>
-                            {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
-                        </v-icon>
-                        {{publisherPublisher}}
-                        <template v-if="publisherIsOwnedByConsortium">consortial feeder</template>
-                        package
-                    </div>
-                    <div class="display-2">
-                        {{ publisherName }}
-
-                        <v-chip v-if="publisherIsOwnedByConsortium" class="">consortial feeder</v-chip>
-                    </div>
-                </div>
-            </div>
 
 
             <v-alert v-if="publisherIsOwnedByConsortium"
@@ -52,7 +28,9 @@
             >
                 <div class="d-flex align-center">
                     <div>
-                        This <strong>Consortial Feeder Package</strong> function exclusively as a <em>data source</em> for your consortium's central Unsub dashboard. Please don't edit it without permission of consortium staff!
+                        This <strong>Consortial Feeder Package</strong> function exclusively as a <em>data source</em>
+                        for your consortium's central Unsub dashboard. Please don't edit it without permission of
+                        consortium staff!
                     </div>
                 </div>
             </v-alert>
@@ -70,20 +48,23 @@
 
             <v-tabs-items v-model="publisherTabShowing">
                 <v-tab-item>
-                    one
+                    <publisher-scenarios-tab/>
                 </v-tab-item>
                 <v-tab-item>
-                    two
+                    <apc-tab v-if="!isJisc"></apc-tab>
+                    <v-card v-if="isJisc" class="pa-5">
+                        <div class="text-h1">£7,125,925</div>
+                        <div>Total APC expenditure, Gold and Hybrid</div>
+                    </v-card>
                 </v-tab-item>
                 <v-tab-item>
-                    three
+                    <publisher-setup-tab/>
                 </v-tab-item>
             </v-tabs-items>
 
 
-            <v-card>
+            <v-card v-if="0">
                 <div v-if="publisherIsOwnedByConsortium">
-                    <publisher-setup-tab/>
                 </div>
 
                 <v-tabs v-if="!publisherIsOwnedByConsortium" dark v-model="tabModel">
@@ -106,7 +87,6 @@
                                 </div>
                             </v-card-title>
                             <v-divider></v-divider>
-                            <publisher-scenarios-tab/>
                         </v-card>
                     </v-tab-item>
 
@@ -119,11 +99,7 @@
                                 </div>
                             </v-card-title>
                             <v-divider></v-divider>
-                            <apc-tab v-if="!isJisc"></apc-tab>
-                            <v-card v-if="isJisc" class="pa-5">
-                                <div class="text-h1">£7,125,925</div>
-                                <div>Total APC expenditure, Gold and Hybrid</div>
-                            </v-card>
+
                         </v-card>
                     </v-tab-item>
 
@@ -170,17 +146,15 @@
         },
         data() {
             return {
-                fileSelected: null,
                 errorMsg: "",
-                tabModel: 0,
                 loadingPercent: 0,
-                dialogs: {},
             }
         },
         computed: {
             ...mapGetters([
                 "publisherName",
                 "publisherTabShowing",
+                "publisherIsFeeder",
                 "publisherId",
                 "publisherScenarios",
                 "publisherPublisher",
@@ -205,29 +179,13 @@
                 "publisherApcIsLoading",
 
             ]),
-            tabItems() {
-                if (this.isJisc) {
-                    return ["Forecasts", "APCs"]
-                }
-
-                if (this.institutionIsConsortium) {
-                    return ["Forecasts"]
-                } else {
-                    return [
-                        "Forecasts",
-                        "APCs",
-                        "Setup",
-                        // "Journals",
-                    ]
-                }
-            },
             account() {
                 return this.$store.state.user
             },
             pkg() {
                 return this.$store.getters.selectedPublisher
             },
-            isJisc(){
+            isJisc() {
                 return this.institutionName === "Jisc"
             },
         },
@@ -239,6 +197,7 @@
                 "openDeleteDialog",
                 "openPublisherFileUploadDialog",
                 "clearPublisher",
+                "setPublisherTabShowing",
             ]),
             ...mapActions([]),
 
@@ -282,10 +241,12 @@
             if (!this.publisherScenariosAreAllLoaded) this.clearPublisher()
 
             await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
+
+            const myTab = (!this.publisherIsFeeder && this.publisherCounterIsUploaded) ? 0 : 2
+            this.setPublisherTabShowing(myTab)
+
             console.log("publisher done loading", this.publisherCounterIsUploaded)
-            if (!this.publisherCounterIsUploaded) {
-                this.tabModel = 2
-            }
+
         },
     }
 </script>
