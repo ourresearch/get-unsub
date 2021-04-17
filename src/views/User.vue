@@ -1,28 +1,5 @@
 <template>
     <v-container class="user">
-        <div class="page-title mt-8 d-flex">
-            <v-avatar size="50" class="mt-3 mr-3">
-                <v-gravatar v-show="!isLoading" default-img="mm" class="gravatar" :email="gravatarStr" :size="50"></v-gravatar>
-                <v-progress-circular
-                        size="50"
-                        v-show="isLoading"
-                        indeterminate
-                />
-            </v-avatar>
-
-            <div class="text">
-                <div class="body-2">
-                    <span v-if="isLoading">Loading...</span>
-                    <span v-if="!isLoading">Account</span>
-                </div>
-                <div class="display-2">
-                    Your account
-                </div>
-
-            </div>
-        </div>
-
-
         <v-alert v-if="userIsDemo && !isLoading" color="info" text dense icon="mdi-information-outline">
             <div class="d-flex align-center">
                 <div>
@@ -35,21 +12,112 @@
             </div>
         </v-alert>
 
-        <v-alert v-if="!userEmail && !isLoading" color="warning" text dense icon="mdi-email-alert-outline">
-            <div class="d-flex align-center">
-                <div>
-                    Please set your email address.
-                </div>
-            </div>
-        </v-alert>
 
-        <v-row v-if="!isLoading">
-            <v-col cols="4">
-                <v-card>
-                    <!--                    <v-toolbar flat>-->
-                    <!--                        <v-toolbar-title>-->
-                    <!--                        </v-toolbar-title>-->
-                    <!--                    </v-toolbar>-->
+        <v-tabs-items v-model="userTabShowing">
+
+
+
+
+
+
+
+            <!--            INSTITUTIONS                                            -->
+            <!--*****************************************************************-->
+            <v-tab-item>
+                <v-card flat>
+                    <v-card-title>
+                        <div>
+                            Your Institutions
+                            <span class="body-2">({{userInstitutions.length}})</span>
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+
+                    <v-list>
+                        <v-list-item
+                                v-for="insti in userInstitutions"
+                                :key="insti.institution_id"
+                                @click="goToInstitution(insti.institution_id)"
+                        >
+                            <v-list-item-avatar tile>
+                                <v-icon large>mdi-bank-outline</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <div class="headline font-weight-bold">
+                                    {{ insti.institution_name}}
+                                </div>
+
+                                <v-list-item-subtitle>
+                                    <span>
+                                        Your're a<template
+                                            v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this institution
+                                    </span>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+            </v-tab-item>
+
+
+
+
+
+
+
+
+            <!--            CONSORTIA                                            -->
+            <!--*****************************************************************-->
+            <v-tab-item>
+                <v-card flat>
+                    <v-card-title>
+                        <div>
+                            Your Consortia
+                            <span class="body-2">({{userConsortia.length}})</span>
+                        </div>
+                    </v-card-title>
+                    <v-divider></v-divider>
+
+                    <v-list>
+                        <v-list-item
+                                v-for="insti in userConsortia"
+                                :key="insti.institution_id"
+                                @click="goToInstitution(insti.institution_id)"
+                        >
+                            <v-list-item-avatar tile>
+                                <v-icon large>mdi-lan</v-icon>
+                            </v-list-item-avatar>
+                            <v-list-item-content>
+                                <div class="headline font-weight-bold">
+                                    {{ insti.institution_name}}
+                                </div>
+
+                                <v-list-item-subtitle>
+                                    <span>
+                                        Your're a<template
+                                            v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this consortium
+                                    </span>
+                                </v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+            </v-tab-item>
+
+
+
+
+
+
+
+
+
+
+
+            <!--            ACCOUNT DETAILS                                     -->
+            <!--*****************************************************************-->
+            <v-tab-item>
+                <v-card flat>
                     <v-card-title>
                         Account details
                     </v-card-title>
@@ -123,77 +191,9 @@
                         </v-list-item>
                     </v-list>
                 </v-card>
-            </v-col>
-            <v-col cols="8">
-                <v-card v-if="userConsortia.length" class="mb-8">
-                    <v-card-title>
-                        <div>
-                            Your Consortia
-                            <span class="body-2">({{userConsortia.length}})</span>
-                        </div>
-                    </v-card-title>
-                    <v-divider></v-divider>
+            </v-tab-item>
 
-                    <v-list>
-                        <v-list-item
-                                v-for="insti in userConsortia"
-                                :key="insti.institution_id"
-                                @click="goToInstitution(insti.institution_id)"
-                        >
-                            <v-list-item-avatar tile>
-                                <v-icon large>mdi-lan</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <div class="headline font-weight-bold">
-                                    {{ insti.institution_name}}
-                                </div>
-
-                                <v-list-item-subtitle>
-                                    <span>
-                                        Your're a<template
-                                            v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this consortium
-                                    </span>
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                </v-card>
-
-                <v-card v-if="userInstitutions.length" class="mb-8">
-                    <v-card-title>
-                        <div>
-                            Your Institutions
-                            <span class="body-2">({{userInstitutions.length}})</span>
-                        </div>
-                    </v-card-title>
-                    <v-divider></v-divider>
-
-                    <v-list>
-                        <v-list-item
-                                v-for="insti in userInstitutions"
-                                :key="insti.institution_id"
-                                @click="goToInstitution(insti.institution_id)"
-                        >
-                            <v-list-item-avatar tile>
-                                <v-icon large>mdi-bank-outline</v-icon>
-                            </v-list-item-avatar>
-                            <v-list-item-content>
-                                <div class="headline font-weight-bold">
-                                    {{ insti.institution_name}}
-                                </div>
-
-                                <v-list-item-subtitle>
-                                    <span>
-                                        Your're a<template
-                                            v-if="insti.permissions.includes('admin')">n</template>  <strong>{{roleFromPermissions(insti.permissions) }}</strong> for this institution
-                                    </span>
-                                </v-list-item-subtitle>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
-                </v-card>
-            </v-col>
-        </v-row>
+        </v-tabs-items>
 
 
         <v-dialog v-model="dialogs.editUserInfo" max-width="500">
@@ -270,12 +270,6 @@
             </v-card>
         </v-dialog>
 
-        <v-snackbar v-model="snackbars.editUserSuccess" bottom left>
-            {{ snackbars.editUserSuccessMsg }}
-            <v-btn dark icon @click="snackbars.editUserSuccess = false">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
-        </v-snackbar>
 
 
     </v-container>
@@ -296,7 +290,6 @@
         components: {},
         data() {
             return {
-                showSnackbarNoPermissions: false,
 
                 editUserInfoType: null,
                 editUserInfoStr: "",
@@ -308,10 +301,6 @@
                 dialogs: {
                     editUserInfo: false,
                 },
-                snackbars: {
-                    editUserSuccess: false,
-                    editUserSuccessMsg: ""
-                }
             }
         },
         computed: {
@@ -319,6 +308,7 @@
                 "userId",
                 "userEmail",
                 "userName",
+                "userTabShowing",
                 "userPasswordIsSet",
                 "userInstitutions",
                 "userConsortia",
@@ -331,7 +321,9 @@
             }
         },
         methods: {
-            ...mapMutations([]),
+            ...mapMutations([
+                "snackbar",
+            ]),
             ...mapActions([]),
             goToInstitution(id) {
                 const url = `/i/${id}`
@@ -363,8 +355,7 @@
                 const methodName = _.camelCase(`change ${this.editUserInfoType}`)
                 await this.$store.dispatch(methodName, this.editUserInfoStr)
 
-                this.snackbars.editUserSuccess = true
-                this.snackbars.editUserSuccessMsg = `${_.capitalize(this.editUserInfoType)} updated`
+                this.snackbar(`${_.capitalize(this.editUserInfoType)} updated`)
                 this.closeEditUserInfo()
             }
         },

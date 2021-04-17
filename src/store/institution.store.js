@@ -14,7 +14,7 @@ export const institution = {
         institutionPublishersLive: [],
         isDemo: false,
         isConsortium: false,
-        tabShowing: 1,
+        tabShowing: 0,
     },
     mutations: {
         clearInstitution(state){
@@ -28,6 +28,7 @@ export const institution = {
             state.userIsAdmin = false
             state.isDemo = false
             state.isConsortium = false
+            state.tabShowing = 0
         },
         setInstitutionFromApiResp(state, apiResp){
             state.institutionId =  apiResp.id
@@ -66,11 +67,15 @@ export const institution = {
         setInstitutionTabShowing(state, newTab){
             state.tabShowing = newTab
         },
+        setInstitutionId(state, id){
+            state.institutionId = id
+        },
     },
     actions: {
         async fetchInstitution({commit, dispatch, getters}, id) {
             if (getters.institutionId === id) return
             commit("clearInstitution")
+            commit("setInstitutionId", id)
             const resp = await  api.get(`institution/${id}`)
             commit("setInstitutionFromApiResp", resp.data)
         },

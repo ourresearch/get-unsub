@@ -1,9 +1,8 @@
 <template>
     <v-tabs class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button">Packages</v-tab>
-        <v-tab class="low-key-button">Users</v-tab>
-        <v-tab class="low-key-button">ROR ID</v-tab>
-        <v-tab class="low-key-button">Consortial</v-tab>
+        <v-tab class="low-key-button">Institutions</v-tab>
+        <v-tab class="low-key-button">Consortia</v-tab>
+        <v-tab class="low-key-button">Account</v-tab>
     </v-tabs>
 </template>
 
@@ -11,7 +10,7 @@
     import {mapGetters, mapMutations} from 'vuex'
 
     export default {
-        name: "AppBarExtInstitution",
+        name: "AppBarUser",
         components: {},
         data() {
             return {
@@ -25,10 +24,10 @@
             currentTab: {
                 get() {
                     console.log("get currentTab")
-                    return this.$store.getters.institutionTabShowing
+                    return this.$store.getters.userTabShowing
                 },
                 set(newVal) {
-                    this.$store.commit("setInstitutionTabShowing", newVal)
+                    this.$store.commit("setUserTabShowing", newVal)
                 }
             }
         },

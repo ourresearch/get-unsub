@@ -12,7 +12,6 @@
         <!--        <v-toolbar-title class="headline">-->
         <!--        </v-toolbar-title>-->
 
-
         <v-toolbar-items v-if="isLoggedIn" class="pl-4">
 
             <!--            INSTITUTION                                          -->
@@ -30,11 +29,11 @@
                         <v-icon color="#777">
                             {{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline"}}
                         </v-icon>
-                        <template v-if="publisherName">
+                        <template v-if="publisherId">
                             <v-icon color="#777" small>mdi-chevron-right</v-icon>
                         </template>
-                        <span v-if="!publisherName" class="pl-2 pr-5 text-h6">
-                            {{ institutionName }}
+                        <span v-if="!publisherId" class="pl-2 pr-5 text-h6">
+                            {{ institutionName || "Loading..." }}
                         </span>
                     </v-btn>
                 </template>
@@ -112,11 +111,11 @@
                         <v-icon color="#777">
                             {{(publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
                         </v-icon>
-                        <template v-if="scenarioName">
+                        <template v-if="scenarioId">
                             <v-icon color="#777" small>mdi-chevron-right</v-icon>
                         </template>
-                        <span v-if="!scenarioName" class="pl-2 pr-2 text-h6">
-                            {{ publisherName }}
+                        <span v-if="!scenarioId" class="pl-2 pr-2 text-h6">
+                            {{ publisherName || "Loading..." }}
                         </span>
                         <v-chip
                                 small
@@ -385,10 +384,10 @@
         </div>
 
         <template v-slot:extension>
-            <app-bar-ext-scenario v-if="scenarioName" />
-
-<!--            <app-bar-ext-publisher />-->
-            <app-bar-ext-institution />
+            <app-bar-ext-user v-if="$route.name === 'user'" />
+            <app-bar-ext-institution v-if="$route.name === 'institution'"  />
+            <app-bar-ext-publisher v-if="$route.name === 'publisher'"  />
+            <app-bar-ext-scenario v-if="$route.name === 'scenario'"  />
         </template>
 
 
@@ -400,6 +399,7 @@
     import AppBarExtScenario from "./AppBarExtScenario";
     import AppBarExtPublisher from "./AppBarExtPublisher";
     import AppBarExtInstitution from "./AppBarExtInstitution";
+    import AppBarExtUser from "./AppBarExtUser";
 
     import ScenarioMenuScenario from "../ScenarioMenu/ScenarioMenuScenario";
     import ScenarioMenuSubscriptions from "../ScenarioMenu/ScenarioMenuSubscriptions";
@@ -412,9 +412,10 @@
     export default {
         name: "AppBar",
         components: {
-            AppBarExtScenario,
-            AppBarExtPublisher,
+            AppBarExtUser,
             AppBarExtInstitution,
+            AppBarExtPublisher,
+            AppBarExtScenario,
 
             ScenarioMenuScenario,
             ScenarioMenuView,

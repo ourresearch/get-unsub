@@ -110,9 +110,6 @@ export const publisher = {
             state.isOwnedByConsortium = apiPublisher.is_owned_by_consortium
             state.currency = apiPublisher.currency
         },
-        clearSelectedPublisher(state) {
-            state.selected = null
-        },
         startLoading(state) {
             state.isLoading = true
         },
@@ -128,13 +125,18 @@ export const publisher = {
             const index = state.scenarios.findIndex(s => s.id === newScenario.id)
             state.scenarios.splice(index, 1)
         },
+        setPublisherId(state, id) {
+            state.id = id
+        },
 
 
     },
     actions: {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (id === getters.publisherId) return
+            commit("clearPublisher")
             commit("startLoading")
+            commit("setPublisherId", id)
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")
         },

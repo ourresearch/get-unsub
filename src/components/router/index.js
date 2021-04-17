@@ -43,6 +43,7 @@ const routes = [
     {
         path: "/u",
         component: User,
+        name: "user",
         meta: {requiresAuth: true},
 
     },
@@ -50,12 +51,14 @@ const routes = [
     {
         path: "/i/:institutionId",
         component: Institution,
+        name: "institution",
         meta: {requiresAuth: true},
     },
 
     {
         path: "/i/:institutionId/p/:publisherId",
         component: Publisher,
+        name: "publisher",
         meta: {requiresAuth: true},
     },
 
@@ -63,6 +66,7 @@ const routes = [
     {
         path: "/i/:institutionId/p/:publisherId/s/:scenarioId",
         component: Scenario,
+        name: "scenario",
         meta: {requiresAuth: true},
     },
 

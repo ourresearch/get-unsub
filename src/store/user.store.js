@@ -11,10 +11,14 @@ export const user = {
         isPasswordSet: "",
         institutions: [],
         consortia: [],
+        tabShowing: 0,
     },
     mutations: {
         setToken(state, token) {
             localStorage.setItem("token", token)
+        },
+        setUserTabShowing(state, index) {
+            state.tabShowing = index
         },
         logout(state) {
             state.id = ""
@@ -23,6 +27,7 @@ export const user = {
             state.isPasswordSet = ""
             state.institutions = []
             state.consortia = []
+            state.tabShowing = 0
             localStorage.removeItem("token")
             this._vm.$intercom.shutdown()
         },
@@ -95,6 +100,7 @@ export const user = {
         userPasswordIsSet: (state) => state.isPasswordSet,
         userInstitutions: (state) => state.institutions,
         userConsortia: (state) => state.consortia,
+        userTabShowing: (state) => state.tabShowing,
         userIsDemo: (state) => {
             return state.institutions.length === 1 && /\bDemo\b/.test(state.institutions[0].institution_name)
         },
