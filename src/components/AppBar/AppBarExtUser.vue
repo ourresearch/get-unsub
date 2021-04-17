@@ -10,7 +10,7 @@
     import {mapGetters, mapMutations} from 'vuex'
 
     export default {
-        name: "AppBarUser",
+        name: "AppBarExtUser",
         components: {},
         data() {
             return {

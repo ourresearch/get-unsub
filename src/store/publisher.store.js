@@ -26,6 +26,7 @@ export const publisher = {
 
         isLoading: false,
         apcIsLoading: false,
+        tabShowing: 0,
 
         id: null,
         publisher: "",
@@ -52,6 +53,7 @@ export const publisher = {
     mutations: {
         clearPublisher(state) {
             state.isLoading = false
+            state.tabShowing = 0
             state.id = null
             state.publisher = ""
             state.name = ""
@@ -127,6 +129,9 @@ export const publisher = {
         },
         setPublisherId(state, id) {
             state.id = id
+        },
+        setPublisherTabShowing(state, index) {
+            state.tabShowing = index
         },
 
 
@@ -232,6 +237,7 @@ export const publisher = {
         },
 
         publisherId: (state) => state.id,
+        publisherTabShowing: (state) => state.tabShowing,
         publisherPublisher: (state) => state.publisher,
         publisherJournals: (state) => state.journals,
         publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),

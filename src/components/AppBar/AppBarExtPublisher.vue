@@ -1,9 +1,8 @@
 <template>
-    <v-tabs align-with-title>
-        <v-tab>Tab 1</v-tab>
-        <v-tab>Tab 2</v-tab>
-        <v-tab>Tab 3</v-tab>
-        <v-tab>Tab 4</v-tab>
+    <v-tabs class="ml-1" v-model="currentTab">
+        <v-tab class="low-key-button">Forecast scenarios</v-tab>
+        <v-tab class="low-key-button">APCs</v-tab>
+        <v-tab class="low-key-button">Setup</v-tab>
     </v-tabs>
 </template>
 
@@ -15,47 +14,30 @@
         components: {},
         data() {
             return {
-                foo: 42
+                foo: 42,
             }
         },
         methods: {},
         computed: {
             ...mapGetters([
-                'isLandingPage',
-                'isLoggedIn',
-
-                "userName",
-                "userEmail",
-
-                'institutionId',
-                'institutionName',
-                'institutionIsDemo',
-                "institutionIsConsortium",
-                'userConsortia',
-                'userInstitutions',
-
-                'publisherId',
-                'publisherName',
-                'institutionPublishers',
-                'publisherPublisher',
-                'publisherIsOwnedByConsortium',
-
-                'scenarioId',
-                'scenarioName',
-                'publisherScenarios',
-                'selectedScenarioIsLoading',
-
             ]),
+            currentTab: {
+                get() {
+                    console.log("get currentTab")
+                    return this.$store.getters.publisherTabShowing
+                },
+                set(newVal) {
+                    this.$store.commit("setPublisherTabShowing", newVal)
+                }
+            }
         },
         created() {
-        },
-        mounted() {
+            this.currentTab = 0
         },
         watch: {
-            "$route": {
+            "foo": {
                 immediate: true,
                 handler: function (to, from) {
-
                 }
             }
         }

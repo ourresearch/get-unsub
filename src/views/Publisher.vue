@@ -68,6 +68,19 @@
                 </div>
             </v-alert>
 
+            <v-tabs-items v-model="publisherTabShowing">
+                <v-tab-item>
+                    one
+                </v-tab-item>
+                <v-tab-item>
+                    two
+                </v-tab-item>
+                <v-tab-item>
+                    three
+                </v-tab-item>
+            </v-tabs-items>
+
+
             <v-card>
                 <div v-if="publisherIsOwnedByConsortium">
                     <publisher-setup-tab/>
@@ -167,6 +180,7 @@
         computed: {
             ...mapGetters([
                 "publisherName",
+                "publisherTabShowing",
                 "publisherId",
                 "publisherScenarios",
                 "publisherPublisher",
