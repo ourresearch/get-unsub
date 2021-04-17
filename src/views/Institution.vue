@@ -245,6 +245,7 @@
                             <institution-publisher-row
                                 v-for="pub in institutionConsortialFeederPublishers"
                                 :pub="pub"
+                                :key="pub.id"
                                 :my-role="myRole"
                                 :is-consortial-feeder="true"
                             />
