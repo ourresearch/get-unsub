@@ -6,7 +6,7 @@
             elevate-on-scroll
     >
         <router-link to="/">
-            <img class="mt-2" style="width:130px;" src="../../assets/unsub-logo.png"
+            <img class="mt-2" style="width:90px;" src="../../assets/unsub-logo.png"
                  alt=""/>
         </router-link>
         <!--        <v-toolbar-title class="headline">-->
@@ -387,7 +387,7 @@
             <app-bar-ext-user v-if="$route.name === 'user'" />
             <app-bar-ext-institution v-if="$route.name === 'institution'"  />
             <app-bar-ext-publisher v-if="$route.name === 'publisher'"  />
-            <app-bar-ext-scenario v-if="$route.name === 'scenario'"  />
+            <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"  />
         </template>
 
 
@@ -396,10 +396,11 @@
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
-    import AppBarExtScenario from "./AppBarExtScenario";
-    import AppBarExtPublisher from "./AppBarExtPublisher";
-    import AppBarExtInstitution from "./AppBarExtInstitution";
     import AppBarExtUser from "./AppBarExtUser";
+    import AppBarExtInstitution from "./AppBarExtInstitution";
+    import AppBarExtPublisher from "./AppBarExtPublisher";
+    import AppBarExtScenario from "./AppBarExtScenario";
+    import AppBarExtScenarioNew from "./AppBarExtScenarioNew";
 
     import ScenarioMenuScenario from "../ScenarioMenu/ScenarioMenuScenario";
     import ScenarioMenuSubscriptions from "../ScenarioMenu/ScenarioMenuSubscriptions";
@@ -416,6 +417,7 @@
             AppBarExtInstitution,
             AppBarExtPublisher,
             AppBarExtScenario,
+            AppBarExtScenarioNew,
 
             ScenarioMenuScenario,
             ScenarioMenuView,

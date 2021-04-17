@@ -1,5 +1,5 @@
 <template>
-    <v-row style="margin-left:0px; border-top:1px solid #eee;">
+    <v-row style="margin-left:0px; ">
                     <scenario-menu-scenario key="scenario"/>
                     <scenario-menu-view key="view"/>
                     <scenario-menu-subscriptions v-if="0" key="subscriptions"/>

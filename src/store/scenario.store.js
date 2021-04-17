@@ -27,6 +27,7 @@ export const scenario = {
     state: {
         selected: newScenario(),
         isLoading: false,
+        tabShowing: 0,
 
         zoomedJournal: {},
 
@@ -151,6 +152,10 @@ export const scenario = {
 
         setIsLoading: (state, isLoading) => {
             state.isLoading = isLoading
+        },
+
+        setScenarioTabShowing: (state, index) => {
+            state.tabShowing = index
         },
 
 
@@ -288,6 +293,9 @@ export const scenario = {
 
         scenarioId(state){
             if (state.selected) return state.selected.id
+        },
+        scenarioTabShowing(state){
+            return state.tabShowing
         },
         scenarioMemberInstitutions(state){
             if (state.selected) return state.selected.memberInstitutions

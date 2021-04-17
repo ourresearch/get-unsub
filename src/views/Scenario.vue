@@ -1,96 +1,34 @@
 <template>
     <div>
-
-        <div
-                style="height: 85vh"
-                class="loading d-flex flex-column align-center justify-center"
-                v-if="selectedScenarioIsLoading"
-        >
-            <div style="width: 300px;">
-                <v-progress-linear
-                        v-model="loadingPercent"
-                />
-
-            </div>
-            <div class="mt-3">
-                Loading <span v-if="institutionIsConsortium">consortial</span> scenario
-            </div>
-        </div>
-
-        <div v-if="!selectedScenarioIsLoading">
-            <v-container v-if="0" class="pb-0">
-
-                <router-link
-                        v-if="publisherId && institutionId"
-                        class="text--secondary low-key-link"
-                        :to="`/i/${institutionId}/p/${publisherId}`">
-                    <strong>‹</strong>
-                    Back <span v-if="publisherName">to {{publisherName}}</span>
-                </router-link>
-                <div class="page-title mt-8 d-flex">
-                    <div class="text">
-                        <div class="body-2">
-                            <v-icon small>mdi-chart-box-outline</v-icon>
-                            <span>
-                                <span v-if="institutionIsConsortium">Consortial</span>
-                                5-year forecast
-                            </span>
-                        </div>
-                        <div class="text-h4">
-                            {{ scenarioName }}
+        <v-container v-if="!selectedScenarioIsLoading">
+            <v-card
+                    v-if="scenarioIsLockedPendingUpdate"
+                    class="d-flex justify-center align-center"
+                    style="height: 50vh"
+            >
+                <div class="d-flex align-start">
+                    <v-icon x-large class="pr-6 pt-2">mdi-timer-sand</v-icon>
+                    <div>
+                        <div class="headline">Scenario recalculating...</div>
+                        <div>
+                            <p>
+                                This consortial scenerio is currently locked while we recalculate the
+                                forecast. This can take up to one hour.
+                            </p>
+                            <p>
+                                We'll send an email to <strong>{{scenarioUpdateNotificationEmail}}</strong>
+                                when the update is
+                                complete (don't forget to check your spam folder).
+                            </p>
                         </div>
 
                     </div>
                 </div>
-                <v-divider></v-divider>
-                <div class="d-flex pa-1" v-if="!scenarioIsLockedPendingUpdate">
-                    <scenario-menu-scenario key="scenario"/>
-                    <scenario-menu-view key="view"/>
-                    <scenario-menu-subscriptions v-if="0" key="subscriptions"/>
-                    <scenario-menu-columns key="columns"/>
-                    <scenario-menu-settings key="settings"/>
-                    <scenario-menu-export key="export"/>
-                    <scenario-menu-help key="help"/>
-                    <v-spacer/>
-                    <div class="pt-2" v-if="institutionIsConsortium">
-                        <scenario-edit-dialogs-institutions/>
-                    </div>
-                </div>
-            </v-container>
 
-
-            <v-container v-if="scenarioIsLockedPendingUpdate">
-                <v-row>
-                    <v-col cols="12">
-                        <v-card class="d-flex justify-center align-center" style="height: 50vh">
-                            <div class="d-flex align-start">
-                                <v-icon x-large class="pr-6 pt-2">mdi-timer-sand</v-icon>
-                                <div>
-                                    <div class="headline">Scenario recalculating...</div>
-                                    <div>
-                                        <p>
-                                            This consortial scenerio is currently locked while we recalculate the
-                                            forecast. This can take up to one hour.
-                                        </p>
-                                        <p>
-                                            We'll send an email to <strong>{{scenarioUpdateNotificationEmail}}</strong>
-                                            when the update is
-                                            complete (don't forget to check your spam folder).
-                                        </p>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </v-card>
-
-                    </v-col>
-                </v-row>
-            </v-container>
-
-
-            <v-container class="mt-9" v-if="!scenarioIsLockedPendingUpdate">
-                <v-row>
+            </v-card>
+            <v-tabs-items v-if="!scenarioIsLockedPendingUpdate" v-model="scenarioTabShowing">
+                <v-tab-item>
+                    <v-row>
                     <v-col cols="4">
 <!--                        <v-card flat style="position: sticky; top: 0px;">-->
                         <v-card flat>
@@ -313,11 +251,16 @@
 
                     </v-col>
                 </v-row>
-            </v-container>
+                </v-tab-item>
+                <v-tab-item>
+                    <scenario-parameters-tab />
+                </v-tab-item>
+                <v-tab-item>
+                    three
+                </v-tab-item>
+            </v-tabs-items>
 
-
-        </div>
-
+        </v-container>
 
         <v-snackbar
                 v-model="scenarioSnackbars.customSubrSuccess"
@@ -378,6 +321,8 @@
     import ScenarioMenuExport from "../components/ScenarioMenu/ScenarioMenuExport";
     import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
 
+    import ScenarioParametersTab from "../components/Scenario/ScenarioParametersTab";
+
     import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
     import {sleep} from "../shared/util";
 
@@ -398,6 +343,8 @@
             ScenarioMenuExport,
             ScenarioMenuSettings,
             ScenarioMenuHelp,
+
+            ScenarioParametersTab,
 
             ScenarioEditDialogsInstitutions,
         },
@@ -439,6 +386,7 @@
                 'publisherCurrencySymbol',
                 'journals',
                 'scenarioIdHash',
+                'scenarioTabShowing',
                 'scenarioSnackbars',
                 'menuSettingsView',
                 'institutionIsConsortium',
