@@ -1,30 +1,127 @@
 <template>
-    <v-card>
+    <v-card flat class="mt-12">
         <v-row>
-            <v-col
+            <template
                     v-for="group in configGroups"
-                    :key="'groupMenuConfigs'+group.name"
             >
-                <div>
-                    {{group.displayName}}
-                </div>
-                <v-list>
-                    <v-list-item
-                            v-for="config in group.contents"
-                            :key="group.name+config.name"
-                            @click="foo"
+                <v-col cols="6"
+                       class="px-12"
+                       :key="'groupMenuConfigs'+group.name"
+                >
+                    <v-subheader>{{group.displayName}}</v-subheader>
+                    <v-divider></v-divider>
+                    <v-list >
+                        <v-list-item
+                                v-for="config in group.contents"
+                                :key="group.name+config.name"
+                                @click="foo"
 
-                    >
-                        <v-list-item-content>
-                            {{config.displayName}}
-                        </v-list-item-content>
-                        <v-list-item-action class="font-weight-bold pl-2">
-                            <settings-item-value :config-name="config.name"/>
-                        </v-list-item-action>
-                    </v-list-item>
-                </v-list>
-            </v-col>
+                        >
+                            <v-list-item-content>
+                                <div>
+                                    {{config.displayName}}
+                                </div>
+                                <div class="body-2" style="color: #555;">
+                                    {{config.descr}}
+                                </div>
+                            </v-list-item-content>
+                            <v-list-item-action class="font-weight-bold pl-2">
+                                <settings-item-value :config-name="config.name"/>
+                            </v-list-item-action>
+                        </v-list-item>
+                    </v-list>
+                </v-col>
+            </template>
+
         </v-row>
+
+        <v-dialog v-model="showDialog" max-width="400" persistent>
+            <v-card v-if="showDialog">
+                <v-toolbar dark flat color="primary">
+                    <v-toolbar-title>
+                        <v-icon>mdi-playlist-edit</v-icon>
+                        {{selectedConfigData.displayName}}
+                    </v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-btn icon text @click="cancelEdit">
+                        <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                </v-toolbar>
+
+                <div v-if="institutionIsConsortium">
+                    <v-alert
+                            color="warning"
+                            text
+                            icon="mdi-alert"
+                    >
+                        <p class="font-weight-bold">This could take a while...</p>
+                        <p>
+                            Changing this parameter will recalculate the forecast, which can take up to 60 minutes.
+                            You won't be able to view or edit this scenario during that time.
+                        </p>
+                        <p>We'll send an email to <strong>{{ userEmail }} </strong> when we're done (don't forget to
+                            check your spam).</p>
+                    </v-alert>
+
+                </div>
+
+                <v-card-text class="pt-4">
+                    <div>
+                        <v-text-field
+                                v-if="selectedConfigData.display==='dollars'"
+                                outlined
+                                type="number"
+                                :disabled="savingConfig"
+                                @keydown.enter="saveEdit"
+                                :prefix="publisherCurrencySymbol"
+                                v-model="selectedConfigValue"
+                        />
+                        <v-text-field
+                                v-if="selectedConfigData.display==='percent'"
+                                outlined
+                                type="number"
+                                :disabled="savingConfig"
+                                @keydown.enter="saveEdit"
+                                suffix="%"
+                                v-model="selectedConfigValue"
+                        />
+                        <v-text-field
+                                v-if="selectedConfigData.display==='number'"
+                                outlined
+                                type="number"
+                                :disabled="savingConfig"
+                                @keydown.enter="saveEdit"
+                                v-model="selectedConfigValue"
+                        />
+                        <v-switch
+                                v-if="selectedConfigData.display==='boolean'"
+                                color="primary"
+                                :disabled="savingConfig"
+                                v-model="selectedConfigValue"
+                                :label="selectedConfigData.displayName"
+                        />
+                    </div>
+                    <div class="descr">
+                        {{selectedConfigData.descr}}
+                    </div>
+                </v-card-text>
+
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn depressed @click="cancelEdit">Cancel</v-btn>
+                    <v-btn
+                            depressed
+                            @click="saveEdit"
+                            :loading="savingConfig"
+                            color="primary"
+                    >
+                        {{ (institutionIsConsortium) ? 'Save and wait' : 'Save' }}
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+
+
     </v-card>
 </template>
 
