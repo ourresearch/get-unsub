@@ -1,13 +1,29 @@
 <template>
-    <v-tabs class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button">5yr forecast</v-tab>
-        <v-tab class="low-key-button">Parameters</v-tab>
-        <v-tab class="low-key-button">Export</v-tab>
-    </v-tabs>
+    <div class="d-flex" style="width: 100%;">
+        <v-tabs class="ml-1" v-model="currentTab">
+            <v-tab class="low-key-button">5yr forecast</v-tab>
+            <v-tab class="low-key-button">Parameters</v-tab>
+            <v-tab class="low-key-button">Export</v-tab>
+            <v-tab class="low-key-button" v-if="institutionIsConsortium">Member Institutions</v-tab>
+            <v-spacer />
+        <div class="d-flex align-center black--text">
+            <div class="mx-3 black--text">
+                {{myCost | currency}}
+            </div>
+            <div class="mx-3">
+                {{ myInstantUsagePercent | percent}}
+            </div>
+            <div class="mx-3">
+                {{ subrJournalsCount }}
+            </div>
+        </div>
+        </v-tabs>
+    </div>
 </template>
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
+    import {costTotal, instantUsagePercent} from "../../shared/scenarioSummary";
 
     export default {
         name: "AppBarExtScenarioNew",
@@ -20,7 +36,10 @@
         methods: {},
         computed: {
             ...mapGetters([
-                "userEmail"
+                "userEmail",
+                "institutionIsConsortium",
+                "scenarioJournals",
+                "subrJournalsCount",
             ]),
             currentTab: {
                 get() {
@@ -30,6 +49,12 @@
                 set(newVal) {
                     this.$store.commit("setScenarioTabShowing", newVal)
                 }
+            },
+            myCost() {
+                return costTotal(this.scenarioJournals)
+            },
+            myInstantUsagePercent(){
+                return instantUsagePercent(this.scenarioJournals)
             }
         },
         created() {

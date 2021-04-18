@@ -10,11 +10,11 @@
                 >
                     <v-subheader>{{group.displayName}}</v-subheader>
                     <v-divider></v-divider>
-                    <v-list >
+                    <v-list>
                         <v-list-item
                                 v-for="config in group.contents"
                                 :key="group.name+config.name"
-                                @click="foo"
+                                @click="startEdit(config.name)"
 
                         >
                             <v-list-item-content>
@@ -142,18 +142,40 @@
         },
         data() {
             return {
-                dialogs: {
-                    createGroupMember: false,
-                }
+                selectedConfigValue: null,
+                showDialog: false,
+                selectedConfigName: null,
+                savingConfig: false,
             }
         },
         methods: {
             ...mapMutations([
                 "snackbar",
             ]),
-            foo() {
-                console.log("clicked foo")
-            }
+            startEdit(configName) {
+                // this.$refs.settingsMenu.isActive = false
+                this.showDialog = true
+                this.selectedConfigName = configName
+                this.selectedConfigValue = this.$store.getters.config(configName)
+            },
+            async saveEdit() {
+                console.log("saving config edit", this.selectedConfigValue)
+                this.savingConfig = true
+                await this.$store.dispatch("setSelectedScenarioConfig", {
+                    key: this.selectedConfigName,
+                    value: this.selectedConfigValue,
+                })
+                this.cancelEdit()
+                if (!this.institutionIsConsortium) {
+                    this.$store.commit("snackbar", "Setting updated")
+                }
+            },
+            cancelEdit() {
+                this.selectedConfigName = null
+                this.selectedConfigValue = null
+                this.showDialog = false
+                this.savingConfig = false
+            },
         },
         computed: {
             ...mapGetters([
@@ -166,6 +188,9 @@
                 'userInstitutions',
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
+            selectedConfigData() {
+                return appConfigs.scenarioConfigs[this.selectedConfigName]
+            },
 
         },
         created() {

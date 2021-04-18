@@ -21,7 +21,7 @@
         methods: {},
         computed: {
             ...mapGetters([
-                "institutionName"
+                "institutionName",
             ]),
             currentTab: {
                 get() {

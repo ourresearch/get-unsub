@@ -256,7 +256,10 @@
                     <scenario-parameters-tab />
                 </v-tab-item>
                 <v-tab-item>
-                    three
+                    export tab
+                </v-tab-item>
+                <v-tab-item v-if="institutionIsConsortium">
+                    institutions tab
                 </v-tab-item>
             </v-tabs-items>
 
