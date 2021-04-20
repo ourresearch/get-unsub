@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex" style="width: 100%;">
         <v-tabs class="ml-1" v-model="currentTab">
-            <v-tab class="low-key-button">5yr forecast</v-tab>
+            <v-tab class="low-key-button">Forecast</v-tab>
             <v-tab class="low-key-button">Parameters</v-tab>
             <v-tab class="low-key-button">Export</v-tab>
             <v-tab class="low-key-button" v-if="institutionIsConsortium">Member Institutions</v-tab>

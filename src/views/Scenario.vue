@@ -28,238 +28,249 @@
             </v-card>
             <v-tabs-items v-if="!scenarioIsLockedPendingUpdate" v-model="scenarioTabShowing">
                 <v-tab-item>
-                    <v-row>
-                    <v-col cols="4">
-<!--                        <v-card flat style="position: sticky; top: 0px;">-->
-                        <v-card flat>
-                            <!--                            <v-toolbar flat>-->
-                            <!--                                <v-toolbar-title>-->
-                            <!--                                    5yr forecast overview-->
-                            <!--                                </v-toolbar-title>-->
-                            <!--                            </v-toolbar>-->
-                            <!--                            <v-divider/>-->
+                    <v-card flat>
+                        <v-card-title class="text-h5">
+                            <div>5-year forecast</div>
 
+                        </v-card-title>
+                        <v-row>
+                            <v-col cols="4">
+                                <!--                        <v-card flat style="position: sticky; top: 0px;">-->
+                                <v-tabs>
+                                    <v-tab>
+                                        overview
+                                    </v-tab>
+                                </v-tabs>
+                                <v-card flat>
+                                    <div class="pt-10 pb-0 px-3 black--text">
+                                        <v-row class="mb-4 ">
+                                            <!--                                COST -->
+                                            <v-col class="py-0" cols="6">
+                                                <div class="text-right">
+                                                    <v-tooltip right max-width="400" color="#333">
+                                                        <template v-slot:activator="{ on }">
+                                                            <div v-on="on">
+                                                                <div class="text-h5" id="annual-cost-value">
+                                                                    {{ costTotal | currency(publisherCurrencySymbol) }}
 
-                            <div class="pt-10 pb-0 px-3 black--text">
-                                <v-row class="mb-4 ">
-                                    <!--                                COST -->
-                                    <v-col class="py-0" cols="6">
-                                        <div class="text-right">
-                                                <v-tooltip right max-width="400" color="#333">
-                                                    <template v-slot:activator="{ on }">
-                                                        <div v-on="on">
-                                                            <div class="text-h5" id="annual-cost-value">
-                                                                {{ costTotal | currency(publisherCurrencySymbol) }}
+                                                                </div>
+                                                                <div class="body-2">
+                                                                    Annual Cost ({{ costPercent | percent }})
+
+                                                                </div>
 
                                                             </div>
-                                                            <div class="body-2">
-                                                                Annual Cost ({{ costPercent | percent }})
-
-                                                            </div>
-
-                                                        </div>
-                                                    </template>
-                                                    <div class="pa-3 pt-1">
-                                                        <div class="d-flex subtitle-1 align-center">
+                                                        </template>
+                                                        <div class="pa-3 pt-1">
+                                                            <div class="d-flex subtitle-1 align-center">
                                                             <span class="name font-weight-bold">
                                                                 Projected annual cost
                                                             </span>
-                                                            <v-spacer />
-                                                            <span class="number pl-3">
+                                                                <v-spacer/>
+                                                                <span class="number pl-3">
                                                                 {{ costTotal | currency(publisherCurrencySymbol) }}
                                                                 ({{ costPercent | percent }})
                                                             </span>
-                                                        </div>
-                                                        <v-divider class="my-2" dark />
-
-                                                        Your average annual cost over the next
-                                                        five years. That comes to <strong>{{ costPercent | percent }}</strong> of what you'd pay if you kept your Big Deal.
-                                                    </div>
-
-
-
-                                                </v-tooltip>
-                                        </div>
-                                    </v-col>
-
-                                    <!--                                FULFILLMENT -->
-                                    <v-col class="py-0" cols="6">
-                                        <div class="text-right">
-                                                <v-tooltip right max-width="400" color="#333">
-                                                    <template v-slot:activator="{ on }">
-                                                        <div v-on="on">
-                                                            <div class="text-h5" id="instant-fulfillment-value">
-                                                                {{ instantUsagePercent | percent(0) }}
                                                             </div>
-                                                            <div class="body-2">Instant access</div>
+                                                            <v-divider class="my-2" dark/>
+
+                                                            Your average annual cost over the next
+                                                            five years. That comes to <strong>{{ costPercent | percent
+                                                            }}</strong> of what you'd pay if you kept your Big Deal.
                                                         </div>
-                                                    </template>
-                                                    <div class="pa-3 pt-1">
-                                                        <div class="d-flex subtitle-1 align-center">
+
+
+                                                    </v-tooltip>
+                                                </div>
+                                            </v-col>
+
+                                            <!--                                FULFILLMENT -->
+                                            <v-col class="py-0" cols="6">
+                                                <div class="text-right">
+                                                    <v-tooltip right max-width="400" color="#333">
+                                                        <template v-slot:activator="{ on }">
+                                                            <div v-on="on">
+                                                                <div class="text-h5" id="instant-fulfillment-value">
+                                                                    {{ instantUsagePercent | percent(0) }}
+                                                                </div>
+                                                                <div class="body-2">Instant access</div>
+                                                            </div>
+                                                        </template>
+                                                        <div class="pa-3 pt-1">
+                                                            <div class="d-flex subtitle-1 align-center">
                                                             <span class="name font-weight-bold">
                                                                 Projected % instant access
                                                             </span>
-                                                            <v-spacer />
-                                                            <span class="number pl-3">
+                                                                <v-spacer/>
+                                                                <span class="number pl-3">
                                                                 {{ instantUsagePercent | percent(0) }}
                                                             </span>
+                                                            </div>
+                                                            <v-divider class="my-2" dark/>
+                                                            The percentage of content requests that your library
+                                                            will fulfill <em>instantly</em> over the next five
+                                                            years (via backfile, OA, or à la carte subscription).
                                                         </div>
-                                                        <v-divider class="my-2" dark />
-                                                        The percentage of content requests that your library
-                                                        will fulfill <em>instantly</em> over the next five
-                                                        years (via backfile, OA, or à la carte subscription).
+                                                    </v-tooltip>
+                                                </div>
+                                            </v-col>
+                                        </v-row>
+
+                                    </div>
+
+                                    <v-card-text class="pt-0">
+                                        <v-row>
+                                            <v-col cols="6">
+                                                <overview-graphic-bar
+                                                        type="cost"
+                                                        :segments="costSegments"
+                                                        :num-journals="journals.length"
+                                                        :num-journals-subscribed="subscribedJournals.length"
+                                                />
+                                                <div class="text-center mt-2 text-h6">
+                                                    <div class="body-1">
+                                                        Annual cost
                                                     </div>
-                                                </v-tooltip>
-                                        </div>
-                                    </v-col>
-                                </v-row>
 
-                            </div>
+                                                </div>
+                                            </v-col>
+                                            <v-col cols="6">
+                                                <overview-graphic-bar
+                                                        type="usage"
+                                                        :segments="usageSegments"
+                                                        :num-journals="journals.length"
+                                                        :num-journals-subscribed="subscribedJournals.length"
+                                                />
+                                                <div class="text-center mt-2 text-h">
+                                                    <div class="body-1">
+                                                        Usage fulfillment
+                                                    </div>
+                                                </div>
+                                            </v-col>
 
-                            <v-card-text class="pt-0">
-                                <v-row>
-                                    <v-col cols="6">
-                                        <overview-graphic-bar
-                                                type="cost"
-                                                :segments="costSegments"
-                                                :num-journals="journals.length"
-                                                :num-journals-subscribed="subscribedJournals.length"
-                                        />
-                                        <div class="text-center mt-2 text-h6">
-                                            <div class="body-1">
-                                                Annual cost
-                                            </div>
+                                        </v-row>
 
-                                        </div>
-                                    </v-col>
-                                    <v-col cols="6">
-                                        <overview-graphic-bar
-                                                type="usage"
-                                                :segments="usageSegments"
-                                                :num-journals="journals.length"
-                                                :num-journals-subscribed="subscribedJournals.length"
-                                        />
-                                        <div class="text-center mt-2 text-h">
-                                            <div class="body-1">
-                                                Usage fulfillment
-                                            </div>
-                                        </div>
-                                    </v-col>
-
-                                </v-row>
-
-                            </v-card-text>
+                                    </v-card-text>
 
 
-                        </v-card>
-                    </v-col>
+                                </v-card>
+                            </v-col>
 
-                    <v-col cols="8">
-                        <v-card flat>
-<!--                            <v-toolbar flat height="120px" class="align-top" style="position: sticky; top: 0px; z-index: 8;">-->
-                            <v-toolbar flat height="120px" class="align-top">
+                            <v-col cols="8">
+                                <v-tabs>
+                                    <v-tab>
+                                        histogram
+                                    </v-tab>
+                                    <v-tab>
+                                        table
+                                    </v-tab>
+                                </v-tabs>
+                                <v-card flat>
+                                    <!--                            <v-toolbar flat height="120px" class="align-top" style="position: sticky; top: 0px; z-index: 8;">-->
+                                    <v-toolbar flat height="120px" class="align-top">
 
-                                <overview-graphic-subrs-counter/>
-                                <!--                                <v-toolbar-title>-->
-                                <!--                                    À la carte journals-->
-                                <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
-                                <!--                                </v-toolbar-title>-->
-                                <v-spacer></v-spacer>
+                                        <overview-graphic-subrs-counter/>
+                                        <!--                                <v-toolbar-title>-->
+                                        <!--                                    À la carte journals-->
+                                        <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
+                                        <!--                                </v-toolbar-title>-->
+                                        <v-spacer></v-spacer>
 
 
-                                <v-btn icon class="mr-2 ml-4" @click="toggleSearchBox">
-                                    <v-icon>mdi-magnify</v-icon>
-                                </v-btn>
-
-                                <scenario-menu-columns :icon="true" direction="left"/>
-                                <v-menu>
-                                    <template v-slot:activator="{on}">
-                                        <v-btn
-                                                text
-                                                v-on="on"
-                                                icon
-
-                                        >
-                                            <v-icon>mdi-eye</v-icon>
+                                        <v-btn icon class="mr-2 ml-4" @click="toggleSearchBox">
+                                            <v-icon>mdi-magnify</v-icon>
                                         </v-btn>
-                                    </template>
-                                    <v-list dense subheader>
-                                        <v-subheader>Display journals as:</v-subheader>
-                                        <v-list-item
-                                                v-for="option in menuSettingsView.displayJournalsAsOptions"
-                                                :key="option.name"
-                                                @click="menuViewSetDisplayJournalsAs(option.name)"
-                                        >
-                                            <v-list-item-icon>
-                                                <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
-                                                    mdi-radiobox-marked
-                                                </v-icon>
-                                                <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
-                                                    mdi-radiobox-blank
-                                                </v-icon>
-                                            </v-list-item-icon>
 
-                                            <v-list-item-title>
-                                                <v-icon>{{option.icon}}</v-icon>
-                                                {{ option.name }}
-                                            </v-list-item-title>
-                                        </v-list-item>
-                                    </v-list>
-                                </v-menu>
+                                        <scenario-menu-columns :icon="true" direction="left"/>
+                                        <v-menu>
+                                            <template v-slot:activator="{on}">
+                                                <v-btn
+                                                        text
+                                                        v-on="on"
+                                                        icon
+
+                                                >
+                                                    <v-icon>mdi-eye</v-icon>
+                                                </v-btn>
+                                            </template>
+                                            <v-list dense subheader>
+                                                <v-subheader>Display journals as:</v-subheader>
+                                                <v-list-item
+                                                        v-for="option in menuSettingsView.displayJournalsAsOptions"
+                                                        :key="option.name"
+                                                        @click="menuViewSetDisplayJournalsAs(option.name)"
+                                                >
+                                                    <v-list-item-icon>
+                                                        <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
+                                                            mdi-radiobox-marked
+                                                        </v-icon>
+                                                        <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
+                                                            mdi-radiobox-blank
+                                                        </v-icon>
+                                                    </v-list-item-icon>
+
+                                                    <v-list-item-title>
+                                                        <v-icon>{{option.icon}}</v-icon>
+                                                        {{ option.name }}
+                                                    </v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
 
 
-                                <!--                                <template v-slot:extension color="red">-->
-                                <!--                                    <overview-graphic-subrs-counter/>-->
-                                <!--                                </template>-->
+                                        <!--                                <template v-slot:extension color="red">-->
+                                        <!--                                    <overview-graphic-subrs-counter/>-->
+                                        <!--                                </template>-->
 
-                            </v-toolbar>
-                            <v-card-text v-if="showSearchBox">
-                                <v-row>
-                                    <v-text-field
-                                            hide-details
-                                            ref="searchBox"
-                                            outlined
-                                            dense
-                                            label="Search journals"
-                                            autocomplete="false"
-                                            v-model="search"
-                                            v-on:input="setJournalsFilterStatus"
-                                            append-icon="mdi-magnify"
-                                            full-width
+                                    </v-toolbar>
+                                    <v-card-text v-if="showSearchBox">
+                                        <v-row>
+                                            <v-text-field
+                                                    hide-details
+                                                    ref="searchBox"
+                                                    outlined
+                                                    dense
+                                                    label="Search journals"
+                                                    autocomplete="false"
+                                                    v-model="search"
+                                                    v-on:input="setJournalsFilterStatus"
+                                                    append-icon="mdi-magnify"
+                                                    full-width
 
-                                    />
-                                    <v-btn icon @click="toggleSearchBox" class="mr-2 ml-0">
-                                        <v-icon>mdi-close</v-icon>
-                                    </v-btn>
+                                            />
+                                            <v-btn icon @click="toggleSearchBox" class="mr-2 ml-0">
+                                                <v-icon>mdi-close</v-icon>
+                                            </v-btn>
 
-                                </v-row>
-                            </v-card-text>
-<!--                            <v-divider/>-->
-                            <v-card-text class="px-0">
-                                <overview-graphic-bar-dots
-                                        class="pa-3"
-                                        v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
-                                        :journals="journals"
-                                />
-                                <journals-table-table
-                                        v-show="menuSettingsView.displayJournalsAsSelected=='table'"
-                                        :journals="journals"
-                                />
+                                        </v-row>
+                                    </v-card-text>
+                                    <!--                            <v-divider/>-->
+                                    <v-card-text class="px-0">
+                                        <overview-graphic-bar-dots
+                                                class="pa-3"
+                                                v-show="menuSettingsView.displayJournalsAsSelected=='histogram'"
+                                                :journals="journals"
+                                        />
+                                        <journals-table-table
+                                                v-show="menuSettingsView.displayJournalsAsSelected=='table'"
+                                                :journals="journals"
+                                        />
 
-                            </v-card-text>
-                        </v-card>
+                                    </v-card-text>
+                                </v-card>
 
-                    </v-col>
-                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-card>
                 </v-tab-item>
                 <v-tab-item>
-                    <scenario-parameters-tab />
+                    <scenario-parameters-tab/>
                 </v-tab-item>
                 <v-tab-item>
-                    export tab
+                    <scenario-export-tab />
                 </v-tab-item>
                 <v-tab-item v-if="institutionIsConsortium">
-                    institutions tab
+                    <scenario-institutions-tab />
                 </v-tab-item>
             </v-tabs-items>
 
@@ -325,6 +336,8 @@
     import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
 
     import ScenarioParametersTab from "../components/Scenario/ScenarioParametersTab";
+    import ScenarioExportTab from "../components/Scenario/ScenarioExportTab";
+    import ScenarioInstitutionsTab from "../components/Scenario/ScenarioInstitutionsTab";
 
     import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
     import {sleep} from "../shared/util";
@@ -348,6 +361,8 @@
             ScenarioMenuHelp,
 
             ScenarioParametersTab,
+            ScenarioExportTab,
+            ScenarioInstitutionsTab,
 
             ScenarioEditDialogsInstitutions,
         },

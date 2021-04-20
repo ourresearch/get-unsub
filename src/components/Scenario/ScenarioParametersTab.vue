@@ -1,11 +1,21 @@
 <template>
-    <v-card flat class="mt-12">
+    <v-card flat>
+        <v-card-title class="text-h5">
+            <div>Scenario Parameters</div>
+            <v-spacer />
+            <v-checkbox
+                v-model="showDetails"
+                label="Show details"
+                dense
+            />
+
+        </v-card-title>
         <v-row>
             <template
                     v-for="group in configGroups"
             >
                 <v-col cols="6"
-                       class="px-12"
+                       class="pr-12"
                        :key="'groupMenuConfigs'+group.name"
                 >
                     <v-subheader>{{group.displayName}}</v-subheader>
@@ -21,7 +31,7 @@
                                 <div>
                                     {{config.displayName}}
                                 </div>
-                                <div class="body-2" style="color: #555;">
+                                <div v-if="showDetails" class="body-2" style="color: #555;">
                                     {{config.descr}}
                                 </div>
                             </v-list-item-content>
@@ -146,6 +156,7 @@
                 showDialog: false,
                 selectedConfigName: null,
                 savingConfig: false,
+                showDetails: true,
             }
         },
         methods: {

@@ -54,14 +54,14 @@ export default new Vuex.Store({
 
 
     mutations: {
-        startLoading(state){
-            // state.loading = true
+        startGlobalLoading(state){
+            state.loading += 1
         },
         setIsLandingPage(state, val){
             state.isLandingPage = !!val
         },
-        finishLoading(state){
-            // state.loading = false
+        finishGlobalLoading(state){
+            if (state.loading > 0 ) state.loading -= 1
         },
 
         showColInfo(state, name){
@@ -157,7 +157,7 @@ export default new Vuex.Store({
     },
 
     getters: {
-        loading(state){return state.loading > 0},
+        isGlobalLoading(state){return state.loading > 0},
         colInfo(state){return state.colInfo},
         infoKey(state){return state.infoKey},
         isLandingPage(state){return state.isLandingPage},

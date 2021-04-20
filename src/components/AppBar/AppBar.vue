@@ -5,6 +5,13 @@
             app
             elevate-on-scroll
     >
+        <v-progress-linear
+                :active="isGlobalLoading"
+                indeterminate
+                absolute
+                top
+                color="primary"
+        ></v-progress-linear>
         <router-link to="/">
             <img class="mt-2" style="width:90px;" src="../../assets/unsub-logo.png"
                  alt=""/>
@@ -139,7 +146,7 @@
                                     <div class="body-2 mb-1">
                                         Current package:
                                     </div>
-                                    <div  class="d-flex justify-space-between">
+                                    <div class="d-flex justify-space-between">
                                         {{publisherName}}
                                         <v-chip
                                                 x-small
@@ -171,8 +178,8 @@
                                     </v-icon>
                                 </v-list-item-icon>
                                 <v-list-item-content>
-                                    <div  class="d-flex justify-space-between">
-                                    {{pub.name}}
+                                    <div class="d-flex justify-space-between">
+                                        {{pub.name}}
                                         <v-chip
                                                 x-small
                                                 v-if="pub.is_owned_by_consortium"
@@ -181,9 +188,9 @@
                                             consortial feeder
                                         </v-chip>
                                     </div>
-<!--                                    <div class="caption">-->
-<!--                                        {{pub.publisher}}-->
-<!--                                    </div>-->
+                                    <!--                                    <div class="caption">-->
+                                    <!--                                        {{pub.publisher}}-->
+                                    <!--                                    </div>-->
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
@@ -384,10 +391,10 @@
         </div>
 
         <template v-slot:extension>
-            <app-bar-ext-user v-if="$route.name === 'user'" />
-            <app-bar-ext-institution v-if="$route.name === 'institution'"  />
-            <app-bar-ext-publisher v-if="$route.name === 'publisher'"  />
-            <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"  />
+            <app-bar-ext-user v-if="$route.name === 'user'"/>
+            <app-bar-ext-institution v-if="$route.name === 'institution'"/>
+            <app-bar-ext-publisher v-if="$route.name === 'publisher'"/>
+            <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"/>
         </template>
 
 
@@ -449,6 +456,7 @@
         computed: {
             ...mapGetters([
                 'isLandingPage',
+                'isGlobalLoading',
                 'isLoggedIn',
 
                 "userName",

@@ -3,7 +3,7 @@
         <v-tab class="low-key-button">Packages</v-tab>
         <v-tab class="low-key-button">Users</v-tab>
         <v-tab class="low-key-button">ROR ID</v-tab>
-        <v-tab class="low-key-button">Consortial</v-tab>
+        <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">Consortial</v-tab>
     </v-tabs>
 </template>
 
@@ -22,6 +22,7 @@
         computed: {
             ...mapGetters([
                 "institutionName",
+                "institutionConsortialFeederPublishers",
             ]),
             currentTab: {
                 get() {
