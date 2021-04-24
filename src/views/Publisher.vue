@@ -1,5 +1,5 @@
 <template>
-    <v-container class="publisher">
+    <v-container class="publisher pt-12">
         <div
                 style="height: 85vh"
                 class="loading d-flex flex-column align-center justify-center"

@@ -1,39 +1,45 @@
 <template>
-    <div class="publisher">
-        <v-card v-if="publisherApcIsLoading" class="d-flex align-center justify-center" style="height: 200px;">
+    <v-card flat class="publisher">
+        <v-card-title class="text-h5">
+            <div>
+                Article Processing Fees (APCs)
+            </div>
+            <v-spacer/>
+            <v-btn fab small dark color="primary" @click="">
+                <download-csv
+                        :data="rowsForDownload"
+                        :labels="findKey"
+                >
+                    <v-icon>mdi-download</v-icon>
+                </download-csv>
+            </v-btn>
+
+            <!--            <v-btn small color="primary" @click="" class="mx-2">-->
+            <!--            </v-btn>-->
+        </v-card-title>
+        <v-card flat v-if="publisherApcIsLoading" class="d-flex align-center justify-center" style="height: 200px;">
             <div>
                 <v-progress-circular size="20" class="mr-4" indeterminate></v-progress-circular>
                 APC data loading...
             </div>
         </v-card>
 
-        <v-card class="mb-4" v-if="!publisherApcIsLoading">
-            <v-card-text class="d-none">
-                <div class="stat">
-                    <span class="k">Total APC cost last year is </span>
-                    <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
-                    <span class="k"> (estimated). </span>
-                    This includes all journals published by {{publisherName}} where authors from your institution have
-                    paid APCs for gold or hybrid open access.
-                </div>
-                <div>
-                </div>
-            </v-card-text>
+        <v-card flat class="my-4" v-if="!publisherApcIsLoading">
 
-                <v-row class="pa-3">
-                    <v-col cols="6" class="pt-0">
-                        <div class="stat body-2">
-                            <span class="k">Total APC cost last year is </span>
-                            <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
-                            <span class="k"> (estimated). </span>
-                            This includes all journals published by {{publisherName}} where authors from your
-                            institution have paid APCs for gold or hybrid open access.
-                        </div>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                    <v-col cols="5" class="mt-0">
-                        <v-row>
+            <v-row class="px-3 pt-10">
+                <v-col cols="6" class="px-0">
+                    <div class="stat body-2">
+                        <span class="k">Total APC cost last year is </span>
+                        <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
+                        <span class="k"> (estimated). </span>
+                        This includes all journals published by {{publisherName}} where authors from your
+                        institution have paid APCs for gold or hybrid open access.
+                    </div>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col cols="5" class="mt-0">
                         <v-text-field
+                                class="mb-1"
                                 hide-details
                                 outlined
                                 dense
@@ -42,22 +48,9 @@
                                 append-icon="mdi-magnify"
                                 full-width
                         />
-                        <v-btn @click="" class="mx-2">
-                            <download-csv
-                                    :data="rowsForDownload"
-                                    :labels="findKey"
-                            >
-                                <v-icon>mdi-download</v-icon>
-                                Download
-                            </download-csv>
-                        </v-btn>
 
-                        </v-row>
-
-                    </v-col>
-                    <v-col cols="4">
-                    </v-col>
-                </v-row>
+                </v-col>
+            </v-row>
             <v-divider></v-divider>
             <v-card flat>
                 <v-data-table
@@ -119,7 +112,7 @@
 
         </v-card>
 
-    </div>
+    </v-card>
 </template>
 
 <script>
@@ -178,11 +171,11 @@
                     return "number"
                 }
             },
-            findKey(v, k){
+            findKey(v, k) {
                 // get the friendly human-readable version of the table for download
                 let ret = k
                 this.publisherApcHeaders.forEach(header => {
-                    if (header.value === k){
+                    if (header.value === k) {
                         ret = header.text
                     }
                 })

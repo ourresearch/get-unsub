@@ -39,9 +39,9 @@
                                 :key="insti.institution_id"
                                 @click="goToInstitution(insti.institution_id)"
                         >
-                            <v-list-item-avatar tile>
-                                <v-icon large>mdi-bank-outline</v-icon>
-                            </v-list-item-avatar>
+                            <v-list-item-icon>
+                                <v-icon>mdi-bank-outline</v-icon>
+                            </v-list-item-icon>
                             <v-list-item-content>
                                 <div class="headline font-weight-bold">
                                     {{ insti.institution_name}}
@@ -84,9 +84,11 @@
                                 :key="insti.institution_id"
                                 @click="goToInstitution(insti.institution_id)"
                         >
-                            <v-list-item-avatar tile>
-                                <v-icon large>mdi-lan</v-icon>
-                            </v-list-item-avatar>
+
+                            <v-list-item-icon>
+                                <v-icon>mdi-lan</v-icon>
+
+                            </v-list-item-icon>
                             <v-list-item-content>
                                 <div class="headline font-weight-bold">
                                     {{ insti.institution_name}}

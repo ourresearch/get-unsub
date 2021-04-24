@@ -1,8 +1,20 @@
 <template>
     <v-card flat class="">
-        <v-card flat class="py-5">
+        <v-card-title  class="text-h5">
+            <div>
+            Forecast Scenarios
+            </div>
+            <v-spacer />
+            <v-btn icon color="primary">
+                <v-icon>mdi-plus</v-icon>
+            </v-btn>
+        </v-card-title>
+        <v-card flat class="pb-5">
+            <v-divider class="mb-2" />
             <v-row align="end" class="caption font-weight-bold pr-12 mr-1" style="cursor: default; line-height: 1.5">
-                <v-col cols="6" class="pb-0">
+                <v-col cols="1"></v-col>
+                <v-col cols="5" class="pb-0">
+                    Name
                 </v-col>
                 <v-spacer></v-spacer>
                 <v-col cols="2" class="text-right">
@@ -49,14 +61,18 @@
 
             </v-row>
         </v-card>
-
+<!--        <v-divider />-->
+        <v-list>
             <publisher-scenario-row
                     v-for="scenario in publisherScenarios"
                     :scenario="scenario"
             >
             </publisher-scenario-row>
 
-            <v-fade-transition>
+        </v-list>
+
+
+            <v-fade-transition v-if="0">
                 <v-list-item
                         @click="openCreateDialog"
                         key="add-scenario"

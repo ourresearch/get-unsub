@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-container v-if="!selectedScenarioIsLoading">
+        <v-container v-if="!selectedScenarioIsLoading" class="mt-12">
             <v-card
                     v-if="scenarioIsLockedPendingUpdate"
                     class="d-flex justify-center align-center"

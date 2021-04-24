@@ -1,9 +1,11 @@
 <template>
     <v-list-item
-            two-line
             :key="scenario.id + scenario.saved.name"
             @click="goToScenario"
     >
+        <v-list-item-icon>
+            <v-icon>mdi-chart-box-outline</v-icon>
+        </v-list-item-icon>
 
         <v-list-item-content>
             <v-row align="center">

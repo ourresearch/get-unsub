@@ -1,6 +1,36 @@
 import axios from "axios";
 import Vue from "vue"
 
+
+const dataFilesConfig = {
+    counter: {
+        displayName: "COUNTER JR1",
+        counterVersion: 4,
+    },
+    "counterTrj2": {
+        displayName: "COUNTER TRJ_2",
+        counterVersion: 5,
+    },
+    "counterTrj3": {
+        displayName: "COUNTER TRJ_3",
+        counterVersion: 5,
+    },
+    "counterTrj4": {
+        displayName: "COUNTER TRJ_4",
+        counterVersion: 5,
+    },
+    "price": {
+        displayName: "Title-by-title pricelist",
+    },
+    "perpetualAccess": {
+        displayName: "Post-termination access (PTA) list",
+    },
+    "coreJournals": {
+        displayName: "Core journals list",
+    },
+}
+
+
 import {api} from "../api"
 import {
     fetchScenario,
@@ -105,6 +135,7 @@ export const publisher = {
             })
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
                 dataFile.name = dataFile.name.replace("prices", "price")
+                dataFile.id = _.camelCase(dataFile.name)
                 return dataFile
             })
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
@@ -244,6 +275,12 @@ export const publisher = {
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) => {
             return state.scenarios.find(s => s.id === id)
+        },
+        getPublisherDataFile: (state) => (dataFileKey) => {
+            const myDataFile = state.dataFiles.find(d => d.id === dataFileKey)
+            if (!myDataFile) return
+            const myDataFileCopy = {...myDataFile}
+            return Object.assign(myDataFileCopy, dataFilesConfig[myDataFileCopy.id])
         },
         publisherScenariosAreAllLoaded: (state) => {
             // make sure we don't have any scenarios that are still dehydrated:
