@@ -123,7 +123,7 @@ export const publisher = {
             state.scenarios = apiPublisher.scenarios.map(s => {
                 const ret = s
                 // if (s.saved){
-                    // s.saved.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                // s.saved.description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 // }
                 return ret
             })
@@ -242,7 +242,7 @@ export const publisher = {
 
         },
 
-        async refreshPublisherScenario({dispatch, commit}, scenarioId){
+        async refreshPublisherScenario({dispatch, commit}, scenarioId) {
             const newScenario = await fetchScenario(scenarioId)
             commit("replaceScenario", newScenario)
         },
@@ -318,7 +318,19 @@ export const publisher = {
         },
 
 
-        publisherCounterIsUploaded: (state) => state.counterIsUploaded,
+        publisherCounterIsUploaded: (state) => {
+            if (state.dataFiles.filter(f => f.counterVersion === 4).every(f => f.uploaded)) {
+                return true
+            }
+            if (state.dataFiles.filter(f => f.counterVersion === 5).every(f => f.uploaded)) {
+                return true
+            }
+            return false
+
+        },
+        publisherCounterIsAnyUploaded: (state) => {
+            return state.dataFiles.filter(f => f.counterVersion).some(f => f.uploaded)
+        },
         publisherIsOwnedByConsortium: (state) => state.isOwnedByConsortium,
         publisherIsFeeder: (state) => state.isOwnedByConsortium, // new terminology for above
         publisherCurrency: (state) => state.currency,

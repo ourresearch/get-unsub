@@ -80,7 +80,6 @@ export default {
        return this.getPublisherDataFile(this.fileType)
     },
     isUploaded(){
-      return true
       return this.myDataFile.uploaded
     }
 
