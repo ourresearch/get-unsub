@@ -1,8 +1,5 @@
 <template>
     <v-card flat class="">
-        <pre>
-            {{getPublisherDataFile('price')}}
-        </pre>
         <div class="pa-3">
             <div class="">
                 <div class="">
@@ -26,15 +23,22 @@
             <div class="">
                 Upload your files
             </div>
-            <div v-if="counterFileType==='counter-trj2'">
-                For COUNTER 5, you'll need to upload <strong>three</strong> files. Unsub requires all three in order to
+            <div v-if="counterFileType==='counter-5'">
+              <div>
+                For COUNTER 5, you'll need to upload three files. Unsub requires all three in order to
                 create your dashboard:
+              </div>
+              <publisher-setup-tab-file-upload file-type="counterTrj2" />
+              <publisher-setup-tab-file-upload file-type="counterTrj3" />
+              <publisher-setup-tab-file-upload file-type="counterTrj4" />
             </div>
             <div v-if="counterFileType==='counter-4'">
+              <div>
                 For COUNTER 4, you'll need to upload a single file:
+              </div>
+              <publisher-setup-tab-file-upload file-type="counter" />
             </div>
 
-            <publisher-setup-tab-file-upload file-type="counter-trj4" />
         </div>
     </v-card>
 

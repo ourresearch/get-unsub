@@ -4,19 +4,19 @@ import Vue from "vue"
 
 const dataFilesConfig = {
     counter: {
-        displayName: "COUNTER JR1",
+        displayName: "COUNTER JR1 report",
         counterVersion: 4,
     },
     "counterTrj2": {
-        displayName: "COUNTER TRJ_2",
+        displayName: "COUNTER TRJ_2 report",
         counterVersion: 5,
     },
     "counterTrj3": {
-        displayName: "COUNTER TRJ_3",
+        displayName: "COUNTER TRJ_3 report",
         counterVersion: 5,
     },
     "counterTrj4": {
-        displayName: "COUNTER TRJ_4",
+        displayName: "COUNTER TRJ_4 report",
         counterVersion: 5,
     },
     "price": {
@@ -218,6 +218,8 @@ export const publisher = {
 
             const url = `publisher/${id}/apc`
 
+            return state.apcIsLoadingfoo
+
             let resp
             try {
                 resp = await api.get(url)
@@ -291,6 +293,8 @@ export const publisher = {
         publisherBigDealCost: (state) => state.bigDealCost,
         publisherIsLoading: (state) => state.isLoading,
 
+
+        // @todo get rid of this
         publisherFilesDict: (state) => {
             const ret = {}
             state.dataFiles.forEach(f => {
@@ -303,6 +307,7 @@ export const publisher = {
             return ret
         },
 
+        // @todo get rid of this
         publisherFiles: (state) => {
             return state.dataFiles.map(f => {
                 return {
