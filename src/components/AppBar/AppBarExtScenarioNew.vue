@@ -4,7 +4,10 @@
             <v-tab class="low-key-button">Forecast</v-tab>
             <v-tab class="low-key-button">Parameters</v-tab>
             <v-tab class="low-key-button">Export</v-tab>
-            <v-tab class="low-key-button" v-if="institutionIsConsortium">Member Institutions</v-tab>
+            <v-tab class="low-key-button" v-if="institutionIsConsortium">
+              Member Institutions
+              ({{scenarioMemberInstitutions.length}})
+            </v-tab>
             <v-spacer />
         <div class="d-flex align-center black--text">
             <div class="mx-3 black--text">
@@ -38,6 +41,7 @@
             ...mapGetters([
                 "userEmail",
                 "institutionIsConsortium",
+                "scenarioMemberInstitutions",
                 "scenarioJournals",
                 "subrJournalsCount",
             ]),
