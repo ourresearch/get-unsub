@@ -4,20 +4,22 @@
       <div class="">
         <div class="">
           COUNTER version
+
         </div>
         <v-radio-group
             class="mt-0"
             row
             v-model="counterFileType"
-            :disabled="publisherCounterIsAnyUploaded"
         >
           <v-radio
               value="counter-4"
               label="COUNTER 4"
+              :disabled="publisherCounterVersion === 5"
           />
           <v-radio
               value="counter-5"
               label="COUNTER 5"
+              :disabled="publisherCounterVersion === 4"
           />
         </v-radio-group>
       </div>
@@ -76,8 +78,8 @@ export default {
       "publisherId",
       "publisherBigDealCost",
       "publisherFiles",
-      "publisherCounterIsAnyUploaded",
       "getPublisherDataFile",
+      "publisherCounterVersion",
     ]),
   },
   created() {

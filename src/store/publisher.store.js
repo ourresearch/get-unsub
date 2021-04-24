@@ -136,8 +136,9 @@ export const publisher = {
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
                 dataFile.name = dataFile.name.replace("prices", "price")
                 dataFile.id = _.camelCase(dataFile.name)
-                return dataFile
+                return Object.assign(dataFile, dataFilesConfig[dataFile.id])
             })
+
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
             state.isOwnedByConsortium = apiPublisher.is_owned_by_consortium
@@ -279,10 +280,7 @@ export const publisher = {
             return state.scenarios.find(s => s.id === id)
         },
         getPublisherDataFile: (state) => (dataFileKey) => {
-            const myDataFile = state.dataFiles.find(d => d.id === dataFileKey)
-            if (!myDataFile) return
-            const myDataFileCopy = {...myDataFile}
-            return Object.assign(myDataFileCopy, dataFilesConfig[myDataFileCopy.id])
+            return state.dataFiles.find(d => d.id === dataFileKey)
         },
         publisherScenariosAreAllLoaded: (state) => {
             // make sure we don't have any scenarios that are still dehydrated:
@@ -316,6 +314,14 @@ export const publisher = {
                 }
             })
         },
+        publisherCounterVersion: (state) => {
+            if (state.dataFiles.filter(f => f.counterVersion === 5).some(f => f.uploaded)) {
+                return 5
+            }
+            if (state.dataFiles.filter(f => f.counterVersion === 4).some(f => f.uploaded)) {
+                return 4
+            }
+        },
 
 
         publisherCounterIsUploaded: (state) => {
@@ -326,10 +332,6 @@ export const publisher = {
                 return true
             }
             return false
-
-        },
-        publisherCounterIsAnyUploaded: (state) => {
-            return state.dataFiles.filter(f => f.counterVersion).some(f => f.uploaded)
         },
         publisherIsOwnedByConsortium: (state) => state.isOwnedByConsortium,
         publisherIsFeeder: (state) => state.isOwnedByConsortium, // new terminology for above
