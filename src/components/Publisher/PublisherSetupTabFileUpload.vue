@@ -31,7 +31,7 @@
           Upload
         </v-btn>
         <publisher-file-setup-tab-file-delete
-            file-type="fileType"
+            :file-type="fileType"
             v-if="isUploaded"
         />
       </v-col>
@@ -65,7 +65,6 @@ export default {
       isLoading: false, // temporary to silence console errors
       fileSelected: null,
       errorMsg: null,
-      dialogIsShowing: false,
 
     }
   },
@@ -93,18 +92,13 @@ export default {
     close() {
       this.errorMsg = null
       this.fileSelected = null
-      this.dialogIsShowing = false
     },
     async uploadFile() {
       console.log("uploadFile() file", this.fileSelected)
-      // console.log("HI HEATHER :)")
       this.isLoading = true
-      const snakeCaseFileType = _.kebabCase(this.fileType)
-      // const path = `publisher/${this.publisherId}/${snakeCaseFileType}`
-      // const path = `publisher/${this.publisherId}/${this.fileType}`
+      const path = `publisher/${this.publisherId}/${this.myDataFile.serverKey}`
 
-      const path = `publisher/${this.publisherId}/counter/trj4`
-      // const path = `publisher/${this.publisherId}/counter5_trj1`
+      // const path = `publisher/${this.publisherId}/counter/trj4`
       const data = {
         file: await toBase64(this.fileSelected),
         name: this.fileSelected.name,
@@ -116,17 +110,13 @@ export default {
         await this.$store.dispatch("refreshPublisher")
         this.snackbar("File uploaded.")
       } catch (e) {
-        this.errorMsg = (e.response && e.response.data && e.response.data.message) ?
-            e.response.data.message.message :
-            "Sorry, we encountered an unknown error!"
+        this.errorMsg = e?.response?.data?.message?.message ?? "Sorry, we encountered an unknown error!"
       } finally {
         this.isLoading = false
       }
     },
-    
-    deleteFile(){
-      console.log("delete file!")
-    }
+  },
+  mounted() {
 
   }
 }

@@ -70,8 +70,12 @@ export default {
   computed: {
     ...mapGetters([
       "publisherId",
-      "institutionIsDemo"
+      "institutionIsDemo",
+      "getPublisherDataFile",
     ]),
+    myDataFile(){
+       return this.getPublisherDataFile(this.fileType)
+    },
   },
   methods: {
     ...mapActions([]),
@@ -100,9 +104,7 @@ export default {
     },
     async deleteFile() {
       this.isLoading = true
-      const kebabCaseFileType = _.kebabCase(this.fileType)
-      const path = `publisher/${this.publisherId}/${kebabCaseFileType}`
-      console.log("delete, using this page", path, this.publisherId)
+      const path = `publisher/${this.publisherId}/${this.myDataFile.serverKey}`
       await api.delete(path)
 
       await this.$store.dispatch("refreshPublisher")

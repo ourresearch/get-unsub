@@ -85,6 +85,10 @@ export default {
   created() {
   },
   mounted() {
+    if (this.publisherCounterVersion === 5) {
+      this.counterFileType = "counter-5"
+    }
+
   },
   watch: {}
 }

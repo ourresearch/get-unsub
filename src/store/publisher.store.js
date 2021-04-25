@@ -6,27 +6,34 @@ const dataFilesConfig = {
     counter: {
         displayName: "COUNTER JR1 report",
         counterVersion: 4,
+        serverKey: "counter",
     },
-    "counterTrj2": {
-        displayName: "COUNTER TRJ_2 report",
+    counterTrj2: {
+        displayName: "COUNTER TR_J2 report",
         counterVersion: 5,
+        serverKey: "counter-trj2",
     },
-    "counterTrj3": {
-        displayName: "COUNTER TRJ_3 report",
+    counterTrj3: {
+        displayName: "COUNTER TR_J3 report",
         counterVersion: 5,
+        serverKey: "counter-trj3",
     },
-    "counterTrj4": {
-        displayName: "COUNTER TRJ_4 report",
+    counterTrj4: {
+        displayName: "COUNTER TR_J4 report",
         counterVersion: 5,
+        serverKey: "counter-trj4",
     },
-    "price": {
+    price: {
         displayName: "Title-by-title pricelist",
+        serverKey: "price",
     },
-    "perpetualAccess": {
+    perpetualAccess: {
         displayName: "Post-termination access (PTA) list",
+        serverKey: "perpetual-access",
     },
-    "coreJournals": {
+    coreJournals: {
         displayName: "Core journals list",
+        serverKey: "core-journals",
     },
 }
 
@@ -280,6 +287,7 @@ export const publisher = {
             return state.scenarios.find(s => s.id === id)
         },
         getPublisherDataFile: (state) => (dataFileKey) => {
+            console.log("getting dataFile obj for this key", dataFileKey, state.dataFiles)
             return state.dataFiles.find(d => d.id === dataFileKey)
         },
         publisherScenariosAreAllLoaded: (state) => {
