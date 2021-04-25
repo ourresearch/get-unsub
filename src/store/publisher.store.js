@@ -1,6 +1,18 @@
 import axios from "axios";
 import Vue from "vue"
 
+const warningsConfig = {
+    missingPerpetualAccess: {
+        displayName: "Missing PTA data",
+        link: "http://help.unsub.org",
+        msg: "You haven't uploaded any information about your PTA (Post-Termination Access) rights, so the forecast is assuming you will lose <em>all</em> access to existing content if you cancel. This is probably not true, and leads to a less accurate and more pessimistic forecast.",
+    },
+    missingPrices: {
+        displayName: "Missing price data",
+        link: "http://help.unsub.org",
+        msg: ""
+    }
+}
 
 const dataFilesConfig = {
     counter: {
@@ -73,6 +85,7 @@ export const publisher = {
         journalDetail: {},
         journals: [],
         dataFiles: [],
+        warnings: [],
         counterIsUploaded: false,
         bigDealCost: 0,
         isOwnedByConsortium: false,
@@ -99,6 +112,7 @@ export const publisher = {
             state.journalDetail = {}
             state.journals = []
             state.dataFiles = []
+            state.warnings = []
             state.counterIsUploaded = false
             state.bigDealCost = 0
 
@@ -144,6 +158,10 @@ export const publisher = {
                 dataFile.name = dataFile.name.replace("prices", "price")
                 dataFile.id = _.camelCase(dataFile.name)
                 return Object.assign(dataFile, dataFilesConfig[dataFile.id])
+            })
+            state.warnings = apiPublisher.warnings.map(warning => {
+                warning.id = _.camelCase(warning.id)
+                return Object.assign(warning, warningsConfig[warning.id])
             })
 
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
@@ -287,7 +305,6 @@ export const publisher = {
             return state.scenarios.find(s => s.id === id)
         },
         getPublisherDataFile: (state) => (dataFileKey) => {
-            console.log("getting dataFile obj for this key", dataFileKey, state.dataFiles)
             return state.dataFiles.find(d => d.id === dataFileKey)
         },
         publisherScenariosAreAllLoaded: (state) => {
@@ -298,6 +315,9 @@ export const publisher = {
         isPublisherDemo: (state) => state.isDemo,
         publisherBigDealCost: (state) => state.bigDealCost,
         publisherIsLoading: (state) => state.isLoading,
+        publisherWarnings: (state) => state.warnings,
+        publisherWarningsDismissed: (state) => state.warnings.filter(w => w.is_dismissed),
+        publisherWarningsActive: (state) => state.warnings.filter(w => !w.is_dismissed),
 
 
         // @todo get rid of this
