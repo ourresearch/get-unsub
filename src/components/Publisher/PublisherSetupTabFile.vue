@@ -52,7 +52,6 @@ import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {api, toBase64} from "../../api";
 import PublisherFileSetupTabFileDelete from "@/components/Publisher/PublisherFileSetupTabFileDelete";
-import PublisherFileSetupTabFileUpload from "@/components/Publisher/PublisherFileSetupTabFileUpload";
 import Publisher from "@/views/Publisher";
 
 
@@ -65,7 +64,6 @@ export default {
   components: {
     Publisher,
     PublisherFileSetupTabFileDelete,
-    PublisherFileSetupTabFileUpload,
   },
   data() {
     return {
