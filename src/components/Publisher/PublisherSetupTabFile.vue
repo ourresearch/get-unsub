@@ -1,43 +1,48 @@
 <template>
-  <v-card flat class="pa-6">
-    <v-row>
-      <v-col cols="1">
-        <v-icon v-if="isUploaded"  color="success">mdi-checkbox-marked-circle</v-icon>
-        <v-icon v-if="!isUploaded">mdi-checkbox-blank-circle</v-icon>
-      </v-col>
-      <v-col cols="3">
-        {{ myDataFile.displayName }}
-      </v-col>
-      <v-col cols="4" v-if="!isUploaded">
+  <v-list-item flat class="py-2">
+    <v-list-item-icon v-if="isUploaded">
+      <v-icon color="success">mdi-table-check</v-icon>
+    </v-list-item-icon>
+    <v-list-item-content>
+      <template v-if="isUploaded">
+        <div class="font-weight-bold green--text">
+          {{ myDataFile.displayName }} uploaded.
+        </div>
+        <div class="body-2 green--text">This data is now live in all this package's scenarios.</div>
+      </template>
+      <template v-if="!isUploaded">
         <v-file-input
-            label="Select your file"
+            :label="`Select your ${myDataFile.displayName} file`"
             show-size
             counter
             v-model="fileSelected"
             :disabled="isLoading"
             @change="errorMsg=''"
             :error-messages="errorMsg"
+            dense
         />
-      </v-col>
-      <v-col cols="2">
-        <v-btn
-            v-if="!isUploaded"
-            @click="uploadFile"
-            color="primary"
-            :loading="isLoading"
-            :disabled="!fileSelected"
-        >
-          <v-icon>mdi-upload</v-icon>
-          Upload
-        </v-btn>
-        <publisher-file-setup-tab-file-delete
-            :file-type="fileType"
-            v-if="isUploaded"
-        />
-      </v-col>
-      <v-spacer />
-    </v-row>
-  </v-card>
+      </template>
+    </v-list-item-content>
+    <v-list-item-action>
+      <publisher-file-setup-tab-file-delete
+          :file-type="fileType"
+          v-if="isUploaded"
+      />
+      <v-btn
+          @click="uploadFile"
+          color="primary"
+          :loading="isLoading"
+          :disabled="!fileSelected"
+          v-if="!isUploaded"
+          text
+      >
+        <v-icon>mdi-upload</v-icon>
+        Upload
+      </v-btn>
+
+    </v-list-item-action>
+
+  </v-list-item>
 
 
 </template>
@@ -47,6 +52,7 @@ import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {api, toBase64} from "../../api";
 import PublisherFileSetupTabFileDelete from "@/components/Publisher/PublisherFileSetupTabFileDelete";
+import PublisherFileSetupTabFileUpload from "@/components/Publisher/PublisherFileSetupTabFileUpload";
 import Publisher from "@/views/Publisher";
 
 
@@ -59,12 +65,14 @@ export default {
   components: {
     Publisher,
     PublisherFileSetupTabFileDelete,
+    PublisherFileSetupTabFileUpload,
   },
   data() {
     return {
       isLoading: false, // temporary to silence console errors
       fileSelected: null,
       errorMsg: null,
+      isDialogShowing: false,
 
     }
   },
@@ -75,10 +83,10 @@ export default {
       "publisherPublisher",
       "getPublisherDataFile",
     ]),
-    myDataFile(){
-       return this.getPublisherDataFile(this.fileType)
+    myDataFile() {
+      return this.getPublisherDataFile(this.fileType)
     },
-    isUploaded(){
+    isUploaded() {
       return this.myDataFile.uploaded
     }
 

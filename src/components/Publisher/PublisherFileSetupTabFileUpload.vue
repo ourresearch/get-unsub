@@ -3,25 +3,23 @@
         <v-btn
             @click="open"
             :disabled="disabled"
-            text
-            color="error"
         >
-            <v-icon color="error">mdi-delete-outline</v-icon>
-            Delete
+            <v-icon>mdi-upload</v-icon>
+            Upload
         </v-btn>
 
         <v-dialog
             persistent
             v-model="dialogIsShowing"
-            max-width="300"
+            max-width="600"
         >
             <v-card>
                 <v-card-title>
-                    Delete data
+                    Upload {{myDataFile.displayName}}
                 </v-card-title>
-                <v-card-text>
-                    Are you sure you want to delete this data?
-                </v-card-text>
+                <div class="pa-3">
+                    Upload stuff here
+                </div>
                 <v-card-actions>
                     <v-spacer/>
                     <v-btn
@@ -35,9 +33,9 @@
                         depressed
                         color="primary"
                         :loading="isLoading"
-                        @click="deleteFile"
+                        @click="uploadFile"
                     >
-                        Delete
+                        Upload
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -55,7 +53,7 @@ import {api, toBase64} from "../../api";
 
 
 export default {
-  name: "PublisherFileSetupTabFileDelete",
+  name: "PublisherFileSetupTabFileUpload",
   props: {
     "fileType": String,
     "disabled": Boolean,
@@ -75,8 +73,8 @@ export default {
       "institutionIsDemo",
       "getPublisherDataFile",
     ]),
-    myDataFile(){
-       return this.getPublisherDataFile(this.fileType)
+    myDataFile() {
+      return this.getPublisherDataFile(this.fileType)
     },
   },
   methods: {
@@ -104,17 +102,33 @@ export default {
       this.close()
       this.snackbar("File deleted.")
     },
-    async deleteFile() {
+
+    async uploadFile() {
+      console.log("uploadFile() file", this.fileSelected)
       this.isLoading = true
       const path = `publisher/${this.publisherId}/${this.myDataFile.serverKey}`
-      await api.delete(path)
 
-      await this.$store.dispatch("refreshPublisher")
-      this.isLoading = false
-      this.closeSuccessfully()
+      // const path = `publisher/${this.publisherId}/counter/trj4`
+      const data = {
+        file: await toBase64(this.fileSelected),
+        name: this.fileSelected.name,
+        type: this.fileSelected.type,
+        size: this.fileSelected.size,
+      }
+      try {
+        await api.postFile(path, data)
+        await this.$store.dispatch("refreshPublisher")
+        this.snackbar("File uploaded.")
+      } catch (e) {
+        this.errorMsg = e?.response?.data?.message?.message ?? "Sorry, we encountered an unknown error!"
+      } finally {
+        this.isLoading = false
+        this.closeSuccessfully()
+      }
     },
+  },
 
-  }
+
 }
 </script>
 

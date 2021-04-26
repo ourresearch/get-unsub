@@ -10,7 +10,7 @@ const warningsConfig = {
     missingPrices: {
         displayName: "Missing price data",
         link: "http://help.unsub.org",
-        msg: ""
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
 }
 
@@ -19,33 +19,40 @@ const dataFilesConfig = {
         displayName: "COUNTER JR1 report",
         counterVersion: 4,
         serverKey: "counter",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     counterTrj2: {
         displayName: "COUNTER TR_J2 report",
         counterVersion: 5,
         serverKey: "counter-trj2",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     counterTrj3: {
         displayName: "COUNTER TR_J3 report",
         counterVersion: 5,
         serverKey: "counter-trj3",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     counterTrj4: {
         displayName: "COUNTER TR_J4 report",
         counterVersion: 5,
         serverKey: "counter-trj4",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     price: {
         displayName: "Title-by-title pricelist",
         serverKey: "price",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     perpetualAccess: {
         displayName: "Post-termination access (PTA) list",
         serverKey: "perpetual-access",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     coreJournals: {
         displayName: "Core journals list",
         serverKey: "core-journals",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
 }
 
