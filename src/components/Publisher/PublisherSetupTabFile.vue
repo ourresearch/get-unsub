@@ -1,20 +1,19 @@
 <template>
-  <v-list-item flat class="py-2">
+  <v-list-item flat class="">
     <v-list-item-icon v-if="isUploaded">
-      <v-icon color="success">mdi-table-check</v-icon>
+      <v-icon color="success">mdi-check-outline</v-icon>
     </v-list-item-icon>
     <v-list-item-content>
       <template v-if="isUploaded">
-        <div class="font-weight-bold green--text">
+        <div class="font-weight-bold">
           {{ myDataFile.displayName }} uploaded.
         </div>
-        <div class="body-2 green--text">This data is now live in all this package's scenarios.</div>
+        <div class="body-2">This data is now live in all this package's scenarios.</div>
       </template>
       <template v-if="!isUploaded">
         <v-file-input
+            class="pt-3"
             :label="`Select your ${myDataFile.displayName} file`"
-            show-size
-            counter
             v-model="fileSelected"
             :disabled="isLoading"
             @change="errorMsg=''"
@@ -33,8 +32,8 @@
           color="primary"
           :loading="isLoading"
           :disabled="!fileSelected"
+          :text="!fileSelected"
           v-if="!isUploaded"
-          text
       >
         <v-icon>mdi-upload</v-icon>
         Upload

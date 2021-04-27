@@ -1,9 +1,9 @@
 <template>
   <v-card flat class="">
-    <div class="pa-3">
+    <div class="pt-2 px-12">
       <div class="">
         <div class="text-h6">
-          COUNTER version
+          Select COUNTER version
         </div>
         <div class="pa-3">
           <v-radio-group
@@ -24,15 +24,15 @@
 
         </div>
       </div>
-      <div class="text-h6">
-        Upload your files
+      <div class="text-h6 mt-10 mb-1">
+        Upload COUNTER report files
       </div>
       <div v-if="counterFileType==='counter-5'">
         <div>
-          For COUNTER 5, you'll need to upload three files. Unsub requires all three in order to
-          create your dashboard:
+          For COUNTER 5, you'll need to upload three COUNTER 5 reports: your <strong>TR_J2, TR_J3,</strong> and <strong>TR_J4.</strong> Unsub requires all three files, in order to
+          create your dashboard.
         </div>
-        <v-list>
+        <v-list style="max-width: 700px;">
           <publisher-setup-tab-file-upload file-type="counterTrj2"/>
           <publisher-setup-tab-file-upload file-type="counterTrj3"/>
           <publisher-setup-tab-file-upload file-type="counterTrj4"/>

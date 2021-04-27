@@ -1,18 +1,17 @@
 <template>
   <v-card flat class="">
-    <div class="pa-3">
-      <div class="text-h6">Active warnings ({{ publisherWarningsActive.length }})</div>
+    <div class="pt-2 px-12">
+      <div class="text-h6 warning--text">Active warnings ({{ publisherWarningsActive.length }})</div>
       <v-list>
         <v-list-item
             v-for="warning in publisherWarningsActive"
             :key="'displayed-' + warning.id"
         >
           <v-list-item-icon>
-            <v-icon>mdi-alert-outline</v-icon>
+            <v-icon color="warning">mdi-alert-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-
-            <div>
+            <div class="font-weight-bold">
               {{ warning.displayName }}
             </div>
             <div class="body-2" v-html="warning.msg"></div>
@@ -20,7 +19,8 @@
           <v-list-item-action>
             <v-btn
                 text
-                @click="muteWarning(warning.id)"
+                :disabled="isLoading"
+                @click="setWarningIsDismissed(warning.id, true)"
             >
               mute
             </v-btn>
@@ -31,7 +31,7 @@
         There are no muted warnings.
       </div>
 
-      <div class="text-h6">Muted warnings ({{ publisherWarningsDismissed.length }})</div>
+      <div class="text-h6 mt-10">Muted warnings ({{ publisherWarningsDismissed.length }})</div>
       <v-list>
         <v-list-item
             v-for="warning in publisherWarningsDismissed"
@@ -40,13 +40,17 @@
           <v-list-item-icon>
             <v-icon>mdi-alert-remove-outline</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>
-            {{ warning.displayName }}
-          </v-list-item-title>
+          <v-list-item-content>
+            <div class="font-weight-bold">
+              {{ warning.displayName }}
+            </div>
+            <div class="body-2" v-html="warning.msg"></div>
+          </v-list-item-content>
           <v-list-item-action>
             <v-btn
                 text
-                @click="muteWarning(warning.id)"
+                :disabled="isLoading"
+                @click="setWarningIsDismissed(warning.id, false)"
             >
               unmute
             </v-btn>
@@ -68,6 +72,7 @@
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabFileUpload from "./PublisherSetupTabFile";
+import {api} from "@/api";
 
 
 export default {
@@ -77,15 +82,40 @@ export default {
   },
   props: {},
   data() {
-    return {}
+    return {
+      isLoading: false
+    }
   },
   methods: {
-    muteWarning(id) {
-      console.log("muteWarning()", id)
+    async muteWarning(id) {
+      await this.setWarningIsDismissed(id, true)
+
     },
-    unmuteWarning(id) {
-      console.log("unmuteWarning()", id)
+    async unmuteWarning(id) {
+      await this.setWarningIsDismissed(id, false)
     },
+    async setWarningIsDismissed(id, newVal) {
+      console.log("editWarning()", id, newVal)
+      this.isLoading = true
+      this.$store.commit("startGlobalLoading")
+      const path = `publisher/${this.publisherId}`
+      const postData = {
+        warnings: [
+          {id: _.snakeCase(id),  is_dismissed: newVal,},
+        ]
+      }
+      const snackbarMsg = (newVal) ? "Warning muted." : "Warning unmuted."
+      try {
+        await api.postFile(path, postData)
+        await this.$store.dispatch("refreshPublisher")
+        this.$store.commit("snackbar", snackbarMsg)
+      } catch (e) {
+        console.log("there was an error.")
+      } finally {
+        this.isLoading = false
+        this.$store.commit("finishGlobalLoading")
+      }
+    }
   },
   computed: {
     ...mapGetters([

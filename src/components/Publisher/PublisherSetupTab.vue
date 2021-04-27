@@ -10,9 +10,13 @@
     <v-tabs
         v-model="tabModel"
         vertical
+        style="justify-content: flex-end;"
     >
       <v-tab v-for="tabName in tabNames">
         {{ tabName }}
+        <span class="ml-1" v-if="tabName === 'Warnings' ">
+          ({{publisherWarnings.length}})
+        </span>
       </v-tab>
 
       <v-tab-item>
@@ -162,6 +166,7 @@ export default {
       "publisherId",
       "publisherBigDealCost",
       "publisherFiles",
+      "publisherWarnings",
     ]),
   },
   created() {

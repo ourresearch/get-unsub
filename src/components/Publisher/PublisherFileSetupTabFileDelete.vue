@@ -4,9 +4,8 @@
             @click="open"
             :disabled="disabled"
             text
-            color="error"
         >
-            <v-icon color="error">mdi-delete-outline</v-icon>
+            <v-icon>mdi-delete-outline</v-icon>
             Delete
         </v-btn>
 
