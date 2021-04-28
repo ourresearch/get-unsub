@@ -26,7 +26,7 @@
         <publisher-setup-tab-counter/>
       </v-tab-item>
       <v-tab-item>
-        three
+        <publisher-setup-tab-currency />
       </v-tab-item>
       <v-tab-item>
         four
@@ -131,6 +131,7 @@ import PublisherFilePerpetualAccess from "../PublisherFile/PublisherFilePerpetua
 
 import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
 import PublisherSetupTabWarnings from "@/components/Publisher/PublisherSetupTabWarnings";
+import PublisherSetupTabCurrency from "@/components/Publisher/PublisherSetupTabCurrency";
 
 
 export default {
@@ -144,6 +145,7 @@ export default {
 
     PublisherSetupTabCounter,
     PublisherSetupTabWarnings,
+    PublisherSetupTabCurrency,
   },
   props: {},
   data() {
