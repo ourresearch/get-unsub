@@ -32,7 +32,7 @@
         four
       </v-tab-item>
       <v-tab-item>
-        five
+        <publisher-setup-tab-pta />
       </v-tab-item>
     </v-tabs>
 
@@ -132,6 +132,7 @@ import PublisherFilePerpetualAccess from "../PublisherFile/PublisherFilePerpetua
 import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
 import PublisherSetupTabWarnings from "@/components/Publisher/PublisherSetupTabWarnings";
 import PublisherSetupTabCurrency from "@/components/Publisher/PublisherSetupTabCurrency";
+import PublisherSetupTabPta from "@/components/Publisher/PublisherSetupTabPta";
 
 
 export default {
@@ -146,6 +147,7 @@ export default {
     PublisherSetupTabCounter,
     PublisherSetupTabWarnings,
     PublisherSetupTabCurrency,
+    PublisherSetupTabPta,
   },
   props: {},
   data() {
