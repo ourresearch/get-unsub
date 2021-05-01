@@ -54,6 +54,19 @@ const dataFilesConfig = {
         serverKey: "core-journals",
         msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
+    pricePublic: {
+        displayName: "Public pricelist",
+        serverKey: "price-public",
+        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+}
+
+const mockDataFilePricePublic = {
+    created: null,
+    error_rows: [],
+    name: "price-public",
+    rows_count: 4242,
+    uploaded: true,
 }
 
 
@@ -161,6 +174,11 @@ export const publisher = {
             state.journals = apiPublisher.journals.map(j => {
                 return makePublisherJournal(j)
             })
+
+            // mock for development, replace later.
+            apiPublisher.data_files.push(mockDataFilePricePublic)
+            console.log("apiPublisher.data_files", apiPublisher.data_files)
+
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
                 dataFile.name = dataFile.name.replace("prices", "price")
                 dataFile.id = _.camelCase(dataFile.name)

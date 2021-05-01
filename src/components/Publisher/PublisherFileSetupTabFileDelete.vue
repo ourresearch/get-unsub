@@ -3,10 +3,9 @@
         <v-btn
             @click="open"
             :disabled="disabled"
-            text
+            icon
         >
             <v-icon>mdi-delete-outline</v-icon>
-            Delete
         </v-btn>
 
         <v-dialog

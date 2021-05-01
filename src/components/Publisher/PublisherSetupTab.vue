@@ -29,7 +29,7 @@
         <publisher-setup-tab-currency />
       </v-tab-item>
       <v-tab-item>
-        four
+        <publisher-setup-tab-price />
       </v-tab-item>
       <v-tab-item>
         <publisher-setup-tab-pta />
@@ -133,6 +133,7 @@ import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
 import PublisherSetupTabWarnings from "@/components/Publisher/PublisherSetupTabWarnings";
 import PublisherSetupTabCurrency from "@/components/Publisher/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/Publisher/PublisherSetupTabPta";
+import PublisherSetupTabPrice from "@/components/Publisher/PublisherSetupTabPrice";
 
 
 export default {
@@ -148,6 +149,7 @@ export default {
     PublisherSetupTabWarnings,
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
+    PublisherSetupTabPrice,
   },
   props: {},
   data() {

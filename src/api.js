@@ -7,17 +7,6 @@ import AwesomeDebouncePromise from 'awesome-debounce-promise';
 let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
 // let urlBase = "https://unpaywall-jump-api-dev.herokuapp.com/"
 
-const serverFlags = []
-if (location.href.indexOf("fast-mock-account") > -1) serverFlags.push("fast-mock-account=1")
-if (location.href.indexOf("fast-mock-package") > -1) serverFlags.push("fast-mock-package=1")
-if (location.href.indexOf("fast-mock-scenario") > -1) serverFlags.push("fast-mock-scenario=1")
-if (location.href.indexOf("fast-mock-slider") > -1) serverFlags.push("fast-mock-slider=1")
-if (location.href.indexOf("fast-mock-all") > -1) serverFlags.push(...[
-    "fast-mock-account=1",
-    "fast-mock-package=1",
-    "fast-mock-scenario=1",
-    "fast-mock-slider=1"
-])
 
 // this lets you develop against a local API endpoint
 // to set the port, when you start your dev server, use: npm run serve -- --port <my port num>
@@ -45,11 +34,7 @@ const api = (function () {
     return {
         get: async function (path) {
             console.log("api GET:", path)
-            const myServerFlags = [
-                ...serverFlags,
-                `timestamp=${new Date().getTime()}`
-            ]
-            const url = urlBase + path + "?" + myServerFlags.join("&")
+            let url = urlBase + path
             let res
             try {
                 res = await axios.get(url, getConfig())
