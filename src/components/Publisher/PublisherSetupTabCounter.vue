@@ -32,7 +32,7 @@
           For COUNTER 5, you'll need to upload three COUNTER 5 reports: your <strong>TR_J2, TR_J3,</strong> and <strong>TR_J4.</strong> Unsub requires all three files, in order to
           create your dashboard.
         </div>
-        <v-list style="max-width: 700px;">
+        <v-list>
           <publisher-setup-tab-file-upload file-type="counterTrj2"/>
           <publisher-setup-tab-file-upload file-type="counterTrj3"/>
           <publisher-setup-tab-file-upload file-type="counterTrj4"/>
@@ -89,11 +89,11 @@ export default {
     ]),
   },
   created() {
-  },
-  mounted() {
     if (this.publisherCounterVersion === 5) {
       this.counterFileType = "counter-5"
     }
+  },
+  mounted() {
 
   },
   watch: {}
