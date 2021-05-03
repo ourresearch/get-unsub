@@ -6,12 +6,11 @@
             <div class="number-and-controls">
                 <div class="d-flex align-top">
                     <v-btn
-                            fab
                             :color="subrColor"
-                            dark
-                            x-small
+                            small
                             v-long-press="300"
-                            class="mt-1"
+                            class="mt-2"
+                            icon
 
                             @long-press-start="longPressStart(-1)"
                             @long-press-stop="longPressStop"
@@ -24,18 +23,16 @@
                                 v-model="myCount"
                                 dense
                                 hide-details
-                                outlined
                                 :color="subrColor"
                         />
 
                     </div>
 
                     <v-btn
-                            fab
                             :color="subrColor"
-                            dark
-                            x-small
-                            class="mt-1"
+                            small
+                            icon
+                            class="mt-2"
                             v-long-press="300"
                             :disabled="(myCount > numJournals)"
                             @long-press-start="longPressStart(1)"
@@ -45,8 +42,8 @@
                         <v-icon>mdi-plus</v-icon>
                     </v-btn>
                 </div>
-                <div class="text-center">
-                    Subscribed Journals
+                <div class="text-center mt-1 body-2">
+                    Subscribed journals
                 </div>
 
 
@@ -240,10 +237,10 @@
         }
 
         .input-container {
-            width: 100px;
+            width: 70px;
 
             .v-input input {
-                max-height: none;
+                //max-height: none;
             }
 
             .v-input {
@@ -255,11 +252,10 @@
             }
 
             .v-text-field input {
-                font-size: 34px;
-                /*font-weight: bold;*/
+                font-size: 1.5rem;
+                font-weight: bold;
                 text-align: right;
                 padding-top: 0;
-                padding-bottom: 0;
             }
 
 

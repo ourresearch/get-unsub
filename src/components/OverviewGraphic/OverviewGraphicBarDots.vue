@@ -198,7 +198,7 @@
 
 
         .histogram-bars {
-            min-height: 398px;
+            min-height: 439px;
             width: 100%;
             display: flex;
             align-items: stretch;

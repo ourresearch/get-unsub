@@ -35,12 +35,6 @@
                         </v-card-title>
                         <v-row>
                             <v-col cols="4">
-                                <!--                        <v-card flat style="position: sticky; top: 0px;">-->
-                                <v-tabs>
-                                    <v-tab>
-                                        overview
-                                    </v-tab>
-                                </v-tabs>
                                 <v-card flat>
                                     <div class="pt-10 pb-0 px-3 black--text">
                                         <v-row class="mb-4 ">
@@ -54,8 +48,8 @@
                                                                     {{ costTotal | currency(publisherCurrencySymbol) }}
 
                                                                 </div>
-                                                                <div class="body-2">
-                                                                    Annual Cost ({{ costPercent | percent }})
+                                                                <div class="body-2 mt-1">
+                                                                    Annual cost ({{ costPercent | percent }})
 
                                                                 </div>
 
@@ -93,7 +87,7 @@
                                                                 <div class="text-h5" id="instant-fulfillment-value">
                                                                     {{ instantUsagePercent | percent(0) }}
                                                                 </div>
-                                                                <div class="body-2">Instant access</div>
+                                                                <div class="body-2 mt-1">Instant access</div>
                                                             </div>
                                                         </template>
                                                         <div class="pa-3 pt-1">
@@ -157,38 +151,36 @@
                             </v-col>
 
                             <v-col cols="8">
-                                <v-tabs>
-                                    <v-tab>
-                                        histogram
-                                    </v-tab>
-                                    <v-tab>
-                                        table
-                                    </v-tab>
-                                </v-tabs>
                                 <v-card flat>
                                     <!--                            <v-toolbar flat height="120px" class="align-top" style="position: sticky; top: 0px; z-index: 8;">-->
-                                    <v-toolbar flat height="120px" class="align-top">
-
+                                    <v-card flat class="align-flex-start mt-9">
+                                      <v-row class="mx-0 px-0">
                                         <overview-graphic-subrs-counter/>
-                                        <!--                                <v-toolbar-title>-->
-                                        <!--                                    À la carte journals-->
-                                        <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
-                                        <!--                                </v-toolbar-title>-->
                                         <v-spacer></v-spacer>
 
+<!--                                        <v-btn icon class="mr-2 ml-4" @click="toggleSearchBox">-->
+<!--                                            <v-icon>mdi-magnify</v-icon>-->
+<!--                                        </v-btn>-->
 
-                                        <v-btn icon class="mr-2 ml-4" @click="toggleSearchBox">
-                                            <v-icon>mdi-magnify</v-icon>
-                                        </v-btn>
+                                      <v-text-field
+                                                    hide-details
+                                                    ref="searchBox"
+                                                    dense
+                                                    label="Search journals"
+                                                    autocomplete="false"
+                                                    v-model="search"
+                                                    v-on:input="setJournalsFilterStatus"
+                                                    append-icon="mdi-magnify"
+                                                    class="mr-2"
+
+                                            />
 
                                         <scenario-menu-columns :icon="true" direction="left"/>
                                         <v-menu>
                                             <template v-slot:activator="{on}">
                                                 <v-btn
-                                                        text
                                                         v-on="on"
                                                         icon
-
                                                 >
                                                     <v-icon>mdi-eye</v-icon>
                                                 </v-btn>
@@ -217,12 +209,19 @@
                                             </v-list>
                                         </v-menu>
 
+                                      </v-row>
+
+                                        <!--                                <v-toolbar-title>-->
+                                        <!--                                    À la carte journals-->
+                                        <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
+                                        <!--                                </v-toolbar-title>-->
+
 
                                         <!--                                <template v-slot:extension color="red">-->
                                         <!--                                    <overview-graphic-subrs-counter/>-->
                                         <!--                                </template>-->
 
-                                    </v-toolbar>
+                                    </v-card>
                                     <v-card-text v-if="showSearchBox">
                                         <v-row>
                                             <v-text-field
