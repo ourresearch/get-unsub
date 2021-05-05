@@ -110,7 +110,7 @@ export default {
       "publisherBigDealCost",
       "publisherIsLoading",
       "publisherLogo",
-      "publisherCounterIsUploaded",
+      "publisherCounterIsLive",
       "publisherIsOwnedByConsortium",
       "userCanEditActivePublisher",
       "institutionIsConsortium",
@@ -183,10 +183,10 @@ export default {
 
     await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
 
-    const myTab = (!this.publisherIsFeeder && this.publisherCounterIsUploaded) ? 0 : 2
+    const myTab = (!this.publisherIsFeeder && this.publisherCounterIsLive) ? 0 : 2
     this.setPublisherTabShowing(myTab)
 
-    console.log("publisher done loading", this.publisherCounterIsUploaded)
+    console.log("publisher done loading", this.publisherCounterIsLive)
 
   },
 }

@@ -1,10 +1,13 @@
 <template>
+  <v-container>
     <v-tabs v-if="institutionName" class="ml-1" v-model="currentTab">
         <v-tab class="low-key-button">Packages</v-tab>
         <v-tab class="low-key-button">Users</v-tab>
         <v-tab class="low-key-button">ROR ID</v-tab>
         <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">Consortial</v-tab>
     </v-tabs>
+
+  </v-container>
 </template>
 
 <script>

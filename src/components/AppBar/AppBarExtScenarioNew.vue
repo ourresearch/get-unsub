@@ -1,4 +1,5 @@
 <template>
+  <v-container>
     <div class="d-flex" style="width: 100%;">
         <v-tabs class="ml-1" v-model="currentTab">
             <v-tab class="low-key-button">Forecast</v-tab>
@@ -22,6 +23,8 @@
         </div>
         </v-tabs>
     </div>
+
+  </v-container>
 </template>
 
 <script>

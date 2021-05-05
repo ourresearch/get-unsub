@@ -13,16 +13,26 @@
         color="primary"
     ></v-progress-linear>
     <router-link to="/">
-      <img class="mt-2" style="width:90px;" src="../../assets/unsub-logo.png"
-           alt=""/>
+        <img class="mt-2"
+             style="height:32px;"
+             src="../../assets/unsub-logo.png"
+             v-if="!institutionId"
+             key="big"
+             alt="Unsub logo"/>
+        <img class="mt-2"
+             style="height:32px;"
+             src="../../assets/unsub-logo-icon.png"
+             v-if="institutionId"
+             key="small"
+             alt="Unsub logo"/>
     </router-link>
     <!--        <v-toolbar-title class="headline">-->
     <!--        </v-toolbar-title>-->
-
     <v-toolbar-items v-if="isLoggedIn" class="pl-4">
 
       <!--            INSTITUTION                                          -->
       <!--*****************************************************************-->
+
 
       <v-menu v-if="institutionId" open-on-hover offset-y content-class="no-highlight">
         <template v-slot:activator="{on}">
@@ -562,7 +572,7 @@ export default {
   padding-right: 10px;
 
 
-  border-top: 1px solid #eee !important;
+  //border-top: 1px solid #eee !important;
   /*padding-right: 27px;*/
   /*color: #fff;*/
   /*background: #2196F3;*/

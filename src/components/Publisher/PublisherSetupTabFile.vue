@@ -1,6 +1,20 @@
 <template>
   <v-list-item flat class="" style="max-width: 700px;">
 
+
+    <v-fab-transition>
+      <v-list-item-icon v-if="fileStatus==='parsing'" key="parsingIcon">
+        <v-icon color="info">mdi-timer-sand</v-icon>
+      </v-list-item-icon>
+      <v-list-item-icon v-if="fileStatus==='error'" key="errorIcon">
+        <v-icon color="error">mdi-close-outline</v-icon>
+      </v-list-item-icon>
+      <v-list-item-icon v-if="fileStatus==='live'" key="LiveIcon">
+        <v-icon color="success">mdi-check-outline</v-icon>
+      </v-list-item-icon>
+    </v-fab-transition>
+
+
     <!------  READY --------->
     <template v-if="fileStatus==='ready'">
       <v-list-item-content>
@@ -36,9 +50,7 @@
 
     <!------  PARSING  --------->
     <template v-if="fileStatus==='parsing'">
-      <v-list-item-icon>
-        <v-icon color="info">mdi-timer-sand</v-icon>
-      </v-list-item-icon>
+
       <v-list-item-content>
         <div class="font-weight-bold">
           {{ myDataFile.displayName }} processing...
@@ -61,15 +73,13 @@
 
     <!------  ERROR  --------->
     <template v-if="fileStatus==='error'">
-      <v-list-item-icon>
-        <v-icon color="error">mdi-close-outline</v-icon>
-      </v-list-item-icon>
+
       <v-list-item-content>
         <div class="font-weight-bold">
           {{ myDataFile.displayName }} error.
         </div>
         <div class="body-2">
-          <strong>{{ parseError }}: </strong> {{ parseErrorDetails }}
+          <strong>{{ myDataFile.parseError }}: </strong> {{ myDataFile.parseErrorDetails }}
         </div>
       </v-list-item-content>
       <v-list-item-action>
@@ -85,11 +95,9 @@
     </template>
 
 
-    <!------  LOADED  --------->
-    <template v-if="fileStatus==='loaded'">
-      <v-list-item-icon>
-        <v-icon color="success">mdi-check-outline</v-icon>
-      </v-list-item-icon>
+    <!------  LIVE  --------->
+    <template v-if="fileStatus==='live'">
+
       <v-list-item-content>
         <div class="font-weight-bold">
           {{ myDataFile.displayName }} uploaded.
@@ -109,56 +117,6 @@
     </template>
 
 
-    <!--    <v-list-item-icon v-if="isUploaded">-->
-    <!--      <v-icon color="success">mdi-check-outline</v-icon>-->
-    <!--    </v-list-item-icon>-->
-    <!--    <v-list-item-content>-->
-    <!--      <template v-if="isUploaded">-->
-    <!--        <div class="font-weight-bold">-->
-    <!--          {{ myDataFile.displayName }} uploaded.-->
-    <!--        </div>-->
-    <!--        <div class="body-2">This data is now live in all this package's scenarios.</div>-->
-    <!--      </template>-->
-    <!--      <template v-if="!isUploaded">-->
-    <!--        <v-file-input-->
-    <!--            class="pt-3"-->
-    <!--            :label="`Select your ${myDataFile.displayName} file`"-->
-    <!--            v-model="fileSelected"-->
-    <!--            :disabled="isSyncingToServer"-->
-    <!--            @change="errorMsg=''"-->
-    <!--            :error-messages="errorMsg"-->
-    <!--            dense-->
-    <!--        />-->
-    <!--      </template>-->
-    <!--    </v-list-item-content>-->
-    <!--    <v-list-item-action v-if="!isUploaded">-->
-    <!--      <v-btn-->
-    <!--          @click="uploadFile"-->
-    <!--          color="primary"-->
-    <!--          :loading="isSyncingToServer"-->
-    <!--          :disabled="!fileSelected || disabled"-->
-    <!--          :fab="!!fileSelected"-->
-    <!--          :small="!!fileSelected"-->
-    <!--          :icon="!fileSelected"-->
-    <!--      >-->
-    <!--        <v-icon>mdi-upload</v-icon>-->
-    <!--      </v-btn>-->
-    <!--    </v-list-item-action>-->
-
-    <!--    <v-list-item-action v-if="isUploaded">-->
-    <!--      <publisher-file-setup-tab-file-delete-->
-    <!--          :file-type="fileType"-->
-    <!--          :disabled="disabled"-->
-    <!--          v-if="isUploaded"-->
-    <!--      />-->
-    <!--    </v-list-item-action>-->
-
-    <!--    <v-list-item-action v-if="isUploaded">-->
-    <!--      <v-btn icon @click="download">-->
-    <!--        <v-icon>mdi-download</v-icon>-->
-    <!--      </v-btn>-->
-    <!--    </v-list-item-action>-->
-
   </v-list-item>
 
 
@@ -167,6 +125,7 @@
 <script>
 import _ from "lodash"
 import {sleep} from "@/shared/util";
+import {makePublisherFileStatus} from "@/shared/publisherFileStatus";
 
 const queryString = require('query-string');
 import axios from "axios";
@@ -189,17 +148,18 @@ export default {
     PublisherFileSetupTabFileDelete,
   },
   data() {
+
     return {
       // syncing to server
       isSyncingToServer: false,  // currently trying to change fileStatus on the server
-      fileStatus: "ready", // options:  ready | parsing | error | loaded
+
 
       // information from the server's File object
-      createdDate: "",
-      rowsCount: 0,
-      parseError: "",
-      parseErrorDetails: "",
-      percentParsed: 0, // 0 or 100 unless fileStatus == "parsing"
+      // createdDate: "",
+      // rowsCount: 0,
+      // parseError: "",
+      // parseErrorDetails: "",
+      // percentParsed: 0, // 0 or 100 unless fileStatus == "parsing"
 
       // for file selection
       fileSelected: null,
@@ -220,20 +180,20 @@ export default {
     myDataFile() {
       return this.getPublisherDataFile(this.fileType)
     },
-    isUploaded() {
-      return this.myDataFile.uploaded
+    fileStatus() {
+      return this.myDataFile.status
     },
     fileApiUrl() {
       return `publisher/${this.publisherId}/${this.myDataFile.serverKey}`
     },
-    fileSelectedKey(){
+    fileSelectedKey() {
       return (this.fileSelected) ? "yes" : "no"
     },
-
-
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions([
+      "refreshPublisherFileStatus",
+    ]),
     ...mapMutations([
       "snackbar",
     ]),
@@ -258,15 +218,21 @@ export default {
 
     async pollServer() {
       console.log("pollServer")
-      await this.updateFileStatus()
-      while (this.fileStatus === "parsing") {
-        await this.updateFileStatus()
+      await this.refreshPublisherFileStatus(this.fileType)
+      while (this.myDataFile.status === "parsing") {
+        await this.refreshPublisherFileStatus(this.fileType)
         await sleep(1000)
       }
     },
 
     async updateFileStatus() {
       const resp = await api.get(this.fileApiUrl + "/status")
+      const serverFile = makePublisherFileStatus(resp.data)
+      if (serverFile.status !== this.myDataFile.status) {
+        console.log("file status is changed!", this.fileType)
+        this.myDataFile = serverFile
+      }
+
       console.log("updateFileStatus response", resp.data)
       this.fileStatus = this.fileStatusFromApiData(resp.data)
 
@@ -274,26 +240,18 @@ export default {
       this.rowsCount = resp.data.rows_count
       this.parseError = resp.data.error
       this.parseErrorDetails = resp.data.error_details
-
-      // temp while waiting for heather to update the File object
-      this.percentParsed = resp.data.percent_loaded
-      // this.percentParsed = resp.data.percent_parsed
+      this.percentParsed = resp.data.percent_parsed
     },
 
     fileStatusFromApiData(apiData) {
 
-      // temp while waiting for heather to update the File object
-      if (apiData.percent_loaded === 0) return "ready"
-      if (apiData.percent_loaded === 100) return "loaded"
-      return "parsing"
+      // if it's done parsing, there are only two possible outcomes:
+      if (apiData.is_live) return "live"
+      if (!!apiData.error) return "error"
 
-      // // if it's done parsing, there are only two possible outcomes:
-      // if (apiData.is_loaded) return "loaded"
-      // if (!!apiData.error) return "error"
-      //
-      // // must not be done parsing
-      // if (apiData.is_uploaded) return "parsing"
-      // return "ready"
+      // must not be done parsing
+      if (apiData.is_uploaded) return "parsing"
+      return "ready"
     },
 
     async uploadFile() {
@@ -329,22 +287,30 @@ export default {
 
       try {
         await axios.post(s3Data.url, postData)
+
+        // great, we're up on S3 now.
+        // but we need to give our heroku server a chance to get the file from s3
+        await sleep(1000)
+
+        // refresh the File from the server so we can show "parsing" status. if we don't do this,
+        // UI reverts back to "ready" since the FileStatus obj still says that.
+        await this.refreshPublisherFileStatus(this.fileType)
+
+        // now we're fully synced and can finally hide the loading spinner
+        this.isSyncingToServer = false
         this.snackbar("File uploaded.")
+
       } catch (e) {
         this.errorMsg = "Upload failed"
-        console.error("Error from s3.")
+        this.snackbar("File upload failed.")
         return
-      } finally {
-        this.isSyncingToServer = false
       }
-
-      await this.pollServer()
+      this.pollServer()
     },
   },
-  async mounted() {
-    this.isSyncingToServer = true
-    await this.pollServer()
-    this.isSyncingToServer = false
+  async created() {
+    console.log("data file from publisher store", this.getPublisherDataFile(this.fileType))
+    // this.myDataFile = this.getPublisherDataFile(this.fileType)
   }
 }
 </script>

@@ -6,33 +6,35 @@
       </div>
       <v-spacer/>
     </v-card-title>
+    <v-divider />
 
     <v-tabs
         v-model="tabModel"
         vertical
-        style="justify-content: flex-end;"
+        hide-slider
+        class="publisher-setup-tab-tabs"
     >
       <v-tab v-for="tabName in tabNames">
         {{ tabName }}
         <span class="ml-1" v-if="tabName === 'Warnings' ">
-          ({{publisherWarnings.length}})
+          ({{ publisherWarnings.length }})
         </span>
       </v-tab>
 
       <v-tab-item>
-        <publisher-setup-tab-warnings />
+        <publisher-setup-tab-warnings/>
       </v-tab-item>
       <v-tab-item>
         <publisher-setup-tab-counter/>
       </v-tab-item>
       <v-tab-item>
-        <publisher-setup-tab-currency />
+        <publisher-setup-tab-currency/>
       </v-tab-item>
       <v-tab-item>
-        <publisher-setup-tab-price />
+        <publisher-setup-tab-price/>
       </v-tab-item>
       <v-tab-item>
-        <publisher-setup-tab-pta />
+        <publisher-setup-tab-pta/>
       </v-tab-item>
     </v-tabs>
 
@@ -184,6 +186,17 @@ export default {
 </script>
 
 <style lang="scss">
+
+.publisher-setup-tab-tabs {
+  .v-tabs-bar__content {
+    align-items: flex-end !important;
+  }
+
+  .v-tab {
+    text-transform: capitalize;
+  }
+
+}
 
 
 </style>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import Vue from "vue"
+import {makePublisherFileStatus, getPublisherFileServerKey} from "@/shared/publisherFileStatus";
 
 const warningsConfig = {
     missingPerpetualAccess: {
@@ -12,53 +13,6 @@ const warningsConfig = {
         link: "http://help.unsub.org",
         msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
-}
-
-const dataFilesConfig = {
-    counter: {
-        displayName: "COUNTER JR1 report",
-        counterVersion: 4,
-        serverKey: "counter",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    counterTrj2: {
-        displayName: "COUNTER TR_J2 report",
-        counterVersion: 5,
-        serverKey: "counter-trj2",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    counterTrj3: {
-        displayName: "COUNTER TR_J3 report",
-        counterVersion: 5,
-        serverKey: "counter-trj3",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    counterTrj4: {
-        displayName: "COUNTER TR_J4 report",
-        counterVersion: 5,
-        serverKey: "counter-trj4",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    price: {
-        displayName: "Title-by-title pricelist",
-        serverKey: "price",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    perpetualAccess: {
-        displayName: "Post-Termination Access (PTA)",
-        serverKey: "perpetual-access",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    coreJournals: {
-        displayName: "Core journals list",
-        serverKey: "core-journals",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
-    pricePublic: {
-        displayName: "Public pricelist",
-        serverKey: "price-public",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    },
 }
 
 const mockDataFilePricePublic = {
@@ -180,9 +134,7 @@ export const publisher = {
             console.log("apiPublisher.data_files", apiPublisher.data_files)
 
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
-                dataFile.name = dataFile.name.replace("prices", "price")
-                dataFile.id = _.camelCase(dataFile.name)
-                return Object.assign(dataFile, dataFilesConfig[dataFile.id])
+                return makePublisherFileStatus(dataFile)
             })
             state.warnings = apiPublisher.warnings.map(warning => {
                 warning.id = _.camelCase(warning.id)
@@ -203,6 +155,10 @@ export const publisher = {
         replaceScenario(state, newScenario) {
             const index = state.scenarios.findIndex(s => s.id === newScenario.id)
             state.scenarios.splice(index, 1, newScenario)
+        },
+        replaceFile(state, newFile) {
+            const index = state.dataFiles.findIndex(s => s.id === newFile.id)
+            state.dataFiles.splice(index, 1, newFile)
         },
 
         deleteScenario(state, id) {
@@ -298,6 +254,15 @@ export const publisher = {
             commit("replaceScenario", newScenario)
         },
 
+        async refreshPublisherFileStatus({dispatch, getters, commit}, fileType) {
+            const serverKey = getPublisherFileServerKey(fileType)
+            const url = `publisher/${getters.publisherId}/${serverKey}/status`
+            const resp = await api.get(url)
+            const myFileStatus = makePublisherFileStatus(resp.data)
+            commit("replaceFile", myFileStatus)
+            return myFileStatus
+        },
+
         async createScenario({state, getters}, {name}) {
             const newScenario = await createScenario(getters.publisherId, name)
             state.scenarios.push(newScenario)
@@ -368,20 +333,20 @@ export const publisher = {
             })
         },
         publisherCounterVersion: (state) => {
-            if (state.dataFiles.filter(f => f.counterVersion === 5).some(f => f.uploaded)) {
+            if (state.dataFiles.filter(f => f.counterVersion === 5).some(f => f.isLive)) {
                 return 5
             }
-            if (state.dataFiles.filter(f => f.counterVersion === 4).some(f => f.uploaded)) {
+            if (state.dataFiles.filter(f => f.counterVersion === 4).some(f => f.isLive)) {
                 return 4
             }
         },
 
 
-        publisherCounterIsUploaded: (state) => {
-            if (state.dataFiles.filter(f => f.counterVersion === 4).every(f => f.uploaded)) {
+        publisherCounterIsLive: (state) => {
+            if (state.dataFiles.filter(f => f.counterVersion === 4).every(f => f.isLive)) {
                 return true
             }
-            if (state.dataFiles.filter(f => f.counterVersion === 5).every(f => f.uploaded)) {
+            if (state.dataFiles.filter(f => f.counterVersion === 5).every(f => f.isLive)) {
                 return true
             }
             return false

@@ -1,9 +1,12 @@
 <template>
+  <v-container>
     <v-tabs class="ml-1" v-model="currentTab">
         <v-tab class="low-key-button">Institutions</v-tab>
         <v-tab class="low-key-button">Consortia</v-tab>
         <v-tab class="low-key-button">Account</v-tab>
     </v-tabs>
+
+  </v-container>
 </template>
 
 <script>

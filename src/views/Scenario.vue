@@ -171,7 +171,7 @@
                                                     v-model="search"
                                                     v-on:input="setJournalsFilterStatus"
                                                     append-icon="mdi-magnify"
-                                                    class="mr-2"
+                                                    class="mr-2 mt-1"
 
                                             />
 
