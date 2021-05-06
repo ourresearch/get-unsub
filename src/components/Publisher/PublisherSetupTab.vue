@@ -1,13 +1,5 @@
 <template>
-  <v-card flat class="">
-    <v-card-title class="text-h5">
-      <div>
-        Package Setup: {{ tabNames[tabModel] }}
-      </div>
-      <v-spacer/>
-    </v-card-title>
-    <v-divider />
-
+  <v-card flat class="pa-3">
     <v-tabs
         v-model="tabModel"
         vertical

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="publisher pt-12">
+  <v-container class="publisher mt-12 pt-6">
     <div
         style="height: 85vh"
         class="loading d-flex flex-column align-center justify-center"
@@ -46,6 +46,8 @@
         </div>
       </v-alert>
 
+      <app-bar-ext-publisher />
+      <v-divider />
       <v-tabs-items v-model="publisherTabShowing">
         <v-tab-item>
           <publisher-scenarios-tab/>
@@ -73,6 +75,7 @@ import PublisherFileUploadDialog from "../components/PublisherFile/PublisherFile
 import ApcTab from "../components/Publisher/ApcTab";
 import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
 import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
+import AppBarExtPublisher from "@/components/AppBar/AppBarExtPublisher";
 
 export default {
   name: "Publisher",
@@ -82,6 +85,7 @@ export default {
     }
   },
   components: {
+    AppBarExtPublisher,
     ScenarioEditDialogs,
     PublisherFileUploadDialog,
     ApcTab,

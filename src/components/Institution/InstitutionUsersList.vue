@@ -1,21 +1,10 @@
 <template>
     <v-card flat>
-        <v-card-title class="pr-4 align-baseline">
-            <div>
-                Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>
-            </div>
-            <v-spacer></v-spacer>
-            <v-tooltip bottom max-width="200" color="#333">
-                <template v-slot:activator="{on}">
-                    <v-icon v-on="on" small>mdi-help-circle-outline</v-icon>
-                </template>
-                <div>
-                    Manage who has access to your institutional dashboard.
-                </div>
-
-            </v-tooltip>
-        </v-card-title>
-        <v-divider></v-divider>
+<!--        <v-card-title class="pr-4 align-baseline">-->
+<!--            <div>-->
+<!--                Group members <span class="body-2">({{institutionUsersWithRoles.length}})</span>-->
+<!--            </div>-->
+<!--        </v-card-title>-->
         <v-list>
             <institution-user-row
                     v-for="person in institutionUsersWithRoles"

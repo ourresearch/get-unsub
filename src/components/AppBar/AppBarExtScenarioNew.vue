@@ -1,8 +1,8 @@
 <template>
-  <v-container>
+  <v-container class="pb-0">
     <div class="d-flex" style="width: 100%;">
         <v-tabs class="ml-1" v-model="currentTab">
-            <v-tab class="low-key-button">Forecast</v-tab>
+            <v-tab class="low-key-button">5yr Forecast</v-tab>
             <v-tab class="low-key-button">Parameters</v-tab>
             <v-tab class="low-key-button">Export</v-tab>
             <v-tab class="low-key-button" v-if="institutionIsConsortium">
@@ -10,7 +10,7 @@
               ({{scenarioMemberInstitutions.length}})
             </v-tab>
             <v-spacer />
-        <div class="d-flex align-center black--text">
+        <div v-if="0" class="d-flex align-center black--text">
             <div class="mx-3 black--text">
                 {{myCost | currency}}
             </div>

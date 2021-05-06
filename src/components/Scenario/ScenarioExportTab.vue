@@ -1,9 +1,5 @@
 <template>
     <v-card flat>
-        <v-card-title class="text-h5">
-            Export
-        </v-card-title>
-
         <v-card flat class="my-6 pb-12">
             <v-subheader>Export scenario data</v-subheader>
             <v-divider class="mb-4" />

@@ -1,8 +1,14 @@
 <template>
-  <v-container>
+  <v-container class="mb-0 pb-0">
     <v-tabs class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button">Institutions</v-tab>
-        <v-tab class="low-key-button">Consortia</v-tab>
+        <v-tab class="low-key-button">
+          Institutions
+          <span class="caption ml-2">({{userInstitutions.length}})</span>
+        </v-tab>
+        <v-tab class="low-key-button">
+          Consortia
+          <span class="caption ml-2">({{userConsortia.length}})</span>
+        </v-tab>
         <v-tab class="low-key-button">Account</v-tab>
     </v-tabs>
 
@@ -23,7 +29,9 @@
         methods: {},
         computed: {
             ...mapGetters([
-                "userEmail"
+                "userEmail",
+                "userInstitutions",
+                "userConsortia",
             ]),
             currentTab: {
                 get() {

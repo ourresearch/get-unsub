@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="pb-0">
     <v-tabs v-if="institutionName" class="ml-1" v-model="currentTab">
         <v-tab class="low-key-button">Packages</v-tab>
         <v-tab class="low-key-button">Users</v-tab>

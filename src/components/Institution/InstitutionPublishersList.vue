@@ -1,22 +1,21 @@
 <template>
     <v-card flat>
-        <v-card-title v-if="!isConsortialFeeder">
-            <div>
-                Subscription packages
-                <span class="body-2">({{myPublishers.length}})</span>
-            </div>
-        </v-card-title>
+<!--        <v-card-title v-if="!isConsortialFeeder">-->
+<!--            <div>-->
+<!--                Subscription packages-->
+<!--                <span class="body-2">({{myPublishers.length}})</span>-->
+<!--            </div>-->
+<!--        </v-card-title>-->
         <div class="pa-3" v-if="isConsortialFeeder">
-            <div class="text-h6">
-                Consortial feeder packages
-                <span class="body-2">({{myPublishers.length}})</span>
-            </div>
+<!--            <div class="text-h6">-->
+<!--                Consortial feeder packages-->
+<!--                <span class="body-2">({{myPublishers.length}})</span>-->
+<!--            </div>-->
             <div class="body-2">
                 These function exclusively as a <em>data source</em> for your consortium's central Unsub dashboard.
             </div>
         </div>
 
-        <v-divider></v-divider>
         <v-list>
             <institution-publisher-row
                     v-for="pub in myPublishers"

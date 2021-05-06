@@ -1,17 +1,7 @@
 <template>
     <v-card flat class="">
-        <v-card-title  class="text-h5">
-            <div>
-            Forecast Scenarios
-            </div>
-            <v-spacer />
-            <v-btn icon color="primary">
-                <v-icon>mdi-plus</v-icon>
-            </v-btn>
-        </v-card-title>
         <v-card flat class="pb-5">
-            <v-divider class="mb-2" />
-            <v-row align="end" class="caption font-weight-bold pr-12 mr-1" style="cursor: default; line-height: 1.5">
+            <v-row align="end" class="caption font-weight-normal pr-12 mr-1 mt-3" style="cursor: default; line-height: 1.5">
                 <v-col cols="1"></v-col>
                 <v-col cols="5" class="pb-0">
                     Name

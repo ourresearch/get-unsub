@@ -1,14 +1,12 @@
 <template>
     <v-card flat>
         <v-card-title class="text-h5">
-            <div>Scenario Parameters</div>
             <v-spacer />
             <v-checkbox
                 v-model="showDetails"
                 label="Show details"
                 dense
             />
-
         </v-card-title>
         <v-row>
             <template

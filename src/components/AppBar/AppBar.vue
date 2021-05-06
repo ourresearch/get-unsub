@@ -1,6 +1,5 @@
 <template>
   <v-app-bar
-      :extended="!!isLoggedIn"
       color="#fff"
       app
       elevate-on-scroll
@@ -401,12 +400,12 @@
       </v-menu>
     </div>
 
-    <template v-slot:extension>
-      <app-bar-ext-user v-if="$route.name === 'user'"/>
-      <app-bar-ext-institution v-if="$route.name === 'institution'"/>
-      <app-bar-ext-publisher v-if="$route.name === 'publisher'"/>
-      <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"/>
-    </template>
+<!--    <template v-slot:extension>-->
+<!--      <app-bar-ext-user v-if="$route.name === 'user'"/>-->
+<!--      <app-bar-ext-institution v-if="$route.name === 'institution'"/>-->
+<!--      <app-bar-ext-publisher v-if="$route.name === 'publisher'"/>-->
+<!--      <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"/>-->
+<!--    </template>-->
 
 
   </v-app-bar>
