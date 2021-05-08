@@ -12,10 +12,15 @@ let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
 // to set the port, when you start your dev server, use: npm run serve -- --port <my port num>
 // example:
 // npm run serve -- --port 8081
-if (window.location.port && parseInt(window.location.port) > 8080) {
+if (window.location.port && parseInt(window.location.port) === 8081) {
     urlBase = "http://localhost:5004/"  // your locally-hosted API
     console.log("Setting API base URL to local machine (dev use only): " + urlBase)
 }
+else if (window.location.port && parseInt(window.location.port) === 8082) {
+    urlBase = "https://staging-jump-api.herokuapp.com/"  // staging heroku url
+    console.log("Setting API base URL to staging heroku (dev use only): " + urlBase)
+}
+
 import Vue from 'vue'
 
 const getConfig = function () {
