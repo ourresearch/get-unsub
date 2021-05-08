@@ -268,12 +268,11 @@ export default {
       // this exact format is required by the server
       const fileName = `${this.publisherId}_${this.myDataFile.serverKey}${fileExtMatch[0]}`
 
-      const urlBase = `/publisher/${this.publisherId}/sign-s3`
+      const path = `publisher/${this.publisherId}/sign-s3`
       const urlParamsStr = queryString.stringify({
-        filetype: "text/text",
-        filename: fileName,
+        filename: fileName
       })
-      const url = urlBase + "?" + urlParamsStr
+      const url = path + "?" + urlParamsStr
       const resp = await api.get(url)
       const s3Data = resp.data.data
       console.log("got s3 data back", s3Data)
