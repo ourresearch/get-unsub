@@ -1,11 +1,21 @@
 <template>
-  <v-container class="pb-0">
+  <v-container class="pa-0">
     <div class="d-flex" style="width: 100%;">
         <v-tabs class="ml-1" v-model="currentTab">
-            <v-tab class="low-key-button">5yr Forecast</v-tab>
-            <v-tab class="low-key-button">Parameters</v-tab>
-            <v-tab class="low-key-button">Export</v-tab>
+            <v-tab class="low-key-button">
+              <v-icon small left>mdi-chart-box-outline</v-icon>
+              5yr Forecast
+            </v-tab>
+            <v-tab class="low-key-button">
+              <v-icon small left>mdi-cog-outline</v-icon>
+              Parameters
+            </v-tab>
+            <v-tab class="low-key-button">
+              <v-icon small left>mdi-download</v-icon>
+              Export
+            </v-tab>
             <v-tab class="low-key-button" v-if="institutionIsConsortium">
+              <v-icon small left>mdi-bank-outline</v-icon>
               Member Institutions
               ({{scenarioMemberInstitutions.length}})
             </v-tab>

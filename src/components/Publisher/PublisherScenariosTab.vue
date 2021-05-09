@@ -1,140 +1,169 @@
 <template>
+  <v-card flat class="">
     <v-card flat class="">
-        <v-card flat class="pb-5">
-            <v-row align="end" class="caption font-weight-normal pr-12 mr-1 mt-3" style="cursor: default; line-height: 1.5">
-                <v-col cols="1"></v-col>
-                <v-col cols="5" class="pb-0">
-                    Name
-                </v-col>
-                <v-spacer></v-spacer>
-                <v-col cols="2" class="text-right">
-                    <v-tooltip bottom max-width="400" color="#333">
-                        <template v-slot:activator="{ on }">
+
+
+      <v-list dense class="py-0">
+        <v-list-item style="height: 20px; padding-top: 20px">
+          <v-list-item-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-row align="center" class="caption">
+              <v-col cols="5" class="py-0">
+                Name
+              </v-col>
+              <v-spacer></v-spacer>
+              <v-col cols="2" class="text-right py-0">
+                Cost
+              </v-col>
+              <v-col cols="2" class="text-right py-0">
+                Instant fulfillment
+              </v-col>
+              <v-col cols="2" class="text-right py-0">
+                Subscribed titles
+              </v-col>
+              <v-col cols="1" class="py-0"></v-col>
+            </v-row>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-btn icon disabled></v-btn>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list>
+<!--      <v-divider />-->
+
+      <v-row align="end" class="caption font-weight-normal pr-12 mr-1 mt-3 d-none"
+             style="cursor: default; line-height: 1.5">
+        <v-col cols="1"></v-col>
+        <v-col cols="5" class="">
+          Name
+        </v-col>
+        <v-spacer></v-spacer>
+        <v-col cols="2" class="text-right">
+          <v-tooltip bottom max-width="400" color="#333">
+            <template v-slot:activator="{ on }">
                                     <span v-on="on">
                                         Annual cost
                                     </span>
-                        </template>
-                        <div>
-                            Five-year average annual cost to the library, including ILL and à la carte subscription
-                            costs.
-                        </div>
-                    </v-tooltip>
-                </v-col>
-                <v-col cols="1" class="text-right pb-0">
-                    <v-tooltip bottom max-width="400" color="#333">
-                        <template v-slot:activator="{ on }">
+            </template>
+            <div>
+              Five-year average annual cost to the library, including ILL and à la carte subscription
+              costs.
+            </div>
+          </v-tooltip>
+        </v-col>
+        <v-col cols="2" class="text-right ">
+          <v-tooltip bottom max-width="400" color="#333">
+            <template v-slot:activator="{ on }">
                                     <span v-on="on">
                                         Instant fulfillment
                                     </span>
-                        </template>
-                        <div>
-                            Percentage of article requests the library can fulfill <em>instantly</em> over the next five
-                            years (via subscription, backfile, or OA).
-                        </div>
-                    </v-tooltip>
+            </template>
+            <div>
+              Percentage of article requests the library can fulfill <em>instantly</em> over the next five
+              years (via subscription, backfile, or OA).
+            </div>
+          </v-tooltip>
 
-                </v-col>
-                <v-col cols="1" class="text-right pb-0">
-                    <v-tooltip bottom max-width="400" color="#333">
-                        <template v-slot:activator="{ on }">
+        </v-col>
+        <v-col cols="2" class="text-right ">
+          <v-tooltip bottom max-width="400" color="#333">
+            <template v-slot:activator="{ on }">
                                     <span v-on="on">
                                         Subscribed journals
                                     </span>
-                        </template>
-                        <div>
-                            Number of journal subscriptions retained (via à la carte subscription) after cancelling Big
-                            Deal.
-                        </div>
-                    </v-tooltip>
-                </v-col>
-                <v-col cols="1"></v-col>
+            </template>
+            <div>
+              Number of journal subscriptions retained (via à la carte subscription) after cancelling Big
+              Deal.
+            </div>
+          </v-tooltip>
+        </v-col>
+        <v-col cols="2"></v-col>
 
-            </v-row>
-        </v-card>
-<!--        <v-divider />-->
-        <v-list>
-            <publisher-scenario-row
-                    v-for="scenario in publisherScenarios"
-                    :scenario="scenario"
-            >
-            </publisher-scenario-row>
-
-        </v-list>
-
-
-            <v-fade-transition v-if="0">
-                <v-list-item
-                        @click="openCreateDialog"
-                        key="add-scenario"
-                        id="new-scenario-button"
-                >
-                    <v-list-item-avatar size="50">
-                        <v-btn icon>
-                            <v-icon>mdi-plus</v-icon>
-                        </v-btn>
-                    </v-list-item-avatar>
-
-                    <v-list-item-content>
-                        <v-list-item-title class="body-2 text--secondary">
-                            New scenario
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-fade-transition>
-
-
-        </v-list>
-
-
+      </v-row>
     </v-card>
+    <!--        <v-divider />-->
+    <v-list class="py-0">
+      <publisher-scenario-row
+          v-for="scenario in publisherScenarios"
+          :scenario="scenario"
+      >
+      </publisher-scenario-row>
+
+    </v-list>
+
+
+    <v-fade-transition>
+      <v-list-item
+          @click="openCreateDialog"
+          key="add-scenario"
+          id="new-scenario-button"
+      >
+        <v-list-item-avatar size="50">
+          <v-btn icon>
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title class="body-2 text--secondary">
+            New scenario
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-fade-transition>
+
+
+  </v-card>
 
 
 </template>
 
 
 <script>
-    import _ from "lodash"
-    import appConfigs from "../../appConfigs";
-    import {mapGetters, mapMutations, mapActions} from 'vuex'
-    import {api} from "../../api";
-    import publisherFileUploadConfigs from "../PublisherFile/publisherFileConfigs";
+import _ from "lodash"
+import appConfigs from "../../appConfigs";
+import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {api} from "../../api";
+import publisherFileUploadConfigs from "../PublisherFile/publisherFileConfigs";
 
-    import PublisherScenarioRow from "./PublisherScenarioRow";
+import PublisherScenarioRow from "./PublisherScenarioRow";
 
 
-    export default {
-        name: "PublisherScenariosTab",
-        components: {
-            PublisherScenarioRow,
-        },
-        props: {},
-        data() {
-            return {}
-        },
-        methods: {
-            ...mapMutations([
-                "openCreateDialog",
-            ]),
-        },
-        computed: {
-            ...mapGetters([
-                "institutionId",
+export default {
+  name: "PublisherScenariosTab",
+  components: {
+    PublisherScenarioRow,
+  },
+  props: {},
+  data() {
+    return {}
+  },
+  methods: {
+    ...mapMutations([
+      "openCreateDialog",
+    ]),
+  },
+  computed: {
+    ...mapGetters([
+      "institutionId",
 
-                "pkgId",
-                "publisherName",
-                "publisherScenarios",
-                "publisherScenariosAreAllLoaded",
-                "publisherId",
-                "publisherBigDealCost",
-                "publisherFiles",
-            ]),
-        },
-        created() {
-        },
-        mounted() {
-        },
-        watch: {}
-    }
+      "pkgId",
+      "publisherName",
+      "publisherScenarios",
+      "publisherScenariosAreAllLoaded",
+      "publisherId",
+      "publisherBigDealCost",
+      "publisherFiles",
+    ]),
+  },
+  created() {
+  },
+  mounted() {
+  },
+  watch: {}
+}
 </script>
 
 <style lang="scss">

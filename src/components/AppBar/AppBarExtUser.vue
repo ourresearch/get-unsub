@@ -1,15 +1,20 @@
 <template>
-  <v-container class="mb-0 pb-0">
+  <v-container class="pa-0">
     <v-tabs class="ml-1" v-model="currentTab">
         <v-tab class="low-key-button">
+          <v-icon small left>mdi-bank-outline</v-icon>
           Institutions
           <span class="caption ml-2">({{userInstitutions.length}})</span>
         </v-tab>
         <v-tab class="low-key-button">
+          <v-icon small left>mdi-lan</v-icon>
           Consortia
           <span class="caption ml-2">({{userConsortia.length}})</span>
         </v-tab>
-        <v-tab class="low-key-button">Account</v-tab>
+        <v-tab class="low-key-button">
+          <v-icon small left>mdi-cog-outline</v-icon>
+          Settings
+        </v-tab>
     </v-tabs>
 
   </v-container>

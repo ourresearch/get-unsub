@@ -24,8 +24,26 @@
 
           </div>
         </div>
-
       </v-card>
+      <div class="d-flex entity-title">
+        <v-btn icon class="mr-2 no-highlight" :to="`/i/${institutionId}/p/${publisherId}`">
+          <v-icon color="primary">
+            mdi-chevron-left
+          </v-icon>
+        </v-btn>
+        <v-icon color="primary" large left>
+          mdi-chart-box-outline
+        </v-icon>
+
+        <div>
+          <div class="caption primary--text">
+            Scenario
+          </div>
+          <div class="text-h5 font-weight-bold primary--text">
+            {{ scenarioName }}
+          </div>
+        </div>
+      </div>
       <app-bar-ext-scenario-new v-if="!scenarioIsLockedPendingUpdate" />
       <v-divider />
       <v-tabs-items

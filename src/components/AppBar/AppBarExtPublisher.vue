@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pb-0">
+  <v-container class="pa-0">
     <v-tabs
         v-if="publisherName && !publisherIsLoading"
         class="" v-model="currentTab"
@@ -9,17 +9,21 @@
                 class="low-key-button"
                 :disabled="publisherIsFeeder || !publisherCounterIsLive"
         >
+          <v-icon small left>mdi-chart-box-outline</v-icon>
             Forecast scenarios
+          <span class="ml-1 caption">({{publisherScenarios.length}})</span>
         </v-tab>
         <v-tab
                 class="low-key-button"
                 :disabled="publisherIsFeeder || !publisherCounterIsLive"
         >
+          <v-icon small left>mdi-cash-100</v-icon>
             APCs
         </v-tab>
         <v-tab
                 class="low-key-button"
         >
+          <v-icon small left>mdi-cog-outline</v-icon>
             Setup
         </v-tab>
     </v-tabs>
@@ -45,6 +49,7 @@
                 "publisherCounterIsLive",
                 "publisherName",
                 "publisherIsLoading",
+                "publisherScenarios",
             ]),
             currentTab: {
                 get() {

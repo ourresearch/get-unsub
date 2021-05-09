@@ -9,7 +9,7 @@
 
         <v-list-item-content>
             <v-row align="center">
-                <v-col cols="6">
+                <v-col cols="5">
                     <div class="title font-weight-bold">
                         {{ scenario.saved.name}}
                     </div>
@@ -25,10 +25,10 @@
                 <v-col cols="2" class="text-right">
                     {{ costTotal | currency(publisherCurrencySymbol)}}
                 </v-col>
-                <v-col cols="1" class="text-right">
+                <v-col cols="2" class="text-right">
                     {{instantUsagePercent | percent(0)}}
                 </v-col>
-                <v-col cols="1" class="text-right">
+                <v-col cols="2" class="text-right">
                     {{ scenario.saved.subrs.length }}
                 </v-col>
                 <v-col cols="1"></v-col>

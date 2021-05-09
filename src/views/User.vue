@@ -12,7 +12,23 @@
       </div>
     </v-alert>
 
+    <div class="d-flex entity-title">
+<!--      empty div because no button, but need the padding for design to work-->
+      <div class="ml-11"></div>
 
+      <v-icon color="primary" large left>
+        mdi-account-circle-outline
+      </v-icon>
+
+      <div>
+        <div class="caption primary--text">
+          User
+        </div>
+        <div class="text-h5 font-weight-bold primary--text">
+          Your Account
+        </div>
+      </div>
+    </div>
     <app-bar-ext-user/>
     <v-tabs-items v-model="userTabShowing">
       <v-divider></v-divider>

@@ -48,7 +48,7 @@
             <template v-if="publisherId">
               <v-icon color="#777" small>mdi-chevron-right</v-icon>
             </template>
-            <span v-if="!publisherId" class="pl-2 pr-5 text-h6">
+            <span v-if="!publisherId" class="pl-2 pr-5 ">
                             {{ institutionName || "Loading..." }}
                         </span>
           </v-btn>
@@ -61,7 +61,7 @@
                   {{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline" }}
                 </v-icon>
               </v-list-item-icon>
-              <v-list-item-content class="font-weight-bold">
+              <v-list-item-content class="">
                 <div>
                   <div class="body-2 mb-1">
                     Current {{ institutionIsConsortium ? "consortium" : "institution" }}:
@@ -131,7 +131,7 @@
             <template v-if="scenarioId">
               <v-icon color="#777" small>mdi-chevron-right</v-icon>
             </template>
-            <span v-if="!scenarioId" class="pl-2 pr-2 text-h6">
+            <span v-if="!scenarioId" class="pl-2 pr-2 ">
                             {{ publisherName || "Loading..." }}
                         </span>
             <v-chip
@@ -151,7 +151,7 @@
                   {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
                 </v-icon>
               </v-list-item-icon>
-              <v-list-item-content class="font-weight-bold">
+              <v-list-item-content class="">
                 <div>
                   <div class="body-2 mb-1">
                     Current package:
@@ -222,7 +222,7 @@
             <v-icon color="#777">
               mdi-chart-box-outline
             </v-icon>
-            <span class="pl-2 pr-5 text-h6">
+            <span class="pl-2 pr-5 ">
                             {{ scenarioName }}
                         </span>
           </v-btn>
@@ -233,7 +233,7 @@
               <v-list-item-icon>
                 <v-icon class="mt-4">mdi-chart-box-outline</v-icon>
               </v-list-item-icon>
-              <v-list-item-content class="font-weight-bold">
+              <v-list-item-content class="">
                 <div>
                   <div class="body-2 mb-1">
                     Current scenario:

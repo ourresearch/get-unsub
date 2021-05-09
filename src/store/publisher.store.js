@@ -15,14 +15,6 @@ const warningsConfig = {
     }
 }
 
-const mockDataFilePricePublic = {
-    created: null,
-    error_rows: [],
-    name: "price-public",
-    rows_count: 4242,
-    uploaded: true,
-}
-
 
 import {api} from "../api"
 import {
@@ -129,10 +121,7 @@ export const publisher = {
                 return makePublisherJournal(j)
             })
 
-            // mock for development, replace later.
-            apiPublisher.data_files.push(mockDataFilePricePublic)
             console.log("apiPublisher.data_files", apiPublisher.data_files)
-
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
                 return makePublisherFileStatus(dataFile)
             })

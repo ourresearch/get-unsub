@@ -46,6 +46,24 @@
         </div>
       </v-alert>
 
+      <div class="d-flex entity-title">
+        <v-btn icon class="mr-2 no-highlight" :to="`/i/${institutionId}`">
+          <v-icon color="primary">
+            mdi-chevron-left
+          </v-icon>
+        </v-btn>
+        <v-icon color="primary" large left>
+          {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+        </v-icon>
+        <div>
+          <div class="caption primary--text">
+            Package
+          </div>
+          <div class="text-h5 font-weight-bold primary--text">
+            {{ publisherName }}
+          </div>
+        </div>
+      </div>
       <app-bar-ext-publisher />
       <v-divider />
       <v-tabs-items v-model="publisherTabShowing">

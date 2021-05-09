@@ -1,53 +1,69 @@
 <template>
-  <v-container class="pb-0">
+  <v-container class="pa-0">
     <v-tabs v-if="institutionName" class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button">Packages</v-tab>
-        <v-tab class="low-key-button">Users</v-tab>
-        <v-tab class="low-key-button">ROR ID</v-tab>
-        <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">Consortial</v-tab>
+      <v-tab class="low-key-button">
+        <v-icon small left>mdi-package-variant</v-icon>
+        Packages
+      </v-tab>
+      <v-tab class="low-key-button">
+        <v-icon small left>mdi-account-outline</v-icon>
+        Users
+        <span class="ml-1 caption">({{institutionUsersWithRoles.length}})</span>
+      </v-tab>
+      <v-tab class="low-key-button">
+        <v-icon small left>mdi-map-marker-outline</v-icon>
+        ROR IDs
+        <span class="ml-1 caption">({{institutionRorIds.length}})</span>
+      </v-tab>
+      <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">
+        <v-icon small left>mdi-package-up</v-icon>
+        Consortial feeder packages
+      </v-tab>
     </v-tabs>
 
   </v-container>
 </template>
 
 <script>
-    import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 
-    export default {
-        name: "AppBarExtInstitution",
-        components: {},
-        data() {
-            return {
-                foo: 42,
-            }
-        },
-        methods: {},
-        computed: {
-            ...mapGetters([
-                "institutionName",
-                "institutionConsortialFeederPublishers",
-            ]),
-            currentTab: {
-                get() {
-                    console.log("get currentTab")
-                    return this.$store.getters.institutionTabShowing
-                },
-                set(newVal) {
-                    this.$store.commit("setInstitutionTabShowing", newVal)
-                }
-            }
-        },
-        created() {
-            this.currentTab = 0
-        },
-        watch: {
-            "foo": {
-                immediate: true,
-                handler: function (to, from) {
-                }
-            }
-        }
+export default {
+  name: "AppBarExtInstitution",
+  components: {},
+  data() {
+    return {
+      foo: 42,
     }
+  },
+  methods: {},
+  computed: {
+    ...mapGetters([
+      "institutionName",
+      "institutionConsortialFeederPublishers",
+      "institutionUsersWithRoles",
+      "institutionRorIds",
+    ]),
+    currentTab: {
+      get() {
+        console.log("get currentTab")
+        return this.$store.getters.institutionTabShowing
+      },
+      set(newVal) {
+        this.$store.commit("setInstitutionTabShowing", newVal)
+      }
+    }
+  },
+  created() {
+    this.currentTab = 0
+  },
+  watch: {
+    "foo": {
+      immediate: true,
+      handler: function (to, from) {
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">

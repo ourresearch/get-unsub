@@ -12,9 +12,27 @@
       </div>
     </v-alert>
 
+    <div class="d-flex entity-title">
+      <v-btn icon class="mr-2" to="/u">
+        <v-icon color="primary">
+          mdi-chevron-left
+        </v-icon>
+      </v-btn>
+      <v-icon color="primary" large left>
+        {{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline" }}
+      </v-icon>
 
-    <app-bar-ext-institution />
-    <v-divider />
+      <div>
+        <div class="caption primary--text">
+          {{ (institutionIsConsortium) ? "Consortium" : "Institution" }}
+        </div>
+        <div class="text-h5 font-weight-bold primary--text">
+          {{ institutionName }}
+        </div>
+      </div>
+    </div>
+    <app-bar-ext-institution/>
+    <v-divider/>
     <v-tabs-items v-model="institutionTabShowing">
       <v-tab-item>
         <institution-publishers-list :my-role="myRole" :is-consortial-feeder="false"/>
