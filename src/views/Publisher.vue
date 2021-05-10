@@ -89,7 +89,6 @@
 import {api, toBase64} from "../api";
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
-import PublisherFileUploadDialog from "../components/PublisherFile/PublisherFileUpload";
 import ApcTab from "../components/Publisher/ApcTab";
 import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
 import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
@@ -105,7 +104,6 @@ export default {
   components: {
     AppBarExtPublisher,
     ScenarioEditDialogs,
-    PublisherFileUploadDialog,
     ApcTab,
     PublisherSetupTab,
     PublisherScenariosTab,

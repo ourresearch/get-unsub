@@ -126,7 +126,6 @@ import _ from "lodash"
 import appConfigs from "../../appConfigs";
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {api} from "../../api";
-import publisherFileUploadConfigs from "../PublisherFile/publisherFileConfigs";
 
 import PublisherScenarioRow from "./PublisherScenarioRow";
 

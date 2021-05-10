@@ -28,7 +28,6 @@ import {
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
-import publisherFileConfigs from "../components/PublisherFile/publisherFileConfigs";
 import {publisherLogoFromId} from "../shared/publisher";
 
 // https://www.npmjs.com/package/short-uuid

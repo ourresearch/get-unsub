@@ -116,12 +116,6 @@
 <script>
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import PublisherFileUploadDialog from "../PublisherFile/PublisherFileUpload";
-import PublisherFile from "../PublisherFile/PublisherFile";
-
-import PublisherFileCounter from "../PublisherFile/PublisherFileCounter";
-import PublisherFilePrice from "../PublisherFile/PublisherFilePrice";
-import PublisherFilePerpetualAccess from "../PublisherFile/PublisherFilePerpetualAccess";
 
 import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
 import PublisherSetupTabWarnings from "@/components/Publisher/PublisherSetupTabWarnings";
@@ -133,11 +127,6 @@ import PublisherSetupTabPrice from "@/components/Publisher/PublisherSetupTabPric
 export default {
   name: "PublisherSetupTab",
   components: {
-    PublisherFileUploadDialog,
-    PublisherFile,
-    PublisherFileCounter,
-    PublisherFilePrice,
-    PublisherFilePerpetualAccess,
 
     PublisherSetupTabCounter,
     PublisherSetupTabWarnings,
