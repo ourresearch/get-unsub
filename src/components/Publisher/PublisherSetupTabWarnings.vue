@@ -1,8 +1,21 @@
 <template>
   <v-card flat class="">
     <div class="pt-2 px-12">
-      <div class="text-h6 warning--text">Active warnings ({{ publisherWarningsActive.length }})</div>
-      <v-list>
+      <div v-if="publisherWarningsActive.length" class="text-h6 warning--text">Active warnings ({{ publisherWarningsActive.length }})</div>
+      <div v-if="!publisherWarningsActive.length" class="text-h6">Active warnings (0)</div>
+
+      <template v-for="warning in publisherWarningsActive">
+        <publisher-warning
+          :key="warning.id"
+          :warning="warning"
+        />
+      </template>
+
+
+
+
+
+      <v-list class="d-none">
         <v-list-item
             v-for="warning in publisherWarningsActive"
             :key="'displayed-' + warning.id"
@@ -72,6 +85,7 @@
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabFileUpload from "./PublisherSetupTabFile";
+import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 import {api} from "@/api";
 
 
@@ -79,6 +93,7 @@ export default {
   name: "PublisherSetupTabWarnings",
   components: {
     PublisherSetupTabFileUpload,
+    PublisherWarning,
   },
   props: {},
   data() {
