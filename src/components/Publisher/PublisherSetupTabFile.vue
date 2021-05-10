@@ -107,6 +107,7 @@
       <v-list-item-action>
         <publisher-file-setup-tab-file-delete
             :file-type="fileType"
+            :disabled="disabled"
         />
       </v-list-item-action>
       <v-list-item-action>
