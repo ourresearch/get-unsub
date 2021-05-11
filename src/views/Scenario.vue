@@ -25,6 +25,7 @@
           </div>
         </div>
       </v-card>
+
       <div class="d-flex entity-title">
         <v-btn icon class="mr-2 no-highlight" :to="`/i/${institutionId}/p/${publisherId}`">
           <v-icon color="primary">
@@ -47,12 +48,13 @@
       <app-bar-ext-scenario-new v-if="!scenarioIsLockedPendingUpdate" />
       <v-divider />
       <v-tabs-items
-          class="mt-12"
           v-if="!scenarioIsLockedPendingUpdate"
           v-model="scenarioTabShowing"
+          class="mt-8"
       >
         <v-tab-item>
           <v-card flat>
+
             <v-row>
               <v-col cols="4">
                 <v-card flat>
@@ -361,6 +363,8 @@ import ScenarioExportTab from "../components/Scenario/ScenarioExportTab";
 import ScenarioInstitutionsTab from "../components/Scenario/ScenarioInstitutionsTab";
 
 import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
+import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
+
 import {sleep} from "../shared/util";
 
 
@@ -387,6 +391,7 @@ export default {
     ScenarioInstitutionsTab,
 
     ScenarioEditDialogsInstitutions,
+    PublisherWarning,
   },
   directives: {
     "long-press": LongPress,
@@ -424,6 +429,7 @@ export default {
       'publisherName',
       'publisherId',
       'publisherCurrencySymbol',
+      'publisherWarningsActive',
       'journals',
       'scenarioIdHash',
       'scenarioTabShowing',

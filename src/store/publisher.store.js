@@ -4,14 +4,16 @@ import {makePublisherFileStatus, getPublisherFileServerKey} from "@/shared/publi
 
 const warningsConfig = {
     missingPerpetualAccess: {
-        displayName: "Missing PTA data",
+        displayName: "Missing PTA",
         link: "http://help.unsub.org",
-        msg: "You haven't uploaded any information about your PTA (Post-Termination Access) rights, so the forecast is assuming you will lose <em>all</em> access to existing content if you cancel. This is probably not true, and leads to a less accurate and more pessimistic forecast.",
+        msg: "We don't know this package's PTA (Post-Termination Access) rights; this makes forecasting much less accurate.",
+        fixMsg: "To fix, upload a file with your PTA rights"
     },
     missingPrices: {
-        displayName: "Missing price data",
+        displayName: "Missing prices",
         link: "http://help.unsub.org",
-        msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        msg: "There are some journals that this package doesn't have price information for. They are excluded from all forecasting.",
+        fixMsg: "To fix, upload a file with your prices for these titles."
     }
 }
 
@@ -40,7 +42,6 @@ export const publisher = {
 
         isLoading: false,
         apcIsLoading: false,
-        tabShowing: 0,
 
         id: null,
         publisher: "",
@@ -68,7 +69,6 @@ export const publisher = {
     mutations: {
         clearPublisher(state) {
             state.isLoading = false
-            state.tabShowing = 0
             state.id = null
             state.publisher = ""
             state.name = ""
@@ -155,9 +155,6 @@ export const publisher = {
         },
         setPublisherId(state, id) {
             state.id = id
-        },
-        setPublisherTabShowing(state, index) {
-            state.tabShowing = index
         },
 
 
@@ -274,7 +271,6 @@ export const publisher = {
         },
 
         publisherId: (state) => state.id,
-        publisherTabShowing: (state) => state.tabShowing,
         publisherPublisher: (state) => state.publisher,
         publisherJournals: (state) => state.journals,
         publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),

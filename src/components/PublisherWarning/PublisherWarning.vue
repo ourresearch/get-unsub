@@ -1,24 +1,108 @@
 <template>
-  <v-card flat>
-    <div class="d-flex">
-      <div style="width: 200px;">
-        <v-icon color="warning">mdi-alert-outline</v-icon>
-      </div>
+
+  <div>
+    <span class="d-flex body-2 align-start py-2">
+      <v-icon left color="warning">mdi-alert-outline</v-icon>
       <div>
-        <div class="font-weight-bold" v-html="warning.displayName"/>
-        <div class="body-2" v-html="warning.msg"></div>
+        <span class="font-weight-bold f" v-html="warning.displayName"/>:
+        <span v-html="warning.msg"/>
       </div>
-      <v-btn text :disabled="isLoading">
-        View Journals
-      </v-btn>
-      <v-btn text
-             @click="setWarningIsDismissed(warning.id, true)"
-             :disabled="isLoading"
-      >
-        Mute
-      </v-btn>
-    </div>
-  </v-card>
+      <v-spacer />
+      <div>
+        <v-btn icon>
+          <v-icon>
+          mdi-help-circle-outline
+          </v-icon>
+        </v-btn>
+      </div>
+    </span>
+
+    <v-list-item v-if="0">
+      <v-list-item-icon>
+        <v-icon color="warning">mdi-alert-outline</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <template v-if="warning.id==='missingPerpetualAccess'">
+          <div class="font-weight-bold mb-2">
+            Missing PTA Data:
+          </div>
+          <div class="">
+            We don't know your PTA (Post-Termination Access) rights; this makes forecasting much less accurate.
+            <span>To fix, upload your PTA data.</span>
+          </div>
+        </template>
+
+        <template v-if="warning.id==='missingPrices'">
+          <div class="font-weight-bold ">
+            Missing Price Data:
+          </div>
+          <div class=" ">
+            We're missing price data for some journals; these are excluded from all forecasting.
+            <span>To fix, upload your prices for these titles.</span>
+
+          </div>
+        </template>
+      </v-list-item-content>
+    </v-list-item>
+
+  </div>
+
+
+  <!--      <div class="">-->
+
+
+  <!--      </div>-->
+
+  <!--    <v-list-item-action>-->
+
+  <!--      <v-menu-->
+  <!--          offset-y-->
+  <!--      >-->
+  <!--        <template v-slot:activator="{ on }">-->
+  <!--          <v-btn icon v-on="on">-->
+  <!--            <v-icon>mdi-dots-vertical</v-icon>-->
+  <!--          </v-btn>-->
+  <!--        </template>-->
+  <!--        <v-list>-->
+  <!--          <v-list-item>-->
+  <!--            <v-list-item-icon>-->
+  <!--              <v-icon>mdi-medical-bag</v-icon>-->
+  <!--            </v-list-item-icon>-->
+  <!--            <v-list-item-title>-->
+  <!--              Fix it-->
+  <!--            </v-list-item-title>-->
+  <!--          </v-list-item>-->
+  <!--          <v-list-item>-->
+  <!--            <v-list-item-icon>-->
+  <!--              <v-icon>mdi-volume-off</v-icon>-->
+  <!--            </v-list-item-icon>-->
+  <!--            <v-list-item-title>-->
+  <!--              Mute this warning-->
+  <!--            </v-list-item-title>-->
+  <!--          </v-list-item>-->
+  <!--          <v-list-item v-if="warning.journals">-->
+  <!--            <v-list-item-icon>-->
+  <!--              <v-icon>mdi-download</v-icon>-->
+  <!--            </v-list-item-icon>-->
+  <!--            <v-list-item-title>-->
+  <!--              View affected journals-->
+  <!--            </v-list-item-title>-->
+  <!--          </v-list-item>-->
+  <!--        </v-list>-->
+  <!--      </v-menu>-->
+
+  <!--    </v-list-item-action>-->
+
+
+  <!--      <v-btn text :disabled="isLoading">-->
+  <!--        View Journals-->
+  <!--      </v-btn>-->
+  <!--      <v-btn text-->
+  <!--             @click="setWarningIsDismissed(warning.id, true)"-->
+  <!--             :disabled="isLoading"-->
+  <!--      >-->
+  <!--        Mute-->
+  <!--      </v-btn>-->
 
 
 </template>

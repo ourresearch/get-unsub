@@ -64,9 +64,34 @@
           </div>
         </div>
       </div>
-      <app-bar-ext-publisher />
-      <v-divider />
-      <v-tabs-items v-model="publisherTabShowing">
+      <v-tabs
+          class="" v-model="currentTab"
+      >
+        <!--        <v-btn class="" icon><v-icon>mdi-chevron-left</v-icon></v-btn>-->
+        <v-tab
+            class="low-key-button"
+            :disabled="publisherIsFeeder || !publisherCounterIsLive"
+        >
+          <v-icon small left>mdi-chart-box-outline</v-icon>
+          Forecast scenarios
+          <span class="ml-1 caption">({{ publisherScenarios.length }})</span>
+        </v-tab>
+        <v-tab
+            class="low-key-button"
+            :disabled="publisherIsFeeder || !publisherCounterIsLive"
+        >
+          <v-icon small left>mdi-cash-100</v-icon>
+          APCs
+        </v-tab>
+        <v-tab
+            class="low-key-button"
+        >
+          <v-icon small left>mdi-cog-outline</v-icon>
+          Setup
+        </v-tab>
+      </v-tabs>
+      <v-divider/>
+      <v-tabs-items v-model="currentTab">
         <v-tab-item>
           <publisher-scenarios-tab/>
         </v-tab-item>
@@ -92,7 +117,6 @@ import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditD
 import ApcTab from "../components/Publisher/ApcTab";
 import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
 import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
-import AppBarExtPublisher from "@/components/AppBar/AppBarExtPublisher";
 
 export default {
   name: "Publisher",
@@ -102,7 +126,6 @@ export default {
     }
   },
   components: {
-    AppBarExtPublisher,
     ScenarioEditDialogs,
     ApcTab,
     PublisherSetupTab,
@@ -112,6 +135,7 @@ export default {
     return {
       errorMsg: "",
       loadingPercent: 0,
+      currentTab: 0,
     }
   },
   computed: {

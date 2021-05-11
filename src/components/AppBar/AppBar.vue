@@ -415,7 +415,6 @@
 import {mapGetters, mapMutations} from 'vuex'
 import AppBarExtUser from "./AppBarExtUser";
 import AppBarExtInstitution from "./AppBarExtInstitution";
-import AppBarExtPublisher from "./AppBarExtPublisher";
 import AppBarExtScenario from "./AppBarExtScenario";
 import AppBarExtScenarioNew from "./AppBarExtScenarioNew";
 
@@ -432,7 +431,6 @@ export default {
   components: {
     AppBarExtUser,
     AppBarExtInstitution,
-    AppBarExtPublisher,
     AppBarExtScenario,
     AppBarExtScenarioNew,
 

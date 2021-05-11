@@ -4,13 +4,13 @@
       <div v-if="publisherWarningsActive.length" class="text-h6 warning--text">Active warnings ({{ publisherWarningsActive.length }})</div>
       <div v-if="!publisherWarningsActive.length" class="text-h6">Active warnings (0)</div>
 
-      <template v-for="warning in publisherWarningsActive">
+      <v-list>
         <publisher-warning
+            v-for="warning in publisherWarningsActive"
           :key="warning.id"
           :warning="warning"
         />
-      </template>
-
+      </v-list>
 
 
 
