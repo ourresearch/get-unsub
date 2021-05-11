@@ -36,8 +36,6 @@ export const institution = {
             state.institutionRorIds =  apiResp.ror_ids.filter(g => !!g)
             state.institutionName = apiResp.name
             state.institutionUsers = apiResp.user_permissions
-            state.institutionUsers.forEach(user => {
-            });
             apiResp.publishers.forEach(p => {
                 state.institutionPublishers.push(p)
                 if (!p.is_deleted) state.institutionPublishersLive.push(p)
@@ -77,6 +75,12 @@ export const institution = {
             commit("clearInstitution")
             commit("setInstitutionId", id)
             const resp = await  api.get(`institution/${id}`)
+            commit("clearInstitution")
+            commit("setInstitutionFromApiResp", resp.data)
+        },
+        async refreshInstitution({commit, dispatch, getters}) {
+            const resp = await  api.get(`institution/${getters.institutionId}`)
+            commit("clearInstitution")
             commit("setInstitutionFromApiResp", resp.data)
         },
         async setUserPermissions({commit, dispatch, getters}, {email, permissions}) {
@@ -134,8 +138,13 @@ export const institution = {
             const resp = await  api.post(url, data)
             commit("setPublisherDeleted", id)
             return resp
-
-
+        },
+        async renamePublisher({commit, dispatch, getters}, {publisherId, name}) {
+            const url = `publisher/${publisherId}`
+            const data = {name}
+            const resp = await  api.post(url, data)
+            await dispatch("refreshInstitution")
+            return resp
         },
     },
     getters: {

@@ -1,5 +1,5 @@
 <template>
-  <v-container class="institution mt-12 pt-6">
+  <v-container v-if="institutionName" class="institution mt-12 pt-6">
     <v-alert v-if="institutionIsDemo" color="info" text dense icon="mdi-information-outline">
       <div class="d-flex align-center">
         <div>

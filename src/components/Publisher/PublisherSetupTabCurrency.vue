@@ -3,9 +3,11 @@
     <div class="pt-2 px-12">
       <div class="text-h6">Select your currency</div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
+        Your selected currency determines which default pricelist will be used for individual titles (eg: if you select
+        UK Pounds Sterling, we'll use this publisher's UK pricelist) as well as changing currency display used throughout the
+        app. However, it doesn't <em>convert</em> from one currency to another; any prices you enter or upload will need
+        to be in the currency you've selected. If you've already uploaded prices in a different currency, you'll need to
+        delete those and re-upload prices in the new selected currency.
       </div>
       <v-radio-group
           class="mt-5"
@@ -36,8 +38,13 @@
           Change currency
         </v-card-title>
         <div class="pa-3">
-          Are you sure you want to change currency to <strong>{{ currency }}?</strong> Stuff here about needing to
-          reload some of their files and change some values. and maybe some more words, too.
+          <p>
+            Are you sure you want to change currency to <strong>{{ currency }}?</strong>
+          </p>
+          <p>
+            If you've already uploaded prices in some other currency, you'll need to delete those and replace
+            them with new prices denominated in {{ currency }}.
+          </p>
         </div>
         <v-card-actions>
           <v-spacer/>

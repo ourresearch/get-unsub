@@ -89,8 +89,9 @@ export default new Vuex.Store({
         openNotSupportedMsg(state) {
             state.notSupportedMsgOpen = true
         },
-        snackbar(state, msg, color="success"){
+        snackbar(state, msg, color="primary"){
             state.snackbarMsg = msg
+            state.snackbarColor = color
             state.snackbarIsOpen = true
         },
         closeSnackbar(state){
