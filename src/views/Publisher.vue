@@ -141,7 +141,6 @@ export default {
   computed: {
     ...mapGetters([
       "publisherName",
-      "publisherTabShowing",
       "publisherIsFeeder",
       "publisherId",
       "publisherScenarios",
@@ -182,7 +181,6 @@ export default {
       "openDeleteDialog",
       "openPublisherFileUploadDialog",
       "clearPublisher",
-      "setPublisherTabShowing",
     ]),
     ...mapActions([]),
 
@@ -228,7 +226,7 @@ export default {
     await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
 
     const myTab = (!this.publisherIsFeeder && this.publisherCounterIsLive) ? 0 : 2
-    this.setPublisherTabShowing(myTab)
+    this.currentTab = myTab
 
     console.log("publisher done loading", this.publisherCounterIsLive)
 
