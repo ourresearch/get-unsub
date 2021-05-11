@@ -119,7 +119,7 @@
         <v-card-actions>
           <v-spacer/>
           <v-btn text
-                 @click="closeDeletePublisherDialog"
+                 @click="closeRenamePublisherDialog"
                  :disabled="renamePublisherIsLoading"
           >
             Cancel
