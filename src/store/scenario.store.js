@@ -298,7 +298,7 @@ export const scenario = {
             return state.tabShowing
         },
         scenarioMemberInstitutions(state){
-            if (state.selected) return state.selected.memberInstitutions
+            return state.selected?.memberInstitutions ?? []
         },
         scenarioName(state){
             if (state.selected && state.selected.saved) return state.selected.saved.name

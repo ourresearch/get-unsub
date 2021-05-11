@@ -133,7 +133,7 @@ export default {
 }
 
 .low-key-button {
-  font-size: 14px;
+  font-size: 15px;
   text-transform: none !important;
   font-weight: normal !important;
   letter-spacing: 0 !important;

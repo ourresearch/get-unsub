@@ -4,16 +4,10 @@
 
         <v-dialog v-model="isCopyDialogOpen" max-width="500" persistent>
             <v-card v-if="isCopyDialogOpen">
-                <v-toolbar dark flat color="primary">
-                    <v-toolbar-title>
-                        <v-icon>mdi-content-copy</v-icon>
-                        Copy this scenario
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
+                <v-card-title>
+                    <v-icon left>mdi-content-copy</v-icon>
+                    Copy this scenario
+                </v-card-title>
                 <v-card-text class="pt-8">
                     <div>
                         <v-text-field
@@ -49,16 +43,10 @@
 
         <v-dialog v-model="isCreateDialogOpen" max-width="500" persistent>
             <v-card v-if="isCreateDialogOpen">
-                <v-toolbar dark flat color="primary">
-                    <v-toolbar-title>
-                        <v-icon>mdi-chart-box-plus-outline</v-icon>
+              <v-card-title>
+                        <v-icon left>mdi-chart-box-plus-outline</v-icon>
                         Create new scenario
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
+              </v-card-title>
 
                 <v-alert type="warning" v-if="institutionIsConsortium">
                     <div>
@@ -108,16 +96,11 @@
 
         <v-dialog v-model="isRenameDialogOpen" max-width="500" persistent>
             <v-card v-if="isRenameDialogOpen">
-                 <v-toolbar dark flat color="primary">
-                    <v-toolbar-title>
-                        <v-icon>mdi-pencil</v-icon>
+              <v-card-title>
+                        <v-icon left>mdi-pencil</v-icon>
                         Rename this scenario
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
+
+              </v-card-title>
                 <v-card-text class="pt-8">
                     <div>
                         <v-text-field
@@ -161,16 +144,10 @@
 
         <v-dialog v-model="isDeleteDialogOpen" max-width="500">
             <v-card v-if="isDeleteDialogOpen">
-                 <v-toolbar dark flat color="primary">
-                    <v-toolbar-title>
-                        <v-icon>mdi-content-copy</v-icon>
+                    <v-card-title>
+                        <v-icon>mdi-delete-outline</v-icon>
                         Delete this scenario
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon text @click="setScenarioEditDialogsAllClosed">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
+                    </v-card-title>
                 <v-card-text class="pt-8">
                     <div>
                         Are you sure you want to delete this scenario? This can't be undone.

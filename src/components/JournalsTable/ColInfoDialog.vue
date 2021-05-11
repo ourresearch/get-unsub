@@ -1,22 +1,20 @@
 <template>
     <v-dialog width="400px" v-model="$store.state.showColInfo">
         <v-card v-if="$store.state.showColInfo">
-            <v-toolbar dark flat color="primary">
-                <v-toolbar-title>
-                    <v-icon>mdi-information-outline</v-icon>
+          <v-card-title>
+                    <v-icon left>mdi-information-outline</v-icon>
                     {{$store.getters.colInfo.text}}
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn icon text @click="close()">
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
-            </v-toolbar>
-
+          </v-card-title>
 
             <v-card-text>
                 <div class="pa-3" v-html="$store.getters.colInfo.descr"></div>
 
             </v-card-text>
+          <v-card-actions>
+                <v-btn text @click="close()">
+                    Close
+                </v-btn>
+          </v-card-actions>
         </v-card>
     </v-dialog>
 

@@ -45,16 +45,10 @@
 
         <v-dialog v-model="showDialog" max-width="400" persistent>
             <v-card v-if="showDialog">
-                <v-toolbar dark flat color="primary">
-                    <v-toolbar-title>
-                        <v-icon>mdi-playlist-edit</v-icon>
-                        {{selectedConfigData.displayName}}
-                    </v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon text @click="cancelEdit">
-                        <v-icon>mdi-close</v-icon>
-                    </v-btn>
-                </v-toolbar>
+                <v-card-title>
+                    <v-icon left>mdi-playlist-edit</v-icon>
+                    {{selectedConfigData.displayName}}
+                </v-card-title>
 
                 <div v-if="institutionIsConsortium">
                     <v-alert

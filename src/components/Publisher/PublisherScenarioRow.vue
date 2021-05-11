@@ -73,7 +73,7 @@
                     </v-list-item>
                     <v-list-item @click.stop="openDeleteDialog(scenario)">
                         <v-list-item-icon>
-                            <v-icon>mdi-delete</v-icon>
+                            <v-icon>mdi-delete-outline</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>
                             Delete

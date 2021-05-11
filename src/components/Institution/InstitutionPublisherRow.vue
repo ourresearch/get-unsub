@@ -58,7 +58,7 @@
               :disabled="!iCanEdit || institutionIsConsortium"
           >
             <v-list-item-icon>
-              <v-icon>mdi-delete</v-icon>
+              <v-icon>mdi-delete-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Delete
@@ -78,6 +78,7 @@
     <v-dialog v-model="dialogs.deletePublisher" max-width="400">
       <v-card v-if="dialogs.deletePublisher">
         <v-card-title class="">
+          <v-icon left>mdi-delete-outline</v-icon>
           Delete Package
         </v-card-title>
         <div class="pt-4 pa-5">
@@ -105,6 +106,7 @@
     <v-dialog v-model="dialogs.renamePublisher" max-width="400">
       <v-card>
         <v-card-title class="">
+          <v-icon left>mdi-pencil</v-icon>
           Rename Package
         </v-card-title>
         <div class="pt-4 pa-5">

@@ -69,7 +69,7 @@
                         @click="openDeleteDialog(selectedScenario)"
                 >
                     <v-list-item-icon class="mr-2">
-                        <v-icon>mdi-delete</v-icon>
+                        <v-icon>mdi-delete-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title class="font-weight-regular">
                         Delete

@@ -2,21 +2,21 @@
   <v-container class="pa-0">
     <div class="d-flex" style="width: 100%;">
       <v-tabs class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button" :disabled="!scenarioMemberInstitutions.length">
+        <v-tab class="low-key-button" :disabled="disableForecastTab">
           <v-icon small left>mdi-chart-box-outline</v-icon>
           5yr Forecast
         </v-tab>
-        <v-tab class="low-key-button" :disabled="!scenarioMemberInstitutions.length">
+        <v-tab class="low-key-button" :disabled="disableParametersTab">
           <v-icon small left>mdi-cog-outline</v-icon>
           Parameters
         </v-tab>
-        <v-tab class="low-key-button" :disabled="!scenarioMemberInstitutions.length">
+        <v-tab class="low-key-button" :disabled="disableExportTab">
           <v-icon small left>mdi-download</v-icon>
           Export
         </v-tab>
-        <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions.length}" v-if="institutionIsConsortium">
-          <v-icon v-if="scenarioMemberInstitutions.length" small left>mdi-bank-outline</v-icon>
-          <v-icon v-if="!scenarioMemberInstitutions.length" small left color="warning">mdi-alert</v-icon>
+        <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions}" v-if="institutionIsConsortium">
+          <v-icon v-if="scenarioMemberInstitutions" small left>mdi-bank-outline</v-icon>
+          <v-icon v-if="!scenarioMemberInstitutions" small left color="warning">mdi-alert</v-icon>
           Member Institutions
           ({{ scenarioMemberInstitutions.length }})
         </v-tab>
@@ -94,7 +94,16 @@ export default {
     },
     myInstantUsagePercent() {
       return instantUsagePercent(this.scenarioJournals)
-    }
+    },
+    disableForecastTab(){
+      return !this.scenarioMemberInstitutions.length
+    },
+    disableParametersTab(){
+      return !this.scenarioMemberInstitutions.length
+    },
+    disableExportTab(){
+      return !this.scenarioMemberInstitutions.length
+    },
   },
   created() {
     this.currentTab = 0
