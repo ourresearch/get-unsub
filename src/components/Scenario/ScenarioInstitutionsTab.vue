@@ -1,6 +1,6 @@
 <template>
   <v-card flat>
-    <v-card-title class="text-h5">
+    <v-card-title class="text-h5" :class="{'warning--text': !scenarioMemberInstitutions.length}">
       <div>
         Institutions
         <span class="body-2 ml-2">({{ scenarioMemberInstitutions.length }})</span>
@@ -20,6 +20,12 @@
         />
       </div>
     </v-card-title>
+      <div v-if="!scenarioMemberInstitutions.length" class="ml-5 body-1 font-weight-bold warning--text">
+        <v-icon color="warning">
+          mdi-alert-outline
+        </v-icon>
+        Please select at least one institution.
+      </div>
     <div class="pa-3 mt-5">
 
       <v-row>

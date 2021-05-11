@@ -205,12 +205,10 @@ export const publisher = {
             return resp
         },
 
-        async fetchPublisherApcData({commit, state, dispatch, getters}, id) {
+        async fetchPublisherApcData({commit, state, dispatch, getteaars}, id) {
             state.apcIsLoading = true
 
             const url = `publisher/${id}/apc`
-
-            return state.apcIsLoadingfoo
 
             let resp
             try {

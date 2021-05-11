@@ -70,7 +70,7 @@
         <!--        <v-btn class="" icon><v-icon>mdi-chevron-left</v-icon></v-btn>-->
         <v-tab
             class="low-key-button"
-            :disabled="publisherIsFeeder || !publisherCounterIsLive"
+            :disabled="showSetupTabOnly"
         >
           <v-icon small left>mdi-chart-box-outline</v-icon>
           Forecast scenarios
@@ -78,7 +78,7 @@
         </v-tab>
         <v-tab
             class="low-key-button"
-            :disabled="publisherIsFeeder || !publisherCounterIsLive"
+            :disabled="showSetupTabOnly"
         >
           <v-icon small left>mdi-cash-100</v-icon>
           APCs
@@ -172,6 +172,25 @@ export default {
     pkg() {
       return this.$store.getters.selectedPublisher
     },
+    showSetupTabOnly() {
+      if (this.publisherIsFeeder) {
+        // feeders exist only to upload data. you can't do anything else here.
+        return true
+      } else {
+        if (!this.publisherCounterIsLive) {
+          // you should have COUNTER uploaded, it's important.
+          if (this.institutionIsConsortium) {
+            // ok actually carry on, you are an exception. consortia get their counter data magically from
+            // their members. you're all good.
+            return false
+          } else {
+            // you are not a consortium, so we've got a problem...you can't do anything until you upload COUNTER
+            return true
+          }
+        }
+      }
+      return false
+    }
   },
   methods: {
     ...mapMutations([
@@ -224,9 +243,7 @@ export default {
     if (!this.publisherScenariosAreAllLoaded) this.clearPublisher()
 
     await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-
-    const myTab = (!this.publisherIsFeeder && this.publisherCounterIsLive) ? 0 : 2
-    this.currentTab = myTab
+    this.currentTab = (this.showSetupTabOnly) ? 2 : 0
 
     console.log("publisher done loading", this.publisherCounterIsLive)
 

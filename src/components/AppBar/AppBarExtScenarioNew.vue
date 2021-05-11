@@ -2,20 +2,21 @@
   <v-container class="pa-0">
     <div class="d-flex" style="width: 100%;">
       <v-tabs class="ml-1" v-model="currentTab">
-        <v-tab class="low-key-button">
+        <v-tab class="low-key-button" :disabled="!scenarioMemberInstitutions.length">
           <v-icon small left>mdi-chart-box-outline</v-icon>
           5yr Forecast
         </v-tab>
-        <v-tab class="low-key-button">
+        <v-tab class="low-key-button" :disabled="!scenarioMemberInstitutions.length">
           <v-icon small left>mdi-cog-outline</v-icon>
           Parameters
         </v-tab>
-        <v-tab class="low-key-button">
+        <v-tab class="low-key-button" :disabled="!scenarioMemberInstitutions.length">
           <v-icon small left>mdi-download</v-icon>
           Export
         </v-tab>
-        <v-tab class="low-key-button" v-if="institutionIsConsortium">
-          <v-icon small left>mdi-bank-outline</v-icon>
+        <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions.length}" v-if="institutionIsConsortium">
+          <v-icon v-if="scenarioMemberInstitutions.length" small left>mdi-bank-outline</v-icon>
+          <v-icon v-if="!scenarioMemberInstitutions.length" small left color="warning">mdi-alert</v-icon>
           Member Institutions
           ({{ scenarioMemberInstitutions.length }})
         </v-tab>
