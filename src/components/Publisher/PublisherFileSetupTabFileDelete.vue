@@ -18,7 +18,7 @@
                     Delete data
                 </v-card-title>
                 <v-card-text>
-                    Are you sure you want to delete this data?
+                    Are you sure you want to delete this file?
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer/>

@@ -28,7 +28,7 @@
             dense
         />
       </v-list-item-content>
-      <v-list-item-action class="align-self-start">
+      <v-list-item-action>
         <v-fab-transition>
           <v-btn
               @click="uploadFile"
@@ -94,11 +94,6 @@
             :file-type="fileType"
         />
       </v-list-item-action>
-      <v-list-item-action class="align-self-start">
-        <v-btn icon disabled>
-          <v-icon>mdi-download</v-icon>
-        </v-btn>
-      </v-list-item-action>
     </template>
 
 
@@ -109,12 +104,14 @@
         <div class="font-weight-bold">
           {{ myDataFile.displayName }} uploaded.
         </div>
-        <div class="body-2">This data is now live in all this package's scenarios.</div>
+        <div class="body-2">
+          We extracted <strong>{{ myDataFile.rowsCount }}</strong> rows of useful data, which is now live in all the scenarios belonging to this package.
+        </div>
       </v-list-item-content>
       <v-list-item-action class="align-self-start">
         <publisher-file-setup-tab-file-delete
             :file-type="fileType"
-            :disabled="disabled"
+            v-if="!disabled"
         />
       </v-list-item-action>
       <v-list-item-action class="align-self-start">
