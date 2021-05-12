@@ -14,19 +14,16 @@
       </v-tab>
 
       <v-tab-item>
-        <publisher-setup-tab-warnings/>
+        <publisher-setup-tab-counter class="ml-8"/>
       </v-tab-item>
       <v-tab-item>
-        <publisher-setup-tab-counter/>
+        <publisher-setup-tab-currency class="ml-8"/>
       </v-tab-item>
       <v-tab-item>
-        <publisher-setup-tab-currency/>
+        <publisher-setup-tab-price class="ml-8"/>
       </v-tab-item>
       <v-tab-item>
-        <publisher-setup-tab-price/>
-      </v-tab-item>
-      <v-tab-item>
-        <publisher-setup-tab-pta/>
+        <publisher-setup-tab-pta class="ml-8"/>
       </v-tab-item>
     </v-tabs>
 
@@ -118,7 +115,6 @@ import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 
 import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
-import PublisherSetupTabWarnings from "@/components/Publisher/PublisherSetupTabWarnings";
 import PublisherSetupTabCurrency from "@/components/Publisher/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/Publisher/PublisherSetupTabPta";
 import PublisherSetupTabPrice from "@/components/Publisher/PublisherSetupTabPrice";
@@ -129,7 +125,6 @@ export default {
   components: {
 
     PublisherSetupTabCounter,
-    PublisherSetupTabWarnings,
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
     PublisherSetupTabPrice,
@@ -139,7 +134,6 @@ export default {
     return {
       tabModel: 0,
       tabNames: [
-        "Warnings",
         "COUNTER",
         "Currency",
         // "Big Deal price",
