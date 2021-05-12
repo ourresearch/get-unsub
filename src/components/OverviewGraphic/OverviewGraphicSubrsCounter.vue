@@ -93,7 +93,7 @@
                 </v-card-title>
                 <v-card-text class="pt-4">
                     <div>
-                        This will overwrite your custom à la carte journals subscription(s), and automatically subscribe
+                        This will overwrite your custom title-by-title journals subscription(s), and automatically subscribe
                         to the {{lastValSet}} journals with the lowest Cost Per Use. Are you sure you want to do that?
                     </div>
                 </v-card-text>

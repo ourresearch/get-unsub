@@ -208,7 +208,7 @@
                                 <v-list-item-subtitle>
                                     <span v-if="scenario.isLoading">Scenario loading...</span>
                                     <span v-if="!scenario.isLoading">ID: {{scenario.id}}</span>
-                                    <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions-->
+                                    <!--                                    <strong>{{ scenario.saved.subrs.length }}</strong> title-by-title journal subscriptions-->
                                 </v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>

@@ -14,21 +14,14 @@
           class="headline font-weight-bold"
       >
         {{ pub.name }}
-        <v-chip
-            small
-            v-if="isConsortialFeeder"
-            class="font-weight-regular"
-        >
-          consortial feeder
-        </v-chip>
       </v-list-item-title>
       <v-list-item-subtitle>
         <strong>
           {{ pub.publisher }}
         </strong>
-        <template v-if="isConsortialFeeder">consortial feeder</template>
         <template v-if="pub.is_demo">demo</template>
-        package
+        <template v-if="isConsortialFeeder">consortial feeder</template>
+        <template v-if="!isConsortialFeeder">package</template>
         <template v-if="!isConsortialFeeder && !iCanEdit">(read-only)</template>
       </v-list-item-subtitle>
     </v-list-item-content>

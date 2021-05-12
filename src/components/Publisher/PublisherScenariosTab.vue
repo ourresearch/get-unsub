@@ -47,7 +47,7 @@
                                     </span>
             </template>
             <div>
-              Five-year average annual cost to the library, including ILL and à la carte subscription
+              Five-year average annual cost to the library, including ILL and title-by-title subscription
               costs.
             </div>
           </v-tooltip>
@@ -74,7 +74,7 @@
                                     </span>
             </template>
             <div>
-              Number of journal subscriptions retained (via à la carte subscription) after cancelling Big
+              Number of journal subscriptions retained (via title-by-title subscription) after cancelling Big
               Deal.
             </div>
           </v-tooltip>

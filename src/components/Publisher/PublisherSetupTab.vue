@@ -55,7 +55,7 @@
       <v-row class="section py-6 pl-4 pr-8">
         <v-col cols="4">
           <div class="headline">
-            À la carte
+            Title-by-title
           </div>
           <div class="body-2">
             Costs of journal-by-journal subscriptions

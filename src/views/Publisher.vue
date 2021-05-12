@@ -28,7 +28,7 @@
       >
         <div class="d-flex align-center">
           <div>
-            This <strong>Consortial Feeder Package</strong> function exclusively as a <em>data source</em>
+            This <strong>Consortial Feeder</strong> package functions exclusively as a <em>data source</em>
             for your consortium's central Unsub dashboard. Please don't edit it without permission of
             consortium staff!
           </div>

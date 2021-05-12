@@ -126,7 +126,7 @@
                               <v-divider class="my-2" dark/>
                               The percentage of content requests that your library
                               will fulfill <em>instantly</em> over the next five
-                              years (via backfile, OA, or à la carte subscription).
+                              years (via backfile, OA, or title-by-title subscription).
                             </div>
                           </v-tooltip>
                         </div>
@@ -235,7 +235,7 @@
                     </v-row>
 
                     <!--                                <v-toolbar-title>-->
-                    <!--                                    À la carte journals-->
+                    <!--                                    Title-by-title journals-->
                     <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
                     <!--                                </v-toolbar-title>-->
 

@@ -65,7 +65,7 @@
                         no inconvenience to users&mdash;either by
                         <color-highlighted-phrase color-key="freeInstant" text="free sources,"/>
                         (Open Access and backfile) or via your
-                        <color-highlighted-phrase color-key="subr" text="à la carte journal subscriptions"/>
+                        <color-highlighted-phrase color-key="subr" text="title-by-title journal subscriptions"/>
 
                     </p>
                 </div>

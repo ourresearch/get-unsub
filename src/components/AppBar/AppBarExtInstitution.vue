@@ -17,7 +17,7 @@
       </v-tab>
       <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">
         <v-icon small left>mdi-package-up</v-icon>
-        Consortial feeder packages
+        Consortial feeders
       </v-tab>
     </v-tabs>
 

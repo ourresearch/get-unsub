@@ -69,7 +69,7 @@
                  can't be fulfilled by any free source or subscription, and will generate an ILL request
             </span>
             <span v-if="configObj.name=='usageSubr'">
-                can't be fulfilled by any free source, but can be fulfilled by one of your à la carte subscriptions
+                can't be fulfilled by any free source, but can be fulfilled by one of your title-by-title subscriptions
             </span>
             <span v-if="configObj.name=='usageBackfile'">
                 can't be fulfilled by Open Access, but can be fulfilled by your already-purchased backfile

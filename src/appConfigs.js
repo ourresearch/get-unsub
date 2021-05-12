@@ -103,7 +103,7 @@ const journalCols = [
         text: "Subscription Cost",
         value: "subscription_cost",
         display: "currency_int",
-        descr: "The à la carte subscription cost of this journal.  It includes a 'content fee' based on your settings, and annual price increases over the next five years (the cost shown is the average cost over the next five years).  This data is based on public price lists unless you've uploaded a custom price list (available in a purchased account).",
+        descr: "The title-by-title subscription cost of this journal.  It includes a 'content fee' based on your settings, and annual price increases over the next five years (the cost shown is the average cost over the next five years).  This data is based on public price lists unless you've uploaded a custom price list (available in a purchased account).",
     },
     {
         text: "ILL Cost",
@@ -217,8 +217,8 @@ const scenarioConfigs = {
         default: 8,
         value: null,
         display: "percent",
-        displayName: "À la carte subscription cost growth",
-        descr: "The annual percent increase you expect in à la carte subscription prices (literature suggests 8%).",
+        displayName: "Title-by-title subscription cost growth",
+        descr: "The annual percent increase you expect in title-by-title subscription prices (literature suggests 8%).",
     },
     cost_bigdeal: {
         name: "cost_bigdeal",
@@ -226,7 +226,7 @@ const scenarioConfigs = {
         value: null,
         display: "dollars",
         displayName: "Big Deal cost",
-        descr: "The cost of your Big Deal right now (or of the bundle of à la carte subscriptions, if you don't have a Big Deal)."
+        descr: "The cost of your Big Deal right now (or of the bundle of title-by-title subscriptions, if you don't have a Big Deal)."
     },
     cost_bigdeal_increase: {
         name: "cost_bigdeal_increase",
@@ -242,8 +242,8 @@ const scenarioConfigs = {
         default: 5.7,
         value: null,
         display: "percent",
-        displayName: "À la carte 'content fee'",
-        descr: "A content fee charged by publishers when buying subscriptions à la carte, above whatever is included in your current package price (literature suggests 5.7% for subscriptions)."
+        displayName: "Title-by-title 'content fee'",
+        descr: "A content fee charged by publishers when buying subscriptions title-by-title, above whatever is included in your current package price (literature suggests 5.7% for subscriptions)."
     },
     cost_ill: {
         name: "cost_ill",
@@ -440,7 +440,7 @@ const usageSegments = {
         name: "usageSubr",
         segmentType: "usage",
         displayName: "Subscription",
-        displayNameLong: "À la carte subscription",
+        displayNameLong: "Title-by-title subscription",
         isFree: false,
         color: colors.subr,
         isLeftover: false,
@@ -479,7 +479,7 @@ const costSegments = {
         name: "costSubr",
         segmentType: "cost",
         displayName: "Subscription",
-        displayNameLong: "À la carte subscription cost",
+        displayNameLong: "Title-by-title subscription cost",
         color: colors.subr,
         isCurrency: true,
         isLeftover: false,
@@ -530,8 +530,8 @@ const dataFiles = {
     },
     prices: {
         name: "price",
-        displayName: "À la carte pricelist",
-        dataType: "À la carte subscription prices",
+        displayName: "Title-by-title pricelist",
+        dataType: "Title-by-title subscription prices",
         icon: "mdi-cash-multiple",
 
         uploadFormat: "A spreadsheet with one row per journal, and two columns: ISSN, and custom price",

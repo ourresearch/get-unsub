@@ -41,7 +41,7 @@
             <!--            />-->
             <!--            <v-list-item-subtitle>-->
             <!--                <span>ID: {{scenario.id}}</span>-->
-            <!--                &lt;!&ndash;                                    <strong>{{ scenario.saved.subrs.length }}</strong> à la carte journal subscriptions&ndash;&gt;-->
+            <!--                &lt;!&ndash;                                    <strong>{{ scenario.saved.subrs.length }}</strong> title-by-title journal subscriptions&ndash;&gt;-->
             <!--            </v-list-item-subtitle>-->
         </v-list-item-content>
 
