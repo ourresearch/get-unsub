@@ -45,8 +45,8 @@
           </div>
         </div>
       </div>
-      <app-bar-ext-scenario-new v-if="!scenarioIsLockedPendingUpdate" />
-      <v-divider />
+      <app-bar-ext-scenario-new v-if="!scenarioIsLockedPendingUpdate"/>
+      <v-divider/>
       <v-tabs-items
           v-if="!scenarioIsLockedPendingUpdate"
           v-model="scenarioTabShowing"
@@ -63,72 +63,73 @@
                       <!--                                COST -->
                       <v-col class="py-0" cols="6">
                         <div class="text-right">
-                          <v-tooltip right max-width="400" color="#333">
-                            <template v-slot:activator="{ on }">
-                              <div v-on="on">
-                                <div class="text-h5" id="annual-cost-value">
+                          <v-dialog max-width="500" v-model="dialogs.cost">
+                            <template v-slot:activator="{ on, attrs }">
+                              <div v-on="on" style="cursor: pointer">
+                                <div class="text-h5" id="annual-costs-value">
                                   {{ costTotal | currency(publisherCurrencySymbol) }}
-
                                 </div>
-                                <div class="body-2 mt-1">
-                                  Annual cost ({{ costPercent | percent }})
-
-                                </div>
-
+                                <div class="body-2 mt-1">Annual cost ({{ costPercent | percent }})</div>
                               </div>
                             </template>
-                            <div class="pa-3 pt-1">
-                              <div class="d-flex subtitle-1 align-center">
-                                                            <span class="name font-weight-bold">
-                                                                Projected annual cost
-                                                            </span>
+                            <v-card>
+                              <v-toolbar flat>
+                                <v-toolbar-title>
+                                  Projected annual cost
+                                </v-toolbar-title>
                                 <v-spacer/>
-                                <span class="number pl-3">
-                                                                {{ costTotal | currency(publisherCurrencySymbol) }}
-                                                                ({{ costPercent | percent }})
-                                                            </span>
-                              </div>
-                              <v-divider class="my-2" dark/>
-
-                              Your average annual cost over the next
-                              five years. That comes to <strong>{{
+                                <v-btn icon @click="dialogs.cost = false">
+                                  <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                              </v-toolbar>
+                              <v-divider />
+                              <div class="pa-4">
+                                Over the next five years, your library will pay {{ costTotal | currency(publisherCurrencySymbol) }} in this scenario. That's {{
                                 costPercent | percent
-                              }}</strong> of what you'd pay if you kept your Big Deal.
-                            </div>
-
-
-                          </v-tooltip>
+                              }} of what you'd pay if you kept your Big Deal.
+                              </div>
+                            <v-card-actions>
+                              <v-spacer />
+                              <v-btn text @click="dialogs.cost=false">Dismiss</v-btn>
+                            </v-card-actions>
+                            </v-card>
+                          </v-dialog>
                         </div>
                       </v-col>
 
                       <!--                                FULFILLMENT -->
                       <v-col class="py-0" cols="6">
                         <div class="text-right">
-                          <v-tooltip right max-width="400" color="#333">
-                            <template v-slot:activator="{ on }">
-                              <div v-on="on">
+                          <v-dialog max-width="500" v-model="dialogs.fulfillment">
+                            <template v-slot:activator="{ on, attrs }">
+                              <div v-on="on" style="cursor: pointer">
                                 <div class="text-h5" id="instant-fulfillment-value">
                                   {{ instantUsagePercent | percent(0) }}
                                 </div>
                                 <div class="body-2 mt-1">Instant access</div>
                               </div>
                             </template>
-                            <div class="pa-3 pt-1">
-                              <div class="d-flex subtitle-1 align-center">
-                                                            <span class="name font-weight-bold">
-                                                                Projected % instant access
-                                                            </span>
+                            <v-card>
+                              <v-toolbar flat>
+                                <v-toolbar-title>
+                                  Projected fulfillment
+                                </v-toolbar-title>
                                 <v-spacer/>
-                                <span class="number pl-3">
-                                                                {{ instantUsagePercent | percent(0) }}
-                                                            </span>
+                                <v-btn icon @click="dialogs.fulfillment = false">
+                                  <v-icon>mdi-close</v-icon>
+                                </v-btn>
+                              </v-toolbar>
+                              <v-divider />
+                              <div class="pa-4">
+                                Over the next five years, your library will fulfill {{ instantUsagePercent | percent(0) }} of requests (via PTA, Open Access, title-by-title subscription, or ILL).
+
                               </div>
-                              <v-divider class="my-2" dark/>
-                              The percentage of content requests that your library
-                              will fulfill <em>instantly</em> over the next five
-                              years (via backfile, OA, or title-by-title subscription).
-                            </div>
-                          </v-tooltip>
+                            <v-card-actions>
+                              <v-spacer />
+                              <v-btn text @click="dialogs.fulfillment=false">Dismiss</v-btn>
+                            </v-card-actions>
+                            </v-card>
+                          </v-dialog>
                         </div>
                       </v-col>
                     </v-row>
@@ -413,6 +414,10 @@ export default {
       search: "",
       loadingPercent: 0,
       showSearchBox: false,
+      dialogs: {
+        fulfillment: false,
+        cost: false,
+      },
 
       showSlowRenderingThings: false,
     }

@@ -266,6 +266,6 @@
 
 <style>
     .v-dialog__content {
-        z-index: 9999999999 !important;
+        /*z-index: 9999999999 !important;*/
     }
 </style>
