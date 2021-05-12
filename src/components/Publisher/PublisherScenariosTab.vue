@@ -61,7 +61,7 @@
             </template>
             <div>
               Percentage of article requests the library can fulfill <em>instantly</em> over the next five
-              years (via subscription, backfile, or OA).
+              years (via subscription, PTA, or OA).
             </div>
           </v-tooltip>
 

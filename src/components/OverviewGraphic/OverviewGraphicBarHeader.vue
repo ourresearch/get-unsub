@@ -64,7 +64,7 @@
                         <strong>{{secondaryNumber}}</strong> of these requests can be <em>instantly fulfilled,</em> with
                         no inconvenience to users&mdash;either by
                         <color-highlighted-phrase color-key="freeInstant" text="free sources,"/>
-                        (Open Access and backfile) or via your
+                        (Open Access and Post-Termination Access rights) or via your
                         <color-highlighted-phrase color-key="subr" text="title-by-title journal subscriptions"/>
 
                     </p>

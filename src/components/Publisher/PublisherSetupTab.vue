@@ -1,31 +1,44 @@
 <template>
   <v-card flat class="pa-3">
-    <v-tabs
-        v-model="tabModel"
-        vertical
-        hide-slider
-        class="publisher-setup-tab-tabs"
-    >
-      <v-tab v-for="tabName in tabNames">
-        {{ tabName }}
-        <span class="ml-1" v-if="tabName === 'Warnings' ">
-          ({{ publisherWarnings.length }})
-        </span>
-      </v-tab>
+    <template v-if="!institutionIsConsortium">
+      <v-tabs
+          v-model="tabModel"
+          vertical
+          hide-slider
+          class="publisher-setup-tab-tabs"
+      >
+        <v-tab v-for="tabName in tabNames">
+          {{ tabName }}
+          <span class="ml-1" v-if="tabName === 'Warnings' ">
+            ({{ publisherWarnings.length }})
+          </span>
+        </v-tab>
 
-      <v-tab-item>
-        <publisher-setup-tab-counter class="ml-8"/>
-      </v-tab-item>
-      <v-tab-item>
-        <publisher-setup-tab-currency class="ml-8"/>
-      </v-tab-item>
-      <v-tab-item>
-        <publisher-setup-tab-price class="ml-8"/>
-      </v-tab-item>
-      <v-tab-item>
-        <publisher-setup-tab-pta class="ml-8"/>
-      </v-tab-item>
-    </v-tabs>
+        <v-tab-item>
+          <publisher-setup-tab-counter class="ml-8"/>
+        </v-tab-item>
+        <v-tab-item>
+          <publisher-setup-tab-currency class="ml-8"/>
+        </v-tab-item>
+        <v-tab-item>
+          <publisher-setup-tab-price class="ml-8"/>
+        </v-tab-item>
+        <v-tab-item>
+          <publisher-setup-tab-pta class="ml-8"/>
+        </v-tab-item>
+      </v-tabs>
+    </template>
+    <template v-if="institutionIsConsortium">
+      <v-alert
+        type="info"
+        text
+        outlined
+        icon="mdi-information-outline"
+      >
+        Setup for consortial dashboards happens behind the scenes, via email or data imports from your member institution dashboards. If you have any questions about setup, please drop us a line at
+        <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
+      </v-alert>
+    </template>
 
 
     <div v-if="0">
@@ -150,6 +163,7 @@ export default {
       "publisherBigDealCost",
       "publisherFiles",
       "publisherWarnings",
+      "institutionIsConsortium",
     ]),
   },
   created() {

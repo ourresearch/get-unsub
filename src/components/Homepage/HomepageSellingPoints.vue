@@ -34,7 +34,7 @@
             img: "globe",
             color: "",
             header: "See the big picture",
-            text: "Account for overlap with Open Access and your backfile holdings, and layer in journal-level citation and authorship data from your faculty."
+            text: "Account for overlap with Open Access and your Post-Termination Access rights, and layer in journal-level citation and authorship data from your faculty."
         },
         {
             img: "clipboard",

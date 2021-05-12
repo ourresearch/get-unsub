@@ -91,13 +91,13 @@ const journalCols = [
         text: "Instant Usage Percent",
         value: "instant_usage_percent",
         display: "percent",
-        descr: "The percent of Usage that is available instantly -- available as Open Access, Backfile, or Subscription.  Or to look at it the other way, all Usage that isn't via ILL or Other (delayed)",
+        descr: "The percent of Usage that is available instantly -- available as Open Access, PTA, or Subscription.  Or to look at it the other way, all Usage that isn't via ILL or Other (delayed)",
     },
     {
         display: "percent",
         text: "Free Instant Usage Percent",
         value: "free_instant_usage_percent",
-        descr: "The percent of Usage that can be fulfilled via Open Access or Backfile. This excludes usage met only by ILL or Subscription.",
+        descr: "The percent of Usage that can be fulfilled via Open Access or PTA. This excludes usage met only by ILL or Subscription.",
     },
     {
         text: "Subscription Cost",
@@ -130,10 +130,10 @@ const journalCols = [
         descr: "The percent of Usage that is available as Green, Hybrid, or Bronze Open Access.  Some of this content can be excluded in the settings (see the Open Access page for more info).",
     },
     {
-        text: "% usage from backfile",
+        text: "% usage from PTA content",
         value: "use_backfile_percent",
         display: "number",
-        descr: "The percent of Usage that is available from your backfile -- the content that you still have access to because it was published while you had a subscription.  If your institution doesn't have Perpetual access you can exclude Backfile in the settings. In a Paid Account you can also upload a customized list of perpetual access availability by journal.",
+        descr: "The percent of Usage that is available from your PTA (Post-Termination Access), the content that you still have access to because it was published while you had a subscription.  If your institution doesn't have Perpetual access you can exclude Backfile in the settings. In a Paid Account you can also upload a customized list of perpetual access availability by journal.",
     },
     {
         text: "% usage from subscription",
@@ -291,8 +291,8 @@ const scenarioConfigs = {
         default: true,
         value: null,
         display: "boolean",
-        displayName: "Include perpetual-access backfile content",
-        descr: "Include backfile content as a type of fulfillment.  Disable to see what fulfillment would be like if you don't have perpetual access.",
+        displayName: "Include PTA fulfillment",
+        descr: "Include PTA (Post-Termination Access) a type of fulfillment.  Disable to see what fulfillment would be like if you have zero PTA.",
     },
     backfile_contribution: {
         name: "backfile_contribution",
@@ -300,8 +300,8 @@ const scenarioConfigs = {
         default: 100,
         value: null,
         display: "percent",
-        displayName: "Backfile available as perpetual access",
-        descr: "Percent of backfile available as perpetual access.  If you estimate that you have perpetual access to 90% of your content, set this to 90%.",
+        displayName: "PTA fulfillment percent",
+        descr: "Your estimate for how much usage can be fulfilled by your PTA (Post-Termination Access). Eg: if you guess you have PTA for 90% of your content, set this to 90%. This is a quick-and-dirty alternative to the preferred approach (uploading your PTA dates by journal).",
 
         // We are discontinuing this parameter. Most users aren't using it. BUT there might be some users who actually
         // are using this now in production, and for them it will be super weird if it just disappears. So we will
@@ -421,8 +421,8 @@ const usageSegments = {
     turnaway: {
         name: "usageTurnaway",
         segmentType: "usage",
-        displayName: "Unfulfilled",
-        displayNameLong: "Usage not fulfilled by library",
+        displayName: "Unknown",
+        displayNameLong: "Fulfillment source (if any) is unknown",
         isFree: false,
         color: colors.turnaway,
         isLeftover: true,
@@ -431,7 +431,7 @@ const usageSegments = {
         name: "usageIll",
         segmentType: "usage",
         displayName: "ILL",
-        displayNameLong: "Interlibrary Loand and Document Delivery",
+        displayNameLong: "Interlibrary Loan and Document Delivery",
         isFree: false,
         color: colors.ill,
         isLeftover: false,
@@ -457,8 +457,8 @@ const usageSegments = {
     backfile: {
         name: "usageBackfile",
         segmentType: "usage",
-        displayName: "Backfile",
-        displayNameLong: "Perpetual access backfile",
+        displayName: "PTA",
+        displayNameLong: "Post-Termination Access",
         isFree: true,
         color: colors.backfile,
         isLeftover: false,
@@ -517,8 +517,8 @@ const dataFiles = {
     },
     "perpetual-access": {
         name: "perpetual-access",
-        displayName: "Perpetual access date ranges",
-        dataType: "Access rights to backfile content",
+        displayName: "PTA date ranges",
+        dataType: "Date ranges where you have Post-Termination access",
         icon: "mdi-briefcase-file-outline",
 
         uploadFormat: "A spreadsheet with one row per journal, and three columns: ISSN, perpetual access start date, and perpetual access end date",

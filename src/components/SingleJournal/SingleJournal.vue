@@ -137,7 +137,7 @@
                                                 :value="displayBackfile"
                                                 operation="-"
                                                 :label="`Backfile (${displayBackfilePercent}%)`"
-                                                tooltip-text="Projected annual uses that can be fulfilled via your perpetual-access rights to backfile content. This accounts for readership patterns specific to this journal."
+                                                tooltip-text="Projected annual uses that can be fulfilled via your PTA (Post-Termination Access) rights to existing content. This accounts for readership patterns specific to this journal."
                                         />
                                         <single-journal-key-number-row
                                                 :value="negotiablUses"

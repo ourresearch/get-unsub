@@ -7,6 +7,12 @@
           Select COUNTER version
         </div>
         <div class="pa-3">
+          To change this, first delete the
+          <span v-if="publisherCounterVersion === 4">COUNTER 4 JR1 file</span>
+          <span v-if="publisherCounterVersion === 5">COUNTER 5 files</span>
+          currently in use.
+        </div>
+        <div class="pa-3">
           <v-radio-group
               class="mt-0"
               v-model="counterFileType"

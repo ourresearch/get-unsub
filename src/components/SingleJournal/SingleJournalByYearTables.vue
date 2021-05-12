@@ -18,7 +18,7 @@
             <v-card-text>
                 Notes:
                 <ul>
-                    <li>Backfile is only content that’s not otherwise available as OA.</li>
+                    <li>PTA (Post-Termination Access) is only content that’s not otherwise available as OA.</li>
                 </ul>
             </v-card-text>
 

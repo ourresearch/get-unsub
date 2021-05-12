@@ -78,7 +78,7 @@
         </v-tab>
         <v-tab
             class="low-key-button"
-            :disabled="showSetupTabOnly"
+            :disabled="showSetupTabOnly || institutionIsConsortium"
         >
           <v-icon small left>mdi-cash-100</v-icon>
           APCs
