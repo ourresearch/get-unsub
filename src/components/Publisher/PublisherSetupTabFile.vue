@@ -79,10 +79,11 @@
           {{ myDataFile.displayName }} uploaded but has error!
         </div>
         <div class="body-2">
-          There was something wrong with the file, and it can't be used. Please delete it, correct the error, and try again. This was the error message that was generated:
+          There was something wrong with the file, and it can't be used. Please delete it, correct the error, and try
+          again. This was the error message that was generated:
           <div class="error--text mt-2">
             <code>
-            <strong>{{ myDataFile.parseError }}: </strong> {{ myDataFile.parseErrorDetails }}
+              <strong>{{ myDataFile.parseError }}: </strong> {{ myDataFile.parseErrorDetails }}
 
             </code>
 
@@ -105,7 +106,8 @@
           {{ myDataFile.displayName }} uploaded.
         </div>
         <div class="body-2">
-          We extracted <strong>{{ myDataFile.rowsCount }}</strong> rows of useful data, which is now live in all the scenarios belonging to this package.
+          We extracted <strong>{{ myDataFile.rowsCount }}</strong> rows of useful data, which is now live in all the
+          scenarios belonging to this package.
         </div>
       </v-list-item-content>
       <v-list-item-action class="align-self-start">
@@ -157,6 +159,10 @@ export default {
     return {
       // syncing to server
       isSyncingToServer: false,  // currently trying to change fileStatus on the server
+      
+      // sometimes we want to pretend the file is parsing, even though it's not, while 
+      // we are waiting for the server to sync various things.
+      pretendThatFileIsParsing: false,
 
       // for file selection
       fileSelected: null,
@@ -178,7 +184,7 @@ export default {
       return this.getPublisherDataFile(this.fileType)
     },
     fileStatus() {
-      return this.myDataFile.status
+      return (this.pretendThatFileIsParsing) ? "parsing" :  this.myDataFile.status
     },
     fileApiUrl() {
       return `publisher/${this.publisherId}/${this.myDataFile.serverKey}`
@@ -190,6 +196,7 @@ export default {
   methods: {
     ...mapActions([
       "refreshPublisherFileStatus",
+      "refreshPublisher",
     ]),
     ...mapMutations([
       "snackbar",
@@ -223,16 +230,16 @@ export default {
     },
 
 
-    fileStatusFromApiData(apiData) {
-
-      // if it's done parsing, there are only two possible outcomes:
-      if (apiData.is_live) return "live"
-      if (!!apiData.error) return "error"
-
-      // must not be done parsing
-      if (apiData.is_uploaded) return "parsing"
-      return "ready"
-    },
+    // fileStatusFromApiData(apiData) {
+    //
+    //   // if it's done parsing, there are only two possible outcomes:
+    //   if (apiData.is_live) return "live"
+    //   if (!!apiData.error) return "error"
+    //
+    //   // must not be done parsing
+    //   if (apiData.is_uploaded) return "parsing"
+    //   return "ready"
+    // },
 
     async uploadFile() {
       console.log("uploadFile() file", this.fileSelected)
@@ -266,6 +273,7 @@ export default {
 
       try {
         await axios.post(s3Data.url, postData)
+        this.pretendThatFileIsParsing = true
 
         // great, we're up on S3 now.
         // but we need to give our heroku server a chance to get the file from s3
@@ -277,14 +285,20 @@ export default {
 
         // now we're fully synced and can finally hide the loading spinner
         this.isSyncingToServer = false
-        this.snackbar("File uploaded.")
+
 
       } catch (e) {
         this.errorMsg = "Upload failed"
         this.snackbar("File upload failed.")
         return
       }
-      this.pollServer()
+      await this.pollServer()
+
+      await this.refreshPublisher()
+      this.pretendThatFileIsParsing = false
+      this.snackbar("File uploaded.", "success")
+
+
     },
   },
   async created() {

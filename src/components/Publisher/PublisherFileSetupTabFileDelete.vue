@@ -15,7 +15,7 @@
         >
             <v-card>
                 <v-card-title>
-                    Delete data
+                    Delete file
                 </v-card-title>
                 <v-card-text>
                     Are you sure you want to delete this file?
