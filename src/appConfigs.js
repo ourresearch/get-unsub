@@ -130,7 +130,7 @@ const journalCols = [
         descr: "The percent of Usage that is available as Green, Hybrid, or Bronze Open Access.  Some of this content can be excluded in the settings (see the Open Access page for more info).",
     },
     {
-        text: "% usage from PTA content",
+        text: "% usage from PTA rights",
         value: "use_backfile_percent",
         display: "number",
         descr: "The percent of Usage that is available from your PTA (Post-Termination Access), the content that you still have access to because it was published while you had a subscription.  If your institution doesn't have Perpetual access you can exclude Backfile in the settings. In a Paid Account you can also upload a customized list of perpetual access availability by journal.",

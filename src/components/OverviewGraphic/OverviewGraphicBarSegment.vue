@@ -72,7 +72,7 @@
                 can't be fulfilled by any free source, but can be fulfilled by one of your title-by-title subscriptions
             </span>
             <span v-if="configObj.name=='usageBackfile'">
-                can't be fulfilled by Open Access, but can be fulfilled by your PTA content
+                can't be fulfilled by Open Access, but can be fulfilled under your PTA rights
             </span>
             <span v-if="configObj.name=='usageOa'">
                 can be fulfilled by online Open Access
