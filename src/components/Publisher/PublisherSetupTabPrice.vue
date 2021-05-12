@@ -1,6 +1,9 @@
 <template>
   <v-card flat class="">
     <div class="pt-2 px-12">
+      <publisher-warning id="missingPrices" />
+
+
       <div class="text-h6">
         Public pricelist
       </div>
@@ -39,12 +42,14 @@
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabFileUpload from "./PublisherSetupTabFile";
+import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
   name: "PublisherSetupTabPrice",
   components: {
     PublisherSetupTabFileUpload,
+    PublisherWarning,
   },
   props: {},
   data() {

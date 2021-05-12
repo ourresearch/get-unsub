@@ -13,7 +13,7 @@ const warningsConfig = {
         displayName: "Missing prices",
         link: "http://help.unsub.org",
         msg: "There are some journals that this package doesn't have price information for. They are excluded from all forecasting.",
-        fixMsg: "To fix, upload a file with your prices for these titles."
+        fixMsg: "To fix, upload a file with price quotes for these titles."
     }
 }
 

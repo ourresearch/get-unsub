@@ -309,7 +309,6 @@ export default {
     },
   },
   async created() {
-    console.log("data file from publisher store", this.getPublisherDataFile(this.fileType))
     // this.myDataFile = this.getPublisherDataFile(this.fileType)
   }
 }
