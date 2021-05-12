@@ -1,6 +1,7 @@
 <template>
   <v-card flat class="">
     <div class="pt-2 px-12">
+      <publisher-warning id="missingCounter" />
       <div class="">
         <div class="text-h6">
           Select COUNTER version
@@ -59,12 +60,14 @@
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabFileUpload from "./PublisherSetupTabFile";
+import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
   name: "PublisherSetupTab",
   components: {
     PublisherSetupTabFileUpload,
+    PublisherWarning,
   },
   props: {},
   data() {

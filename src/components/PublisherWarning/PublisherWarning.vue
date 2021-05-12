@@ -6,12 +6,14 @@
       outlined
       icon="mdi-alert"
       class="mb-10"
-      v-if="myWarning"
+      v-if="showWarning"
   >
     <template v-if="id==='missingPrices'">
       <div>
-        This package has {{ myWarning.journals.length | round }} journals with no price information.
-        These journals are excluded from all forecasting. To fix, upload <strong>Custom pricelist</strong> below, with price quotes for these missing titles.
+        <span class="font-weight-bold">Missing prices:</span>
+        This package has {{ journals.length | round }} journals with no price information.
+        These journals are excluded from all forecasting. To fix, upload Custom pricelist below, with price quotes for
+        these missing titles.
       </div>
       <div class="mt-6">
         <v-btn text small color="warning" href="http://help.unsub.org" target="_blank">
@@ -26,19 +28,32 @@
     </template>
     <template v-if="id==='missingPerpetualAccess'">
       <div>
-        We don't know this package's PTA (Post-Termination Access) rights; this makes forecasting much less accurate
+        <span class="font-weight-bold">Missing PTA:</span>
+        We don't know this package's PTA (Post-Termination Access) rights, so we are assuming you have no PTA for any
+        title. This is probabaly not true, and makes forecasting much less accurate. To fix, upload your PTA Dates file
+        below.
       </div>
       <div class="mt-6">
         <v-btn text small color="warning" href="http://help.unsub.org" target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
-        <v-btn text small color="warning" @click="download">
-          <v-icon left small>mdi-download</v-icon>
-          View journals
+      </div>
+    </template>
+    <template v-if="id==='missingCounter'">
+      <div>
+        <span class="font-weight-bold">Missing COUNTER:</span>
+        No COUNTER files have been uploaded yet. Forecasting requires the usage data contained in your COUNTER reports.
+      </div>
+      <div class="mt-6">
+        <v-btn text small color="warning" href="http://help.unsub.org" target="_blank">
+          <v-icon left small>mdi-open-in-new</v-icon>
+          Learn more
         </v-btn>
       </div>
     </template>
+
+
   </v-alert>
 
 </template>
@@ -77,12 +92,20 @@ export default {
       "getPublisherDataFile",
       "publisherWarnings",
     ]),
-    myWarning() {
-      return this.publisherWarnings.find(p => {
+    journals() {
+      const myWarning = this.publisherWarnings.find(p => {
         return p.id === this.id
       })
+      return myWarning?.journals ?? []
     },
     showWarning() {
+      return true
+      // hack for counter
+      if (this.id==='missingCounter') return true
+
+      return !!this.publisherWarnings.find(p => {
+        return p.id === this.id
+      })
 
     }
   },
@@ -94,7 +117,7 @@ export default {
       "snackbar",
     ]),
     async download() {
-      const rows = this.myWarning.journals
+      const rows = this.journals
       console.log("download journal rows", rows)
       const csvExporter = new ExportToCsv({
         useKeysAsHeaders: true,

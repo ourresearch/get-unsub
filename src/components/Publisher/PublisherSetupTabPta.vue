@@ -1,6 +1,8 @@
 <template>
   <v-card flat class="">
+
     <div class="pt-2 px-12">
+      <publisher-warning id="missingPerpetualAccess"/>
       <div class="text-h6">
         Upload PTA dates
       </div>
@@ -10,7 +12,7 @@
         consequat.
       </div>
       <v-list>
-        <publisher-setup-tab-file-upload file-type="perpetualAccess" />
+        <publisher-setup-tab-file-upload file-type="perpetualAccess"/>
       </v-list>
 
     </div>
@@ -24,12 +26,14 @@
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabFileUpload from "./PublisherSetupTabFile";
+import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
   name: "PublisherSetupTabPta",
   components: {
     PublisherSetupTabFileUpload,
+    PublisherWarning,
   },
   props: {},
   data() {
