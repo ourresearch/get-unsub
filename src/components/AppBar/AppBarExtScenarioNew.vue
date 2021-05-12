@@ -96,15 +96,15 @@ export default {
       return instantUsagePercent(this.scenarioJournals)
     },
     disableForecastTab(){
-      return true
+      return false
       return !this.scenarioMemberInstitutions.length
     },
     disableParametersTab(){
-      return true
+      return false
       return !this.scenarioMemberInstitutions.length
     },
     disableExportTab(){
-      return true
+      return false
       return !this.scenarioMemberInstitutions.length
     },
   },
