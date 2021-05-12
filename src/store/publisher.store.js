@@ -6,15 +6,15 @@ const warningsConfig = {
     missingPerpetualAccess: {
         displayName: "Missing PTA",
         link: "http://help.unsub.org",
-        msg: "We don't know this package's PTA (Post-Termination Access) rights; this makes forecasting much less accurate.",
-        fixMsg: "To fix, upload a file with your PTA rights"
     },
     missingPrices: {
         displayName: "Missing prices",
         link: "http://help.unsub.org",
-        msg: "There are some journals that this package doesn't have price information for. They are excluded from all forecasting.",
-        fixMsg: "To fix, upload a file with price quotes for these titles."
-    }
+    },
+    missingCounter: {
+        displayName: "Missing COUNTER",
+        link: "http://help.unsub.org",
+    },
 }
 
 

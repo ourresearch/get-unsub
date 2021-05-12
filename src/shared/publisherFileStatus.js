@@ -27,7 +27,7 @@ const dataFilesConfig = {
         msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     price: {
-        displayName: "Title-by-title pricelist",
+        displayName: "Pricelist",
         serverKey: "price",
         msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
@@ -89,8 +89,8 @@ const makePublisherFileStatus = function(apiData) {
         status: fileStatusFromApiData(apiData), // options:  ready | parsing | error | live
         createdDate: apiData?.created_date,
         rowsCount: apiData?.rows_count,
-        error: apiData?.error,
-        errorDetails: apiData?.error_details,
+        parseError: apiData?.error,
+        parseErrorDetails: apiData?.error_details,
         percentParsed: apiData?.percent_parsed,
         isUploaded: apiData?.is_uploaded,
         isParsed: apiData?.is_parsed,

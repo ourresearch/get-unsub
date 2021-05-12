@@ -28,7 +28,7 @@
             dense
         />
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <v-fab-transition>
           <v-btn
               @click="uploadFile"
@@ -57,13 +57,13 @@
         </div>
         <div class="body-2">This may take up to ten minutes.</div>
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <publisher-file-setup-tab-file-delete
             :file-type="fileType"
             disabled
         />
       </v-list-item-action>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <v-btn icon disabled>
           <v-icon>mdi-download</v-icon>
         </v-btn>
@@ -74,20 +74,27 @@
     <!------  ERROR  --------->
     <template v-if="fileStatus==='error'">
 
-      <v-list-item-content>
+      <v-list-item-content class="">
         <div class="font-weight-bold">
-          {{ myDataFile.displayName }} error.
+          {{ myDataFile.displayName }} uploaded but has error!
         </div>
         <div class="body-2">
-          <strong>{{ myDataFile.parseError }}: </strong> {{ myDataFile.parseErrorDetails }}
+          There was something wrong with the file, and it can't be used. Please delete it, correct the error, and try again. This was the error message that was generated:
+          <div class="error--text mt-2">
+            <code>
+            <strong>{{ myDataFile.parseError }}: </strong> {{ myDataFile.parseErrorDetails }}
+
+            </code>
+
+          </div>
         </div>
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <publisher-file-setup-tab-file-delete
             :file-type="fileType"
         />
       </v-list-item-action>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <v-btn icon disabled>
           <v-icon>mdi-download</v-icon>
         </v-btn>
@@ -104,13 +111,13 @@
         </div>
         <div class="body-2">This data is now live in all this package's scenarios.</div>
       </v-list-item-content>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <publisher-file-setup-tab-file-delete
             :file-type="fileType"
             :disabled="disabled"
         />
       </v-list-item-action>
-      <v-list-item-action>
+      <v-list-item-action class="align-self-start">
         <v-btn icon @click="download" :loading="isSyncingToServer">
           <v-icon>mdi-download</v-icon>
         </v-btn>
@@ -153,14 +160,6 @@ export default {
     return {
       // syncing to server
       isSyncingToServer: false,  // currently trying to change fileStatus on the server
-
-
-      // information from the server's File object
-      // createdDate: "",
-      // rowsCount: 0,
-      // parseError: "",
-      // parseErrorDetails: "",
-      // percentParsed: 0, // 0 or 100 unless fileStatus == "parsing"
 
       // for file selection
       fileSelected: null,
@@ -226,23 +225,6 @@ export default {
       }
     },
 
-    async updateFileStatus() {
-      const resp = await api.get(this.fileApiUrl + "/status")
-      const serverFile = makePublisherFileStatus(resp.data)
-      if (serverFile.status !== this.myDataFile.status) {
-        console.log("file status is changed!", this.fileType)
-        this.myDataFile = serverFile
-      }
-
-      console.log("updateFileStatus response", resp.data)
-      this.fileStatus = this.fileStatusFromApiData(resp.data)
-
-      this.createdDate = resp.data.created_date
-      this.rowsCount = resp.data.rows_count
-      this.parseError = resp.data.error
-      this.parseErrorDetails = resp.data.error_details
-      this.percentParsed = resp.data.percent_parsed
-    },
 
     fileStatusFromApiData(apiData) {
 

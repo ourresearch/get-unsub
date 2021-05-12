@@ -99,9 +99,8 @@ export default {
       return myWarning?.journals ?? []
     },
     showWarning() {
-      return true
       // hack for counter
-      if (this.id==='missingCounter') return true
+      // if (this.id==='missingCounter') return true
 
       return !!this.publisherWarnings.find(p => {
         return p.id === this.id
