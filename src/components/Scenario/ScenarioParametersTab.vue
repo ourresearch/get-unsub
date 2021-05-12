@@ -1,13 +1,11 @@
 <template>
-    <v-card flat>
-        <v-card-title class="text-h5">
-            <v-spacer />
-            <v-checkbox
-                v-model="showDetails"
-                label="Show details"
-                dense
-            />
-        </v-card-title>
+    <v-card flat class="px-2">
+        <v-checkbox
+            v-model="showDetails"
+            label="Show parameter details"
+            dense
+            class="ml-2"
+        />
         <v-row>
             <template
                     v-for="group in configGroups"
