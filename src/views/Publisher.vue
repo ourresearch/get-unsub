@@ -86,9 +86,9 @@
         <v-tab
             class="low-key-button"
         >
-          <v-icon small left>mdi-cog-outline</v-icon>
-          <v-icon v-if="publisherWarnings.length" small left>mdi-alert</v-icon>
+          <v-icon   small left>mdi-cog-outline</v-icon>
           Setup
+          <v-icon v-if="publisherWarnings.length" small right>mdi-alert</v-icon>
         </v-tab>
       </v-tabs>
       <v-divider/>
