@@ -11,6 +11,13 @@ const getFromCache = function (id) {
     return _.cloneDeep(cache[id])
 }
 
+const clearScenarioCache = function(){
+    Object.keys(cache).forEach(k => {
+        cache[k] = null
+    })
+}
+
+
 const fetchScenario = async function (scenarioId) {
     const cachedToReturn = getFromCache(scenarioId)
     if (cachedToReturn) {
@@ -153,6 +160,7 @@ const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
 
 
 export {
+    clearScenarioCache,
     fetchScenario,
     saveScenarioSubscriptions,
     saveScenarioInstitutions,

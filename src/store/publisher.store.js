@@ -2,6 +2,24 @@ import axios from "axios";
 import Vue from "vue"
 import {makePublisherFileStatus, getPublisherFileServerKey} from "@/shared/publisherFileStatus";
 
+import {api} from "../api"
+import {
+    clearScenarioCache,
+    fetchScenario,
+    newScenario,
+    createScenario,
+    copyScenario,
+    saveScenario,
+    deleteScenario,
+} from "../shared/scenario";
+import {makePublisherJournal} from "../shared/publisher";
+import _ from "lodash";
+import appConfigs from "../appConfigs";
+import {publisherLogoFromId} from "../shared/publisher";
+
+// https://www.npmjs.com/package/short-uuid
+const short = require('short-uuid');
+
 const warningsConfig = {
     missingPerpetualAccess: {
         displayName: "Missing PTA",
@@ -17,23 +35,6 @@ const warningsConfig = {
     },
 }
 
-
-import {api} from "../api"
-import {
-    fetchScenario,
-    newScenario,
-    createScenario,
-    copyScenario,
-    saveScenario,
-    deleteScenario,
-} from "../shared/scenario";
-import {makePublisherJournal} from "../shared/publisher";
-import _ from "lodash";
-import appConfigs from "../appConfigs";
-import {publisherLogoFromId} from "../shared/publisher";
-
-// https://www.npmjs.com/package/short-uuid
-const short = require('short-uuid');
 
 
 export const publisher = {
@@ -188,21 +189,21 @@ export const publisher = {
             // this sets everything, but the scenarios aren't hydrated yet.
             // it's a hacky way to be able to show the publisher name without having to wait
             // for (up to) dozens of scenarios to finish hydrating.
-            commit("setSelectedPublisher", pubData)
+            // commit("setSelectedPublisher", pubData)
 
             console.log("got publisher back. hydrating scenarios")
+            clearScenarioCache()
             const myScenarioPromises = pubData.scenarios.map(apiScenario => {
                 return fetchScenario(apiScenario.id)
             });
             pubData.scenarios = await Promise.all(myScenarioPromises)
             console.log("done hydrating all the scenarios")
 
-            commit("setSelectedPublisher", pubData) // set everything AGAIN now that scenarios are hydrated.
+            commit("setSelectedPublisher", pubData)
             return resp
         },
 
         async fetchPublisherApcData({commit, state, dispatch, getteaars}, id) {
-            console.log("fetchPublisherApcData")
             state.apcIsLoading = true
 
             const url = `publisher/${state.id}/apc`
