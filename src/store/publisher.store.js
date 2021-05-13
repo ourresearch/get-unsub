@@ -120,7 +120,6 @@ export const publisher = {
                 return makePublisherJournal(j)
             })
 
-            console.log("apiPublisher.data_files", apiPublisher.data_files)
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
                 return makePublisherFileStatus(dataFile)
             })
@@ -163,8 +162,11 @@ export const publisher = {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (id === getters.publisherId) return
             commit("clearPublisher")
+            commit("clearApcData")
+
             commit("startLoading")
             commit("setPublisherId", id)
+            dispatch("fetchPublisherApcData") // not waiting for this one
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")
         },
@@ -172,6 +174,7 @@ export const publisher = {
         async refreshPublisher({commit, dispatch, getters}) {
             commit("startLoading")
             commit("clearApcData")
+            dispatch("fetchPublisherApcData") // not waiting for this one
             await dispatch("fetchPublisherMainData", getters.publisherId)
             commit("finishLoading")
         },
@@ -199,9 +202,10 @@ export const publisher = {
         },
 
         async fetchPublisherApcData({commit, state, dispatch, getteaars}, id) {
+            console.log("fetchPublisherApcData")
             state.apcIsLoading = true
 
-            const url = `publisher/${id}/apc`
+            const url = `publisher/${state.id}/apc`
 
             let resp
             try {

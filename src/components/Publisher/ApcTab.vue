@@ -206,10 +206,6 @@ export default {
   created() {
   },
   async mounted() {
-    console.log("mounting ApcTab")
-    this.$store.commit("clearApcData")
-    await this.$store.dispatch("fetchPublisherApcData", this.$route.params.publisherId)
-    console.log("ApcTab done fetching publisherApcData")
 
 
   },
