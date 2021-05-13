@@ -104,9 +104,9 @@
                             <template v-slot:activator="{ on, attrs }">
                               <div v-on="on" style="cursor: pointer">
                                 <div class="text-h5" id="instant-fulfillment-value">
-                                  {{ instantUsagePercent | percent(0) }}
+                                  {{ libraryFulfillmentPercent | percent(0) }}
                                 </div>
-                                <div class="body-2 mt-1">Instant access</div>
+                                <div class="body-2 mt-1">Access</div>
                               </div>
                             </template>
                             <v-card>
@@ -121,7 +121,7 @@
                               </v-toolbar>
                               <v-divider />
                               <div class="pa-4">
-                                Over the next five years, your library will fulfill {{ instantUsagePercent | percent(0) }} of requests (via PTA, Open Access, title-by-title subscription, or ILL).
+                                Over the next five years, your library will fulfill {{ libraryFulfillmentPercent | percent(0) }} of requests (via PTA, Open Access, title-by-title subscription, or ILL).
 
                               </div>
                             <v-card-actions>

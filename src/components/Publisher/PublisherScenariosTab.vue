@@ -17,7 +17,7 @@
                 Cost
               </v-col>
               <v-col cols="2" class="text-right py-0">
-                Instant fulfillment
+                Access
               </v-col>
               <v-col cols="2" class="text-right py-0">
                 Subscribed titles

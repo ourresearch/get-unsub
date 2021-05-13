@@ -12,18 +12,18 @@
         color="primary"
     ></v-progress-linear>
     <router-link to="/">
-        <img class="mt-2"
-             style="height:32px;"
-             src="../../assets/unsub-logo.png"
-             v-if="!institutionId"
-             key="big"
-             alt="Unsub logo"/>
-        <img class="mt-2"
-             style="height:32px;"
-             src="../../assets/unsub-logo-icon.png"
-             v-if="institutionId"
-             key="small"
-             alt="Unsub logo"/>
+      <img class="mt-2"
+           style="height:32px;"
+           src="../../assets/unsub-logo.png"
+           v-if="!institutionId"
+           key="big"
+           alt="Unsub logo"/>
+      <img class="mt-2"
+           style="height:32px;"
+           src="../../assets/unsub-logo-icon.png"
+           v-if="institutionId"
+           key="small"
+           alt="Unsub logo"/>
     </router-link>
     <!--        <v-toolbar-title class="headline">-->
     <!--        </v-toolbar-title>-->
@@ -318,6 +318,35 @@
 
     <v-spacer/>
 
+    <div class="mr-4" v-if="scenarioName">
+      <div class="d-flex text-right align-center black--text three-numbers">
+        <div class="mx-4">
+          <div class="caption ">
+            Cost
+          </div>
+          <div class="font-weight-bold">
+          {{ myCost | currency }}
+          </div>
+        </div>
+        <div class="mx-4">
+          <div class="caption ">
+            Access
+          </div>
+          <div class="font-weight-bold">
+          {{ libraryFulfillmentPercent | percent }}
+          </div>
+        </div>
+        <div class="mx-4">
+          <div class="caption ">
+            Titles
+          </div>
+          <div class="font-weight-bold">
+          {{ subrJournalsCount }}
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <div class="no-highlight" v-if="isLoggedIn">
       <v-btn icon href="http://help.unsub.org/en/" target="_blank">
@@ -400,12 +429,12 @@
       </v-menu>
     </div>
 
-<!--    <template v-slot:extension>-->
-<!--      <app-bar-ext-user v-if="$route.name === 'user'"/>-->
-<!--      <app-bar-ext-institution v-if="$route.name === 'institution'"/>-->
-<!--      <app-bar-ext-publisher v-if="$route.name === 'publisher'"/>-->
-<!--      <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"/>-->
-<!--    </template>-->
+    <!--    <template v-slot:extension>-->
+    <!--      <app-bar-ext-user v-if="$route.name === 'user'"/>-->
+    <!--      <app-bar-ext-institution v-if="$route.name === 'institution'"/>-->
+    <!--      <app-bar-ext-publisher v-if="$route.name === 'publisher'"/>-->
+    <!--      <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"/>-->
+    <!--    </template>-->
 
 
   </v-app-bar>
@@ -425,6 +454,7 @@ import ScenarioMenuColumns from "../ScenarioMenu/ScenarioMenuColumns";
 import ScenarioMenuSettings from "../ScenarioMenu/ScenarioMenuSettings";
 import ScenarioMenuExport from "../ScenarioMenu/ScenarioMenuExport";
 import ScenarioMenuHelp from "../ScenarioMenu/ScenarioMenuHelp";
+import {costTotal, instantUsagePercent, libraryFulfillmentPercent} from "@/shared/scenarioSummary";
 
 export default {
   name: "AppBar",
@@ -487,11 +517,23 @@ export default {
       'scenarioName',
       'publisherScenarios',
       'selectedScenarioIsLoading',
+      "scenarioJournals",
+      "subrJournalsCount",
+
 
     ]),
     isApcPage() {
       // hack for now
       return !!location.href.match(/\/apc$/)
+    },
+    myCost() {
+      return costTotal(this.scenarioJournals)
+    },
+    myInstantUsagePercent() {
+      return instantUsagePercent(this.scenarioJournals)
+    },
+    libraryFulfillmentPercent() {
+      return libraryFulfillmentPercent(this.scenarioJournals)
     },
     account() {
       return this.$store.getters.selectedAccount
@@ -515,6 +557,7 @@ export default {
         return org.is_consortium
       })
     },
+
     publishersOtherThanCurrent() {
       const ret = this.institutionPublishers.filter(p => {
         return p.id !== this.publisherId
@@ -575,6 +618,10 @@ export default {
   /*background: #2196F3;*/
   /*display: flex;*/
   /*justify-content: space-between;*/
+}
+.three-numbers {
+  line-height: 1.1;
+  font-size: 14px;
 }
 
 
