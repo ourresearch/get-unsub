@@ -30,9 +30,10 @@
           {{ configObj.displayNameLong }}
         </v-toolbar-title>
         <v-spacer/>
-        <v-btn icon @click="dialogIsOpen = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+        <div class="font-weight-bold">
+          <template v-if="!configObj.isCurrency">{{ percentage | round(1) }}%</template>
+          <template v-if="configObj.isCurrency">{{ count | currency(publisherCurrencySymbol) }}</template>
+        </div>
       </v-toolbar>
       <div class="pa-4">
 
@@ -48,16 +49,16 @@
           </div>
 
           <span v-if="configObj.name=='costSavings'">
-                Your annual savings over the next five years,
+                This is your annual savings over the next five years,
             </span>
           <span v-if="configObj.name=='costSubr'">
-                Your subscription spend over the next five years,
+                This is your subscription spend over the next five years,
             </span>
           <span v-if="configObj.name=='costIll'">
-                Your ILL spend over the next five years,
+                This is your ILL spend over the next five years,
             </span>
 
-          given your current model parameters and subscriptions cart.
+          based on the current model.
         </template>
         <template v-if="configObj.segmentType==='usage'">
           <div v-if="0" class="d-flex subtitle-1 align-center">
@@ -70,25 +71,27 @@
                 </span>
           </div>
 
-          Percentage of usage that
+          This is the percentage of usage that
+          <span v-if="configObj.name=='usageTurnaway'">
+                 can't be fulfilled by OA or the library, and won't generate an ILL request. Current research suggests that in these cases, users will email colleagues for copies, visit Sci-Hub, or find alternative articles; however, the details of user behavior in these cases are still poorly understood.
+            </span>
           <span v-if="configObj.name=='usageDelayed'">
-                 can't be fulfilled by any free source or subscription, and will generate an ILL request
+                 can't be fulfilled by any free source or subscription, and will generate an ILL request.
             </span>
           <span v-if="configObj.name=='usageSubr'">
-                can't be fulfilled by any free source, but can be fulfilled by one of your title-by-title subscriptions
+                can't be fulfilled by any free source, but can be fulfilled by one of your title-by-title subscriptions.
             </span>
           <span v-if="configObj.name=='usageBackfile'">
-                can't be fulfilled by Open Access, but can be fulfilled under your PTA rights
+                can't be fulfilled by Open Access, but can be fulfilled under your PTA rights.
             </span>
           <span v-if="configObj.name=='usageOa'">
-                can be fulfilled by online Open Access
+                can be fulfilled by online Open Access.
             </span>
 
-          (given your current model parameters and subscriptions cart).
         </template>
       </div>
       <v-card-actions>
-        <v-spacer />
+        <v-spacer/>
         <v-btn text @click="dialogIsOpen=false">Dismiss</v-btn>
       </v-card-actions>
 
@@ -155,6 +158,7 @@ export default {
   color: #333;
   /*opacity: .9;*/
   cursor: pointer;
+
   &.light {
     opacity: .8;
   }

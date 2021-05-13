@@ -78,9 +78,9 @@
                                   Projected annual cost
                                 </v-toolbar-title>
                                 <v-spacer/>
-                                <v-btn icon @click="dialogs.cost = false">
-                                  <v-icon>mdi-close</v-icon>
-                                </v-btn>
+                                <div class="font-weight-bold">
+                                  {{ costTotal | currency(publisherCurrencySymbol) }}
+                                </div>
                               </v-toolbar>
                               <v-divider />
                               <div class="pa-4">
@@ -112,17 +112,16 @@
                             <v-card>
                               <v-toolbar flat>
                                 <v-toolbar-title>
-                                  Projected fulfillment
+                                  Projected Access
                                 </v-toolbar-title>
                                 <v-spacer/>
-                                <v-btn icon @click="dialogs.fulfillment = false">
-                                  <v-icon>mdi-close</v-icon>
-                                </v-btn>
+                                <div class="font-weight-bold">
+                                  {{ libraryFulfillmentPercent | percent(0) }}
+                                </div>
                               </v-toolbar>
                               <v-divider />
                               <div class="pa-4">
-                                Over the next five years, your library will fulfill {{ libraryFulfillmentPercent | percent(0) }} of requests (via PTA, Open Access, title-by-title subscription, or ILL).
-
+                                Over the next five years, library users will be able to easily access {{ libraryFulfillmentPercent | percent(0) }} of requests (via PTA, Open Access, title-by-title subscription, or ILL).
                               </div>
                             <v-card-actions>
                               <v-spacer />

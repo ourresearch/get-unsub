@@ -422,7 +422,7 @@ const usageSegments = {
         name: "usageTurnaway",
         segmentType: "usage",
         displayName: "Unknown",
-        displayNameLong: "Fulfillment source (if any) is unknown",
+        displayNameLong: "Access unknown",
         isFree: false,
         color: colors.turnaway,
         isLeftover: true,
