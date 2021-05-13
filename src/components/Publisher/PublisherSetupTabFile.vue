@@ -103,10 +103,12 @@
 
       <v-list-item-content>
         <div class="font-weight-bold">
+          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'GBP'">UK</span>
+          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'USD'">US</span>
           {{ myDataFile.displayName }} uploaded.
         </div>
         <div class="body-2">
-          We extracted <strong>{{ myDataFile.rowsCount }}</strong> rows of useful data, which is now live in all the
+          We extracted <strong>{{ myDataFile.rowsCount }}</strong> rows of useful data. This data is now in use for the
           scenarios belonging to this package.
         </div>
       </v-list-item-content>
@@ -179,6 +181,7 @@ export default {
       "institutionIsDemo",
       "publisherPublisher",
       "getPublisherDataFile",
+        "publisherCurrency",
     ]),
     myDataFile() {
       return this.getPublisherDataFile(this.fileType)
