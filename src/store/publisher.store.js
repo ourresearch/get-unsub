@@ -288,7 +288,7 @@ export const publisher = {
         publisherBigDealCost: (state) => state.bigDealCost,
         publisherIsLoading: (state) => state.isLoading,
         getPublisherWarning: (state) => (id) => state.warnings.find(w => w.id === id),
-        publisherWarnings: (state) => state.warnings,
+        publisherWarnings: (state) => state.warnings ?? [],
         publisherWarningsDismissed: (state) => state.warnings.filter(w => w.is_dismissed),
         publisherWarningsActive: (state) => state.warnings.filter(w => !w.is_dismissed),
 

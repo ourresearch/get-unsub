@@ -87,6 +87,7 @@
             class="low-key-button"
         >
           <v-icon small left>mdi-cog-outline</v-icon>
+          <v-icon v-if="publisherWarnings.length" small left>mdi-alert</v-icon>
           Setup
         </v-tab>
       </v-tabs>
@@ -158,6 +159,8 @@ export default {
       "userCanEditActivePublisher",
       "institutionIsConsortium",
       "userEmail",
+      "publisherWarnings",
+
 
       // apc stuff
       "publisherApcPapersCount",
