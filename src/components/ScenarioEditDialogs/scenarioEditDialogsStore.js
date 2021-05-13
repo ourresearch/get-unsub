@@ -37,6 +37,7 @@ export const scenarioEditDialogs = {
 
 
         openCopyDialog(state, scenario){
+            console.log("openCopyDialog", scenario)
             state.scenarioToEdit = scenario
             state.scenarioEditNewName = "Copy of " + scenario.saved.name
             state.scenarioEditNewDescription = "Copy of " + scenario.saved.description

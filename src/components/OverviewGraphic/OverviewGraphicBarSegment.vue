@@ -75,8 +75,8 @@
           <span v-if="configObj.name=='usageTurnaway'">
                  can't be fulfilled by OA or the library, and won't generate an ILL request. Current research suggests that in these cases, users will email colleagues for copies, visit Sci-Hub, or find alternative articles; however, the details of user behavior in these cases are still poorly understood.
             </span>
-          <span v-if="configObj.name=='usageDelayed'">
-                 can't be fulfilled by any free source or subscription, and will generate an ILL request.
+          <span v-if="configObj.name=='usageIll'">
+                 can't be fulfilled by any free source or subscription, and goes on to generate an ILL request.
             </span>
           <span v-if="configObj.name=='usageSubr'">
                 can't be fulfilled by any free source, but can be fulfilled by one of your title-by-title subscriptions.

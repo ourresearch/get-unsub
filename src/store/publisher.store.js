@@ -169,16 +169,9 @@ export const publisher = {
             commit("finishLoading")
         },
 
-        async fetchPublisherLazy({commit, dispatch, getters}, id) {
-            commit("startLoading")
-            const url = `publisher/${id}`
-            const resp = await api.get(url)
-            const pubData = resp.data
-            commit("setSelectedPublisher", pubData)
-            commit("finishLoading")
-        },
         async refreshPublisher({commit, dispatch, getters}) {
             commit("startLoading")
+            commit("clearApcData")
             await dispatch("fetchPublisherMainData", getters.publisherId)
             commit("finishLoading")
         },

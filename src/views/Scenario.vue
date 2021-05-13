@@ -42,6 +42,9 @@
           </div>
           <div class="text-h5 font-weight-bold primary--text">
             {{ scenarioName }}
+            <v-btn icon small @click="openCopyDialog(scenario)">
+              <v-icon small>mdi-content-copy</v-icon>
+            </v-btn>
           </div>
         </div>
       </div>
@@ -82,16 +85,17 @@
                                   {{ costTotal | currency(publisherCurrencySymbol) }}
                                 </div>
                               </v-toolbar>
-                              <v-divider />
+                              <v-divider/>
                               <div class="pa-4">
-                                Over the next five years, your library will pay {{ costTotal | currency(publisherCurrencySymbol) }} in this scenario. That's {{
-                                costPercent | percent
-                              }} of what you'd pay if you kept your Big Deal.
+                                Over the next five years, your library will pay
+                                {{ costTotal | currency(publisherCurrencySymbol) }} in this scenario. That's {{
+                                  costPercent | percent
+                                }} of what you'd pay if you kept your Big Deal.
                               </div>
-                            <v-card-actions>
-                              <v-spacer />
-                              <v-btn text @click="dialogs.cost=false">Dismiss</v-btn>
-                            </v-card-actions>
+                              <v-card-actions>
+                                <v-spacer/>
+                                <v-btn text @click="dialogs.cost=false">Dismiss</v-btn>
+                              </v-card-actions>
                             </v-card>
                           </v-dialog>
                         </div>
@@ -119,14 +123,16 @@
                                   {{ libraryFulfillmentPercent | percent(0) }}
                                 </div>
                               </v-toolbar>
-                              <v-divider />
+                              <v-divider/>
                               <div class="pa-4">
-                                Over the next five years, library users will be able to easily access {{ libraryFulfillmentPercent | percent(0) }} of requests (via PTA, Open Access, title-by-title subscription, or ILL).
+                                Over the next five years, library users will be able to easily access
+                                {{ libraryFulfillmentPercent | percent(0) }} of requests (via PTA, Open Access,
+                                title-by-title subscription, or ILL).
                               </div>
-                            <v-card-actions>
-                              <v-spacer />
-                              <v-btn text @click="dialogs.fulfillment=false">Dismiss</v-btn>
-                            </v-card-actions>
+                              <v-card-actions>
+                                <v-spacer/>
+                                <v-btn text @click="dialogs.fulfillment=false">Dismiss</v-btn>
+                              </v-card-actions>
                             </v-card>
                           </v-dialog>
                         </div>
@@ -322,6 +328,8 @@
       </v-btn>
     </v-snackbar>
 
+    <scenario-edit-dialogs />
+
   </div>
 </template>
 
@@ -364,6 +372,7 @@ import ScenarioInstitutionsTab from "../components/Scenario/ScenarioInstitutions
 
 import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
+import ScenarioEditDialogs from "@/components/ScenarioEditDialogs/ScenarioEditDialogs";
 
 import {sleep} from "../shared/util";
 
@@ -392,6 +401,7 @@ export default {
 
     ScenarioEditDialogsInstitutions,
     PublisherWarning,
+    ScenarioEditDialogs,
   },
   directives: {
     "long-press": LongPress,
@@ -438,12 +448,14 @@ export default {
       'scenarioIdHash',
       'scenarioTabShowing',
       'scenarioSnackbars',
+      "selectedScenario",
       'menuSettingsView',
       'institutionIsConsortium',
       'scenarioIsLockedPendingUpdate',
       'scenarioUpdatePercentComplete',
       'userEmail',
       'scenarioUpdateNotificationEmail',
+
     ]),
 
     readyStatus() {
@@ -499,6 +511,7 @@ export default {
     ...mapMutations([
       "menuViewToggleShowCostBar",
       "menuViewSetDisplayJournalsAs",
+      "openCopyDialog",
     ]),
     onScroll(e) {
       const stickyToolbar = document.getElementById("sticky-toolbar")
@@ -559,11 +572,7 @@ export default {
       this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
 
 
-      if (typeof this.$route.query.lazy !== "undefined") {
-        this.$store.dispatch("fetchPublisherLazy", this.$route.params.publisherId)
-      } else {
-        this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-      }
+      this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
       this.$store.dispatch("fetchInstitution", this.$route.params.institutionId)
 
       // await this.$store.dispatch("fetchScenario", this.$route.params.scenarioId)
