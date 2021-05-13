@@ -123,7 +123,7 @@ export default {
           id: "bigDealCosts",
           name: "Big Deal costs",
           warningId: "missingBigDealCosts",
-          isFirstPriority: true,
+          // isFirstPriority: true,
         },
       ]
     }
