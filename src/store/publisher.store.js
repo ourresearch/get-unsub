@@ -11,7 +11,7 @@ const warningsConfig = {
         displayName: "Missing prices",
         link: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
     },
-    missingCounter: {
+    missingCounterData: {
         displayName: "Missing COUNTER",
         link: "http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded",
     },

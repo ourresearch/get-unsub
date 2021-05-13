@@ -102,6 +102,7 @@ export const user = {
         userConsortia: (state) => state.consortia,
         userTabShowing: (state) => state.tabShowing,
         userIsDemo: (state) => {
+            return false
             return state.institutions.length === 1 && /\bDemo\b/.test(state.institutions[0].institution_name)
         },
         gravatarStr: (state) => {
