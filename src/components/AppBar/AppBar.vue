@@ -325,7 +325,7 @@
             Cost
           </div>
           <div class="font-weight-bold">
-          {{ myCost | currency }}
+          {{ myCost | currency(publisherCurrencySymbol) }}
           </div>
         </div>
         <div class="mx-4">
@@ -512,6 +512,7 @@ export default {
       'institutionPublishers',
       'publisherPublisher',
       'publisherIsOwnedByConsortium',
+      "publisherCurrencySymbol",
 
       'scenarioId',
       'scenarioName',
