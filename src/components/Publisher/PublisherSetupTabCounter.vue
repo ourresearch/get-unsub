@@ -5,6 +5,9 @@
       <div class="">
         <div class="text-h6">
           COUNTER version
+          <v-btn icon href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data" target="_blank">
+            <v-icon small>mdi-help-circle-outline</v-icon>
+          </v-btn>
         </div>
         <div class="pa-3">
           To change this, first delete the
@@ -33,6 +36,9 @@
       </div>
       <div class="text-h6 mt-10 mb-1">
         COUNTER report files
+        <v-btn icon href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data" target="_blank">
+            <v-icon small>mdi-help-circle-outline</v-icon>
+          </v-btn>
       </div>
       <div v-if="counterFileType==='counter-5'">
         <div>

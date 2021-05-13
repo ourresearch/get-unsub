@@ -5,15 +5,15 @@ import {makePublisherFileStatus, getPublisherFileServerKey} from "@/shared/publi
 const warningsConfig = {
     missingPerpetualAccess: {
         displayName: "Missing PTA",
-        link: "http://help.unsub.org",
+        link: "http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded",
     },
     missingPrices: {
         displayName: "Missing prices",
-        link: "http://help.unsub.org",
+        link: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
     },
     missingCounter: {
         displayName: "Missing COUNTER",
-        link: "http://help.unsub.org",
+        link: "http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded",
     },
 }
 

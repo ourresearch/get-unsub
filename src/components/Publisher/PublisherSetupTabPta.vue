@@ -5,6 +5,9 @@
       <publisher-warning id="missingPerpetualAccess"/>
       <div class="text-h6">
         PTA (Post-Termination Access)
+        <v-btn icon href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates" target="_blank">
+            <v-icon small>mdi-help-circle-outline</v-icon>
+          </v-btn>
       </div>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

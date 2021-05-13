@@ -15,8 +15,8 @@
         These journals are excluded from all forecasting. To fix, upload Custom pricelist below, with price quotes for
         these missing titles.
       </div>
-      <div class="mt-6">
-        <v-btn text small color="warning" href="http://help.unsub.org" target="_blank">
+      <div class="mt-6 d-flex">
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229615-warning-missing-prices" target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
@@ -33,8 +33,8 @@
         title. This is probabaly not true, and makes forecasting much less accurate. To fix, upload your PTA Dates file
         below.
       </div>
-      <div class="mt-6">
-        <v-btn text small color="warning" href="http://help.unsub.org" target="_blank">
+      <div class="mt-6 d-flex">
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded" target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
@@ -45,8 +45,8 @@
         <span class="font-weight-bold">Missing COUNTER:</span>
         No COUNTER files have been uploaded yet. Forecasting requires the usage data contained in your COUNTER reports.
       </div>
-      <div class="mt-6">
-        <v-btn text small color="warning" href="http://help.unsub.org" target="_blank">
+      <div class="mt-6 d-flex">
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded" target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
