@@ -1,5 +1,6 @@
 <template>
   <v-list-item
+      v-if="scenario.saved"
       :key="scenario.id + scenario.saved.name"
       @click="goToScenario"
   >
