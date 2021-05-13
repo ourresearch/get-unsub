@@ -8,6 +8,44 @@
       class="mb-10"
       v-if="showWarning"
   >
+
+        <template v-if="id==='missingCounterData'">
+      <div>
+        <span class="font-weight-bold">Missing COUNTER:</span>
+        No COUNTER files have been uploaded yet. That should be your first step, because all forecasting requires the
+        usage data contained in your COUNTER reports.
+      </div>
+      <div class="mt-6 d-flex">
+        <v-btn text small color="warning"
+               href="http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded" target="_blank">
+          <v-icon left small>mdi-open-in-new</v-icon>
+          Learn more
+        </v-btn>
+      </div>
+    </template>
+
+
+
+
+
+    <template v-if="id==='missingPerpetualAccess'">
+      <div>
+        <span class="font-weight-bold">Missing PTA:</span>
+        We don't know this package's PTA (Post-Termination Access) rights, so we are assuming you have no PTA for any
+        title. This is probabaly not true, and makes forecasting much less accurate. To fix, upload your PTA Dates file
+        below.
+      </div>
+      <div class="mt-6 d-flex">
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded"
+               target="_blank">
+          <v-icon left small>mdi-open-in-new</v-icon>
+          Learn more
+        </v-btn>
+      </div>
+    </template>
+
+
+
     <template v-if="id==='missingPrices'">
       <div>
         <span class="font-weight-bold">Missing prices:</span>
@@ -36,35 +74,26 @@
         </v-btn>
       </div>
     </template>
-    <template v-if="id==='missingPerpetualAccess'">
+
+
+
+
+
+
+    <template v-if="id==='missingBigDealCosts'">
       <div>
-        <span class="font-weight-bold">Missing PTA:</span>
-        We don't know this package's PTA (Post-Termination Access) rights, so we are assuming you have no PTA for any
-        title. This is probabaly not true, and makes forecasting much less accurate. To fix, upload your PTA Dates file
-        below.
+        <span class="font-weight-bold">Missing Big Deal costs:</span>
+       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </div>
       <div class="mt-6 d-flex">
-        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded"
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs"
                target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
       </div>
     </template>
-    <template v-if="id==='missingCounterData'">
-      <div>
-        <span class="font-weight-bold">Missing COUNTER:</span>
-        No COUNTER files have been uploaded yet. That should be your first step, because all forecasting requires the
-        usage data contained in your COUNTER reports.
-      </div>
-      <div class="mt-6 d-flex">
-        <v-btn text small color="warning"
-               href="http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded" target="_blank">
-          <v-icon left small>mdi-open-in-new</v-icon>
-          Learn more
-        </v-btn>
-      </div>
-    </template>
+
 
 
   </v-alert>

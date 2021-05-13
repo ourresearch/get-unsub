@@ -1,8 +1,8 @@
 <template>
   <v-card flat class="">
 
-    <div class="pt-2 px-12">
-      <publisher-warning id="missingPerpetualAccess"/>
+    <div class="">
+
       <div class="text-h6">
         PTA (Post-Termination Access)
         <v-btn icon href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates" target="_blank">

@@ -1,13 +1,9 @@
 <template>
   <v-card flat class="">
     <div>
-      <div class="text-h6">Currency</div>
+      <div class="text-h6">Big Deal costs</div>
       <div>
-        Your selected currency determines which default pricelist will be used for individual titles (eg: if you select
-        UK Pounds Sterling, we'll use this publisher's UK pricelist) as well as changing currency display used throughout the
-        app. However, it doesn't <em>convert</em> from one currency to another; any prices you enter or upload will need
-        to be in the currency you've selected. If you've already uploaded prices in a different currency, you'll need to
-        delete those and re-upload prices in the new selected currency.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
       </div>
       <v-radio-group
           class="mt-5"
@@ -81,7 +77,7 @@ import {api} from "@/api";
 
 
 export default {
-  name: "PublisherSetupTabWarnings",
+  name: "PublisherSetupTabBigDealCosts",
   components: {
     PublisherSetupTabFileUpload,
   },

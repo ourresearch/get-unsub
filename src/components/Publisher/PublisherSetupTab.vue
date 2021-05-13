@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="pa-3">
+  <v-card flat class="pa-3 mt-6">
     <template v-if="!institutionIsConsortium">
       <v-tabs
           v-model="tabModel"
@@ -7,23 +7,38 @@
           hide-slider
           class="publisher-setup-tab-tabs"
       >
-        <v-tab v-for="tabName in tabNames" :disabled="disableTab(tabName)">
-          <v-icon small left v-if="showTinyTriangle(tabName)" color="">mdi-alert</v-icon>
-          {{ tabName }}
-
+        <v-tab v-for="tab in tabs"
+               :disabled="tab.isDisabled"
+        >
+          <v-icon
+              small
+              left
+              v-if="tab.hasWarning"
+              color=""
+          >
+            mdi-alert
+          </v-icon>
+          {{ tab.name }}
         </v-tab>
 
         <v-tab-item>
-          <publisher-setup-tab-counter class="ml-8"/>
+          <publisher-warning id="missingCounterData" />
+          <publisher-setup-tab-counter />
         </v-tab-item>
         <v-tab-item>
-          <publisher-setup-tab-currency class="ml-8"/>
+          <publisher-warning id="missingPerpetualAccess"/>
+          <publisher-setup-tab-pta />
         </v-tab-item>
         <v-tab-item>
-          <publisher-setup-tab-price class="ml-8"/>
+          <publisher-warning id="missingPrices" />
+          <publisher-setup-tab-price />
         </v-tab-item>
         <v-tab-item>
-          <publisher-setup-tab-pta class="ml-8"/>
+          <publisher-setup-tab-currency />
+        </v-tab-item>
+        <v-tab-item>
+          <publisher-warning id="missingBigDealCosts" />
+          <publisher-setup-tab-big-deal-costs />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -55,6 +70,9 @@ import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
 import PublisherSetupTabCurrency from "@/components/Publisher/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/Publisher/PublisherSetupTabPta";
 import PublisherSetupTabPrice from "@/components/Publisher/PublisherSetupTabPrice";
+import PublisherSetupTabBigDealCosts from "@/components/Publisher/PublisherSetupTabBigDealCosts";
+
+import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
@@ -65,6 +83,8 @@ export default {
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
     PublisherSetupTabPrice,
+    PublisherSetupTabBigDealCosts,
+    PublisherWarning,
   },
   props: {},
   data() {
@@ -75,12 +95,41 @@ export default {
         "Currency",
         // "Big Deal price",
         "Journal pricelist",
-          "PTA",
+        "PTA",
+      ],
+      tabsConfig: [
+        {
+          id: "counter",
+          name: "COUNTER",
+          warningId: "missingCounterData",
+          isFirstPriority: true,
+        },
+        {
+          id: "pta",
+          name: "PTA",
+          warningId: "missingPerpetualAccess"
+        },
+        {
+          id: "pricelist",
+          name: "Journal pricelist",
+          warningId: "missingPrices"
+        },
+        {
+          id: "currency",
+          name: "Currency",
+          warningId: null
+        },
+        {
+          id: "bigDealCosts",
+          name: "Big Deal costs",
+          warningId: "missingBigDealCosts",
+          isFirstPriority: true,
+        },
       ]
     }
   },
   methods: {
-    showTinyTriangle(tabName){
+    showTinyTriangle(tabName) {
       const lookup = {
         "COUNTER": "missingCounterData",
         "PTA": "missingPerpetualAccess",
@@ -89,8 +138,8 @@ export default {
       const key = lookup[tabName]
       return this.getPublisherWarning(key)
     },
-    disableTab(tabName){
-      if (tabName !== "COUNTER" && this.getPublisherWarning("missingCounterData"))  {
+    disableTab(tabName) {
+      if (tabName !== "COUNTER" && this.getPublisherWarning("missingCounterData")) {
         return true
 
       }
@@ -104,8 +153,27 @@ export default {
       "publisherFiles",
       "publisherWarnings",
       "institutionIsConsortium",
-        "getPublisherWarning",
+      "getPublisherWarning",
     ]),
+    firstPriorityTabsHaveWarnings(){
+      return !!this.tabsConfig.find(t => {
+        const hasWarning = this.getPublisherWarning(t.warningId)
+        return hasWarning && t.isFirstPriority
+      })
+    },
+    tabs() {
+      const ret = this.tabsConfig.map(tabConfig => {
+        const ret = _.cloneDeep(tabConfig)
+        const isDisabled = this.firstPriorityTabsHaveWarnings && !ret.isFirstPriority
+        return {
+          ..._.cloneDeep(tabConfig),
+          hasWarning: this.getPublisherWarning(ret.warningId),
+          isDisabled,
+        }
+      })
+
+      return ret
+    }
   },
   created() {
   },
@@ -118,11 +186,17 @@ export default {
 <style lang="scss">
 
 .publisher-setup-tab-tabs {
+  .v-tabs-items {
+    margin-left: 50px;
+    margin-top: 9px;
+  }
   .v-tabs-bar__content {
     align-items: flex-end !important;
-    .v-tab {
 
+    .v-tab {
+      padding-right: 50px;
     }
+
     border-right: 1px solid #ddd;
   }
 

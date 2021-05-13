@@ -1,7 +1,7 @@
 <template>
   <v-card flat class="">
-    <div class="pt-2 px-12">
-      <publisher-warning id="missingPrices" />
+    <div>
+
 
 
       <div class="text-h6">
