@@ -84,7 +84,7 @@ export default {
   props: {},
   data() {
     return {
-      counterFileType: "counter-4",
+      counterFileType: "counter-5",
       isUploadFileLoading: false, // temporary to silence console errors
       fileSelected: null,
       errorMsg: null,
