@@ -49,7 +49,7 @@
               <v-icon color="#777" small>mdi-chevron-right</v-icon>
             </template>
             <span v-if="!publisherId" class="pl-2 pr-5 ">
-                            {{ institutionName || "Loading..." }}
+                            {{ institutionName || "Loading institution..." }}
                         </span>
           </v-btn>
         </template>
@@ -129,7 +129,7 @@
               {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
             </v-icon>
             <span  class="pl-2 pr-2 ">
-                            {{ publisherName || "Loading..." }}
+                            {{ publisherName || "Loading package..." }}
                         </span>
             <v-chip
                 small

@@ -11,12 +11,22 @@
     <template v-if="id==='missingPrices'">
       <div>
         <span class="font-weight-bold">Missing prices:</span>
-        This package has {{ journals.length | round }} journals with no price information.
-        These journals are excluded from all forecasting. To fix, upload Custom pricelist below, with price quotes for
+        <template v-if="!!getPublisherDataFile('price')">
+          Although you've uploaded a custom pricelist, there are still {{ journals.length | round }} journals with no
+          price information.
+          These journals are excluded from all forecasting.
+        </template>
+        <template v-if="!getPublisherDataFile('price')">
+          There are {{ journals.length | round }} journals in this package with no price information.
+        </template>
+        These journals are excluded from all forecasting.
+
+        To fix, upload Custom pricelist below, with price quotes for
         these missing titles.
       </div>
       <div class="mt-6 d-flex">
-        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229615-warning-missing-prices" target="_blank">
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229615-warning-missing-prices"
+               target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
@@ -34,7 +44,8 @@
         below.
       </div>
       <div class="mt-6 d-flex">
-        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded" target="_blank">
+        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded"
+               target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
@@ -43,10 +54,12 @@
     <template v-if="id==='missingCounterData'">
       <div>
         <span class="font-weight-bold">Missing COUNTER:</span>
-        No COUNTER files have been uploaded yet. That should be your first step, because all forecasting requires the usage data contained in your COUNTER reports.
+        No COUNTER files have been uploaded yet. That should be your first step, because all forecasting requires the
+        usage data contained in your COUNTER reports.
       </div>
       <div class="mt-6 d-flex">
-        <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded" target="_blank">
+        <v-btn text small color="warning"
+               href="http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded" target="_blank">
           <v-icon left small>mdi-open-in-new</v-icon>
           Learn more
         </v-btn>
