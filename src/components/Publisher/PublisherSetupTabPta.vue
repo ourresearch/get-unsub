@@ -10,9 +10,14 @@
           </v-btn>
       </div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
+        Upload your perpetual access dates as a spreadsheet with one journal per row. The spreadsheet should have three columns: <strong>ISSN</strong>,
+                        <strong>Start date</strong>, and
+                        <strong>End date</strong>.
+        For journals where the PTA is ongoing, just leave the <strong>End Date</strong> blank.
+        Accepted formats are:
+        <code>.csv</code>,
+        <code>.xlsx</code>, and
+        <code>.xls</code>.
       </div>
       <v-list>
         <publisher-setup-tab-file-upload file-type="perpetualAccess"/>

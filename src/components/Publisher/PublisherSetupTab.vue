@@ -7,7 +7,7 @@
           hide-slider
           class="publisher-setup-tab-tabs"
       >
-        <v-tab v-for="tabName in tabNames">
+        <v-tab v-for="tabName in tabNames" :disabled="disableTab(tabName)">
           <v-icon small left v-if="showTinyTriangle(tabName)" color="">mdi-alert</v-icon>
           {{ tabName }}
 
@@ -41,82 +41,6 @@
     </template>
 
 
-    <div v-if="0">
-
-      <v-row class="section py-6 pl-4 pr-8">
-        <v-col cols="4">
-          <div class="headline">
-            Download counts
-          </div>
-          <div class="body-2">
-            Downloads by journal, last year
-          </div>
-          <div class="body-2">
-            <v-icon color="primary" small>mdi-information-outline</v-icon>
-            <a target="_blank"
-               href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data">
-              Knowledge base
-            </a>
-          </div>
-        </v-col>
-        <v-col>
-          <publisher-file-counter/>
-        </v-col>
-      </v-row>
-      <v-divider></v-divider>
-
-      <v-row class="section py-6 pl-4 pr-8">
-        <v-col cols="4">
-          <div class="headline">
-            Title-by-title
-          </div>
-          <div class="body-2">
-            Costs of journal-by-journal subscriptions
-          </div>
-
-          <div class="body-2">
-            <v-icon color="primary" small>mdi-information-outline</v-icon>
-            <a target="_blank"
-               href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices">
-              Knowledge base
-            </a>
-          </div>
-        </v-col>
-        <v-col>
-          <publisher-file-price v-if="counterIsUploaded"/>
-          <div v-if="!counterIsUploaded">
-            Upload your COUNTER report in order to set prices.
-          </div>
-        </v-col>
-      </v-row>
-      <v-divider></v-divider>
-
-      <v-row class="section py-6 pl-4 pr-8">
-        <v-col cols="4">
-          <div class="headline">
-            Perpetual Access
-          </div>
-          <div class="body-2">
-            Each journal's date ranges for which you have perpetual access to articles. Only dates after
-            2010 affect forecasting
-          </div>
-
-          <div class="body-2">
-            <v-icon color="primary" small>mdi-information-outline</v-icon>
-            <a target="_blank"
-               href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates">
-              Knowledge base
-            </a>
-          </div>
-        </v-col>
-        <v-col>
-          <publisher-file-perpetual-access v-if="counterIsUploaded"/>
-          <div v-if="!counterIsUploaded">
-            Upload your COUNTER report in order to set perpetual access dates.
-          </div>
-        </v-col>
-      </v-row>
-    </div>
   </v-card>
 
 
@@ -158,14 +82,19 @@ export default {
   methods: {
     showTinyTriangle(tabName){
       const lookup = {
-        "COUNTER": "missingCounter",
+        "COUNTER": "missingCounterData",
         "PTA": "missingPerpetualAccess",
         "Journal pricelist": "missingPrices"
       }
       const key = lookup[tabName]
       return this.getPublisherWarning(key)
-
     },
+    disableTab(tabName){
+      if (tabName !== "COUNTER" && this.getPublisherWarning("missingCounterData"))  {
+        return true
+
+      }
+    }
   },
   computed: {
     ...mapGetters([

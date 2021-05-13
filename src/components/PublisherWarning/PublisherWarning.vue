@@ -40,10 +40,10 @@
         </v-btn>
       </div>
     </template>
-    <template v-if="id==='missingCounter'">
+    <template v-if="id==='missingCounterData'">
       <div>
         <span class="font-weight-bold">Missing COUNTER:</span>
-        No COUNTER files have been uploaded yet. Forecasting requires the usage data contained in your COUNTER reports.
+        No COUNTER files have been uploaded yet. That should be your first step, because all forecasting requires the usage data contained in your COUNTER reports.
       </div>
       <div class="mt-6 d-flex">
         <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded" target="_blank">

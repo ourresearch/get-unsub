@@ -1,7 +1,7 @@
 <template>
   <v-card flat class="">
     <div class="pt-2 px-12">
-      <publisher-warning id="missingCounter" />
+      <publisher-warning id="missingCounterData" />
       <div class="">
         <div class="text-h6">
           COUNTER version
@@ -9,7 +9,7 @@
             <v-icon small>mdi-help-circle-outline</v-icon>
           </v-btn>
         </div>
-        <div class="pa-3">
+        <div class="pa-3" v-if="!!publisherCounterVersion">
           To change this, first delete the
           <span v-if="publisherCounterVersion === 4">COUNTER 4 JR1 file</span>
           <span v-if="publisherCounterVersion === 5">COUNTER 5 files</span>
@@ -101,6 +101,7 @@ export default {
       "publisherFiles",
       "getPublisherDataFile",
       "publisherCounterVersion",
+        "getPublisherWarning",
     ]),
   },
   created() {

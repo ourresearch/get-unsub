@@ -11,9 +11,7 @@
           </v-btn>
       </div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
+        We automatically load title-by-title prices from this publisher's public pricelist. You can override these prices, or add missing ones, by uploading a custom pricelist below.
       </div>
       <v-list>
         <publisher-setup-tab-file-upload disabled file-type="pricePublic" />
@@ -29,9 +27,10 @@
           </v-btn>
       </div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat.
+        Some of your titles may not be included in the public pricelist (or they are, and you want to override them with custom prices). To solve this, upload a spreadsheet with your quoted title-by-title price for each journal. The spreadsheet should have two columns: <strong>ISSN</strong> and <strong>Price</strong>. Accepted formats are:
+        <code>.csv</code>,
+        <code>.xlsx</code>, and
+        <code>.xls</code>.
       </div>
       <v-list>
         <publisher-setup-tab-file-upload file-type="price" />

@@ -22,13 +22,13 @@
           </div>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col cols="2" class="text-right">
+        <v-col cols="1" class="text-right">
           {{ costTotal | currency(publisherCurrencySymbol) }}
         </v-col>
-        <v-col cols="2" class="text-right">
+        <v-col cols="1" class="text-right">
           {{ libraryFulfillmentPercent | percent(0) }}
         </v-col>
-        <v-col cols="2" class="text-right">
+        <v-col cols="1" class="text-right">
           {{ scenario.saved.subrs.length }}
         </v-col>
         <v-col cols="1"></v-col>

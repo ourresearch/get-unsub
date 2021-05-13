@@ -13,14 +13,14 @@
                 Name
               </v-col>
               <v-spacer></v-spacer>
-              <v-col cols="2" class="text-right py-0">
+              <v-col cols="1" class="text-right py-0">
                 Cost
               </v-col>
-              <v-col cols="2" class="text-right py-0">
+              <v-col cols="1" class="text-right py-0">
                 Access
               </v-col>
-              <v-col cols="2" class="text-right py-0">
-                Subscribed titles
+              <v-col cols="1" class="text-right py-0">
+                Titles
               </v-col>
               <v-col cols="1" class="py-0"></v-col>
             </v-row>
