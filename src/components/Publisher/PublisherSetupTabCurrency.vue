@@ -1,7 +1,7 @@
 <template>
   <v-card flat class="">
     <div class="pt-2 px-12">
-      <div class="text-h6">Select your currency</div>
+      <div class="text-h6">Currency</div>
       <div>
         Your selected currency determines which default pricelist will be used for individual titles (eg: if you select
         UK Pounds Sterling, we'll use this publisher's UK pricelist) as well as changing currency display used throughout the

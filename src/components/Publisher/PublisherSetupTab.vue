@@ -8,10 +8,9 @@
           class="publisher-setup-tab-tabs"
       >
         <v-tab v-for="tabName in tabNames">
+          <v-icon small left v-if="showTinyTriangle(tabName)" color="">mdi-alert</v-icon>
           {{ tabName }}
-          <span class="ml-1" v-if="tabName === 'Warnings' ">
-            ({{ publisherWarnings.length }})
-          </span>
+
         </v-tab>
 
         <v-tab-item>
@@ -30,12 +29,13 @@
     </template>
     <template v-if="institutionIsConsortium">
       <v-alert
-        type="info"
-        text
-        outlined
-        icon="mdi-information-outline"
+          type="info"
+          text
+          outlined
+          icon="mdi-information-outline"
       >
-        Setup for consortial dashboards happens behind the scenes, via email or data imports from your member institution dashboards. If you have any questions about setup, please drop us a line at
+        Setup for consortial dashboards happens behind the scenes, via email or data imports from your member
+        institution dashboards. If you have any questions about setup, please drop us a line at
         <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
       </v-alert>
     </template>
@@ -151,11 +151,22 @@ export default {
         "Currency",
         // "Big Deal price",
         "Journal pricelist",
-        "Post-Termination Access",
+          "PTA",
       ]
     }
   },
-  methods: {},
+  methods: {
+    showTinyTriangle(tabName){
+      const lookup = {
+        "COUNTER": "missingCounter",
+        "PTA": "missingPerpetualAccess",
+        "Journal pricelist": "missingPrices"
+      }
+      const key = lookup[tabName]
+      return this.getPublisherWarning(key)
+
+    },
+  },
   computed: {
     ...mapGetters([
       "publisherName",
@@ -164,6 +175,7 @@ export default {
       "publisherFiles",
       "publisherWarnings",
       "institutionIsConsortium",
+        "getPublisherWarning",
     ]),
   },
   created() {
@@ -179,6 +191,10 @@ export default {
 .publisher-setup-tab-tabs {
   .v-tabs-bar__content {
     align-items: flex-end !important;
+    .v-tab {
+
+    }
+    border-right: 1px solid #ddd;
   }
 
   .v-tab {

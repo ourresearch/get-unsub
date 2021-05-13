@@ -4,7 +4,7 @@
     <div class="pt-2 px-12">
       <publisher-warning id="missingPerpetualAccess"/>
       <div class="text-h6">
-        Upload PTA dates
+        PTA (Post-Termination Access)
       </div>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

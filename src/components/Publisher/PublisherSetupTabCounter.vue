@@ -4,7 +4,7 @@
       <publisher-warning id="missingCounter" />
       <div class="">
         <div class="text-h6">
-          Select COUNTER version
+          COUNTER version
         </div>
         <div class="pa-3">
           To change this, first delete the
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="text-h6 mt-10 mb-1">
-        Upload COUNTER report files
+        COUNTER report files
       </div>
       <div v-if="counterFileType==='counter-5'">
         <div>
