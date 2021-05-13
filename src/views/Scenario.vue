@@ -443,7 +443,7 @@ export default {
       'publisherName',
       'publisherId',
       'publisherCurrencySymbol',
-      'publisherWarningsActive',
+      'publisherWarnings',
       'journals',
       'scenarioIdHash',
       'scenarioTabShowing',

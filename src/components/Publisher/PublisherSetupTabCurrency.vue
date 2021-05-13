@@ -125,8 +125,7 @@ export default {
   computed: {
     ...mapGetters([
       "publisherId",
-      "publisherWarningsDismissed",
-      "publisherWarningsActive",
+      "publisherWarnings",
       "publisherCurrency",
     ]),
   },

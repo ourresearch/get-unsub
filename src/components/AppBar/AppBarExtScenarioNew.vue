@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="d-flex align-center">
-          <v-tooltip bottom max-width="300" v-for="warning in publisherWarningsActive">
+          <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">
             <template v-slot:activator="{ on }">
                 <v-btn v-on="on" :href="warning.link" target="_blank" text class="body-2 text-capitalize warning--text px-2 font-weight-bold">
                   <v-icon left color="warning" small style="vertical-align: 0">mdi-alert</v-icon>
@@ -77,7 +77,7 @@ export default {
       "scenarioMemberInstitutions",
       "scenarioJournals",
       "subrJournalsCount",
-      "publisherWarningsActive",
+      "publisherWarnings",
     ]),
     currentTab: {
       get() {

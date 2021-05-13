@@ -1,6 +1,6 @@
 <template>
   <span>
-    <v-icon small class="mx-2" v-if="publisherWarningsActive.length" color="warning">
+    <v-icon small class="mx-2" v-if="publisherWarnings.length" color="warning">
       mdi-alert-outline
     </v-icon>
   </span>
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "publisherWarningsActive",
+      "publisherWarnings",
     ]),
   },
   methods: {
