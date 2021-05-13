@@ -276,6 +276,7 @@ img.gravatar {
 .entity-title {
   line-height: 1;
   margin-left: -30px;
+  margin-bottom: 20px;
   .caption {
     line-height: 1;
   }

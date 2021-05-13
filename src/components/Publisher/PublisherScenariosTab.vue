@@ -30,58 +30,6 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-<!--      <v-divider />-->
-
-      <v-row align="end" class="caption font-weight-normal pr-12 mr-1 mt-3 d-none"
-             style="cursor: default; line-height: 1.5">
-        <v-col cols="1"></v-col>
-        <v-col cols="5" class="">
-          Name
-        </v-col>
-        <v-spacer></v-spacer>
-        <v-col cols="2" class="text-right">
-          <v-tooltip bottom max-width="400" color="#333">
-            <template v-slot:activator="{ on }">
-                                    <span v-on="on">
-                                        Annual cost
-                                    </span>
-            </template>
-            <div>
-              Five-year average annual cost to the library, including ILL and title-by-title subscription
-              costs.
-            </div>
-          </v-tooltip>
-        </v-col>
-        <v-col cols="2" class="text-right ">
-          <v-tooltip bottom max-width="400" color="#333">
-            <template v-slot:activator="{ on }">
-                                    <span v-on="on">
-                                        Instant fulfillment
-                                    </span>
-            </template>
-            <div>
-              Percentage of article requests the library can fulfill <em>instantly</em> over the next five
-              years (via subscription, PTA, or OA).
-            </div>
-          </v-tooltip>
-
-        </v-col>
-        <v-col cols="2" class="text-right ">
-          <v-tooltip bottom max-width="400" color="#333">
-            <template v-slot:activator="{ on }">
-                                    <span v-on="on">
-                                        Subscribed journals
-                                    </span>
-            </template>
-            <div>
-              Number of journal subscriptions retained (via title-by-title subscription) after cancelling Big
-              Deal.
-            </div>
-          </v-tooltip>
-        </v-col>
-        <v-col cols="2"></v-col>
-
-      </v-row>
     </v-card>
     <!--        <v-divider />-->
     <v-list class="py-0">

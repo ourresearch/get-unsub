@@ -55,7 +55,7 @@
         </template>
         <div v-if="institutionName">
           <v-list dense class="pb-0">
-            <v-list-item :to="`/i/${institutionId}`">
+            <v-list-item>
               <v-list-item-icon>
                 <v-icon class="mt-4">
                   {{ institutionIsConsortium ? "mdi-lan" : "mdi-bank-outline" }}
@@ -128,10 +128,7 @@
             <v-icon color="#777">
               {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
             </v-icon>
-            <template v-if="scenarioId">
-              <v-icon color="#777" small>mdi-chevron-right</v-icon>
-            </template>
-            <span v-if="!scenarioId" class="pl-2 pr-2 ">
+            <span  class="pl-2 pr-2 ">
                             {{ publisherName || "Loading..." }}
                         </span>
             <v-chip
@@ -140,12 +137,15 @@
             >
               consortial feeder
             </v-chip>
+            <template v-if="scenarioId">
+              <v-icon color="#777" small>mdi-chevron-right</v-icon>
+            </template>
             <span outlined class="pr-5" v-if="!scenarioName"></span>
           </v-btn>
         </template>
         <div v-if="publisherName">
           <v-list class="pb-0" dense>
-            <v-list-item :to="`/i/${institutionId}/p/${publisherId}`">
+            <v-list-item>
               <v-list-item-icon>
                 <v-icon class="mt-4">
                   {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
@@ -229,7 +229,7 @@
         </template>
         <div v-if="scenarioName">
           <v-list class="pb-0" dense>
-            <v-list-item :to="`./${scenarioId}`">
+            <v-list-item>
               <v-list-item-icon>
                 <v-icon class="mt-4">mdi-chart-box-outline</v-icon>
               </v-list-item-icon>
