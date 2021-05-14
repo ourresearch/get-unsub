@@ -29,16 +29,13 @@
 
 
 
-        <div class="x-axis-label text-center body-1 pt-4">
-<!--            {{ publisherName }} journals, by Cost Per Use (CPU)-->
-            Package journals, arranged by Cost Per Use (CPU)
+        <div class="x-axis-label  body-1 pt-2">
+          {{journalsInBins.length}}
+            journals, arranged by Cost Per Use (CPU)
         </div>
 
 
-        <v-card flat class="mt-10" v-show="journalsWithCpuOutsideBins.length">
-            <div class="">
-                <span class="body-">{{journalsWithCpuOutsideBins.length}}</span> Journals with CPU > {{maxBinValue | currency(publisherCurrencySymbol)}}
-            </div>
+        <v-card flat class="mt-12" v-show="journalsWithCpuOutsideBins.length">
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
                             v-for="item in journalsWithCpuOutsideBins"
@@ -46,18 +43,21 @@
                             :journal="item"
                     />
             </div>
+            <div class="body-1 mt-1">
+                <span class="">{{journalsWithCpuOutsideBins.length}}</span> additional journals with CPU > {{maxBinValue | currency(publisherCurrencySymbol)}}
+            </div>
         </v-card>
 
-        <v-card flat class="mt-5" v-show="journalsWithNoUsage.length">
-            <div class="">
-                <span class="body-">{{journalsWithNoUsage.length}}</span> Journals with no paywalled usage
-            </div>
+        <v-card flat class="mt-10 body-1" v-show="journalsWithNoUsage.length">
             <div class="d-flex flex-wrap">
                 <overview-graphic-bar-single-dot
                             v-for="item in journalsWithNoUsage"
                             :key="item.issnl"
                             :journal="item"
                     />
+            </div>
+            <div class="mt-1">
+                <span class="body-">{{journalsWithNoUsage.length}}</span> additional journals with no paywalled usage
             </div>
         </v-card>
 
@@ -140,6 +140,10 @@
                 return bins
 
             },
+          journalsInBins(){
+                return this.journals.filter(j => j.cpu <= this.maxBinValue)
+
+          },
             journalsWithCpuOutsideBins(){
                 return this.journals.filter(j => j.cpu > this.maxBinValue)
             },
@@ -183,6 +187,9 @@
 
 <style scoped lang="scss">
     $histogram-bar-width: 7px;
+    .x-axis-label {
+      color: #333;
+    }
     .dots-graphic {
         // https://stackoverflow.com/a/4407335/226013
         -webkit-touch-callout: none; /* iOS Safari */
@@ -198,7 +205,7 @@
 
 
         .histogram-bars {
-            min-height: 439px;
+            min-height: 450px;
             width: 100%;
             display: flex;
             align-items: stretch;

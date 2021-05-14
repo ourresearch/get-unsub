@@ -142,9 +142,11 @@ export default {
 .dot-tooltip-edit-mode-true {
   display: none !important;
 }
-
+.v-application {
 .body-1 {
   letter-spacing: normal !important;
+}
+
 }
 
 /*.container {*/
