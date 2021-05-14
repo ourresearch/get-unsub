@@ -33,8 +33,11 @@ const warningsConfig = {
         displayName: "Missing COUNTER",
         link: "http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded",
     },
+    missingBigDealCosts: {
+        displayName: "Missing Big Deal costs",
+        link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
+    },
 }
-
 
 
 export const publisher = {
@@ -57,6 +60,8 @@ export const publisher = {
         bigDealCost: 0,
         isOwnedByConsortium: false,
         currency: "USD",
+        costBigDeal: null,
+        costBigDealIncrease: null,
 
         // apc stuff
         apcHeaders: [],
@@ -89,6 +94,8 @@ export const publisher = {
             state.apcCost = null
             state.isOwnedByConsortium = false
             state.currency = "USD"
+            state.costBigdDal = null,
+            state.costBigDealIncrease = null
 
         },
         clearApcData(state) {
@@ -133,6 +140,8 @@ export const publisher = {
             state.bigDealCost = apiPublisher.cost_bigdeal
             state.isOwnedByConsortium = apiPublisher.is_owned_by_consortium
             state.currency = apiPublisher.currency
+            state.costBigDeal = apiPublisher.cost_bigdeal
+            state.costBigDealIncrease = apiPublisher.cost_bigdeal_increase
         },
         startLoading(state) {
             state.isLoading = true
@@ -345,6 +354,8 @@ export const publisher = {
             }
             return symbols[state.currency]
         },
+        publisherCostBigDeal: (state) => state.costBigDeal,
+        publisherCostBigDealIncrease: (state) => state.costBigDealIncrease,
 
 
         // apc stuff
@@ -354,5 +365,6 @@ export const publisher = {
         publisherApcCost: (state) => state.apcCost,
         publisherApcJournals: (state) => state.apcJournals,
         publisherApcHeaders: (state) => state.apcHeaders,
+
     }
 }

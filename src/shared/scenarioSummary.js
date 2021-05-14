@@ -50,7 +50,6 @@ const usageList = function (journals) {
         }
     })
 
-    console.log("creating usageList", myUsageDict)
 
     return [
         // ret.delayed,

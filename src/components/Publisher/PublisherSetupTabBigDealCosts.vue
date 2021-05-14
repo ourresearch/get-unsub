@@ -1,28 +1,89 @@
 <template>
   <v-card flat class="">
     <div>
-      <div class="text-h6">Big Deal costs</div>
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <div class="text-h6">
+        Big Deal annual cost
+        <v-btn icon
+               href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+               target="_blank">
+          <v-icon small>mdi-help-circle-outline</v-icon>
+        </v-btn>
       </div>
-      <v-radio-group
-          class="mt-5"
-          v-model="currency"
-      >
-        <v-radio
-            value="USD"
-            label="US Dollars"
-            :disabled="isLoading"
-            @click="openDialog"
-        />
-        <v-radio
-            value="GBP"
-            label="UK Pounds Sterling"
-            :disabled="isLoading"
-            @click="openDialog"
-        />
-      </v-radio-group>
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </div>
+
+      <div>
+
+        <v-list-item class="setting-list-item">
+          <v-list-item-icon>
+            <v-icon color="warning">mdi-alert</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <div class="text-h5">
+              {{ publisherCostBigDeal || "Not set" }}
+            </div>
+            <div class="body-2">
+              Annual cost
+            </div>
+
+          </v-list-item-content>
+          <v-list-item-action class="align-self-start">
+            <v-btn color="primary" class="">
+              <v-icon left>mdi-pencil</v-icon>
+              edit
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+
+      </div>
+
+      <div class="text-h6 mt-12">
+        Big Deal annual cost increase (%)
+        <v-btn icon
+               href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+               target="_blank">
+          <v-icon small>mdi-help-circle-outline</v-icon>
+        </v-btn>
+      </div>
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </div>
+
+      <div>
+        <v-list-item class="setting-list-item">
+          <v-list-item-icon>
+            <v-icon color="warning">mdi-alert</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <div class="text-h5">
+              {{ publisherCostBigDeal || "Not set" }}
+            </div>
+            <div class="body-2">
+              Percent increase
+            </div>
+
+          </v-list-item-content>
+          <v-list-item-action class="align-self-start">
+            <v-btn color="primary" class="ml-5">
+              <v-icon left>mdi-pencil</v-icon>
+              edit
+            </v-btn>
+          </v-list-item-action>
+        </v-list-item>
+      </div>
+
+
     </div>
+
 
     <v-dialog
         persistent
@@ -123,6 +184,8 @@ export default {
       "publisherId",
       "publisherWarnings",
       "publisherCurrency",
+      "publisherCostBigDeal",
+      "publisherCostBigDealIncrease",
     ]),
   },
   created() {
@@ -138,7 +201,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+.setting-list-item {
+  max-width: 400px;
+}
 
 
 </style>
