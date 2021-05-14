@@ -150,7 +150,7 @@
                             :num-journals="journals.length"
                             :num-journals-subscribed="subscribedJournals.length"
                         />
-                        <div class="text-center mt-2 text-h6">
+                        <div class="bar-bottom-label">
                           <div class="body-1">
                             Annual cost
                           </div>
@@ -164,7 +164,7 @@
                             :num-journals="journals.length"
                             :num-journals-subscribed="subscribedJournals.length"
                         />
-                        <div class="text-center mt-2 text-h">
+                        <div class="bar-bottom-label">
                           <div class="body-1">
                             Usage fulfillment
                           </div>
@@ -620,6 +620,12 @@ export default {
 .journals-info-header {
 }
 
+.bar-bottom-label {
+  margin-top: 26px;
+  color: #333;
+  text-align: right;
+  padding-right: 15px;
+}
 
 .infovis {
   flex: 0 0 500px;
