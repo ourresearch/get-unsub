@@ -21,11 +21,17 @@
 
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon color="warning">mdi-alert</v-icon>
+            <v-icon v-if="!publisherCostBigDeal" color="warning">mdi-alert</v-icon>
+            <v-icon v-if="publisherCostBigDeal" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <div class="text-h5">
-              {{ publisherCostBigDeal || "Not set" }}
+              <span v-if="publisherCostBigDeal">
+                {{ publisherCostBigDeal | currency(publisherCurrencySymbol) }}
+              </span>
+              <span v-if="!publisherCostBigDeal">
+                Not set
+              </span>
             </div>
             <div class="body-2">
               Annual cost
@@ -33,7 +39,7 @@
 
           </v-list-item-content>
           <v-list-item-action class="align-self-start">
-            <v-btn color="primary" class="">
+            <v-btn @click="openCostDialog" color="primary" class="">
               <v-icon left>mdi-pencil</v-icon>
               edit
             </v-btn>
@@ -61,19 +67,25 @@
       <div>
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon color="warning">mdi-alert</v-icon>
+            <v-icon v-if="!publisherCostBigDealIncrease" color="warning">mdi-alert</v-icon>
+            <v-icon v-if="publisherCostBigDealIncrease" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <div class="text-h5">
-              {{ publisherCostBigDeal || "Not set" }}
+              <span v-if="publisherCostBigDealIncrease">
+                {{ publisherCostBigDealIncrease | percent(2) }}
+              </span>
+              <span v-if="!publisherCostBigDealIncrease">
+                Not set
+              </span>
             </div>
             <div class="body-2">
-              Percent increase
+              Annual increase
             </div>
 
           </v-list-item-content>
           <v-list-item-action class="align-self-start">
-            <v-btn color="primary" class="ml-5">
+            <v-btn @click="openIncreaseDialog" color="primary" class="ml-5">
               <v-icon left>mdi-pencil</v-icon>
               edit
             </v-btn>
@@ -87,28 +99,29 @@
 
     <v-dialog
         persistent
-        v-model="dialogIsShowing"
+        v-model="dialogs.cost"
         max-width="500"
     >
       <v-card>
         <v-card-title>
-          Change currency
+          Edit Big Deal cost
         </v-card-title>
         <div class="pa-6">
-          <p>
-            Are you sure you want to change currency to <strong>{{ currency }}?</strong>
-          </p>
-          <p>
-            If you've already uploaded prices in some other currency, you'll need to delete those and replace
-            them with new prices denominated in {{ currency }}.
-          </p>
+          <v-text-field
+              v-model="newVal"
+              :label="`Annual cost (${publisherCurrency})`"
+              outlined
+              placeholder="1000000"
+              type="number"
+              :prefix="publisherCurrencySymbol"
+          />
         </div>
         <v-card-actions>
           <v-spacer/>
           <v-btn
               depressed
               :disabled="isLoading"
-              @click="cancelDialog"
+              @click="cancelDialogs"
           >
             Cancel
           </v-btn>
@@ -116,13 +129,56 @@
               depressed
               color="primary"
               :loading="isLoading"
-              @click="setCurrency(currency)"
+              @click="setBigDealData"
           >
-            Change to {{ currency }}
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+
+
+    <v-dialog
+        persistent
+        v-model="dialogs.increase"
+        max-width="500"
+    >
+      <v-card>
+        <v-card-title>
+          Edit Big Deal increase
+        </v-card-title>
+        <div class="pa-6">
+          <v-text-field
+              v-model="newVal"
+              :label="`Annual increase (%)`"
+              outlined
+              placeholder="1.8"
+              type="number"
+              suffix="%"
+          />
+        </div>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn
+              depressed
+              :disabled="isLoading"
+              @click="cancelDialogs"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+              depressed
+              color="primary"
+              :loading="isLoading"
+              @click="setBigDealData"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
 
   </v-card>
 
@@ -150,31 +206,52 @@ export default {
       dialogIsShowing: false,
       currencyValueBeforeDialog: null,
       currencyLastValue: null,
+      increaseValue: 0,
+      newVal: 0,
+
+
+      dialogs: {
+        cost: false,
+        increase: false,
+      }
     }
   },
   methods: {
-    cancelDialog() {
-      // this.currency = this.currencyValueBeforeDialog
-      this.currency = this.currencyLastValue
-      this.dialogIsShowing = false
+    cancelDialogs() {
+      this.dialogs.cost = false
+      this.dialogs.increase = false
     },
-    openDialog() {
-      this.dialogIsShowing = true
+    openCostDialog() {
+      this.dialogs.cost = true
+      this.newVal = this.publisherCostBigDeal
+    },
+    openIncreaseDialog() {
+      this.dialogs.increase = true
+      this.newVal = this.publisherCostBigDealIncrease
     },
 
-    async setCurrency(currency) {
-      console.log("setCurrency()", currency)
+    createPostData(){
+      if (this.dialogs.cost){
+        return { cost_bigdeal: this.newVal }
+      }
+      else {
+        return { cost_bigdeal_increase: this.newVal }
+      }
+    },
+
+    async setBigDealData() {
+      console.log("setBigDealData()")
       this.isLoading = true
       const path = `publisher/${this.publisherId}`
-      const postData = {currency}
+      const postData = this.createPostData()
       try {
         await api.postFile(path, postData)
         await this.$store.dispatch("refreshPublisher")
-        this.$store.commit("snackbar", `currency changed to ${currency}`)
+        this.$store.commit("snackbar", `Edit successful.`)
       } catch (e) {
         console.log("there was an error.")
       } finally {
-        this.dialogIsShowing = false
+        this.cancelDialogs()
         this.isLoading = false
       }
     }
@@ -186,6 +263,9 @@ export default {
       "publisherCurrency",
       "publisherCostBigDeal",
       "publisherCostBigDealIncrease",
+      "publisherCurrencyIconName",
+      "publisherCurrencySymbol",
+
     ]),
   },
   created() {

@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="pa-3 mt-6">
+  <v-card flat class="py-3 mt-6">
     <template v-if="!institutionIsConsortium">
       <v-tabs
           v-model="tabModel"
@@ -7,7 +7,11 @@
           hide-slider
           class="publisher-setup-tab-tabs"
       >
+        <div class="black--text body-2 ml-4 mt-4 mb-2 font-weight-bold">
+          Setup menu
+        </div>
         <v-tab v-for="tab in tabs"
+               class="body-1"
                :disabled="tab.isDisabled"
         >
           <v-icon
@@ -17,6 +21,14 @@
               color=""
           >
             mdi-alert
+          </v-icon>
+          <v-icon
+              small
+              left
+              v-if="!tab.hasWarning"
+              color=""
+          >
+            mdi-check-outline
           </v-icon>
           {{ tab.name }}
         </v-tab>
@@ -117,7 +129,8 @@ export default {
         {
           id: "currency",
           name: "Currency",
-          warningId: null
+          warningId: null,
+          isFirstPriority: true,
         },
         {
           id: "bigDealCosts",
@@ -187,21 +200,30 @@ export default {
 
 .publisher-setup-tab-tabs {
   .v-tabs-items {
-    margin-left: 50px;
+    margin-left: 70px;
     margin-top: 9px;
   }
   .v-tabs-bar__content {
-    align-items: flex-end !important;
+    align-items: flex-start !important;
 
     .v-tab {
-      padding-right: 50px;
+      padding-right: 70px;
+      width: 100%;
+      text-transform: capitalize;
+      justify-content: left;
+      //border-radius: 5px;
+      //color: #333 !important;
+    }
+    .v-tab--active {
+      font-weight: bold;
+      //background: #f0f0f0;
     }
 
-    border-right: 1px solid #ddd;
+    //border-right: 1px solid #ddd;
   }
 
   .v-tab {
-    text-transform: capitalize;
+    //color: #333 !important;
   }
 
 }

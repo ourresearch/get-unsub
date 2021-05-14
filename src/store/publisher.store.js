@@ -354,6 +354,18 @@ export const publisher = {
             }
             return symbols[state.currency]
         },
+        publisherCurrencyIconName: (state) => {
+            const symbols = {
+                USD: "mdi-currency-usd",
+                CAD: "mdi-currency-usd",
+                AUS: "mdi-currency-usd",
+                NZD: "mdi-currency-usd",
+                HKD: "mdi-currency-usd",
+                GBP: "mdi-currency-gbp",
+                EUR: "mdi-currency-eur",
+            }
+            return symbols[state.currency]
+        },
         publisherCostBigDeal: (state) => state.costBigDeal,
         publisherCostBigDealIncrease: (state) => state.costBigDealIncrease,
 
