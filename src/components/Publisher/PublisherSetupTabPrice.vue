@@ -19,7 +19,7 @@
 
     </div>
 
-    <div class="pt-12 px-12">
+    <div class="pt-12">
       <div class="text-h6">
         Custom pricelist
         <v-btn icon href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices" target="_blank">

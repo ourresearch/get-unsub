@@ -62,6 +62,7 @@ export const publisher = {
         currency: "USD",
         costBigDeal: null,
         costBigDealIncrease: null,
+        hasCompleteCounterData: false,
 
         // apc stuff
         apcHeaders: [],
@@ -86,6 +87,7 @@ export const publisher = {
             state.warnings = []
             state.counterIsUploaded = false
             state.bigDealCost = 0
+            state.hasCompleteCounterData = false
 
             state.apcHeaders = []
             state.apcJournals = []
@@ -135,6 +137,7 @@ export const publisher = {
                 warning.id = _.camelCase(warning.id)
                 return Object.assign(warning, warningsConfig[warning.id])
             })
+            state.hasCompleteCounterData = apiPublisher.has_complete_counter_data
 
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
@@ -309,6 +312,44 @@ export const publisher = {
                 ret[val.id] = val
             })
             return ret
+        },
+
+        publisherDataIsComplete: (state) => (dataType) => {
+            if (dataType === "counter") {
+                return state.hasCompleteCounterData
+            }
+            else if (dataType === "currency") {
+                return !!state.currency
+            }
+            else if (dataType === "bigDealCosts") {
+                return !!state.bigDealCost && !!state.costBigDealIncrease
+            }
+            else if (dataType === "pta") {
+                return state.warnings.indexOf(w => w.id === "missingPerpetualAccess") > -1
+            }
+            else if (dataType === "pricelist") {
+                return state.warnings.indexOf(w => w.id === "missingPrices") > -1
+            }
+        },
+        publisherHalp: (state) => {
+            return {
+                hasCompleteCounterData: state.hasCompleteCounterData,
+                currency: state.currency,
+                bigDealCost: state.bigDealCost,
+                costBigDealIncrease: state.costBigDealIncrease,
+            }
+        },
+
+        publisherRequiredDataIsLoaded: (state) => {
+            console.log("state.hasCompleteCounterData", state.hasCompleteCounterData)
+            console.log("state.currency", state.currency)
+            console.log("state.bigDealCost", state.bigDealCost)
+            console.log("state.costBigDealIncrease", state.costBigDealIncrease)
+
+            return state.hasCompleteCounterData &&
+                !!state.currency &&
+                !!state.bigDealCost &&
+                !!state.costBigDealIncrease
         },
 
         // @todo get rid of this

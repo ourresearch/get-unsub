@@ -70,7 +70,7 @@
 
       <!--            CONSORTIA                                            -->
       <!--*****************************************************************-->
-      <v-tab-item>
+      <v-tab-item v-if="userConsortia.length">
         <v-card flat>
 
           <v-list>

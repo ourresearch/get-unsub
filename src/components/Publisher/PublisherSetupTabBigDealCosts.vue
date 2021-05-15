@@ -21,7 +21,7 @@
 
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon v-if="!publisherCostBigDeal" color="warning">mdi-alert</v-icon>
+            <v-icon v-if="!publisherCostBigDeal" color="error">mdi-close-outline</v-icon>
             <v-icon v-if="publisherCostBigDeal" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
@@ -67,7 +67,7 @@
       <div>
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon v-if="!publisherCostBigDealIncrease" color="warning">mdi-alert</v-icon>
+            <v-icon v-if="!publisherCostBigDealIncrease" color="error">mdi-close-outline</v-icon>
             <v-icon v-if="publisherCostBigDealIncrease" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>

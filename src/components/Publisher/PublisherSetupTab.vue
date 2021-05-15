@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="py-3 mt-6">
+  <v-card flat class="py-3 pt-8">
     <template v-if="!institutionIsConsortium">
       <v-tabs
           v-model="tabModel"
@@ -7,50 +7,66 @@
           hide-slider
           class="publisher-setup-tab-tabs"
       >
-        <div class="black--text body-2 ml-4 mt-4 mb-2 font-weight-bold">
-          Setup menu
-        </div>
-        <v-tab v-for="tab in tabs"
-               class="body-1"
-               :disabled="tab.isDisabled"
-        >
-          <v-icon
-              small
-              left
-              v-if="tab.hasWarning"
-              color=""
+        <!--        <div class="black&#45;&#45;text body-2 ml-4 mt-4 mb-2 font-weight-bold">-->
+        <!--          Setup menu-->
+        <!--        </div>-->
+        <v-subheader>
+          1. Required data
+        </v-subheader>
+        <v-divider/>
+        <template v-for="tab in tabs">
+          <v-subheader class="mt-6" v-if="tab.isFirstRecommendedTab">
+            2. Recommended data
+          </v-subheader>
+          <v-tab
+              class="body-1"
+              :disabled="tab.isDisabled"
           >
-            mdi-alert
-          </v-icon>
-          <v-icon
-              small
-              left
-              v-if="!tab.hasWarning"
-              color=""
-          >
-            mdi-check-outline
-          </v-icon>
-          {{ tab.name }}
-        </v-tab>
+            <v-icon
+                small
+                left
+                v-if="tab.isWarning"
+                color=""
+            >
+              mdi-alert
+            </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isError"
+                color=""
+            >
+              mdi-close-outline
+            </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isComplete"
+                color=""
+            >
+              mdi-check-outline
+            </v-icon>
+            {{ tab.name }}
+          </v-tab>
+
+        </template>
 
         <v-tab-item>
-          <publisher-warning id="missingCounterData" />
-          <publisher-setup-tab-counter />
+          <publisher-setup-tab-counter/>
+        </v-tab-item>
+        <v-tab-item>
+          <publisher-setup-tab-currency/>
+        </v-tab-item>
+        <v-tab-item>
+          <publisher-setup-tab-big-deal-costs/>
         </v-tab-item>
         <v-tab-item>
           <publisher-warning id="missingPerpetualAccess"/>
-          <publisher-setup-tab-pta />
+          <publisher-setup-tab-pta/>
         </v-tab-item>
         <v-tab-item>
-          <publisher-warning id="missingPrices" />
-          <publisher-setup-tab-price />
-        </v-tab-item>
-        <v-tab-item>
-          <publisher-setup-tab-currency />
-        </v-tab-item>
-        <v-tab-item>
-          <publisher-warning id="missingBigDealCosts" />
-          <publisher-setup-tab-big-deal-costs />
+          <publisher-warning id="missingPrices"/>
+          <publisher-setup-tab-price/>
         </v-tab-item>
       </v-tabs>
     </template>
@@ -113,30 +129,30 @@ export default {
         {
           id: "counter",
           name: "COUNTER",
-          warningId: "missingCounterData",
-          isFirstPriority: true,
-        },
-        {
-          id: "pta",
-          name: "PTA",
-          warningId: "missingPerpetualAccess"
-        },
-        {
-          id: "pricelist",
-          name: "Journal pricelist",
-          warningId: "missingPrices"
+          isRequired: true,
         },
         {
           id: "currency",
           name: "Currency",
-          warningId: null,
-          isFirstPriority: true,
+          isRequired: true,
         },
         {
           id: "bigDealCosts",
           name: "Big Deal costs",
-          warningId: "missingBigDealCosts",
-          // isFirstPriority: true,
+          isRequired: true,
+        },
+        {
+          id: "pta",
+          name: "PTA",
+          warningId: "missingPerpetualAccess",
+          isFirstRecommendedTab: true,
+          isRecommended: true,
+        },
+        {
+          id: "pricelist",
+          name: "Journal pricelist",
+          warningId: "missingPrices",
+          isRecommended: true,
         },
       ]
     }
@@ -167,21 +183,22 @@ export default {
       "publisherWarnings",
       "institutionIsConsortium",
       "getPublisherWarning",
+      "publisherRequiredDataIsLoaded",
+      "publisherDataIsComplete",
     ]),
-    firstPriorityTabsHaveWarnings(){
-      return !!this.tabsConfig.find(t => {
-        const hasWarning = this.getPublisherWarning(t.warningId)
-        return hasWarning && t.isFirstPriority
-      })
-    },
     tabs() {
       const ret = this.tabsConfig.map(tabConfig => {
-        const ret = _.cloneDeep(tabConfig)
-        const isDisabled = this.firstPriorityTabsHaveWarnings && !ret.isFirstPriority
+        const isComplete = this.publisherDataIsComplete(tabConfig.id)
+        const isError = !isComplete && tabConfig.isRequired
+        const isWarning = !isComplete && tabConfig.isRecommended
+        const isDisabled = !this.publisherRequiredDataIsLoaded && tabConfig.isRecommended
+
         return {
           ..._.cloneDeep(tabConfig),
-          hasWarning: this.getPublisherWarning(ret.warningId),
-          isDisabled,
+          isComplete,
+          isError,
+          isWarning,
+          isDisabled
         }
       })
 
@@ -201,10 +218,19 @@ export default {
 .publisher-setup-tab-tabs {
   .v-tabs-items {
     margin-left: 70px;
-    margin-top: 9px;
+    margin-top: 15px;
   }
+
   .v-tabs-bar__content {
     align-items: flex-start !important;
+    .v-subheader {
+      font-weight: bold;
+      align-items: flex-end;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #ddd;
+      width: 100%;
+
+    }
 
     .v-tab {
       padding-right: 70px;
@@ -214,9 +240,10 @@ export default {
       //border-radius: 5px;
       //color: #333 !important;
     }
+
     .v-tab--active {
       font-weight: bold;
-      //background: #f0f0f0;
+      background: #E4F3FE;
     }
 
     //border-right: 1px solid #ddd;

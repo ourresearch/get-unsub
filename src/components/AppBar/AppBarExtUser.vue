@@ -6,7 +6,7 @@
           Institutions
           <span class="caption ml-2">({{userInstitutions.length}})</span>
         </v-tab>
-        <v-tab class="low-key-button">
+        <v-tab v-if="userConsortia.length" class="low-key-button">
           <v-icon small left>mdi-lan</v-icon>
           Consortia
           <span class="caption ml-2">({{userConsortia.length}})</span>

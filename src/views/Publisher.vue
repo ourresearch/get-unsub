@@ -15,6 +15,7 @@
         Loading package
       </div>
     </div>
+<!--    <pre> {{ $store.getters.publisherHalp }} </pre>-->
 
 
     <div class="loaded" v-if="loadingPercent === 100">
@@ -70,7 +71,7 @@
         <!--        <v-btn class="" icon><v-icon>mdi-chevron-left</v-icon></v-btn>-->
         <v-tab
             class="low-key-button"
-            :disabled="showSetupTabOnly"
+            v-if="showScenariosTab"
         >
           <v-icon small left>mdi-chart-box-outline</v-icon>
           Forecast scenarios
@@ -78,28 +79,29 @@
         </v-tab>
         <v-tab
             class="low-key-button"
-            :disabled="showSetupTabOnly || institutionIsConsortium"
+            v-if="showApcTab"
         >
           <v-icon small left>mdi-cash-100</v-icon>
           APCs
         </v-tab>
         <v-tab
             class="low-key-button"
+            v-if="showSetupTab"
         >
           <v-icon   small left>mdi-cog-outline</v-icon>
           Setup
-          <v-icon v-if="publisherWarnings.length" small right>mdi-alert</v-icon>
+<!--          <v-icon v-if="publisherWarnings.length" small right>mdi-alert</v-icon>-->
         </v-tab>
       </v-tabs>
       <v-divider/>
       <v-tabs-items v-model="currentTab">
-        <v-tab-item>
+        <v-tab-item v-if="showScenariosTab">
           <publisher-scenarios-tab/>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item v-if="showApcTab">
           <apc-tab/>
         </v-tab-item>
-        <v-tab-item>
+        <v-tab-item v-if="showSetupTab">
           <publisher-setup-tab/>
         </v-tab-item>
       </v-tabs-items>
@@ -160,6 +162,9 @@ export default {
       "institutionIsConsortium",
       "userEmail",
       "publisherWarnings",
+      "publisherRequiredDataIsLoaded",
+
+
 
 
       // apc stuff
@@ -175,6 +180,22 @@ export default {
     pkg() {
       return this.$store.getters.selectedPublisher
     },
+    showScenariosTab(){
+      return this.publisherRequiredDataIsLoaded
+    },
+    showApcTab(){
+      if (!this.publisherRequiredDataIsLoaded) return false
+      if (this.publisherIsFeeder) return false
+      if (this.institutionIsConsortium) return false
+      return true
+    },
+    showSetupTab(){
+      if (this.publisherIsFeeder) return false
+      if (this.institutionIsConsortium) return false
+      return true
+    },
+
+
     showSetupTabOnly() {
       if (this.publisherIsFeeder) {
         // feeders exist only to upload data. you can't do anything else here.
@@ -246,7 +267,7 @@ export default {
     if (!this.publisherScenariosAreAllLoaded) this.clearPublisher()
 
     await this.$store.dispatch("fetchPublisher", this.$route.params.publisherId)
-    this.currentTab = (this.showSetupTabOnly) ? 2 : 0
+    // this.currentTab = (this.showSetupTabOnly) ? 2 : 0
 
     console.log("publisher done loading", this.publisherCounterIsLive)
 

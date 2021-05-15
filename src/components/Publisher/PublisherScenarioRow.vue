@@ -23,7 +23,7 @@
           </div>
         </v-col>
         <v-spacer></v-spacer>
-        <v-col cols="1" class="text-right">
+        <v-col cols="2" class="text-right">
           {{ costTotal | currency(publisherCurrencySymbol) }}
         </v-col>
         <v-col cols="1" class="text-right">
