@@ -1,7 +1,7 @@
 <template>
         <v-card flat class="">
             <v-card flat v-if="sortedJournals" class="main-card">
-                <div class="table-wrapper">
+                <div class="table-wrapper mt-8">
                     <div class="table-portal">
                         <table>
                             <thead>

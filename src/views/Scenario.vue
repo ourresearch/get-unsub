@@ -181,98 +181,74 @@
 
               <v-col cols="8">
                 <v-card flat>
-                  <!--                            <v-toolbar flat height="120px" class="align-top" style="position: sticky; top: 0px; z-index: 8;">-->
-                  <v-card flat class="align-flex-start mt-9">
+                  <v-card flat class="mt-9">
                     <v-row class="mx-0 px-0">
                       <overview-graphic-subrs-counter/>
                       <v-spacer></v-spacer>
 
-                      <!--                                        <v-btn icon class="mr-2 ml-4" @click="toggleSearchBox">-->
-                      <!--                                            <v-icon>mdi-magnify</v-icon>-->
-                      <!--                                        </v-btn>-->
 
-                      <v-text-field
-                          hide-details
-                          ref="searchBox"
-                          dense
-                          label="Search journals"
-                          autocomplete="false"
-                          v-model="search"
-                          v-on:input="setJournalsFilterStatus"
-                          append-icon="mdi-magnify"
-                          class="mr-2 mt-1"
 
-                      />
+                      <div class="pt-1 d-flex">
+                        <v-slide-x-reverse-transition>
+                          <v-text-field
+                              hide-details
+                              ref="searchBox"
+                              dense
+                              label="Search journals"
+                              autocomplete="false"
+                              v-model="search"
+                              v-on:input="setJournalsFilterStatus"
+                              class="mr-4"
+                              outlined
+                              v-if="showSearchBox"
 
-                      <scenario-menu-columns :icon="true" direction="left"/>
-                      <v-menu>
-                        <template v-slot:activator="{on}">
-                          <v-btn
-                              v-on="on"
-                              icon
-                          >
-                            <v-icon>mdi-eye</v-icon>
-                          </v-btn>
-                        </template>
-                        <v-list dense subheader>
-                          <v-subheader>Display journals as:</v-subheader>
-                          <v-list-item
-                              v-for="option in menuSettingsView.displayJournalsAsOptions"
-                              :key="option.name"
-                              @click="menuViewSetDisplayJournalsAs(option.name)"
-                          >
-                            <v-list-item-icon>
-                              <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
-                                mdi-radiobox-marked
-                              </v-icon>
-                              <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
-                                mdi-radiobox-blank
-                              </v-icon>
-                            </v-list-item-icon>
+                          />
+                        </v-slide-x-reverse-transition>
+                        <v-btn icon class="mr-4" @click="showSearchBox = !showSearchBox">
+                          <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
+                          <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
+                        </v-btn>
 
-                            <v-list-item-title>
-                              <v-icon>{{ option.icon }}</v-icon>
-                              {{ option.name }}
-                            </v-list-item-title>
-                          </v-list-item>
-                        </v-list>
-                      </v-menu>
+                        <scenario-menu-columns class="mr-4" :icon="true" direction="left"/>
+                        <v-menu>
+                          <template v-slot:activator="{on}">
+                            <v-btn
+                                v-on="on"
+                                icon
+                                class="mr-0"
+                            >
+                              <v-icon>mdi-eye</v-icon>
+                            </v-btn>
+                          </template>
+                          <v-list dense subheader>
+                            <v-subheader>Display journals as:</v-subheader>
+                            <v-list-item
+                                v-for="option in menuSettingsView.displayJournalsAsOptions"
+                                :key="option.name"
+                                @click="menuViewSetDisplayJournalsAs(option.name)"
+                            >
+                              <v-list-item-icon>
+                                <v-icon v-if="option.name === menuSettingsView.displayJournalsAsSelected">
+                                  mdi-radiobox-marked
+                                </v-icon>
+                                <v-icon v-if="option.name !== menuSettingsView.displayJournalsAsSelected">
+                                  mdi-radiobox-blank
+                                </v-icon>
+                              </v-list-item-icon>
+
+                              <v-list-item-title>
+                                <v-icon>{{ option.icon }}</v-icon>
+                                {{ option.name }}
+                              </v-list-item-title>
+                            </v-list-item>
+                          </v-list>
+                        </v-menu>
+
+                      </div>
 
                     </v-row>
-
-                    <!--                                <v-toolbar-title>-->
-                    <!--                                    Title-by-title journals-->
-                    <!--                                    <span class="body-2">({{ numJournalsNotHiddenByFilters | round }})</span>-->
-                    <!--                                </v-toolbar-title>-->
-
-
-                    <!--                                <template v-slot:extension color="red">-->
-                    <!--                                    <overview-graphic-subrs-counter/>-->
-                    <!--                                </template>-->
 
                   </v-card>
-                  <v-card-text v-if="showSearchBox">
-                    <v-row>
-                      <v-text-field
-                          hide-details
-                          ref="searchBox"
-                          outlined
-                          dense
-                          label="Search journals"
-                          autocomplete="false"
-                          v-model="search"
-                          v-on:input="setJournalsFilterStatus"
-                          append-icon="mdi-magnify"
-                          full-width
-
-                      />
-                      <v-btn icon @click="toggleSearchBox" class="mr-2 ml-0">
-                        <v-icon>mdi-close</v-icon>
-                      </v-btn>
-
-                    </v-row>
-                  </v-card-text>
-                  <!--                            <v-divider/>-->
                   <v-card-text class="px-0">
                     <overview-graphic-bar-dots
                         class="pa-3"
