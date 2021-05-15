@@ -16,7 +16,12 @@
         <v-divider/>
         <template v-for="tab in tabs">
           <v-subheader class="mt-6" v-if="tab.isFirstRecommendedTab">
+            <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
             2. Recommended data
+            </span>
+            <span v-if="publisherRequiredDataIsLoaded">
+            2. Recommended data
+            </span>
           </v-subheader>
           <v-tab
               class="body-1"
@@ -26,7 +31,7 @@
                 small
                 left
                 v-if="tab.isWarning"
-                color=""
+                :color="(tab.isDisabled) ? 'grey' : 'warning'"
             >
               mdi-alert
             </v-icon>
@@ -34,7 +39,7 @@
                 small
                 left
                 v-if="tab.isError"
-                color=""
+                color="error"
             >
               mdi-close-outline
             </v-icon>
@@ -42,7 +47,7 @@
                 small
                 left
                 v-if="tab.isComplete"
-                color=""
+                color="success"
             >
               mdi-check-outline
             </v-icon>
@@ -184,11 +189,11 @@ export default {
       "institutionIsConsortium",
       "getPublisherWarning",
       "publisherRequiredDataIsLoaded",
-      "publisherDataIsComplete",
+      "getPublisherDataIsComplete",
     ]),
     tabs() {
       const ret = this.tabsConfig.map(tabConfig => {
-        const isComplete = this.publisherDataIsComplete(tabConfig.id)
+        const isComplete = this.getPublisherDataIsComplete(tabConfig.id)
         const isError = !isComplete && tabConfig.isRequired
         const isWarning = !isComplete && tabConfig.isRecommended
         const isDisabled = !this.publisherRequiredDataIsLoaded && tabConfig.isRecommended

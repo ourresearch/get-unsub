@@ -318,34 +318,34 @@
 
     <v-spacer/>
 
-    <div class="mr-4" v-if="scenarioName">
-      <div class="d-flex text-right align-center black--text three-numbers">
-        <div class="mx-4">
-          <div class="caption ">
-            Cost
-          </div>
-          <div class="font-weight-bold">
-          {{ myCost | currency(publisherCurrencySymbol) }}
-          </div>
-        </div>
-        <div class="mx-4">
-          <div class="caption ">
-            Access
-          </div>
-          <div class="font-weight-bold">
-          {{ libraryFulfillmentPercent | percent }}
-          </div>
-        </div>
-        <div class="mx-4">
-          <div class="caption ">
-            Titles
-          </div>
-          <div class="font-weight-bold">
-          {{ subrJournalsCount }}
-          </div>
-        </div>
-      </div>
-    </div>
+<!--    <div class="mr-4" v-if="scenarioName">-->
+<!--      <div class="d-flex text-right align-center black&#45;&#45;text three-numbers">-->
+<!--        <div class="mx-4">-->
+<!--          <div class="caption ">-->
+<!--            Cost-->
+<!--          </div>-->
+<!--          <div class="font-weight-bold">-->
+<!--          {{ myCost | currency(publisherCurrencySymbol) }}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mx-4">-->
+<!--          <div class="caption ">-->
+<!--            Access-->
+<!--          </div>-->
+<!--          <div class="font-weight-bold">-->
+<!--          {{ libraryFulfillmentPercent | percent }}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="mx-4">-->
+<!--          <div class="caption ">-->
+<!--            Titles-->
+<!--          </div>-->
+<!--          <div class="font-weight-bold">-->
+<!--          {{ subrJournalsCount }}-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
 
 
     <div class="no-highlight" v-if="isLoggedIn">

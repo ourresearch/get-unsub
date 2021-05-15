@@ -21,17 +21,6 @@
           ({{ scenarioMemberInstitutions.length }})
         </v-tab>
         <v-spacer/>
-        <div v-if="0" class="d-flex align-center black--text">
-          <div class="mx-3 black--text">
-            {{ myCost | currency }}
-          </div>
-          <div class="mx-3">
-            {{ myInstantUsagePercent | percent }}
-          </div>
-          <div class="mx-3">
-            {{ subrJournalsCount }}
-          </div>
-        </div>
         <div class="d-flex align-center">
           <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">
             <template v-slot:activator="{ on }">

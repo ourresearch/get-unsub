@@ -39,44 +39,6 @@ const publisherLogoFromId = function (id) {
     }
 }
 
-const publisherJournalColumns = [
-    {
-        id: "issnl",
-        name: "ISSN",
-        descr: "The journal's canonical ISSN (ISSN-L)",
-        displayAs: "text"
-    },
-    {
-        id: "name",
-        name: "Title",
-        descr: "The journal's title",
-        displayAs: "text"
-    },
-    {
-        id: "price",
-        name: "Price",
-        descr: "Your title-by-title subscription cost for the journal. Default: public list price.",
-        displayAs: "currency"
-    },
-    {
-        id: "paStart",
-        name: "PA end",
-        descr: "You don't have perpetual access to articles published before this date. Default: none.",
-        displayAs: "date"
-    },
-    {
-        id: "paEnd",
-        name: "PA start",
-        descr: "You don't have perpetual access to articles published after this date. Default: none",
-        displayAs: "date"
-    },
-    {
-        id: "omittedBecause",
-        name: "Omitted because",
-        descr: "If the journal is omitted from forecast scenarios, here's why",
-        displayAs: "listOfStrings"
-    },
-]
 
 const makePublisherJournal = function (apiJournal) {
 

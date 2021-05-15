@@ -52,7 +52,6 @@ export const publisher = {
         name: "",
         isDemo: false,
         scenarios: [],
-        journalDetail: {},
         journals: [],
         dataFiles: [],
         warnings: [],
@@ -81,8 +80,6 @@ export const publisher = {
             state.name = ""
             state.isDemo = false
             state.scenarios = []
-            state.journalDetail = {}
-            state.journals = []
             state.dataFiles = []
             state.warnings = []
             state.counterIsUploaded = false
@@ -124,11 +121,6 @@ export const publisher = {
                 return ret
             })
 
-            state.journalDetail = apiPublisher.journal_detail
-            state.journals = []
-            state.journals = apiPublisher.journals.map(j => {
-                return makePublisherJournal(j)
-            })
 
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
                 return makePublisherFileStatus(dataFile)
@@ -280,8 +272,6 @@ export const publisher = {
 
         publisherId: (state) => state.id,
         publisherPublisher: (state) => state.publisher,
-        publisherJournals: (state) => state.journals,
-        publisherJournalsValid: (state) => state.journals.filter(j => j.isValid),
         publisherScenariosCount: (state) => state.scenarios.length,
         publisherScenario: (state) => (id) => {
             return state.scenarios.find(s => s.id === id)
@@ -314,7 +304,7 @@ export const publisher = {
             return ret
         },
 
-        publisherDataIsComplete: (state) => (dataType) => {
+        getPublisherDataIsComplete: (state) => (dataType) => {
             if (dataType === "counter") {
                 return state.hasCompleteCounterData
             }
@@ -325,10 +315,10 @@ export const publisher = {
                 return !!state.bigDealCost && !!state.costBigDealIncrease
             }
             else if (dataType === "pta") {
-                return state.warnings.indexOf(w => w.id === "missingPerpetualAccess") > -1
+                return state.warnings.findIndex(w => w.id === "missingPerpetualAccess") === -1
             }
             else if (dataType === "pricelist") {
-                return state.warnings.indexOf(w => w.id === "missingPrices") > -1
+                return state.warnings.findIndex(w => w.id === "missingPrices") === -1
             }
         },
         publisherHalp: (state) => {
@@ -368,6 +358,10 @@ export const publisher = {
             if (state.dataFiles.filter(f => f.counterVersion === 4).some(f => f.isLive)) {
                 return 4
             }
+        },
+
+        publisherAnnualBigDealCost: (state) => {
+
         },
 
 
