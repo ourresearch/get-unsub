@@ -2,26 +2,26 @@
   <v-card flat  class="setup-subtab-content">
     <div>
       <div class="text-h6">Selected Currency</div>
-      <div>
-        Your selected currency determines which default pricelist will be used for individual titles (eg: if you select
-        UK Pounds Sterling, we'll use this publisher's UK pricelist) as well as changing currency display used throughout the
-        app. However, it doesn't <em>convert</em> from one currency to another; any prices you enter or upload will need
-        to be in the currency you've selected. If you've already uploaded prices in a different currency, you'll need to
-        delete those and re-upload prices in the new selected currency.
-      </div>
+      <p>
+        Your selected currency is used in many places throughout the app. Noteably, it determines which default pricelist will be used for individual titles. For example, if you select  UK Pounds Sterling, we'll use this publisher's UK public pricelist.
+      </p>
+
+      <p>
+        However, it doesn't <em>convert</em> from one currency to another. So for example, if you've already uploaded a pricelist in dollars (USD), and you now change your currency to pounds (GBP), you'll need to delete your old pricelist and replace it with new one, denominated in pounds.
+      </p>
       <v-radio-group
           class="mt-5"
           v-model="currency"
       >
         <v-radio
             value="USD"
-            label="US Dollars"
+            label="US Dollars (USD)"
             :disabled="isLoading"
             @click="openDialog"
         />
         <v-radio
             value="GBP"
-            label="UK Pounds Sterling"
+            label="UK Pounds Sterling (GBP)"
             :disabled="isLoading"
             @click="openDialog"
         />

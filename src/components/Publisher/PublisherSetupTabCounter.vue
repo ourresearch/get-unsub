@@ -6,11 +6,15 @@
         <div class="text-h6">
           COUNTER version
         </div>
-        <div class="pa-3" v-if="!!publisherCounterVersion">
-          To change this, first delete the
-          <span v-if="publisherCounterVersion === 4">COUNTER 4 JR1 file</span>
-          <span v-if="publisherCounterVersion === 5">COUNTER 5 files</span>
-          currently in use.
+        <div>
+          This is the version of counter files you're using. COUNTER 5<template v-if="publisherCounterVersion === 5">, which you're currently using, </template>
+          will generate more accurate forecasts.
+          <template v-if="!!publisherCounterVersion">
+             To change COUNTER version, first delete the
+            <span v-if="publisherCounterVersion === 4">COUNTER 4 JR1 file</span>
+            <span v-if="publisherCounterVersion === 5">COUNTER 5 files</span>
+            you've already uploaded.
+          </template>
         </div>
         <div class="pa-3">
           <v-radio-group

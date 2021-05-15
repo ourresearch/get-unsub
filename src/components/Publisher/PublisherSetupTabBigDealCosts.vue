@@ -1,15 +1,12 @@
 <template>
-  <v-card flat   class="setup-subtab-content">
+  <v-card flat class="setup-subtab-content">
     <div>
       <div class="text-h6">
         Big Deal annual cost
       </div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+        Enter the annual cost of your Big Deal from this publisher. If you don't have a Big Deal, enter your total
+        annual spend on journals from this publisher.
       </div>
 
       <div>
@@ -34,9 +31,8 @@
 
           </v-list-item-content>
           <v-list-item-action class="align-self-start">
-            <v-btn @click="openCostDialog" color="primary" class="">
-              <v-icon left>mdi-pencil</v-icon>
-              edit
+            <v-btn fab small @click="openCostDialog" color="primary" class="" elevation="2">
+              <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -47,11 +43,8 @@
         Big Deal annual cost increase (%)
       </div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+        Enter the annual growth in the cost of your Big Deal. As above, if you don't have a Big Deal, just estimate the
+        growth of your total spending on titles from this publisher.
       </div>
 
       <div>
@@ -75,9 +68,8 @@
 
           </v-list-item-content>
           <v-list-item-action class="align-self-start">
-            <v-btn @click="openIncreaseDialog" color="primary" class="ml-5">
-              <v-icon left>mdi-pencil</v-icon>
-              edit
+            <v-btn fab small @click="openIncreaseDialog" color="primary" class="ml-5" elevation="2">
+              <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-list-item-action>
         </v-list-item>
@@ -88,11 +80,14 @@
         Big Deal 5-year annual cost
       </div>
       <div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+        This is your estimated amount you'll pay to this publisher per annum <em>over the next five years.</em> It's
+        generated automatically: we simply start with your annual spend
+        <template v-if="publisherBigDealCost">
+          ({{ publisherBigDealCost | currency(publisherCurrencySymbol) }})</template>,
+
+        compute its five-year compound growth as determined by your annual cost increase
+        <template v-if="publishersBigDealCostIncrease">({{ publishersBigDealCostIncrease | percent(2) }})</template>,
+        and finally calculate a yearly average.
       </div>
 
       <div>
@@ -122,17 +117,8 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-      <!--            DIALOGS                                          -->
-      <!--*****************************************************************-->
+    <!--            DIALOGS                                          -->
+    <!--*****************************************************************-->
 
 
     <v-dialog
@@ -192,7 +178,7 @@
               outlined
               placeholder="1.8"
               type="number"
-              suffix="%"
+              append-icon="mdi-percent"
           />
         </div>
         <v-card-actions>
@@ -301,7 +287,7 @@ export default {
       "publishersBigDealCostIncrease",
       "publisherCurrencyIconName",
       "publisherCurrencySymbol",
-        "publisherBigDeal5YearAnnualCost",
+      "publisherBigDeal5YearAnnualCost",
 
     ]),
   },
@@ -320,7 +306,7 @@ export default {
 
 <style scoped lang="scss">
 .setting-list-item {
-  max-width: 400px;
+  max-width: 300px;
 }
 
 
