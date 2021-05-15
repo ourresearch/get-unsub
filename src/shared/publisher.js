@@ -40,83 +40,19 @@ const publisherLogoFromId = function (id) {
 }
 
 
-const makePublisherJournal = function (apiJournal) {
-
-    const omittedBecause = []
-    if (apiJournal.attributes.changed_publisher) {
-        omittedBecause.push("New publisher")
+const bigDealAnnualCost = function (costThisYear, yearlyIncrease) {
+    let totalCost = 0
+    let numYears = 5
+    for (let i = 1; i <= numYears; i++) {
+        totalCost += costThisYear
+        costThisYear = costThisYear * (1 + yearlyIncrease)
     }
-    if (apiJournal.attributes.is_oa) {
-        omittedBecause.push("Fully OA")
-    }
-    if (apiJournal.attributes.not_published_2019) {
-        omittedBecause.push("Ceased publication")
-    }
-    if (apiJournal.error) {
-        omittedBecause.push("Input error")
-    }
-
-    const isInactive = apiJournal.attributes.not_published_2019
-    const isMoved = apiJournal.attributes.changed_publisher
-    const isOa = apiJournal.attributes.is_oa
-
-
-    const dataSources = apiJournal.data_sources.map(source => {
-        source.id = _.camelCase(source.id)
-        return source
-    })
-
-    const dataSourcesDict = {}
-    apiJournal.data_sources.forEach(source => {
-        dataSourcesDict[_.camelCase(source.id)] = source
-    })
-
-    const isMissingDataFor = dataSources.map(source => {
-        return (!source.source) ? source.id : null
-    }).filter(Boolean)
-
-    const isValid = ([
-        dataSourcesDict.counter.source,
-        !apiJournal.error,
-        !isInactive,
-        !isMoved,
-        !isOa,
-    ]).every(x => x)
-
-    const price = dataSourcesDict.price.value
-    const counter = dataSourcesDict.counter.value
-    const perpetualAccessStart = dataSourcesDict.perpetualAccess.value[0]
-    const perpetualAccessEnd = dataSourcesDict.perpetualAccess.value[1]
-
-
-    return {
-        issnl: apiJournal.issn_l,
-        name: apiJournal.name,
-        dataSources,
-        dataSourcesDict,
-        isMissingDataFor,
-
-        isValid,
-
-        omittedBecause,
-        isInactive,
-        isMoved,
-        isOa,
-        isError: !!apiJournal.error,
-        isForecastable: !omittedBecause.length,
-        error: apiJournal.error,
-
-        price,
-        counter,
-        perpetualAccessStart,
-        perpetualAccessEnd,
-    }
-
+    return totalCost / numYears
 }
 
 
 export {
     publisherLogoFromId,
-    makePublisherJournal,
     publisherConfig,
+    bigDealAnnualCost,
 }

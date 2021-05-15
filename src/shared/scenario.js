@@ -98,10 +98,7 @@ const newScenarioObjectFromApiData = function (apiData) {
     ret.memberInstitutions = apiData.member_institutions
     ret.saved = apiData.saved
 
-    ret.costBigdealProjected = setCostBigdealProjected(
-        parseInt(apiData.saved.configs.cost_bigdeal),
-        parseInt(apiData.saved.configs.cost_bigdeal_increase) * 0.01,
-    )
+
     return ret
 }
 
@@ -116,7 +113,6 @@ const newScenario = function (id = "") {
         id: id,
         idHash: toHexHash(id),
         journals: [],
-        costBigdealProjected: 0,
         isLockedPendingUpdate: false,
         updatePercentComplete: 100,
         memberInstitutions: [],
@@ -140,16 +136,6 @@ const newScenarioId = function (isDemo) {
     let id = "scenario-" + short.generate().slice(0, 8)
     if (isDemo) id = "demo-" + id
     return id
-}
-
-const setCostBigdealProjected = function (costThisYear, yearlyIncrease) {
-    let totalCost = 0
-    let numYears = 5
-    for (let i = 1; i <= numYears; i++) {
-        totalCost += costThisYear
-        costThisYear = costThisYear * (1 + yearlyIncrease)
-    }
-    return totalCost / numYears
 }
 
 

@@ -15,7 +15,7 @@ import {
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
-import {publisherLogoFromId} from "../shared/publisher";
+import {publisherLogoFromId, bigDealAnnualCost} from "../shared/publisher";
 
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
@@ -57,6 +57,7 @@ export const publisher = {
         warnings: [],
         counterIsUploaded: false,
         bigDealCost: 0,
+        bigDealCostIncrease: 0,
         isOwnedByConsortium: false,
         currency: "USD",
         costBigDeal: null,
@@ -84,6 +85,9 @@ export const publisher = {
             state.warnings = []
             state.counterIsUploaded = false
             state.bigDealCost = 0
+            state.bigDealCostIncrease = 0
+
+
             state.hasCompleteCounterData = false
 
             state.apcHeaders = []
@@ -93,7 +97,7 @@ export const publisher = {
             state.apcCost = null
             state.isOwnedByConsortium = false
             state.currency = "USD"
-            state.costBigdDal = null,
+            state.costBigdDeal = null,
             state.costBigDealIncrease = null
 
         },
@@ -133,10 +137,12 @@ export const publisher = {
 
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
+            state.bigDealCostIncrease = apiPublisher.cost_bigdeal_increase
+            
             state.isOwnedByConsortium = apiPublisher.is_owned_by_consortium
             state.currency = apiPublisher.currency
             state.costBigDeal = apiPublisher.cost_bigdeal
-            state.costBigDealIncrease = apiPublisher.cost_bigdeal_increase
+            state.bigDealCostIncrease = apiPublisher.cost_bigdeal_increase
         },
         startLoading(state) {
             state.isLoading = true
@@ -312,7 +318,7 @@ export const publisher = {
                 return !!state.currency
             }
             else if (dataType === "bigDealCosts") {
-                return !!state.bigDealCost && !!state.costBigDealIncrease
+                return !!state.bigDealCost && !!state.bigDealCostIncrease
             }
             else if (dataType === "pta") {
                 return state.warnings.findIndex(w => w.id === "missingPerpetualAccess") === -1
@@ -326,20 +332,15 @@ export const publisher = {
                 hasCompleteCounterData: state.hasCompleteCounterData,
                 currency: state.currency,
                 bigDealCost: state.bigDealCost,
-                costBigDealIncrease: state.costBigDealIncrease,
+                bigDealCostIncrease: state.bigDealCostIncrease,
             }
         },
 
         publisherRequiredDataIsLoaded: (state) => {
-            console.log("state.hasCompleteCounterData", state.hasCompleteCounterData)
-            console.log("state.currency", state.currency)
-            console.log("state.bigDealCost", state.bigDealCost)
-            console.log("state.costBigDealIncrease", state.costBigDealIncrease)
-
             return state.hasCompleteCounterData &&
                 !!state.currency &&
                 !!state.bigDealCost &&
-                !!state.costBigDealIncrease
+                !!state.bigDealCostIncrease
         },
 
         // @todo get rid of this
@@ -360,8 +361,9 @@ export const publisher = {
             }
         },
 
-        publisherAnnualBigDealCost: (state) => {
-
+        publisherBigDeal5YearAnnualCost: (state) => {
+            if (!state.bigDealCost || !state.bigDealCostIncrease) return
+            return bigDealAnnualCost(state.bigDealCost, state.bigDealCostIncrease / 100)
         },
 
 
@@ -401,8 +403,7 @@ export const publisher = {
             }
             return symbols[state.currency]
         },
-        publisherCostBigDeal: (state) => state.costBigDeal,
-        publisherCostBigDealIncrease: (state) => state.costBigDealIncrease,
+        publishersBigDealCostIncrease: (state) => state.bigDealCostIncrease,
 
 
         // apc stuff

@@ -21,15 +21,15 @@
 
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon v-if="!publisherCostBigDeal" color="error">mdi-close-outline</v-icon>
-            <v-icon v-if="publisherCostBigDeal" color="success">mdi-check-outline</v-icon>
+            <v-icon v-if="!publisherBigDealCost" color="error">mdi-close-outline</v-icon>
+            <v-icon v-if="publisherBigDealCost" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <div class="text-h5">
-              <span v-if="publisherCostBigDeal">
-                {{ publisherCostBigDeal | currency(publisherCurrencySymbol) }}
+              <span v-if="publisherBigDealCost">
+                {{ publisherBigDealCost | currency(publisherCurrencySymbol) }}
               </span>
-              <span v-if="!publisherCostBigDeal">
+              <span v-if="!publisherBigDealCost">
                 Not set
               </span>
             </div>
@@ -67,15 +67,15 @@
       <div>
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon v-if="!publisherCostBigDealIncrease" color="error">mdi-close-outline</v-icon>
-            <v-icon v-if="publisherCostBigDealIncrease" color="success">mdi-check-outline</v-icon>
+            <v-icon v-if="!publishersBigDealCostIncrease" color="error">mdi-close-outline</v-icon>
+            <v-icon v-if="publishersBigDealCostIncrease" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <div class="text-h5">
-              <span v-if="publisherCostBigDealIncrease">
-                {{ publisherCostBigDealIncrease | percent(2) }}
+              <span v-if="publishersBigDealCostIncrease">
+                {{ publishersBigDealCostIncrease | percent(2) }}
               </span>
-              <span v-if="!publisherCostBigDealIncrease">
+              <span v-if="!publishersBigDealCostIncrease">
                 Not set
               </span>
             </div>
@@ -94,7 +94,60 @@
       </div>
 
 
+      <div class="text-h6 mt-12">
+        Big Deal 5-year annual cost
+        <v-btn icon
+               href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+               target="_blank">
+          <v-icon small>mdi-help-circle-outline</v-icon>
+        </v-btn>
+      </div>
+      <div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </div>
+
+      <div>
+        <v-list-item class="setting-list-item">
+          <v-list-item-icon>
+            <v-icon v-if="!publisherBigDeal5YearAnnualCost" color="error">mdi-close-outline</v-icon>
+            <v-icon v-if="publisherBigDeal5YearAnnualCost" color="success">mdi-check-outline</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <div class="text-h5">
+              <span v-if="publishersBigDealCostIncrease">
+                {{ publisherBigDeal5YearAnnualCost | currency(publisherCurrencySymbol) }}
+              </span>
+              <span v-if="!publishersBigDealCostIncrease">
+                Unknown
+              </span>
+            </div>
+            <div class="body-2">
+              5-yr annual cost
+            </div>
+
+          </v-list-item-content>
+        </v-list-item>
+      </div>
+
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
+      <!--            DIALOGS                                          -->
+      <!--*****************************************************************-->
 
 
     <v-dialog
@@ -136,7 +189,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
 
 
     <v-dialog
@@ -223,19 +275,18 @@ export default {
     },
     openCostDialog() {
       this.dialogs.cost = true
-      this.newVal = this.publisherCostBigDeal
+      this.newVal = this.publisherBigDealCost
     },
     openIncreaseDialog() {
       this.dialogs.increase = true
-      this.newVal = this.publisherCostBigDealIncrease
+      this.newVal = this.publishersBigDealCostIncrease
     },
 
-    createPostData(){
-      if (this.dialogs.cost){
-        return { cost_bigdeal: this.newVal }
-      }
-      else {
-        return { cost_bigdeal_increase: this.newVal }
+    createPostData() {
+      if (this.dialogs.cost) {
+        return {cost_bigdeal: this.newVal}
+      } else {
+        return {cost_bigdeal_increase: this.newVal}
       }
     },
 
@@ -261,10 +312,11 @@ export default {
       "publisherId",
       "publisherWarnings",
       "publisherCurrency",
-      "publisherCostBigDeal",
-      "publisherCostBigDealIncrease",
+      "publisherBigDealCost",
+      "publishersBigDealCostIncrease",
       "publisherCurrencyIconName",
       "publisherCurrencySymbol",
+        "publisherBigDeal5YearAnnualCost",
 
     ]),
   },

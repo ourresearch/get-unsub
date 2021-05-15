@@ -455,6 +455,7 @@ export default {
       'scenarioUpdatePercentComplete',
       'userEmail',
       'scenarioUpdateNotificationEmail',
+        "publisherBigDeal5YearAnnualCost"
 
     ]),
 
@@ -471,7 +472,7 @@ export default {
       return this.$store.getters.subrJournalsCount
     },
     costPercent() {
-      return 100 * this.costTotal / this.$store.getters.costBigdealProjected
+      return 100 * this.costTotal / this.publisherBigDeal5YearAnnualCost
     },
     subscribedJournals() {
       return this.journals.filter(j => !!j.subscribed || j.customSubscribed)
@@ -482,7 +483,7 @@ export default {
     costSegments() {
       return costList(
           this.journals,
-          this.$store.getters.costBigdealProjected,
+          this.publisherBigDeal5YearAnnualCost,
       )
     },
     usageSegments() {

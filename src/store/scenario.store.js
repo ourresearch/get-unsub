@@ -274,7 +274,7 @@ export const scenario = {
             return state.selected.saved.configs
         },
         costBigdealProjected(state) {
-            return state.selected.costBigdealProjected
+            return 42
         },
         config: (state) => (k) => {
             return state.selected.saved.configs[k]
