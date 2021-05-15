@@ -113,7 +113,7 @@
       <div>
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon v-if="!publisherBigDeal5YearAnnualCost" color="error">mdi-close-outline</v-icon>
+            <v-icon v-if="!publisherBigDeal5YearAnnualCost" color="warning">mdi-alert</v-icon>
             <v-icon v-if="publisherBigDeal5YearAnnualCost" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
