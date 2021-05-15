@@ -5,7 +5,7 @@
 
 
       <div class="text-h6">
-        Public pricelist
+        Public journal pricelist
         <v-btn icon href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices" target="_blank">
             <v-icon small>mdi-help-circle-outline</v-icon>
           </v-btn>
@@ -21,7 +21,7 @@
 
     <div class="pt-12">
       <div class="text-h6">
-        Custom pricelist
+        Custom journal pricelist
         <v-btn icon href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices" target="_blank">
             <v-icon small>mdi-help-circle-outline</v-icon>
           </v-btn>

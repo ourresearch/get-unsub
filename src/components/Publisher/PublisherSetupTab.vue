@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="py-3 pt-8">
+  <v-card flat class="py-3 pt-10">
     <template v-if="!institutionIsConsortium">
       <v-tabs
           v-model="tabModel"
@@ -10,12 +10,12 @@
         <!--        <div class="black&#45;&#45;text body-2 ml-4 mt-4 mb-2 font-weight-bold">-->
         <!--          Setup menu-->
         <!--        </div>-->
-        <v-subheader>
+        <v-subheader class="">
           1. Required data
         </v-subheader>
         <v-divider/>
         <template v-for="tab in tabs">
-          <v-subheader class="mt-6" v-if="tab.isFirstRecommendedTab">
+          <v-subheader class="mt-" v-if="tab.isFirstRecommendedTab">
             <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
             2. Recommended data
             </span>
@@ -57,19 +57,69 @@
         </template>
 
         <v-tab-item>
+          <div class="header">
+            <div class="main-title">
+              COUNTER
+            </div>
+            <v-spacer />
+            <div v-if="getPublisherDataIsComplete('counter')" class="success--text">
+              <v-icon small left color="success">mdi-check-outline</v-icon>
+              Fully loaded
+            </div>
+          </div>
           <publisher-setup-tab-counter/>
         </v-tab-item>
+
+
         <v-tab-item>
+          <div class="header">
+            <div class="main-title">
+              Currency
+            </div>
+            <v-spacer />
+            <div class="success--text">
+              <v-icon small left color="success">mdi-check-outline</v-icon>
+              Fully loaded
+            </div>
+          </div>
           <publisher-setup-tab-currency/>
         </v-tab-item>
+
+
         <v-tab-item>
+          <div class="header">
+            <div class="main-title">
+              Big Deal costs
+            </div>
+            <v-spacer />
+            <div v-if="getPublisherDataIsComplete('bigDealCosts')" class="success--text">
+              <v-icon small left color="success">mdi-check-outline</v-icon>
+              Fully loaded
+            </div>
+            <div v-if="!getPublisherDataIsComplete('bigDealCosts')" class="error--text">
+              <v-icon small left color="error">mdi-close-outline</v-icon>
+              Missing data
+            </div>
+          </div>
           <publisher-setup-tab-big-deal-costs/>
         </v-tab-item>
+
+
         <v-tab-item>
+          <div class="header">
+            <div class="main-title">
+              PTA (Post-Termination Access)
+            </div>
+          </div>
           <publisher-warning id="missingPerpetualAccess"/>
           <publisher-setup-tab-pta/>
         </v-tab-item>
         <v-tab-item>
+          <div class="header">
+            <div class="main-title">
+              Journal Pricelist
+            </div>
+          </div>
           <publisher-warning id="missingPrices"/>
           <publisher-setup-tab-price/>
         </v-tab-item>
@@ -191,6 +241,13 @@ export default {
       "publisherRequiredDataIsLoaded",
       "getPublisherDataIsComplete",
     ]),
+    pricelistWarning(){
+      return this.getPublisherWarning("missingPrices")
+    },
+    ptaWarning(){
+      return this.getPublisherWarning("missingPerpetualAccess")
+    },
+
     tabs() {
       const ret = this.tabsConfig.map(tabConfig => {
         const isComplete = this.getPublisherDataIsComplete(tabConfig.id)
@@ -221,6 +278,21 @@ export default {
 <style lang="scss">
 
 .publisher-setup-tab-tabs {
+  .header {
+    display: flex;
+    align-content: flex-end;
+    align-items: flex-end;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+    margin-bottom: 10px;
+    margin-right: 30px;
+    font-weight: bold;
+    .main-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
+
   .v-tabs-items {
     margin-left: 70px;
     margin-top: 15px;
@@ -228,6 +300,7 @@ export default {
 
   .v-tabs-bar__content {
     align-items: flex-start !important;
+    margin-top: 8px;
     .v-subheader {
       font-weight: bold;
       align-items: flex-end;

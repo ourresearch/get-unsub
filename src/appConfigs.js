@@ -220,23 +220,6 @@ const scenarioConfigs = {
         displayName: "Title-by-title subscription cost growth",
         descr: "The annual percent increase you expect in title-by-title subscription prices (literature suggests 8%).",
     },
-    cost_bigdeal: {
-        name: "cost_bigdeal",
-        default: 2100000,
-        value: null,
-        display: "dollars",
-        displayName: "Big Deal cost",
-        descr: "The cost of your Big Deal right now (or of the bundle of title-by-title subscriptions, if you don't have a Big Deal)."
-    },
-    cost_bigdeal_increase: {
-        name: "cost_bigdeal_increase",
-        default: 5,
-        value: null,
-        display: "percent",
-        displayName: "Big Deal growth",
-        descr: "The annual percent increase in your Big Deal price (literature suggests average is 5% if a Big Deal, 8% if individual subscriptions)."
-
-    },
     cost_content_fee_percent: {
         name: "cost_content_fee_percent",
         default: 5.7,
@@ -285,29 +268,6 @@ const scenarioConfigs = {
         displayName: "Include ResearchGate-hosted content",
         descr: "Include ResearchGate and other Academic Social Networks as a fulfillment source.",
     },
-    include_backfile: {
-        name: "include_backfile",
-        isBackfile: true,
-        default: true,
-        value: null,
-        display: "boolean",
-        displayName: "Include PTA fulfillment",
-        descr: "Include PTA (Post-Termination Access) a type of fulfillment.  Disable to see what fulfillment would be like if you have zero PTA.",
-    },
-    backfile_contribution: {
-        name: "backfile_contribution",
-        isBackfile: true,
-        default: 100,
-        value: null,
-        display: "percent",
-        displayName: "PTA fulfillment percent",
-        descr: "Your estimate for how much usage can be fulfilled by your PTA (Post-Termination Access). Eg: if you guess you have PTA for 90% of your content, set this to 90%. This is a quick-and-dirty alternative to the preferred approach (uploading your PTA dates by journal).",
-
-        // We are discontinuing this parameter. Most users aren't using it. BUT there might be some users who actually
-        // are using this now in production, and for them it will be super weird if it just disappears. So we will
-        // hide it for everyone UNLESS you have set it to something other than the default.
-        hideIfDefault: true,
-    },
     package: {
         display: false
     },
@@ -334,8 +294,6 @@ const scenarioConfigGroups = [
         name: "costs",
         displayName: "Costs",
         contents: [
-            scenarioConfigs.cost_bigdeal,
-            scenarioConfigs.cost_bigdeal_increase,
             scenarioConfigs.cost_alacart_increase,
             scenarioConfigs.cost_content_fee_percent,
         ],
@@ -355,8 +313,6 @@ const scenarioConfigGroups = [
             scenarioConfigs.include_bronze,
             scenarioConfigs.include_submitted_version,
             scenarioConfigs.include_social_networks,
-            scenarioConfigs.include_backfile,
-            scenarioConfigs.backfile_contribution,
         ],
     },
     {

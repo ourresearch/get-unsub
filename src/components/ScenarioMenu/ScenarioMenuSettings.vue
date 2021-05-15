@@ -48,7 +48,6 @@
                                         class="body-2"
                                         @click="startEdit(config.name)"
                                         v-on="on"
-                                        :disabled="config.name ==='cost_bigdeal' && institutionIsConsortium"
                                 >
                                     <v-list-item-content>
                                         {{config.displayName}}

@@ -4,7 +4,7 @@
     <div class="">
 
       <div class="text-h6">
-        PTA (Post-Termination Access)
+        Your PTA file
         <v-btn icon href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates" target="_blank">
             <v-icon small>mdi-help-circle-outline</v-icon>
           </v-btn>
