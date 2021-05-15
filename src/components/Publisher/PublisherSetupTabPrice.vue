@@ -1,14 +1,12 @@
 <template>
-  <v-card flat class="">
+  <v-card flat  class="setup-subtab-content">
     <div>
 
 
 
       <div class="text-h6">
         Public journal pricelist
-        <v-btn icon href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices" target="_blank">
-            <v-icon small>mdi-help-circle-outline</v-icon>
-          </v-btn>
+
       </div>
       <div>
         We automatically load title-by-title prices from this publisher's public pricelist. You can override these prices, or add missing ones, by uploading a custom pricelist below.
@@ -22,9 +20,6 @@
     <div class="pt-12">
       <div class="text-h6">
         Custom journal pricelist
-        <v-btn icon href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices" target="_blank">
-            <v-icon small>mdi-help-circle-outline</v-icon>
-          </v-btn>
       </div>
       <div>
         Some of your titles may not be included in the public pricelist (or they are, and you want to override them with custom prices). To solve this, upload a spreadsheet with your quoted title-by-title price for each journal. The spreadsheet should have two columns: <strong>ISSN</strong> and <strong>Price</strong>. Accepted formats are:

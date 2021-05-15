@@ -1,13 +1,10 @@
 <template>
-  <v-card flat class="">
+  <v-card flat  class="setup-subtab-content">
 
     <div class="">
 
       <div class="text-h6">
         Your PTA file
-        <v-btn icon href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates" target="_blank">
-            <v-icon small>mdi-help-circle-outline</v-icon>
-          </v-btn>
       </div>
       <div>
         Upload your perpetual access dates as a spreadsheet with one journal per row. The spreadsheet should have three columns: <strong>ISSN</strong>,

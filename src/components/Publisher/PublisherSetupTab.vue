@@ -59,9 +59,17 @@
         <v-tab-item>
           <div class="header">
             <div class="main-title">
-              COUNTER
+              Setup:
+              <strong>
+                COUNTER
+              </strong>
+              <v-btn small icon
+                     href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data"
+                     target="_blank">
+                <v-icon small>mdi-help-circle-outline</v-icon>
+              </v-btn>
             </div>
-            <v-spacer />
+            <v-spacer/>
             <div v-if="getPublisherDataIsComplete('counter')" class="success--text">
               <v-icon small left color="success">mdi-check-outline</v-icon>
               Fully loaded
@@ -74,9 +82,17 @@
         <v-tab-item>
           <div class="header">
             <div class="main-title">
-              Currency
+              Setup:
+              <strong>
+                Currency
+              </strong>
+              <v-btn small icon
+                     href="http://help.unsub.org/en/articles/4055375-what-currencies-are-supported"
+                     target="_blank">
+                <v-icon small>mdi-help-circle-outline</v-icon>
+              </v-btn>
             </div>
-            <v-spacer />
+            <v-spacer/>
             <div class="success--text">
               <v-icon small left color="success">mdi-check-outline</v-icon>
               Fully loaded
@@ -89,9 +105,17 @@
         <v-tab-item>
           <div class="header">
             <div class="main-title">
-              Big Deal costs
+              Setup:
+              <strong>
+                Big Deal costs
+              </strong>
+              <v-btn small icon
+                     href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+                     target="_blank">
+                <v-icon small>mdi-help-circle-outline</v-icon>
+              </v-btn>
             </div>
-            <v-spacer />
+            <v-spacer/>
             <div v-if="getPublisherDataIsComplete('bigDealCosts')" class="success--text">
               <v-icon small left color="success">mdi-check-outline</v-icon>
               Fully loaded
@@ -108,16 +132,52 @@
         <v-tab-item>
           <div class="header">
             <div class="main-title">
-              PTA (Post-Termination Access)
+              Setup:
+              <strong>
+                PTA (Post-Termination Access)
+              </strong>
+              <v-btn small icon
+                     href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates"
+                     target="_blank">
+                <v-icon small>mdi-help-circle-outline</v-icon>
+              </v-btn>
+            </div>
+            <v-spacer/>
+            <div v-if="getPublisherDataIsComplete('pta')" class="success--text">
+              <v-icon small left color="success">mdi-check-outline</v-icon>
+              Fully loaded
+            </div>
+            <div v-if="!getPublisherDataIsComplete('pta')" class="warning--text">
+              <v-icon small left color="warning">mdi-alert</v-icon>
+              Missing data
             </div>
           </div>
           <publisher-warning id="missingPerpetualAccess"/>
           <publisher-setup-tab-pta/>
         </v-tab-item>
+
+
         <v-tab-item>
           <div class="header">
             <div class="main-title">
-              Journal Pricelist
+              Setup:
+              <strong>
+                Journal Pricelist
+              </strong>
+              <v-btn small icon
+                     href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices"
+                     target="_blank">
+                <v-icon small>mdi-help-circle-outline</v-icon>
+              </v-btn>
+            </div>
+            <v-spacer/>
+            <div v-if="getPublisherDataIsComplete('pricelist')" class="success--text">
+              <v-icon small left color="success">mdi-check-outline</v-icon>
+              Fully loaded
+            </div>
+            <div v-if="!getPublisherDataIsComplete('pricelist')" class="warning--text">
+              <v-icon small left color="warning">mdi-alert</v-icon>
+              Missing data
             </div>
           </div>
           <publisher-warning id="missingPrices"/>
@@ -241,10 +301,10 @@ export default {
       "publisherRequiredDataIsLoaded",
       "getPublisherDataIsComplete",
     ]),
-    pricelistWarning(){
+    pricelistWarning() {
       return this.getPublisherWarning("missingPrices")
     },
-    ptaWarning(){
+    ptaWarning() {
       return this.getPublisherWarning("missingPerpetualAccess")
     },
 
@@ -277,6 +337,10 @@ export default {
 
 <style lang="scss">
 
+.setup-subtab-content {
+  margin-top: 40px;
+}
+
 .publisher-setup-tab-tabs {
   .header {
     display: flex;
@@ -284,23 +348,23 @@ export default {
     align-items: flex-end;
     border-bottom: 1px solid #ddd;
     padding-bottom: 4px;
-    margin-bottom: 10px;
     margin-right: 30px;
     font-weight: bold;
+
     .main-title {
-      font-size: 1.5rem;
-      font-weight: bold;
+      font-size: 16px;
     }
   }
 
   .v-tabs-items {
     margin-left: 70px;
-    margin-top: 15px;
+    margin-top: 25px;
   }
 
   .v-tabs-bar__content {
     align-items: flex-start !important;
     margin-top: 8px;
+
     .v-subheader {
       font-weight: bold;
       align-items: flex-end;

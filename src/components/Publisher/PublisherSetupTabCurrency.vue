@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="">
+  <v-card flat  class="setup-subtab-content">
     <div>
       <div class="text-h6">Selected Currency</div>
       <div>

@@ -1,13 +1,8 @@
 <template>
-  <v-card flat class="">
+  <v-card flat   class="setup-subtab-content">
     <div>
       <div class="text-h6">
         Big Deal annual cost
-        <v-btn icon
-               href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
-               target="_blank">
-          <v-icon small>mdi-help-circle-outline</v-icon>
-        </v-btn>
       </div>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -50,11 +45,6 @@
 
       <div class="text-h6 mt-12">
         Big Deal annual cost increase (%)
-        <v-btn icon
-               href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
-               target="_blank">
-          <v-icon small>mdi-help-circle-outline</v-icon>
-        </v-btn>
       </div>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -96,11 +86,6 @@
 
       <div class="text-h6 mt-12">
         Big Deal 5-year annual cost
-        <v-btn icon
-               href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
-               target="_blank">
-          <v-icon small>mdi-help-circle-outline</v-icon>
-        </v-btn>
       </div>
       <div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
