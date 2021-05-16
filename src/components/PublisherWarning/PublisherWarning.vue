@@ -14,7 +14,7 @@
           <v-spacer />
           <v-btn @click="download" v-if="journals" class=" mt-3" text :color="alertType">
             <v-icon left>mdi-download</v-icon>
-            View journals with missing data
+            View missing titles
           </v-btn>
 
         </div>
