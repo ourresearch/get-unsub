@@ -12,7 +12,7 @@
         We automatically load title-by-title prices from this publisher's public pricelist. You can override these prices, or add missing ones, by uploading a custom pricelist below.
       </div>
       <v-list>
-        <publisher-setup-tab-file-upload disabled file-type="pricePublic" />
+        <publisher-file disabled file-type="pricePublic" />
       </v-list>
 
     </div>
@@ -28,7 +28,7 @@
         <code>.xls</code>.
       </div>
       <v-list>
-        <publisher-setup-tab-file-upload file-type="price" />
+        <publisher-file file-type="price" />
       </v-list>
 
     </div>
@@ -41,14 +41,14 @@
 <script>
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import PublisherSetupTabFileUpload from "../PulisherFile/PublisherSetupTabFile";
+import PublisherFile from "../PulisherFile/PublisherFile";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
   name: "PublisherSetupTabPrice",
   components: {
-    PublisherSetupTabFileUpload,
+    PublisherFile,
     PublisherWarning,
   },
   props: {},

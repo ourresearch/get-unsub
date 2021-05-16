@@ -76,14 +76,12 @@
 <script>
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import PublisherSetupTabFileUpload from "../PulisherFile/PublisherSetupTabFile";
 import {api} from "@/api";
 
 
 export default {
   name: "PublisherSetupTabWarnings",
   components: {
-    PublisherSetupTabFileUpload,
   },
   props: {},
   data() {

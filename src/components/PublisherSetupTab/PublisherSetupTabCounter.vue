@@ -44,9 +44,9 @@
           create your dashboard.
         </div>
         <v-list>
-          <publisher-setup-tab-file-upload file-type="counterTrj2"/>
-          <publisher-setup-tab-file-upload file-type="counterTrj3"/>
-          <publisher-setup-tab-file-upload file-type="counterTrj4"/>
+          <publisher-file file-type="counterTrj2"/>
+          <publisher-file file-type="counterTrj3"/>
+          <publisher-file file-type="counterTrj4"/>
         </v-list>
       </div>
       <div v-if="counterFileType==='counter-4'">
@@ -54,7 +54,7 @@
           For COUNTER 4, you'll need to upload a single file:
         </div>
         <v-list>
-          <publisher-setup-tab-file-upload file-type="counter"/>
+          <publisher-file file-type="counter"/>
 
         </v-list>
       </div>
@@ -69,14 +69,14 @@
 <script>
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import PublisherSetupTabFileUpload from "../PulisherFile/PublisherSetupTabFile";
+import PublisherFile from "@/components/PulisherFile/PublisherFile";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
   name: "PublisherSetupTab",
   components: {
-    PublisherSetupTabFileUpload,
+    PublisherFile,
     PublisherWarning,
   },
   props: {},

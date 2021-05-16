@@ -17,7 +17,7 @@
         <code>.xls</code>.
       </div>
       <v-list>
-        <publisher-setup-tab-file-upload file-type="perpetualAccess"/>
+        <publisher-file file-type="perpetualAccess"/>
       </v-list>
 
     </div>
@@ -30,14 +30,14 @@
 <script>
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import PublisherSetupTabFileUpload from "../PulisherFile/PublisherSetupTabFile";
+import PublisherFile from "../PulisherFile/PublisherFile";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
   name: "PublisherSetupTabPta",
   components: {
-    PublisherSetupTabFileUpload,
+    PublisherFile,
     PublisherWarning,
   },
   props: {},

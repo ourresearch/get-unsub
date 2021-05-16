@@ -58,7 +58,7 @@
         <div class="body-2">This may take up to ten minutes.</div>
       </v-list-item-content>
       <v-list-item-action class="align-self-start">
-        <publisher-file-setup-tab-file-delete
+        <publisher-file-delete
             :file-type="fileType"
             disabled
         />
@@ -113,7 +113,7 @@
         </div>
       </v-list-item-content>
       <v-list-item-action class="align-self-start">
-        <publisher-file-setup-tab-file-delete
+        <publisher-file-delete
             :file-type="fileType"
             v-if="!disabled"
         />
@@ -134,27 +134,24 @@
 <script>
 import _ from "lodash"
 import {sleep} from "@/shared/util";
-import {makePublisherFileStatus} from "@/shared/publisherFileStatus";
-
-const queryString = require('query-string');
 import axios from "axios";
-
 import {ExportToCsv} from 'export-to-csv'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {api, toBase64} from "../../api";
-import PublisherFileSetupTabFileDelete from "@/components/PulisherFile/PublisherFileSetupTabFileDelete";
 import Publisher from "@/views/Publisher";
+import PublisherFileDelete from "@/components/PulisherFile/PublisherFileDelete";
 
+const queryString = require('query-string');
 
 export default {
-  name: "PublisherFileUpload",
+  name: "PublisherFile",
   props: {
     "fileType": String,
     "disabled": Boolean,
   },
   components: {
     Publisher,
-    PublisherFileSetupTabFileDelete,
+    PublisherFileDelete,
   },
   data() {
 

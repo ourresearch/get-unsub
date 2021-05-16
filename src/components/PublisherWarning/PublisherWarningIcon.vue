@@ -17,7 +17,7 @@ import axios from "axios";
 import {ExportToCsv} from 'export-to-csv'
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import {api, toBase64} from "../../api";
-import PublisherFileSetupTabFileDelete from "@/components/PulisherFile/PublisherFileSetupTabFileDelete";
+import PublisherFileSetupTabFileDelete from "@/components/PulisherFile/PublisherFileDelete";
 import Publisher from "@/views/Publisher";
 
 
