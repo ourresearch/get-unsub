@@ -91,7 +91,7 @@
         </div>
       </v-list-item-content>
       <v-list-item-action class="align-self-start">
-        <publisher-file-setup-tab-file-delete
+        <publisher-file-delete
             :file-type="fileType"
         />
       </v-list-item-action>
@@ -245,7 +245,7 @@ export default {
       console.log("uploadFile() file", this.fileSelected)
       this.isSyncingToServer = true
 
-      const fileExtMatch = /\.csv$|\.xsl$|\.xlsx$/.exec(this.fileSelected.name)
+      const fileExtMatch = /\.csv$|\.xls$|\.xslsx$/.exec(this.fileSelected.name)
       if (!fileExtMatch) {
         this.errorMsg = "Unrecognized file extension"
         this.isSyncingToServer = false
