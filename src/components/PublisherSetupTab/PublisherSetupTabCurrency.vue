@@ -7,7 +7,7 @@
       </p>
 
       <p v-if="!!publisherCurrency && publisherPriceDataFileIsLive">
-        However, it doesn't <em>convert</em> from one currency to another. You've already uploaded a pricelist demominated in {{ publisherCurrency}}. After you change currency, don't forget to delete it, and upload a new pricelist, denominated in your new currency.
+        However, it doesn't <em>convert</em> from one currency to another. You've already uploaded a pricelist demominated in {{ publisherCurrency}}. After you change currency, don't forget to replace it with a new pricelist, denominated in your new currency.
       </p>
       <v-radio-group
           class="mt-5"
@@ -49,7 +49,7 @@
               Are you sure you want to change currency to <strong>{{ currency }}?</strong>
             </p>
             <p v-if="publisherPriceDataFileIsLive">
-              Once this is done, your current pricelist (denominated in {{ publisherCurrency }}) will be wrong. Don't forget to replace it with a new one, denominated in {{ currency }}.
+              Once this is done, your current pricelist (denominated in {{ publisherCurrency }}) will be invalid. Don't forget to replace it with a new one, denominated in {{ currency }}.
             </p>
           </div>
         </div>

@@ -241,8 +241,8 @@ export default {
     },
     priceListErrorMsg(){
       const prefix = (this.publisherPriceDataFileIsLive) ?
-          "Although you've uploaded a custom pricelist, there remain"  :
-          "There are "
+          "<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain"  :
+          "<strong>Missing data: </strong> There are "
       return `${prefix} ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for these missing titles.`
 
     },
