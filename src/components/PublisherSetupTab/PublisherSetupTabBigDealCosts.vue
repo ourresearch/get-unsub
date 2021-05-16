@@ -50,15 +50,15 @@
       <div>
         <v-list-item class="setting-list-item">
           <v-list-item-icon>
-            <v-icon v-if="!publishersBigDealCostIncrease" color="error">mdi-close-outline</v-icon>
-            <v-icon v-if="publishersBigDealCostIncrease" color="success">mdi-check-outline</v-icon>
+            <v-icon v-if="!publisherIsBigDealCostIncreaseDefined" color="error">mdi-close-outline</v-icon>
+            <v-icon v-if="publisherIsBigDealCostIncreaseDefined" color="success">mdi-check-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <div class="text-h5">
-              <span v-if="publishersBigDealCostIncrease">
+              <span v-if="publisherIsBigDealCostIncreaseDefined">
                 {{ publishersBigDealCostIncrease | percent(2) }}
               </span>
-              <span v-if="!publishersBigDealCostIncrease">
+              <span v-if="!publisherIsBigDealCostIncreaseDefined">
                 Not set
               </span>
             </div>
@@ -98,10 +98,10 @@
           </v-list-item-icon>
           <v-list-item-content>
             <div class="text-h5">
-              <span v-if="publishersBigDealCostIncrease">
+              <span v-if="publisherBigDeal5YearAnnualCost">
                 {{ publisherBigDeal5YearAnnualCost | currency(publisherCurrencySymbol) }}
               </span>
-              <span v-if="!publishersBigDealCostIncrease">
+              <span v-if="!publisherBigDeal5YearAnnualCost">
                 Unknown
               </span>
             </div>
@@ -285,10 +285,10 @@ export default {
       "publisherCurrency",
       "publisherBigDealCost",
       "publishersBigDealCostIncrease",
+      "publisherIsBigDealCostIncreaseDefined",
       "publisherCurrencyIconName",
       "publisherCurrencySymbol",
       "publisherBigDeal5YearAnnualCost",
-
     ]),
   },
   created() {

@@ -79,7 +79,8 @@ export default {
       return (this.isRequired) ? "error" : "warning"
     },
     alertIcon() {
-      return (this.isSuccess) ? "mdi-check-outline" : "mdi-alert"
+      if (this.isSuccess)  return "mdi-check-outline"
+      return (this.isRequired) ? "mdi-close-outline" : "mdi-alert"
     },
   },
   methods: {

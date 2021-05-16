@@ -37,7 +37,7 @@
         <v-card-title>
           Change currency
         </v-card-title>
-        <div class="pa-6">
+        <div class="pa-6" v-if="!!publisherCurrency">
           <p>
             Are you sure you want to change currency to <strong>{{ currency }}?</strong>
           </p>

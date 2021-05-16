@@ -58,10 +58,9 @@ export const publisher = {
         counterIsUploaded: false,
         bigDealCost: 0,
         bigDealCostIncrease: 0,
+        isBigDealCostIncreaseDefined: false,
         isOwnedByConsortium: false,
         currency: "USD",
-        costBigDeal: null,
-        costBigDealIncrease: null,
         hasCompleteCounterData: false,
 
         // apc stuff
@@ -86,7 +85,7 @@ export const publisher = {
             state.counterIsUploaded = false
             state.bigDealCost = 0
             state.bigDealCostIncrease = 0
-
+            state.isBigDealCostIncreaseDefined = false
 
             state.hasCompleteCounterData = false
 
@@ -97,8 +96,6 @@ export const publisher = {
             state.apcCost = null
             state.isOwnedByConsortium = false
             state.currency = "USD"
-            state.costBigdDeal = null,
-            state.costBigDealIncrease = null
 
         },
         clearApcData(state) {
@@ -138,11 +135,10 @@ export const publisher = {
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
             state.bigDealCostIncrease = apiPublisher.cost_bigdeal_increase
+            state.isBigDealCostIncreaseDefined = apiPublisher.cost_bigdeal_increase === 0 || apiPublisher.cost_bigdeal_increase > 0
             
             state.isOwnedByConsortium = apiPublisher.is_owned_by_consortium
             state.currency = apiPublisher.currency
-            state.costBigDeal = apiPublisher.cost_bigdeal
-            state.bigDealCostIncrease = apiPublisher.cost_bigdeal_increase
         },
         startLoading(state) {
             state.isLoading = true
@@ -321,7 +317,7 @@ export const publisher = {
                 return !!state.currency
             }
             else if (dataType === "bigDealCosts") {
-                return !!state.bigDealCost && !!state.bigDealCostIncrease
+                return !!state.bigDealCost && state.isBigDealCostIncreaseDefined
             }
             else if (dataType === "pta") {
                 return state.warnings.findIndex(w => w.id === "missingPerpetualAccess") === -1
@@ -343,7 +339,7 @@ export const publisher = {
             return state.hasCompleteCounterData &&
                 !!state.currency &&
                 !!state.bigDealCost &&
-                !!state.bigDealCostIncrease
+                state.isBigDealCostIncreaseDefined
         },
 
         // @todo get rid of this
@@ -365,7 +361,7 @@ export const publisher = {
         },
 
         publisherBigDeal5YearAnnualCost: (state) => {
-            if (!state.bigDealCost || !state.bigDealCostIncrease) return
+            if (!state.bigDealCost || !state.isBigDealCostIncreaseDefined) return
             return bigDealAnnualCost(state.bigDealCost, state.bigDealCostIncrease / 100)
         },
 
@@ -407,6 +403,7 @@ export const publisher = {
             return symbols[state.currency]
         },
         publishersBigDealCostIncrease: (state) => state.bigDealCostIncrease,
+        publisherIsBigDealCostIncreaseDefined: (state) => state.isBigDealCostIncreaseDefined,
 
 
         // apc stuff
