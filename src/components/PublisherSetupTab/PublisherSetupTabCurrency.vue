@@ -6,8 +6,8 @@
         Your selected currency is used in many places throughout the app. Noteably, it determines which default pricelist will be used for individual titles. For example, if you select  UK Pounds Sterling, we'll use this publisher's UK public pricelist.
       </p>
 
-      <p>
-        However, it doesn't <em>convert</em> from one currency to another. So for example, if you've already uploaded a pricelist in dollars (USD), and you now change your currency to pounds (GBP), you'll need to delete your old pricelist and replace it with new one, denominated in pounds.
+      <p v-if="!!publisherCurrency && publisherPriceDataFileIsLive">
+        However, it doesn't <em>convert</em> from one currency to another. You've already uploaded a pricelist demominated in {{ publisherCurrency}}. After you change currency, don't forget to delete it, and upload a new pricelist, denominated in your new currency.
       </p>
       <v-radio-group
           class="mt-5"
@@ -34,17 +34,24 @@
         max-width="500"
     >
       <v-card>
-        <v-card-title>
+        <v-card-title v-if="!!publisherCurrency">
           Change currency
         </v-card-title>
-        <div class="pa-6" v-if="!!publisherCurrency">
-          <p>
-            Are you sure you want to change currency to <strong>{{ currency }}?</strong>
-          </p>
-          <p>
-            If you've already uploaded prices in some other currency, you'll need to delete those and replace
-            them with new prices denominated in {{ currency }}.
-          </p>
+        <v-card-title v-if="!publisherCurrency">
+          Select currency
+        </v-card-title>
+        <div class="pa-6">
+          <div v-if="!publisherCurrency">
+            This will set your currency <strong>{{ currency }}.</strong>
+          </div>
+          <div  v-if="!!publisherCurrency">
+            <p>
+              Are you sure you want to change currency to <strong>{{ currency }}?</strong>
+            </p>
+            <p v-if="publisherPriceDataFileIsLive">
+              Once this is done, your current pricelist (denominated in {{ publisherCurrency }}) will be wrong. Don't forget to replace it with a new one, denominated in {{ currency }}.
+            </p>
+          </div>
         </div>
         <v-card-actions>
           <v-spacer/>
@@ -125,6 +132,7 @@ export default {
       "publisherId",
       "publisherWarnings",
       "publisherCurrency",
+      "publisherPriceDataFileIsLive",
     ]),
   },
   created() {
