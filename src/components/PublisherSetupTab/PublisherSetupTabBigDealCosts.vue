@@ -138,6 +138,7 @@
               placeholder="1000000"
               type="number"
               :prefix="publisherCurrencySymbol"
+              @keydown.enter="setBigDealData"
           />
         </div>
         <v-card-actions>
@@ -179,6 +180,7 @@
               placeholder="1.8"
               type="number"
               append-icon="mdi-percent"
+              @keydown.enter="setBigDealData"
           />
         </div>
         <v-card-actions>

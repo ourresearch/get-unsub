@@ -6,6 +6,8 @@
         <div class="font-weight-bold">
           COUNTER version
         </div>
+
+
         <div>
           This is the version of counter files you're using. COUNTER 5<template v-if="publisherCounterVersion === 5">, which you're currently using, </template>
           will generate more accurate forecasts.
@@ -103,7 +105,10 @@ export default {
     ]),
   },
   created() {
-    if (this.publisherCounterVersion === 5) {
+    if (this.publisherCounterVersion === 4) {
+      this.counterFileType = "counter-4"
+    }
+    else {
       this.counterFileType = "counter-5"
     }
   },
