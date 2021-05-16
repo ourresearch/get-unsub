@@ -3,7 +3,7 @@
     <div>
 
       <div class="">
-        <div class="text-h6">
+        <div class="font-weight-bold">
           COUNTER version
         </div>
         <div>
@@ -35,7 +35,7 @@
 
         </div>
       </div>
-      <div class="text-h6 mt-10 mb-1">
+      <div class="font-weight-bold mt-10 mb-1">
         COUNTER report files
       </div>
       <div v-if="counterFileType==='counter-5'">

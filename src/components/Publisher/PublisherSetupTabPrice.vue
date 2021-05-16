@@ -4,7 +4,7 @@
 
 
 
-      <div class="text-h6">
+      <div class="font-weight-bold">
         Public journal pricelist
 
       </div>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="pt-12">
-      <div class="text-h6">
+      <div class="font-weight-bold">
         Custom journal pricelist
       </div>
       <div>

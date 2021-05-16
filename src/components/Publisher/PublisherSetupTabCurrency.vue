@@ -1,7 +1,7 @@
 <template>
   <v-card flat  class="setup-subtab-content">
     <div>
-      <div class="text-h6">Selected Currency</div>
+      <div class="font-weight-bold">Selected Currency</div>
       <p>
         Your selected currency is used in many places throughout the app. Noteably, it determines which default pricelist will be used for individual titles. For example, if you select  UK Pounds Sterling, we'll use this publisher's UK public pricelist.
       </p>

@@ -3,7 +3,7 @@
 
     <div class="">
 
-      <div class="text-h6">
+      <div class="font-weight-bold">
         Your PTA file
       </div>
       <div>

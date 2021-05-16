@@ -1,7 +1,7 @@
 <template>
   <v-card flat class="setup-subtab-content">
     <div>
-      <div class="text-h6">
+      <div class="font-weight-bold">
         Big Deal annual cost
       </div>
       <div>
@@ -39,7 +39,7 @@
 
       </div>
 
-      <div class="text-h6 mt-12">
+      <div class="font-weight-bold mt-12">
         Big Deal annual cost increase (%)
       </div>
       <div>
@@ -76,7 +76,7 @@
       </div>
 
 
-      <div class="text-h6 mt-12">
+      <div class="font-weight-bold mt-12">
         Big Deal 5-year annual cost
       </div>
       <div>

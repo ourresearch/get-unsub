@@ -1,5 +1,5 @@
 <template>
-  <v-card flat class="py-3 pt-10">
+  <v-card flat class="py-3 pt-6">
     <template v-if="!institutionIsConsortium">
       <v-tabs
           v-model="tabModel"
@@ -58,12 +58,13 @@
 
         <v-tab-item>
           <div class="header">
-            <div class="main-title">
+            <div class="main-title ">
               Setup:
               <strong>
                 COUNTER
               </strong>
               <v-btn small icon
+
                      href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data"
                      target="_blank">
                 <v-icon small>mdi-help-circle-outline</v-icon>
@@ -81,12 +82,13 @@
 
         <v-tab-item>
           <div class="header">
-            <div class="main-title">
+            <div class="main-title ">
               Setup:
               <strong>
                 Currency
               </strong>
               <v-btn small icon
+
                      href="http://help.unsub.org/en/articles/4055375-what-currencies-are-supported"
                      target="_blank">
                 <v-icon small>mdi-help-circle-outline</v-icon>
@@ -104,12 +106,13 @@
 
         <v-tab-item>
           <div class="header">
-            <div class="main-title">
+            <div class="main-title ">
               Setup:
               <strong>
                 Big Deal costs
               </strong>
               <v-btn small icon
+
                      href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
                      target="_blank">
                 <v-icon small>mdi-help-circle-outline</v-icon>
@@ -131,12 +134,13 @@
 
         <v-tab-item>
           <div class="header">
-            <div class="main-title">
+            <div class="main-title ">
               Setup:
               <strong>
                 PTA (Post-Termination Access)
               </strong>
               <v-btn small icon
+
                      href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates"
                      target="_blank">
                 <v-icon small>mdi-help-circle-outline</v-icon>
@@ -159,12 +163,13 @@
 
         <v-tab-item>
           <div class="header">
-            <div class="main-title">
+            <div class="main-title ">
               Setup:
               <strong>
                 Journal Pricelist
               </strong>
               <v-btn small icon
+
                      href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices"
                      target="_blank">
                 <v-icon small>mdi-help-circle-outline</v-icon>
@@ -338,7 +343,7 @@ export default {
 <style lang="scss">
 
 .setup-subtab-content {
-  margin-top: 40px;
+  margin-top: 36px;
 }
 
 .publisher-setup-tab-tabs {
@@ -346,30 +351,30 @@ export default {
     display: flex;
     align-content: flex-end;
     align-items: flex-end;
-    border-bottom: 1px solid #ddd;
+    //border-bottom: 1px solid #ddd;
     padding-bottom: 4px;
     margin-right: 30px;
     font-weight: bold;
 
     .main-title {
-      font-size: 16px;
+      font-size: 20px;
+      font-size: 24px;
     }
   }
 
   .v-tabs-items {
     margin-left: 70px;
-    margin-top: 25px;
+    margin-top: 15px;
   }
 
   .v-tabs-bar__content {
     align-items: flex-start !important;
-    margin-top: 8px;
 
     .v-subheader {
       font-weight: bold;
       align-items: flex-end;
       padding-bottom: 5px;
-      border-bottom: 1px solid #ddd;
+      //border-bottom: 1px solid #ddd;
       width: 100%;
 
     }
