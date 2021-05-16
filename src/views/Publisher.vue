@@ -117,7 +117,7 @@
 import {api, toBase64} from "../api";
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
-import ApcTab from "../components/Publisher/ApcTab";
+import ApcTab from "../components/Publisher/PublisherApcTab";
 import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
 import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
 

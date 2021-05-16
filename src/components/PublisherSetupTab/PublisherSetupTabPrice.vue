@@ -1,23 +1,34 @@
 <template>
   <v-card flat  class="setup-subtab-content">
+    <div>
 
-    <div class="">
+
 
       <div class="font-weight-bold">
-        Your PTA file
+        Public journal pricelist
+
       </div>
       <div>
-        Upload your perpetual access dates as a spreadsheet with one journal per row. The spreadsheet should have three columns: <strong>ISSN</strong>,
-                        <strong>Start date</strong>, and
-                        <strong>End date</strong>.
-        For journals where the PTA is ongoing, just leave the <strong>End Date</strong> blank.
-        Accepted formats are:
+        We automatically load title-by-title prices from this publisher's public pricelist. You can override these prices, or add missing ones, by uploading a custom pricelist below.
+      </div>
+      <v-list>
+        <publisher-setup-tab-file-upload disabled file-type="pricePublic" />
+      </v-list>
+
+    </div>
+
+    <div class="pt-12">
+      <div class="font-weight-bold">
+        Custom journal pricelist
+      </div>
+      <div>
+        Some of your titles may not be included in the public pricelist (or they are, and you want to override them with custom prices). To solve this, upload a spreadsheet with your quoted title-by-title price for each journal. The spreadsheet should have two columns: <strong>ISSN</strong> and <strong>Price</strong>. Accepted formats are:
         <code>.csv</code>,
         <code>.xlsx</code>, and
         <code>.xls</code>.
       </div>
       <v-list>
-        <publisher-setup-tab-file-upload file-type="perpetualAccess"/>
+        <publisher-setup-tab-file-upload file-type="price" />
       </v-list>
 
     </div>
@@ -30,12 +41,12 @@
 <script>
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
-import PublisherSetupTabFileUpload from "./PublisherSetupTabFile";
+import PublisherSetupTabFileUpload from "../PulisherFile/PublisherSetupTabFile";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
-  name: "PublisherSetupTabPta",
+  name: "PublisherSetupTabPrice",
   components: {
     PublisherSetupTabFileUpload,
     PublisherWarning,

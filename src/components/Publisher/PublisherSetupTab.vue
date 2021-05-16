@@ -214,11 +214,11 @@
 import _ from "lodash"
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 
-import PublisherSetupTabCounter from "./PublisherSetupTabCounter";
-import PublisherSetupTabCurrency from "@/components/Publisher/PublisherSetupTabCurrency";
-import PublisherSetupTabPta from "@/components/Publisher/PublisherSetupTabPta";
-import PublisherSetupTabPrice from "@/components/Publisher/PublisherSetupTabPrice";
-import PublisherSetupTabBigDealCosts from "@/components/Publisher/PublisherSetupTabBigDealCosts";
+import PublisherSetupTabCounter from "../PublisherSetupTab/PublisherSetupTabCounter";
+import PublisherSetupTabCurrency from "@/components/PublisherSetupTab/PublisherSetupTabCurrency";
+import PublisherSetupTabPta from "@/components/PublisherSetupTab/PublisherSetupTabPta";
+import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPrice";
+import PublisherSetupTabBigDealCosts from "@/components/PublisherSetupTab/PublisherSetupTabBigDealCosts";
 
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
