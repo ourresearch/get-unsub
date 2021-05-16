@@ -285,6 +285,9 @@ export const publisher = {
         getPublisherDataFile: (state) => (dataFileKey) => {
             return state.dataFiles.find(d => d.id === dataFileKey)
         },
+        publisherPriceDataFileIsLive: (state) => {
+            return state.dataFiles.find(d => d.id === "price")?.isLive
+        },
         publisherScenariosAreAllLoaded: (state) => {
             // make sure we don't have any scenarios that are still dehydrated:
             return state.scenarios.filter(s => s.saved).length === state.scenarios.length

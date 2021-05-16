@@ -46,7 +46,7 @@ import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 
 export default {
-  name: "PublisherSetupTabPrice",
+  name: "PublisherSetupTabPricelist",
   components: {
     PublisherFile,
     PublisherWarning,

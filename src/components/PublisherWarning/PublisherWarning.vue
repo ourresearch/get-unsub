@@ -3,65 +3,37 @@
   <div class="mt-2">
     <v-slide-y-transition>
       <v-alert
-          type="warning"
+          :type="alertType"
           text
-          class="mb-10"
-          v-if="showWarning"
+          :icon="alertIcon"
       >
-
-
-
-        <template v-if="id==='missingPerpetualAccess'">
+        <div class="d-flex">
           <div>
-            <span class="font-weight-bold">Missing PTA:</span>
-            We don't know this package's PTA (Post-Termination Access) rights, so we are assuming you have no PTA for
-            any
-            title. This is probabaly not true, and makes forecasting much less accurate. To fix, upload your PTA Dates
-            file
-            below.
-          </div>
-          <div class="mt-6 d-flex">
-            <v-btn text small color="warning"
-                   href="http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded"
-                   target="_blank">
-              <v-icon left small>mdi-open-in-new</v-icon>
-              Learn more
-            </v-btn>
-          </div>
-        </template>
+            <div v-html="msg"/>
+                    <div class="d-flex">
+          <v-spacer />
+          <v-btn @click="download" v-if="journals" class=" mt-3" text :color="alertType">
+            <v-icon left>mdi-download</v-icon>
+            View journals with missing data
+          </v-btn>
 
-
-        <template v-if="id==='missingPrices'">
-          <div>
-            <span class="font-weight-bold">Missing prices:</span>
-            <template v-if="!!getPublisherDataFile('price')">
-              Although you've uploaded a custom pricelist, there remain {{ journals.length | round }} journals with
-              no
-              price information.
-              These are excluded from all forecasting.
-            </template>
-            <template v-if="!getPublisherDataFile('price')">
-              There are {{ journals.length | round }} journals in this package with no price information.
-            These journals are excluded from all forecasting.
-            </template>
-
-            To fix, upload a custom journal pricelist below, with price quotes for
-            these missing titles.
+        </div>
           </div>
-          <div class="mt-6 d-flex">
-            <v-btn text small color="warning" href="http://help.unsub.org/en/articles/5229615-warning-missing-prices"
-                   target="_blank">
-              <v-icon left small>mdi-open-in-new</v-icon>
-              Learn more
-            </v-btn>
-            <v-btn text small color="warning" @click="download">
-              <v-icon left small>mdi-download</v-icon>
-              View journals
-            </v-btn>
-          </div>
-        </template>
+          <v-spacer/>
+          <v-btn icon
+                 small
+                 :color="alertType"
+                 :href="url"
+                 target="_blank"
+                 class="ml-4"
+                 v-if="!isSuccess"
+          >
+            <v-icon>mdi-help-circle-outline</v-icon>
+          </v-btn>
+        </div>
 
       </v-alert>
+
     </v-slide-y-transition>
   </div>
 
@@ -87,6 +59,11 @@ export default {
   name: "PublisherFileUpload",
   props: {
     "id": String,
+    "isRequired": Boolean,
+    "isSuccess": Boolean,
+    "url": String,
+    "msg": String,
+    "journals": Array,
   },
   components: {},
   data() {
@@ -96,27 +73,14 @@ export default {
   },
   computed: {
     ...mapGetters([
-      "publisherId",
-      "institutionIsDemo",
-      "publisherPublisher",
-      "getPublisherDataFile",
-      "publisherWarnings",
     ]),
-    journals() {
-      const myWarning = this.publisherWarnings.find(p => {
-        return p.id === this.id
-      })
-      return myWarning?.journals ?? []
+    alertType() {
+      if (this.isSuccess) return "success"
+      return (this.isRequired) ? "error" : "warning"
     },
-    showWarning() {
-      // hack for counter
-      // if (this.id==='missingCounter') return true
-
-      return !!this.publisherWarnings.find(p => {
-        return p.id === this.id
-      })
-
-    }
+    alertIcon() {
+      return (this.isSuccess) ? "mdi-check-outline" : "mdi-alert"
+    },
   },
   methods: {
     ...mapActions([

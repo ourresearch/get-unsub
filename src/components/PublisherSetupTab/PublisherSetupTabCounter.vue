@@ -6,18 +6,16 @@
         <div class="font-weight-bold">
           COUNTER version
         </div>
-
-
-        <div>
-          This is the version of counter files you're using. COUNTER 5<template v-if="publisherCounterVersion === 5">, which you're currently using, </template>
-          will generate more accurate forecasts.
-          <template v-if="!!publisherCounterVersion">
-             To change COUNTER version, first delete the
-            <span v-if="publisherCounterVersion === 4">COUNTER 4 JR1 file</span>
-            <span v-if="publisherCounterVersion === 5">COUNTER 5 files</span>
-            you've already uploaded.
-          </template>
+        <div v-if="!publisherCounterVersion">
+          This sets which type of COUNTER report you'll use. We recommend you use COUNTER 5 reports, which will generate more accurate forecasts.
         </div>
+        <div v-if="publisherCounterVersion === 4">
+          This sets which version of COUNTER report you're using. To edit, first delete the COUNTER 4 JR1 report that you've already uploaded.
+        </div>
+        <div v-if="publisherCounterVersion === 5">
+          This sets which version of COUNTER report you're using. To edit, first delete the three COUNTER 5 reports that you've already uploaded.
+        </div>
+
         <div class="pa-3">
           <v-radio-group
               class="mt-0"

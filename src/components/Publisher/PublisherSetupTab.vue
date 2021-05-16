@@ -26,6 +26,7 @@
           <v-tab
               class="body-1"
               :disabled="tab.isDisabled"
+              :key="'tab-'+tab.id"
           >
             <v-icon
                 small
@@ -56,137 +57,39 @@
 
         </template>
 
-        <v-tab-item>
+        <v-tab-item
+            v-for="tab in tabs"
+            :key="'tab-content-'+tab.id"
+        >
           <div class="header">
             <div class="main-title ">
               Setup:
               <strong>
-                COUNTER
+                {{ tab.name }}
               </strong>
               <v-btn small icon
-
-                     href="http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data"
-                     target="_blank">
+                     :href="tab.warningUrl"
+                     target="_blank"
+              >
                 <v-icon small>mdi-help-circle-outline</v-icon>
               </v-btn>
             </div>
             <v-spacer/>
-            <div v-if="getPublisherDataIsComplete('counter')" class="success--text">
-              <v-icon small left color="success">mdi-check-outline</v-icon>
-              Fully loaded
-            </div>
           </div>
-          <publisher-setup-tab-counter/>
-        </v-tab-item>
-
-
-        <v-tab-item>
-          <div class="header">
-            <div class="main-title ">
-              Setup:
-              <strong>
-                Currency
-              </strong>
-              <v-btn small icon
-
-                     href="http://help.unsub.org/en/articles/4055375-what-currencies-are-supported"
-                     target="_blank">
-                <v-icon small>mdi-help-circle-outline</v-icon>
-              </v-btn>
-            </div>
-            <v-spacer/>
-            <div class="success--text">
-              <v-icon small left color="success">mdi-check-outline</v-icon>
-              Fully loaded
-            </div>
-          </div>
-          <publisher-setup-tab-currency/>
-        </v-tab-item>
-
-
-        <v-tab-item>
-          <div class="header">
-            <div class="main-title ">
-              Setup:
-              <strong>
-                Big Deal costs
-              </strong>
-              <v-btn small icon
-
-                     href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
-                     target="_blank">
-                <v-icon small>mdi-help-circle-outline</v-icon>
-              </v-btn>
-            </div>
-            <v-spacer/>
-            <div v-if="getPublisherDataIsComplete('bigDealCosts')" class="success--text">
-              <v-icon small left color="success">mdi-check-outline</v-icon>
-              Fully loaded
-            </div>
-            <div v-if="!getPublisherDataIsComplete('bigDealCosts')" class="error--text">
-              <v-icon small left color="error">mdi-close-outline</v-icon>
-              Missing data
-            </div>
-          </div>
-          <publisher-setup-tab-big-deal-costs/>
-        </v-tab-item>
-
-
-        <v-tab-item>
-          <div class="header">
-            <div class="main-title ">
-              Setup:
-              <strong>
-                PTA (Post-Termination Access)
-              </strong>
-              <v-btn small icon
-
-                     href="http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates"
-                     target="_blank">
-                <v-icon small>mdi-help-circle-outline</v-icon>
-              </v-btn>
-            </div>
-            <v-spacer/>
-            <div v-if="getPublisherDataIsComplete('pta')" class="success--text">
-              <v-icon small left color="success">mdi-check-outline</v-icon>
-              Fully loaded
-            </div>
-            <div v-if="!getPublisherDataIsComplete('pta')" class="warning--text">
-              <v-icon small left color="warning">mdi-alert</v-icon>
-              Missing data
-            </div>
-          </div>
-          <publisher-warning id="missingPerpetualAccess"/>
-          <publisher-setup-tab-pta/>
-        </v-tab-item>
-
-
-        <v-tab-item>
-          <div class="header">
-            <div class="main-title ">
-              Setup:
-              <strong>
-                Journal Pricelist
-              </strong>
-              <v-btn small icon
-
-                     href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices"
-                     target="_blank">
-                <v-icon small>mdi-help-circle-outline</v-icon>
-              </v-btn>
-            </div>
-            <v-spacer/>
-            <div v-if="getPublisherDataIsComplete('pricelist')" class="success--text">
-              <v-icon small left color="success">mdi-check-outline</v-icon>
-              Fully loaded
-            </div>
-            <div v-if="!getPublisherDataIsComplete('pricelist')" class="warning--text">
-              <v-icon small left color="warning">mdi-alert</v-icon>
-              Missing data
-            </div>
-          </div>
-          <publisher-warning id="missingPrices"/>
-          <publisher-setup-tab-price/>
+          <publisher-warning
+              :id="tab.id"
+              :is-required="tab.isRequired"
+              :is-success="tab.isComplete"
+              :url="tab.helpUrl"
+              :msg="tab.alertMsg"
+              :journals="tab.journals"
+            />
+          
+          <publisher-setup-tab-counter  v-if="tab.id==='counter'" />
+          <publisher-setup-tab-currency v-if="tab.id==='currency'" />
+          <publisher-setup-tab-big-deal-costs v-if="tab.id==='bigDealCosts'" />
+          <publisher-setup-tab-pta v-if="tab.id==='pta'" />
+          <publisher-setup-tab-price  v-if="tab.id==='pricelist'" />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -217,7 +120,7 @@ import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabCounter from "../PublisherSetupTab/PublisherSetupTabCounter";
 import PublisherSetupTabCurrency from "@/components/PublisherSetupTab/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/PublisherSetupTab/PublisherSetupTabPta";
-import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPrice";
+import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPricelist";
 import PublisherSetupTabBigDealCosts from "@/components/PublisherSetupTab/PublisherSetupTabBigDealCosts";
 
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
@@ -238,28 +141,30 @@ export default {
   data() {
     return {
       tabModel: 0,
-      tabNames: [
-        "COUNTER",
-        "Currency",
-        // "Big Deal price",
-        "Journal pricelist",
-        "PTA",
-      ],
       tabsConfig: [
         {
           id: "counter",
           name: "COUNTER",
           isRequired: true,
+          warningUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
+          helpUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
+          errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
           id: "currency",
           name: "Currency",
           isRequired: true,
+          warningUrl: "http://help.unsub.org/en/articles/4055375-what-currencies-are-supported",
+          helpUrl: "http://help.unsub.org/en/articles/4055375-what-currencies-are-supported",
+          errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
           id: "bigDealCosts",
           name: "Big Deal costs",
           isRequired: true,
+          warningUrl: "http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase",
+          helpUrl: "http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase",
+          errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
           id: "pta",
@@ -267,26 +172,22 @@ export default {
           warningId: "missingPerpetualAccess",
           isFirstRecommendedTab: true,
           isRecommended: true,
+          warningUrl: "http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates",
+          helpUrl: "http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded",
+          errorMsg: "<strong>Missing data: </strong> Forecasts currently assume you have <em>zero PTA rights</em> for all titles. This is probably untrue, and so your forecasts are not very accurate."
         },
         {
           id: "pricelist",
           name: "Journal pricelist",
           warningId: "missingPrices",
           isRecommended: true,
+          warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
+          helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
         },
       ]
     }
   },
   methods: {
-    showTinyTriangle(tabName) {
-      const lookup = {
-        "COUNTER": "missingCounterData",
-        "PTA": "missingPerpetualAccess",
-        "Journal pricelist": "missingPrices"
-      }
-      const key = lookup[tabName]
-      return this.getPublisherWarning(key)
-    },
     disableTab(tabName) {
       if (tabName !== "COUNTER" && this.getPublisherWarning("missingCounterData")) {
         return true
@@ -305,31 +206,48 @@ export default {
       "getPublisherWarning",
       "publisherRequiredDataIsLoaded",
       "getPublisherDataIsComplete",
+      "publisherPriceDataFileIsLive",
     ]),
-    pricelistWarning() {
-      return this.getPublisherWarning("missingPrices")
-    },
-    ptaWarning() {
-      return this.getPublisherWarning("missingPerpetualAccess")
-    },
 
     tabs() {
+
       const ret = this.tabsConfig.map(tabConfig => {
         const isComplete = this.getPublisherDataIsComplete(tabConfig.id)
         const isError = !isComplete && tabConfig.isRequired
         const isWarning = !isComplete && tabConfig.isRecommended
         const isDisabled = !this.publisherRequiredDataIsLoaded && tabConfig.isRecommended
 
+        const myErrorMsg = (tabConfig.id === "pricelist") ? this.priceListErrorMsg : tabConfig.errorMsg
+        const journals = (tabConfig.id === "pricelist") ? this.journalsWithNoPriceInfo : null
+
+        const alertMsg = (isComplete) ? this.successMsg : myErrorMsg
+
         return {
           ..._.cloneDeep(tabConfig),
           isComplete,
           isError,
           isWarning,
-          isDisabled
+          isDisabled,
+          alertMsg,
+          journals,
         }
+
       })
 
       return ret
+    },
+    successMsg(){
+      return "<strong>Fully loaded: </strong> This data is now being used in all forecast scenarios."
+    },
+    priceListErrorMsg(){
+      const prefix = (this.publisherPriceDataFileIsLive) ?
+          "Although you've uploaded a custom pricelist, there remain"  :
+          "There are "
+      return `${prefix} ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for these missing titles.`
+
+    },
+    journalsWithNoPriceInfo(){
+      return this.getPublisherWarning("missingPrices")?.journals
     }
   },
   created() {
