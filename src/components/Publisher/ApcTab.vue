@@ -13,23 +13,6 @@
 
     </template>
     <template v-if="!isJisc">
-      <v-card-title class="text-h5">
-        <div>
-          Article Processing Fees (APCs)
-        </div>
-        <v-spacer/>
-        <v-btn fab small dark color="primary" @click="">
-          <download-csv
-              :data="rowsForDownload"
-              :labels="findKey"
-          >
-            <v-icon>mdi-download</v-icon>
-          </download-csv>
-        </v-btn>
-
-        <!--            <v-btn small color="primary" @click="" class="mx-2">-->
-        <!--            </v-btn>-->
-      </v-card-title>
       <v-card flat v-if="publisherApcIsLoading" class="d-flex align-center justify-center" style="height: 200px;">
         <div>
           <v-progress-circular size="20" class="mr-4" indeterminate></v-progress-circular>
@@ -39,32 +22,38 @@
 
       <v-card flat class="my-4" v-if="!publisherApcIsLoading">
 
-        <v-row class="px-3 pt-10">
-          <v-col cols="6" class="px-0">
-            <div class="stat body-2">
-              <span class="k">Total APC cost last year is </span>
-              <span class="v">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span>
-              <span class="k"> (estimated). </span>
-              This includes all journals published by {{ publisherName }} where authors from your
-              institution have paid APCs for gold or hybrid open access.
-            </div>
-          </v-col>
-          <v-spacer></v-spacer>
-          <v-col cols="5" class="mt-0">
-            <v-text-field
-                class="mb-1"
-                hide-details
-                outlined
-                dense
-                label="Search journals"
-                v-model="search"
-                append-icon="mdi-magnify"
-                full-width
-            />
+        <div class="pa-3">
+          <span class="k">Authors from your institution paid an estimated </span>
+          <span class="font-weight-bold">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span> in APCs (Article Processing Costs) to {{ publisherName }} last year. This sum includes APCs paid to gold and hybrid OA journals. Because we do not have access to corresponding author information, this is an estimate only; it assumes that any author on a given paper has an equal likelihood of being the corresponding author.
 
-          </v-col>
-        </v-row>
-        <v-divider></v-divider>
+        </div>
+
+        <div class="d-flex px-3 pb-6 pt-12">
+          <div class="text-h6">
+            {{tableRows.length}} journals paid by authors from your institution (est)
+          </div>
+          <v-spacer/>
+          <v-text-field
+              class="mb-1"
+              hide-details
+              outlined
+              dense
+              label="Search journals"
+              v-model="search"
+              append-icon="mdi-magnify"
+              full-width
+          />
+          <v-btn icon @click="" class="ml-3">
+            <download-csv
+                :data="rowsForDownload"
+                :labels="findKey"
+            >
+              <v-icon >mdi-download</v-icon>
+            </download-csv>
+          </v-btn>
+        </div>
+
+<!--        <v-divider></v-divider>-->
         <v-card flat>
           <v-data-table
               :headers="tableHeaders"
