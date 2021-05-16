@@ -3,6 +3,7 @@
       color="#fff"
       app
       elevate-on-scroll
+      extended
   >
     <v-progress-linear
         :active="isGlobalLoading"
@@ -429,12 +430,17 @@
       </v-menu>
     </div>
 
-    <!--    <template v-slot:extension>-->
-    <!--      <app-bar-ext-user v-if="$route.name === 'user'"/>-->
-    <!--      <app-bar-ext-institution v-if="$route.name === 'institution'"/>-->
-    <!--      <app-bar-ext-publisher v-if="$route.name === 'publisher'"/>-->
-    <!--      <app-bar-ext-scenario-new v-if="$route.name === 'scenario'"/>-->
-    <!--    </template>-->
+        <template v-slot:extension>
+<!--          <v-alert dense type="warning">-->
+
+<!--          </v-alert>-->
+          <div class="warning--text text-center" style="width: 100%;">
+            <v-icon color="warning" left style="margin-left: 10px;">mdi-alert</v-icon>
+            <strong>Site is under maintenance: </strong>
+            We're in the middle of rolling out a new version. Check back on Monday!
+
+          </div>
+        </template>
 
 
   </v-app-bar>
