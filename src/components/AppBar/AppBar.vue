@@ -431,13 +431,10 @@
     </div>
 
         <template v-slot:extension>
-<!--          <v-alert dense type="warning">-->
-
-<!--          </v-alert>-->
           <div class="warning--text text-center" style="width: 100%;">
             <v-icon color="warning" left style="margin-left: 10px;">mdi-alert</v-icon>
             <strong>Site is under maintenance: </strong>
-            We're in the middle of rolling out a new version. Check back on Monday!
+            We're in the middle of rolling out a new version. Check back later today!
 
           </div>
         </template>

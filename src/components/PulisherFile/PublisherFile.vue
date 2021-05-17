@@ -1,7 +1,6 @@
 <template>
   <v-list-item flat class="" style="max-width: 700px;">
 
-
     <v-fab-transition>
       <v-list-item-icon v-if="fileStatus==='parsing'" key="parsingIcon">
         <v-icon color="info">mdi-timer-sand</v-icon>
@@ -224,6 +223,7 @@ export default {
       console.log("pollServer")
       await this.refreshPublisherFileStatus(this.fileType)
       while (this.myDataFile.status === "parsing") {
+      console.log("this.myDataFile.status", this.myDataFile.status)
         await this.refreshPublisherFileStatus(this.fileType)
         await sleep(1000)
       }
