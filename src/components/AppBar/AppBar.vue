@@ -3,7 +3,7 @@
       color="#fff"
       app
       elevate-on-scroll
-      extended
+      :extended="showBannerContent"
   >
     <v-progress-linear
         :active="isGlobalLoading"
@@ -129,7 +129,7 @@
             <v-icon color="#777">
               {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
             </v-icon>
-            <span  class="pl-2 pr-2 ">
+            <span class="pl-2 pr-2 ">
                             {{ publisherName || "Loading package..." }}
                         </span>
             <v-chip
@@ -319,34 +319,34 @@
 
     <v-spacer/>
 
-<!--    <div class="mr-4" v-if="scenarioName">-->
-<!--      <div class="d-flex text-right align-center black&#45;&#45;text three-numbers">-->
-<!--        <div class="mx-4">-->
-<!--          <div class="caption ">-->
-<!--            Cost-->
-<!--          </div>-->
-<!--          <div class="font-weight-bold">-->
-<!--          {{ myCost | currency(publisherCurrencySymbol) }}-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="mx-4">-->
-<!--          <div class="caption ">-->
-<!--            Access-->
-<!--          </div>-->
-<!--          <div class="font-weight-bold">-->
-<!--          {{ libraryFulfillmentPercent | percent }}-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="mx-4">-->
-<!--          <div class="caption ">-->
-<!--            Titles-->
-<!--          </div>-->
-<!--          <div class="font-weight-bold">-->
-<!--          {{ subrJournalsCount }}-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="mr-4" v-if="scenarioName">-->
+    <!--      <div class="d-flex text-right align-center black&#45;&#45;text three-numbers">-->
+    <!--        <div class="mx-4">-->
+    <!--          <div class="caption ">-->
+    <!--            Cost-->
+    <!--          </div>-->
+    <!--          <div class="font-weight-bold">-->
+    <!--          {{ myCost | currency(publisherCurrencySymbol) }}-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        <div class="mx-4">-->
+    <!--          <div class="caption ">-->
+    <!--            Access-->
+    <!--          </div>-->
+    <!--          <div class="font-weight-bold">-->
+    <!--          {{ libraryFulfillmentPercent | percent }}-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--        <div class="mx-4">-->
+    <!--          <div class="caption ">-->
+    <!--            Titles-->
+    <!--          </div>-->
+    <!--          <div class="font-weight-bold">-->
+    <!--          {{ subrJournalsCount }}-->
+    <!--          </div>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
 
 
     <div class="no-highlight" v-if="isLoggedIn">
@@ -429,15 +429,25 @@
         </v-list>
       </v-menu>
     </div>
+    <template v-slot:extension v-if="showBannerContent">
+      <v-alert color="primary" text style="width: 100%; margin-bottom: 0;">
+        <div class="primary--text text-center" style="width: 100%;">
+              <span>
+                <strong>🥳 New  version!</strong>
+                We've added lots of features, including support for COUNTER 5.
+              </span>
+          <a class="ml-4" target="_blank" href="http://help.unsub.org/en/articles/5238375-release-notes-may-2021">
+            See release notes
+          </a>
+          <v-icon color="primary" x-small>mdi-open-in-new</v-icon>
+        </div>
+        <v-btn color="primary" icon style="position: absolute; top: 0; right: 0;" class="mt-1 ml-1"
+               @click="dismissBanner">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
 
-        <template v-slot:extension>
-          <div class="warning--text text-center" style="width: 100%;">
-            <v-icon color="warning" left style="margin-left: 10px;">mdi-alert</v-icon>
-            <strong>Site is under maintenance: </strong>
-            We're in the middle of rolling out a new version. Check back later today!
-
-          </div>
-        </template>
+      </v-alert>
+    </template>
 
 
   </v-app-bar>
@@ -478,7 +488,7 @@ export default {
   data() {
     return {
       thirdBreadcrumb: null,
-      showBannerContent: !localStorage.getItem("surveyBannerDismissed"),
+      showBannerContent: !localStorage.getItem("hideNewVersionBanner17May2021"),
     }
   },
   methods: {
@@ -490,7 +500,7 @@ export default {
       this.$router.push("/")
     },
     dismissBanner() {
-      localStorage.setItem("surveyBannerDismissed", "true")
+      localStorage.setItem("hideNewVersionBanner17May2021", "true")
       this.showBannerContent = false
     }
   },
@@ -623,6 +633,7 @@ export default {
   /*display: flex;*/
   /*justify-content: space-between;*/
 }
+
 .three-numbers {
   line-height: 1.1;
   font-size: 14px;
