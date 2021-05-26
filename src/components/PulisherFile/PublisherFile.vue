@@ -302,6 +302,13 @@ export default {
   },
   async created() {
     // this.myDataFile = this.getPublisherDataFile(this.fileType)
+    if (this.myDataFile.status === "parsing") {
+      this.pretendThatFileIsParsing = true
+      await this.pollServer()
+      await this.refreshPublisher()
+      this.pretendThatFileIsParsing = false
+      this.snackbar("File uploaded.", "success")
+    }
   }
 }
 </script>
