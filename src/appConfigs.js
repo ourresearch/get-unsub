@@ -118,7 +118,7 @@ const journalCols = [
         descr: "The net cost of the subscription, which is the Subscription cost above minus the ILL cost (since almost all universities will offer a journal by ILL if they didn't subscribe).  For some journals with very high Usage and low subscription prices this number is actually negative -- subscribing is *cheaper* than filling all the anticipated ILL requests.",
     },
     {
-        text: "% usage fulfiled by ResearchGate",
+        text: "% usage fulfilled by ResearchGate",
         value: "use_social_networks_percent",
         display: "number",
         descr: "The percent of Usage that can be fulfilled by ResearchGate and other Academic Social Networks. This can be excluded in the settings.",
