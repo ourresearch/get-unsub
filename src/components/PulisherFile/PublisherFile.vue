@@ -201,7 +201,6 @@ export default {
       "snackbar",
     ]),
     close() {
-      this.errorMsg = null
       this.fileSelected = null
     },
     async download() {

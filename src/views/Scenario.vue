@@ -419,7 +419,6 @@ export default {
       'publisherName',
       'publisherId',
       'publisherCurrencySymbol',
-      'publisherWarnings',
       'journals',
       'scenarioIdHash',
       'scenarioTabShowing',
