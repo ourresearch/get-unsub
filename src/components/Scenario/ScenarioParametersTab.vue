@@ -41,10 +41,10 @@
 
         </v-row>
 
-        <v-dialog v-model="showDialog" max-width="400" persistent>
+        <v-dialog v-model="showDialog" max-width="500" persistent>
             <v-card v-if="showDialog">
                 <v-card-title>
-                    <v-icon left>mdi-playlist-edit</v-icon>
+                    <v-icon left>mdi-cog-outline</v-icon>
                     {{selectedConfigData.displayName}}
                 </v-card-title>
 
