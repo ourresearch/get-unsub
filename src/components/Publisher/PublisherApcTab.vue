@@ -30,7 +30,7 @@
 
         <div class="d-flex px-3 pb-6 pt-12">
           <div class="text-h6">
-            {{tableRows.length}} journals paid by authors from your institution (est)
+            {{tableRows.length}} journals paid by authors from your institution
           </div>
           <v-spacer/>
           <v-text-field
