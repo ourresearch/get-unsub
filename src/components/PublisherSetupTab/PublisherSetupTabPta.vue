@@ -7,7 +7,7 @@
         Your PTA file
       </div>
       <div>
-        Upload your perpetual access dates as a spreadsheet with one journal per row. The spreadsheet should have three columns: <strong>ISSN</strong>,
+        Upload your PTA (Post-Termination Access) dates as a spreadsheet with one journal per row. The spreadsheet should have three columns: <strong>ISSN</strong>,
                         <strong>Start date</strong>, and
                         <strong>End date</strong>.
         For journals where the PTA is ongoing, just leave the <strong>End Date</strong> blank.

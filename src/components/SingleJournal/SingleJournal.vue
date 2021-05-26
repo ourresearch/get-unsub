@@ -88,8 +88,8 @@
                                         <single-journal-key-number-row
                                                 :value="displayPerpetualAccessYears"
                                                 value-is-string
-                                                label="Perpetual access rights (post-2010)"
-                                                tooltip-text="Your perptual access rights to content published since 2010 (rights for earlier content don't affect the model enough to include, since that content is rarely accessed.)"
+                                                label="PTA (Post-Termination Access) rights"
+                                                tooltip-text="You have access to content from these years, even after you cancel your subscription."
                                         />
                                     </div>
                                 </v-col>

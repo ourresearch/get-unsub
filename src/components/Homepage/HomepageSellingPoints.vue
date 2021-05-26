@@ -46,7 +46,7 @@
             img: "hourglass",
             color: "",
             header: "Save time",
-            text: "Ditch the complex spreadsheets--just upload your COUNTER reports and perpetual access holdings, and let Unsub do the rest."
+            text: "Ditch the complex spreadsheets--just upload your COUNTER reports and PTA (Post-Termination Access) rights, and let Unsub do the rest."
         },
     ]
 

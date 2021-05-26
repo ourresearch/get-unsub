@@ -197,7 +197,7 @@ const journalCols = [
         descr: "The number of papers in this journal that have at least one author from your institution.  This number is based on the authorship patterns of the previous five years.  The importance of this number to overall Usage is determined by the Authorship Weight setting.",
     },
     {
-        text: "Perpetual access",
+        text: "PTA (Post-Termination Access)",
         value: "perpetual_access_years_text",
         display: "text",
         descr: "The years for which you have perpetual access to this title if you were to unsubscribe.",
@@ -477,7 +477,7 @@ const dataFiles = {
         dataType: "Date ranges where you have Post-Termination access",
         icon: "mdi-briefcase-file-outline",
 
-        uploadFormat: "A spreadsheet with one row per journal, and three columns: ISSN, perpetual access start date, and perpetual access end date",
+        uploadFormat: "A spreadsheet with one row per journal, and three columns: ISSN, PTA start date, and PTA end date",
         uploadSource: "Custom date ranges",
 
         defaultSource: "Partial perpetual access",
