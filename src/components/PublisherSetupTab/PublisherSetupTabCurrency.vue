@@ -1,14 +1,14 @@
 <template>
-  <v-card flat  class="setup-subtab-content">
+  <v-card flat class="setup-subtab-content">
     <div>
       <div class="font-weight-bold">Selected Currency</div>
       <p>
-        Your selected currency is used in many places throughout the app. Noteably, it determines which default pricelist will be used for individual titles. For example, if you select  UK Pounds Sterling, we'll use this publisher's UK public pricelist.
+        Your selected currency is used in many places throughout the app. Noteably, it determines which default
+        pricelist will be used for individual titles. For example, if you select UK Pounds Sterling, we'll use this
+        publisher's UK public pricelist.
       </p>
 
-      <p v-if="!!publisherCurrency && publisherPriceDataFileIsLive">
-        However, it doesn't <em>convert</em> from one currency to another. You've already uploaded a pricelist demominated in {{ publisherCurrency}}. After you change currency, don't forget to replace it with a new pricelist, denominated in your new currency.
-      </p>
+
       <v-radio-group
           class="mt-5"
           v-model="currency"
@@ -26,6 +26,21 @@
             @click="openDialog"
         />
       </v-radio-group>
+
+      <p v-if="!!publisherCurrency">
+        <strong>Important:</strong> changing currency doesn't <em>convert</em> from one currency to another. If you
+        change currency, don't forget to update costs you've already entered, replacing them with ones denominated in
+        your new currency. Specifically, you'll need to edit your package
+        <a href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+           target="_blank">Big Deal Cost</a> and scenario
+        <a href="http://help.unsub.org/en/articles/4938030-scenario-parameters" target="_blank">ILL Transaction Cost
+          parameter.</a>
+
+        <span class="ml-1" v-if="publisherPriceDataFileIsLive">You'll also need to <a
+            href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-a-custom-title-by-title-journal-pricelist">replace your custom pricelist</a>.</span>
+
+      </p>
+
     </div>
 
     <v-dialog
@@ -44,13 +59,28 @@
           <div v-if="!publisherCurrency">
             This will set your currency <strong>{{ currency }}.</strong>
           </div>
-          <div  v-if="!!publisherCurrency">
+          <div v-if="!!publisherCurrency">
             <p>
               Are you sure you want to change currency to <strong>{{ currency }}?</strong>
             </p>
-            <p v-if="publisherPriceDataFileIsLive">
-              Once this is done, your current pricelist (denominated in {{ publisherCurrency }}) will be invalid. Don't forget to replace it with a new one, denominated in {{ currency }}.
-            </p>
+
+            <template v-if="!!publisherCurrency">
+              <p>
+                Changing currency doesn't <em>convert</em> from one currency to another.
+              </p>
+              <p>
+                If you make the change, don't forget to edit your package
+                <a href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+                   target="_blank">Big Deal Cost</a> and scenario
+                <a href="http://help.unsub.org/en/articles/4938030-scenario-parameters" target="_blank">ILL Transaction
+                  Cost parameter</a> to new values denominated in {{ currency }}.
+
+                <span class="ml-1" v-if="publisherPriceDataFileIsLive">You'll also need to <a
+                    href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-a-custom-title-by-title-journal-pricelist">replace your custom pricelist</a>.</span>
+
+              </p>
+
+            </template>
           </div>
         </div>
         <v-card-actions>
@@ -88,8 +118,7 @@ import {api} from "@/api";
 
 export default {
   name: "PublisherSetupTabWarnings",
-  components: {
-  },
+  components: {},
   props: {},
   data() {
     return {
