@@ -80,14 +80,14 @@
         Big Deal 5-year annual cost
       </div>
       <div>
-        This is your estimated amount you'll pay to this publisher per annum <em>over the next five years.</em> It's
-        generated automatically: we simply start with your annual spend
+        This is your estimated annual package spend over the next five years, if you renewed your Big Deal. It's
+        generated automatically: we simply start with your base annual spend
         <template v-if="publisherBigDealCost">
           ({{ publisherBigDealCost | currency(publisherCurrencySymbol) }})</template>,
 
         compute its five-year compound growth as determined by your annual cost increase
         <template v-if="publishersBigDealCostIncrease">({{ publishersBigDealCostIncrease | percent(2) }})</template>,
-        and finally calculate a yearly average.
+        and finally calculate a yearly average. This number is used to compute your potential annual savings under various cancellation scenarios.
       </div>
 
       <div>
@@ -289,6 +289,7 @@ export default {
       "publisherCurrencyIconName",
       "publisherCurrencySymbol",
       "publisherBigDeal5YearAnnualCost",
+        "publisherPublisher"
     ]),
   },
   created() {
