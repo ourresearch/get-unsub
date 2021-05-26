@@ -52,7 +52,7 @@
             >
               mdi-check-outline
             </v-icon>
-            {{ tab.name }}
+            {{ tab.shortName }}
           </v-tab>
 
         </template>
@@ -65,7 +65,7 @@
             <div class="main-title ">
               Setup:
               <strong>
-                {{ tab.name }}
+                {{ tab.longName }}
               </strong>
               <v-btn small icon
                      :href="tab.warningUrl"
@@ -144,7 +144,8 @@ export default {
       tabsConfig: [
         {
           id: "counter",
-          name: "COUNTER",
+          shortName: "COUNTER",
+          longName: "COUNTER",
           isRequired: true,
           warningUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
           helpUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
@@ -152,7 +153,8 @@ export default {
         },
         {
           id: "currency",
-          name: "Currency",
+          shortName: "Currency",
+          longName: "Currency",
           isRequired: true,
           warningUrl: "http://help.unsub.org/en/articles/4055375-what-currencies-are-supported",
           helpUrl: "http://help.unsub.org/en/articles/4055375-what-currencies-are-supported",
@@ -160,7 +162,8 @@ export default {
         },
         {
           id: "bigDealCosts",
-          name: "Big Deal costs",
+          shortName: "Big Deal costs",
+          longName: "Big Deal costs",
           isRequired: true,
           warningUrl: "http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase",
           helpUrl: "http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase",
@@ -168,7 +171,8 @@ export default {
         },
         {
           id: "pta",
-          name: "PTA",
+          shortName: "PTA",
+          longName: "PTA (Post-Termination Access)",
           warningId: "missingPerpetualAccess",
           isFirstRecommendedTab: true,
           isRecommended: true,
@@ -178,7 +182,8 @@ export default {
         },
         {
           id: "pricelist",
-          name: "Journal pricelist",
+          shortName: "Pricelist",
+          longName: "Journal pricelist",
           warningId: "missingPrices",
           isRecommended: true,
           warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
