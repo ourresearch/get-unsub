@@ -541,7 +541,7 @@ const testimonials = [
     },
     {
         name: "Jennifer Beamer",
-        job: "Head of Collections & Systems",
+        job: "Scholarly Communications & Open Publishing Coordinator",
         institution: "The Claremont Colleges",
         quote: "Heather and Jason deserve a medal for Unsub!",
         img: "https://i.imgur.com/p7OkrM0.png",
