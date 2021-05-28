@@ -540,7 +540,7 @@ const testimonials = [
         displayOnPage: ["demo", "homepage"]
     },
     {
-        name: "Elizabeth Grace",
+        name: "Jennifer Beamer",
         job: "Head of Collections & Systems",
         institution: "The Claremont Colleges",
         quote: "Heather and Jason deserve a medal for Unsub!",
