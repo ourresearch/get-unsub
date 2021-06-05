@@ -41,8 +41,7 @@
                     </router-link>
                 </v-col>
                 <v-col cols="12" sm="4" class="body-2">
-                    Unsub is made with ❤︎ by <a style="text-decoration: underline;" href="https://ourresearch.org">Our
-                    Research,</a> with generous support from <a style="text-decoration: underline;"
+                    Unsub is made with ❤︎ by <a style="text-decoration: underline;" href="https://ourresearch.org">OurResearch,</a> with generous support from <a style="text-decoration: underline;"
                                                                 href="https://www.arcadiafund.org.uk/">Arcadia&mdash;a
                     charitable fund of Lisbet Rausing and Peter Baldwin</a>.
                 </v-col>
