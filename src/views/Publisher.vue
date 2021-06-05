@@ -190,31 +190,10 @@ export default {
       return true
     },
     showSetupTab(){
-      if (this.publisherIsFeeder) return false
       if (this.institutionIsConsortium) return false
       return true
     },
 
-
-    showSetupTabOnly() {
-      if (this.publisherIsFeeder) {
-        // feeders exist only to upload data. you can't do anything else here.
-        return true
-      } else {
-        if (!this.publisherCounterIsLive) {
-          // you should have COUNTER uploaded, it's important.
-          if (this.institutionIsConsortium) {
-            // ok actually carry on, you are an exception. consortia get their counter data magically from
-            // their members. you're all good.
-            return false
-          } else {
-            // you are not a consortium, so we've got a problem...you can't do anything until you upload COUNTER
-            return true
-          }
-        }
-      }
-      return false
-    }
   },
   methods: {
     ...mapMutations([
