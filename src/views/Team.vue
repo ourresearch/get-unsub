@@ -9,7 +9,7 @@
                     </div>
                     <div class="mt-6">
                         <p>
-                            Unsub is a project of <a href="https://ourresearch.org">Our Research,</a> a
+                            Unsub is a project of <a href="https://ourresearch.org">OurResearch,</a> a
                             nonprofit
                             building tools to help make scholarly research more open, connected, and reusable. We maintain a small full-time team, which helps us stay agile and sustainable. That's us in the picture (clockwise from top):
                         </p>
