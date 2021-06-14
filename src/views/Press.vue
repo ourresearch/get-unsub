@@ -62,6 +62,7 @@ import appConfigs from "../appConfigs";
 const articles = [
 
 
+
   {
     venue: "Research Information",
     date: "7 May 2021",
@@ -69,6 +70,15 @@ const articles = [
     img: "research-information-2.png",
     quote: "The growing prevalence of open access (OA), however, offers a solution to the captivity of libraries at the hands of these big deals. Because much of the content of the big deal is now available as OA, there is now  a smoother ‘off-ramp’ to cancellation than ever before. That is, after cancellation, faculty can still access a large percentage of the relevant literature. Librarians are increasingly aware of this. ",
     link: "https://www.researchinformation.info/interview/tilting-balance-back-towards-libraries",
+  },
+
+  {
+    venue: "Charleston Hub",
+    date: "19 April 2021",
+    headline: "Unsub: Part 1: From Big Deals to Real Deals for Academic Publishing & Libraries",
+    img: "charleston-hub.png",
+    quote: "Although Unsub was not created to deal with the financial crisis created by the COVID pandemic, it has been a key analytic tool as institutions face their financial futures.",
+    link: "https://www.charleston-hub.com/2021/04/unsub-part-1-from-big-deals-to-real-deals-for-academic-publishing-libraries/",
   },
 
   {
