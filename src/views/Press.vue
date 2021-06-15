@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-3">
-    <v-card class="pa-6">
+    <v-card flat class="pa-6">
       <div class="text-h3 font-weight-bold">
         Press
       </div>
