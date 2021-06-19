@@ -1,84 +1,74 @@
 <template>
   <v-card flat>
-    <v-card-title class="text-h5" :class="{'warning--text': !scenarioMemberInstitutions.length}">
-      <div>
-        Feedback from member institutions
-        <span class="body-2 ml-2">({{ scenarioMemberInstitutions.length }})</span>
-      </div>
-      <v-spacer/>
-      <div class="mr-3">
-        <v-text-field
-            class="d-none"
-            hide-details
-            clearable
-            outlined
-            dense
-            label="Search institutions"
-            v-model="search"
-            append-icon="mdi-magnify"
-            full-width
-        />
-      </div>
-    </v-card-title>
-      <div v-if="!scenarioMemberInstitutions.length" class="ml-5 body-1 font-weight-bold warning--text">
-        <v-icon color="warning">
-          mdi-alert-outline
-        </v-icon>
-        Please select at least one institution.
-      </div>
+    <p>You can send a copy of scenario to your {{scenarioMemberInstitutions.length}} selected member institutions; they can respond with their own modifications. Download their responses in the Export tab.</p>
+
     <div class="pa-3 mt-5">
 
-      <v-row>
-        <v-col cols="5" class="d-flex">
-          <v-checkbox
-              @change="multiSelectClick"
-              @click="saveDialog"
-              hide-details
-              value
-              v-model="multiSelect"
-              :indeterminate="someSelected"
-              :disabled="isSaving || isLoading"
-              class="py-0 my-0 mr-6 ml-2"
-          />
-          <span class="ml-12 pl-3">
-                                    Title
-                                </span>
-        </v-col>
-        <v-col cols="2">
-          Usage
-        </v-col>
-        <v-col cols="4">
-          Tags
-        </v-col>
-      </v-row>
-      <v-divider class="my-2"/>
-
-      <v-row
-          v-for="institution in sortedInstitutions"
-          class="px-2"
-          :key="institution.package_id"
+      <v-data-table
+          v-model="selectedInstitutions"
+          :items="sortedInstitutions"
+          :headers="tableHeaders"
+          :items-per-page="300"
+          show-select
+          item-key="institution_id"
       >
-        <v-col cols="5" class="d-flex">
-          <v-checkbox
-              hide-details
-              class="my-1 py-0 mr-6"
-              v-model="includedIds"
-              :value="institution.package_id"
-              :disabled="isSaving || isLoading"
-              @click="saveDialog"
-          />
-          <span class="title">
-                                        {{ institution.institution_name }}
-                                    </span>
+      </v-data-table>
+      <div v-if="0">
+        <v-row>
+          <v-col cols="5" class="d-flex">
+            <v-checkbox
+                @change="multiSelectClick"
+                @click="saveDialog"
+                hide-details
+                value
+                v-model="multiSelect"
+                :indeterminate="someSelected"
+                :disabled="isSaving || isLoading"
+                class="py-0 my-0 mr-6 ml-2"
+            />
+            <span class="ml-12 pl-3">
+                                      Title
+                                  </span>
+          </v-col>
+          <v-col cols="2">
+            Usage
+          </v-col>
+          <v-col cols="4">
+            Tags
+          </v-col>
+        </v-row>
+        <v-divider class="my-2"/>
 
-        </v-col>
-        <v-col cols="2">
-          {{ institution.usage | round }}
-        </v-col>
-        <v-col cols="4">
-          {{ institution.tags }}
-        </v-col>
-      </v-row>
+        <v-row
+            v-for="institution in sortedInstitutions"
+            class="px-2"
+            :key="institution.package_id"
+        >
+          <v-col cols="5" class="d-flex">
+            <v-checkbox
+                hide-details
+                class="my-1 py-0 mr-6"
+                v-model="includedIds"
+                :value="institution.package_id"
+                :disabled="isSaving || isLoading"
+                @click="saveDialog"
+            />
+            <span class="title">
+                                          {{ institution.institution_name }}
+                                      </span>
+
+          </v-col>
+          <v-col cols="2">
+            {{ institution.usage | round }}
+          </v-col>
+          <v-col cols="4">
+            {{ institution.tags }}
+          </v-col>
+        </v-row>
+      </div>
+
+
+
     </div>
 
 
@@ -86,10 +76,29 @@
 </template>
 
 <script>
+const momentRandom = require('moment-random');
+
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import {api, urlBase} from "../../api";
 import {saveScenarioInstitutions} from "../../shared/scenario";
 
+// https://www.joshwcomeau.com/snippets/javascript/random/
+const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+
+const foo = {
+    "num_journals": 1973,
+    "usage": 1706306,
+    "institution_name": "King's College London",
+    "included": true,
+    "institution_short_name": "kcl",
+    "institution_id": "institution-jisckcl",
+    "tags": "Band 2, JUSP ID kcl",
+    "package_id": "package-jiscelskcl",
+  "sent_date": 12,
+  "opened_date": 12,
+  "returned_date": 12,
+  }
 
 export default {
   name: "ScenarioFeedbackTab",
@@ -109,6 +118,15 @@ export default {
       multiSelectState: "none",
       multiSelect: false,
       someSelected: false,
+      selectedInstitutions: [],
+      tableHeaders: [
+        {value: "institution_name", text: "Institution name"},
+        {value: "usage", text: "Usage"},
+        {value: "tags", text: "Tags"},
+        {value: "sentDate", text: "Sent"},
+        {value: "changedDate", text: "Last Changed"},
+        {value: "returnedDate", text: "Returned"},
+      ]
     }
   },
   methods: {
@@ -120,6 +138,9 @@ export default {
       "startGlobalLoading",
       "finishGlobalLoading",
     ]),
+    randomDate(){
+
+    },
     multiSelectClick() {
       const myInstitutionPackageIds = this.sortedInstitutions.map(i => i.package_id)
       if (this.includedIds.length > 0) { // anything selected
@@ -136,8 +157,7 @@ export default {
         const resp = await api.get(this.apiUrl)
         this.institutions = resp.data.institutions
         console.log("api get member institutions resp", resp)
-      }
-      finally {
+      } finally {
         this.isLoading = false
         this.finishGlobalLoading()
       }
@@ -181,10 +201,38 @@ export default {
       return `scenario/${this.scenarioId}/member-institutions`
     },
     sortedInstitutions() {
-      let searchStr = (this.search) ? this.search : ""
-      return this.institutions.filter(i => {
-        return i.institution_name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1
+      // let searchStr = (this.search) ? this.search : ""
+
+      const startDateStr = "2021-07-08"
+      const withMockDates = this.institutions.map(institution => {
+        if (institution.tags.indexOf("Band 1") > -1) {
+          const date = this.$moment(startDateStr)
+          institution.sentDate = date.format("D MMM, YYYY")
+
+          date.add(random(1, 14), "days")
+          institution.changedDate = date.format("D MMM, YYYY")
+
+          date.add(random(0, 2), "days")
+          institution.returnedDate =  date.format("D MMM, YYYY")
+        }
+        // Imperial hasn't sent theirs back yet!
+        if (institution.institution_short_name === "icl") {
+          institution.changedDate =  undefined
+          institution.returnedDate =  undefined
+
+        }
+
+
+
+        return institution
       })
+
+
+      return withMockDates
+
+      // return withMockDates.filter(i => {
+      //   return i.institution_name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1
+      // })
     },
 
   },

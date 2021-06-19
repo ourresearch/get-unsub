@@ -17,15 +17,14 @@
         <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions}" v-if="institutionIsConsortium">
           <v-icon v-if="scenarioMemberInstitutions" small left>mdi-bank-outline</v-icon>
           <v-icon v-if="!scenarioMemberInstitutions" small left color="warning">mdi-alert</v-icon>
-          Member Institutions
+          Members
           ({{ scenarioMemberInstitutions.length }})
         </v-tab>
 
         <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions}" v-if="institutionIsConsortium">
-          <v-icon v-if="scenarioMemberInstitutions" small left>mdi-bank-outline</v-icon>
+          <v-icon v-if="scenarioMemberInstitutions" small left>mdi-comment-text-outline</v-icon>
           <v-icon v-if="!scenarioMemberInstitutions" small left color="warning">mdi-alert</v-icon>
-          Institutional feedback
-          ({{ scenarioMemberInstitutions.length }})
+          Feedback
         </v-tab>
 
         <v-spacer/>

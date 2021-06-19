@@ -17,7 +17,7 @@
           <v-col cols="10" class="d-flex flex-column justify-space-between">
             <div class="content">
               <div class="text-h5">{{ article.headline }}</div>
-              <div class="mb-3">
+              <divund class="mb-3">
                                 <span class="font-italic">
                                     {{ article.venue }},
                                 </span>
@@ -25,7 +25,7 @@
                                     {{ article.date }}
                                 </span>
 
-              </div>
+              </divund>
               <q class="">{{ article.quote }}</q>
 
             </div>
