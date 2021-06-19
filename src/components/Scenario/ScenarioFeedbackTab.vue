@@ -1,6 +1,22 @@
 <template>
   <v-card flat>
-    <p>You can send a copy of scenario to your {{scenarioMemberInstitutions.length}} selected member institutions; they can respond with their own modifications. Download their responses in the Export tab.</p>
+    <p class="d-none">You can send a copy of scenario to your {{scenarioMemberInstitutions.length}} selected member institutions; they can respond with their own modifications.</p>
+
+    <div class="d-flex">
+      <v-btn dark color="primary">Share/remind</v-btn>
+      <v-btn  color="primary" disabled class="ml-3">Download response</v-btn>
+      <v-spacer />
+      <v-text-field
+            hide-details
+            clearable
+            outlined
+            dense
+            label="Search by name or tags"
+            v-model="search"
+            append-icon="mdi-magnify"
+            full-width
+        />
+    </div>
 
     <div class="pa-3 mt-5">
 
