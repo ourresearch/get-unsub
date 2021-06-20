@@ -2,7 +2,7 @@
     <v-card flat tile color="#eee" class="logos-card">
         <v-container class="py-10">
             <div class="text-center mb-6">
-                Used in <strong>300+ libraries</strong> large and small, including:
+                Used in <strong>500+ libraries</strong> large and small, including:
             </div>
             <v-row class="logo-images">
                 <div :class="`img-container ${logo.name}`" v-for="logo in logos">

@@ -44,7 +44,7 @@
 
 
                         <div class="text-h6 primary--text mb-6 mt-10 pt-4">
-                            Join 300+ forward-thinking libraries worldwide:
+                            Join 500+ forward-thinking libraries worldwide:
                         </div>
                         <v-row align="center">
                             <v-col cols="3">

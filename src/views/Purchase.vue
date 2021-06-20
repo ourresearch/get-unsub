@@ -73,7 +73,7 @@
 
                                                 <v-divider class="my-10"/>
                                                 <div class="text-h6 mb-6">
-                                                    Join 300+ forward-thinking libraries worldwide:
+                                                    Join 500+ forward-thinking libraries worldwide:
                                                 </div>
                                                 <v-row align="center">
                                                     <v-col cols="3">
