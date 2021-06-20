@@ -5,6 +5,12 @@
         href="http://help.unsub.org/en/articles/4246610-what-are-the-columns-in-download-as-spreadsheet">documentation
       for the column names here.</a>
     </p>
+    <p>
+       To further explore and visualize your exported data,
+      check out
+      <a href="https://unsubextender.lib.iastate.edu/" target="_blank">Unsub Extender,</a> a free third-party tool created by Eric
+      Schares, a librarian at Iowa State University.
+    </p>
     <v-btn color="primary" @click="" :href="csvUrl">
       <v-icon left>mdi-download</v-icon>
       Download
