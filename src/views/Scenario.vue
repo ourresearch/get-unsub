@@ -204,7 +204,7 @@
 
                           />
                         </v-slide-x-reverse-transition>
-                        <v-btn icon class="mr-4" @click="showSearchBox = !showSearchBox">
+                        <v-btn icon class="mr-4" @click="toggleSearchBox">
                           <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
                           <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
                         </v-btn>
