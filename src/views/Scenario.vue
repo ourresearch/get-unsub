@@ -532,7 +532,7 @@ export default {
             const titleMatch = myTitle.toLowerCase().indexOf(searchStr) > -1
             const issnMatches = _.intersection(
                 splitSearchTerms,
-                journal.issns
+                journal.issns.map(issn => issn.toLowerCase())
             )
             return !titleMatch && !issnMatches.length
           }
