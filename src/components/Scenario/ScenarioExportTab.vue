@@ -15,6 +15,21 @@
       <v-icon left>mdi-download</v-icon>
       Download
     </v-btn>
+
+    <template v-if="institutionIsConsortium && isJisc">
+      <div class="mt-10 text-h5">
+         Member subscription requests (beta)
+      </div>
+      <p>
+        Pull a list of subscriptions that your member institutions have requested you include in this scenario.
+      </p>
+      <v-btn color="primary" @click="" :href="memberSubscriptionRequestsCsvUrl">
+        <v-icon left>mdi-download</v-icon>
+        Download
+      </v-btn>
+    </template>
+
+
   </v-card>
 
 
@@ -61,9 +76,17 @@ export default {
       url += "?timestamp=" + `${new Date().getTime()}`
       url += "&jwt=" + localStorage.getItem("token")
       return url
-
-    }
-
+    },
+    memberSubscriptionRequestsCsvUrl() {
+      let scenarioId = this.$store.getters.scenarioId
+      let url = `${urlBase}scenario/${scenarioId}/member-institutions/consortial-scenarios.csv`;
+      url += "?timestamp=" + `${new Date().getTime()}`
+      url += "&jwt=" + localStorage.getItem("token")
+      return url
+    },
+    isJisc() {
+      return this.institutionName === "Jisc"
+    },
   },
   created() {
   },
