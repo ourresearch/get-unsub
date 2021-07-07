@@ -21,12 +21,6 @@
           ({{ scenarioMemberInstitutions.length }})
         </v-tab>
 
-        <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions}" v-if="institutionIsConsortium">
-          <v-icon v-if="scenarioMemberInstitutions" small left>mdi-comment-text-outline</v-icon>
-          <v-icon v-if="!scenarioMemberInstitutions" small left color="warning">mdi-alert</v-icon>
-          Feedback
-        </v-tab>
-
         <v-spacer/>
         <div class="d-flex align-center">
           <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">

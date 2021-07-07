@@ -20,67 +20,72 @@
         />
       </div>
     </v-card-title>
-      <div v-if="!scenarioMemberInstitutions.length" class="ml-5 body-1 font-weight-bold warning--text">
-        <v-icon color="warning">
-          mdi-alert-outline
-        </v-icon>
-        Please select at least one institution.
-      </div>
-    <div class="pa-3 mt-5">
-
-      <v-row>
-        <v-col cols="5" class="d-flex">
-          <v-checkbox
-              @change="multiSelectClick"
-              @click="saveDialog"
-              hide-details
-              value
-              v-model="multiSelect"
-              :indeterminate="someSelected"
-              :disabled="isSaving || isLoading"
-              class="py-0 my-0 mr-6 ml-2"
-          />
-          <span class="ml-12 pl-3">
-                                    Title
-                                </span>
-        </v-col>
-        <v-col cols="2">
-          Usage
-        </v-col>
-        <v-col cols="4">
-          Tags
-        </v-col>
-      </v-row>
-      <v-divider class="my-2"/>
-
-      <v-row
-          v-for="institution in sortedInstitutions"
-          class="px-2"
-          :key="institution.package_id"
-      >
-        <v-col cols="5" class="d-flex">
-          <v-checkbox
-              hide-details
-              class="my-1 py-0 mr-6"
-              v-model="includedIds"
-              :value="institution.package_id"
-              :disabled="isSaving || isLoading"
-              @click="saveDialog"
-          />
-          <span class="title">
-                                        {{ institution.institution_name }}
-                                    </span>
-
-        </v-col>
-        <v-col cols="2">
-          {{ institution.usage | round }}
-        </v-col>
-        <v-col cols="4">
-          {{ institution.tags }}
-        </v-col>
-      </v-row>
+    <div v-if="!scenarioMemberInstitutions.length" class="ml-5 body-1 font-weight-bold warning--text">
+      <v-icon color="warning">
+        mdi-alert-outline
+      </v-icon>
+      Please select at least one institution.
     </div>
 
+    <div class="d-flex mb-6">
+      <v-btn dark color="primary" class="mr-2">send</v-btn>
+      <v-btn dark color="primary" class="mr-2" @click="openIncludeExcludeDialog">include/exclude</v-btn>
+      <v-spacer/>
+      <v-text-field
+          hide-details
+          clearable
+          outlined
+          dense
+          label="Search by name or tags"
+          v-model="search"
+          append-icon="mdi-magnify"
+          full-width
+      />
+    </div>
+
+    <div>
+      <v-data-table
+          v-model="selectedInstitutions"
+          :items="sortedInstitutions"
+          :headers="tableHeaders"
+          :items-per-page="300"
+          show-select
+          item-key="institution_id"
+          disable
+      >
+      </v-data-table>
+    </div>
+
+
+
+
+
+
+<v-dialog v-model="dialogs.includeExclude" max-width="400">
+            <v-card>
+              <v-card-title>
+                  <v-icon left>mdi-bank-outline</v-icon>
+                  Include/exclude members
+              </v-card-title>
+                <v-card-actions>
+                    <v-spacer/>
+                    <v-btn depressed
+                           @click="dialogs.includeExclude = false"
+                    >
+                        Cancel
+                    </v-btn>
+                    <v-btn depressed
+                           @click="createPublisher"
+                           color="primary"
+                           :loading="newPublisherLoading"
+                           :disabled="institutionIsDemo"
+
+                    >
+                        OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
 
   </v-card>
 </template>
@@ -109,6 +114,20 @@ export default {
       multiSelectState: "none",
       multiSelect: false,
       someSelected: false,
+      selectedInstitutions: [],
+      dialogs: {
+        send: false,
+        includeExclude: false,
+      },
+      tableHeaders: [
+        {value: "included", text: "Included"},
+        {value: "institution_name", text: "Institution name"},
+        {value: "usage", text: "Usage"},
+        {value: "tags", text: "Tags"},
+        {value: "sentDate", text: "Sent"},
+        {value: "changedDate", text: "Last Changed"},
+        {value: "returnedDate", text: "Returned"},
+      ]
     }
   },
   methods: {
@@ -128,6 +147,9 @@ export default {
         this.includedIds = myInstitutionPackageIds
       }
     },
+    openIncludeExcludeDialog(){
+      this.dialogs.includeExclude = true
+    },
     async openDialog() {
       this.isLoading = true
       this.startGlobalLoading()
@@ -136,22 +158,18 @@ export default {
         const resp = await api.get(this.apiUrl)
         this.institutions = resp.data.institutions
         console.log("api get member institutions resp", resp)
-      }
-      finally {
+      } finally {
         this.isLoading = false
         this.finishGlobalLoading()
       }
-      this.includedIds = this.institutions.filter(i => i.included).map(i => i.package_id)
-      if (this.includedIds.length) {
-        this.multiSelect = true
-      }
+      this.selectedInstitutions = this.institutions.filter(i => i.included)
     },
     async saveDialog() {
       this.isSaving = true
       this.startGlobalLoading()
 
-      console.log("POSTing institution IDs to server", this.includedIds)
-      const resp = await saveScenarioInstitutions(this.scenarioId, this.includedIds)
+      console.log("POSTing institution IDs to server", this.selectedInstitutions)
+      const resp = await saveScenarioInstitutions(this.scenarioId, this.selectedInstitutions)
 
       console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
 
@@ -181,9 +199,10 @@ export default {
       return `scenario/${this.scenarioId}/member-institutions`
     },
     sortedInstitutions() {
-      let searchStr = (this.search) ? this.search : ""
+      let searchStr = (this.search) ? this.search.toLowerCase() : ""
       return this.institutions.filter(i => {
-        return i.institution_name.toLowerCase().indexOf(searchStr.toLowerCase()) > -1
+        return i.institution_name.toLowerCase().indexOf(searchStr) > -1 ||
+            i.tags.toLowerCase().indexOf(searchStr) > -1
       })
     },
 
@@ -194,21 +213,21 @@ export default {
     this.openDialog()
   },
   watch: {
-    includedIds: {
-      immediate: false,
-      handler: function (to, from) {
-        if (to.length === 0) { // none selected
-          this.someSelected = false
-          this.multiSelect = false
-        } else if (to.length === this.institutions.length) { // all selected
-          this.someSelected = false
-          this.multiSelect = true
-        } else { // some selected
-          this.someSelected = true
-          this.multiSelect = true
-        }
-      }
-    },
+    // includedIds: {
+    //   immediate: false,
+    //   handler: function (to, from) {
+    //     if (to.length === 0) { // none selected
+    //       this.someSelected = false
+    //       this.multiSelect = false
+    //     } else if (to.length === this.institutions.length) { // all selected
+    //       this.someSelected = false
+    //       this.multiSelect = true
+    //     } else { // some selected
+    //       this.someSelected = true
+    //       this.multiSelect = true
+    //     }
+    //   }
+    // },
   }
 }
 </script>

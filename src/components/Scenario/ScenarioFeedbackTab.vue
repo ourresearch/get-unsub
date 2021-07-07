@@ -219,6 +219,8 @@ export default {
     sortedInstitutions() {
       // let searchStr = (this.search) ? this.search : ""
 
+      return this.institutions
+
       const startDateStr = "2021-07-08"
       const withMockDates = this.institutions.map(institution => {
         if (institution.tags.indexOf("Band 1") > -1) {
