@@ -8,16 +8,20 @@
       <v-tab class="low-key-button">
         <v-icon small left>mdi-account-outline</v-icon>
         Users
-        <span class="ml-1 caption">({{institutionUsersWithRoles.length}})</span>
+        <span class="ml-1 caption">({{ institutionUsersWithRoles.length }})</span>
       </v-tab>
       <v-tab class="low-key-button">
         <v-icon small left>mdi-map-marker-outline</v-icon>
         ROR IDs
-        <span class="ml-1 caption">({{institutionRorIds.length}})</span>
+        <span class="ml-1 caption">({{ institutionRorIds.length }})</span>
       </v-tab>
       <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">
         <v-icon small left>mdi-package-up</v-icon>
         Consortial feeders
+      </v-tab>
+      <v-tab class="low-key-button" v-if="institutionIsJisc">
+        <v-icon small left>mdi-swap-horizontal</v-icon>
+        Consortial proposals
       </v-tab>
     </v-tabs>
 
@@ -42,6 +46,7 @@ export default {
       "institutionConsortialFeederPublishers",
       "institutionUsersWithRoles",
       "institutionRorIds",
+      "institutionIsJisc",
     ]),
     currentTab: {
       get() {

@@ -276,7 +276,7 @@
         <v-tab-item v-if="institutionIsConsortium">
           <scenario-institutions-tab/>
         </v-tab-item>
-        <v-tab-item v-if="institutionsIsJisc">
+        <v-tab-item v-if="institutionIsJisc">
           <scenario-push-pull-tab/>
         </v-tab-item>
       </v-tabs-items>

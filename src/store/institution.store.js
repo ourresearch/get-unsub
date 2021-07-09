@@ -46,6 +46,9 @@ export const institution = {
             state.isConsortium = apiResp.is_consortium
             state.isJisc = apiResp.is_jisc
 
+            // @todo unset this!
+            state.isJisc = true
+
         },
         setUserPermissions(state, {email, permissions}) {
             console.log("setUserPermissions", email, permissions)

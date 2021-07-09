@@ -5,7 +5,7 @@
   >
     <v-list-item-icon>
       <v-icon>
-        {{ (isConsortialFeeder) ? "mdi-package-up" : "mdi-package-variant" }}
+        {{ myIcon }}
       </v-icon>
     </v-list-item-icon>
 
@@ -19,10 +19,7 @@
         <strong>
           {{ pub.publisher }}
         </strong>
-        <template v-if="pub.is_demo">demo</template>
-        <template v-if="isConsortialFeeder">consortial feeder</template>
-        <template v-if="!isConsortialFeeder">package</template>
-        <template v-if="!isConsortialFeeder && !iCanEdit">(read-only)</template>
+        {{ mySubtitle }}
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
@@ -145,6 +142,7 @@ export default {
     pub: Object,
     myRole: String,
     isConsortialFeeder: Boolean,
+    isConsortialProposalSet: Boolean,
   },
   data() {
     return {
@@ -220,6 +218,17 @@ export default {
       } else {
         return ["ConsortiumAdmin", "Admin", "Collaborator"].includes(this.myRole)
       }
+    },
+    myIcon(){
+      if (this.isConsortialFeeder) return "mdi-package-up"
+      if (this.isConsortialProposalSet)  return "mdi-swap-horizontal"
+      return "mdi-package-variant"
+    },
+    mySubtitle(){
+      if (this.isConsortialFeeder) return "consortial feeder"
+      if (this.isConsortialProposalSet)  return "consortial proposal set"
+      if (!this.iCanEdit) return "package (read-only)"
+      return "package"
     }
 
   },

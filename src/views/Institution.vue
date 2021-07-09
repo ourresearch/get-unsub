@@ -46,6 +46,9 @@
       <v-tab-item>
         <institution-publishers-list :my-role="myRole" :is-consortial-feeder="true"/>
       </v-tab-item>
+      <v-tab-item>
+        <institution-publishers-list :my-role="myRole" :is-consortial-proposal-set="true"/>
+      </v-tab-item>
     </v-tabs-items>
 
 

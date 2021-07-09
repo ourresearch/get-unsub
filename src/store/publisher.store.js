@@ -62,6 +62,7 @@ export const publisher = {
         isOwnedByConsortium: false,
         currency: "USD",
         hasCompleteCounterData: false,
+        isConsortialProposalSet: false,
 
         // apc stuff
         apcHeaders: [],
@@ -86,6 +87,7 @@ export const publisher = {
             state.bigDealCost = 0
             state.bigDealCostIncrease = 0
             state.isBigDealCostIncreaseDefined = false
+            state.isConsortialProposalSet = false
 
             state.hasCompleteCounterData = false
 
