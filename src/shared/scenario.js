@@ -47,6 +47,14 @@ const saveScenarioInstitutions = async function (scenarioId, institutionIds) {
     return ret
 }
 
+const sendScenarioToMemberInstitutions = async function(scenarioId, institutionIds){
+    cache[scenarioId] = null
+    const postData = {member_institutions: institutionIds}
+    const url = `scenario/${scenarioId}/member-institutions/consortial-scenarios`
+    const ret = await api.post(url, postData)
+    return ret
+}
+
 
 const saveScenario = async function (scenario) {
     cache[scenario.id] = null
@@ -150,6 +158,7 @@ export {
     fetchScenario,
     saveScenarioSubscriptions,
     saveScenarioInstitutions,
+    sendScenarioToMemberInstitutions,
     saveScenario,
     createScenario,
     copyScenario,

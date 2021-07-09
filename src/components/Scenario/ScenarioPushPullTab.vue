@@ -27,7 +27,14 @@
     </div>
 
     <div class="d-flex mb-6 ml-4">
-      <v-btn dark color="primary" class="mr-2" @click="openSendDialog">send</v-btn>
+      <v-btn
+          color="primary"
+          class="mr-2"
+          @click="openSendDialog"
+          :disabled="!selectedInstitutions.length"
+      >
+        send
+      </v-btn>
       <v-spacer/>
       <v-text-field
           hide-details
@@ -105,10 +112,15 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import {api, urlBase} from "../../api";
-import {saveScenarioInstitutions} from "../../shared/scenario";
+import {sendScenarioToMemberInstitutions} from "../../shared/scenario";
 
 
-const makeInstitution = function () {
+const makeInstitution = function (moment, apiInstitution) {
+  const ret = {...apiInstitution}
+  ret.sentDate = moment(apiInstitution.sent_date).format("hh:mm DD-MM-YYYY")
+  ret.changedDate = moment(apiInstitution.changed_date).format("hh:mm DD-MM-YYYY")
+  ret.returnedDate = moment(apiInstitution.returned_date).format("hh:mm DD-MM-YYYY")
+  return ret
 
 }
 
@@ -141,7 +153,7 @@ export default {
         {value: "tags", text: "Tags"},
         {value: "sentDate", text: "Sent"},
         {value: "changedDate", text: "Last Changed"},
-        {value: "returnedDate", text: "Returned"},
+        {value: "returnedDate", text: "Last Returned"},
       ]
     }
   },
@@ -154,10 +166,6 @@ export default {
       "startGlobalLoading",
       "finishGlobalLoading",
     ]),
-    openIncludeExcludeDialog() {
-      this.dialogs.includeExclude = true
-      this.includeOrExcludeMembers = "include"
-    },
     openSendDialog() {
       this.dialogs.send = true
     },
@@ -167,10 +175,11 @@ export default {
 
       console.log("POSTing institution IDs to server", this.selectedInstitutions)
       const selectedPackageIds = this.selectedInstitutions.map(i => i.package_id)
-      const resp = await saveScenarioInstitutions(this.scenarioId, selectedPackageIds)
+      const resp = await sendScenarioToMemberInstitutions(this.scenarioId, selectedPackageIds)
       console.log("institution IDs POSTed successfully. refreshing scenario.", resp)
 
       // refresh our current scenario, and also refresh this row on the publisher page
+      await this.getInstitutions()
       await this.refreshSelectedScenario()
       await this.$store.dispatch("refreshPublisherScenario", this.scenarioId)
       console.log("scenario updated w new institutions.", resp)
@@ -185,7 +194,9 @@ export default {
       console.log("getInstitutions getting this url", this.apiUrl)
       try {
         const resp = await api.get(this.apiUrl)
-        this.institutions = resp.data.institutions
+        this.institutions = resp.data.institutions.map(i => {
+          return makeInstitution(this.$moment, i)
+        })
       } finally {
         this.isLoading = false
         this.finishGlobalLoading()
@@ -197,12 +208,6 @@ export default {
       "scenarioId",
       "scenarioMemberInstitutions",
     ]),
-    csvUrl() {
-      let url = `${urlBase}scenario/${this.scenarioId}/export.csv`; // urlBase ends with a slash
-      url += "?timestamp=" + `${new Date().getTime()}`
-      url += "&jwt=" + localStorage.getItem("token")
-      return url
-    },
     apiUrl() {
       return `scenario/${this.scenarioId}/member-institutions`
     },
