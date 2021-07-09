@@ -276,7 +276,7 @@
         <v-tab-item v-if="institutionIsConsortium">
           <scenario-institutions-tab/>
         </v-tab-item>
-        <v-tab-item v-if="institutionIsConsortium">
+        <v-tab-item v-if="institutionsIsJisc">
           <scenario-push-pull-tab/>
         </v-tab-item>
       </v-tabs-items>
@@ -431,6 +431,7 @@ export default {
       "selectedScenario",
       'menuSettingsView',
       'institutionIsConsortium',
+      "institutionIsJisc",
       'scenarioIsLockedPendingUpdate',
       'scenarioUpdatePercentComplete',
       'userEmail',

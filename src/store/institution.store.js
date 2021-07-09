@@ -15,6 +15,7 @@ export const institution = {
         isDemo: false,
         isConsortium: false,
         tabShowing: 0,
+        isJisc: false,
     },
     mutations: {
         clearInstitution(state){
@@ -29,6 +30,7 @@ export const institution = {
             state.isDemo = false
             state.isConsortium = false
             state.tabShowing = 0
+            state.isJisc = false
         },
         setInstitutionFromApiResp(state, apiResp){
             state.institutionId =  apiResp.id
@@ -42,6 +44,7 @@ export const institution = {
             })
             state.isDemo = apiResp.is_demo
             state.isConsortium = apiResp.is_consortium
+            state.isJisc = apiResp.is_jisc
 
         },
         setUserPermissions(state, {email, permissions}) {
@@ -171,6 +174,7 @@ export const institution = {
         institutionIsDemo: (state) => state.isDemo,
         institutionIsConsortium: (state) => state.isConsortium,
         institutionTabShowing: (state) => state.tabShowing,
+        institutionIsJisc: (state) => state.isJisc,
     }
 }
 

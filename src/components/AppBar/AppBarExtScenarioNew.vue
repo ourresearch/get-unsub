@@ -20,7 +20,8 @@
           Member Institutions
           ({{ scenarioMemberInstitutions.length }})
         </v-tab>
-        <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions}" v-if="institutionIsConsortium">
+
+        <v-tab class="low-key-button" :class="{'warning--text': !scenarioMemberInstitutions}" v-if="institutionIsJisc">
           <v-icon v-if="scenarioMemberInstitutions" small left>mdi-swap-horizontal</v-icon>
           <v-icon v-if="!scenarioMemberInstitutions" small left color="warning">mdi-alert</v-icon>
           Push/pull
@@ -77,6 +78,7 @@ export default {
       "scenarioJournals",
       "subrJournalsCount",
       "publisherWarnings",
+      "institutionIsJisc",
     ]),
     currentTab: {
       get() {
