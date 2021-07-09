@@ -276,6 +276,9 @@
         <v-tab-item v-if="institutionIsConsortium">
           <scenario-institutions-tab/>
         </v-tab-item>
+        <v-tab-item v-if="institutionIsConsortium">
+          <scenario-push-pull-tab/>
+        </v-tab-item>
       </v-tabs-items>
 
     </v-container>
@@ -345,6 +348,7 @@ import ScenarioMenuHelp from "../components/ScenarioMenu/ScenarioMenuHelp";
 import ScenarioParametersTab from "../components/Scenario/ScenarioParametersTab";
 import ScenarioExportTab from "../components/Scenario/ScenarioExportTab";
 import ScenarioInstitutionsTab from "../components/Scenario/ScenarioInstitutionsTab";
+import ScenarioPushPullTab from "@/components/Scenario/ScenarioPushPullTab";
 
 import ScenarioEditDialogsInstitutions from "../components/ScenarioEditDialogs/ScenarioEditDialogsInstitutions";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
@@ -374,6 +378,7 @@ export default {
     ScenarioParametersTab,
     ScenarioExportTab,
     ScenarioInstitutionsTab,
+    ScenarioPushPullTab,
 
     ScenarioEditDialogsInstitutions,
     PublisherWarning,
