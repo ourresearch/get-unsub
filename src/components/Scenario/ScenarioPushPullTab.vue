@@ -115,21 +115,17 @@ import {api, urlBase} from "../../api";
 import {sendScenarioToMemberInstitutions} from "../../shared/scenario";
 
 
-const makeInstitution = function (moment, apiInstitution) {
+const makeMemberInstitution = function (moment, apiInstitution) {
   const ret = {...apiInstitution};
-
-  ["sent_date", "changed_date", "returned_date"].forEach(k => {
+  ["sent_date", "changed_date", "return_date"].forEach(k => {
     const camelCaseKey = _.camelCase(k)
     if (apiInstitution[k]){
-      ret[camelCaseKey] = moment(apiInstitution.returned_date).format("hh:mm DD MMM, YYYY")
+      ret[camelCaseKey] = moment(apiInstitution[k]).format("hh:mm DD MMM, YYYY")
     }
     else {
       ret[camelCaseKey] = null
     }
   })
-  // ret.sentDate = moment(apiInstitution.sent_date).format("hh:mm DD-MM-YYYY")
-  // ret.changedDate = moment(apiInstitution.changed_date).format("hh:mm DD-MM-YYYY")
-  // ret.returnedDate = moment(apiInstitution.returned_date).format("hh:mm DD-MM-YYYY")
   return ret
 
 }
@@ -163,7 +159,7 @@ export default {
         {value: "tags", text: "Tags"},
         {value: "sentDate", text: "Sent"},
         {value: "changedDate", text: "Last Changed"},
-        {value: "returnedDate", text: "Last Returned"},
+        {value: "returnDate", text: "Last Returned"},
       ]
     }
   },
@@ -205,7 +201,7 @@ export default {
       try {
         const resp = await api.get(this.apiUrl)
         this.institutions = resp.data.institutions.map(i => {
-          return makeInstitution(this.$moment, i)
+          return makeMemberInstitution(this.$moment, i)
         })
       } finally {
         this.isLoading = false

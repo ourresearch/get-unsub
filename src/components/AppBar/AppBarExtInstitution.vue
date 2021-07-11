@@ -15,11 +15,11 @@
         ROR IDs
         <span class="ml-1 caption">({{ institutionRorIds.length }})</span>
       </v-tab>
-      <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length">
+      <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length && !institutionConsortialProposalSets.length">
         <v-icon small left>mdi-package-up</v-icon>
         Consortial feeders
       </v-tab>
-      <v-tab class="low-key-button" v-if="institutionIsJisc">
+      <v-tab class="low-key-button" v-if="institutionConsortialProposalSets.length">
         <v-icon small left>mdi-swap-horizontal</v-icon>
         Consortial proposals
       </v-tab>
@@ -47,6 +47,7 @@ export default {
       "institutionUsersWithRoles",
       "institutionRorIds",
       "institutionIsJisc",
+        "institutionConsortialProposalSets",
     ]),
     currentTab: {
       get() {

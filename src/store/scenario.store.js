@@ -372,7 +372,7 @@ export const scenario = {
 
 
         scenarioLastEditedDate: (state) => state.selected.lastEditedDate,
-        scenarioReturnedDate: (state) => state.selected.returnedDate,
+        scenarioReturnDate: (state) => state.selected.returnDate,
         scenarioSentDate: (state) => state.selected.sentDate,
 
         bundleSize: (state) => state.selected.saved.bundle_size,

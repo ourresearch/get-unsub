@@ -5,11 +5,11 @@
         scenarioSentDate | moment("dddd, MMMM Do YYYY")
       }}.</strong>
     </p>
-    <p v-if="scenarioReturnedDate">
-      You sent it back to them on <strong>{{ scenarioReturnedDate | moment("dddd, MMMM Do YYYY") }}.</strong> If you've made
+    <p v-if="scenarioReturnDate">
+      You sent it back to them on <strong>{{ scenarioReturnDate | moment("dddd, MMMM Do YYYY") }}.</strong> If you've made
       changes since then, you can resend it, which will to update your response and notify consortium staff.
     </p>
-    <p v-if="!scenarioReturnedDate">
+    <p v-if="!scenarioReturnDate">
       You haven't yet sent your response back. When you do, your consortium will get an email notification, and be able
       to see your title-by-title subscription requests.
     </p>
@@ -74,7 +74,7 @@ export default {
       'userConsortia',
       'userInstitutions',
       'scenarioLastEditedDate',
-      'scenarioReturnedDate',
+      'scenarioReturnDate',
       'scenarioSentDate',
 
     ]),
