@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import {api, apiPostUnbounced} from "../api.js"
 import appConfigs from "../appConfigs"
-import {newScenario, fetchScenario, saveScenarioSubscriptions, saveScenario, sendScenarioToConsortium} from "../shared/scenario";
+import {newScenario, fetchScenario, saveScenarioSubscriptions, saveScenario} from "../shared/scenario";
 
 
 function hashCode(str) {
@@ -253,13 +253,13 @@ export const scenario = {
 
         async requestCustom({commit, dispatch, state}, issnl) {
             commit("requestCustom", issnl)
-            // const ret = await dispatch("updateScenarioSavedSubrs")
-            // return ret
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
         },
         async unrequestCustom({commit, dispatch, state}, issnl) {
             commit("unrequestCustom", issnl)
-            // const ret = await dispatch("updateScenarioSavedSubrs")
-            // return ret
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
         },
 
         async setSelectedScenarioConfig({commit, getters, dispatch, state}, {key, value}) {
