@@ -54,6 +54,9 @@
           <span v-if="configObj.name=='costSubr'">
                 This is your subscription spend over the next five years,
             </span>
+          <span v-if="configObj.name=='costRequested'">
+                This is your <em>requested</em> subscription spend over the next five years,
+            </span>
           <span v-if="configObj.name=='costIll'">
                 This is your ILL spend over the next five years,
             </span>
@@ -80,6 +83,9 @@
             </span>
           <span v-if="configObj.name=='usageSubr'">
                 can't be fulfilled by any free source, but can be fulfilled by one of your title-by-title subscriptions.
+            </span>
+          <span v-if="configObj.name=='usageRequested'">
+                can't be fulfilled by any free source, but could be fulfilled by your <em>requested</em> title-by-title subscriptions.
             </span>
           <span v-if="configObj.name=='usageBackfile'">
                 can't be fulfilled by Open Access, but can be fulfilled under your PTA rights.

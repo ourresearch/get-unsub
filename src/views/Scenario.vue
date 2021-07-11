@@ -123,7 +123,7 @@
                             <template v-slot:activator="{ on, attrs }">
                               <div v-on="on" style="cursor: pointer">
                                 <div class="text-h5" id="instant-fulfillment-value">
-                                  {{ libraryFulfillmentPercent | percent(0) }}
+                                  {{ libraryFulfillmentPercent | percent(1) }}
                                 </div>
                                 <div class="body-2 mt-1">Access</div>
                               </div>
