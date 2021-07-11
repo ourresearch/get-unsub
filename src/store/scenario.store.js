@@ -104,6 +104,13 @@ export const scenario = {
                 .find(j=>j.issn_l === issnl)
                 .subscribed = true
         },
+
+        requestCustom(state, issnl){
+            state.selected.saved.member_added_subrs.push(issnl)
+            state.selected.journals
+                .find(j=>j.issn_l === issnl)
+                .requested = true
+        },
         unsubscribeCustom(state, issnl){
             state.selected.saved.subrs = state.selected.saved.subrs.filter(myIssnl => {
                 return myIssnl !== issnl
@@ -111,6 +118,14 @@ export const scenario = {
             state.selected.journals
                 .find(j=>j.issn_l === issnl)
                 .subscribed = false
+        },
+        unrequestCustom(state, issnl){
+            state.selected.saved.member_added_subrs = state.selected.saved.member_added_subrs.filter(myIssnl => {
+                return myIssnl !== issnl
+            })
+            state.selected.journals
+                .find(j=>j.issn_l === issnl)
+                .requested = false
         },
 
         // note you can and often do add a negative number
@@ -236,6 +251,17 @@ export const scenario = {
             return ret
         },
 
+        async requestCustom({commit, dispatch, state}, issnl) {
+            commit("requestCustom", issnl)
+            // const ret = await dispatch("updateScenarioSavedSubrs")
+            // return ret
+        },
+        async unrequestCustom({commit, dispatch, state}, issnl) {
+            commit("unrequestCustom", issnl)
+            // const ret = await dispatch("updateScenarioSavedSubrs")
+            // return ret
+        },
+
         async setSelectedScenarioConfig({commit, getters, dispatch, state}, {key, value}) {
             // prepare the set of configs with the new value
             const payload = _.cloneDeep(state.selected)
@@ -334,6 +360,7 @@ export const scenario = {
 
 
         subrJournalsCount: (state) => state.selected.saved.subrs.length,
+        requestedJournalsCount: (state) => state.selected.saved.member_added_subrs.length,
         illJournalsCount: (state) => state.selected.journals.length - state.selected.saved.subrs.length,
         tableColsToShow: (state) => state.tableColsToShow,
         scenarioIdHash: (state) => state.selected.idHash,

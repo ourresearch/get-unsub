@@ -57,7 +57,7 @@
         <div class="d-flex align-center">
           <div>
             This is a <strong>Consortial Proposal</strong> scenario. The parameters and core title-by-title subscriptions are preset by consortial staff. Your mission is to provide feedback on this proposed scenario. To do
-            that, add additional titles that you'd like to see included in the title-by-title
+            that, request additional titles that you'd like to see included in the title-by-title
             subscription list.
 
           </div>

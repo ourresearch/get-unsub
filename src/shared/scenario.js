@@ -105,6 +105,7 @@ const newScenarioObjectFromApiData = function (apiData) {
         const ret = {...myJournal}
         ret.cpuIndex = myIndex
         ret.subscribed = apiData.saved.subrs.includes(myJournal.issn_l)
+        ret.requested = apiData.saved.member_added_subrs.includes(myJournal.issn_l)
         ret.isHiddenByFilters = false
         return ret
     })
