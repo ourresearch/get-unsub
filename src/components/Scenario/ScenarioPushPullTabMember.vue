@@ -1,33 +1,15 @@
 <template>
   <v-card flat class="px-6">
     <p>
-      You can export all of the data in this scenario as a CSV file. You can find <a
-        href="http://help.unsub.org/en/articles/4246610-what-are-the-columns-in-download-as-spreadsheet">documentation
-      for the column names here.</a>
+      Your consortium last pushed this scenario to you on ________.
     </p>
     <p>
-       To further explore and visualize your exported data,
-      check out
-      <a href="https://unsubextender.lib.iastate.edu/" target="_blank">Unsub Extender,</a> a free third-party tool created by Eric
-      Schares, a librarian at Iowa State University.
+      You haven't yet pushed your response back. When you do, your consortium will get an email notification, and be able to see your title-by-title subscription requests.
     </p>
-    <v-btn color="primary" @click="" :href="csvUrl">
-      <v-icon left>mdi-download</v-icon>
-      Download
-    </v-btn>
-
-    <template v-if="institutionIsConsortium && isJisc">
-      <div class="mt-10 text-h5">
-         Member subscription requests (beta)
-      </div>
-      <p>
-        Pull a list of subscriptions that your member institutions have requested you include in this scenario.
-      </p>
-      <v-btn color="primary" @click="" :href="memberSubscriptionRequestsCsvUrl">
-        <v-icon left>mdi-download</v-icon>
-        Download
+<v-btn color="primary" @click="" >
+<!--        <v-icon left>mdi-download</v-icon>-->
+        Push to consortium
       </v-btn>
-    </template>
 
 
   </v-card>

@@ -48,6 +48,21 @@
           </div>
         </div>
       </div>
+      <v-alert v-if="publisherIsConsortialProposalSet"
+               color="info"
+               outlined
+               icon="mdi-information-outline"
+               class="my-4"
+      >
+        <div class="d-flex align-center">
+          <div>
+            This is a <strong>Consortial Proposal</strong> scenario. The parameters and core title-by-title subscriptions are preset by consortial staff. Your mission is to provide feedback on this proposed scenario. To do
+            that, add additional titles that you'd like to see included in the title-by-title
+            subscription list.
+
+          </div>
+        </div>
+      </v-alert>
       <app-bar-ext-scenario-new v-if="!scenarioIsLockedPendingUpdate"/>
       <v-divider/>
       <v-tabs-items
@@ -187,7 +202,6 @@
                       <v-spacer></v-spacer>
 
 
-
                       <div class="pt-1 d-flex">
                         <v-slide-x-reverse-transition>
                           <v-text-field
@@ -310,7 +324,7 @@
       </v-btn>
     </v-snackbar>
 
-    <scenario-edit-dialogs />
+    <scenario-edit-dialogs/>
 
   </div>
 </template>
@@ -441,7 +455,8 @@ export default {
       'scenarioUpdatePercentComplete',
       'userEmail',
       'scenarioUpdateNotificationEmail',
-        "publisherBigDeal5YearAnnualCost"
+      "publisherBigDeal5YearAnnualCost",
+      "publisherIsConsortialProposalSet",
 
     ]),
 

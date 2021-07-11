@@ -21,6 +21,7 @@
                                 v-for="config in group.contents"
                                 :key="group.name+config.name"
                                 @click="startEdit(config.name)"
+                                :disabled="publisherIsConsortialProposalSet"
 
                         >
                             <v-list-item-content>
@@ -187,6 +188,7 @@
                 "institutionUsersWithRoles",
                 'userConsortia',
                 'userInstitutions',
+                'publisherIsConsortialProposalSet',
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
             selectedConfigData() {
