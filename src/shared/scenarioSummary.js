@@ -20,12 +20,15 @@ const usageDictPaid = function (journals) {
         turnaway: 0,
         ill: 0,
         subr: 0,
+        requested: 0,
     }
     journals.forEach(j => {
-        if (j.subscribed || j.customSubscribed) {
+        if (j.requested) {
+            ret.requested += j.use_groups_if_subscribed.subscription
+        }
+        else if (j.subscribed) {
             ret.subr += j.use_groups_if_subscribed.subscription
         } else {
-            // ret.delayed += (j.use_groups_if_not_subscribed.ill + j.use_groups_if_not_subscribed.other_delayed)
             ret.turnaway += j.use_groups_if_not_subscribed.other_delayed
             ret.ill += j.use_groups_if_not_subscribed.ill
         }
@@ -55,6 +58,7 @@ const usageList = function (journals) {
         // ret.delayed,
         ret.turnaway,
         ret.ill,
+        ret.requested,
         ret.subr,
         ret.backfile,
         ret.oa,
@@ -69,12 +73,12 @@ const usageTotal = function (journals) {
 
 const instantUsagePercent = function (journals) {
     const myUsageDict = usageDict(journals)
-    const instant = myUsageDict.oa + myUsageDict.backfile + myUsageDict.subr
+    const instant = myUsageDict.oa + myUsageDict.backfile + myUsageDict.subr + myUsageDict.requested
     return 100 * instant / usageTotal(journals)
 }
 const libraryFulfillmentPercent = function (journals) {
     const myUsageDict = usageDict(journals)
-    const instant = myUsageDict.oa + myUsageDict.backfile + myUsageDict.subr + myUsageDict.ill
+    const instant = myUsageDict.oa + myUsageDict.backfile + myUsageDict.subr + myUsageDict.requested + myUsageDict.ill
     return 100 * instant / usageTotal(journals)
 }
 
@@ -83,13 +87,19 @@ const libraryFulfillmentPercent = function (journals) {
 // *********************************************************************
 const subrCost = function (journals) {
     return journals
-        .filter(j => j.subscribed || j.customSubscribed)
+        .filter(j => j.subscribed)
+        .map(j => j.subscription_cost)
+        .reduce((a, b) => a + b, 0)
+}
+const requestedCost = function (journals) {
+    return journals
+        .filter(j => j.requested)
         .map(j => j.subscription_cost)
         .reduce((a, b) => a + b, 0)
 }
 const illCost = function (journals) {
     return journals
-        .filter(j => !j.subscribed || j.customSubscribed)
+        .filter(j => !j.subscribed)
         .map(j => j.ill_cost)
         .reduce((a, b) => a + b, 0)
 }
@@ -98,12 +108,17 @@ const illCost = function (journals) {
 const costList = function (journals, previousTotalCost) {
     const myIllCost = illCost(journals)
     const mySubrCost = subrCost(journals)
+    const myRequestedCost = requestedCost(journals)
 
-    const mySavings = previousTotalCost - (myIllCost + mySubrCost)
+    const mySavings = previousTotalCost - (myIllCost + mySubrCost + myRequestedCost)
     const ret = {
         ill: {
             value: myIllCost,
             key: "ill",
+        },
+        requested: {
+            value: myRequestedCost,
+            key: "requested",
         },
         subr: {
             value: mySubrCost,
@@ -118,11 +133,12 @@ const costList = function (journals, previousTotalCost) {
     return [
         ret.savings,
         ret.ill,
+        ret.requested,
         ret.subr,
     ]
 }
 const costTotal = function (journals) {
-    return subrCost(journals) + illCost(journals)
+    return subrCost(journals) + illCost(journals) + requestedCost(journals)
 }
 
 

@@ -354,6 +354,11 @@ const colors = {
         normal: "#1976D2",
         dark: "#004ba0",
     },
+    requested: {
+        light: "#ef6c00",
+        normal: "#ef6c00",
+        dark: "#ef6c00",
+    },
     oa: {
         light: "#ffb04c",
         normal: "#2E7D32",
@@ -401,6 +406,15 @@ const usageSegments = {
         color: colors.subr,
         isLeftover: false,
     },
+    requested: {
+        name: "usageRequested",
+        segmentType: "usage",
+        displayName: "Requested subscription",
+        displayNameLong: "Requested Title-by-title subscription",
+        isFree: false,
+        color: colors.requested,
+        isLeftover: false,
+    },
     oa: {
         name: "usageOa",
         segmentType: "usage",
@@ -437,6 +451,15 @@ const costSegments = {
         displayName: "Subscription",
         displayNameLong: "Title-by-title subscription cost",
         color: colors.subr,
+        isCurrency: true,
+        isLeftover: false,
+    },
+    requested: {
+        name: "costRequested",
+        segmentType: "cost",
+        displayName: "Requested",
+        displayNameLong: "Requested title-by-title subscription cost",
+        color: colors.requested,
         isCurrency: true,
         isLeftover: false,
     },

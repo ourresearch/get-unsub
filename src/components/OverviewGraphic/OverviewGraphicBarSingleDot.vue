@@ -127,7 +127,9 @@ export default {
 
       // this is only Jisc members using the push/pull feature
       if (this.publisherIsConsortialProposalSet){
+        console.log("inside this.publisherIsConsortialProposalSet")
         if (this.journal.subscribed) return // subscriptions are read-only for you.
+        console.log("past this.journal.subscribed check")
         if (this.journal.requested) {
           this.$store.dispatch("unrequestCustom", this.journal.issn_l)
         } else {

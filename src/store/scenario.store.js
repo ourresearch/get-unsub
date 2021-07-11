@@ -253,13 +253,13 @@ export const scenario = {
 
         async requestCustom({commit, dispatch, state}, issnl) {
             commit("requestCustom", issnl)
-            // const ret = await dispatch("updateScenarioSavedSubrs")
-            // return ret
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
         },
         async unrequestCustom({commit, dispatch, state}, issnl) {
             commit("unrequestCustom", issnl)
-            // const ret = await dispatch("updateScenarioSavedSubrs")
-            // return ret
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
         },
 
         async setSelectedScenarioConfig({commit, getters, dispatch, state}, {key, value}) {
