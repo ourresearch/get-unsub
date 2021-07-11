@@ -100,7 +100,6 @@ const deleteScenario = async function (scenarioId) {
 
 
 const newScenarioObjectFromApiData = function (apiData) {
-    console.log("newScenarioObjectFromApiData", apiData)
     const ret = newScenario(apiData.meta.scenario_id)
     ret.journals = apiData.journals.map((myJournal, myIndex) => {
         const ret = {...myJournal}
@@ -116,7 +115,6 @@ const newScenarioObjectFromApiData = function (apiData) {
     ret.memberInstitutions = apiData.member_institutions
     ret.saved = apiData.saved
 
-    console.log("newScenarioObjectFromApiData", apiData)
     // these are only for Jisc's push/pull scenarios
     ret.lastEditedDate = apiData.consortial_proposal_dates.last_edited_date
     ret.returnDate = apiData.consortial_proposal_dates.return_date

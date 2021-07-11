@@ -1,5 +1,6 @@
 <template>
   <v-container v-if="institutionName" class="institution mt-12 pt-6">
+
     <v-alert v-if="institutionIsDemo" color="info" text dense icon="mdi-information-outline">
       <div class="d-flex align-center">
         <div>
@@ -43,11 +44,17 @@
       <v-tab-item>
         <institution-ror-list/>
       </v-tab-item>
-      <v-tab-item>
-        <institution-publishers-list :my-role="myRole" :is-consortial-feeder="true"/>
+      <v-tab-item v-if="institutionConsortialFeederPublishers.length && !institutionConsortialProposalSets.length">
+        <institution-publishers-list
+            :my-role="myRole"
+            :is-consortial-feeder="true"
+        />
       </v-tab-item>
-      <v-tab-item>
-        <institution-publishers-list :my-role="myRole" :is-consortial-proposal-set="true"/>
+      <v-tab-item v-if="institutionConsortialProposalSets.length">
+        <institution-publishers-list
+            :my-role="myRole"
+            :is-consortial-proposal-set="true"
+        />
       </v-tab-item>
     </v-tabs-items>
 
@@ -96,6 +103,8 @@ export default {
       "userId",
       "institutionIsLoading",
       "institutionIsConsortium",
+      "institutionConsortialProposalSets",
+      "institutionConsortialFeederPublishers",
     ]),
     institutionId() {
       return this.$route.params.institutionId
