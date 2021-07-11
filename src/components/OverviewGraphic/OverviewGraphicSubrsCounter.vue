@@ -57,7 +57,7 @@
                 dense
                 readonly
                 hide-details
-                color="red"
+                color="#ef6c00"
             />
           </div>
         </div>

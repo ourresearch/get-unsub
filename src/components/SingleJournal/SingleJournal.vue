@@ -267,11 +267,11 @@
           <v-icon>mdi-cart-arrow-up</v-icon>
           Unsubscribe
         </v-btn>
-        <v-btn depressed dark color="red" @click="unrequest" v-if="scenarioZoomedJournal.requested">
+        <v-btn depressed dark color="#ef6c00" @click="unrequest" v-if="scenarioZoomedJournal.requested">
           <v-icon>mdi-cart-arrow-up</v-icon>
           Unrequest
         </v-btn>
-        <v-btn depressed dark color="red" @click="request" v-if="!scenarioZoomedJournal.subscribed && !scenarioZoomedJournal.requested">
+        <v-btn depressed dark color="#ef6c00" @click="request" v-if="!scenarioZoomedJournal.subscribed && !scenarioZoomedJournal.requested">
           <v-icon>mdi-cart-arrow-down</v-icon>
           Request
         </v-btn>
@@ -396,7 +396,7 @@ export default {
     },
     myColor(){
       if (this.scenarioZoomedJournal.subscribed) return "blue"
-      if (this.scenarioZoomedJournal.requested) return "red"
+      if (this.scenarioZoomedJournal.requested) return "#ef6c00"
       return "#555"
     },
     mySubscriptionStatus(){
