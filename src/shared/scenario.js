@@ -63,6 +63,14 @@ const saveScenario = async function (scenario) {
     return ret
 }
 
+// this is just for the Jisc push/pull feature
+const sendScenarioToConsortium = async function (scenario) {
+    cache[scenario.id] = null
+    const url = `scenario/${scenario.id}/notifications/done-editing`
+    const ret = await api.post(url)
+    return ret
+}
+
 
 const createScenario = async function (packageId, name) {
     console.log(`createScenario(): creating new scenario "${name}"`)
@@ -106,6 +114,12 @@ const newScenarioObjectFromApiData = function (apiData) {
     ret.memberInstitutions = apiData.member_institutions
     ret.saved = apiData.saved
 
+    console.log("newScenarioObjectFromApiData", apiData)
+    // these are only for Jisc's push/pull scenarios
+    ret.lastEditedDate = apiData.consortial_proposal_dates.last_edited_date
+    ret.returnedDate = apiData.consortial_proposal_dates.returned_date
+    ret.sentDate = apiData.consortial_proposal_dates.sent_date
+
 
     return ret
 }
@@ -126,9 +140,14 @@ const newScenario = function (id = "") {
         memberInstitutions: [],
         saved: {
             subrs: [],
+            member_added_subrs: [], // only for Jisc's push/pull scenarios. needs to have underscores because we send this whole saved dict to the server, and it speaks underscore.
             name: "",
             configs: defaultConfigs,
-        }
+        },
+        // these are only for Jisc's push/pull scenarios
+        lastEditedDate: "",
+        returnedDate: "",
+        sentDate: "",
     }
 }
 
@@ -160,6 +179,7 @@ export {
     saveScenarioInstitutions,
     sendScenarioToMemberInstitutions,
     saveScenario,
+    sendScenarioToConsortium,
     createScenario,
     copyScenario,
     newScenarioId,

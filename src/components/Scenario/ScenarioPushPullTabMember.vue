@@ -1,15 +1,26 @@
 <template>
   <v-card flat class="px-6">
     <p>
-      Your consortium last pushed this scenario to you on ________.
+      Your consortium last sent this scenario to you on <strong>{{
+        scenarioSentDate | moment("dddd, MMMM Do YYYY")
+      }}.</strong>
     </p>
-    <p>
-      You haven't yet pushed your response back. When you do, your consortium will get an email notification, and be able to see your title-by-title subscription requests.
+    <p v-if="scenarioReturnedDate">
+      You sent it back to them on <strong>{{ scenarioSentDate | moment("dddd, MMMM Do YYYY") }}.</strong> If you've made
+      changes since then, you can resend it, which will to update your response and notify consortium staff.
     </p>
-<v-btn color="primary" @click="" >
-<!--        <v-icon left>mdi-download</v-icon>-->
-        Push to consortium
-      </v-btn>
+    <p v-if="!scenarioReturnedDate">
+      You haven't yet sent your response back. When you do, your consortium will get an email notification, and be able
+      to see your title-by-title subscription requests.
+    </p>
+    <v-btn
+        color="primary"
+        @click="sendToConsortium"
+        :loading="isLoading"
+    >
+      <!--        <v-icon left>mdi-download</v-icon>-->
+      Send to consortium
+    </v-btn>
 
 
   </v-card>
@@ -18,7 +29,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 import {urlBase} from "../../api";
 
 
@@ -34,13 +45,24 @@ export default {
     return {
       dialogs: {
         createGroupMember: false,
-      }
+      },
+      isLoading: false,
     }
   },
   methods: {
     ...mapMutations([
       "snackbar",
+        "startGlobalLoading",
+        "finishGlobalLoading",
     ]),
+    ...mapActions([]),
+    async sendToConsortium() {
+      this.isLoading = true
+      this.startGlobalLoading()
+      await this.$store.dispatch("sendScenarioToConsortium")
+      this.isLoading = false
+      this.finishGlobalLoading()
+    }
   },
   computed: {
     ...mapGetters([
@@ -51,6 +73,10 @@ export default {
       "institutionUsersWithRoles",
       'userConsortia',
       'userInstitutions',
+      'scenarioLastEditedDate',
+      'scenarioReturnedDate',
+      'scenarioSentDate',
+
     ]),
     csvUrl() {
       let scenarioId = this.$store.getters.scenarioId

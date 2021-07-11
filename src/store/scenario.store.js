@@ -2,7 +2,7 @@ import _ from 'lodash'
 
 import {api, apiPostUnbounced} from "../api.js"
 import appConfigs from "../appConfigs"
-import {newScenario, fetchScenario, saveScenarioSubscriptions, saveScenario} from "../shared/scenario";
+import {newScenario, fetchScenario, saveScenarioSubscriptions, saveScenario, sendScenarioToConsortium} from "../shared/scenario";
 
 
 function hashCode(str) {
@@ -250,7 +250,19 @@ export const scenario = {
 
             // reload this scenario with its new, recalculated, journals data
             await dispatch("fetchScenario", state.selected.id)
+        },
 
+        // this is just for the Jisc push/pull feature
+        async sendScenarioToConsortium({commit, getters, dispatch, state}) {
+            // tell the consortium the scenario has changed
+            await sendScenarioToConsortium(state.selected)
+
+            // refresh this scenario in the list of publisher scenarios.
+            // no need to wait, it can happen in background.
+            dispatch("refreshPublisherScenario", state.selected.id)
+
+            // reload this scenario with its new data
+            await dispatch("fetchScenario", state.selected.id)
         },
     },
     getters: {
@@ -330,6 +342,11 @@ export const scenario = {
         scenarioAllowAutosubscribe: (state) => state.allowAutoSubscribe,
         scenarioIsLockedPendingUpdate: (state) => state.selected.isLockedPendingUpdate,
         scenarioUpdatePercentComplete: (state) => state.selected.updatePercentComplete,
+
+
+        scenarioLastEditedDate: (state) => state.selected.lastEditedDate,
+        scenarioReturnedDate: (state) => state.selected.returnedDate,
+        scenarioSentDate: (state) => state.selected.sentDate,
 
         bundleSize: (state) => state.selected.saved.bundle_size,
 
