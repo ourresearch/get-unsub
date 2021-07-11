@@ -116,10 +116,20 @@ import {sendScenarioToMemberInstitutions} from "../../shared/scenario";
 
 
 const makeInstitution = function (moment, apiInstitution) {
-  const ret = {...apiInstitution}
-  ret.sentDate = moment(apiInstitution.sent_date).format("hh:mm DD-MM-YYYY")
-  ret.changedDate = moment(apiInstitution.changed_date).format("hh:mm DD-MM-YYYY")
-  ret.returnedDate = moment(apiInstitution.returned_date).format("hh:mm DD-MM-YYYY")
+  const ret = {...apiInstitution};
+
+  ["sent_date", "changed_date", "returned_date"].forEach(k => {
+    const camelCaseKey = _.camelCase(k)
+    if (apiInstitution[k]){
+      ret[camelCaseKey] = moment(apiInstitution.returned_date).format("hh:mm DD MMM, YYYY")
+    }
+    else {
+      ret[camelCaseKey] = null
+    }
+  })
+  // ret.sentDate = moment(apiInstitution.sent_date).format("hh:mm DD-MM-YYYY")
+  // ret.changedDate = moment(apiInstitution.changed_date).format("hh:mm DD-MM-YYYY")
+  // ret.returnedDate = moment(apiInstitution.returned_date).format("hh:mm DD-MM-YYYY")
   return ret
 
 }
