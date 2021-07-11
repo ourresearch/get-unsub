@@ -21,31 +21,7 @@
     <div class="loaded" v-if="loadingPercent === 100">
 
 
-      <v-alert v-if="publisherIsOwnedByConsortium"
-               color="warning"
-               prominent
-               dark
-               icon="mdi-alert"
-      >
-        <div class="d-flex align-center">
-          <div>
-            This <strong>Consortial Feeder</strong> package functions exclusively as a <em>data source</em>
-            for your consortium's central Unsub dashboard. Please don't edit it without permission of
-            consortium staff!
-          </div>
-        </div>
-      </v-alert>
-      <v-alert v-if="isPublisherDemo" color="info" text dense icon="mdi-information-outline">
-        <div class="d-flex align-center">
-          <div>
-            This package belongs to a demo institution; some functionality is restricted.
-          </div>
-          <v-spacer></v-spacer>
-          <div>
-            <v-btn color="info" text small to="/purchase">Purchase full account</v-btn>
-          </div>
-        </div>
-      </v-alert>
+
 
       <div class="d-flex entity-title">
         <v-btn icon class="mr-2 no-highlight" :to="`/i/${institutionId}`">
@@ -54,7 +30,7 @@
           </v-icon>
         </v-btn>
         <v-icon color="primary" large left>
-          {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+          {{ publisherIconName }}
         </v-icon>
         <div>
           <div class="caption primary--text">
@@ -65,6 +41,34 @@
           </div>
         </div>
       </div>
+
+      <v-alert v-if="publisherIsOwnedByConsortium"
+               color="warning"
+               outlined
+               icon="mdi-alert"
+               class="my-4"
+      >
+        <div class="d-flex align-center">
+          <div>
+            This is a <strong>Consortial Feeder</strong> package. It exists to provide a <em>data source</em>
+            for your consortium's central Unsub dashboard. Please don't edit it without permission of
+            consortium staff!
+          </div>
+        </div>
+      </v-alert>
+      <v-alert v-if="publisherIsConsortialProposalSet"
+               color="info"
+               outlined
+               icon="mdi-information-outline"
+               class="my-4"
+      >
+        <div class="d-flex align-center">
+          <div>
+            This is a <strong>Consortial Proposal</strong> package. It contains a list of cancellation scenarios proposed by your consortium. Each scenario has a set of parameters and core title-by-title subscriptions already set by consortial staff.  Your mission is to provide feedback on these proposed scenarios. To do that, open the scenarios, and add additional titles that you'd like to see included in the title-by-title subscription list.
+
+          </div>
+        </div>
+      </v-alert>
       <v-tabs
           class="" v-model="currentTab"
       >
@@ -158,6 +162,11 @@ export default {
       "publisherLogo",
       "publisherCounterIsLive",
       "publisherIsOwnedByConsortium",
+      "publisherIsConsortialProposalSet",
+      "publisherIconName",
+
+
+
       "userCanEditActivePublisher",
       "institutionIsConsortium",
       "userEmail",
@@ -187,10 +196,12 @@ export default {
       if (!this.publisherRequiredDataIsLoaded) return false
       if (this.publisherIsFeeder) return false
       if (this.institutionIsConsortium) return false
+      if (this.publisherIsConsortialProposalSet) return false
       return true
     },
     showSetupTab(){
       if (this.institutionIsConsortium) return false
+      if (this.publisherIsConsortialProposalSet) return false
       return true
     },
 

@@ -15,7 +15,7 @@ import {
 import {makePublisherJournal} from "../shared/publisher";
 import _ from "lodash";
 import appConfigs from "../appConfigs";
-import {publisherLogoFromId, bigDealAnnualCost} from "../shared/publisher";
+import {publisherLogoFromId, bigDealAnnualCost, publisherIcon} from "../shared/publisher";
 
 // https://www.npmjs.com/package/short-uuid
 const short = require('short-uuid');
@@ -117,6 +117,7 @@ export const publisher = {
             state.name = apiPublisher.name
             state.isDemo = apiPublisher.is_demo
             state.scenarios = apiPublisher.scenarios
+            state.isConsortialProposalSet = apiPublisher.is_consortial_proposal_set
 
 
             state.dataFiles = apiPublisher.data_files.map(dataFile => {
@@ -372,6 +373,7 @@ export const publisher = {
             return false
         },
         publisherIsOwnedByConsortium: (state) => state.isOwnedByConsortium,
+        publisherIsConsortialProposalSet: (state) => state.isConsortialProposalSet,
         publisherIsFeeder: (state) => state.isOwnedByConsortium, // new terminology for above
         publisherCurrency: (state) => state.currency,
         publisherCurrencySymbol: (state) => {
@@ -398,8 +400,12 @@ export const publisher = {
             }
             return symbols[state.currency]
         },
+        publisherIconName: (state) => {
+            return publisherIcon(state)
+        },
         publishersBigDealCostIncrease: (state) => state.bigDealCostIncrease,
         publisherIsBigDealCostIncreaseDefined: (state) => state.isBigDealCostIncreaseDefined,
+
 
 
         // apc stuff

@@ -167,13 +167,14 @@ export default {
       "institutionIsConsortium",
       "institutionOwnPublishers",
       "institutionConsortialFeederPublishers",
+      "institutionConsortialProposalSets",
       'userConsortia',
       'userInstitutions',
     ]),
     myPublishers() {
-      return (this.isConsortialFeeder)
-          ? this.institutionConsortialFeederPublishers
-          : this.institutionOwnPublishers
+      if (this.isConsortialFeeder) return this.institutionConsortialFeederPublishers
+      if (this.isConsortialProposalSet) return this.institutionConsortialProposalSets
+      return this.institutionOwnPublishers
     }
 
   },

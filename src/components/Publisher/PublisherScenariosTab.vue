@@ -42,7 +42,7 @@
     </v-list>
 
 
-    <v-fade-transition>
+    <v-fade-transition v-if="showNewScenarioButton">
       <v-list-item
           @click="openCreateDialog"
           key="add-scenario"
@@ -103,7 +103,11 @@ export default {
       "publisherId",
       "publisherBigDealCost",
       "publisherFiles",
+        "publisherIsConsortialProposalSet",
     ]),
+    showNewScenarioButton(){
+      return !this.publisherIsConsortialProposalSet
+    },
   },
   created() {
   },

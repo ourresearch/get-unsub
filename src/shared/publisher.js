@@ -30,13 +30,18 @@ const publisherConfig = {
 }
 
 
-
 const publisherLogoFromId = function (id) {
     if (publisherConfig[id]) {
         return publisherConfig[id].logo
     } else {
         return "https://i.imgur.com/PN3ya57.png"
     }
+}
+
+const publisherIcon = function (pub) {
+    if (pub.is_owned_by_consortium || pub.isOwnedByConsortium) return "mdi-package-up"
+    if (pub.is_consortial_proposal_set || pub.isConsortialProposalSet) return "mdi-swap-horizontal"
+    return "mdi-package-variant"
 }
 
 
@@ -55,4 +60,5 @@ export {
     publisherLogoFromId,
     publisherConfig,
     bigDealAnnualCost,
+    publisherIcon,
 }

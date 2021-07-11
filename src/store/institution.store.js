@@ -11,6 +11,7 @@ export const institution = {
         institutionName:"",
         institutionUsers: [],
         institutionPublishers: [],
+        institutionConsortialProposalSets: [],
         institutionPublishersLive: [],
         isDemo: false,
         isConsortium: false,
@@ -26,6 +27,7 @@ export const institution = {
             state.institutionUsers =  []
             state.institutionPublishers =  []
             state.institutionPublishersLive = []
+            state.institutionConsortialProposalSets = []
             state.userIsAdmin = false
             state.isDemo = false
             state.isConsortium = false
@@ -42,12 +44,14 @@ export const institution = {
                 state.institutionPublishers.push(p)
                 if (!p.is_deleted) state.institutionPublishersLive.push(p)
             })
+            state.institutionConsortialProposalSets = apiResp.consortial_proposal_sets
             state.isDemo = apiResp.is_demo
             state.isConsortium = apiResp.is_consortium
             state.isJisc = apiResp.is_jisc
+            if (apiResp.id === "institution-testinggWwB9iSCivMt") {
+                state.isJisc = true
+            }
 
-            // @todo unset this!
-            state.isJisc = true
 
         },
         setUserPermissions(state, {email, permissions}) {
@@ -173,6 +177,7 @@ export const institution = {
         institutionPublishers: (state) => state.institutionPublishersLive,
         institutionOwnPublishers: (state) => state.institutionPublishersLive.filter(p => !p.is_owned_by_consortium),
         institutionConsortialFeederPublishers: (state) => state.institutionPublishersLive.filter(p => p.is_owned_by_consortium),
+        institutionConsortialProposalSets: (state) => state.institutionConsortialProposalSets,
         institutionUsers: (state) => state.institutionUsers,
         institutionIsDemo: (state) => state.isDemo,
         institutionIsConsortium: (state) => state.isConsortium,

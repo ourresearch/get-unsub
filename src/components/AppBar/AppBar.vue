@@ -127,7 +127,7 @@
               :to="`/i/${institutionId}/p/${publisherId}`"
           >
             <v-icon color="#777">
-              {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+              {{ publisherIconName }}
             </v-icon>
             <span class="pl-2 pr-2 ">
                             {{ publisherName || "Loading package..." }}
@@ -149,7 +149,7 @@
             <v-list-item>
               <v-list-item-icon>
                 <v-icon class="mt-4">
-                  {{ (publisherIsOwnedByConsortium) ? "mdi-package-up" : "mdi-package-variant" }}
+                  {{ publisherIconName }}
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-content class="">
@@ -185,7 +185,7 @@
               >
                 <v-list-item-icon>
                   <v-icon>
-                    {{ (pub.is_owned_by_consortium) ? "mdi-package-up" : "mdi-package-variant" }}
+                    {{ publisherIcon(pub) }}
                   </v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
@@ -468,6 +468,7 @@ import ScenarioMenuSettings from "../ScenarioMenu/ScenarioMenuSettings";
 import ScenarioMenuExport from "../ScenarioMenu/ScenarioMenuExport";
 import ScenarioMenuHelp from "../ScenarioMenu/ScenarioMenuHelp";
 import {costTotal, instantUsagePercent, libraryFulfillmentPercent} from "@/shared/scenarioSummary";
+import {publisherIcon} from "@/shared/publisher";
 
 export default {
   name: "AppBar",
@@ -502,7 +503,8 @@ export default {
     dismissBanner() {
       localStorage.setItem("hideNewVersionBanner17May2021", "true")
       this.showBannerContent = false
-    }
+    },
+    publisherIcon,
   },
   computed: {
     ...mapGetters([
@@ -526,6 +528,7 @@ export default {
       'publisherPublisher',
       'publisherIsOwnedByConsortium',
       "publisherCurrencySymbol",
+      "publisherIconName",
 
       'scenarioId',
       'scenarioName',
