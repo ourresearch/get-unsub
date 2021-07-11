@@ -49,6 +49,7 @@
     <v-list-item-action>
       <v-menu
           offset-y
+          v-if="!publisherIsConsortialProposalSet"
       >
         <template v-slot:activator="{ on }">
           <v-btn icon v-on="on">
@@ -126,6 +127,7 @@ export default {
       "publisherBigDealCost",
       "publisherFiles",
       "publisherCurrencySymbol",
+      "publisherIsConsortialProposalSet",
     ]),
     costTotal() {
       return costTotal(this.scenario.journals)

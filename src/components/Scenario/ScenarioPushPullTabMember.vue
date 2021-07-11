@@ -6,7 +6,7 @@
       }}.</strong>
     </p>
     <p v-if="scenarioReturnedDate">
-      You sent it back to them on <strong>{{ scenarioSentDate | moment("dddd, MMMM Do YYYY") }}.</strong> If you've made
+      You sent it back to them on <strong>{{ scenarioReturnedDate | moment("dddd, MMMM Do YYYY") }}.</strong> If you've made
       changes since then, you can resend it, which will to update your response and notify consortium staff.
     </p>
     <p v-if="!scenarioReturnedDate">

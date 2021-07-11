@@ -63,6 +63,13 @@ const saveScenario = async function (scenario) {
     return ret
 }
 
+// this is just for the Jisc push/pull feature
+const sendScenarioToConsortium = async function (scenario) {
+    cache[scenario.id] = null
+    const url = `scenario/${scenario.id}/notifications/done-editing`
+    const ret = await api.post(url)
+    return ret
+}
 
 
 const createScenario = async function (packageId, name) {
@@ -173,6 +180,7 @@ export {
     saveScenarioInstitutions,
     sendScenarioToMemberInstitutions,
     saveScenario,
+    sendScenarioToConsortium,
     createScenario,
     copyScenario,
     newScenarioId,
