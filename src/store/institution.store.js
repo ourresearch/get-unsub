@@ -171,6 +171,9 @@ export const institution = {
 
                 }
                 return ret
+            }).filter(u => {
+                if (!u.user_email) return true
+                return u.user_email.indexOf("@ourresearch.org") === -1
             })
         },
         institutionIsLoading: (state) => !state.institutionName,

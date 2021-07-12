@@ -8,7 +8,7 @@
         <v-list>
             <institution-user-row
                     v-for="person in institutionUsersWithRoles"
-                    :key="person.email"
+                    :key="person.user_email"
                     :person="person"
                     :my-role="myRole"
             />
