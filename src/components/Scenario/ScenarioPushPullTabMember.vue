@@ -92,9 +92,6 @@ export default {
       url += "&jwt=" + localStorage.getItem("token")
       return url
     },
-    isJisc() {
-      return this.institutionName === "Jisc"
-    },
   },
   created() {
   },

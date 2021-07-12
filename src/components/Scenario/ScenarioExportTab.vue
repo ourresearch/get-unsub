@@ -16,7 +16,7 @@
       Download
     </v-btn>
 
-    <template v-if="institutionIsConsortium && isJisc">
+    <template v-if="institutionIsConsortium && institutionIsJisc">
       <div class="mt-10 text-h5">
          Member subscription requests (beta)
       </div>
@@ -67,6 +67,7 @@ export default {
       'institutionIsDemo',
       "institutionIsConsortium",
       "institutionUsersWithRoles",
+      "institutionIsJisc",
       'userConsortia',
       'userInstitutions',
     ]),
@@ -83,9 +84,6 @@ export default {
       url += "?timestamp=" + `${new Date().getTime()}`
       url += "&jwt=" + localStorage.getItem("token")
       return url
-    },
-    isJisc() {
-      return this.institutionName === "Jisc"
     },
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="publisher">
-    <template v-if="isJisc">
+    <template v-if="institutionIsJisc">
       <v-card class="pa-5">
         <v-card-title>
           Article Publication Costs last year
@@ -12,7 +12,7 @@
       </v-card>
 
     </template>
-    <template v-if="!isJisc">
+    <template v-if="!institutionIsJisc">
       <v-card flat v-if="publisherApcIsLoading" class="d-flex align-center justify-center" style="height: 200px;">
         <div>
           <v-progress-circular size="20" class="mr-4" indeterminate></v-progress-circular>
@@ -133,6 +133,7 @@ export default {
   computed: {
     ...mapGetters([
       "institutionName",
+      "institutionIsJisc",
 
       "publisherName",
       "publisherPublisher",
@@ -165,9 +166,6 @@ export default {
     },
     rowsForDownload() {
       return this.tableRows
-    },
-    isJisc() {
-      return this.institutionName === "Jisc"
     },
   },
   methods: {
