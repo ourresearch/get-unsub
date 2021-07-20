@@ -80,11 +80,6 @@
               subscriptions, and then send these back to you. You can download their proposed additional subscriptions
               in the "export" tab of this scenario.
             </li>
-            <li>
-              Send an automated email to the selected institutions, letting them know you've shared this scenario with
-              them, and requesting their feedback. If you've already shared the scenario before, it'll stay
-              shared...they'll just get another reminder email.
-            </li>
           </ol>
 
         </div>
