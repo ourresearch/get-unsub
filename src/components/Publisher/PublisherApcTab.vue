@@ -12,7 +12,7 @@
       </v-card>
 
     </template>
-    <template v-if="!institutionIsJisc">
+    <template v-if="!(institutionIsConsortium && institutionIsJisc)">
       <v-card flat v-if="publisherApcIsLoading" class="d-flex align-center justify-center" style="height: 200px;">
         <div>
           <v-progress-circular size="20" class="mr-4" indeterminate></v-progress-circular>
@@ -134,6 +134,7 @@ export default {
     ...mapGetters([
       "institutionName",
       "institutionIsJisc",
+      "institutionIsConsortium",
 
       "publisherName",
       "publisherPublisher",
