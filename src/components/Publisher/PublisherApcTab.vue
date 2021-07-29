@@ -1,6 +1,6 @@
 <template>
   <v-card flat class="publisher">
-    <template v-if="institutionIsJisc">
+    <template v-if="institutionIsConsortium && institutionIsJisc">
       <v-card class="pa-5">
         <v-card-title>
           Article Publication Costs last year
