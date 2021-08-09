@@ -25,7 +25,7 @@
                             <span v-if="isNaN(value)" class="nan">—</span>
                             <template v-if="!isNaN(value)">
                                 <span v-if="isCurrency && !roundToPlaces">{{value | currency(publisherCurrencySymbol)}}</span>
-                                <span v-if="isCurrency && roundToPlaces">${{value | round(roundToPlaces)}}</span>
+                                <span v-if="isCurrency && roundToPlaces">{{publisherCurrencySymbol}}{{value | round(roundToPlaces)}}</span>
                                 <span v-if="!isCurrency">{{value | round}}</span>
                             </template>
 
