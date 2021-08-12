@@ -199,10 +199,10 @@ export default {
   }
 
   &.journal-dot-requested {
-    background: red;
+    background: $requested-color;
 
     &:hover {
-      background: darken(red, 30%);
+      background: darken($requested-color, 30%);
     }
   }
 
