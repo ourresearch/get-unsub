@@ -42,7 +42,12 @@
           </div>
           <div class="text-h5 font-weight-bold primary--text">
             {{ scenarioName }}
-            <v-btn icon small @click="openCopyDialog(scenario)">
+            <v-btn
+                icon
+                small
+                @click="openCopyDialog(scenario)"
+                v-if="!publisherIsConsortialProposalSet"
+            >
               <v-icon small>mdi-content-copy</v-icon>
             </v-btn>
           </div>
