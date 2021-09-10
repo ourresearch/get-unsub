@@ -99,7 +99,7 @@ const requestedCost = function (journals) {
 }
 const illCost = function (journals) {
     return journals
-        .filter(j => !j.subscribed)
+        .filter(j => !j.subscribed && !j.requested)
         .map(j => j.ill_cost)
         .reduce((a, b) => a + b, 0)
 }
