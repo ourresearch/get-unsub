@@ -75,13 +75,13 @@
                         :value="(scenarioZoomedJournal.is_society_journal) ? 'Yes' : 'No'"
                         value-is-string
                         label="Society journal"
-                        tooltip-text="This journal is published by a scholarly society (data manually collected)"
+                        tooltip-text='"Yes" indicates this journal is published by a scholarly society (data manually collected)'
                     />
                     <single-journal-key-number-row
                         :value="(scenarioZoomedJournal.bronze_oa_embargo_months) ? 'Yes' : 'No'"
                         value-is-string
                         label="Delayed OA"
-                        tooltip-text='This is a "Delayed OA" journal, which makes content free to read after an embargo period has passed.'
+                        tooltip-text='"Yes" indicates this is a "Delayed OA" journal, which makes content free to read after an embargo period has passed.'
                     />
                     <single-journal-key-number-row
                         v-if="scenarioZoomedJournal.bronze_oa_embargo_months"
