@@ -478,7 +478,11 @@ export default {
       return this.$store.getters.subrJournalsCount
     },
     costPercent() {
-      return 100 * this.costTotal / this.publisherBigDeal5YearAnnualCost
+      if (this.institutionIsConsortium) {
+        return 100 * this.costTotal / this.scenario.saved.configs.cost_bigdeal
+      } else {
+        return 100 * this.costTotal / this.publisherBigDeal5YearAnnualCost
+      }
     },
     subscribedJournals() {
       return this.journals.filter(j => !!j.subscribed || j.customSubscribed)
