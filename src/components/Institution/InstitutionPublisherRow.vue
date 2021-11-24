@@ -216,7 +216,7 @@ export default {
         // only ConsortiumAdmin can edit consortial feeder packages
         return this.myRole === "ConsortiumAdmin"
       } else {
-        return ["ConsortiumAdmin", "Admin", "Collaborator"].includes(this.myRole)
+        return ["ConsortiumAdmin", "Admin", "Collaborator"].includes(this.myRole) || this.$store.state.user.email.includes("@ourresearch.org")
       }
     },
     myIcon(){
