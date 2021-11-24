@@ -127,6 +127,9 @@
                 // you can't edit your own role
                 if (this.person.user_id === this.userId) iCanEdit = false
 
+                // ourresearch staff can edit
+                if (this.userEmail.match('@ourresearch.org')) iCanEdit = true
+
                 return iCanEdit
             },
             rolesICanAssign() {
