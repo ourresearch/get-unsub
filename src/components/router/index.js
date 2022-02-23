@@ -12,6 +12,7 @@ import RecoverPassword from "../../views/RecoverPassword";
 import ResetPassword from "../../views/ResetPassword";
 import RequestDemo from "../../views/RequestDemo";
 import Team from "../../views/Team";
+import Webinars from "../../views/Webinars";
 import Press from "../../views/Press";
 import Contact from "../../views/Contact";
 
@@ -26,6 +27,7 @@ const routes = [
     {path: '/', component: Home},
     {path: '/purchase', component: Purchase},
     {path: '/team', component: Team},
+    {path: '/webinars', component: Webinars},
     {path: '/press', component: Press},
     {path: '/contact', component: Contact},
 

@@ -307,9 +307,26 @@
         </v-list>
       </v-menu>
 
-      <v-btn text href="http://help.unsub.org/en/" target="_blank" class="mx-1">
+      <!-- <v-btn text href="http://help.unsub.org/en/" target="_blank" class="mx-1">
         Help
-      </v-btn>
+      </v-btn> -->
+
+      <v-menu offset-y content-class="no-highlight">
+        <template v-slot:activator="{on}">
+          <v-btn text color="" v-on="on" class="">
+            Learn
+            <v-icon class="">mdi-menu-down</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item href="http://help.unsub.org/en/" target="_blank">
+            Docs
+          </v-list-item>
+          <v-list-item to="/webinars">
+            Webinars
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-btn text color="" v-if="!isLoggedIn" to="/purchase">
         Purchase
@@ -419,6 +436,9 @@
           </v-list-item>
           <v-list-item href="http://help.unsub.org/en/" target="_blank">
             Help
+          </v-list-item>
+          <v-list-item to="/webinars">
+            Webinars
           </v-list-item>
           <v-list-item to="/purchase">
             Purchase
