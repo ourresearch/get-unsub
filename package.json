@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "awesome-debounce-promise": "^2.1.0",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "core-js": "^3.6.5",
     "export-to-csv": "^0.2.1",
     "express": "^4.17.1",
