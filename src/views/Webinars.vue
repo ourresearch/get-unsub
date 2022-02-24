@@ -78,8 +78,6 @@
                     </div>
                   </v-col>
                 </v-row>
-
-                <!-- <v-divider></v-divider> -->
             </template>
         </v-card>
 
@@ -91,13 +89,6 @@
     import appConfigs from "../appConfigs";
 
     const webinars_future = [
-      {
-        version: "130 pm PST",
-        date: "24 Feb 2022",
-        headline: "Unsub Extender",
-        quote: "In the second topic of the Unsub webinar series Eric Schares talked about Unsub Extender, a tool that takes an Unsub .csv data export file and automates the creation of useful plots and interactive visualizations. This webinar was targeted mostly at current Unsub users who want to do more with the data powering Unsub. However, if you are just curious about, but not subscribing to Unsub, this webinar will provide plenty to think about.",
-        link: "https://us02web.zoom.us/webinar/register/WN_Ksv7x3G8S0CS-9WjEy1aOA",
-      },
       {
         version: "830 am PST",
         date: "8 Mar 2022",
@@ -115,6 +106,13 @@
     ]
 
     const webinars_past = [
+      {
+        version: "130 pm PST",
+        date: "24 Feb 2022",
+        headline: "Unsub Extender",
+        quote: "In the second topic of the Unsub webinar series Eric Schares talked about Unsub Extender, a tool that takes an Unsub .csv data export file and automates the creation of useful plots and interactive visualizations. This webinar was targeted mostly at current Unsub users who want to do more with the data powering Unsub. However, if you are just curious about, but not subscribing to Unsub, this webinar will provide plenty to think about.",
+        link: "https://vimeo.com/681619823",
+      },
       {
         version: "830 am PST",
         date: "22 Feb 2022",
