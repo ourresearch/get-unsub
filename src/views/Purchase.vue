@@ -150,6 +150,8 @@
                                         item-value="costStr"
                                         label="Library materials budget (USD)"
                                         outlined
+                                        :rules="costRules"
+                                        required
                                 />
                             </v-col>
                             <v-col cols="12" sm="4" class="pb-0">
@@ -335,6 +337,9 @@
                     }
                 ],
                 checkboxRules: [
+                    v => !!v || "This is required."
+                ],
+                costRules: [
                     v => !!v || "This is required."
                 ],
                 formIsValid: false,
