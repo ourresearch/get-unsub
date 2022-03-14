@@ -17,10 +17,10 @@
                         <div class="text-h5">{{ article.headline }}</div>
                         <div class="mb-3">
                             <span class="font-italic">
-                                {{ article.version }},
+                                {{ article.date | formatTime }} PST,
                             </span>
                             <span class="">
-                                {{ article.date }}
+                                {{ article.date | formatDate }}
                             </span>
                         </div>
                     </div>
@@ -55,10 +55,10 @@
                       <div class="text-h5">{{ article.headline }}</div>
                       <div class="mb-3">
                         <span class="font-italic">
-                            {{ article.version }},
+                            {{ article.date | formatTime }} PST,
                         </span>
                         <span class="">
-                            {{ article.date }}
+                            {{ article.date | formatDate }}
                         </span>
                       </div>
                     </div>
@@ -86,51 +86,43 @@
 </template>
 
 <script>
+    import Vue from 'vue'
+    import moment from 'moment'
     import appConfigs from "../appConfigs";
 
-    const webinars_future = [
-    
-    ]
-
-    const webinars_past = [
+    const webinars = [
       {
-        version: "330 pm PST",
-        date: "10 Mar 2022",
+        date: "10 Mar 2022 15:30:00 -0700",
         headline: "Deep dive on scenarios",
         quote: "In the third installment of the Unsub webinar, I'll do a deep dive on Unsub scenarios. Scenarios are the heart of what you do with Unsub - where you see your forecast, toggle parameters, and subscribe title by title. This webinar builds on the first webinar by going into more detail with Unsub scenarios.",
         link: "https://vimeo.com/686927733",
       },
       {
-        version: "830 am PST",
-        date: "8 Mar 2022",
+        date: "8 Mar 2022 08:30:00 -0700",
         headline: "Deep dive on scenarios",
         quote: "In the third installment of the Unsub webinar, I'll do a deep dive on Unsub scenarios. Scenarios are the heart of what you do with Unsub - where you see your forecast, toggle parameters, and subscribe title by title. This webinar builds on the first webinar by going into more detail with Unsub scenarios.",
         link: "https://vimeo.com/686012295",
       },
       {
-        version: "130 pm PST",
-        date: "24 Feb 2022",
+        date: "24 Feb 2022 13:30:00 -0700",
         headline: "Unsub Extender",
         quote: "In the second topic of the Unsub webinar series Eric Schares talked about Unsub Extender, a tool that takes an Unsub .csv data export file and automates the creation of useful plots and interactive visualizations. This webinar was targeted mostly at current Unsub users who want to do more with the data powering Unsub. However, if you are just curious about, but not subscribing to Unsub, this webinar will provide plenty to think about.",
         link: "https://vimeo.com/681619823",
       },
       {
-        version: "830 am PST",
-        date: "22 Feb 2022",
+        date: "22 Feb 2022 08:30:00 -0700",
         headline: "Unsub Extender",
         quote: "In the second topic of the Unsub webinar series Eric Schares talked about Unsub Extender, a tool that takes an Unsub .csv data export file and automates the creation of useful plots and interactive visualizations. This webinar was targeted mostly at current Unsub users who want to do more with the data powering Unsub. However, if you are just curious about, but not subscribing to Unsub, this webinar will provide plenty to think about.",
         link: "https://vimeo.com/680578098",
       },
       {
-        version: "330 pm PST",
-        date: "10 Feb 2022",
+        date: "10 Feb 2022 15:30:00 -0700",
         headline: "Unsub Demo – An Overview",
         quote: "In the first installment of the Unsub webinar, a demo of Unsub - a walk-through of the product. It was targeted at both current Unsub users and folks interested in Unsub but not currently subscribing.",
         link: "https://vimeo.com/676110085",
       },
       {
-        version: "830 am PST",
-        date: "8 Feb 2022",
+        date: "8 Feb 2022 08:30:00 -0700",
         headline: "Unsub Demo – An Overview",
         quote: "In the first installment of the Unsub webinar, a demo of Unsub - a walk-through of the product. It was targeted at both current Unsub users and folks interested in Unsub but not currently subscribing.",
         link: "https://vimeo.com/675596736",
@@ -148,18 +140,32 @@
             return {}
         },
         computed: {
-            testimonialsToShow() {
-                return appConfigs.testimonials.filter(t => {
-            return t.displayOnPage.includes("demo")
-            })
+            webinars_future() {
+                const today = new Date()
+                return webinars.filter(x => {
+                    const item_date = new Date(x.date)
+                    return item_date > today
+                })
+            },
+            webinars_past() {
+                const today = new Date()
+                return webinars.filter(x => {
+                    const item_date = new Date(x.date)
+                    return item_date < today
+                })
+            },
         },
-        webinars_past() {
-          return webinars_past
-        },
-        webinars_future() {
-          return webinars_future
-        },
-
+        filters: {
+            formatDate: function(value) {
+              if (value) {
+                return moment(String(value)).format('MMM Do YYYY')
+              }
+            },
+            formatTime: function(value) {
+              if (value) {
+                return moment(String(value)).zone('-0700').format('LT')
+              }
+            }
         }
     }
 </script>
