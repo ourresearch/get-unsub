@@ -34,6 +34,18 @@
             journals, arranged by Cost Per Use (CPU)
         </div>
 
+        <v-card flat class="mt-12" v-show="journalsWithCpuLessThanBins.length">
+            <div class="d-flex flex-wrap">
+                <overview-graphic-bar-single-dot
+                            v-for="item in journalsWithCpuLessThanBins"
+                            :key="item.issnl"
+                            :journal="item"
+                    />
+            </div>
+            <div class="body-1 mt-1">
+                <span class="">{{journalsWithCpuLessThanBins.length}}</span> additional journals with CPU < {{minBinValue | currency(publisherCurrencySymbol)}}
+            </div>
+        </v-card>
 
         <v-card flat class="mt-12" v-show="journalsWithCpuOutsideBins.length">
             <div class="d-flex flex-wrap">
@@ -103,7 +115,7 @@
                 illColor: appConfigs.costSegments.ill.color.light,
                 colors: appConfigs.colors,
                 maxBinValue: 100,
-
+                minBinValue: -1,
             }
         },
         computed: {
@@ -118,7 +130,7 @@
             journalBins() {
                 const bins = []
                 const binWidth = 1
-                const histogramStart = -1
+                const histogramStart = this.minBinValue
                 const histogramEnd = this.maxBinValue
                 for (let i = histogramStart; i <= histogramEnd; i += binWidth) {
                     bins.push({
@@ -140,17 +152,18 @@
                 return bins
 
             },
-          journalsInBins(){
-                return this.journals.filter(j => j.cpu <= this.maxBinValue)
-
-          },
+            journalsInBins(){
+                return this.journals.filter(j => j.cpu <= this.maxBinValue & j.cpu >= this.minBinValue)
+            },
             journalsWithCpuOutsideBins(){
                 return this.journals.filter(j => j.cpu > this.maxBinValue)
+            },
+            journalsWithCpuLessThanBins(){
+                return this.journals.filter(j => j.cpu < this.minBinValue)
             },
             journalsWithNoUsage(){
                 return this.journals.filter(j => isNaN(j.cpu) )
             },
-
             subrJournalsCount() {
                 // return this.$store.getters.subrJournalsCount
                 return this.journals.filter(j => j.subscribed).length
