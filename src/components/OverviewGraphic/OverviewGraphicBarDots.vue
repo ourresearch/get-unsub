@@ -117,11 +117,12 @@
             journalBins() {
                 const bins = []
                 const binWidth = 1
-                this.histogramStart = Math.floor(Math.min(...this.journals
+                const histStart = Math.floor(Math.min(...this.journals
                     .map(x => x.cpu)
                     .filter(
                         element => typeof element === 'number'
                     )));
+                this.histogramStart = histStart > this.histogramStart ? this.histogramStart : histStart
                 const histogramStart = this.histogramStart
                 const histogramEnd = this.maxBinValue
                 for (let i = histogramStart; i <= histogramEnd; i += binWidth) {
