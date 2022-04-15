@@ -23,6 +23,8 @@
                                 {{ article.date | formatDate }}
                             </span>
                         </div>
+                        <p>{{ article.quote }}</p>
+                        <!-- <q class="">{{ article.quote }}</q> -->
                     </div>
                   </v-col>
                   <v-col cols="2">
@@ -91,6 +93,12 @@
     import appConfigs from "../appConfigs";
 
     const webinars = [
+      {
+        date: "9 June 2022 10:00:00 -0700",
+        headline: "How do you use Unsub at your library?",
+        quote: "In this Unsub webinar, we'll have panelists from two universities to discuss how they use Unsub. Panelists: Skye Hardesty and Tricia Clayton from Georgia State University (Georgia, USA), and Ian Robson from Queen's University (Ontario, Canada).",
+        link: "https://us02web.zoom.us/webinar/register/WN_5ZBK2QaBQA2kFJaGqqwHmg",
+      },
       {
         date: "10 Mar 2022 15:30:00 -0700",
         headline: "Deep dive on scenarios",
