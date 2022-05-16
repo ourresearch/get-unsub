@@ -100,6 +100,12 @@
         link: "https://us02web.zoom.us/webinar/register/WN_5ZBK2QaBQA2kFJaGqqwHmg",
       },
       {
+        date: "12 July 2022 08:00:00 -0700",
+        headline: "Unsub and Library Consortia",
+        quote: "In this Unsub webinar we'll have three people from two consortia share the consortial perspective on Unsub. The two consortia are: Jisc (Joint Information Systems Committee) from the UK and MCLS (Midwest Collaborative for Library Services) from the USA.",
+        link: "https://us02web.zoom.us/webinar/register/WN_44u15GgoQiS2qiclzSti3w",
+      },
+      {
         date: "10 Mar 2022 15:30:00 -0700",
         headline: "Deep dive on scenarios",
         quote: "In the third installment of the Unsub webinar, I'll do a deep dive on Unsub scenarios. Scenarios are the heart of what you do with Unsub - where you see your forecast, toggle parameters, and subscribe title by title. This webinar builds on the first webinar by going into more detail with Unsub scenarios.",
