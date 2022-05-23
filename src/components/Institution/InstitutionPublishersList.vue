@@ -59,20 +59,13 @@
 
         <v-card-text class="pt-4">
           <div>
-            <v-select
+            <v-text-field
                 outlined
-                label="Select publisher"
+                clearable
+                label="Publisher"
                 v-model="newPublisherItemSelected"
-                :items="newPublisherItems"
-                return-object
-                item-text="name"
-                item-value="name"
-            >
-              <template v-slot:item="{item}">
-                <img :src="item.logo" class="mr-3" style="height:30px; width: 30px;">
-                {{ item.name }}
-              </template>
-            </v-select>
+            />
+            
             <v-text-field
                 outlined
                 clearable
@@ -124,8 +117,9 @@ export default {
   data() {
     return {
       newPublisherDisplayName: "",
-      newPublisherItems: Object.values(_.cloneDeep(publisherConfig)),
-      newPublisherItemSelected: _.cloneDeep(publisherConfig.Elsevier),
+      // newPublisherItems: Object.values(_.cloneDeep(publisherConfig)),
+      // newPublisherItemSelected: _.cloneDeep(publisherConfig.Elsevier),
+      newPublisherItemSelected: "",
       newPublisherLoading: false,
       dialogs: {
         createPublisher: false,
@@ -140,8 +134,8 @@ export default {
       console.log("create publisher!")
       this.newPublisherLoading = true
 
-      const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected.name
-      const publisher = this.newPublisherItemSelected.id
+      const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected
+      const publisher = this.newPublisherItemSelected
       await this.$store.dispatch("createPublisher", {publisher, name})
       this.newPublisherLoading = false
       this.snackbar("Package created.")
