@@ -60,6 +60,12 @@
                       Journal metadata
                     </div>
                     <single-journal-key-number-row
+                        :value="scenarioZoomedJournal.publisher_journal"
+                        value-is-string
+                        label="Publisher"
+                        tooltip-text="Publisher."
+                    />
+                    <single-journal-key-number-row
                         :value="scenarioZoomedJournal.subject"
                         value-is-string
                         label="Subject"
@@ -322,6 +328,7 @@ export default {
   computed: {
     ...mapGetters([
       "scenarioId",
+      "publisherPublisher",
       "scenarioZoomedJournal",
       "citationWeight",
       "authorshipWeight",
