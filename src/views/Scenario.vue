@@ -228,6 +228,13 @@
                           <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
                         </v-btn>
 
+                        <!-- <v-btn fab small @click="openSubFileDialog" class="mr-2" elevation="1"> -->
+                        <!-- <input type="file" ref="file" style="display: none"> -->
+                        <!-- <v-btn fab small @click="$refs.file.click()"> -->
+                        <v-btn fab small @click="openSubFileDialog">
+                          <v-icon>mdi-file-upload</v-icon>
+                        </v-btn>
+
                         <scenario-menu-columns class="mr-4" :icon="true" direction="left"/>
                         <v-menu>
                           <template v-slot:activator="{on}">
@@ -331,6 +338,49 @@
 
     <scenario-edit-dialogs/>
 
+    <v-dialog
+        persistent
+        v-model="dialogs.set_subscriptions"
+        max-width="500"
+    >
+      <v-card>
+        <v-card-title>
+          Set title subscriptions
+        </v-card-title>
+        <div class="pa-6">
+          <vue-csv-import
+            v-model="csv"
+            :autoMatchFields="true"
+            :autoMatchIgnoreCase="true"
+            :map-fields="['issn']"
+          >
+          </vue-csv-import>
+        </div>
+        <!-- <div style="padding-top: 50px">
+          <p>Results</p>
+          {{ csv }}
+        </div> -->
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn
+              depressed
+              :disabled="isLoading"
+              @click="cancelDialogs"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+              depressed
+              color="primary"
+              :loading="isLoading"
+              @click="setSubscriptions"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </div>
 </template>
 
@@ -338,6 +388,8 @@
 import _ from "lodash"
 import {mapGetters, mapMutations} from 'vuex'
 import LongPress from 'vue-directive-long-press'
+import { VueCsvImport } from "vue-csv-import"
+import axios from 'axios'
 
 import appConfigs from "../appConfigs";
 import {fetchScenario} from "../shared/scenario";
@@ -407,6 +459,8 @@ export default {
     ScenarioEditDialogsInstitutions,
     PublisherWarning,
     ScenarioEditDialogs,
+
+    VueCsvImport,
   },
   directives: {
     "long-press": LongPress,
@@ -428,10 +482,13 @@ export default {
       search: "",
       loadingPercent: 0,
       showSearchBox: false,
+      isLoading: false,
       dialogs: {
         fulfillment: false,
         cost: false,
+        set_subscriptions: false,
       },
+      csv: null,
 
       showSlowRenderingThings: false,
     }
@@ -549,6 +606,46 @@ export default {
     },
     focusOnSearchBox() {
       this.$refs.searchBox.focus()
+    },
+    cancelDialogs() {
+      this.dialogs.set_subscriptions = false
+    },
+    chooseFiles: function() {
+        document.getElementById("fileUpload").click()
+    },
+    openSubFileDialog() {
+      this.dialogs.set_subscriptions = true
+      // this.newVal = this.publisherBigDealCost
+    },
+    createSubPostData() {
+      console.log("in createSubPostData", this.csv)
+      const issns_array = _.map(this.csv, 'issn')
+      console.log("in createSubPostData", JSON.stringify(issns_array))
+      return {issns: issns_array}
+    },
+    async setSubscriptions() {
+      console.log("setSubscriptions()")
+      this.isLoading = true
+      const url = "https://api.unpaywall.org/issn_ls"
+      const postData = this.createSubPostData()
+      console.log("getting Linking ISSNs at: ", url)
+      const resp = await axios.post(url, postData)
+      // const issns = resp.data.issn_ls
+      console.log("got response back", resp)
+      this.isLoading = false
+      // this.$store.dispatch("subscribeUpToIndex", val)
+      // const path = `publisher/${this.publisherId}`
+      // const postData = this.createPostData()
+      // try {
+      //   await api.postFile(path, postData)
+      //   await this.$store.dispatch("refreshPublisher")
+      //   this.$store.commit("snackbar", `Edit successful.`)
+      // } catch (e) {
+      //   console.log("there was an error.")
+      // } finally {
+      //   this.cancelDialogs()
+      //   this.isLoading = false
+      // }
     },
     setJournalsFilterStatus: _.debounce(
         function () {
