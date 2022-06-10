@@ -254,6 +254,13 @@
                           <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
                         </v-btn>
 
+                        <!-- <v-btn fab small @click="openSubFileDialog" class="mr-2" elevation="1"> -->
+                        <!-- <input type="file" ref="file" style="display: none"> -->
+                        <!-- <v-btn fab small @click="$refs.file.click()"> -->
+                        <v-btn fab small @click="openSubFileDialog">
+                          <v-icon>mdi-file-upload</v-icon>
+                        </v-btn>
+
                         <scenario-menu-columns class="mr-4" :icon="true" direction="left"/>
                         <v-menu>
                           <template v-slot:activator="{on}">
@@ -433,6 +440,8 @@ export default {
     ScenarioEditDialogsInstitutions,
     PublisherWarning,
     ScenarioEditDialogs,
+
+    VueCsvImport,
   },
   directives: {
     "long-press": LongPress,
@@ -459,7 +468,9 @@ export default {
       dialogs: {
         fulfillment: false,
         cost: false,
+        set_subscriptions: false,
       },
+      csv: null,
 
       showSlowRenderingThings: false,
     }
