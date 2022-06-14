@@ -30,6 +30,10 @@ const dataFilesConfig = {
         displayName: "Post-Termination Access (PTA)",
         serverKey: "perpetual-access",
     },
+    filter: {
+        displayName: "Filter titles",
+        serverKey: "filter",
+    },
     coreJournals: {
         displayName: "Core journals list",
         serverKey: "core-journals",

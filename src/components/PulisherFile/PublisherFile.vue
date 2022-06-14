@@ -244,7 +244,7 @@ export default {
       console.log("uploadFile() file", this.fileSelected)
       this.isSyncingToServer = true
 
-      const fileExtMatch = /\.csv$|\.xls$|\.xlsx$/.exec(this.fileSelected.name)
+      const fileExtMatch = /\.csv$|\.xls$|\.xlsx$|\.txt$/.exec(this.fileSelected.name)
       if (!fileExtMatch) {
         this.errorMsg = "Unrecognized file extension"
         this.isSyncingToServer = false

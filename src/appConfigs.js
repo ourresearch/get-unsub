@@ -507,6 +507,19 @@ const dataFiles = {
         display: true,
         required: false,
     },
+    filter: {
+        name: "filter",
+        displayName: "Filter titles",
+        dataType: "Titles to exclude from your package",
+        icon: "mdi-briefcase-file-outline",
+
+        uploadFormat: "Either a spreadsheet with one row per journal (one column: ISSN), or a KBART file",
+        uploadSource: "Custom file",
+
+        defaultSource: "No filter",
+        display: true,
+        required: false,
+    },
     prices: {
         name: "price",
         displayName: "Title-by-title pricelist",

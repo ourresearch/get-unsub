@@ -37,6 +37,10 @@ const warningsConfig = {
         displayName: "Missing Big Deal costs",
         link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
     },
+    filteringTitles: {
+        displayName: "Filtering Titles",
+        link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
+    },
 }
 
 
@@ -128,6 +132,8 @@ export const publisher = {
                 return Object.assign(warning, warningsConfig[warning.id])
             })
             state.hasCompleteCounterData = apiPublisher.has_complete_counter_data
+
+            state.filterDataSet = apiPublisher.filter_data_set
 
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
@@ -291,6 +297,7 @@ export const publisher = {
         publisherIsLoading: (state) => state.isLoading,
         getPublisherWarning: (state) => (id) => state.warnings.find(w => w.id === id),
         publisherWarnings: (state) => state.warnings ?? [],
+        filteringTitles: (state) => state.filterDataSet,
 
 
         // @todo get rid of this
@@ -321,6 +328,9 @@ export const publisher = {
             }
             else if (dataType === "pricelist") {
                 return state.warnings.findIndex(w => w.id === "missingPrices") === -1
+            }
+            else if (dataType === "filter") {
+                return state.filterDataSet
             }
         },
         publisherHalp: (state) => {

@@ -90,6 +90,7 @@
           <publisher-setup-tab-big-deal-costs v-if="tab.id==='bigDealCosts'" />
           <publisher-setup-tab-pta v-if="tab.id==='pta'" />
           <publisher-setup-tab-price  v-if="tab.id==='pricelist'" />
+          <publisher-setup-tab-filter  v-if="tab.id==='filter'" />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -120,6 +121,7 @@ import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabCounter from "../PublisherSetupTab/PublisherSetupTabCounter";
 import PublisherSetupTabCurrency from "@/components/PublisherSetupTab/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/PublisherSetupTab/PublisherSetupTabPta";
+import PublisherSetupTabFilter from "@/components/PublisherSetupTab/PublisherSetupTabFilter";
 import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPricelist";
 import PublisherSetupTabBigDealCosts from "@/components/PublisherSetupTab/PublisherSetupTabBigDealCosts";
 
@@ -133,6 +135,7 @@ export default {
     PublisherSetupTabCounter,
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
+    PublisherSetupTabFilter,
     PublisherSetupTabPrice,
     PublisherSetupTabBigDealCosts,
     PublisherWarning,
@@ -188,6 +191,16 @@ export default {
           isRecommended: true,
           warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
           helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
+        },
+        {
+          id: "filter",
+          shortName: "Filter",
+          longName: "Journal filter",
+          // warningId: "missingPrices",
+          isRecommended: true,
+          warningUrl: "https://scottchamberlain.info",
+          helpUrl: "http://recology.info/",
+          errorMsg: "<strong>Optional data: </strong> You can filter out individual titles from all scenarios within your package by providing a spreadsheet of ISSNs or a KBART file with titles you want to exclude."
         },
       ]
     }

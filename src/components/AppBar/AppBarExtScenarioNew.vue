@@ -30,7 +30,17 @@
         <div class="d-flex align-center">
           <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">
             <template v-slot:activator="{ on }">
-                <v-btn v-on="on" :href="warning.link" target="_blank" text class="body-2 warning--text px-2 font-weight-bold">
+                <v-btn v-if="warning.id === 'filteringTitles'" v-on="on" :href="warning.link" target="_blank" text class="body-2 info--text px-2 font-weight-bold">
+                  <v-icon left color="info" small style="vertical-align: 0">mdi-information-outline</v-icon>
+                  <span class="text text-capitalize">
+                    {{ warning.displayName }}
+                  </span>
+                  <span class="text-lowercase ml-1" v-if="warning.journals">
+                     ({{warning.journals.length}})
+                  </span>
+                </v-btn>
+
+                <v-btn v-else v-on="on" :href="warning.link" target="_blank" text class="body-2 warning--text px-2 font-weight-bold">
                   <v-icon left color="warning" small style="vertical-align: 0">mdi-alert</v-icon>
                   <span class="text text-capitalize">
                     {{ warning.displayName }}
@@ -45,6 +55,22 @@
             </div>
           </v-tooltip>
         </div>
+        <!-- <v-spacer/> -->
+    <!--     <div v-if="filteringTitles" class="d-flex align-center">
+          <v-tooltip bottom max-width="300">
+            <template v-slot:activator="{ on }">
+                <v-btn v-on="on" href="https://scottchamberlain.info" target="_blank" text class="body-2 info--text px-2 font-weight-bold">
+                  <v-icon left color="information" small style="vertical-align: 0">mdi-information-outline</v-icon>
+                  <span class="text text-capitalize">
+                    Filtering titles
+                  </span>
+                </v-btn>
+            </template>
+            <div>
+              Click to learn more.
+            </div>
+          </v-tooltip>
+        </div> -->
       </v-tabs>
     </div>
 
@@ -78,6 +104,7 @@ export default {
       "scenarioJournals",
       "subrJournalsCount",
       "publisherWarnings",
+      "filteringTitles",
       "institutionIsJisc",
     ]),
     currentTab: {
