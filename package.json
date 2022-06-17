@@ -2,7 +2,8 @@
   "name": "unsub",
   "version": "0.1.0",
   "engines": {
-    "node": "16.x"
+    "npm": "8.5.5",
+    "node": "16.15.0"
   },
   "private": true,
   "scripts": {
@@ -55,9 +56,9 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^7.0",
+    "node-sass": "^6.0",
     "sass": "^1.26.7",
-    "sass-loader": "^13.0.0",
+    "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "^1.1.2",
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.4.4"
