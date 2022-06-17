@@ -24,7 +24,7 @@
 
         <div class="pa-3">
           <span class="k">Authors from your institution paid an estimated </span>
-          <span class="font-weight-bold">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span> in APCs (Article Processing Costs) to {{ publisherPublisher }} last year. This sum includes APCs paid to gold and hybrid OA journals. Because we do not have access to corresponding author information, this is an estimate only; it assumes that any author on a given paper has an equal likelihood of being the corresponding author.
+          <span class="font-weight-bold">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span> in APCs (Article Processing Costs) last year. This sum includes APCs paid to gold and hybrid OA journals. Because we do not have access to corresponding author information, this is an estimate only; it assumes that any author on a given paper has an equal likelihood of being the corresponding author.
 
         </div>
 
@@ -137,7 +137,6 @@ export default {
       "institutionIsConsortium",
 
       "publisherName",
-      "publisherPublisher",
       "publisherId",
       "publisherCurrencySymbol",
 
