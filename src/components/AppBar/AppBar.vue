@@ -367,9 +367,28 @@
 
 
     <div class="no-highlight" v-if="isLoggedIn">
-      <v-btn icon href="http://help.unsub.org/en/" target="_blank">
+      <!-- <v-btn icon href="http://help.unsub.org/en/" target="_blank">
         <v-icon>mdi-help-circle-outline</v-icon>
-      </v-btn>
+      </v-btn> -->
+      <v-menu offset-y content-class="no-highlight" min-width="200">
+        <template v-slot:activator="{on}">
+          <v-btn icon color="" v-on="on">
+            <v-icon class="">mdi-help-circle-outline</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+            <v-list-item href="http://help.unsub.org/en/" target="_blank">
+              Documentation
+            </v-list-item>
+            <v-list-item to="/webinars" target="_blank">
+              Webinars
+            </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item href="mailto:support@unsub.org">
+            Send Feedback
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <v-menu offset-y content-class="no-highlight" min-width="200">
         <template v-slot:activator="{on}">
