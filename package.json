@@ -2,7 +2,8 @@
   "name": "unsub",
   "version": "0.1.0",
   "engines": {
-    "node": "16.x"
+    "npm": "8.5.5",
+    "node": "16.15.0"
   },
   "private": true,
   "scripts": {
