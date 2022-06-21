@@ -7,9 +7,6 @@
           hide-slider
           class="publisher-setup-tab-tabs"
       >
-        <!--        <div class="black&#45;&#45;text body-2 ml-4 mt-4 mb-2 font-weight-bold">-->
-        <!--          Setup menu-->
-        <!--        </div>-->
         <v-subheader class="">
           1. Required data
         </v-subheader>
@@ -56,6 +53,12 @@
           </v-tab>
 
         </template>
+
+        <v-divider/>
+        <v-subheader class="">
+          3. Optional data
+        </v-subheader>
+
 
         <v-tab-item
             v-for="tab in tabs"
