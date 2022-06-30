@@ -34,9 +34,19 @@
       <span v-if="header.display==='currency_int'">
                 {{ journal[header.value] | currency(publisherCurrencySymbol) }}
             </span>
-      <span v-if="header.display==='text'">
-                {{ journal[header.value] }}
-            </span>
+      <v-tooltip bottom max-width="300" v-if="header.value === 'publisher_short'">
+        <template v-slot:activator="{ on }">
+            <v-span v-on="on" text>
+              <span v-if="header.display==='text'">{{ journal[header.value] }}</span>
+            </v-span>
+        </template>
+        <div>
+          {{ journal['publisher_journal'] }}
+        </div>
+      </v-tooltip>
+      <span v-if="header.display==='text' && header.value != 'publisher_short'">
+          {{ journal[header.value] }}
+      </span>
       <span v-if="header.display==='boolean'">
                 {{ journal[header.value] }}
             </span>

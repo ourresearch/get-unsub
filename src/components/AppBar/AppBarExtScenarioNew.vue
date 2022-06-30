@@ -31,7 +31,7 @@
           <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">
             <template v-slot:activator="{ on }">
                 <v-btn v-if="warning.id === 'filteringTitles'" v-on="on" :href="warning.link" target="_blank" text class="body-2 info--text px-2 font-weight-bold">
-                  <v-icon left color="info" small style="vertical-align: 0">mdi-information-outline</v-icon>
+                  <v-icon left color="info" small style="vertical-align: 0">mdi-filter</v-icon>
                   <span class="text text-capitalize">
                     {{ warning.displayName }}
                   </span>

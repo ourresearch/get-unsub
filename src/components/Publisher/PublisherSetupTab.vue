@@ -20,6 +20,14 @@
             2. Recommended data
             </span>
           </v-subheader>
+          <v-subheader class="mt-" v-if="tab.isOptionalTab">
+            <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
+            3. Optional data
+            </span>
+            <span v-if="publisherRequiredDataIsLoaded">
+            3. Optional data
+            </span>
+          </v-subheader>
           <v-tab
               class="body-1"
               :disabled="tab.isDisabled"
@@ -55,9 +63,6 @@
         </template>
 
         <v-divider/>
-        <v-subheader class="">
-          3. Optional data
-        </v-subheader>
 
 
         <v-tab-item
@@ -200,10 +205,11 @@ export default {
           shortName: "Filter",
           longName: "Journal filter",
           // warningId: "missingPrices",
+          isOptionalTab: true,
           isRecommended: true,
           warningUrl: "https://scottchamberlain.info",
           helpUrl: "http://recology.info/",
-          errorMsg: "<strong>Optional data: </strong> You can filter out individual titles from all scenarios within your package by providing a spreadsheet of ISSNs or a KBART file with titles you want to exclude."
+          errorMsg: "<strong>Optional data: </strong> You can filter all scenarios within this package to include only specific titles by providing a spreadsheet of ISSNs or a KBART file."
         },
       ]
     }

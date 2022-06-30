@@ -1,5 +1,14 @@
 const journalColGroups = [
     {
+        displayName: "Metadata",
+        name: "metadata",
+        colNames: [
+            "publisher_journal",
+            "publisher_short",
+        ]
+    },
+
+    {
         displayName: "Cost Effectiveness",
         name: "keyStats",
         colNames: [
@@ -63,6 +72,18 @@ const journalColGroups = [
 
 
 const journalCols = [
+    {
+        text: "Publisher",
+        value: "publisher_journal",
+        display: "text",
+        descr: "The publisher.",
+    },
+    {
+        text: "Publisher short",
+        value: "publisher_short",
+        display: "text",
+        descr: "Short name for the publisher.",
+    },
     {
         text: "Cost per use",
         value: "cpu",
@@ -510,7 +531,7 @@ const dataFiles = {
     filter: {
         name: "filter",
         displayName: "Filter titles",
-        dataType: "Titles to exclude from your package",
+        dataType: "Titles to inclucde in your package",
         icon: "mdi-briefcase-file-outline",
 
         uploadFormat: "Either a spreadsheet with one row per journal (one column: ISSN), or a KBART file",

@@ -38,7 +38,7 @@ const warningsConfig = {
         link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
     },
     filteringTitles: {
-        displayName: "Filtering Journals",
+        displayName: "Journal Whitelist",
         link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
     },
 }

@@ -10,8 +10,8 @@
         Upload your file as either a:
 
         <ol>
-          <li>Spreadsheet with one journal per row. The spreadsheet should have one column (ISSN).</li>
-          <li>KBART file</li>
+          <li>Spreadsheet with one journal per row. The spreadsheet should have one column (<a target="_blank" href="https://en.wikipedia.org/wiki/International_Standard_Serial_Number">ISSN</a>).</li>
+          <li><a target="_blank" href="https://www.niso.org/standards-committees/kbart">KBART file</a></li>
         </ol>
         Accepted file formats for both: <code>.txt</code>, <code>.csv</code>, <code>.xlsx</code>, and <code>.xls</code>.
       </div>
