@@ -30,7 +30,7 @@
                             </li>
                             <li>
                                 <strong>Want to get in touch?</strong> Drop us a line at
-                                <a href="team@ourresearch.org">team@ourresearch.org</a> or use the blue message button
+                                <a href="mailto:support@unsub.org">support@unsub.org</a> or use the blue message button
                                 on
                                 the lower-right of your screen.
                             </li>

@@ -102,7 +102,7 @@
       >
         Setup for consortial dashboards happens behind the scenes, via email or data imports from your member
         institution dashboards. If you have any questions about setup, please drop us a line at
-        <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
+        <a href="mailto:support@unsub.org">support@unsub.org</a>.
       </v-alert>
     </template>
 
