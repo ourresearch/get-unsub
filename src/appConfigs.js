@@ -552,7 +552,7 @@ const dataFiles = {
 
         defaultSource: "Public list prices",
         display: true,
-        required: false,
+        required: true,
 
     },
     "core-journals": {

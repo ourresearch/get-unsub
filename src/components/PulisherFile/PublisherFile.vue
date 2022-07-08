@@ -102,8 +102,8 @@
 
       <v-list-item-content>
         <div class="font-weight-bold">
-          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'GBP'">UK</span>
-          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'USD'">US</span>
+<!--           <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'GBP'">UK</span>
+          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'USD'">US</span> -->
           {{ myDataFile.displayName }} uploaded.
         </div>
         <div class="body-2">

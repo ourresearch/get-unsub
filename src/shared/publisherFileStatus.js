@@ -38,10 +38,10 @@ const dataFilesConfig = {
         displayName: "Core journals list",
         serverKey: "core-journals",
     },
-    pricePublic: {
-        displayName: "Public pricelist",
-        serverKey: "price-public",
-    },
+    // pricePublic: {
+    //     displayName: "Public pricelist",
+    //     serverKey: "price-public",
+    // },
 }
 
 const fileStatusFromApiData = function (apiData) {

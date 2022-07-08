@@ -20,7 +20,7 @@
             2. Recommended data
             </span>
           </v-subheader>
-          <v-subheader class="mt-" v-if="tab.isOptionalTab">
+          <v-subheader class="mt-" v-if="tab.isOptional">
             <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
             3. Optional data
             </span>
@@ -52,7 +52,15 @@
             <v-icon
                 small
                 left
-                v-if="tab.isComplete"
+                v-if="tab.isComplete && tab.id === 'pricelist'"
+                color="info"
+            >
+              mdi-check-outline
+            </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isComplete && tab.id != 'pricelist'"
                 color="success"
             >
               mdi-check-outline
@@ -163,6 +171,16 @@ export default {
           errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
+          id: "pricelist",
+          shortName: "Pricelist",
+          longName: "Journal pricelist",
+          warningId: "missingPrices",
+          isRequired: true,
+          warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
+          helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
+          errorMsg: "<strong>Missing data: </strong> This data is required."
+        },
+        {
           id: "currency",
           shortName: "Currency",
           longName: "Currency",
@@ -192,21 +210,10 @@ export default {
           errorMsg: "<strong>Missing data: </strong> Forecasts currently assume you have <em>zero PTA rights</em> for all titles. This is probably untrue, and so your forecasts are not very accurate."
         },
         {
-          id: "pricelist",
-          shortName: "Pricelist",
-          longName: "Journal pricelist",
-          warningId: "missingPrices",
-          isRecommended: true,
-          warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
-          helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
-        },
-        {
           id: "filter",
           shortName: "Filter",
           longName: "Journal filter",
-          // warningId: "missingPrices",
-          isOptionalTab: true,
-          isRecommended: true,
+          isOptional: true,
           warningUrl: "https://scottchamberlain.info",
           helpUrl: "http://recology.info/",
           errorMsg: "<strong>Optional data: </strong> You can filter all scenarios within this package to include only specific titles by providing a spreadsheet of ISSNs or a KBART file."
@@ -241,13 +248,13 @@ export default {
       const ret = this.tabsConfig.map(tabConfig => {
         const isComplete = this.getPublisherDataIsComplete(tabConfig.id)
         const isError = !isComplete && tabConfig.isRequired
-        const isWarning = !isComplete && tabConfig.isRecommended
-        const isDisabled = !this.publisherRequiredDataIsLoaded && tabConfig.isRecommended
+        const isWarning = !isComplete && (tabConfig.isRecommended || tabConfig.isOptional)
+        const isDisabled = !this.publisherRequiredDataIsLoaded && (tabConfig.isRecommended || tabConfig.isOptional)
 
         const myErrorMsg = (tabConfig.id === "pricelist") ? this.priceListErrorMsg : tabConfig.errorMsg
         const journals = (tabConfig.id === "pricelist") ? this.journalsWithNoPriceInfo : null
 
-        const alertMsg = (isComplete) ? this.successMsg : myErrorMsg
+        const alertMsg = (isComplete && tabConfig.id != "pricelist") ? this.successMsg : myErrorMsg
 
         return {
           ..._.cloneDeep(tabConfig),
