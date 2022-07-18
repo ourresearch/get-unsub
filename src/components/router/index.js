@@ -15,6 +15,7 @@ import Team from "../../views/Team";
 import Webinars from "../../views/Webinars";
 import Press from "../../views/Press";
 import Contact from "../../views/Contact";
+import Privacy from "../../views/Privacy";
 
 
 import Scenario from "../../views/Scenario"
@@ -30,6 +31,7 @@ const routes = [
     {path: '/webinars', component: Webinars},
     {path: '/press', component: Press},
     {path: '/contact', component: Contact},
+    {path: '/privacy', component: Privacy},
 
 
     {path: '/recover-password', component: RecoverPassword},
