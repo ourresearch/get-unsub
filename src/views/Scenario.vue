@@ -206,8 +206,43 @@
                       <overview-graphic-subrs-counter/>
                       <v-spacer></v-spacer>
 
+                      <!-- <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">
+            <template v-slot:activator="{ on }">
+                <v-btn v-if="warning.id === 'filteringTitles'" v-on="on" :href="warning.link" target="_blank" text class="body-2 info--text px-2 font-weight-bold">
+                  <v-icon left color="info" small style="vertical-align: 0">mdi-filter</v-icon>
+                  <span class="text text-capitalize">
+                    {{ warning.displayName }}
+                  </span>
+                  <span class="text-lowercase ml-1" v-if="warning.journals">
+                     ({{warning.journals.length}})
+                  </span>
+                </v-btn>
+
+                <v-btn v-else v-on="on" :href="warning.link" target="_blank" text class="body-2 warning--text px-2 font-weight-bold">
+                  <v-icon left color="warning" small style="vertical-align: 0">mdi-alert</v-icon>
+                  <span class="text text-capitalize">
+                    {{ warning.displayName }}
+                  </span>
+                  <span class="text-lowercase ml-1" v-if="warning.journals">
+                     ({{warning.journals.length}})
+                  </span>
+                </v-btn>
+            </template>
+            <div>
+              Click to learn more.
+            </div>
+          </v-tooltip> -->
 
                       <div class="pt-1 d-flex">
+                        <!-- <v-item-group @click="toggleSearchBox"> -->
+                          <v-btn icon small depressed dark color="blue" class="mr-4" @click="toggleSearchBox(); setSubscriptions()" v-if="showSearchBox">
+                            <v-icon>mdi-cart-arrow-down</v-icon>
+                          </v-btn>
+                          <v-btn icon small depressed dark color="#555" class="mr-4" @click="toggleSearchBox(); clearSubscriptions()" v-if="showSearchBox">
+                            <v-icon>mdi-cart-arrow-up</v-icon>
+                          </v-btn>
+                        <!-- </v-item-group> -->
+
                         <v-slide-x-reverse-transition>
                           <v-text-field
                               hide-details
@@ -330,14 +365,14 @@
     </v-snackbar>
 
     <scenario-edit-dialogs/>
-
   </div>
 </template>
 
 <script>
 import _ from "lodash"
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 import LongPress from 'vue-directive-long-press'
+import axios from 'axios'
 
 import appConfigs from "../appConfigs";
 import {fetchScenario} from "../shared/scenario";
@@ -514,11 +549,18 @@ export default {
     numJournals() {
       return this.journals.length
     },
+    issnsNotHiddenByFilters() {
+      return _.map(this.journals.filter(j => !j.isHiddenByFilters), 'issn_l')
+    },
     numJournalsNotHiddenByFilters() {
       return this.journals.filter(j => !j.isHiddenByFilters).length
     },
   },
   methods: {
+    ...mapActions([
+      "subscribeCustom",
+      "unsubscribeCustom",
+    ]),
     ...mapMutations([
       "menuViewToggleShowCostBar",
       "menuViewSetDisplayJournalsAs",
@@ -549,6 +591,40 @@ export default {
     },
     focusOnSearchBox() {
       this.$refs.searchBox.focus()
+    },
+    cancelDialogs() {
+      this.dialogs.set_subscriptions = false
+    },
+    chooseFiles: function() {
+        document.getElementById("fileUpload").click()
+    },
+    openSubFileDialog() {
+      this.dialogs.set_subscriptions = true
+      // this.newVal = this.publisherBigDealCost
+    },
+    filteredJournals() {
+      const issns = this.issnsNotHiddenByFilters
+      console.log("in filteredJournals, # of issns: ", issns.length)
+      console.log("in filteredJournals, ISSN-L's: ", JSON.stringify(issns))
+      return issns
+    },
+    async subscribe(x) {
+      this.subscribeCustom(x)
+      this.$store.getters.scenarioSnackbars.customSubrSuccess = true
+    },
+    async unsubscribe(x) {
+      this.unsubscribeCustom(x)
+      this.$store.getters.scenarioSnackbars.customUnsubrSuccess = true
+    },
+    async setSubscriptions() {
+      const journals = this.filteredJournals()
+      console.log("setSubscriptions(), journals: ", journals)
+      _.map(journals, this.subscribe)
+    },
+    async clearSubscriptions() {
+      const journals = this.filteredJournals()
+      console.log("clearSubscriptions(), journals: ", journals)
+      _.map(journals, this.unsubscribe)
     },
     setJournalsFilterStatus: _.debounce(
         function () {
