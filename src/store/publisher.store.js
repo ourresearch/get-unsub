@@ -37,6 +37,10 @@ const warningsConfig = {
         displayName: "Missing Big Deal costs",
         link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
     },
+    filteringTitles: {
+        displayName: "Journal Whitelist",
+        link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
+    },
 }
 
 
@@ -91,6 +95,8 @@ export const publisher = {
 
             state.hasCompleteCounterData = false
 
+            state.hasPriceData = false
+
             state.apcHeaders = []
             state.apcJournals = []
             state.apcPapersCount = null
@@ -128,8 +134,12 @@ export const publisher = {
                 return Object.assign(warning, warningsConfig[warning.id])
             })
             state.hasCompleteCounterData = apiPublisher.has_complete_counter_data
+            state.hasCustomPrices = apiPublisher.has_custom_prices
+
+            state.filterDataSet = apiPublisher.filter_data_set
 
             state.counterIsUploaded = state.dataFiles.findIndex(f => f.name === 'counter' && f.uploaded) > -1
+            state.hasPriceData = state.dataFiles.findIndex(f => f.name === 'price' && f.uploaded) > -1
             state.bigDealCost = apiPublisher.cost_bigdeal
             state.bigDealCostIncrease = apiPublisher.cost_bigdeal_increase
             state.isBigDealCostIncreaseDefined = apiPublisher.cost_bigdeal_increase === 0 || apiPublisher.cost_bigdeal_increase > 0
@@ -291,6 +301,7 @@ export const publisher = {
         publisherIsLoading: (state) => state.isLoading,
         getPublisherWarning: (state) => (id) => state.warnings.find(w => w.id === id),
         publisherWarnings: (state) => state.warnings ?? [],
+        filteringTitles: (state) => state.filterDataSet,
 
 
         // @todo get rid of this
@@ -320,7 +331,11 @@ export const publisher = {
                 return state.warnings.findIndex(w => w.id === "missingPerpetualAccess") === -1
             }
             else if (dataType === "pricelist") {
-                return state.warnings.findIndex(w => w.id === "missingPrices") === -1
+                return state.hasCustomPrices
+                // return state.warnings.findIndex(w => w.id === "missingPrices") === -1
+            }
+            else if (dataType === "filter") {
+                return state.filterDataSet
             }
         },
         publisherHalp: (state) => {
@@ -336,7 +351,8 @@ export const publisher = {
             return state.hasCompleteCounterData &&
                 !!state.currency &&
                 !!state.bigDealCost &&
-                state.isBigDealCostIncreaseDefined
+                state.isBigDealCostIncreaseDefined &&
+                state.hasCustomPrices
         },
 
         // @todo get rid of this

@@ -102,8 +102,8 @@
 
       <v-list-item-content>
         <div class="font-weight-bold">
-          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'GBP'">UK</span>
-          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'USD'">US</span>
+<!--           <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'GBP'">UK</span>
+          <span v-if="myDataFile.id == 'pricePublic' && publisherCurrency === 'USD'">US</span> -->
           {{ myDataFile.displayName }} uploaded.
         </div>
         <div class="body-2">
@@ -244,7 +244,7 @@ export default {
       console.log("uploadFile() file", this.fileSelected)
       this.isSyncingToServer = true
 
-      const fileExtMatch = /\.csv$|\.xls$|\.xlsx$/.exec(this.fileSelected.name)
+      const fileExtMatch = /\.csv$|\.xls$|\.xlsx$|\.txt$/.exec(this.fileSelected.name)
       if (!fileExtMatch) {
         this.errorMsg = "Unrecognized file extension"
         this.isSyncingToServer = false

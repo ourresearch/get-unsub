@@ -30,14 +30,18 @@ const dataFilesConfig = {
         displayName: "Post-Termination Access (PTA)",
         serverKey: "perpetual-access",
     },
+    filter: {
+        displayName: "Filter titles",
+        serverKey: "filter",
+    },
     coreJournals: {
         displayName: "Core journals list",
         serverKey: "core-journals",
     },
-    pricePublic: {
-        displayName: "Public pricelist",
-        serverKey: "price-public",
-    },
+    // pricePublic: {
+    //     displayName: "Public pricelist",
+    //     serverKey: "price-public",
+    // },
 }
 
 const fileStatusFromApiData = function (apiData) {

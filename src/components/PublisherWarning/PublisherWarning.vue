@@ -75,11 +75,11 @@ export default {
     ...mapGetters([
     ]),
     alertType() {
-      if (this.isSuccess) return "success"
+      if (this.isSuccess) return this.id === "pricelist" ? "info" : "success"
       return (this.isRequired) ? "error" : "warning"
     },
     alertIcon() {
-      if (this.isSuccess)  return "mdi-check-outline"
+      if (this.isSuccess)  return this.id === "pricelist" ? "mdi-information-outline" : "mdi-check-outline"
       return (this.isRequired) ? "mdi-close-outline" : "mdi-alert"
     },
   },

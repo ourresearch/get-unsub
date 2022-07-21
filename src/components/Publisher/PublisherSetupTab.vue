@@ -7,9 +7,6 @@
           hide-slider
           class="publisher-setup-tab-tabs"
       >
-        <!--        <div class="black&#45;&#45;text body-2 ml-4 mt-4 mb-2 font-weight-bold">-->
-        <!--          Setup menu-->
-        <!--        </div>-->
         <v-subheader class="">
           1. Required data
         </v-subheader>
@@ -21,6 +18,14 @@
             </span>
             <span v-if="publisherRequiredDataIsLoaded">
             2. Recommended data
+            </span>
+          </v-subheader>
+          <v-subheader class="mt-" v-if="tab.isOptional">
+            <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
+            3. Optional data
+            </span>
+            <span v-if="publisherRequiredDataIsLoaded">
+            3. Optional data
             </span>
           </v-subheader>
           <v-tab
@@ -47,7 +52,15 @@
             <v-icon
                 small
                 left
-                v-if="tab.isComplete"
+                v-if="tab.isComplete && tab.id === 'pricelist'"
+                color="info"
+            >
+              mdi-check-outline
+            </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isComplete && tab.id != 'pricelist'"
                 color="success"
             >
               mdi-check-outline
@@ -56,6 +69,9 @@
           </v-tab>
 
         </template>
+
+        <v-divider/>
+
 
         <v-tab-item
             v-for="tab in tabs"
@@ -90,6 +106,7 @@
           <publisher-setup-tab-big-deal-costs v-if="tab.id==='bigDealCosts'" />
           <publisher-setup-tab-pta v-if="tab.id==='pta'" />
           <publisher-setup-tab-price  v-if="tab.id==='pricelist'" />
+          <publisher-setup-tab-filter  v-if="tab.id==='filter'" />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -120,6 +137,7 @@ import {mapGetters, mapMutations, mapActions} from 'vuex'
 import PublisherSetupTabCounter from "../PublisherSetupTab/PublisherSetupTabCounter";
 import PublisherSetupTabCurrency from "@/components/PublisherSetupTab/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/PublisherSetupTab/PublisherSetupTabPta";
+import PublisherSetupTabFilter from "@/components/PublisherSetupTab/PublisherSetupTabFilter";
 import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPricelist";
 import PublisherSetupTabBigDealCosts from "@/components/PublisherSetupTab/PublisherSetupTabBigDealCosts";
 
@@ -133,6 +151,7 @@ export default {
     PublisherSetupTabCounter,
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
+    PublisherSetupTabFilter,
     PublisherSetupTabPrice,
     PublisherSetupTabBigDealCosts,
     PublisherWarning,
@@ -149,6 +168,16 @@ export default {
           isRequired: true,
           warningUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
           helpUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
+          errorMsg: "<strong>Missing data: </strong> This data is required."
+        },
+        {
+          id: "pricelist",
+          shortName: "Pricelist",
+          longName: "Journal pricelist",
+          warningId: "missingPrices",
+          isRequired: true,
+          warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
+          helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
           errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
@@ -181,13 +210,13 @@ export default {
           errorMsg: "<strong>Missing data: </strong> Forecasts currently assume you have <em>zero PTA rights</em> for all titles. This is probably untrue, and so your forecasts are not very accurate."
         },
         {
-          id: "pricelist",
-          shortName: "Pricelist",
-          longName: "Journal pricelist",
-          warningId: "missingPrices",
-          isRecommended: true,
-          warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
-          helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
+          id: "filter",
+          shortName: "Filter",
+          longName: "Journal filter",
+          isOptional: true,
+          warningUrl: "https://scottchamberlain.info",
+          helpUrl: "http://recology.info/",
+          errorMsg: "<strong>Optional data: </strong> You can filter all scenarios within this package to include only specific titles by providing a spreadsheet of ISSNs or a KBART file."
         },
       ]
     }
@@ -219,13 +248,13 @@ export default {
       const ret = this.tabsConfig.map(tabConfig => {
         const isComplete = this.getPublisherDataIsComplete(tabConfig.id)
         const isError = !isComplete && tabConfig.isRequired
-        const isWarning = !isComplete && tabConfig.isRecommended
-        const isDisabled = !this.publisherRequiredDataIsLoaded && tabConfig.isRecommended
+        const isWarning = !isComplete && (tabConfig.isRecommended || tabConfig.isOptional)
+        const isDisabled = !this.publisherRequiredDataIsLoaded && (tabConfig.isRecommended || tabConfig.isOptional)
 
         const myErrorMsg = (tabConfig.id === "pricelist") ? this.priceListErrorMsg : tabConfig.errorMsg
         const journals = (tabConfig.id === "pricelist") ? this.journalsWithNoPriceInfo : null
 
-        const alertMsg = (isComplete) ? this.successMsg : myErrorMsg
+        const alertMsg = (isComplete && tabConfig.id != "pricelist") ? this.successMsg : myErrorMsg
 
         return {
           ..._.cloneDeep(tabConfig),
