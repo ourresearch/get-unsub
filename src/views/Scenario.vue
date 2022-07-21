@@ -206,8 +206,43 @@
                       <overview-graphic-subrs-counter/>
                       <v-spacer></v-spacer>
 
+                      <!-- <v-tooltip bottom max-width="300" v-for="warning in publisherWarnings">
+            <template v-slot:activator="{ on }">
+                <v-btn v-if="warning.id === 'filteringTitles'" v-on="on" :href="warning.link" target="_blank" text class="body-2 info--text px-2 font-weight-bold">
+                  <v-icon left color="info" small style="vertical-align: 0">mdi-filter</v-icon>
+                  <span class="text text-capitalize">
+                    {{ warning.displayName }}
+                  </span>
+                  <span class="text-lowercase ml-1" v-if="warning.journals">
+                     ({{warning.journals.length}})
+                  </span>
+                </v-btn>
+
+                <v-btn v-else v-on="on" :href="warning.link" target="_blank" text class="body-2 warning--text px-2 font-weight-bold">
+                  <v-icon left color="warning" small style="vertical-align: 0">mdi-alert</v-icon>
+                  <span class="text text-capitalize">
+                    {{ warning.displayName }}
+                  </span>
+                  <span class="text-lowercase ml-1" v-if="warning.journals">
+                     ({{warning.journals.length}})
+                  </span>
+                </v-btn>
+            </template>
+            <div>
+              Click to learn more.
+            </div>
+          </v-tooltip> -->
 
                       <div class="pt-1 d-flex">
+                        <!-- <v-item-group @click="toggleSearchBox"> -->
+                          <v-btn icon small depressed dark color="blue" class="mr-4" @click="toggleSearchBox(); setSubscriptions()" v-if="showSearchBox">
+                            <v-icon>mdi-cart-arrow-down</v-icon>
+                          </v-btn>
+                          <v-btn icon small depressed dark color="#555" class="mr-4" @click="toggleSearchBox(); clearSubscriptions()" v-if="showSearchBox">
+                            <v-icon>mdi-cart-arrow-up</v-icon>
+                          </v-btn>
+                        <!-- </v-item-group> -->
+
                         <v-slide-x-reverse-transition>
                           <v-text-field
                               hide-details
@@ -226,13 +261,6 @@
                         <v-btn icon class="mr-4" @click="toggleSearchBox">
                           <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
                           <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
-                        </v-btn>
-
-                        <!-- <v-btn fab small @click="openSubFileDialog" class="mr-2" elevation="1"> -->
-                        <!-- <input type="file" ref="file" style="display: none"> -->
-                        <!-- <v-btn fab small @click="$refs.file.click()"> -->
-                        <v-btn fab small @click="openSubFileDialog">
-                          <v-icon>mdi-file-upload</v-icon>
                         </v-btn>
 
                         <scenario-menu-columns class="mr-4" :icon="true" direction="left"/>
@@ -338,7 +366,7 @@
 
     <scenario-edit-dialogs/>
 
-    <v-dialog
+    <!-- <v-dialog
         persistent
         v-model="dialogs.set_subscriptions"
         max-width="500"
@@ -356,10 +384,10 @@
           >
           </vue-csv-import>
         </div>
-        <!-- <div style="padding-top: 50px">
+        <div style="padding-top: 50px">
           <p>Results</p>
           {{ csv }}
-        </div> -->
+        </div>
         <v-card-actions>
           <v-spacer/>
           <v-btn
@@ -379,16 +407,15 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
   </div>
 </template>
 
 <script>
 import _ from "lodash"
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapActions, mapMutations} from 'vuex'
 import LongPress from 'vue-directive-long-press'
-import { VueCsvImport } from "vue-csv-import"
 import axios from 'axios'
 
 import appConfigs from "../appConfigs";
@@ -459,8 +486,6 @@ export default {
     ScenarioEditDialogsInstitutions,
     PublisherWarning,
     ScenarioEditDialogs,
-
-    VueCsvImport,
   },
   directives: {
     "long-press": LongPress,
@@ -488,7 +513,6 @@ export default {
         cost: false,
         set_subscriptions: false,
       },
-      csv: null,
 
       showSlowRenderingThings: false,
     }
@@ -571,11 +595,18 @@ export default {
     numJournals() {
       return this.journals.length
     },
+    issnsNotHiddenByFilters() {
+      return _.map(this.journals.filter(j => !j.isHiddenByFilters), 'issn_l')
+    },
     numJournalsNotHiddenByFilters() {
       return this.journals.filter(j => !j.isHiddenByFilters).length
     },
   },
   methods: {
+    ...mapActions([
+      "subscribeCustom",
+      "unsubscribeCustom",
+    ]),
     ...mapMutations([
       "menuViewToggleShowCostBar",
       "menuViewSetDisplayJournalsAs",
@@ -617,35 +648,29 @@ export default {
       this.dialogs.set_subscriptions = true
       // this.newVal = this.publisherBigDealCost
     },
-    createSubPostData() {
-      console.log("in createSubPostData", this.csv)
-      const issns_array = _.map(this.csv, 'issn')
-      console.log("in createSubPostData", JSON.stringify(issns_array))
-      return {issns: issns_array}
+    filteredJournals() {
+      const issns = this.issnsNotHiddenByFilters
+      console.log("in filteredJournals, # of issns: ", issns.length)
+      console.log("in filteredJournals, ISSN-L's: ", JSON.stringify(issns))
+      return issns
+    },
+    async subscribe(x) {
+      this.subscribeCustom(x)
+      this.$store.getters.scenarioSnackbars.customSubrSuccess = true
+    },
+    async unsubscribe(x) {
+      this.unsubscribeCustom(x)
+      this.$store.getters.scenarioSnackbars.customUnsubrSuccess = true
     },
     async setSubscriptions() {
-      console.log("setSubscriptions()")
-      this.isLoading = true
-      const url = "https://api.unpaywall.org/issn_ls"
-      const postData = this.createSubPostData()
-      console.log("getting Linking ISSNs at: ", url)
-      const resp = await axios.post(url, postData)
-      // const issns = resp.data.issn_ls
-      console.log("got response back", resp)
-      this.isLoading = false
-      // this.$store.dispatch("subscribeUpToIndex", val)
-      // const path = `publisher/${this.publisherId}`
-      // const postData = this.createPostData()
-      // try {
-      //   await api.postFile(path, postData)
-      //   await this.$store.dispatch("refreshPublisher")
-      //   this.$store.commit("snackbar", `Edit successful.`)
-      // } catch (e) {
-      //   console.log("there was an error.")
-      // } finally {
-      //   this.cancelDialogs()
-      //   this.isLoading = false
-      // }
+      const journals = this.filteredJournals()
+      console.log("setSubscriptions(), journals: ", journals)
+      _.map(journals, this.subscribe)
+    },
+    async clearSubscriptions() {
+      const journals = this.filteredJournals()
+      console.log("clearSubscriptions(), journals: ", journals)
+      _.map(journals, this.unsubscribe)
     },
     setJournalsFilterStatus: _.debounce(
         function () {
