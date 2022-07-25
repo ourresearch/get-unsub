@@ -23,19 +23,19 @@ const short = require('short-uuid');
 const warningsConfig = {
     missingPerpetualAccess: {
         displayName: "Missing PTA",
-        link: "http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded",
+        link: "https://docs.unsub.org/troubleshooting/what-does-the-missing-pta-warning-mean",
     },
     missingPrices: {
         displayName: "Missing prices",
-        link: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
+        link: "https://docs.unsub.org/troubleshooting/what-does-the-missing-prices-warning-mean",
     },
     missingCounterData: {
         displayName: "Missing COUNTER",
-        link: "http://help.unsub.org/en/articles/5229612-warning-no-counter-file-uploaded",
+        link: "https://docs.unsub.org",
     },
     missingBigDealCosts: {
         displayName: "Missing Big Deal costs",
-        link: "http://help.unsub.org/en/articles/5232773-warning-missing-big-deal-costs",
+        link: "https://docs.unsub.org",
     },
     filteringTitles: {
         displayName: "Journal Whitelist",

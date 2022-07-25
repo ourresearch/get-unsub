@@ -6,7 +6,7 @@
             </div>
             <p>
                 If you'd like to get in touch, we'd love to hear from you! You can use the little blue message icon on
-                the bottom right of your screen, or drop us an email at <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>
+                the bottom right of your screen, or drop us an email at <a href="mailto:support@unsub.org">support@unsub.org</a>
             </p>
 
             <p>

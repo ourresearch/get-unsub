@@ -11,7 +11,7 @@
                 </v-btn>
             </template>
             <v-list dense>
-                <v-list-item @click="" href="http://help.unsub.org/en/" target="_blank">
+                <v-list-item @click="" href="https://docs.unsub.org" target="_blank">
                     <v-list-item-icon class="mr-2">
                         <v-icon >mdi-help-circle-outline</v-icon>
                     </v-list-item-icon>
@@ -20,7 +20,7 @@
                         <v-icon small>mdi-open-in-new</v-icon>
                     </v-list-item-title>
                 </v-list-item>
-                <v-list-item href="mailto:team@ourresearch.org">
+                <v-list-item href="mailto:support@unsub.org">
                     <v-list-item-icon class="mr-2">
                         <v-icon >mdi-email-outline</v-icon>
                     </v-list-item-icon>

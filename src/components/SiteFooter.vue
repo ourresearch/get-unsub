@@ -20,7 +20,7 @@
                     <div><a href="https://github.com/ourresearch/get-unsub" target="_blank">Source code</a></div>
                 </v-col>
                 <v-col cols="12" sm="2">
-                    <div><a href="http://help.unsub.org" target="_blank">Support</a></div>
+                    <div><a href="https://docs.unsub.org" target="_blank">Support</a></div>
                     <div>
                         <router-link to="/request-demo">Get a demo</router-link>
                     </div>
