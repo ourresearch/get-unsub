@@ -2,7 +2,7 @@
   <v-card flat class="px-6">
     <p>
       You can export all of the data in this scenario as a CSV file. You can find <a
-        href="http://help.unsub.org/en/articles/4246610-what-are-the-columns-in-download-as-spreadsheet">documentation
+        href="https://docs.unsub.org/reference/data-export">documentation
       for the column names here.</a>
     </p>
     <p>

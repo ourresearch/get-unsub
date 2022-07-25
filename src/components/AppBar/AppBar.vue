@@ -301,15 +301,11 @@
           <v-list-item to="/contact">
             Contact
           </v-list-item>
-          <v-list-item href="http://help.unsub.org/en/" target="_blank">
+          <v-list-item href="https://docs.unsub.org" target="_blank">
             Knowledge Base
           </v-list-item>
         </v-list>
       </v-menu>
-
-      <!-- <v-btn text href="http://help.unsub.org/en/" target="_blank" class="mx-1">
-        Help
-      </v-btn> -->
 
       <v-menu offset-y content-class="no-highlight">
         <template v-slot:activator="{on}">
@@ -319,7 +315,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item href="http://help.unsub.org/en/" target="_blank">
+          <v-list-item href="https://docs.unsub.org" target="_blank">
             Docs
           </v-list-item>
           <v-list-item to="/webinars">
@@ -367,9 +363,6 @@
 
 
     <div class="no-highlight" v-if="isLoggedIn">
-      <!-- <v-btn icon href="http://help.unsub.org/en/" target="_blank">
-        <v-icon>mdi-help-circle-outline</v-icon>
-      </v-btn> -->
       <v-menu offset-y content-class="no-highlight" min-width="200">
         <template v-slot:activator="{on}">
           <v-btn icon color="" v-on="on">
@@ -377,7 +370,7 @@
           </v-btn>
         </template>
         <v-list>
-            <v-list-item href="http://help.unsub.org/en/" target="_blank">
+            <v-list-item href="https://docs.unsub.org" target="_blank">
               Documentation
             </v-list-item>
             <v-list-item to="/webinars" target="_blank">
@@ -453,7 +446,7 @@
           <v-list-item to="/contact">
             Contact
           </v-list-item>
-          <v-list-item href="http://help.unsub.org/en/" target="_blank">
+          <v-list-item href="https://docs.unsub.org" target="_blank">
             Help
           </v-list-item>
           <v-list-item to="/webinars">
