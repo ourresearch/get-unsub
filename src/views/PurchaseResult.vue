@@ -42,7 +42,7 @@
                     <v-btn depressed to="/purchase">
                         Try again
                     </v-btn>
-                    <v-btn depressed href="mailto:team@ourresearch.org">
+                    <v-btn depressed href="mailto:support@unsub.org">
                         report bug
                     </v-btn>
                 </v-card-actions>

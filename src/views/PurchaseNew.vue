@@ -13,7 +13,7 @@
                         <ul>
                             <li>
                                 <strong>Questions about pricing?</strong> <a
-                                    href="http://help.unsub.org/en/articles/5104889-how-is-pricing-for-unsub-set">Check
+                                    href="https://docs.unsub.org/reference/subscription-costs">Check
                                 out this article in our Knowledge Base</a>.
                             </li>
                             <li>
@@ -23,7 +23,7 @@
                             </li>
                             <li>
                                 <strong>Want to get in touch?</strong> Drop us a line at
-                                <a href="team@ourresearch.org">team@ourresearch.org</a> or use the blue message button
+                                <a href="support@unsub.org">support@unsub.org</a> or use the blue message button
                                 on
                                 the lower-right of your screen.
                             </li>
@@ -148,7 +148,7 @@
 
                             </v-col>
                             <v-col cols="1" class="pl-0">
-                                <v-btn icon href="http://help.unsub.org/en/articles/5104889-how-is-pricing-for-unsub-set" target="_blank" class="mt-3 ml-0 pl-0">
+                                <v-btn icon href="https://docs.unsub.org/reference/subscription-costs" target="_blank" class="mt-3 ml-0 pl-0">
                                     <v-icon>mdi-help-circle-outline</v-icon>
                                 </v-btn>
                             </v-col>
@@ -256,7 +256,7 @@
                             If you want to learn more about Unsub in the meantime, you can check out our <a
                                 href="https://vimeo.com/420183913" target="_blank">Getting Started video,</a> or read the
                             documentation in our
-                            <a href="http://help.unsub.org" target="_blank">help center</a>.
+                            <a href="https://docs.unsub.org" target="_blank">help center</a>.
                         </p>
                         <p>
                             Thanks for supporting Unsub, and we're looking forward to working with you!
@@ -267,7 +267,7 @@
                                 video
                                 <v-icon small class="ml-2">mdi-open-in-new</v-icon>
                             </v-btn>
-                            <v-btn href="http://help.unsub.org" target="_blank">
+                            <v-btn href="https://docs.unsub.org" target="_blank">
                                 Help center
                                 <v-icon small class="ml-2">mdi-open-in-new</v-icon>
                             </v-btn>

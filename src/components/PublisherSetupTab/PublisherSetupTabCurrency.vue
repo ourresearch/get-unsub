@@ -31,13 +31,13 @@
         <strong>Important:</strong> changing currency doesn't <em>convert</em> from one currency to another. If you
         change currency, don't forget to update costs you've already entered, replacing them with ones denominated in
         your new currency. Specifically, you'll need to edit your package
-        <a href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+        <a href="https://docs.unsub.org/how-to-guides/set-big-deal-costs"
            target="_blank">Big Deal Cost</a> and scenario
-        <a href="http://help.unsub.org/en/articles/4938030-scenario-parameters" target="_blank">ILL Transaction Cost
+        <a href="https://docs.unsub.org/reference/scenarios/scenario-parameters" target="_blank">ILL Transaction Cost
           parameter.</a>
 
         <span class="ml-1" v-if="publisherPriceDataFileIsLive">You'll also need to <a
-            href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-a-custom-title-by-title-journal-pricelist">replace your custom pricelist</a>.</span>
+            href="https://docs.unsub.org/how-to-guides/upload-title-prices">replace your custom pricelist</a>.</span>
 
       </p>
 
@@ -70,13 +70,13 @@
               </p>
               <p>
                 If you make the change, don't forget to edit your package
-                <a href="http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase"
+                <a href="https://docs.unsub.org/how-to-guides/set-big-deal-costs"
                    target="_blank">Big Deal Cost</a> and scenario
-                <a href="http://help.unsub.org/en/articles/4938030-scenario-parameters" target="_blank">ILL Transaction
+                <a href="https://docs.unsub.org/reference/scenarios/scenario-parameters" target="_blank">ILL Transaction
                   Cost parameter</a> to new values denominated in {{ currency }}.
 
                 <span class="ml-1" v-if="publisherPriceDataFileIsLive">You'll also need to <a
-                    href="http://help.unsub.org/en/articles/4203886-how-do-i-upload-a-custom-title-by-title-journal-pricelist">replace your custom pricelist</a>.</span>
+                    href="https://docs.unsub.org/how-to-guides/upload-title-prices">replace your custom pricelist</a>.</span>
 
               </p>
 
