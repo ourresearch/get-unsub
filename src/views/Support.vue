@@ -15,7 +15,7 @@ PRETTY SURE THIS PAGE IS COMPLETELY UNUSED.
                             </v-alert>
                             <div>
                                 <v-btn depressed
-                                       href="http://help.unsub.org/en"
+                                       href="https://docs.unsub.org"
                                        target="_blank"
                                        color="primary">
                                     visit knowledge base

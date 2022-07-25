@@ -119,7 +119,7 @@
       >
         Setup for consortial dashboards happens behind the scenes, via email or data imports from your member
         institution dashboards. If you have any questions about setup, please drop us a line at
-        <a href="mailto:team@ourresearch.org">team@ourresearch.org</a>.
+        <a href="mailto:support@unsub.org">support@unsub.org</a>.
       </v-alert>
     </template>
 
@@ -166,8 +166,8 @@ export default {
           shortName: "COUNTER",
           longName: "COUNTER",
           isRequired: true,
-          warningUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
-          helpUrl: "http://help.unsub.org/en/articles/4202521-how-do-i-upload-my-counter-usage-data",
+          warningUrl: "https://docs.unsub.org/how-to-guides/upload-counter-usage-data",
+          helpUrl: "https://docs.unsub.org/how-to-guides/upload-counter-usage-data",
           errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
@@ -175,18 +175,17 @@ export default {
           shortName: "Pricelist",
           longName: "Journal pricelist",
           warningId: "missingPrices",
-          isRequired: true,
-          warningUrl: "http://help.unsub.org/en/articles/4203886-how-do-i-upload-custom-a-la-carte-prices",
-          helpUrl: "http://help.unsub.org/en/articles/5229615-warning-missing-prices",
-          errorMsg: "<strong>Missing data: </strong> This data is required."
+          isRecommended: true,
+          warningUrl: "https://docs.unsub.org/how-to-guides/upload-title-prices",
+          helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-missing-prices-warning-mean",
         },
         {
           id: "currency",
           shortName: "Currency",
           longName: "Currency",
           isRequired: true,
-          warningUrl: "http://help.unsub.org/en/articles/4055375-what-currencies-are-supported",
-          helpUrl: "http://help.unsub.org/en/articles/4055375-what-currencies-are-supported",
+          warningUrl: "https://docs.unsub.org/how-to-guides/set-currency",
+          helpUrl: "https://docs.unsub.org/how-to-guides/set-currency",
           errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
@@ -194,8 +193,8 @@ export default {
           shortName: "Big Deal costs",
           longName: "Big Deal costs",
           isRequired: true,
-          warningUrl: "http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase",
-          helpUrl: "http://help.unsub.org/en/articles/4205378-how-do-i-set-my-big-deal-s-annual-cost-and-annual-cost-increase",
+          warningUrl: "https://docs.unsub.org/how-to-guides/set-big-deal-costs",
+          helpUrl: "https://docs.unsub.org/how-to-guides/set-big-deal-costs",
           errorMsg: "<strong>Missing data: </strong> This data is required."
         },
         {
@@ -205,8 +204,8 @@ export default {
           warningId: "missingPerpetualAccess",
           isFirstRecommendedTab: true,
           isRecommended: true,
-          warningUrl: "http://help.unsub.org/en/articles/4203970-how-do-i-upload-custom-perpetual-access-dates",
-          helpUrl: "http://help.unsub.org/en/articles/5229614-warning-no-pta-file-uploaded",
+          warningUrl: "https://docs.unsub.org/how-to-guides/upload-pta-data",
+          helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-missing-pta-warning-mean",
           errorMsg: "<strong>Missing data: </strong> Forecasts currently assume you have <em>zero PTA rights</em> for all titles. This is probably untrue, and so your forecasts are not very accurate."
         },
         {

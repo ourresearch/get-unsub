@@ -149,14 +149,14 @@
                             <p class="my-8">
                                 If you want to learn more about Unsub, you can check out our <a
                                     href="https://vimeo.com/420183913" target="_blank">demo video,</a> or read the documentation in our
-                                <a  href="http://help.unsub.org" target="_blank">help center</a>.
+                                <a  href="https://docs.unsub.org" target="_blank">help center</a>.
                             </p>
                         <div v-if="1">
                             <v-btn class="mr-4"  href="https://vimeo.com/420183913" target="_blank">
                                 Demo video
                                 <v-icon small  class="ml-2">mdi-open-in-new</v-icon>
                             </v-btn>
-                            <v-btn href="http://help.unsub.org" target="_blank">
+                            <v-btn href="https://docs.unsub.org" target="_blank">
                                 Help center
                                 <v-icon small class="ml-2">mdi-open-in-new</v-icon>
                             </v-btn>
