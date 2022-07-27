@@ -105,6 +105,27 @@ export const scenario = {
                 .subscribed = true
         },
 
+        subscribeManyCustom(state, issnls){
+            _.map(issnls, function(issnl){
+                state.allowAutoSubscribe = false
+                state.selected.saved.subrs.push(issnl)
+                state.selected.journals
+                    .find(j=>j.issn_l === issnl)
+                    .subscribed = true
+            })
+        },
+
+        unsubscribeManyCustom(state, issnls){
+            _.map(issnls, function(issnl){
+                state.selected.saved.subrs = state.selected.saved.subrs.filter(myIssnl => {
+                    return myIssnl !== issnl
+                })
+                state.selected.journals
+                    .find(j=>j.issn_l === issnl)
+                    .subscribed = false
+            })
+        },
+
         requestCustom(state, issnl){
             state.selected.saved.member_added_subrs.push(issnl)
             state.selected.journals
@@ -247,6 +268,17 @@ export const scenario = {
         },
         async unsubscribeCustom({commit, dispatch, state}, issnl) {
             commit("unsubscribeCustom", issnl)
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
+        },
+
+        async subscribeMany({commit, dispatch, state}, issnls) {
+            commit("subscribeManyCustom", issnls)
+            const ret = await dispatch("updateScenarioSavedSubrs")
+            return ret
+        },
+        async unsubscribeMany({commit, dispatch, state}, issnls) {
+            commit("unsubscribeManyCustom", issnls)
             const ret = await dispatch("updateScenarioSavedSubrs")
             return ret
         },
