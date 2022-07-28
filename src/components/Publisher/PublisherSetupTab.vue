@@ -175,7 +175,7 @@ export default {
           shortName: "Pricelist",
           longName: "Journal pricelist",
           warningId: "missingPrices",
-          isRecommended: true,
+          isRequired: true,
           warningUrl: "https://docs.unsub.org/how-to-guides/upload-title-prices",
           helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-missing-prices-warning-mean",
         },

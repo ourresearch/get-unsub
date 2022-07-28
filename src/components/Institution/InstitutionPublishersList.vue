@@ -59,12 +59,12 @@
 
         <v-card-text class="pt-4">
           <div>
-            <v-text-field
+            <!-- <v-text-field
                 outlined
                 clearable
                 label="Publisher"
                 v-model="newPublisherItemSelected"
-            />
+            /> -->
             
             <v-text-field
                 outlined
@@ -72,6 +72,13 @@
                 label="Package display name"
                 @keydown.enter="createPublisher"
                 v-model="newPublisherDisplayName"
+            />
+
+            <v-textarea
+                outlined
+                clearable
+                label="Description"
+                v-model="newDescription"
             />
           </div>
         </v-card-text>
@@ -120,6 +127,7 @@ export default {
       // newPublisherItems: Object.values(_.cloneDeep(publisherConfig)),
       // newPublisherItemSelected: _.cloneDeep(publisherConfig.Elsevier),
       newPublisherItemSelected: "",
+      newDescription: "",
       newPublisherLoading: false,
       dialogs: {
         createPublisher: false,
@@ -136,7 +144,8 @@ export default {
 
       const name = this.newPublisherDisplayName || "My " + this.newPublisherItemSelected
       const publisher = this.newPublisherItemSelected
-      await this.$store.dispatch("createPublisher", {publisher, name})
+      const description = this.newDescription
+      await this.$store.dispatch("createPublisher", {publisher, name, description})
       this.newPublisherLoading = false
       this.snackbar("Package created.")
       this.dialogs.createPublisher = false

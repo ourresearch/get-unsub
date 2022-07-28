@@ -349,12 +349,13 @@ export const publisher = {
             }
         },
 
-        publisherRequiredDataIsLoaded: (state, rootState) => {
+        publisherRequiredDataIsLoaded: (state) => {
             return state.hasCompleteCounterData &&
                 !!state.currency &&
                 !!state.bigDealCost &&
                 state.isBigDealCostIncreaseDefined &&
-                (true ? state.isConsortium : state.hasCustomPrices)
+                state.hasCustomPrices
+                // (true ? state.isConsortium : state.hasCustomPrices)
         },
 
         // @todo get rid of this
