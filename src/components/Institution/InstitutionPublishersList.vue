@@ -93,7 +93,7 @@
                  @click="createPublisher"
                  color="primary"
                  :loading="newPublisherLoading"
-                 :disabled="institutionIsDemo"
+                 :disabled="institutionIsDemo || !newPublisherDisplayName"
 
           >
             OK
