@@ -354,8 +354,7 @@ export const publisher = {
                 !!state.currency &&
                 !!state.bigDealCost &&
                 state.isBigDealCostIncreaseDefined &&
-                state.hasCustomPrices
-                // (true ? state.isConsortium : state.hasCustomPrices)
+                (state.isConsortium ? true : state.hasCustomPrices)
         },
 
         // @todo get rid of this
