@@ -64,6 +64,7 @@ export const publisher = {
         bigDealCostIncrease: 0,
         isBigDealCostIncreaseDefined: false,
         isOwnedByConsortium: false,
+        isConsortium: false,
         currency: "USD",
         hasCompleteCounterData: false,
         isConsortialProposalSet: false,
@@ -122,6 +123,7 @@ export const publisher = {
             state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
             state.isDemo = apiPublisher.is_demo
+            state.isConsortium = apiPublisher.is_consortium
             state.scenarios = apiPublisher.scenarios
             state.isConsortialProposalSet = apiPublisher.is_consortial_proposal_set
 
@@ -347,12 +349,12 @@ export const publisher = {
             }
         },
 
-        publisherRequiredDataIsLoaded: (state) => {
+        publisherRequiredDataIsLoaded: (state, rootState) => {
             return state.hasCompleteCounterData &&
                 !!state.currency &&
                 !!state.bigDealCost &&
                 state.isBigDealCostIncreaseDefined &&
-                state.hasCustomPrices
+                (true ? state.isConsortium : state.hasCustomPrices)
         },
 
         // @todo get rid of this
