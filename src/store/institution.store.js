@@ -128,16 +128,18 @@ export const institution = {
             return resp
         },
 
-        async createPublisher({commit, dispatch, getters}, {publisher, name}) {
+        async createPublisher({commit, dispatch, getters}, {publisher, name, description}) {
             const url = "publisher/new"
             const data = {
                 name,
                 publisher,
+                description,
                 institution_id: getters.institutionId,
             }
             const resp = await api.post(url, data)
             console.log("got response from createPublisher call", resp)
-            commit("addPublisher", {id: resp.data.id, publisher, name: resp.data.name})
+            commit("addPublisher", {id: resp.data.id, publisher, name: resp.data.name, 
+                description: resp.data.description})
             return resp
         },
 
@@ -152,6 +154,13 @@ export const institution = {
         async renamePublisher({commit, dispatch, getters}, {publisherId, name}) {
             const url = `publisher/${publisherId}`
             const data = {name}
+            const resp = await  api.post(url, data)
+            await dispatch("refreshInstitution")
+            return resp
+        },
+        async editDescription({commit, dispatch, getters}, {publisherId, description}) {
+            const url = `publisher/${publisherId}`
+            const data = {description}
             const resp = await  api.post(url, data)
             await dispatch("refreshInstitution")
             return resp
