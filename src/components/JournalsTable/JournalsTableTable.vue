@@ -231,7 +231,7 @@
                     if (this.sortKey === "title") {
                         diff = (a.title > b.title) ? 1 : -1
                     }
-                    if (this.sortKey.endsWith("text")) {
+                    if (this.sortKey.endsWith("text") || this.sortKey.startsWith("publisher_")) {
                         diff = ((a[this.sortKey] || "") >= (b[this.sortKey] || "")) ? 1 : -1
                     }
                     if (this.sortDesc) diff *= -1
