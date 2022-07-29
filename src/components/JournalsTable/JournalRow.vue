@@ -36,9 +36,9 @@
             </span>
       <v-tooltip bottom max-width="300" v-if="header.value === 'publisher_short'">
         <template v-slot:activator="{ on }">
-            <v-span v-on="on" text>
+            <span v-on="on" text>
               <span v-if="header.display==='text'">{{ journal[header.value] }}</span>
-            </v-span>
+            </span>
         </template>
         <div>
           {{ journal['publisher_journal'] }}
