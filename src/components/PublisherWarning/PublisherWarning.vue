@@ -12,7 +12,7 @@
             <div v-html="msg"/>
                     <div class="d-flex">
           <v-spacer />
-          <v-btn @click="download" v-if="journals" class=" mt-3" text :color="alertType">
+          <v-btn @click="download" v-if="this.id === 'pricelist' && (!journals || this.preAllPublishersPackage)" class=" mt-3" text :color="alertType">
             <v-icon left>mdi-download</v-icon>
             View missing titles
           </v-btn>
@@ -73,6 +73,7 @@ export default {
   },
   computed: {
     ...mapGetters([
+      "preAllPublishersPackage",
     ]),
     alertType() {
       if (this.isSuccess) return this.id === "pricelist" ? "info" : "success"
