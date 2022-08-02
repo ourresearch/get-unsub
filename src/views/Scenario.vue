@@ -207,29 +207,9 @@
                       <v-spacer></v-spacer>
 
                       <div class="pt-1 d-flex">
-                        <v-tooltip bottom max-width="300" v-if="anySelected && !!subscribable.length">
-                          <template v-slot:activator="{ on }">
-                            <v-btn small depressed dark color="blue" class="mr-4" @click="setSubscriptions(); toggleSearchBox()" v-on="on">
-                              <v-icon>mdi-cart-arrow-down</v-icon>
-                              {{subscribable.length}}
-                            </v-btn>
-                          </template>
-                          <div>
-                            Subscribe to {{subscribable.length}} journals.
-                          </div>
-                        </v-tooltip>
-                        
-                        <v-tooltip bottom max-width="300" v-if="anySelected && !!unsubscribable.length">
-                          <template v-slot:activator="{ on }">
-                            <v-btn small depressed dark color="#555" class="mr-4" @click="clearSubscriptions(); toggleSearchBox()" v-on="on">
-                              <v-icon>mdi-cart-arrow-up</v-icon>
-                              {{unsubscribable.length}}
-                            </v-btn>
-                          </template>
-                          <div>
-                            Unsubscribe to {{unsubscribable.length}} journals.
-                          </div>
-                        </v-tooltip>
+                        <v-btn small depressed dark color="blue" class="mr-4" v-if="showSearchBox">
+                          {{ anySelected ? issnsNotHiddenByFilters.length : 0 }} selected
+                        </v-btn>
 
                         <v-slide-x-reverse-transition>
                           <v-text-field
@@ -246,6 +226,29 @@
 
                           />
                         </v-slide-x-reverse-transition>
+
+                        <v-tooltip bottom max-width="300" v-if="showSearchBox">
+                          <template v-slot:activator="{ on }">
+                            <v-btn icon small depressed :disabled="!selectedAndSubscribable" color="blue" class="mr-4" @click="setSubscriptions(); toggleSearchBox()" v-on="on">
+                              <v-icon>mdi-cart-arrow-down</v-icon>
+                            </v-btn>
+                          </template>
+                          <div>
+                            Subscribe to all {{subscribable.length}} selected journals.
+                          </div>
+                        </v-tooltip>
+
+                        <v-tooltip bottom max-width="300" v-if="showSearchBox">
+                          <template v-slot:activator="{ on }">
+                            <v-btn icon small depressed :disabled="!unsubscribable.length" color="#555" class="mr-4" @click="clearSubscriptions(); toggleSearchBox()" v-on="on">
+                              <v-icon>mdi-cart-arrow-up</v-icon>
+                            </v-btn>
+                          </template>
+                          <div>
+                            Unsubscribe to all {{unsubscribable.length}} selected journals.
+                          </div>
+                        </v-tooltip>
+
                         <v-btn icon class="mr-4" @click="toggleSearchBox">
                           <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
                           <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
@@ -544,6 +547,9 @@ export default {
     },
     subscribable() {
       return _.map(this.journals.filter(j => !j.isHiddenByFilters && !j.subscribed), 'issn_l')
+    },
+    selectedAndSubscribable() {
+      return this.anySelected && !!this.subscribable.length
     },
     unsubscribable() {
       return _.map(this.journals.filter(j => !j.isHiddenByFilters && j.subscribed), 'issn_l')
