@@ -440,8 +440,6 @@ export default {
     ScenarioEditDialogsInstitutions,
     PublisherWarning,
     ScenarioEditDialogs,
-
-    VueCsvImport,
   },
   directives: {
     "long-press": LongPress,
@@ -470,7 +468,6 @@ export default {
         cost: false,
         set_subscriptions: false,
       },
-      csv: null,
 
       showSlowRenderingThings: false,
     }
