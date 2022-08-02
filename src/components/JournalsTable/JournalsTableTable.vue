@@ -110,11 +110,11 @@
                 <v-divider></v-divider>
             </v-card>
 
-            <v-toolbar flat dense v-if="sortedJournalsFiltered.length">
+            <v-toolbar flat dense v-if="journals.length">
                 <v-spacer></v-spacer>
                 <div>
                     {{pageStartIndex + 1}} &ndash; {{pageEndIndex}}
-                    of {{sortedJournalsFiltered.length}}
+                    of {{journals.length}}
                     <v-btn icon :disabled="isFirstPage" @click="pageBack">
                         <v-icon>mdi-chevron-left</v-icon>
                     </v-btn>
@@ -123,11 +123,9 @@
                     </v-btn>
                 </div>
                 <v-spacer></v-spacer>
+
+
             </v-toolbar>
-            <v-alert dense outlined type="info" class="text-center" v-if="!sortedJournalsFiltered.length">
-                No journals matched your search.
-                <a href="https://docs.unsub.org/" target="_blank" style="text-decoration: none"><v-icon small>mdi-help-circle-outline</v-icon></a>
-            </v-alert>
             <col-info-dialog></col-info-dialog>
         </v-card>
 
@@ -199,11 +197,11 @@
             pageEndIndex() {
                 return Math.min(
                     this.pageStartIndex + this.pageSize,
-                    this.sortedJournalsFiltered.length
+                    this.journals.length
                 )
             },
             isLastPage() {
-                return this.pageEndIndex >= this.sortedJournalsFiltered.length
+                return this.pageEndIndex >= this.journals.length
             },
             isFirstPage() {
                 return this.pageStartIndex === 0
