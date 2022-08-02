@@ -110,11 +110,11 @@
                 <v-divider></v-divider>
             </v-card>
 
-            <v-toolbar flat dense v-if="journals.length">
+            <v-toolbar flat dense v-if="sortedJournalsFiltered.length">
                 <v-spacer></v-spacer>
                 <div>
                     {{pageStartIndex + 1}} &ndash; {{pageEndIndex}}
-                    of {{journals.length}}
+                    of {{sortedJournalsFiltered.length}}
                     <v-btn icon :disabled="isFirstPage" @click="pageBack">
                         <v-icon>mdi-chevron-left</v-icon>
                     </v-btn>
@@ -123,9 +123,11 @@
                     </v-btn>
                 </div>
                 <v-spacer></v-spacer>
-
-
             </v-toolbar>
+            <v-alert dense outlined type="info" class="text-center" v-if="!sortedJournalsFiltered.length">
+                No journals matched your search.
+                <a href="https://docs.unsub.org/" target="_blank" style="text-decoration: none"><v-icon small>mdi-help-circle-outline</v-icon></a>
+            </v-alert>
             <col-info-dialog></col-info-dialog>
         </v-card>
 
@@ -197,11 +199,11 @@
             pageEndIndex() {
                 return Math.min(
                     this.pageStartIndex + this.pageSize,
-                    this.journals.length
+                    this.sortedJournalsFiltered.length
                 )
             },
             isLastPage() {
-                return this.pageEndIndex >= this.journals.length
+                return this.pageEndIndex >= this.sortedJournalsFiltered.length
             },
             isFirstPage() {
                 return this.pageStartIndex === 0
@@ -229,7 +231,7 @@
                     if (this.sortKey === "title") {
                         diff = (a.title > b.title) ? 1 : -1
                     }
-                    if (this.sortKey.endsWith("text")) {
+                    if (this.sortKey.endsWith("text") || this.sortKey.startsWith("publisher_")) {
                         diff = ((a[this.sortKey] || "") >= (b[this.sortKey] || "")) ? 1 : -1
                     }
                     if (this.sortDesc) diff *= -1

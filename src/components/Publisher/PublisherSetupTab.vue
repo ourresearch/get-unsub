@@ -175,7 +175,7 @@ export default {
           shortName: "Pricelist",
           longName: "Journal pricelist",
           warningId: "missingPrices",
-          isRecommended: true,
+          isRequired: true,
           warningUrl: "https://docs.unsub.org/how-to-guides/upload-title-prices",
           helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-missing-prices-warning-mean",
         },
@@ -238,6 +238,8 @@ export default {
       "institutionIsConsortium",
       "getPublisherWarning",
       "publisherRequiredDataIsLoaded",
+      "preAllPublishersPackage",
+      "customPrices",
       "getPublisherDataIsComplete",
       "publisherPriceDataFileIsLive",
     ]),
@@ -273,11 +275,24 @@ export default {
       return "<strong>Fully loaded: </strong> This data is now being used in all forecast scenarios."
     },
     priceListErrorMsg(){
-      const prefix = (this.publisherPriceDataFileIsLive) ?
-          "<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain"  :
-          "<strong>Missing data: </strong> There are "
-      return `${prefix} ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
-
+      if (this.journalsWithNoPriceInfo?.length === undefined) {
+        return "You have no journals with missing price information."
+      } else {
+        if (!this.journalsWithNoPriceInfo && !this.preAllPublishersPackage) {
+          return "<strong>Missing data: </strong> This data is required."
+        } else {
+          if (this.publisherPriceDataFileIsLive || this.preAllPublishersPackage) {
+            if (this.customPrices) {
+              var prefix = "<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain"
+            } else {
+              var prefix = "<strong>Still missing data: </strong> Publicly available title prices were available for some titles. There remain "
+            }
+          } else {
+            var prefix = "<strong>Missing data: </strong> This data is required. There are "
+          }
+          return `${prefix} ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
+        }
+      }
     },
     journalsWithNoPriceInfo(){
       return this.getPublisherWarning("missingPrices")?.journals

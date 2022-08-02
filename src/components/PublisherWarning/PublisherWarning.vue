@@ -12,7 +12,7 @@
             <div v-html="msg"/>
                     <div class="d-flex">
           <v-spacer />
-          <v-btn @click="download" v-if="journals" class=" mt-3" text :color="alertType">
+          <v-btn @click="download" v-if="this.id === 'pricelist' && (this.journalsWithNoPriceInfo || this.preAllPublishersPackage)" class=" mt-3" text :color="alertType">
             <v-icon left>mdi-download</v-icon>
             View missing titles
           </v-btn>
@@ -73,6 +73,8 @@ export default {
   },
   computed: {
     ...mapGetters([
+      "preAllPublishersPackage",
+      "getPublisherWarning",
     ]),
     alertType() {
       if (this.isSuccess) return this.id === "pricelist" ? "info" : "success"
@@ -82,6 +84,9 @@ export default {
       if (this.isSuccess)  return this.id === "pricelist" ? "mdi-information-outline" : "mdi-check-outline"
       return (this.isRequired) ? "mdi-close-outline" : "mdi-alert"
     },
+    journalsWithNoPriceInfo(){
+      return this.getPublisherWarning("missingPrices")?.journals
+    }
   },
   methods: {
     ...mapActions([

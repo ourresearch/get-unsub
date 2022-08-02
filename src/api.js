@@ -17,7 +17,7 @@ if (window.location.port && parseInt(window.location.port) === 8081) {
     console.log("Setting API base URL to local machine (dev use only): " + urlBase)
 }
 else if (window.location.port && parseInt(window.location.port) === 8082) {
-    urlBase = "https://staging-jump-api.herokuapp.com/"  // staging heroku url
+    urlBase = "https://dev-unsub-api.herokuapp.com/"  // staging heroku url
     console.log("Setting API base URL to staging heroku (dev use only): " + urlBase)
 }
 

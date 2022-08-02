@@ -52,6 +52,7 @@ export const publisher = {
         apcIsLoading: false,
 
         id: null,
+        created: "",
         publisher: "",
         name: "",
         isDemo: false,
@@ -64,8 +65,11 @@ export const publisher = {
         bigDealCostIncrease: 0,
         isBigDealCostIncreaseDefined: false,
         isOwnedByConsortium: false,
+        isConsortium: false,
         currency: "USD",
         hasCompleteCounterData: false,
+        hasCustomPrices: false,
+        isPreAllPublishersPackage: false,
         isConsortialProposalSet: false,
 
         // apc stuff
@@ -81,6 +85,7 @@ export const publisher = {
         clearPublisher(state) {
             state.isLoading = false
             state.id = null
+            state.created = ""
             state.publisher = ""
             state.name = ""
             state.isDemo = false
@@ -94,7 +99,8 @@ export const publisher = {
             state.isConsortialProposalSet = false
 
             state.hasCompleteCounterData = false
-
+            state.hasCustomPrices = false
+            state.isPreAllPublishersPackage = false
             state.hasPriceData = false
 
             state.apcHeaders = []
@@ -119,9 +125,12 @@ export const publisher = {
             state.selected = apiPublisher // legacy
 
             state.id = apiPublisher.id
+            state.created = apiPublisher.created
+            state.isPreAllPublishersPackage = Date.parse(state.created) < Date.parse('2022-07-28')
             state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
             state.isDemo = apiPublisher.is_demo
+            state.isConsortium = apiPublisher.is_consortium
             state.scenarios = apiPublisher.scenarios
             state.isConsortialProposalSet = apiPublisher.is_consortial_proposal_set
 
@@ -302,7 +311,8 @@ export const publisher = {
         getPublisherWarning: (state) => (id) => state.warnings.find(w => w.id === id),
         publisherWarnings: (state) => state.warnings ?? [],
         filteringTitles: (state) => state.filterDataSet,
-
+        preAllPublishersPackage: (state) => state.isPreAllPublishersPackage,
+        customPrices: (state) => state.hasCustomPrices,
 
         // @todo get rid of this
         publisherFilesDict: (state) => {
@@ -331,8 +341,8 @@ export const publisher = {
                 return state.warnings.findIndex(w => w.id === "missingPerpetualAccess") === -1
             }
             else if (dataType === "pricelist") {
-                return state.hasCustomPrices
-                // return state.warnings.findIndex(w => w.id === "missingPrices") === -1
+                // return state.hasCustomPrices
+                return (state.isPreAllPublishersPackage ? true : state.hasCustomPrices)
             }
             else if (dataType === "filter") {
                 return state.filterDataSet
@@ -352,7 +362,7 @@ export const publisher = {
                 !!state.currency &&
                 !!state.bigDealCost &&
                 state.isBigDealCostIncreaseDefined &&
-                state.hasCustomPrices
+                (state.isConsortium ? true : (state.isPreAllPublishersPackage ? true : state.hasCustomPrices))
         },
 
         // @todo get rid of this
