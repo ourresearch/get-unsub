@@ -207,13 +207,12 @@
                       <v-spacer></v-spacer>
 
                       <div class="pt-1 d-flex">
-                        <v-btn small depressed dark color="blue" class="mr-4" v-if="showSearchBox">
+                        <!-- <v-btn text small depressed dark color="blue" class="mr-4" v-if="showSearchBox">
                           {{ anySelected ? issnsNotHiddenByFilters.length : 0 }} selected
-                        </v-btn>
+                        </v-btn> -->
 
                         <v-slide-x-reverse-transition>
                           <v-text-field
-                              hide-details
                               ref="searchBox"
                               dense
                               label="Search journals"
@@ -223,42 +222,37 @@
                               class="mr-4"
                               outlined
                               v-if="showSearchBox"
+                              :hint="searchHint"
+                              persistent-hint
 
                           />
                         </v-slide-x-reverse-transition>
 
                         <v-tooltip bottom max-width="300" v-if="showSearchBox">
                           <template v-slot:activator="{ on }">
-                            <v-btn icon small depressed :disabled="!selectedAndSubscribable" color="blue" class="mr-4" @click="setSubscriptions(); toggleSearchBox()" v-on="on">
+                            <v-btn icon depressed :disabled="!selectedAndSubscribable" color="blue" class="mr-4" @click="setSubscriptions()" v-on="on">
                               <v-icon>mdi-cart-arrow-down</v-icon>
                             </v-btn>
                           </template>
                           <div>
-                            Subscribe to all {{subscribable.length}} selected journals.
+                            Subscribe to all {{this.issnsNotHiddenByFilters.length}} selected journals.
                           </div>
                         </v-tooltip>
 
                         <v-tooltip bottom max-width="300" v-if="showSearchBox">
                           <template v-slot:activator="{ on }">
-                            <v-btn icon small depressed :disabled="!unsubscribable.length" color="#555" class="mr-4" @click="clearSubscriptions(); toggleSearchBox()" v-on="on">
+                            <v-btn icon depressed :disabled="!selectedAndUnsubscribable" color="#555" class="mr-4" @click="clearSubscriptions()" v-on="on">
                               <v-icon>mdi-cart-arrow-up</v-icon>
                             </v-btn>
                           </template>
                           <div>
-                            Unsubscribe to all {{unsubscribable.length}} selected journals.
+                            Unsubscribe to all {{this.issnsNotHiddenByFilters.length}} selected journals.
                           </div>
                         </v-tooltip>
 
                         <v-btn icon class="mr-4" @click="toggleSearchBox">
                           <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
                           <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
-                        </v-btn>
-
-                        <!-- <v-btn fab small @click="openSubFileDialog" class="mr-2" elevation="1"> -->
-                        <!-- <input type="file" ref="file" style="display: none"> -->
-                        <!-- <v-btn fab small @click="$refs.file.click()"> -->
-                        <v-btn fab small @click="openSubFileDialog">
-                          <v-icon>mdi-file-upload</v-icon>
                         </v-btn>
 
                         <scenario-menu-columns class="mr-4" :icon="true" direction="left"/>
@@ -562,6 +556,12 @@ export default {
     unsubscribable() {
       return _.map(this.journals.filter(j => !j.isHiddenByFilters && j.subscribed), 'issn_l')
     },
+    selectedAndUnsubscribable() {
+      return this.anySelected && !!this.unsubscribable.length
+    },
+    searchHint() {
+      return (this.anySelected ? this.issnsNotHiddenByFilters.length : 0) + " selected"
+    },
   },
   methods: {
     ...mapActions([
@@ -753,5 +753,7 @@ export default {
 
 }
 
-
+  .v-messages__message {
+    font-size: 1.4em;
+  }
 </style>
