@@ -207,10 +207,6 @@
                       <v-spacer></v-spacer>
 
                       <div class="pt-1 d-flex">
-                        <v-btn small depressed dark color="blue" class="mr-4" v-if="showSearchBox">
-                          {{ anySelected ? issnsNotHiddenByFilters.length : 0 }} selected
-                        </v-btn>
-
                         <v-slide-x-reverse-transition>
                           <v-text-field
                               hide-details
@@ -226,28 +222,6 @@
 
                           />
                         </v-slide-x-reverse-transition>
-
-                        <v-tooltip bottom max-width="300" v-if="showSearchBox">
-                          <template v-slot:activator="{ on }">
-                            <v-btn icon small depressed :disabled="!selectedAndSubscribable" color="blue" class="mr-4" @click="setSubscriptions(); toggleSearchBox()" v-on="on">
-                              <v-icon>mdi-cart-arrow-down</v-icon>
-                            </v-btn>
-                          </template>
-                          <div>
-                            Subscribe to all {{subscribable.length}} selected journals.
-                          </div>
-                        </v-tooltip>
-
-                        <v-tooltip bottom max-width="300" v-if="showSearchBox">
-                          <template v-slot:activator="{ on }">
-                            <v-btn icon small depressed :disabled="!unsubscribable.length" color="#555" class="mr-4" @click="clearSubscriptions(); toggleSearchBox()" v-on="on">
-                              <v-icon>mdi-cart-arrow-up</v-icon>
-                            </v-btn>
-                          </template>
-                          <div>
-                            Unsubscribe to all {{unsubscribable.length}} selected journals.
-                          </div>
-                        </v-tooltip>
 
                         <v-btn icon class="mr-4" @click="toggleSearchBox">
                           <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
@@ -356,50 +330,6 @@
     </v-snackbar>
 
     <scenario-edit-dialogs/>
-
-    <!-- <v-dialog
-        persistent
-        v-model="dialogs.set_subscriptions"
-        max-width="500"
-    >
-      <v-card>
-        <v-card-title>
-          Set title subscriptions
-        </v-card-title>
-        <div class="pa-6">
-          <vue-csv-import
-            v-model="csv"
-            :autoMatchFields="true"
-            :autoMatchIgnoreCase="true"
-            :map-fields="['issn']"
-          >
-          </vue-csv-import>
-        </div>
-        <div style="padding-top: 50px">
-          <p>Results</p>
-          {{ csv }}
-        </div>
-        <v-card-actions>
-          <v-spacer/>
-          <v-btn
-              depressed
-              :disabled="isLoading"
-              @click="cancelDialogs"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-              depressed
-              color="primary"
-              :loading="isLoading"
-              @click="setSubscriptions"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
-
   </div>
 </template>
 
@@ -503,7 +433,6 @@ export default {
       dialogs: {
         fulfillment: false,
         cost: false,
-        set_subscriptions: false,
       },
 
       showSlowRenderingThings: false,
@@ -590,23 +519,8 @@ export default {
     issnsNotHiddenByFilters() {
       return _.map(this.journals.filter(j => !j.isHiddenByFilters), 'issn_l')
     },
-    subscribable() {
-      return _.map(this.journals.filter(j => !j.isHiddenByFilters && !j.subscribed), 'issn_l')
-    },
-    selectedAndSubscribable() {
-      return this.anySelected && !!this.subscribable.length
-    },
-    unsubscribable() {
-      return _.map(this.journals.filter(j => !j.isHiddenByFilters && j.subscribed), 'issn_l')
-    },
   },
   methods: {
-    ...mapActions([
-      "subscribeCustom",
-      "unsubscribeCustom",
-      "subscribeMany",
-      "unsubscribeMany",
-    ]),
     ...mapMutations([
       "menuViewToggleShowCostBar",
       "menuViewSetDisplayJournalsAs",
@@ -640,38 +554,6 @@ export default {
     },
     focusOnSearchBox() {
       this.$refs.searchBox.focus()
-    },
-    cancelDialogs() {
-      this.dialogs.set_subscriptions = false
-    },
-    chooseFiles: function() {
-        document.getElementById("fileUpload").click()
-    },
-    openSubFileDialog() {
-      this.dialogs.set_subscriptions = true
-      // this.newVal = this.publisherBigDealCost
-    },
-    subscribableJournals() {
-      const issns = this.subscribable
-      console.log("in subscribableJournals, # of issns: ", issns.length)
-      console.log("in subscribableJournals, ISSN-L's: ", JSON.stringify(issns))
-      return issns
-    },
-    unsubscribableJournals() {
-      const issns = this.unsubscribable
-      console.log("in unsubscribableJournals, # of issns: ", issns.length)
-      console.log("in unsubscribableJournals, ISSN-L's: ", JSON.stringify(issns))
-      return issns
-    },
-    setSubscriptions() {
-      const journals = this.subscribableJournals()
-      console.log("setSubscriptions(), journals: ", journals)
-      this.subscribeMany(journals)
-    },
-    clearSubscriptions() {
-      const journals = this.unsubscribableJournals()
-      console.log("clearSubscriptions(), journals: ", journals)
-      this.unsubscribeMany(journals)
     },
     setJournalsFilterStatus: _.debounce(
         function () {
