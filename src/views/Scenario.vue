@@ -207,28 +207,23 @@
                       <v-spacer></v-spacer>
 
                       <div class="pt-1 d-flex">
-                        <!-- <v-btn text small depressed dark color="blue" class="mr-4" v-if="showSearchBox">
-                          {{ anySelected ? issnsNotHiddenByFilters.length : 0 }} selected
-                        </v-btn> -->
-
                         <v-slide-x-reverse-transition>
                           <v-text-field
                               ref="searchBox"
                               dense
-                              label="Search journals"
+                              label="Select journals"
+                              prepend-inner-icon="mdi-magnify"
                               autocomplete="false"
                               v-model="search"
                               v-on:input="setJournalsFilterStatus"
                               class="mr-4"
                               outlined
-                              v-if="showSearchBox"
+                              clearable
                               :hint="searchHint"
-                              persistent-hint
-
                           />
                         </v-slide-x-reverse-transition>
 
-                        <v-tooltip bottom max-width="300" v-if="showSearchBox">
+                        <v-tooltip bottom max-width="300">
                           <template v-slot:activator="{ on }">
                             <v-btn icon depressed :disabled="!selectedAndSubscribable" color="blue" class="mr-4" @click="setSubscriptions()" v-on="on">
                               <v-icon>mdi-cart-arrow-down</v-icon>
@@ -239,7 +234,7 @@
                           </div>
                         </v-tooltip>
 
-                        <v-tooltip bottom max-width="300" v-if="showSearchBox">
+                        <v-tooltip bottom max-width="300">
                           <template v-slot:activator="{ on }">
                             <v-btn icon depressed :disabled="!selectedAndUnsubscribable" color="#555" class="mr-4" @click="clearSubscriptions()" v-on="on">
                               <v-icon>mdi-cart-arrow-up</v-icon>
@@ -249,11 +244,6 @@
                             Unsubscribe to all {{this.issnsNotHiddenByFilters.length}} selected journals.
                           </div>
                         </v-tooltip>
-
-                        <v-btn icon class="mr-4" @click="toggleSearchBox">
-                          <v-icon v-if="!showSearchBox">mdi-magnify</v-icon>
-                          <v-icon v-if="showSearchBox">mdi-magnify-close</v-icon>
-                        </v-btn>
 
                         <scenario-menu-columns class="mr-4" :icon="true" direction="left"/>
                         <v-menu>
@@ -352,6 +342,29 @@
     >
       Journal unsubscribed
       <v-btn dark icon @click="scenarioSnackbars.customUnsubrSuccess = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
+
+    <v-snackbar
+        v-model="scenarioSnackbars.customMultiSubrSuccess"
+        :timeout="3000"
+        color="blue"
+        bottom left
+    >
+      Journals subscribed
+      <v-btn dark icon @click="scenarioSnackbars.customMultiSubrSuccess = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </v-snackbar>
+
+    <v-snackbar
+        v-model="scenarioSnackbars.customMultiUnsubrSuccess"
+        :timeout="3000"
+        bottom left
+    >
+      Journals unsubscribed
+      <v-btn dark icon @click="scenarioSnackbars.customMultiUnsubrSuccess = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
     </v-snackbar>
@@ -580,30 +593,6 @@ export default {
       const distanceToTopOfWindow = stickyToolbar.getBoundingClientRect().top
       this.stickyToolbarIsAtTopOfWindow = (distanceToTopOfWindow === 0) ? true : false
     },
-    toggleSearchBox() {
-      console.log("toggle search box", this.search)
-
-      // clear anySelected
-      this.anySelected = false
-
-      // clear the text
-      this.search = ""
-      this.setJournalsFilterStatus()
-      console.log("toggle search box", this.search)
-
-      // show/hide the box
-      this.showSearchBox = !this.showSearchBox
-
-      // if we are showing the box
-      if (this.showSearchBox) {
-        this.$nextTick(() => {
-          this.focusOnSearchBox();
-        });
-      }
-    },
-    focusOnSearchBox() {
-      this.$refs.searchBox.focus()
-    },
     cancelDialogs() {
       this.dialogs.set_subscriptions = false
     },
@@ -630,11 +619,13 @@ export default {
       const journals = this.subscribableJournals()
       console.log("setSubscriptions(), journals: ", journals)
       this.subscribeMany(journals)
+      this.$store.getters.scenarioSnackbars.customMultiSubrSuccess = true
     },
     clearSubscriptions() {
       const journals = this.unsubscribableJournals()
       console.log("clearSubscriptions(), journals: ", journals)
       this.unsubscribeMany(journals)
+      this.$store.getters.scenarioSnackbars.customMultiUnsubrSuccess = true
     },
     setJournalsFilterStatus: _.debounce(
         function () {
@@ -753,7 +744,5 @@ export default {
 
 }
 
-  .v-messages__message {
-    font-size: 1.4em;
-  }
+  
 </style>

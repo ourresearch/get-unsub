@@ -53,6 +53,8 @@ export const scenario = {
         snackbars: {
             customSubrSuccess: false,
             customUnsubrSuccess: false,
+            customMultiSubrSuccess: false,
+            customMultiUnsubrSuccess: false,
         },
         allowAutoSubscribe: true,
 
