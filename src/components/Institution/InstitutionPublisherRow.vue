@@ -18,7 +18,7 @@
       <v-list-item-subtitle class="list-width">
         <!-- {{ pub.description ? pub.description.slice(0, 300) : pub.description }} -->
         <!-- {{ pub.description ? pub.description.split(" ").splice(0, 40).join(" ") : pub.description }} -->
-        {{ pub.description ? truncate(pub.description, 40) : "Click Edit to set Description" }}
+        {{ pub.description ? truncate(pub.description, 40) : "No description" }}
       </v-list-item-subtitle>
     </v-list-item-content>
     <v-list-item-action>
@@ -39,7 +39,7 @@
               <v-icon>mdi-pencil</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Package name
+              Edit package name
             </v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -50,7 +50,7 @@
               <v-icon>mdi-pencil</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Description
+              Edit description
             </v-list-item-title>
           </v-list-item>
           <v-list-item
@@ -61,7 +61,7 @@
               <v-icon>mdi-delete-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Delete
+              Delete package
             </v-list-item-title>
           </v-list-item>
         </v-list>
@@ -111,6 +111,8 @@
         </v-card-title>
         <div class="pt-4 pa-5">
           <v-text-field
+              counter
+              :rules="packageRules"
               outlined
               type="text"
               label="New package name"
@@ -130,7 +132,7 @@
           <v-btn depressed
                  @click="renamePublisher"
                  :loading="renamePublisherIsLoading"
-                 :disabled="!publisherNewName"
+                 :disabled="!publisherNewName || publisherNewName.length > 125"
                  color="primary"
           >
             Update
@@ -147,6 +149,8 @@
         </v-card-title>
         <div class="pt-4 pa-5">
           <v-textarea
+              counter
+              :rules="descriptionRules"
               outlined
               type="text"
               label="Description"
@@ -166,7 +170,7 @@
           <v-btn depressed
                  @click="editDescription"
                  :loading="editDescriptionIsLoading"
-                 :disabled="!descriptionEdited"
+                 :disabled="!descriptionEdited || descriptionEdited.length > 1000"
                  color="primary"
           >
             Update
@@ -207,7 +211,9 @@ export default {
       },
       snackbars: {
         deletePublisherSuccess: false,
-      }
+      },
+      descriptionRules: [v => v.length <= 1000 || 'Max 1000 characters'],
+      packageRules: [v => v.length <= 125 || 'Max 125 characters'],
     }
   },
   methods: {
