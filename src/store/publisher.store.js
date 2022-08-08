@@ -49,7 +49,7 @@ export const publisher = {
         selected: null,
 
         isLoading: false,
-        apcIsLoading: false,
+        // apcIsLoading: false,
 
         id: null,
         created: "",
@@ -74,11 +74,11 @@ export const publisher = {
         isConsortialProposalSet: false,
 
         // apc stuff
-        apcHeaders: [],
-        apcJournals: [],
-        apcPapersCount: null,
-        apcAuthorsFractionalCount: null,
-        apcCost: null,
+        // apcHeaders: [],
+        // apcJournals: [],
+        // apcPapersCount: null,
+        // apcAuthorsFractionalCount: null,
+        // apcCost: null,
 
 
     },
@@ -105,22 +105,22 @@ export const publisher = {
             state.isPreAllPublishersPackage = false
             state.hasPriceData = false
 
-            state.apcHeaders = []
-            state.apcJournals = []
-            state.apcPapersCount = null
-            state.apcAuthorsFractionalCount = null
-            state.apcCost = null
+            // state.apcHeaders = []
+            // state.apcJournals = []
+            // state.apcPapersCount = null
+            // state.apcAuthorsFractionalCount = null
+            // state.apcCost = null
             state.isOwnedByConsortium = false
             state.currency = "USD"
 
         },
-        clearApcData(state) {
-            state.apcHeaders = []
-            state.apcJournals = []
-            state.apcPapersCount = null
-            state.apcAuthorsFractionalCount = null
-            state.apcCost = null
-        },
+        // clearApcData(state) {
+        //     state.apcHeaders = []
+        //     state.apcJournals = []
+        //     state.apcPapersCount = null
+        //     state.apcAuthorsFractionalCount = null
+        //     state.apcCost = null
+        // },
 
         setSelectedPublisher(state, apiPublisher) {
             console.log("setSelectedPublisher", apiPublisher)
@@ -188,19 +188,19 @@ export const publisher = {
         async fetchPublisher({commit, dispatch, getters}, id) {
             if (id === getters.publisherId) return
             commit("clearPublisher")
-            commit("clearApcData")
+            // commit("clearApcData")
 
             commit("startLoading")
             commit("setPublisherId", id)
-            dispatch("fetchPublisherApcData") // not waiting for this one
+            // dispatch("fetchPublisherApcData") // not waiting for this one
             await dispatch("fetchPublisherMainData", id)
             commit("finishLoading")
         },
 
         async refreshPublisher({commit, dispatch, getters}) {
             commit("startLoading")
-            commit("clearApcData")
-            dispatch("fetchPublisherApcData") // not waiting for this one
+            // commit("clearApcData")
+            // dispatch("fetchPublisherApcData") // not waiting for this one
             await dispatch("fetchPublisherMainData", getters.publisherId)
             commit("finishLoading")
         },
@@ -228,32 +228,32 @@ export const publisher = {
             return resp
         },
 
-        async fetchPublisherApcData({commit, state, dispatch, getteaars}, id) {
-            state.apcIsLoading = true
+        // async fetchPublisherApcData({commit, state, dispatch, getteaars}, id) {
+        //     state.apcIsLoading = true
 
-            const url = `publisher/${state.id}/apc`
+        //     const url = `publisher/${state.id}/apc`
 
-            let resp
-            try {
-                resp = await api.get(url)
-            } catch (e) {
-                console.log("error loading publisher APC", e.response)
-                resp = null
-            } finally {
-                state.apcIsLoading = false
-            }
+        //     let resp
+        //     try {
+        //         resp = await api.get(url)
+        //     } catch (e) {
+        //         console.log("error loading publisher APC", e.response)
+        //         resp = null
+        //     } finally {
+        //         state.apcIsLoading = false
+        //     }
 
-            if (resp) {
-                state.apcPapersCount = resp.data.headers.find(h => h.value === "num_apc_papers").raw
-                state.apcAuthorsFractionalCount = resp.data.headers.find(h => h.value === "fractional_authorship").raw
-                state.apcCost = resp.data.headers.find(h => h.value === "cost_apc").raw
-                state.apcHeaders = resp.data.headers
-                state.apcJournals = resp.data.journals
-                return resp
-            }
-            return
+        //     if (resp) {
+        //         state.apcPapersCount = resp.data.headers.find(h => h.value === "num_apc_papers").raw
+        //         state.apcAuthorsFractionalCount = resp.data.headers.find(h => h.value === "fractional_authorship").raw
+        //         state.apcCost = resp.data.headers.find(h => h.value === "cost_apc").raw
+        //         state.apcHeaders = resp.data.headers
+        //         state.apcJournals = resp.data.journals
+        //         return resp
+        //     }
+        //     return
 
-        },
+        // },
 
         async refreshPublisherScenario({dispatch, commit}, scenarioId) {
             const newScenario = await fetchScenario(scenarioId)
@@ -441,12 +441,12 @@ export const publisher = {
 
 
         // apc stuff
-        publisherApcIsLoading: (state) => state.apcIsLoading,
-        publisherApcPapersCount: (state) => state.apcPapersCount,
-        publisherApcAuthorsFractionalCount: (state) => state.apcAuthorsFractionalCount,
-        publisherApcCost: (state) => state.apcCost,
-        publisherApcJournals: (state) => state.apcJournals,
-        publisherApcHeaders: (state) => state.apcHeaders,
+        // publisherApcIsLoading: (state) => state.apcIsLoading,
+        // publisherApcPapersCount: (state) => state.apcPapersCount,
+        // publisherApcAuthorsFractionalCount: (state) => state.apcAuthorsFractionalCount,
+        // publisherApcCost: (state) => state.apcCost,
+        // publisherApcJournals: (state) => state.apcJournals,
+        // publisherApcHeaders: (state) => state.apcHeaders,
 
     }
 }

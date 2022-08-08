@@ -44,6 +44,9 @@
       <v-tab-item>
         <institution-ror-list/>
       </v-tab-item>
+      <v-tab-item>
+        <institution-apc-tab/>
+      </v-tab-item>
       <v-tab-item v-if="institutionConsortialFeederPublishers.length && !institutionConsortialProposalSets.length">
         <institution-publishers-list
             :my-role="myRole"
@@ -68,6 +71,7 @@ import InstitutionPublisherRow from "../components/Institution/InstitutionPublis
 import InstitutionUsersList from "../components/Institution/InstitutionUsersList";
 import InstitutionRorList from "../components/Institution/InstitutionRorList";
 import InstitutionPublishersList from "../components/Institution/InstitutionPublishersList";
+import InstitutionApcTab from "../components/Institution/InstitutionApcTab";
 import AppBarExtInstitution from "@/components/AppBar/AppBarExtInstitution";
 
 const short = require('short-uuid');
@@ -85,6 +89,7 @@ export default {
     InstitutionRorList,
     InstitutionPublishersList,
     InstitutionPublisherRow,
+    InstitutionApcTab,
   },
   data() {
     return {

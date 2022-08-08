@@ -15,6 +15,10 @@
         ROR IDs
         <span class="ml-1 caption">({{ institutionRorIds.length }})</span>
       </v-tab>
+      <v-tab class="low-key-button">
+        <v-icon small left>mdi-bank</v-icon>
+        APC Report
+      </v-tab>
       <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length && !institutionConsortialProposalSets.length&& !institutionIsJisc">
         <v-icon small left>mdi-package-up</v-icon>
         Consortial feeders

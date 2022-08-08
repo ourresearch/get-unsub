@@ -90,13 +90,6 @@
         </v-tab>
         <v-tab
             class="low-key-button"
-            v-if="showApcTab"
-        >
-          <v-icon small left>mdi-cash-100</v-icon>
-          APCs
-        </v-tab>
-        <v-tab
-            class="low-key-button"
             v-if="showSetupTab"
         >
           <v-icon   small left>mdi-cog-outline</v-icon>
@@ -115,9 +108,6 @@
       <v-tabs-items v-model="currentTab">
         <v-tab-item v-if="showScenariosTab">
           <publisher-scenarios-tab/>
-        </v-tab-item>
-        <v-tab-item v-if="showApcTab">
-          <apc-tab/>
         </v-tab-item>
         <v-tab-item v-if="showSetupTab">
           <publisher-setup-tab/>
@@ -138,7 +128,6 @@
 import {api, toBase64} from "../api";
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
-import ApcTab from "../components/Publisher/PublisherApcTab";
 import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
 import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
 import EditDetailsTab from "../components/Publisher/EditDetailsTab";
@@ -152,7 +141,6 @@ export default {
   },
   components: {
     ScenarioEditDialogs,
-    ApcTab,
     PublisherSetupTab,
     PublisherScenariosTab,
     EditDetailsTab,
@@ -184,24 +172,11 @@ export default {
       "publisherIsOwnedByConsortium",
       "publisherIsConsortialProposalSet",
       "publisherIconName",
-
-
-
       "userCanEditActivePublisher",
       "institutionIsConsortium",
       "userEmail",
       "publisherWarnings",
       "publisherRequiredDataIsLoaded",
-
-
-
-
-      // apc stuff
-      "publisherApcPapersCount",
-      "publisherApcAuthorsFractionalCount",
-      "publisherApcCost",
-      "publisherApcIsLoading",
-
     ]),
     account() {
       return this.$store.state.user
@@ -211,13 +186,6 @@ export default {
     },
     showScenariosTab(){
       return this.publisherRequiredDataIsLoaded
-    },
-    showApcTab(){
-      if (!this.publisherRequiredDataIsLoaded) return false
-      if (this.publisherIsFeeder) return false
-      if (this.institutionIsConsortium) return false
-      if (this.publisherIsConsortialProposalSet) return false
-      return true
     },
     showSetupTab(){
       if (this.institutionIsConsortium) return false
