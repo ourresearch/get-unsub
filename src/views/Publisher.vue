@@ -42,6 +42,13 @@
         </div>
       </div>
 
+      <div class="entity-subtitle">
+        <div>
+          {{ publisherDescription || "No description" }}
+          <!-- {{ publisherDescription || "foobar adlfj adfljas dflajsd fasljdf asljdf asdf asdjf adflja dflajs dflasfjd asldfj aslfdj asdfa ajlsdf alsdjf asdlfjas dfljas dfljasd fljasd fjlas dflsajd fljasd fljasd fsalfj sdalfjk sdafljsd aflkjsafljdas fjlkasd flsajdf ajslfasdjlfasdjlf asldjf sadljf sadlf salfdj asldfj asdlfj adlfj adfljas dflajsd fasljdf asljdf asdf asdjf adflja dflajs dflasfjd asldfj aslfdj asdfa ajlsdf alsdjf asdlfjas dfljas dfljasd fljasd fjlas dflsajd fljasd fljasd fsalfj sdalfjk sdafljsd aflkjsafljdas fjlkasd flsajdf ajslfasdjlfasdjlf asldjf" }} -->
+        </div>
+      </div>
+
       <v-alert v-if="publisherIsOwnedByConsortium"
                color="warning"
                outlined
@@ -96,6 +103,13 @@
           Setup
 <!--          <v-icon v-if="publisherWarnings.length" small right>mdi-alert</v-icon>-->
         </v-tab>
+        <v-tab
+            class="low-key-button"
+            v-if="showEditDetailsTab"
+        >
+          <v-icon   small left>mdi-cog-outline</v-icon>
+          Edit Details
+        </v-tab>
       </v-tabs>
       <v-divider/>
       <v-tabs-items v-model="currentTab">
@@ -107,6 +121,9 @@
         </v-tab-item>
         <v-tab-item v-if="showSetupTab">
           <publisher-setup-tab/>
+        </v-tab-item>
+        <v-tab-item v-if="showEditDetailsTab">
+          <edit-details-tab/>
         </v-tab-item>
       </v-tabs-items>
 
@@ -124,6 +141,7 @@ import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditD
 import ApcTab from "../components/Publisher/PublisherApcTab";
 import PublisherSetupTab from "../components/Publisher/PublisherSetupTab";
 import PublisherScenariosTab from "../components/Publisher/PublisherScenariosTab";
+import EditDetailsTab from "../components/Publisher/EditDetailsTab";
 
 export default {
   name: "Publisher",
@@ -137,6 +155,7 @@ export default {
     ApcTab,
     PublisherSetupTab,
     PublisherScenariosTab,
+    EditDetailsTab,
   },
   data() {
     return {
@@ -148,6 +167,7 @@ export default {
   computed: {
     ...mapGetters([
       "publisherName",
+      "publisherDescription",
       "publisherIsFeeder",
       "publisherId",
       "publisherScenarios",
@@ -200,6 +220,11 @@ export default {
       return true
     },
     showSetupTab(){
+      if (this.institutionIsConsortium) return false
+      if (this.publisherIsConsortialProposalSet) return false
+      return true
+    },
+    showEditDetailsTab(){
       if (this.institutionIsConsortium) return false
       if (this.publisherIsConsortialProposalSet) return false
       return true

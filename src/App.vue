@@ -287,5 +287,11 @@ img.gravatar {
   }
 }
 
-
+.entity-subtitle {
+  line-height: 1;
+  margin-left: 15px;
+  margin-bottom: 25px;
+  max-width: 1000px;
+  white-space: break-spaces;
+}
 </style>

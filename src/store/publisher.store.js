@@ -55,6 +55,7 @@ export const publisher = {
         created: "",
         publisher: "",
         name: "",
+        description: "",
         isDemo: false,
         scenarios: [],
         journals: [],
@@ -88,6 +89,7 @@ export const publisher = {
             state.created = ""
             state.publisher = ""
             state.name = ""
+            state.description = ""
             state.isDemo = false
             state.scenarios = []
             state.dataFiles = []
@@ -129,6 +131,7 @@ export const publisher = {
             state.isPreAllPublishersPackage = Date.parse(state.created) < Date.parse('2022-07-28')
             state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
+            state.description = apiPublisher.description
             state.isDemo = apiPublisher.is_demo
             state.isConsortium = apiPublisher.is_consortium
             state.scenarios = apiPublisher.scenarios
@@ -283,6 +286,9 @@ export const publisher = {
         },
         publisherName: (state) => {
             return state.name
+        },
+        publisherDescription: (state) => {
+            return state.description
         },
         publisherLogo: (state) => {
             return publisherLogoFromId(state.publisher)
