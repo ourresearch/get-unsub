@@ -1,21 +1,18 @@
 <template>
-  <v-container class="user mt-12 pt-6">
-    <v-card flat class="py-3 pt-6">
+  <v-container class="publisher">
       <v-list two-line>
+        
         <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-account-outline</v-icon>
-          </v-list-item-avatar>
           <v-list-item-content>
             <div class="">
-              Package Name
+              {{ publisherName }}
             </div>
-            <v-list-item-subtitle>
-              Scott Chamberlain
+            <v-list-item-subtitle class="pt-2">
+              Package Name
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn icon @click="openDialogToEditPackageInfo('name')">
+            <v-btn icon @click="openDialogToEditPackageInfo('PackageName')">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-list-item-action>
@@ -23,15 +20,12 @@
 
         <v-divider></v-divider>
         <v-list-item>
-          <v-list-item-avatar>
-            <v-icon>mdi-email-outline</v-icon>
-          </v-list-item-avatar>
           <v-list-item-content>
-            <v-list-item-title class=""/>
-                Package Description
-            </v-list-item-title>
-            <v-list-item-subtitle>
-              Your email
+            <div class="">
+              {{ publisherDescription || "No description" }}
+            </div>
+            <v-list-item-subtitle class="pt-2">
+              Package Description
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -40,13 +34,13 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
+      
       </v-list>
-    </v-card>
 
     <v-dialog v-model="dialogs.editPackageInfo" max-width="500">
         <v-card :loading="editPackageInfoLoading">
           <v-card-title>
-            <v-icon v-if="editPackageInfoType==='name'">mdi-account-edit-outline</v-icon>
+            <v-icon v-if="editPackageInfoType==='PackageName'">mdi-account-edit-outline</v-icon>
             <v-icon v-if="editPackageInfoType==='description'">mdi-email-edit-outline</v-icon>
             <span class="text ml-3">
               Edit {{ editPackageInfoType }}
@@ -54,22 +48,27 @@
           </v-card-title>
           <v-card-text class="pt-4">
             <v-text-field
+                counter="125"
                 outlined
                 autofocus
                 clearable
-                v-if="editPackageInfoType==='name'"
+                v-if="editPackageInfoType==='PackageName'"
                 label="Package name"
                 v-model="editPackageInfoStr"
                 @keydown.enter="editPackageInfo"
+                :rules="packageRules"
             />
-            <v-text-field
+            <v-textarea
+                counter="1000"
                 outlined
                 autofocus
                 clearable
+                type="text"
                 v-if="editPackageInfoType==='description'"
                 label="Package description"
                 v-model="editPackageInfoStr"
                 @keydown.enter="editPackageInfo"
+                :rules="descriptionRules"
             />
           </v-card-text>
           <v-card-actions>
@@ -85,7 +84,19 @@
             <v-btn depressed
                    @click="editPackageInfo"
                    color="primary"
+                   v-if="editPackageInfoType==='PackageName'"
                    :loading="editPackageInfoLoading"
+                   :disabled="!editPackageInfoStr || editPackageInfoStr.length > 125"
+            >
+              <v-icon>mdi-check</v-icon>
+              Ok
+            </v-btn>
+            <v-btn depressed
+                   @click="editPackageInfo"
+                   color="primary"
+                   v-if="editPackageInfoType==='description'"
+                   :loading="editPackageInfoLoading"
+                   :disabled="!editPackageInfoStr || editPackageInfoStr.length > 1000"
             >
               <v-icon>mdi-check</v-icon>
               Ok
@@ -114,24 +125,34 @@ export default {
       dialogs: {
         editPackageInfo: false,
       },
+      descriptionRules: [v => v.length <= 1000 || 'Max 1000 characters'],
+      packageRules: [v => v.length <= 125 || 'Max 125 characters'],
     }
   },
   computed: {
     ...mapGetters([
-      "packageName",
-      "packageDescription",
+      "publisherName",
+      "publisherDescription",
     ])
   },
   methods: {
     ...mapMutations([
       "snackbar",
     ]),
+    truncate(value, words) {
+      const new_value = value.split(" ").splice(0, words).join(" ")
+      const max_length = 200
+      if (new_value.length > max_length) {
+        return new_value.slice(0, max_length) + " ..."
+      }
+      return new_value
+    },
     openDialogToEditPackageInfo(infoType) {
       console.log("openDialogToEditPackageInfo", infoType)
       this.dialogs.editPackageInfo = true
       this.editPackageInfoType = infoType
-      if (infoType === 'name') this.editPackageInfoStr = this.packageName
-      else if (infoType === 'description') this.editPackageInfoStr = this.packageDescription
+      if (infoType === 'PackageName') this.editPackageInfoStr = this.publisherName
+      else if (infoType === 'description') this.editPackageInfoStr = this.publisherDescription
       else this.editPackageInfoStr = ""
     },
     closeEditPackageInfo() {

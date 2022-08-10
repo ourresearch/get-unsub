@@ -16,8 +16,6 @@
         {{ pub.name }}
       </v-list-item-title>
       <v-list-item-subtitle class="list-width">
-        <!-- {{ pub.description ? pub.description.slice(0, 300) : pub.description }} -->
-        <!-- {{ pub.description ? pub.description.split(" ").splice(0, 40).join(" ") : pub.description }} -->
         {{ pub.description ? truncate(pub.description, 40) : "No description" }}
       </v-list-item-subtitle>
     </v-list-item-content>
@@ -111,7 +109,7 @@
         </v-card-title>
         <div class="pt-4 pa-5">
           <v-text-field
-              counter
+              counter="125"
               :rules="packageRules"
               outlined
               type="text"
@@ -149,7 +147,7 @@
         </v-card-title>
         <div class="pt-4 pa-5">
           <v-textarea
-              counter
+              counter="1000"
               :rules="descriptionRules"
               outlined
               type="text"

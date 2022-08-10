@@ -279,6 +279,18 @@ export const publisher = {
             state.scenarios.push(newScenario)
             return newScenario
         },
+        async changePackageName({commit, getters, state}, name) {
+            const data = {name}
+            const resp = await api.post(`publisher/${getters.publisherId}`, data)
+            state.name = name
+            return resp
+        },
+        async changeDescription({commit, getters, state}, description) {
+            const data = {description}
+            const resp = await api.post(`publisher/${getters.publisherId}`, data)
+            state.description = description
+            return resp
+        },
     },
     getters: {
         selectedPublisher(state) {

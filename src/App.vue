@@ -288,9 +288,13 @@ img.gravatar {
 }
 
 .entity-subtitle {
+  color: #a3a3a3;
+  font-size: 15px;
+  text-transform: none !important;
+  font-weight: normal !important;
   line-height: 1;
   margin-left: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
   max-width: 1000px;
   white-space: break-spaces;
 }

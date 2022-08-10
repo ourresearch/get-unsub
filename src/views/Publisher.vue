@@ -41,13 +41,7 @@
           </div>
         </div>
       </div>
-
-      <div class="entity-subtitle">
-        <div>
-          {{ publisherDescription || "No description" }}
-          <!-- {{ publisherDescription || "foobar adlfj adfljas dflajsd fasljdf asljdf asdf asdjf adflja dflajs dflasfjd asldfj aslfdj asdfa ajlsdf alsdjf asdlfjas dfljas dfljasd fljasd fjlas dflsajd fljasd fljasd fsalfj sdalfjk sdafljsd aflkjsafljdas fjlkasd flsajdf ajslfasdjlfasdjlf asldjf sadljf sadlf salfdj asldfj asdlfj adlfj adfljas dflajsd fasljdf asljdf asdf asdjf adflja dflajs dflasfjd asldfj aslfdj asdfa ajlsdf alsdjf asdlfjas dfljas dfljasd fljasd fjlas dflsajd fljasd fljasd fsalfj sdalfjk sdafljsd aflkjsafljdas fjlkasd flsajdf ajslfasdjlfasdjlf asldjf" }} -->
-        </div>
-      </div>
+      <div class="entity-subtitle">{{ publisherDescription || "No description" }}</div>
 
       <v-alert v-if="publisherIsOwnedByConsortium"
                color="warning"
@@ -100,7 +94,7 @@
             class="low-key-button"
             v-if="showEditDetailsTab"
         >
-          <v-icon   small left>mdi-cog-outline</v-icon>
+          <v-icon   small left>mdi-pencil</v-icon>
           Edit Details
         </v-tab>
       </v-tabs>
@@ -125,6 +119,7 @@
 </template>
 
 <script>
+import _ from "lodash"
 import {api, toBase64} from "../api";
 import {mapGetters, mapMutations, mapActions} from 'vuex'
 import ScenarioEditDialogs from "../components/ScenarioEditDialogs/ScenarioEditDialogs";
@@ -209,7 +204,10 @@ export default {
       "clearPublisher",
     ]),
     ...mapActions([]),
-
+    trimStr(x) {
+      const tmp = _.trim(x)
+      return tmp
+    },
   },
 
   created() {
