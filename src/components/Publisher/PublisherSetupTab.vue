@@ -53,9 +53,9 @@
                 small
                 left
                 v-if="tab.isComplete && tab.id === 'pricelist'"
-                color="info"
+                color="warning"
             >
-              mdi-check-outline
+              mdi-alert
             </v-icon>
             <v-icon
                 small
@@ -64,6 +64,14 @@
                 color="success"
             >
               mdi-check-outline
+            </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isInfo"
+                :color="(tab.isDisabled) ? 'grey' : 'info'"
+            >
+              mdi-information
             </v-icon>
             {{ tab.shortName }}
           </v-tab>
@@ -249,7 +257,8 @@ export default {
       const ret = this.tabsConfig.map(tabConfig => {
         const isComplete = this.getPublisherDataIsComplete(tabConfig.id)
         const isError = !isComplete && tabConfig.isRequired
-        const isWarning = !isComplete && (tabConfig.isRecommended || tabConfig.isOptional)
+        const isWarning = !isComplete && tabConfig.isRecommended
+        const isInfo = !isComplete && tabConfig.isOptional
         const isDisabled = !this.publisherRequiredDataIsLoaded && (tabConfig.isRecommended || tabConfig.isOptional)
 
         const myErrorMsg = (tabConfig.id === "pricelist") ? this.priceListErrorMsg : tabConfig.errorMsg
@@ -262,6 +271,7 @@ export default {
           isComplete,
           isError,
           isWarning,
+          isInfo,
           isDisabled,
           alertMsg,
           journals,
@@ -278,7 +288,7 @@ export default {
       if (this.journalsWithNoPriceInfo?.length === undefined) {
         return "You have no journals with missing price information."
       } else {
-        if (!this.journalsWithNoPriceInfo && !this.preAllPublishersPackage) {
+        if (!this.journalsWithNoPriceInfo.length && !this.preAllPublishersPackage) {
           return "<strong>Missing data: </strong> This data is required."
         } else {
           if (this.publisherPriceDataFileIsLive || this.preAllPublishersPackage) {

@@ -12,7 +12,7 @@
             <div v-html="msg"/>
                     <div class="d-flex">
           <v-spacer />
-          <v-btn @click="download" v-if="this.id === 'pricelist' && (this.journalsWithNoPriceInfo || this.preAllPublishersPackage)" class=" mt-3" text :color="alertType">
+          <v-btn @click="download" v-if="this.id === 'pricelist' && (this.journalsWithNoPriceInfo.length || this.preAllPublishersPackage)" class=" mt-3" text :color="alertType">
             <v-icon left>mdi-download</v-icon>
             View missing titles
           </v-btn>
@@ -75,13 +75,24 @@ export default {
     ...mapGetters([
       "preAllPublishersPackage",
       "getPublisherWarning",
+      "publisherPriceDataFileIsLive",
     ]),
     alertType() {
-      if (this.isSuccess) return this.id === "pricelist" ? "info" : "success"
+      if (this.id === "filter") return "info"
+      if (this.id === "pricelist") {
+        if (!this.journalsWithNoPriceInfo.length && !this.preAllPublishersPackage) return "error"
+        return (!!this.journalsWithNoPriceInfo.length || !this.publisherPriceDataFileIsLive) ? "warning" : "success"
+      }
+      if (this.isSuccess && this.id != "pricelist") return "success"
       return (this.isRequired) ? "error" : "warning"
     },
     alertIcon() {
-      if (this.isSuccess)  return this.id === "pricelist" ? "mdi-information-outline" : "mdi-check-outline"
+      if (this.id === "filter") return "mdi-information-outline"
+      if (this.id === "pricelist") {
+        if (!this.journalsWithNoPriceInfo.length && !this.preAllPublishersPackage) return "mdi-close-outline"
+        return (!!this.journalsWithNoPriceInfo.length || !this.publisherPriceDataFileIsLive) ? "mdi-alert" : "mdi-check-outline"
+      }
+      if (this.isSuccess && this.id != "pricelist") return "mdi-check-outline"
       return (this.isRequired) ? "mdi-close-outline" : "mdi-alert"
     },
     journalsWithNoPriceInfo(){
