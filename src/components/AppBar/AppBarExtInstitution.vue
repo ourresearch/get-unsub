@@ -16,7 +16,7 @@
         <span class="ml-1 caption">({{ institutionRorIds.length }})</span>
       </v-tab>
       <v-tab class="low-key-button">
-        <v-icon small left>mdi-cash</v-icon>
+        <v-icon small left>mdi-cash-100</v-icon>
         APC Report
       </v-tab>
       <v-tab class="low-key-button" v-if="institutionConsortialFeederPublishers.length && !institutionConsortialProposalSets.length&& !institutionIsJisc">
