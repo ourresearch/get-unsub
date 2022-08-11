@@ -112,6 +112,8 @@
               counter="125"
               :rules="packageRules"
               outlined
+              autofocus
+              clearable
               type="text"
               label="New package name"
               @keydown.enter="renamePublisher"
@@ -150,11 +152,13 @@
               counter="1000"
               :rules="descriptionRules"
               outlined
+              autofocus
+              clearable
               type="text"
               label="Description"
-              @keydown.enter.prevent="postReply"
-              @keydown.enter="editDescription"
               v-model="descriptionEdited"
+              @keydown.ctrl.enter="editDescription"
+              @keydown.meta.enter="editDescription"
           />
         </div>
         <v-card-actions>
@@ -193,6 +197,8 @@ export default {
     myRole: String,
     isConsortialFeeder: Boolean,
     isConsortialProposalSet: Boolean,
+    pubName: String,
+    pubDescription: String,
   },
   data() {
     return {
@@ -200,8 +206,8 @@ export default {
       deletePublisherLoading: false,
       renamePublisherIsLoading: false,
       editDescriptionIsLoading: false,
-      publisherNewName: "",
-      descriptionEdited: "",
+      publisherNewName: this.pubName,
+      descriptionEdited: this.pubDescription,
       dialogs: {
         deletePublisher: false,
         renamePublisher: false,

@@ -25,6 +25,8 @@
           :my-role="myRole"
           :is-consortial-feeder="isConsortialFeeder"
           :is-consortial-proposal-set="isConsortialProposalSet"
+          :pubName="pub.name"
+          :pubDescription="pub.description"
       />
       <v-list-item
           v-if="!institutionIsConsortium && !isConsortialFeeder && !isConsortialProposalSet"

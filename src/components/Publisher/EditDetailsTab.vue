@@ -67,7 +67,8 @@
                 v-if="editPackageInfoType==='description'"
                 label="Package description"
                 v-model="editPackageInfoStr"
-                @keydown.enter="editPackageInfo"
+                @keydown.ctrl.enter="editPackageInfo"
+                @keydown.meta.enter="editPackageInfo"
                 :rules="descriptionRules"
             />
           </v-card-text>
@@ -82,21 +83,21 @@
               Cancel
             </v-btn>
             <v-btn depressed
-                   @click="editPackageInfo"
-                   color="primary"
-                   v-if="editPackageInfoType==='PackageName'"
-                   :loading="editPackageInfoLoading"
-                   :disabled="!editPackageInfoStr || editPackageInfoStr.length > 125"
+              @click="editPackageInfo"
+              color="primary"
+              v-if="editPackageInfoType==='PackageName'"
+              :loading="editPackageInfoLoading"
+              :disabled="!editPackageInfoStr || editPackageInfoStr.length > 125"
             >
               <v-icon>mdi-check</v-icon>
               Ok
             </v-btn>
             <v-btn depressed
-                   @click="editPackageInfo"
-                   color="primary"
-                   v-if="editPackageInfoType==='description'"
-                   :loading="editPackageInfoLoading"
-                   :disabled="!editPackageInfoStr || editPackageInfoStr.length > 1000"
+              @click="editPackageInfo"
+              color="primary"
+              v-if="editPackageInfoType==='description'"
+              :loading="editPackageInfoLoading"
+              :disabled="!editPackageInfoStr || editPackageInfoStr.length > 1000"
             >
               <v-icon>mdi-check</v-icon>
               Ok
