@@ -288,7 +288,7 @@ img.gravatar {
 }
 
 .entity-subtitle {
-  color: #a3a3a3;
+  color: #757575;
   font-size: 15px;
   text-transform: none !important;
   font-weight: normal !important;
