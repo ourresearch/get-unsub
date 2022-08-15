@@ -70,7 +70,6 @@ export const publisher = {
         currency: "USD",
         hasCompleteCounterData: false,
         hasCustomPrices: false,
-        isPreAllPublishersPackage: false,
         isConsortialProposalSet: false,
 
         // apc stuff
@@ -102,7 +101,6 @@ export const publisher = {
 
             state.hasCompleteCounterData = false
             state.hasCustomPrices = false
-            state.isPreAllPublishersPackage = false
             state.hasPriceData = false
 
             // state.apcHeaders = []
@@ -128,7 +126,6 @@ export const publisher = {
 
             state.id = apiPublisher.id
             state.created = apiPublisher.created
-            state.isPreAllPublishersPackage = Date.parse(state.created) < Date.parse('2022-07-28')
             state.publisher = apiPublisher.publisher
             state.name = apiPublisher.name
             state.description = apiPublisher.description
@@ -329,7 +326,6 @@ export const publisher = {
         getPublisherWarning: (state) => (id) => state.warnings.find(w => w.id === id),
         publisherWarnings: (state) => state.warnings ?? [],
         filteringTitles: (state) => state.filterDataSet,
-        preAllPublishersPackage: (state) => state.isPreAllPublishersPackage,
         customPrices: (state) => state.hasCustomPrices,
 
         // @todo get rid of this
@@ -360,7 +356,7 @@ export const publisher = {
             }
             else if (dataType === "pricelist") {
                 // return state.hasCustomPrices
-                return (state.isPreAllPublishersPackage ? true : state.hasCustomPrices)
+                return state.hasCustomPrices
             }
             else if (dataType === "filter") {
                 return state.filterDataSet
@@ -380,7 +376,7 @@ export const publisher = {
                 !!state.currency &&
                 !!state.bigDealCost &&
                 state.isBigDealCostIncreaseDefined &&
-                (state.isConsortium ? true : (state.isPreAllPublishersPackage ? true : state.hasCustomPrices))
+                (state.isConsortium ? true : state.hasCustomPrices)
         },
 
         // @todo get rid of this

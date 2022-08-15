@@ -246,8 +246,6 @@ export default {
       "institutionIsConsortium",
       "getPublisherWarning",
       "publisherRequiredDataIsLoaded",
-      "preAllPublishersPackage",
-      "customPrices",
       "getPublisherDataIsComplete",
       "publisherPriceDataFileIsLive",
     ]),
@@ -288,20 +286,8 @@ export default {
       if (this.journalsWithNoPriceInfo?.length === undefined) {
         return "You have no journals with missing price information."
       } else {
-        if (!this.journalsWithNoPriceInfo.length && !this.preAllPublishersPackage) {
-          return "<strong>Missing data: </strong> This data is required."
-        } else {
-          if (this.publisherPriceDataFileIsLive || this.preAllPublishersPackage) {
-            if (this.customPrices) {
-              var prefix = "<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain"
-            } else {
-              var prefix = "<strong>Still missing data: </strong> Publicly available title prices were available for some titles. There remain "
-            }
-          } else {
-            var prefix = "<strong>Missing data: </strong> This data is required. There are "
-          }
-          return `${prefix} ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
-        }
+        if (!this.publisherPriceDataFileIsLive) return "<strong>Missing data: </strong> This data is required."
+        return `<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
       }
     },
     journalsWithNoPriceInfo(){
