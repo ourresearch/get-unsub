@@ -12,7 +12,7 @@
             <div v-html="msg"/>
                     <div class="d-flex">
           <v-spacer />
-          <v-btn @click="download" v-if="this.id === 'pricelist' && this.publisherPriceDataFileIsLive && !!this.journalsWithNoPriceInfo.length" class=" mt-3" text :color="alertType">
+          <v-btn @click="download" v-if="this.id === 'pricelist' && this.publisherPriceDataFileIsLive && this.journalsWithNoPriceInfo" class=" mt-3" text :color="alertType">
             <v-icon left>mdi-download</v-icon>
             View missing titles
           </v-btn>
@@ -80,7 +80,9 @@ export default {
       if (this.id === "filter") return "info"
       if (this.id === "pricelist") {
         if (!this.publisherPriceDataFileIsLive) return "error"
-        return this.journalsWithNoPriceInfo?.length === undefined ? "success" : "warning"
+        // console.log("this.journalsWithNoPriceInfo", this.journalsWithNoPriceInfo || "afadf")
+        return this.journalsWithNoPriceInfo ? "warning" : "success"
+        // return this.journalsWithNoPriceInfo?.length === undefined ? "success" : "warning"
       }
       if (this.isSuccess && this.id != "pricelist") return "success"
       return (this.isRequired) ? "error" : "warning"
@@ -89,13 +91,13 @@ export default {
       if (this.id === "filter") return "mdi-information-outline"
       if (this.id === "pricelist") {
         if (!this.publisherPriceDataFileIsLive) return "mdi-close-outline"
-        return this.journalsWithNoPriceInfo?.length === undefined ? "mdi-check-outline" : "mdi-alert"
+        return this.journalsWithNoPriceInfo ? "mdi-alert" : "mdi-check-outline"
       }
       if (this.isSuccess && this.id != "pricelist") return "mdi-check-outline"
       return (this.isRequired) ? "mdi-close-outline" : "mdi-alert"
     },
     journalsWithNoPriceInfo(){
-      return this.getPublisherWarning("missingPrices")?.journals
+      return !!this.getPublisherWarning("missingPrices")?.journals.length || false
     }
   },
   methods: {
