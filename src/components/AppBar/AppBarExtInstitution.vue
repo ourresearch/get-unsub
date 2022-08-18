@@ -15,7 +15,7 @@
         ROR IDs
         <span class="ml-1 caption">({{ institutionRorIds.length }})</span>
       </v-tab>
-      <v-tab class="low-key-button">
+      <v-tab class="low-key-button" v-if="!institutionIsConsortium">
         <v-icon small left>mdi-cash-100</v-icon>
         APC Report
       </v-tab>
@@ -51,7 +51,8 @@ export default {
       "institutionUsersWithRoles",
       "institutionRorIds",
       "institutionIsJisc",
-        "institutionConsortialProposalSets",
+      "institutionConsortialProposalSets",
+      "institutionIsConsortium",
     ]),
     currentTab: {
       get() {
