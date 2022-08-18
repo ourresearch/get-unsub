@@ -126,7 +126,7 @@
             </v-toolbar>
             <v-alert dense outlined type="info" class="text-center" v-if="!sortedJournalsFiltered.length">
                 No journals matched your search.
-                <a href="https://docs.unsub.org/" target="_blank" style="text-decoration: none"><v-icon small>mdi-help-circle-outline</v-icon></a>
+                <a href="https://docs.unsub.org/how-to-guides/select-journals" target="_blank" style="text-decoration: none"><v-icon small>mdi-help-circle-outline</v-icon></a>
             </v-alert>
             <col-info-dialog></col-info-dialog>
         </v-card>
