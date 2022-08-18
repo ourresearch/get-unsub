@@ -52,10 +52,18 @@
             <v-icon
                 small
                 left
-                v-if="tab.isComplete && tab.id === 'pricelist'"
+                v-if="tab.isComplete && tab.id === 'pricelist' && journalsWithNoPriceInfo"
                 color="warning"
             >
               mdi-alert
+            </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isComplete && tab.id === 'pricelist' && !journalsWithNoPriceInfo"
+                color="success"
+            >
+              mdi-check-outline
             </v-icon>
             <v-icon
                 small
@@ -260,7 +268,7 @@ export default {
         const isDisabled = !this.publisherRequiredDataIsLoaded && (tabConfig.isRecommended || tabConfig.isOptional)
 
         const myErrorMsg = (tabConfig.id === "pricelist") ? this.priceListErrorMsg : tabConfig.errorMsg
-        const journals = (tabConfig.id === "pricelist") ? this.journalsWithNoPriceInfo : null
+        const journals = (tabConfig.id === "pricelist") ? this.journalsWithNoPrices : null
 
         const alertMsg = (isComplete && tabConfig.id != "pricelist") ? this.successMsg : myErrorMsg
 
@@ -283,15 +291,25 @@ export default {
       return "<strong>Fully loaded: </strong> This data is now being used in all forecast scenarios."
     },
     priceListErrorMsg(){
-      if (this.journalsWithNoPriceInfo?.length === undefined) {
+      if (this.publisherPriceDataFileIsLive && !this.journalsWithNoPriceInfo) {
         return "You have no journals with missing price information."
       } else {
-        if (!this.publisherPriceDataFileIsLive) return "<strong>Missing data: </strong> This data is required."
-        return `<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
+        // if (!this.publisherPriceDataFileIsLive) return "<strong>Missing data: </strong> This data is required."
+        if (!this.journalsWithNoPriceInfo) return "<strong>Missing data: </strong> This data is required."
+        // prefix = "<strong>Missing data: </strong> This data is required."
+        const prefix = (this.publisherPriceDataFileIsLive) ?
+          "<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain"  :
+          "<strong>Missing required data: </strong> There are "
+        return `${prefix} ${this.journalsWithNoPrices?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
+        // return `<strong>Still missing data: </strong> Although you've uploaded a custom pricelist, there remain ${this.journalsWithNoPriceInfo?.length} journals with no price information. These are excluded from all forecasting. To fix, upload a new custom journal pricelist below, with price quotes for those missing titles.`
       }
     },
-    journalsWithNoPriceInfo(){
+    journalsWithNoPrices(){
       return this.getPublisherWarning("missingPrices")?.journals
+    },
+    journalsWithNoPriceInfo(){
+      return !!this.getPublisherWarning("missingPrices")?.journals.length || false
+      // return this.getPublisherWarning("missingPrices")?.journals
     }
   },
   created() {
