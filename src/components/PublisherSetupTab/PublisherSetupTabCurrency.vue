@@ -37,7 +37,7 @@
           parameter.</a>
 
         <span class="ml-1" v-if="publisherPriceDataFileIsLive">You'll also need to <a
-            href="https://docs.unsub.org/how-to-guides/upload-title-prices">replace your custom pricelist</a>.</span>
+            href="https://docs.unsub.org/how-to-guides/upload-title-prices" target="_blank">replace your custom pricelist</a>.</span>
 
       </p>
 
@@ -76,7 +76,7 @@
                   Cost parameter</a> to new values denominated in {{ currency }}.
 
                 <span class="ml-1" v-if="publisherPriceDataFileIsLive">You'll also need to <a
-                    href="https://docs.unsub.org/how-to-guides/upload-title-prices">replace your custom pricelist</a>.</span>
+                    href="https://docs.unsub.org/how-to-guides/upload-title-prices" target="_blank">replace your custom pricelist</a>.</span>
 
               </p>
 

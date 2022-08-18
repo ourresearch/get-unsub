@@ -230,7 +230,7 @@ export default {
           longName: "Journal filter",
           isOptional: true,
           warningUrl: "https://docs.unsub.org/how-to-guides/upload-journal-filter",
-          helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-optional-filter-data-warning-mean",
+          helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-journal-whitelist-alert-mean",
           errorMsg: "<strong>Optional data: </strong> You can filter all scenarios within this package to include only specific titles by providing a spreadsheet of ISSNs or a KBART file."
         },
       ]

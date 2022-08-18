@@ -10,7 +10,7 @@
           This report includes APC spend estimates for the big five publishers: Elsevier, Wiley, Springer Nature, SAGE and Taylor & Francis. We do not currently have APC data for other publishers.
         </div>
         <div class="pa-3">
-          Read <a href="">the documentation on the APC report</a> for more information.
+          Read <a href="https://docs.unsub.org/how-to-guides/apc-report" target="_blank">the documentation on the APC report</a> for more information.
         </div>
       </v-card>
     </template>
