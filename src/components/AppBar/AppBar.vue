@@ -461,15 +461,15 @@
         </v-list>
       </v-menu>
     </div>
-    <!-- <template v-slot:extension v-if="showBannerContent">
+    <template v-slot:extension v-if="showBannerContent">
       <v-alert color="primary" text style="width: 100%; margin-bottom: 0;">
         <div class="primary--text text-center" style="width: 100%;">
               <span>
-                <strong>🥳 New  version!</strong>
-                We've added lots of features, including support for COUNTER 5.
+                <strong>🥳 New Features!</strong>
+                 We now support all publishers + other new features
               </span>
           <a class="ml-4" target="_blank" href="http://help.unsub.org/en/articles/5238375-release-notes-may-2021">
-            See release notes
+            Read the blog post
           </a>
           <v-icon color="primary" x-small>mdi-open-in-new</v-icon>
         </div>
@@ -479,7 +479,7 @@
         </v-btn>
 
       </v-alert>
-    </template> -->
+    </template>
 
 
   </v-app-bar>
@@ -521,7 +521,7 @@ export default {
   data() {
     return {
       thirdBreadcrumb: null,
-      showBannerContent: !localStorage.getItem("hideNewVersionBanner17May2021"),
+      showBannerContent: !localStorage.getItem("hideNewVersionBanner"),
     }
   },
   methods: {
@@ -533,7 +533,7 @@ export default {
       this.$router.push("/")
     },
     dismissBanner() {
-      localStorage.setItem("hideNewVersionBanner17May2021", "true")
+      localStorage.setItem("hideNewVersionBanner", "true")
       this.showBannerContent = false
     },
     publisherIcon,
