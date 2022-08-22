@@ -468,7 +468,7 @@
                 <strong>🥳 New Features!</strong>
                  We now support all publishers + other new features
               </span>
-          <a class="ml-4" target="_blank" href="http://help.unsub.org/en/articles/5238375-release-notes-may-2021">
+          <a class="ml-4" target="_blank" href="https://blog.ourresearch.org/unsub-all-publishers-supported/">
             Read the blog post
           </a>
           <v-icon color="primary" x-small>mdi-open-in-new</v-icon>
