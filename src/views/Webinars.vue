@@ -94,16 +94,22 @@
 
     const webinars = [
       {
-        date: "9 June 2022 10:00:00 -0700",
-        headline: "How do you use Unsub at your library?",
-        quote: "In this Unsub webinar, we'll have panelists from two universities to discuss how they use Unsub. Panelists: Skye Hardesty and Tricia Clayton from Georgia State University (Georgia, USA), and Ian Robson from Queen's University (Ontario, Canada).",
-        link: "https://us02web.zoom.us/webinar/register/WN_5ZBK2QaBQA2kFJaGqqwHmg",
+        date: "6 September 2022 09:00:00 -0700",
+        headline: "All Publishers Support in Unsub",
+        quote: "In this Unsub webinar we'll have three people from two consortia share the consortial perspective on Unsub. The two consortia are: Jisc (Joint Information Systems Committee) from the UK and MCLS (Midwest Collaborative for Library Services) from the USA.",
+        link: "https://us02web.zoom.us/webinar/register/WN_Pnx056bgQTq3QnDXEzBwXg",
       },
       {
         date: "12 July 2022 08:00:00 -0700",
         headline: "Unsub and Library Consortia",
         quote: "In this Unsub webinar we'll have three people from two consortia share the consortial perspective on Unsub. The two consortia are: Jisc (Joint Information Systems Committee) from the UK and MCLS (Midwest Collaborative for Library Services) from the USA.",
-        link: "https://us02web.zoom.us/webinar/register/WN_44u15GgoQiS2qiclzSti3w",
+        link: "https://vimeo.com/729272194",
+      },
+      {
+        date: "9 June 2022 10:00:00 -0700",
+        headline: "How do you use Unsub at your library?",
+        quote: "In this Unsub webinar, we'll have panelists from two universities to discuss how they use Unsub. Panelists: Skye Hardesty and Tricia Clayton from Georgia State University (Georgia, USA), and Ian Robson from Queen's University (Ontario, Canada).",
+        link: "https://vimeo.com/719143796",
       },
       {
         date: "10 Mar 2022 15:30:00 -0700",
