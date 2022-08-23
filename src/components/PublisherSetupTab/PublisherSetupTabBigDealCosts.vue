@@ -5,8 +5,8 @@
         Big Deal annual cost
       </div>
       <div>
-        Enter the annual cost of your Big Deal from this publisher. If you don't have a Big Deal, enter your total
-        annual spend on journals from this publisher.
+        Enter the annual cost of your Big Deal from this publisher(s). If you don't have a Big Deal, enter your total
+        annual spend on journals from this publisher(s).
       </div>
 
       <div>
@@ -44,7 +44,7 @@
       </div>
       <div>
         Enter the annual growth in the cost of your Big Deal. As above, if you don't have a Big Deal, just estimate the
-        growth of your total spending on titles from this publisher.
+        growth of your total spending on titles from this publisher(s).
       </div>
 
       <div>

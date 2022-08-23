@@ -40,7 +40,7 @@
       </div>
       <div v-if="counterFileType==='counter-5'">
         <div>
-          For COUNTER 5, you'll need to upload three COUNTER 5 reports: your <strong>TR_J2, TR_J3,</strong> and <strong>TR_J4.</strong> Unsub requires all three files, in order to create your dashboard. If you can not get a <strong>TR_J2</strong> file or the <strong>TR_J2</strong> file does not have any rows of data except the header rows you can download and use <a href="https://unsub-public.s3.amazonaws.com/TR_J2.csv">this fake <strong>TR_J2</strong> file</a>. It should not affect your dashboard.
+          For COUNTER 5 you'll need to upload three COUNTER 5 reports: your <strong>TR_J2, TR_J3,</strong> and <strong>TR_J4.</strong> Unsub requires all three files, in order to create your dashboard. Each file requires 3 or more rows of data (excluding headers). If you can not get a <strong>TR_J2</strong> file or the <strong>TR_J2</strong> file does not have any rows of data except the header rows you can download and use <a href="https://unsub-public.s3.amazonaws.com/TR_J2.csv">this fake <strong>TR_J2</strong> file</a>. It should not affect your dashboard.
         </div>
         <v-list>
           <publisher-file file-type="counterTrj2"/>
