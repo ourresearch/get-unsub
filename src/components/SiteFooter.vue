@@ -33,6 +33,9 @@
                     <div>
                         <router-link to="/unsub-toc.pdf" target="_blank">Terms of Use</router-link>
                     </div>
+                    <div>
+                        <router-link to="/privacy">Privacy policy</router-link>
+                    </div>
 
                 </v-col>
                 <v-col cols="12" sm="4" class="text-center">
