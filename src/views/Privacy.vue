@@ -106,7 +106,7 @@
 
 
         <v-card flat class="pa-6">
-            <div class="text-h5 mt-3 mb-2 font-weight-bold">
+            <div class="text-h5 mt-3 mb-2 font-weight-bold" id="intercom" style="padding-top: 80px;">
                 D. Use Of Cookies, Other Tracking Technologies And Gathering Of Statistical Data
             </div>
             <p>
