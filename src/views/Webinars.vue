@@ -96,7 +96,7 @@
       {
         date: "6 September 2022 09:00:00 -0700",
         headline: "All Publishers Support in Unsub",
-        quote: "In this Unsub webinar we'll have three people from two consortia share the consortial perspective on Unsub. The two consortia are: Jisc (Joint Information Systems Committee) from the UK and MCLS (Midwest Collaborative for Library Services) from the USA.",
+        quote: "In this Unsub webinar I'll go over the new features released in August 2022, including: support for all publishers, support for a mix of publishers, package setup changes (title prices now required and optional title filter), APC report changes, and more",
         link: "https://us02web.zoom.us/webinar/register/WN_Pnx056bgQTq3QnDXEzBwXg",
       },
       {
