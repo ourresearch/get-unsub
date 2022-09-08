@@ -97,7 +97,7 @@
         date: "6 September 2022 09:00:00 -0700",
         headline: "All Publishers Support in Unsub",
         quote: "In this Unsub webinar I'll go over the new features released in August 2022, including: support for all publishers, support for a mix of publishers, package setup changes (title prices now required and optional title filter), APC report changes, and more",
-        link: "https://us02web.zoom.us/webinar/register/WN_Pnx056bgQTq3QnDXEzBwXg",
+        link: "https://vimeo.com/747731226",
       },
       {
         date: "12 July 2022 08:00:00 -0700",
