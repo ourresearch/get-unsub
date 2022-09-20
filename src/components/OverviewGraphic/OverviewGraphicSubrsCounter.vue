@@ -11,7 +11,7 @@
               v-long-press="300"
               class="mt-2"
               icon
-              :disabled="publisherIsConsortialProposalSet"
+              :disabled="publisherIsConsortialProposalSet || !iCanEdit"
 
               @long-press-start="longPressStart(-1)"
               @long-press-stop="longPressStop"
@@ -26,6 +26,7 @@
                 hide-details
                 :color="subrColor"
                 :readonly="publisherIsConsortialProposalSet"
+                :disabled="!iCanEdit"
             />
 
           </div>
@@ -37,7 +38,7 @@
               class="mt-2"
 
               v-long-press="300"
-              :disabled="(myCount > numJournals) || publisherIsConsortialProposalSet"
+              :disabled="(myCount > numJournals) || publisherIsConsortialProposalSet || !iCanEdit"
               @long-press-start="longPressStart(1)"
               @long-press-stop="longPressStop"
               @click="changeMyCount(1)"
@@ -154,8 +155,10 @@ export default {
       "subrIssnls",
       "scenarioJournals",
       "scenarioAllowAutosubscribe",
-        "requestedJournalsCount",
-        "publisherIsConsortialProposalSet",
+      "requestedJournalsCount",
+      "publisherIsConsortialProposalSet",
+      "publisherId",
+      "userEmail",
     ]),
     numJournals() {
       return this.scenarioJournals.length
@@ -184,7 +187,15 @@ export default {
     },
     myUnsubscribedCount() {
       return this.numJournals - this.$store.getters.subrJournalsCount
-    }
+    },
+    iCanEdit() {
+      if (this.publisherId.includes("package-jiscspringer")) {
+        console.log("in iCanEdit: " + this.userEmail)
+        return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
+      } else {
+        return true
+      }
+    },
   },
 
 }

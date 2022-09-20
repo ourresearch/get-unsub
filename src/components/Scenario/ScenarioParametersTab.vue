@@ -21,7 +21,7 @@
                                 v-for="config in group.contents"
                                 :key="group.name+config.name"
                                 @click="startEdit(config.name)"
-                                :disabled="publisherIsConsortialProposalSet"
+                                :disabled="publisherIsConsortialProposalSet || !iCanEdit"
 
                         >
                             <v-list-item-content>
@@ -189,10 +189,20 @@
                 'userConsortia',
                 'userInstitutions',
                 'publisherIsConsortialProposalSet',
+                'publisherId',
+                'userEmail',
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
             selectedConfigData() {
                 return appConfigs.scenarioConfigs[this.selectedConfigName]
+            },
+            iCanEdit() {
+              if (this.publisherId.includes("package-jiscspringer")) {
+                console.log("in iCanEdit: " + this.userEmail)
+                return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
+              } else {
+                return true
+              }
             },
 
         },

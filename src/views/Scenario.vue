@@ -225,7 +225,7 @@
 
                         <v-tooltip bottom max-width="300">
                           <template v-slot:activator="{ on }">
-                            <v-btn icon depressed :disabled="!selectedAndSubscribable" color="blue" class="mr-4" @click="setSubscriptions()" v-on="on">
+                            <v-btn icon depressed :disabled="!selectedAndSubscribable || !iCanEdit" color="blue" class="mr-4" @click="setSubscriptions()" v-on="on">
                               <v-icon>mdi-cart-arrow-down</v-icon>
                             </v-btn>
                           </template>
@@ -236,7 +236,7 @@
 
                         <v-tooltip bottom max-width="300">
                           <template v-slot:activator="{ on }">
-                            <v-btn icon depressed :disabled="!selectedAndUnsubscribable" color="#555" class="mr-4" @click="clearSubscriptions()" v-on="on">
+                            <v-btn icon depressed :disabled="!selectedAndUnsubscribable || !iCanEdit" color="#555" class="mr-4" @click="clearSubscriptions()" v-on="on">
                               <v-icon>mdi-cart-arrow-up</v-icon>
                             </v-btn>
                           </template>
@@ -573,6 +573,14 @@ export default {
     },
     searchHint() {
       return (this.anySelected ? this.issnsNotHiddenByFilters.length : 0) + " selected"
+    },
+    iCanEdit() {
+      if (this.publisherId.includes("package-jiscspringer")) {
+        console.log("in iCanEdit: " + this.userEmail)
+        return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
+      } else {
+        return true
+      }
     },
   },
   methods: {

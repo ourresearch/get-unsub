@@ -254,11 +254,23 @@
         <v-btn text @click="dialogIsOpen = false">
           Close
         </v-btn>
-        <v-btn depressed dark color="#555" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed">
+        <!-- Two versions of each of unsubscribe and subscribe b/c dark and disabled don't work together -->
+        <v-btn depressed dark color="#555" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed && iCanEdit" :disabled="!iCanEdit">
           <v-icon>mdi-cart-arrow-up</v-icon>
           Unsubscribe
         </v-btn>
-        <v-btn depressed dark color="blue" @click="subscribe" v-if="!scenarioZoomedJournal.subscribed">
+
+        <v-btn depressed color="#555" @click="unsubscribe" v-if="scenarioZoomedJournal.subscribed && !iCanEdit" :disabled="!iCanEdit">
+          <v-icon>mdi-cart-arrow-up</v-icon>
+          Unsubscribe
+        </v-btn>
+
+        <v-btn depressed dark color="blue" @click="subscribe" v-if="!scenarioZoomedJournal.subscribed && iCanEdit" :disabled="!iCanEdit">
+          <v-icon>mdi-cart-arrow-down</v-icon>
+          Subscribe
+        </v-btn>
+
+        <v-btn depressed color="blue" @click="subscribe" v-if="!scenarioZoomedJournal.subscribed && !iCanEdit" :disabled="!iCanEdit">
           <v-icon>mdi-cart-arrow-down</v-icon>
           Subscribe
         </v-btn>
@@ -329,6 +341,8 @@ export default {
     ...mapGetters([
       "scenarioId",
       "publisherPublisher",
+      "publisherId",
+      "userEmail",
       "scenarioZoomedJournal",
       "citationWeight",
       "authorshipWeight",
@@ -410,8 +424,15 @@ export default {
       if (this.scenarioZoomedJournal.subscribed) return "Subscribed"
       if (this.scenarioZoomedJournal.requested) return "Requested"
       return "Unsubscribed"
-    }
-
+    },
+    iCanEdit() {
+      if (this.publisherId.includes("package-jiscspringer")) {
+        console.log("in iCanEdit: " + this.userEmail)
+        return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
+      } else {
+        return true
+      }
+    },
   },
   methods: {
     ...mapActions([

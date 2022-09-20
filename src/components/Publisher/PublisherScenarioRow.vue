@@ -57,7 +57,10 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item @click.stop="openCopyDialog(scenario)">
+          <v-list-item
+            @click.stop="openCopyDialog(scenario)"
+            :disabled="!iCanEdit"
+          >
             <v-list-item-icon>
               <v-icon>mdi-content-copy</v-icon>
             </v-list-item-icon>
@@ -65,7 +68,10 @@
               Make a copy
             </v-list-item-title>
           </v-list-item>
-          <v-list-item @click.stop="openRenameDialog(scenario)">
+          <v-list-item
+            @click.stop="openRenameDialog(scenario)"
+            :disabled="!iCanEdit"
+          >
             <v-list-item-icon>
               <v-icon>mdi-pencil</v-icon>
             </v-list-item-icon>
@@ -73,7 +79,10 @@
               Rename
             </v-list-item-title>
           </v-list-item>
-          <v-list-item @click.stop="openDeleteDialog(scenario)">
+          <v-list-item
+            @click.stop="openDeleteDialog(scenario)"
+            :disabled="!iCanEdit"
+          >
             <v-list-item-icon>
               <v-icon>mdi-delete-outline</v-icon>
             </v-list-item-icon>
@@ -119,7 +128,7 @@ export default {
     ...mapGetters([
       "institutionId",
       "institutionIsConsortium",
-
+      "userEmail",
       "publisherName",
       "publisherScenarios",
       "publisherScenariosAreAllLoaded",
@@ -134,6 +143,14 @@ export default {
     },
     libraryFulfillmentPercent() {
       return libraryFulfillmentPercent(this.scenario.journals);
+    },
+    iCanEdit() {
+      if (this.publisherId.includes("package-jiscspringer")) {
+        console.log("in iCanEdit: " + this.userEmail)
+        return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
+      } else {
+        return true
+      }
     }
   },
   created() {

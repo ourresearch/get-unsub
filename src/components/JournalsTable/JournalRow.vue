@@ -83,6 +83,11 @@ export default {
     },
     toggleCustomSubscribed() {
       console.log("custom subscribe!")
+      if (!this.iCanEdit) {
+        console.log("special case for Jisc, disabled for user ", this.userEmail)
+        return // special case for Jisc Springer packages
+      }
+
       if (this.publisherIsConsortialProposalSet) {
         if (this.journal.subscribed) return // subscriptions are read-only for you.
         if (this.journal.requested) {
@@ -108,12 +113,22 @@ export default {
     ...mapGetters([
       'publisherCurrencySymbol',
       "publisherIsConsortialProposalSet",
+      "publisherId",
+      "userEmail",
     ]),
     isSubscribed() {
       return this.journal.subscribed || this.journal.customSubscribed
     },
     isRequested(){
       return this.journal.requested
+    },
+    iCanEdit() {
+      if (this.publisherId.includes("package-jiscspringer")) {
+        console.log("in iCanEdit: " + this.userEmail)
+        return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
+      } else {
+        return true
+      }
     },
   }
 }
