@@ -28,6 +28,14 @@
             3. Optional data
             </span>
           </v-subheader>
+          <v-subheader class="mt-" v-if="tab.isDiagnostic">
+            <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
+            Package diagnostics
+            </span>
+            <span v-if="publisherRequiredDataIsLoaded">
+            Package diagnostics
+            </span>
+          </v-subheader>
           <v-tab
               class="body-1"
               :disabled="tab.isDisabled"
@@ -81,6 +89,14 @@
             >
               mdi-information
             </v-icon>
+            <v-icon
+                small
+                left
+                v-if="tab.isDiagnostic"
+                :color="(tab.isDisabled) ? 'grey' : 'info'"
+            >
+              mdi-stethoscope
+            </v-icon>
             {{ tab.shortName }}
           </v-tab>
 
@@ -94,8 +110,19 @@
             :key="'tab-content-'+tab.id"
         >
           <div class="header">
-            <div class="main-title ">
+            <div class="main-title" v-if="tab.id != 'missing'">
               Setup:
+              <strong>
+                {{ tab.longName }}
+              </strong>
+              <v-btn small icon
+                     :href="tab.warningUrl"
+                     target="_blank"
+              >
+                <v-icon small>mdi-help-circle-outline</v-icon>
+              </v-btn>
+            </div>
+            <div class="main-title" v-if="tab.id === 'missing'">
               <strong>
                 {{ tab.longName }}
               </strong>
@@ -115,6 +142,7 @@
               :url="tab.helpUrl"
               :msg="tab.alertMsg"
               :journals="tab.journals"
+              v-if="!tab.isDiagnostic"
             />
           
           <publisher-setup-tab-counter  v-if="tab.id==='counter'" />
@@ -123,6 +151,7 @@
           <publisher-setup-tab-pta v-if="tab.id==='pta'" />
           <publisher-setup-tab-price  v-if="tab.id==='pricelist'" />
           <publisher-setup-tab-filter  v-if="tab.id==='filter'" />
+          <publisher-setup-tab-missing  v-if="tab.id==='missing'" />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -154,6 +183,7 @@ import PublisherSetupTabCounter from "../PublisherSetupTab/PublisherSetupTabCoun
 import PublisherSetupTabCurrency from "@/components/PublisherSetupTab/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/PublisherSetupTab/PublisherSetupTabPta";
 import PublisherSetupTabFilter from "@/components/PublisherSetupTab/PublisherSetupTabFilter";
+import PublisherSetupTabMissing from "@/components/PublisherSetupTab/PublisherSetupTabMissing";
 import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPricelist";
 import PublisherSetupTabBigDealCosts from "@/components/PublisherSetupTab/PublisherSetupTabBigDealCosts";
 
@@ -168,6 +198,7 @@ export default {
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
     PublisherSetupTabFilter,
+    PublisherSetupTabMissing,
     PublisherSetupTabPrice,
     PublisherSetupTabBigDealCosts,
     PublisherWarning,
@@ -232,6 +263,15 @@ export default {
           warningUrl: "https://docs.unsub.org/how-to-guides/upload-journal-filter",
           helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-journal-whitelist-alert-mean",
           errorMsg: "<strong>Optional data: </strong> You can filter all scenarios within this package to include only specific titles by providing a spreadsheet of ISSNs or a KBART file."
+        },
+        {
+          id: "missing",
+          shortName: "Missing titles",
+          isDiagnostic: true,
+          longName: "Missing titles",
+          warningUrl: "https://docs.unsub.org/how-to-guides/upload-journal-filter",
+          helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-journal-whitelist-alert-mean",
+          errorMsg: "<strong>Download a report on the titles missing across all senarios in this package.</strong>"
         },
       ]
     }

@@ -77,7 +77,7 @@ export default {
       "publisherPriceDataFileIsLive",
     ]),
     alertType() {
-      if (this.id === "filter") return "info"
+      if (this.id === "filter" || this.id === "missing") return "info"
       if (this.id === "pricelist") {
         if (!this.publisherPriceDataFileIsLive) return "error"
         // console.log("this.journalsWithNoPriceInfo", this.journalsWithNoPriceInfo || "afadf")
@@ -88,7 +88,7 @@ export default {
       return (this.isRequired) ? "error" : "warning"
     },
     alertIcon() {
-      if (this.id === "filter") return "mdi-information-outline"
+      if (this.id === "filter" || this.id === "missing") return "mdi-information-outline"
       if (this.id === "pricelist") {
         if (!this.publisherPriceDataFileIsLive) return "mdi-close-outline"
         return this.journalsWithNoPriceInfo ? "mdi-alert" : "mdi-check-outline"
