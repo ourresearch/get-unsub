@@ -8,32 +8,32 @@
           class="publisher-setup-tab-tabs"
       >
         <v-subheader class="">
-          1. Required data
+          Required data
         </v-subheader>
         <v-divider/>
         <template v-for="tab in tabs">
           <v-subheader class="mt-" v-if="tab.isFirstRecommendedTab">
             <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
-            2. Recommended data
+            Recommended data
             </span>
             <span v-if="publisherRequiredDataIsLoaded">
-            2. Recommended data
+            Recommended data
             </span>
           </v-subheader>
           <v-subheader class="mt-" v-if="tab.isOptional">
             <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
-            3. Optional data
+            Optional data
             </span>
             <span v-if="publisherRequiredDataIsLoaded">
-            3. Optional data
+            Optional data
             </span>
           </v-subheader>
           <v-subheader class="mt-" v-if="tab.isDiagnostic">
             <span style="color: #bbb;" v-if="!publisherRequiredDataIsLoaded">
-            Package diagnostics
+            Diagnostic data
             </span>
             <span v-if="publisherRequiredDataIsLoaded">
-            Package diagnostics
+            Diagnostic data
             </span>
           </v-subheader>
           <v-tab
@@ -269,8 +269,7 @@ export default {
           shortName: "Missing titles",
           isDiagnostic: true,
           longName: "Missing titles",
-          warningUrl: "https://docs.unsub.org/how-to-guides/upload-journal-filter",
-          helpUrl: "https://docs.unsub.org/troubleshooting/what-does-the-journal-whitelist-alert-mean",
+          warningUrl: "https://docs.unsub.org/how-to-guides/missing-titles-report",
           errorMsg: "<strong>Download a report on the titles missing across all senarios in this package.</strong>"
         },
       ]
