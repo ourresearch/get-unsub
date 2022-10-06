@@ -4,8 +4,8 @@ import _ from "lodash"
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 
 
-// let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
-let urlBase = "https://staging-jump-api.herokuapp.com/"
+let urlBase = "https://unpaywall-jump-api.herokuapp.com/"
+// let urlBase = "https://dev-unsub-api.herokuapp.com/"
 
 
 // this lets you develop against a local API endpoint
