@@ -461,7 +461,7 @@
         </v-list>
       </v-menu>
     </div>
-    <template v-slot:extension v-if="showBannerContent">
+    <!-- <template v-slot:extension v-if="showBannerContent">
       <v-alert color="primary" text style="width: 100%; margin-bottom: 0;">
         <div class="primary--text text-center" style="width: 100%;">
               <span>
@@ -479,7 +479,7 @@
         </v-btn>
 
       </v-alert>
-    </template>
+    </template> -->
 
 
   </v-app-bar>
