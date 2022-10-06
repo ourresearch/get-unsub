@@ -4,18 +4,14 @@
     <div class="">
 
     <div class="pb-3">
-      Titles can be <a href="https://docs.unsub.org/troubleshooting/why-dont-i-see-a-certain-title-in-my-dashboard">missing from your dashboard for four reasons</a>. Here, you can download a report as a CSV file with those titles that are missing, and for what reason(s) they are missing. Importantly, the same titles will be missing from all scenarios within this package. Read <a href="https://docs.unsub.org/how-to-guides/missing-titles-report" target="_blank">the documentation</a> for more information.
-    </div>
-
-    <div class="pb-3 pt-3">
-      Click the button below to get your missing titles report.
+      Some journals in your COUNTER reports are excluded from scenario forecasts for a <a href="https://docs.unsub.org/troubleshooting/why-dont-i-see-a-certain-title-in-my-dashboard" target="_blank">variety of reasons</a>. Here, you can download a report as a CSV file with those titles that are excluded, and for what reason(s) they are excluded. Read <a href="https://docs.unsub.org/how-to-guides/excluded-titles-report" target="_blank">the documentation</a> for more information.
     </div>
 
     <v-card flat>
       <div class="d-flex pt-3">
         <v-btn color="primary" @click="" :href="csvUrl">
           <v-icon left>mdi-download</v-icon>
-          Download
+          Excluded Titles
         </v-btn>
       </div>
     </v-card>
@@ -33,7 +29,7 @@ import PublisherFile from "../PulisherFile/PublisherFile";
 import PublisherWarning from "@/components/PublisherWarning/PublisherWarning";
 
 export default {
-  name: "PublisherSetupTabMissing",
+  name: "PublisherSetupTabExcluded",
   components: {
     PublisherFile,
     PublisherWarning,
@@ -54,7 +50,7 @@ export default {
     ]),
     csvUrl() {
       // urlBase ends with a slash
-      let url = `${urlBase}publisher/${this.publisherId}/missing`;
+      let url = `${urlBase}publisher/${this.publisherId}/excluded`;
       url += "?timestamp=" + `${new Date().getTime()}`
       url += "&jwt=" + localStorage.getItem("token")
       return url

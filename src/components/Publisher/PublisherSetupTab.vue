@@ -110,7 +110,7 @@
             :key="'tab-content-'+tab.id"
         >
           <div class="header">
-            <div class="main-title" v-if="tab.id != 'missing'">
+            <div class="main-title" v-if="tab.id != 'excluded'">
               Setup:
               <strong>
                 {{ tab.longName }}
@@ -122,7 +122,7 @@
                 <v-icon small>mdi-help-circle-outline</v-icon>
               </v-btn>
             </div>
-            <div class="main-title" v-if="tab.id === 'missing'">
+            <div class="main-title" v-if="tab.id === 'excluded'">
               <strong>
                 {{ tab.longName }}
               </strong>
@@ -142,7 +142,6 @@
               :url="tab.helpUrl"
               :msg="tab.alertMsg"
               :journals="tab.journals"
-              v-if="!tab.isDiagnostic"
             />
           
           <publisher-setup-tab-counter  v-if="tab.id==='counter'" />
@@ -151,7 +150,7 @@
           <publisher-setup-tab-pta v-if="tab.id==='pta'" />
           <publisher-setup-tab-price  v-if="tab.id==='pricelist'" />
           <publisher-setup-tab-filter  v-if="tab.id==='filter'" />
-          <publisher-setup-tab-missing  v-if="tab.id==='missing'" />
+          <publisher-setup-tab-excluded  v-if="tab.id==='excluded'" />
         </v-tab-item>
       </v-tabs>
     </template>
@@ -183,7 +182,7 @@ import PublisherSetupTabCounter from "../PublisherSetupTab/PublisherSetupTabCoun
 import PublisherSetupTabCurrency from "@/components/PublisherSetupTab/PublisherSetupTabCurrency";
 import PublisherSetupTabPta from "@/components/PublisherSetupTab/PublisherSetupTabPta";
 import PublisherSetupTabFilter from "@/components/PublisherSetupTab/PublisherSetupTabFilter";
-import PublisherSetupTabMissing from "@/components/PublisherSetupTab/PublisherSetupTabMissing";
+import PublisherSetupTabExcluded from "@/components/PublisherSetupTab/PublisherSetupTabExcluded";
 import PublisherSetupTabPrice from "@/components/PublisherSetupTab/PublisherSetupTabPricelist";
 import PublisherSetupTabBigDealCosts from "@/components/PublisherSetupTab/PublisherSetupTabBigDealCosts";
 
@@ -198,7 +197,7 @@ export default {
     PublisherSetupTabCurrency,
     PublisherSetupTabPta,
     PublisherSetupTabFilter,
-    PublisherSetupTabMissing,
+    PublisherSetupTabExcluded,
     PublisherSetupTabPrice,
     PublisherSetupTabBigDealCosts,
     PublisherWarning,
@@ -265,12 +264,12 @@ export default {
           errorMsg: "<strong>Optional data: </strong> You can filter all scenarios within this package to include only specific titles by providing a spreadsheet of ISSNs or a KBART file."
         },
         {
-          id: "missing",
-          shortName: "Missing titles",
+          id: "excluded",
+          shortName: "Excluded titles",
           isDiagnostic: true,
-          longName: "Missing titles",
-          warningUrl: "https://docs.unsub.org/how-to-guides/missing-titles-report",
-          errorMsg: "<strong>Download a report on the titles missing across all senarios in this package.</strong>"
+          longName: "Excluded titles",
+          warningUrl: "https://docs.unsub.org/how-to-guides/excluded-titles-report",
+          errorMsg: "<strong>Download a report on the titles excluded from this package.</strong>"
         },
       ]
     }
@@ -304,7 +303,7 @@ export default {
         const isError = !isComplete && tabConfig.isRequired
         const isWarning = !isComplete && tabConfig.isRecommended
         const isInfo = !isComplete && tabConfig.isOptional
-        const isDisabled = !this.publisherRequiredDataIsLoaded && (tabConfig.isRecommended || tabConfig.isOptional)
+        const isDisabled = !this.publisherRequiredDataIsLoaded && (tabConfig.isRecommended || tabConfig.isOptional || tabConfig.isDiagnostic)
 
         const myErrorMsg = (tabConfig.id === "pricelist") ? this.priceListErrorMsg : tabConfig.errorMsg
         const journals = (tabConfig.id === "pricelist") ? this.journalsWithNoPrices : null

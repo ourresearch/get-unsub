@@ -10,27 +10,26 @@
         <div class="d-flex">
           <div>
             <div v-html="msg"/>
-                    <div class="d-flex">
-          <v-spacer />
-          <v-btn @click="download" v-if="this.id === 'pricelist' && this.journalsWithNoPriceInfo" class=" mt-3" text :color="alertType">
-            <v-icon left>mdi-download</v-icon>
-            View missing titles
-          </v-btn>
-
-        </div>
-          </div>
-          <v-spacer/>
-          <v-btn icon
-                 small
-                 :color="alertType"
-                 :href="url"
-                 target="_blank"
-                 class="ml-4"
-                 v-if="!isSuccess"
-          >
+              <div class="d-flex">
+                <v-spacer />
+                <v-btn @click="download" v-if="this.id === 'pricelist' && this.journalsWithNoPriceInfo" class=" mt-3" text :color="alertType">
+                  <v-icon left>mdi-download</v-icon>
+                  View missing titles
+                </v-btn>
+              </div>
+            </div>
+            <v-spacer/>
+            <v-btn icon
+              small
+              :color="alertType"
+              :href="url"
+              target="_blank"
+              class="ml-4"
+              v-if="!isSuccess && this.id !== 'excluded'"
+            >
             <v-icon>mdi-help-circle-outline</v-icon>
-          </v-btn>
-        </div>
+            </v-btn>
+          </div>
 
       </v-alert>
 
@@ -77,7 +76,7 @@ export default {
       "publisherPriceDataFileIsLive",
     ]),
     alertType() {
-      if (this.id === "filter" || this.id === "missing") return "info"
+      if (this.id === "filter" || this.id === "excluded") return "info"
       if (this.id === "pricelist") {
         if (!this.publisherPriceDataFileIsLive) return "error"
         // console.log("this.journalsWithNoPriceInfo", this.journalsWithNoPriceInfo || "afadf")
@@ -88,7 +87,7 @@ export default {
       return (this.isRequired) ? "error" : "warning"
     },
     alertIcon() {
-      if (this.id === "filter" || this.id === "missing") return "mdi-information-outline"
+      if (this.id === "filter" || this.id === "excluded") return "mdi-information-outline"
       if (this.id === "pricelist") {
         if (!this.publisherPriceDataFileIsLive) return "mdi-close-outline"
         return this.journalsWithNoPriceInfo ? "mdi-alert" : "mdi-check-outline"
