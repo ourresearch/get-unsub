@@ -1,6 +1,9 @@
 <template>
   <v-card flat class="px-6">
     <p>
+      Jisc is not currently requesting feedback on any scenarios via Unsub
+    </p>
+    <!-- <p>
       Your consortium last sent this scenario to you on <strong>{{
         scenarioSentDate | moment("dddd, MMMM Do YYYY")
       }}.</strong>
@@ -12,8 +15,9 @@
     <p v-if="!scenarioReturnDate">
       You haven't yet sent your response back. When you do, your consortium will get an email notification, and be able
       to see your title-by-title subscription requests.
-    </p>
+    </p> -->
     <v-btn
+        :disabled="disableSendToConsortium"
         color="primary"
         @click="sendToConsortium"
         :loading="isLoading"
@@ -47,6 +51,7 @@ export default {
         createGroupMember: false,
       },
       isLoading: false,
+      disableSendToConsortium: true,
     }
   },
   methods: {
