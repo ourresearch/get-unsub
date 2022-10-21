@@ -13,7 +13,8 @@
     </div>
     <div class="pa-3" v-if="isConsortialProposalSet">
       <div class="body-2">
-        Your consortium has proposed these scenarios, and would like your feedback. Each scenario contains a set of Core title-by-title subscriptions. Your mission is to select a few additional titles that you'd like to add to those Core titles.
+        Jisc is not currently requesting feedback on any scenarios via Unsub
+        <!-- Your consortium has proposed these scenarios, and would like your feedback. Each scenario contains a set of Core title-by-title subscriptions. Your mission is to select a few additional titles that you'd like to add to those Core titles. -->
       </div>
     </div>
 
