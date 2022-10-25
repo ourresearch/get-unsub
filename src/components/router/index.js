@@ -17,6 +17,7 @@ import Press from "../../views/Press";
 import Contact from "../../views/Contact";
 import Privacy from "../../views/Privacy";
 import PrivacyForm from "../../views/PrivacyForm";
+import Admin from "../../views/Admin";
 
 
 import Scenario from "../../views/Scenario"
@@ -36,6 +37,7 @@ const routes = [
     {path: '/privacy-form', component: PrivacyForm},
 
 
+    {path: '/admin', component: Admin},
     {path: '/recover-password', component: RecoverPassword},
     {path: '/request-demo', component: RequestDemo},
     {path: '/reset-password', component: ResetPassword},
