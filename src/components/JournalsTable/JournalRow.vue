@@ -114,6 +114,7 @@ export default {
       'publisherCurrencySymbol',
       "publisherIsConsortialProposalSet",
       "publisherId",
+      "scenarioName",
       "userEmail",
     ]),
     isSubscribed() {
@@ -123,7 +124,7 @@ export default {
       return this.journal.requested
     },
     iCanEdit() {
-      if (this.publisherId.includes("package-jiscspringer")) {
+      if (this.scenarioName.includes("Walkaway")) {
         console.log("in iCanEdit: " + this.userEmail)
         return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
       } else {

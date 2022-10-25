@@ -133,6 +133,7 @@ export default {
       "publisherScenarios",
       "publisherScenariosAreAllLoaded",
       "publisherId",
+      "scenarioName",
       "publisherBigDealCost",
       "publisherFiles",
       "publisherCurrencySymbol",
@@ -145,7 +146,7 @@ export default {
       return libraryFulfillmentPercent(this.scenario.journals);
     },
     iCanEdit() {
-      if (this.publisherId.includes("package-jiscspringer")) {
+      if (this.scenarioName.includes("Walkaway")) {
         console.log("in iCanEdit: " + this.userEmail)
         return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
       } else {

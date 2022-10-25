@@ -190,6 +190,7 @@
                 'userInstitutions',
                 'publisherIsConsortialProposalSet',
                 'publisherId',
+                'scenarioName',
                 'userEmail',
             ]),
             configGroups: () => appConfigs.scenarioConfigGroups,
@@ -197,7 +198,7 @@
                 return appConfigs.scenarioConfigs[this.selectedConfigName]
             },
             iCanEdit() {
-              if (this.publisherId.includes("package-jiscspringer")) {
+              if (this.scenarioName.includes("Walkaway")) {
                 console.log("in iCanEdit: " + this.userEmail)
                 return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
               } else {

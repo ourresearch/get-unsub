@@ -575,7 +575,7 @@ export default {
       return (this.anySelected ? this.issnsNotHiddenByFilters.length : 0) + " selected"
     },
     iCanEdit() {
-      if (this.publisherId.includes("package-jiscspringer")) {
+      if (this.scenarioName.includes("Walkaway")) {
         console.log("in iCanEdit: " + this.userEmail)
         return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
       } else {

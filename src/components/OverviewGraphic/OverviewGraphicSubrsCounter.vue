@@ -158,6 +158,7 @@ export default {
       "requestedJournalsCount",
       "publisherIsConsortialProposalSet",
       "publisherId",
+      "scenarioName",
       "userEmail",
     ]),
     numJournals() {
@@ -189,7 +190,7 @@ export default {
       return this.numJournals - this.$store.getters.subrJournalsCount
     },
     iCanEdit() {
-      if (this.publisherId.includes("package-jiscspringer")) {
+      if (this.scenarioName.includes("Walkaway")) {
         console.log("in iCanEdit: " + this.userEmail)
         return ["jisc.ac.uk", "ourresearch.org"].includes(this.userEmail.split('@')[1])
       } else {
