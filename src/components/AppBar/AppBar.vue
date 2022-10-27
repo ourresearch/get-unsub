@@ -401,6 +401,9 @@
             </div>
           </v-list-item>
           <v-divider></v-divider>
+          <v-list-item to="/admin" v-if="userEmail.endsWith('@ourresearch.org')">
+            Admin dashboard
+          </v-list-item>
           <v-list-item to="/u">
             Your account
           </v-list-item>

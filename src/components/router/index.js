@@ -37,7 +37,12 @@ const routes = [
     {path: '/privacy-form', component: PrivacyForm},
 
 
-    {path: '/admin', component: Admin},
+    {
+        path: '/admin', 
+        component: Admin,
+        name: "admin",
+        meta: {requiresAuth: true},
+    },
     {path: '/recover-password', component: RecoverPassword},
     {path: '/request-demo', component: RequestDemo},
     {path: '/reset-password', component: ResetPassword},

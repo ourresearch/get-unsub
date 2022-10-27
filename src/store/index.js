@@ -5,6 +5,7 @@ import {publisher} from "./publisher.store.js"
 import {scenario} from "./scenario.store"
 import {scenarioEditDialogs} from "../components/ScenarioEditDialogs/scenarioEditDialogsStore";
 import {institution} from "./institution.store";
+import {admin} from "./admin.store";
 import {user} from "./user.store";
 import configs from "../appConfigs"
 import {roleFromPermissions} from "../shared/userPermissions";
@@ -47,6 +48,7 @@ export default new Vuex.Store({
     modules: {
         scenarioEditDialogs,
         institution,
+        admin,
         user,
         publisher,
         scenario,
