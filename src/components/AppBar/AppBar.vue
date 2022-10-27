@@ -412,8 +412,9 @@
     </div>
 
     <div class="no-highlight hidden-sm-and-down" v-if="!isLoggedIn">
-      <v-btn outlined color="primary" to="/request-demo">
-        Get Demo
+      <v-btn outlined color="primary" href="https://vimeo.com/676110085#t=240s" target="_blank">
+        Watch video
+        <v-icon small class="ml-2">mdi-open-in-new</v-icon>
       </v-btn>
       <v-btn
           text
@@ -434,8 +435,11 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item to="/request-demo" class="font-weight-bold">
+          <!-- <v-list-item to="/request-demo" class="font-weight-bold">
             Get Demo
+          </v-list-item> -->
+          <v-list-item href="https://vimeo.com/676110085#t=240s" target="_blank">
+            Watch video
           </v-list-item>
           <v-list-item to="/team">
             Team

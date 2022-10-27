@@ -16,12 +16,21 @@
 
                 </div>
                 <div class="mb-10 ">
-                    <v-btn
+                    <!-- <v-btn
                             to="./request-demo"
                             x-large
                             class=""
                             color="primary">
                         Get demo
+                    </v-btn> -->
+                    <v-btn
+                            href="https://vimeo.com/676110085#t=240s"
+                            target="_blank"
+                            x-large
+                            class="ma-4"
+                            color="primary">
+                        Watch video
+                        <v-icon small class="ml-2">mdi-open-in-new</v-icon>
                     </v-btn>
 
                 </div>
@@ -49,20 +58,20 @@
                     Want to learn more?
                 </div>
                 <div class="text-h5">
-                    Schedule a free custom demo, or watch our video guided tour.
+                    Watch our video guided tour.
                 </div>
                 <div class="mt-4">
-                    <v-btn
+                    <!-- <v-btn
                             to="./request-demo"
                             x-large
                             class="ma-4"
                             dark
                             color="primary"
                     >
-                        Get your demo
-                    </v-btn>
+                        Get demo
+                    </v-btn> -->
                     <v-btn
-                            href="https://vimeo.com/420183913"
+                            href="https://vimeo.com/676110085#t=240s"
                             target="_blank"
                             x-large
                             class="ma-4">
