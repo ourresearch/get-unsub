@@ -5,13 +5,6 @@
                 Unsub Admin
             </div>
         </v-card-title>
-
-        <v-card flat>
-            <v-alert type="info" dense outlined>
-                <div class="text-h6">After using one of the forms, recycle the page to use the same form</div>
-            </v-alert>
-        </v-card>
-
         <app-bar-ext-admin/>
         <v-divider/>
         <v-tabs-items v-model="adminTabShowing">
@@ -20,6 +13,9 @@
             </v-tab-item>
             <v-tab-item>
                 <add-institution/>
+            </v-tab-item>
+            <v-tab-item>
+                <lookup-user/>
             </v-tab-item>
             <v-tab-item>
                 <add-user/>
@@ -45,6 +41,7 @@
 
     import AddInstitution from "../components/Admin/AddInstitution";
     import LookupInstitution from "../components/Admin/LookupInstitution";
+    import LookupUser from  "../components/Admin/LookupUser";
     import AddUser from "../components/Admin/AddUser";
     import RemoveUser from "../components/Admin/RemoveUser";
 
@@ -59,8 +56,9 @@
         },
         components: {
             AppBarExtAdmin,
-            AddInstitution,
             LookupInstitution,
+            AddInstitution,
+            LookupUser,
             AddUser,
             RemoveUser,
         },

@@ -20,7 +20,6 @@
             ref="form"
             class="pa-3"
             :disabled="formIsLoading"
-            v-if="!formIsSubmitted"
         >
             <v-row>
                 <v-col cols="12" md="4">
@@ -47,7 +46,6 @@
                         v-model="formData.jiscid"
                         label="3 letter Jisc ID"
                         outlined
-                        :rules="stringRules"
                         hint='e.g., "hul" for University of Hull'
                         persistent-hint
                     />
@@ -93,8 +91,8 @@
                 </v-col>
             </v-row>
         </v-form>
-        <div v-if="formIsSubmitted" class="pa-3 ">
-            <v-alert type="success" prominent>
+        <div v-if="formIsSubmitted && !formIsLoading" class="pa-3 ">
+            <v-alert type="success" prominent dense>
                 <div class="text-h5 mb-4">User created!</div>
                 <div>User ID: <strong>{{createdUserID}}</strong></div>
             </v-alert>

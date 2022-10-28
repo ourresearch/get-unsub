@@ -5,14 +5,13 @@
             <div class="text-h4 mb-6 font-weight-bold">
                 Remove user access from an institution
             </div>
-            <p>This action does not delete the user or the institution. This action removes permissions for the user and institution pair. Access can be given back by usign the "Add a user to an institution" form above.</p>
-            <p>You can look up institution IDs in the Unsub database, or the <a href="https://docs.google.com/spreadsheets/d/1QRHMFxr9KyTjnmmk9uubCPP80RRcXald-MButhp2ZwQ/edit#gid=1782987841">institution level summary spreadsheet</a>.</p>
+            <p>This action does not delete the user or the institution. This action removes all permissions for the user and institution pair. Access can be given back by going to the <strong>Add User</strong> tab.</p>
+            <p>You can look up institution IDs in the <strong>Lookup Institution</strong> tab to the left, in the Unsub database, or the <a href="https://docs.google.com/spreadsheets/d/1QRHMFxr9KyTjnmmk9uubCPP80RRcXald-MButhp2ZwQ/edit#gid=1782987841">institution level summary spreadsheet</a>.</p>
             <v-form
                 v-model="formIsValid"
                 ref="form"
                 class="pa-3"
                 :disabled="formIsLoading"
-                v-if="!formIsSubmitted"
             >
                 <v-row>
                     <v-col cols="12" md="4">
@@ -50,6 +49,12 @@
                     </v-col>
                 </v-row>
             </v-form>
+            <div v-if="formIsSubmitted && !formIsLoading" class="pa-3 ">
+                <v-alert type="success" prominent dense>
+                    <div class="text-h5 mb-4">User access removed.</div>
+                    <div>Access to <strong>{{ formData.institution }}</strong> removed for <strong>{{ formData.email }}</strong></div>
+                </v-alert>
+            </div>
         </v-card>
     </template>
   </v-card>

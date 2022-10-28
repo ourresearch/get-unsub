@@ -10,12 +10,16 @@
         Add Institution
       </v-tab>
       <v-tab class="low-key-button">
+        <v-icon small left>mdi-account-search</v-icon>
+        Lookup User
+      </v-tab>
+      <v-tab class="low-key-button">
         <v-icon small left>mdi-account-outline</v-icon>
         Add User
       </v-tab>
       <v-tab class="low-key-button">
         <v-icon small left>mdi-account-off</v-icon>
-        Remove User
+        Remove User Access
       </v-tab>
     </v-tabs>
   </v-container>

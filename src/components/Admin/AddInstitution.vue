@@ -8,7 +8,7 @@
         </div>
         <p>Before adding an institution, check if we already have it in the <strong>Lookup Institution</strong> tab to the left</p>
         <p>Look up the institution's ROR ID at <a href="https://ror.org/">ror.org</a></p>
-        <p>This can take a few minutes or more as this step requires populating a database table <br><pre>(jump_apc_institutional_authorships)</pre></p>
+        <p>Grab a coffee <v-icon small left>mdi-coffee-outline</v-icon>! This can take a few minutes or more as this step requires populating a database table <br><pre>(jump_apc_institutional_authorships)</pre></p>
         <v-form
             v-model="formIsValid"
             ref="form"
@@ -51,8 +51,8 @@
                 </v-col>
             </v-row>
         </v-form>
-        <div v-if="formIsSubmitted" class="pa-3 ">
-            <v-alert type="success" prominent>
+        <div v-if="formIsSubmitted && !formIsLoading" class="pa-3">
+            <v-alert type="success" prominent dense>
                 <div class="text-h5 mb-4">Institution created!</div>
                 <div>Institution ID: <strong>{{createdInstitutionID}}</strong></div>
             </v-alert>
