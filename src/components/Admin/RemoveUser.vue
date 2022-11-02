@@ -6,7 +6,7 @@
                 Remove user access from an institution
             </div>
             <p>This action does not delete the user or the institution. This action removes all permissions for the user and institution pair. Access can be given back by going to the <strong>Add User</strong> tab.</p>
-            <p>You can look up institution IDs in the <strong>Lookup Institution</strong> tab to the left, in the Unsub database, or the <a href="https://docs.google.com/spreadsheets/d/1QRHMFxr9KyTjnmmk9uubCPP80RRcXald-MButhp2ZwQ/edit#gid=1782987841">institution level summary spreadsheet</a>.</p>
+            <p>You can look up institution IDs in the <strong>Lookup Institution</strong> tab to the left, in the Unsub database, or the <a href="https://docs.google.com/spreadsheets/d/1QRHMFxr9KyTjnmmk9uubCPP80RRcXald-MButhp2ZwQ/edit#gid=1782987841" target="_blank">institution level summary spreadsheet</a>.</p>
             <p>The blue button will spin while the action is underway; you'll get a green alert under the blue button when it's done</p>
             <v-form
                 v-model="formIsValid"
