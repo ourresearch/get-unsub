@@ -7,8 +7,9 @@
             Add an institution
         </div>
         <p>Before adding an institution, check if we already have it in the <strong>Lookup Institution</strong> tab to the left</p>
-        <p>Look up the institution's ROR ID at <a href="https://ror.org/">ror.org</a></p>
+        <p>Look up the institution's ROR ID at <a href="https://ror.org/" target="_blank">ror.org</a></p>
         <p>Grab a coffee <v-icon small left>mdi-coffee-outline</v-icon>! This can take a few minutes or more as this step requires populating a database table <br><pre>(jump_apc_institutional_authorships)</pre></p>
+        <p>The blue button will spin while the action is underway; you'll get a green alert under the blue button when it's done</p>
         <v-form
             v-model="formIsValid"
             ref="form"
@@ -52,9 +53,13 @@
             </v-row>
         </v-form>
         <div v-if="formIsSubmitted && !formIsLoading" class="pa-3">
-            <v-alert type="success" prominent dense>
+            <v-alert type="success" prominent dense v-if="!errorMsg">
                 <div class="text-h5 mb-4">Institution created!</div>
                 <div>Institution ID: <strong>{{createdInstitutionID}}</strong></div>
+            </v-alert>
+            <v-alert type="error" prominent dense v-else>
+                <div class="text-h5 mb-4">Error</div>
+                <div>Woopsy! <strong>{{errorMsg}}</strong></div>
             </v-alert>
         </div>
       </v-card>
@@ -80,6 +85,7 @@ export default {
       formIsLoading: false,
       formIsSubmitted: false,
       createdInstitutionID: "",
+      errorMsg: "",
       institutionsSearched: [],
       stringRules: [
           v => !!v || "This field is required."
@@ -96,7 +102,11 @@ export default {
       ],
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters([
+        "userEmail",
+    ]),
+  },
   methods: {
     async submit() {
         this.$refs.form.validate()
@@ -109,13 +119,26 @@ export default {
         const postData = {
             institution_name: this.formData.institution,
             ror_ids: this.formData.ror,
+            submitter_email: this.userEmail,
         }
         this.formIsLoading = true
-        const resp = await api.post(url, postData)
-        console.log("added institution response", resp)
-        this.createdInstitutionID = resp.data.id
-        this.formIsLoading = false
-        this.formIsSubmitted = true
+        try {
+            const resp = await api.post(url, postData)
+            this.createdInstitutionID = resp.data.id
+        }
+        catch(e) {
+            if (e.response.status === 409) {
+                this.errorMsg = e.response.data.message
+                // return
+            }
+            else {
+                this.errorMsg = "Sorry, something went wrong"
+            }
+        }
+        finally {
+            this.formIsLoading = false
+            this.formIsSubmitted = true
+        }
     },
   },
   created() {},

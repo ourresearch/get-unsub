@@ -41,7 +41,7 @@ const routes = [
         path: '/admin', 
         component: Admin,
         name: "admin",
-        meta: {requiresAuth: true},
+        meta: {requiresAuth: true, domain: "@ourresearch.org"},
     },
     {path: '/recover-password', component: RecoverPassword},
     {path: '/request-demo', component: RequestDemo},
@@ -132,7 +132,20 @@ router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         // this page requires authentication
         if (store.getters.isLoggedIn) {  // you're logged in great. proceed.
-            next()
+            // if route /admin
+            if (to.matched.some(record => record.path === '/admin')) {
+                // is logged in user email allowed to see /admin
+                if (to.matched.some(record => store.getters.userEmail.endsWith(record.meta.domain))) {
+                    // allowed to see admin dashboard
+                    next()
+                } else {
+                    // not allowed, go back to user home page: /u
+                    next("/u")
+                }
+            } else {
+                // not /admin route
+                next()
+            }
         } else { // sorry, you can't view this page. go log in.
             next("/login")
         }

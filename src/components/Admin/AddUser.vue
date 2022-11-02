@@ -9,12 +9,13 @@
         <p>
             Two separate use cases for this form:
             <ul>
-                <li>Add a user to a Jisc institution. <strong>Only fill in email, Jisc ID, and permissions</strong></li>
+                <li>Add a user to a Jisc institution. <strong>Only fill in email, Jisc ID, and permissions</strong> (<a href="https://docs.google.com/spreadsheets/d/1K8QFrllYEsdYNp-ptcxCM_1e8d-um7Q5/edit" target="_blank">JISC ID lookup</a>)</li>
                 <li>Add a user to any other institution. <strong>Fill in email, institution id, permissions</strong></li>
             </ul>
         </p>
         <p>Person's name and password are optional, and typically we don't fill these out</p>
         <p>Unless otherwise specified by the user, choose "Admin" for Permissions</p>
+        <p>The blue button will spin while the action is underway; you'll get a green alert under the blue button when it's done</p>
         <v-form
             v-model="formIsValid"
             ref="form"
@@ -92,9 +93,13 @@
             </v-row>
         </v-form>
         <div v-if="formIsSubmitted && !formIsLoading" class="pa-3 ">
-            <v-alert type="success" prominent dense>
+            <v-alert type="success" prominent dense v-if="!errorMsg">
                 <div class="text-h5 mb-4">User created!</div>
                 <div>User ID: <strong>{{createdUserID}}</strong></div>
+            </v-alert>
+            <v-alert type="error" prominent dense v-else>
+                <div class="text-h5 mb-4">Error</div>
+                <div>Woopsy! <strong>{{errorMsg}}</strong></div>
             </v-alert>
         </div>
 
@@ -124,6 +129,7 @@ export default {
       formIsLoading: false,
       formIsSubmitted: false,
       createdUserID: "",
+      errorMsg: "",
       stringRules: [
           v => !!v || "This field is required."
       ],
@@ -155,7 +161,10 @@ export default {
                 role_values: "view",
             },
         ]
-    }
+    },
+    ...mapGetters([
+        "userEmail",
+    ]),
   },
   methods: {
     async submit() {
@@ -173,12 +182,25 @@ export default {
             permissions: this.formData.permissions,
             password: this.formData.password,
             jiscid: this.formData.jiscid,
+            submitter_email: this.userEmail,
         }
         this.formIsLoading = true
-        const resp = await api.post(url, postData)
-        this.createdUserID = resp.data.id
-        this.formIsLoading = false
-        this.formIsSubmitted = true
+        try {
+            const resp = await api.post(url, postData)
+            this.createdUserID = resp.data.id
+        }
+        catch(e) {
+            const errmsg = e.response.data.message
+            if (errmsg != null) {
+                this.errorMsg = errmsg
+            } else {
+                this.errorMsg = "Sorry, something went wrong"
+            }
+        }
+        finally {
+            this.formIsLoading = false
+            this.formIsSubmitted = true
+        }
     },
   },
   created() {},

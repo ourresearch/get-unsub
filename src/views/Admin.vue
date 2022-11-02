@@ -25,13 +25,13 @@
             </v-tab-item>
         </v-tabs-items>
     </v-container>
-    <v-container class="mt-3" v-else>
+    <!-- <v-container class="mt-3" v-else>
         <v-card-title flat class="pa-2">
             <div class="text-h3 mb-6 font-weight-bold">
                 Sorry, you don't have access to this page
             </div>
         </v-card-title>
-    </v-container>
+    </v-container> -->
 </template>
 
 <script>
