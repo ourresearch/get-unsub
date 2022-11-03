@@ -8,7 +8,7 @@
         </div>
         <p>Before adding an institution, check if we already have it in the <strong>Lookup Institution</strong> tab to the left</p>
         <p>Look up the institution's ROR ID at <a href="https://ror.org/" target="_blank">ror.org</a></p>
-        <p>Grab a coffee <v-icon small left>mdi-coffee-outline</v-icon>! This can take a few minutes or more as this step requires populating a database table <br><pre>(jump_apc_institutional_authorships)</pre></p>
+        <p>Adding an institution requires some steps (adding citation, authorship and APC data) that can take longer than the Heroku 30 sec time limit - so we don't do all the work required to setup an institution when you click the buttom below. Every 30 min (on the top and bottom of the hour) a Heroku task (see the Advanced Scheduler in <i>unpaywall-jump-api</i> app) runs <a href="https://github.com/ourresearch/jump-api/blob/master/institutional_new_data.py" target="_blank">a script</a> that checks for new institutions and adds the citation, authorship and APC data for those institutions. Thus, the process of adding a new institution takes at most 30 minutes, and possibly less depending on how close your button click is to the top or bottom of the hour. If you add an institution via the script <a href="https://github.com/ourresearch/jump-api/blob/master/init.py" target="_blank">init.py</a>, there is no Heroku 30 sec limit, and so the long running steps of adding citation, authorship and APC data is done while the script runs.</p>
         <p>The blue button will spin while the action is underway; you'll get a green alert under the blue button when it's done</p>
         <v-form
             v-model="formIsValid"
