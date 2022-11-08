@@ -6,6 +6,9 @@
         <div class="text-h4 mb-6 font-weight-bold">
             Lookup a user
         </div>
+        <p>Note that this lookup is done on the users table. Users in this table may or may not have permissions for any institutions.</p>
+        <p>Add and remove user access tabs to the right add or remove permissions and do not change the user table.</p>
+        <p>To check if a user has access after Add or Remove user access, login as that user.</p>
         <v-form
             ref="form"
             class="pa-3"
