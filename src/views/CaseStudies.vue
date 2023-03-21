@@ -76,7 +76,7 @@ export default {
   name: "CaseStudies",
   metaInfo() {
     return {
-      title: `Casey Studies`
+      title: `Case Studies`
     }
   },
   data() {
