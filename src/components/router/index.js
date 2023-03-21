@@ -14,6 +14,7 @@ import RequestDemo from "../../views/RequestDemo";
 import Team from "../../views/Team";
 import Webinars from "../../views/Webinars";
 import Press from "../../views/Press";
+import CaseStudies from "../../views/CaseStudies.vue";
 import Contact from "../../views/Contact";
 import Privacy from "../../views/Privacy";
 import PrivacyForm from "../../views/PrivacyForm";
@@ -32,6 +33,7 @@ const routes = [
     {path: '/team', component: Team},
     {path: '/webinars', component: Webinars},
     {path: '/press', component: Press},
+    {path: '/case-studies', component: CaseStudies},
     {path: '/contact', component: Contact},
     {path: '/privacy', component: Privacy},
     {path: '/privacy-form', component: PrivacyForm},

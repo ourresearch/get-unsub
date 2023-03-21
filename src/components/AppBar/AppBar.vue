@@ -298,6 +298,9 @@
           <v-list-item to="/press">
             Press
           </v-list-item>
+          <v-list-item to="/case-studies">
+            Case Studies
+          </v-list-item>
           <v-list-item to="/contact">
             Contact
           </v-list-item>
