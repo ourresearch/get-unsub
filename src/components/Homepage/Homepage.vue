@@ -33,6 +33,16 @@
                         <v-icon small class="ml-2">mdi-open-in-new</v-icon>
                     </v-btn>
 
+                    <v-btn
+                            href="n8-case-study.pdf"
+                            target="_blank"
+                            x-large
+                            class="ma-4"
+                            color="primary">
+                        Read UK case study
+                        <v-icon small class="ml-2">mdi-open-in-new</v-icon>
+                    </v-btn>
+
                 </div>
 
                 <!--                       src="https://i.imgur.com/ddWJutv.png"-->
