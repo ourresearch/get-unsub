@@ -69,6 +69,15 @@ const articles = [
         "consortium that it gave N8+ members the confidence to take a robust stance in negotiations.",
     link: "n8-case-study.pdf",
   },
+  {
+    venue: "State University of New York (SUNY)",
+    date: "7 Apr 2020",
+    headline: "State University of New York (SUNY) uses UnSub to renegotiate Big Deal, saving $7 million per year",
+    img: "suny.png",
+    quote: "Leveraging Unsub, SUNY was able to renegotiate their $9 million annual Big Deal with Elsevier with " +
+        "full financial transparency down to $2 million per year, saving $7,000,000 per year. ",
+    link: "suny-case-study.pdf",
+  },
 ]
 
 
