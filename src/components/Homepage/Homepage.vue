@@ -34,12 +34,11 @@
                     </v-btn>
 
                     <v-btn
-                            href="n8-case-study.pdf"
-                            target="_blank"
+                            href="/case-studies"
                             x-large
                             class="ma-4"
                             color="primary">
-                        Read UK case study
+                        Read case studies
                         <v-icon small class="ml-2">mdi-open-in-new</v-icon>
                     </v-btn>
 

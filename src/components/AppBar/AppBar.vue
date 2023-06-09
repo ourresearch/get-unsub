@@ -298,14 +298,8 @@
           <v-list-item to="/press">
             Press
           </v-list-item>
-          <v-list-item to="/case-studies">
-            Case Studies
-          </v-list-item>
           <v-list-item to="/contact">
             Contact
-          </v-list-item>
-          <v-list-item href="https://docs.unsub.org" target="_blank">
-            Knowledge Base
           </v-list-item>
         </v-list>
       </v-menu>
@@ -320,6 +314,9 @@
         <v-list>
           <v-list-item href="https://docs.unsub.org" target="_blank">
             Docs
+          </v-list-item>
+          <v-list-item to="/case-studies">
+            Case Studies
           </v-list-item>
           <v-list-item to="/webinars">
             Webinars
