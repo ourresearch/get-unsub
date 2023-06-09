@@ -61,6 +61,15 @@ import appConfigs from "../appConfigs";
 
 const articles = [
   {
+    venue: "Jisc - UK digital, data and technology agency",
+    date: "6 Mar 2023",
+    headline: "Unsub helps UK institutions lower subscription costs",
+    img: "jisc.png",
+    quote: "Unsub has enabled Jisc and the UK to make data-driven decisions with confidence during negotiations, " +
+        "which has led to significant cost reduction in institutions’ subscriptions.",
+    link: "jisc-case-study.pdf",
+  },
+  {
     venue: "N8+ Consortium",
     date: "10 Jun 2022",
     headline: "N8+ Consortium: How Unsub helped UK university libraries strengthen their bargaining position in negotiations with Elsevier",
@@ -77,7 +86,7 @@ const articles = [
     quote: "Leveraging Unsub, SUNY was able to renegotiate their $9 million annual Big Deal with Elsevier with " +
         "full financial transparency down to $2 million per year, saving $7,000,000 per year. ",
     link: "suny-case-study.pdf",
-  },
+  }
 ]
 
 
