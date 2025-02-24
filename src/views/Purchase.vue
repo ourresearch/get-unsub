@@ -76,16 +76,13 @@
                                                     Join 500+ forward-thinking libraries worldwide:
                                                 </div>
                                                 <v-row align="center">
-                                                    <v-col cols="3">
+                                                    <v-col cols="4">
                                                         <v-img src="../assets/logos/cambridge.png" contain/>
                                                     </v-col>
-                                                    <v-col cols="3">
-                                                        <v-img src="../assets/logos/cern.png" height="50px" contain/>
-                                                    </v-col>
-                                                    <v-col cols="3">
+                                                    <v-col cols="4">
                                                         <v-img src="../assets/logos/cornell.png" contain/>
                                                     </v-col>
-                                                    <v-col cols="3">
+                                                    <v-col cols="4">
                                                         <v-img src="../assets/logos/hopkins.png" contain/>
                                                     </v-col>
                                                 </v-row>
