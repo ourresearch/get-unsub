@@ -22,7 +22,7 @@
                 <v-col cols="12" sm="2">
                     <div><a href="https://docs.unsub.org" target="_blank">Support</a></div>
                     <div>
-                        <a href="https://vimeo.com/676110085#t=240s" target="_blank">Watch video</a>
+                        <a href="https://www.youtube.com/watch?v=dztEHqbmt58" target="_blank">Watch video</a>
                         <!-- <router-link to="/request-demo">Get a demo</router-link> -->
                     </div>
                     <div><a href="/case-studies">Case studies</a></div>

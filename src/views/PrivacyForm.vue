@@ -155,7 +155,7 @@
                                 We may contact you via the information you have provided above and ask for additional information to verify your identity or authority.
                             </p>
                             <p>
-                                We will notify you if your request has been granted or declined, or if an exception applies to your request. If you need assistance or have questions regarding your individual rights request, please contact us at 707-889-3263 or email: <a href="mailto:support@unsub.org">support@unsub.org</a>.
+                                We will notify you if your request has been granted or declined, or if an exception applies to your request. If you need assistance or have questions regarding your individual rights request, please contact us at 707-889-3263 or email: <a href="mailto:support@openalex.org">support@openalex.org</a>.
                             </p>
                         </div>
 

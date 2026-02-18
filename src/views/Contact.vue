@@ -5,19 +5,7 @@
                 Contact us
             </div>
             <p>
-                If you'd like to get in touch, we'd love to hear from you! You can use the little blue message icon on
-                the bottom right of your screen, or drop us an email at <a href="mailto:support@unsub.org">support@unsub.org</a>
-            </p>
-
-            <p>
-                We're on the Twitters at <a href="https://twitter.com/unsub_org">@unsub_org</a>.
-            </p>
-            <p>
-                We also have two mailing lists: <a href="https://groups.google.com/g/unsub-discuss">Unsub-Discuss</a> for conversations with us and other Unsub users, and
-                <a href="https://groups.google.com/g/unsub-announce">Unsub-Announce</a> for (you guessed it) announcements.
-            </p>
-            <p>
-                Hope to hear from you soon!
+                The best way to reach us is to e-mail <a href="mailto:support@openalex.org">support@openalex.org</a> and put Unsub somewhere in the subject line.
             </p>
 
 

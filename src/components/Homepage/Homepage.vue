@@ -24,7 +24,7 @@
                         Get demo
                     </v-btn> -->
                     <v-btn
-                            href="https://vimeo.com/676110085#t=240s"
+                            href="https://www.youtube.com/watch?v=dztEHqbmt58"
                             target="_blank"
                             x-large
                             class="ma-4"
@@ -80,7 +80,7 @@
                         Get demo
                     </v-btn> -->
                     <v-btn
-                            href="https://vimeo.com/676110085#t=240s"
+                            href="https://www.youtube.com/watch?v=dztEHqbmt58"
                             target="_blank"
                             x-large
                             class="ma-4">

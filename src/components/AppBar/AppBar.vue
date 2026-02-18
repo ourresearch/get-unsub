@@ -377,7 +377,7 @@
               Webinars
             </v-list-item>
           <v-divider></v-divider>
-          <v-list-item href="mailto:support@unsub.org">
+          <v-list-item href="mailto:support@openalex.org">
             Send Feedback
           </v-list-item>
         </v-list>
@@ -415,7 +415,7 @@
     </div>
 
     <div class="no-highlight hidden-sm-and-down" v-if="!isLoggedIn">
-      <v-btn outlined color="primary" href="https://vimeo.com/676110085#t=240s" target="_blank">
+      <v-btn outlined color="primary" href="https://www.youtube.com/watch?v=dztEHqbmt58" target="_blank">
         Watch video
         <v-icon small class="ml-2">mdi-open-in-new</v-icon>
       </v-btn>
@@ -441,7 +441,7 @@
           <!-- <v-list-item to="/request-demo" class="font-weight-bold">
             Get Demo
           </v-list-item> -->
-          <v-list-item href="https://vimeo.com/676110085#t=240s" target="_blank">
+          <v-list-item href="https://www.youtube.com/watch?v=dztEHqbmt58" target="_blank">
             Watch video
           </v-list-item>
           <v-list-item to="/team">
