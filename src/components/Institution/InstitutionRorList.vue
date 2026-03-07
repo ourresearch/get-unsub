@@ -28,7 +28,7 @@
           <v-list-item-action>
             <v-tooltip bottom color="#333" max-width="200">
               <template v-slot:activator="{on}">
-                <v-btn v-on="on" icon :href="`https://ror.org/${rorId}`" target="_blank">
+                <v-btn v-on="on" icon :href="`https://ror.org/${rorId.replace('https://ror.org/', '')}`" target="_blank">
                   <v-icon>mdi-open-in-new</v-icon>
                 </v-btn>
               </template>
