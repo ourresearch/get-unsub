@@ -218,7 +218,20 @@ export const publisher = {
             const myScenarioPromises = pubData.scenarios.map(apiScenario => {
                 return fetchScenario(apiScenario.id)
             });
-            pubData.scenarios = await Promise.all(myScenarioPromises)
+            // Use allSettled so a single failing scenario fetch doesn't blackhole the
+            // entire package view. For each rejection, fall back to a placeholder
+            // scenario stub (carrying name from the minimal row) flagged with
+            // loadError so the UI can render the package and mark the broken row.
+            const settled = await Promise.allSettled(myScenarioPromises)
+            pubData.scenarios = settled.map((result, i) => {
+                if (result.status === "fulfilled") return result.value
+                const stub = pubData.scenarios[i]
+                console.error(`scenario ${stub.id} failed to load:`, result.reason)
+                const placeholder = newScenario(stub.id)
+                placeholder.saved.name = stub.name
+                placeholder.loadError = true
+                return placeholder
+            })
             console.log("done hydrating all the scenarios")
 
             commit("setSelectedPublisher", pubData)
