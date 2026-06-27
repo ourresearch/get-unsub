@@ -24,7 +24,7 @@
 
         <div class="pa-3">
           <span class="k">Authors from your institution paid an estimated </span>
-          <span class="font-weight-bold">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span> in APCs (Article Processing Costs) last year. This sum includes APCs paid to gold and hybrid OA journals. Because we do not have access to corresponding author information, this is an estimate only; it assumes that any author on a given paper has an equal likelihood of being the corresponding author.
+          <span class="font-weight-bold">{{ publisherApcCost | currency(publisherCurrencySymbol) }}</span> in APCs (Article Processing Costs) last year. This sum includes APCs paid to gold and hybrid OA journals. When OpenAlex identifies your institution as the corresponding institution on an article, we attribute the full APC to you; when that information is not available, we fall back to an estimate that assumes each author was equally likely to be the corresponding author.
 
         </div>
 
