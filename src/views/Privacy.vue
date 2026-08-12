@@ -154,8 +154,8 @@
             <p>
                 If you have questions about this Privacy Statement, you may contact us in the following ways:
                 <ul>
-                    <li>You may email us at: <a href="mailto:support@unsub.org">support@unsub.org</a>. Please specify "Privacy Statement" in the subject line of your email.</li>
-                    <li>You may call us at: 707-889-3263</li>
+                    <li>You may email us at: <a href="mailto:support@openalex.org">support@openalex.org</a>. Please specify "Privacy Statement" in the subject line of your email.</li>
+                    <li>You may call us at: 778-877-9802</li>
                     <li>You may write to us at: 500 Westover Dr #8234 Sanford, NC 27330-8941</li>
                 </ul>
             </p>
@@ -434,7 +434,7 @@
             </p>
             <ul>
                 <li>
-                    Call us toll free at 707-889-3263.
+                    Call us at 778-877-9802.
                 </li>
                 <li>
                     Fill out this <a href="/privacy-form">form</a>.

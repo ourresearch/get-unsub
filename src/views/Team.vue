@@ -14,7 +14,7 @@
                     Many people have contributed to and continue to be involved in Unsub (Heather, Jason, Richard), but Scott is currently doing most of the work. See our <a href="https://ourresearch.org/about" target="_blank">team</a> page for bios.
                 </p>
                 <p>
-                    If you'd like to get in touch, we'd love to hear from you! You can use the little blue message icon on the bottom right of your screen, or drop us an email at <a href="mailto:support@unsub.org">support@unsub.org</a>
+                    If you'd like to get in touch, we'd love to hear from you! You can use the little blue message icon on the bottom right of your screen, or drop us an email at <a href="mailto:support@openalex.org">support@openalex.org</a>
 
                 </p>
             </div>

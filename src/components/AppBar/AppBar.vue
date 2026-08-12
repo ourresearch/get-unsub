@@ -377,7 +377,7 @@
               Webinars
             </v-list-item>
           <v-divider></v-divider>
-          <v-list-item href="mailto:support@unsub.org">
+          <v-list-item href="mailto:support@openalex.org">
             Send Feedback
           </v-list-item>
         </v-list>
