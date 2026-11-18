@@ -13,6 +13,12 @@ app.use(sslRedirect(['production'], 301));
 
 
 
+// security.txt (RFC 9116): one copy for all our domains lives on openalex.org,
+// whose Canonical lines name this domain too (oxjob #1831).
+app.get('/.well-known/security.txt', function (req, res) {
+    res.redirect(301, 'https://openalex.org/.well-known/security.txt');
+});
+
 // this was helpful for configs:
 // https://scotch.io/tutorials/creating-a-single-page-todo-app-with-node-and-angular
 app.use(serveStatic(__dirname + "/dist"));
